@@ -1,5 +1,6 @@
 import puppeteer from "puppeteer";
 import { buildUrl } from "../utils/url.js";
+import Race from "../races/races.js";
 
 async function scrapePage(url, year) {
   const browser = await puppeteer.launch({ headless: true });
@@ -51,7 +52,9 @@ async function main() {
   };
   const url = buildUrl("https://www.procyclingstats.com/races.php", filter);
   const tableRows = await scrapePage(url, filter.year);
-  console.log(tableRows);
+  console.log(tableRows[0]);
+  const races = new Race();
+  races.update(tableRows);
 }
 
 main().catch(console.error);

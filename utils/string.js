@@ -18,3 +18,8 @@ export function toCamelCase(str) {
 export function toTitleCase(str) {
   return str.replace(/^[a-z]/, (chr) => chr.toUpperCase());
 }
+
+export function formatDate(year, textDate, seperator = ".") {
+  const [day, month] = textDate.split(seperator); // Split start date into month and day
+  return `${year}/${month.padStart(2, "0")}/${day.padStart(2, "0")}`; // Format startDate as yyyy/mm/dd
+}

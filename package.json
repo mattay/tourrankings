@@ -1,0 +1,18 @@
+{
+  "name": "tourrankings",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "scrape": "bun ./scrape/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["cycling"],
+  "author": "Matthew Anderson",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "csv-parser": "^3.0.0",
+    "puppeteer": "^22.12.1"
+  },
+  "type": "module"
+}

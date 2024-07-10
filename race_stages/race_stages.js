@@ -8,7 +8,7 @@ class RaceStages extends CSVdataModel {
       "Date",
       "Stage",
       "Stage Type",
-      "Profile",
+      "Parcours Type",
       "Stage Id",
       "Race Id",
       "Departure",
@@ -35,7 +35,7 @@ class RaceStages extends CSVdataModel {
     }
   }
 
-  async raceStages(raceId) {
+  async stagesInRace(raceId) {
     await this.read();
     return this.rows.filter((row) => row.raceId == raceId);
   }

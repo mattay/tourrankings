@@ -43,7 +43,7 @@ export async function scrapeStages(page, race, year) {
           const dateText = tds[0].textContent.trim();
 
           let profileSpan = tds[1].querySelector("span");
-          const profile = profileSpan
+          const parcoursType = profileSpan
             ? Array.from(profileSpan.classList).find((cls) =>
                 /^p\d+$/.test(cls),
               )
@@ -54,7 +54,7 @@ export async function scrapeStages(page, race, year) {
             raceId: race + "-" + year,
             date: dateText,
             stage: tds[2].textContent.trim().replace("Stage ", ""),
-            profile,
+            parcoursType,
             departure: tds[3].textContent.trim(),
             arrival: tds[4].textContent.trim(),
             distance: tds[5].textContent.trim(),

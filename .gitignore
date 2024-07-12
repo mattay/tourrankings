@@ -1,3 +1,6 @@
 node_modules/
 .DStore
 .env
+
+# Do not track scraped data.
+*_data.csv

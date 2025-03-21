@@ -1,5 +1,5 @@
 node_modules/
-.DStore
+.DS_Store
 .env
 
 # Do not track scraped data.

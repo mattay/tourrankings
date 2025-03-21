@@ -21,7 +21,7 @@ export async function scrapeStages(page, race, year) {
   try {
     await page.goto(url, { waitUntil: "networkidle2" });
 
-    const selectorPageContent = await page
+    await page
       .waitForSelector(".page-content", {
         timeout: 1200,
       })

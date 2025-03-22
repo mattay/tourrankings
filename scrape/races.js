@@ -1,28 +1,29 @@
 import { urlSections } from "../utils/url.js";
 import { formatDate } from "../utils/string.js";
+import { generateId } from "../utils/idGenerator.js";
 
 /**
  * @typedef {Object} RaceRecord
  * @property {string} raceId - The unique identifier for the race (raceId-year)
  * @property {string} raceName - The name of the race
- * @property {string} class - The classification of the race
+ * @property {string} raceClass - The classification of the race
+ * @property {string} raceUrl - The cleaned URL of the race page
  * @property {string} startDate - The start date of the race in YYYY-MM-DD format
  * @property {string} endDate - The end date of the race in YYYY-MM-DD format
  * @property {number} year - The year of the race
- * @property {string} raceUrl - The cleaned URL of the race page
  */
 
 /**
  * Creates a race ID from the race details
- * @param {string} raceUrl - URL of the race
+ * @param {string} Url - URL of the race
  * @returns {string|null} Race ID or null if couldn't be created
  */
-export function createRaceId(raceUrl, urlParser = urlSections) {
-  const cleanUrl = raceUrl.replace(/\/gc$/, "");
+export function extractFromUrlRaceId(Url, urlParser = urlSections) {
+  const cleanUrl = Url.replace(/\/gc$/, "");
   const sections = urlParser(cleanUrl, ["_race", "raceId", "year"]);
 
   if (!sections) return null;
-  return `${sections.raceId}-${sections.year}`;
+  return generateId.race(sections.raceId, sections.year);
 }
 
 /**
@@ -31,16 +32,17 @@ export function createRaceId(raceUrl, urlParser = urlSections) {
  * @param {Function} dateFormatter - Function to format dates
  * @returns {RaceRecord|null} The cleaned race record or null if invalid
  */
-export function cleanRecord(record, year, dateFormatter = formatDate) {
+export function cleanRecord(record, dateFormatter = formatDate) {
   if (!record || !record.raceUrl || !record.year) return null;
 
   const raceUrl = record.raceUrl.replace(/\/gc$/, "");
+  const raceId = extractFromUrlRaceId(raceUrl);
 
   if (!raceId) return null;
 
   return {
     ...record,
-    raceId: createRaceId(record.raceUrl),
+    raceId,
     startDate: dateFormatter(record.year, record.startDate, "."),
     endDate: dateFormatter(record.year, record.endDate, "."),
     raceUrl,
@@ -78,6 +80,7 @@ export async function scrapeRaces(page, url, year) {
             const raceUrl = raceLink.href;
 
             return {
+              raceId: "",
               raceName,
               raceClass,
               raceUrl,
@@ -90,10 +93,11 @@ export async function scrapeRaces(page, url, year) {
       },
       year,
     );
+    console.debug("completed page.$$eval");
 
     // Cleanup records - eval happens within browser.
     return rawData
-      .map((record) => cleanRecord(year, record))
+      .map((record) => cleanRecord(record))
       .filter((record) => record !== null);
   } catch (exception) {
     console.error(exception.error, exception.message);

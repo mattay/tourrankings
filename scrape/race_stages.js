@@ -1,15 +1,17 @@
+import { generateId } from "../utils/idGenerator.js";
 import { formatDate } from "../utils/string.js";
 
-function cleanRecord(year, record) {
+function cleanRecord(record) {
   const regexStage = /^(?<stageNumber>\d+)( \((?<stageType>.*)\))?$/;
   const matchStage = record.stage.match(regexStage);
   const stageNumber = matchStage.groups.stageNumber;
   const stageType = matchStage.groups.stageType;
-  const stageId = record.raceId + "-" + stageNumber;
+  const stageId = generateId.stage(record.raceId, stageNumber);
 
   return {
     ...record,
-    date: formatDate(year, record.date, "/"),
+    raceId: generateId.race(record.raceId, record.year),
+    date: formatDate(record.year, record.date, "/"),
     stageId,
     stage: stageNumber,
     stageType,
@@ -51,7 +53,7 @@ export async function scrapeStages(page, race, year) {
 
           return {
             year,
-            raceId: race + "-" + year,
+            raceId: race,
             date: dateText,
             stage: tds[2].textContent.trim().replace("Stage ", ""),
             parcoursType,
@@ -66,9 +68,10 @@ export async function scrapeStages(page, race, year) {
       year,
     );
 
-    return data.map((record) => cleanRecord(year, record));
+    return data.map((record) => cleanRecord(record));
   } catch (exception) {
     console.error("URL", url);
+    console.error(exception);
     throw exception;
   }
 }

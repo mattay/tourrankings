@@ -2,14 +2,18 @@ import CSVdataModel from "../../utils/dataModel_csv.js";
 
 class RaceRiders extends CSVdataModel {
   constructor() {
-    super("models/race_riders/race_riders_data.csv", ["Race Id", "Bib"]);
-    this.csvHeaders = [
-      "Race Id",
+    super("models/race_stages/race_stages_locations_points_data.csv", [
+      "Location ID",
       "Bib",
-      "Rider Id",
-      "Team Id",
-      "Rider",
-      "Flag",
+    ]);
+    this.csvHeaders = [
+      "Location ID",
+      "Stage Id",
+      "Year",
+      "Stage",
+      "Type",
+      "Location Name",
+      "Distance",
     ];
     this.sortOrder = [
       ["Race Id", "asc"],

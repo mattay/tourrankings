@@ -1,8 +1,8 @@
-import CSVdataModel from "../utils/dataModel_csv.js";
+import CSVdataModel from "../../utils/dataModel_csv.js";
 
 class Teams extends CSVdataModel {
   constructor() {
-    super("teams/teams_data.csv", ["team Id"]);
+    super("models/teams/teams_data.csv", ["team Id"]);
     this.csvHeaders = [
       "Year",
       "Team Id",

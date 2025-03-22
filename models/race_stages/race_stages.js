@@ -1,8 +1,8 @@
-import CSVdataModel from "../utils/dataModel_csv.js";
+import CSVdataModel from "../../utils/dataModel_csv.js";
 
 class RaceStages extends CSVdataModel {
   constructor() {
-    super("race_stages/race_stages_data.csv", ["Stage Id", "Race Id"]);
+    super("models/race_stages/race_stages_data.csv", ["Stage Id", "Race Id"]);
     this.csvHeaders = [
       "Year",
       "Date",

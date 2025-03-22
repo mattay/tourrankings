@@ -2,6 +2,7 @@ import { Page } from "puppeteer";
 import { addTime, formatSeconds, stringToSeconds } from "../utils/time";
 import { renameKeys } from "../utils/object";
 import { toCamelCase } from "../utils/string";
+import { generateId } from "../utils/idGenerator";
 
 /**
  * @param {}
@@ -14,7 +15,7 @@ function cleanUpStageTable(table, additionalValues) {
     "▼▲": "Change",
     "": "Bonis",
     Prev: "Previous Stage Ranking",
-    "#": "Position",
+    "#": "Rank",
   };
 
   return table
@@ -104,6 +105,11 @@ function cleanUpStageTable(table, additionalValues) {
     });
 }
 
+/**
+ *
+ * @param {string} label
+ * @returns
+ */
 function sprint(label) {
   // Sprint -> "Sprint | Dozza (108.1 km)""
   const regexSprintLabel =
@@ -128,6 +134,11 @@ function sprint(label) {
   return sprint;
 }
 
+/**
+ *
+ * @param {string} label
+ * @returns
+ */
 function climb(label) {
   // Stage Classification -> "KOM Sprint (3) Côte de San Luca (186.6 km)""
   const regexKomLabel =
@@ -152,10 +163,13 @@ function climb(label) {
   return climb;
 }
 
-function youth() {}
-
-function team() {}
-
+/**
+ *
+ * @param {Array<Object>} tables
+ * @param {string} stageId
+ * @param {number} stage
+ * @returns
+ */
 function cleanUpStages(tables, stageId, stage) {
   const stageRankings = {};
 
@@ -167,8 +181,6 @@ function cleanUpStages(tables, stageId, stage) {
     { tab: "youth" },
     { tab: "teams" },
   ];
-
-  console.log(tables);
 
   for (let index = 0; index < tables.length; index += 1) {
     const tab = resultsIndex[index].tab || null;
@@ -250,7 +262,8 @@ function cleanUpStages(tables, stageId, stage) {
  */
 export async function srapeStageResults(page, race, year, stage) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/stage-${stage}`;
-  const stageId = `${race}-${year}-${stage}`;
+  const raceId = generateId.race(race, year);
+  const stageId = generateId.stage(raceId, stage);
 
   try {
     await page.goto(url, { waitUntil: "networkidle2" }).catch((exception) => {
@@ -347,21 +360,6 @@ export async function srapeStageResults(page, race, year, stage) {
     });
 
     return cleanUpStages(tables, stageId, stage);
-
-    // console.log("stage");
-    // console.table(stage["stage"].splice(0, topN));
-    // console.log("gc");
-    // console.table(stage["gc"].splice(0, topN));
-    // console.log("points");
-    // console.table(stage["points"].splice(0, topN));
-    // console.log("kom");
-    // console.table(stage["kom"].splice(0, topN));
-    // console.log("youth");
-    // console.table(stage["youth"].splice(0, topN));
-    // console.log("teams");
-    // console.table(stage["teams"].splice(0, topN));
-
-    // return stage;
   } catch (exception) {
     throw exception;
   }

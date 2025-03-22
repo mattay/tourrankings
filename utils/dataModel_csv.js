@@ -46,7 +46,7 @@ class CSVdataModel {
 
   async #readFromCSV() {
     return new Promise((resolve, reject) => {
-      // Removed existing data
+      // Removed existing cached data
       this.rows.length = 0;
 
       // Check if the file exists
@@ -54,20 +54,20 @@ class CSVdataModel {
         // Create file with headers
         console.warn("Creating database", this.filePath);
         this.#writeToCSV();
-      } else {
-        fs.createReadStream(this.filePath)
-          .pipe(csv())
-          .on("data", (data) => {
-            const cleanedData = this.#cleanRowCSV(data);
-            if (cleanedData) {
-              this.rows.push(cleanedData);
-            } else {
-              throw new Error(`Invalid CSV file ${this.filePath}`);
-            }
-          })
-          .on("end", () => resolve(this.rows))
-          .on("error", reject);
       }
+
+      fs.createReadStream(this.filePath)
+        .pipe(csv())
+        .on("data", (data) => {
+          const cleanedData = this.#cleanRowCSV(data);
+          if (cleanedData) {
+            this.rows.push(cleanedData);
+          } else {
+            throw new Error(`Invalid CSV file ${this.filePath}`);
+          }
+        })
+        .on("end", () => resolve(this.rows))
+        .on("error", reject);
     });
   }
 

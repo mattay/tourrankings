@@ -1,4 +1,4 @@
-import { urlSections } from "../utils/url";
+import { urlSections } from "../src/utils/url";
 
 /**
  * Refines a startlist by extracting team information and adding team ID.

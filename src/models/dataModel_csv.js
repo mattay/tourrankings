@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
 import csv from "csv-parser";
-import { toCamelCase, toTitleCase } from "./string.js";
+import { toCamelCase, toTitleCase } from "../utils/string.js";
 
 class CSVdataModel {
   rows = [];

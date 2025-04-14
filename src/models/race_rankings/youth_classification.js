@@ -1,11 +1,8 @@
 import CSVdataModel from "../../utils/dataModel_csv.js";
 
-class TomClassification extends CSVdataModel {
+class YouthClassification extends CSVdataModel {
   constructor() {
-    super("models/race_rankings/tom_classification_data.csv", [
-      "Stage Id",
-      "Rank",
-    ]);
+    super("data/raw/csv/youth_classification_data.csv", ["Stage Id", "Rank"]);
     this.csvHeaders = [
       "Stage Id",
       "Stage",
@@ -17,8 +14,6 @@ class TomClassification extends CSVdataModel {
       "Rider",
       "Age",
       "Team",
-      "Points",
-      "Today",
     ];
     this.sortOrder = [
       ["Stage Id", "asc"],
@@ -27,4 +22,4 @@ class TomClassification extends CSVdataModel {
   }
 }
 
-export default TomClassification;
+export default YouthClassification;

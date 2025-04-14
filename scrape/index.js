@@ -1,27 +1,24 @@
-import puppeteer from "puppeteer";
-import { Page } from "puppeteer";
-
+import puppeteer, { Page } from "puppeteer";
 // Data models
-import Teams from "../models/teams/teams.js";
-import Race from "../models/races/races.js";
-import RaceStages from "../models/race_stages/race_stages.js";
-import RaceRiders from "../models/race_riders/race_riders.js";
-import StageResults from "../models/race_rankings/stage_results.js";
-import GeneralClassification from "../models/race_rankings/general_classification.js";
-import PointsClassification from "../models/race_rankings/points_classification.js";
-import TomClassification from "../models/race_rankings/tom_classification.js";
-import YouthClassification from "../models/race_rankings/youth_classification.js";
-import TeamClassifcation from "../models/race_rankings/team_classification.js";
-
+import GeneralClassification from "../src/models/race_rankings/general_classification.js";
+import PointsClassification from "../src/models/race_rankings/points_classification.js";
+import StageResults from "../src/models/race_rankings/stage_results.js";
+import TeamClassifcation from "../src/models/race_rankings/team_classification.js";
+import TomClassification from "../src/models/race_rankings/tom_classification.js";
+import YouthClassification from "../src/models/race_rankings/youth_classification.js";
+import RaceRiders from "../src/models/race_riders/race_riders.js";
+import RaceStages from "../src/models/race_stages/race_stages.js";
+import Races from "../src/models/races/races.js";
+import Teams from "../src/models/teams/teams.js";
 // Scrape
-import { scrapeRaces } from "./races.js";
-import { scrapeRaceStartList } from "./race_startList.js";
 import { scrapeStages } from "./race_stages.js";
+import { scrapeRaceStartList } from "./race_startList.js";
+import { scrapeRaces } from "./races.js";
 import { srapeStageResults } from "./stage_results.js";
 // Utils
-import { buildUrl } from "../utils/url.js";
-import { randomFromRange, sleep } from "../utils/utils.js";
-import { generateId } from "../utils/idGenerator.js";
+import { generateId } from "../src/utils/idGenerator.js";
+import { buildUrl } from "../src/utils/url.js";
+import { randomFromRange, sleep } from "../src/utils/utils.js";
 
 const HEADLESS = true;
 const TESTING = false;
@@ -29,7 +26,7 @@ const WAIT = 420;
 
 /**
  *
- * @param {Race} races
+ * @param {Races} races
  */
 async function pastRaces(races) {
   const pastRaces = await races.past();
@@ -43,7 +40,7 @@ async function pastRaces(races) {
 
 /**
  *
- * @param {Race} races
+ * @param {Races} races
  */
 async function currentRaces(races) {
   const currentRaces = await races.inProgress();
@@ -66,7 +63,7 @@ async function currentRaces(races) {
 
 /**
  *
- * @param {Race} races
+ * @param {Races} races
  */
 async function futureRaces(races) {
   const upcoming = await races.upcoming();
@@ -80,7 +77,7 @@ async function futureRaces(races) {
 
 /**
  *
- * @param {Race} races
+ * @param {Races} races
  * @param {number} year
  * @param {Page} page
  */
@@ -122,6 +119,7 @@ async function collectRace(page, raceId, year) {
     const stagesInRace = await scrapeStages(page, raceId, year).catch(
       (exception) => console.error(exception.name, exception.message),
     );
+
     if (stagesInRace) {
       console.log("Updating -> Stages", raceId, year);
       await stages.update(stagesInRace);
@@ -162,7 +160,7 @@ async function collectRace(page, raceId, year) {
 /**
  *
  * @param {Page} page
- * @param {Race} race
+ * @param {Races} race
  * @param {number} year
  * @param {string} stage
  */
@@ -245,34 +243,48 @@ async function main() {
   page.setRequestInterception(true);
   page.on("request", interceptRequests);
 
-  const year = 2024;
+  // let year = 2024;
+  const season = process.env.SEASON || null;
   const currentYear = new Date().getFullYear();
-  const races = new Race();
+  const races = new Races();
   const raceStages = new RaceStages();
+
+  console.log("season", season);
+
+  let racesToScrape = [
+    // "giro-d-italia",
+    // "tour-de-france",
+    // "tour-down-under",
+  ];
+
+  if (season) {
+    console.log("collectWorldTourRaces");
+    await collectWorldTourRaces(races, season, page);
+
+    const seasonRaces = await races.season(season);
+    console.table(seasonRaces);
+
+    racesToScrape = [
+      ...racesToScrape,
+      ...seasonRaces.map((race) => race.raceId),
+    ];
+  }
 
   if (!TESTING) {
     console.log("collectWorldTourRaces");
-    await collectWorldTourRaces(races, year, page);
-    console.log("currentRaces");
-    currentRaces(races);
-  }
+    await collectWorldTourRaces(races, currentYear, page);
 
-  const racesToScrape = [
-    // "giro-d-italia",
-    // "tour-de-france",
-    "tour-down-under",
-  ];
+    console.log("currentRaces");
+    await currentRaces(races);
+  }
 
   try {
     for (const raceCode of racesToScrape) {
-      await collectRace(page, raceCode, year);
-      //     if (!TESTING) {
-      //       // Race
-      //       await collectRace(page, raceCode, year);
-      //     }
+      const [raceUrlId, raceSeason] = raceCode.split(":");
+      await collectRace(page, raceUrlId, raceSeason);
 
       // Race stages and startlist
-      const raceID = [raceCode, year].join("-");
+      const raceID = [raceCode, season].join("-");
       const stages = await raceStages.stagesInRace(raceID);
 
       // Stages in Race
@@ -280,7 +292,7 @@ async function main() {
         await collectRaceStageResults(
           page,
           raceCode,
-          year,
+          season,
           +stageDeatails.stage,
         );
 

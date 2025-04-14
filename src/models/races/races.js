@@ -1,8 +1,8 @@
 import CSVdataModel from "../../utils/dataModel_csv.js";
 
-class Race extends CSVdataModel {
+class Races extends CSVdataModel {
   constructor() {
-    super("models/races/races_data.csv", ["raceId"]);
+    super("data/raw/csv/races_data.csv", ["raceId"]);
     this.csvHeaders = [
       "Year",
       "Start Date",
@@ -10,6 +10,7 @@ class Race extends CSVdataModel {
       "Race Class",
       "Race Id",
       "Race Name",
+      "Race Url Id",
       "Race Url",
     ];
   }
@@ -17,6 +18,15 @@ class Race extends CSVdataModel {
   sortRows() {
     this.rows.sort((a, b) => {
       return new Date(a.startDate) - new Date(b.startDate);
+    });
+  }
+
+  async season(year) {
+    await this.read(); // Refresh
+    console.log(year);
+
+    return this.rows.filter((record) => {
+      return record.year === year;
     });
   }
 
@@ -60,4 +70,4 @@ class Race extends CSVdataModel {
   }
 }
 
-export default Race;
+export default Races;

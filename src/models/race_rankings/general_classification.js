@@ -1,19 +1,21 @@
 import CSVdataModel from "../../utils/dataModel_csv.js";
 
-class TeamClassifcation extends CSVdataModel {
+class GeneralClassification extends CSVdataModel {
   constructor() {
-    super("models/race_rankings/team_classification_data.csv", [
-      "Stage Id",
-      "Rank",
-    ]);
+    super("data/raw/csv/general_classification_data.csv", ["Stage Id", "Rank"]);
     this.csvHeaders = [
       "Stage Id",
       "Stage",
       "Rank",
       "Previous Stage Ranking",
       "Change",
+      "BIB",
+      "Specialty",
+      "Rider",
+      "Age",
       "Team",
-      "Class",
+      "UCI",
+      "Bonis",
       "Time",
       "Delta",
     ];
@@ -24,4 +26,4 @@ class TeamClassifcation extends CSVdataModel {
   }
 }
 
-export default TeamClassifcation;
+export default GeneralClassification;

@@ -1,11 +1,22 @@
-import { generateId } from "../utils/idGenerator.js";
-import { formatDate } from "../utils/string.js";
+import { generateId } from "../src/utils/idGenerator.js";
+import { formatDate } from "../src/utils/string.js";
 
 function cleanRecord(record) {
   const regexStage = /^(?<stageNumber>\d+)( \((?<stageType>.*)\))?$/;
-  const matchStage = record.stage.match(regexStage);
-  const stageNumber = matchStage.groups.stageNumber;
-  const stageType = matchStage.groups.stageType;
+  let stageType = null;
+  let stageNumber = null;
+
+  if (record.stage === "Prologe") {
+    stageType = record.stage.toLowerCase();
+    stageNumber = stageType;
+  } else {
+    const matchStage = record.stage.match(regexStage);
+    if (!matchStage) {
+      console.log(record.stage);
+    }
+    stageNumber = matchStage?.groups.stageNumber || null;
+    stageType = matchStage?.groups.stageType || null;
+  }
   const stageId = generateId.stage(record.raceId, stageNumber);
 
   return {

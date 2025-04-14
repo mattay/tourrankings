@@ -1,6 +1,6 @@
-import { urlSections } from "../utils/url.js";
-import { formatDate } from "../utils/string.js";
-import { generateId } from "../utils/idGenerator.js";
+import { generateId } from "../src/utils/idGenerator.js";
+import { formatDate } from "../src/utils/string.js";
+import { urlSections } from "../src/utils/url.js";
 
 /**
  * @typedef {Object} RaceRecord
@@ -23,7 +23,7 @@ export function extractFromUrlRaceId(Url, urlParser = urlSections) {
   const sections = urlParser(cleanUrl, ["_race", "raceId", "year"]);
 
   if (!sections) return null;
-  return generateId.race(sections.raceId, sections.year);
+  return { raceUrlId: sections.raceId, year: sections.year };
 }
 
 /**
@@ -36,7 +36,8 @@ export function cleanRecord(record, dateFormatter = formatDate) {
   if (!record || !record.raceUrl || !record.year) return null;
 
   const raceUrl = record.raceUrl.replace(/\/gc$/, "");
-  const raceId = extractFromUrlRaceId(raceUrl);
+  const { raceUrlId, year } = extractFromUrlRaceId(raceUrl);
+  const raceId = generateId.race(raceUrlId, year);
 
   if (!raceId) return null;
 
@@ -46,6 +47,7 @@ export function cleanRecord(record, dateFormatter = formatDate) {
     startDate: dateFormatter(record.year, record.startDate, "."),
     endDate: dateFormatter(record.year, record.endDate, "."),
     raceUrl,
+    raceUrlId,
   };
 }
 
@@ -84,6 +86,7 @@ export async function scrapeRaces(page, url, year) {
               raceName,
               raceClass,
               raceUrl,
+              raceUrlId: "",
               startDate: startDateText,
               endDate: endDateText || startDateText,
               year,

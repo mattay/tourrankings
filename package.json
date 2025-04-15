@@ -1,9 +1,11 @@
 {
   "name": "tourrankings",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server/index.js",
   "scripts": {
     "scrape": "bun ./scrape/index.js",
+    "dev": "bun --hot server/index.js",
+    "start": "bun server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": ["cycling"],
@@ -11,7 +13,14 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@duckdb/duckdb-wasm": "^1.29.0",
+    "compression": "^1.8.0",
+    "cors": "^2.8.5",
     "csv-parser": "^3.0.0",
+    "d3": "^7.9.0",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.1.0",
     "puppeteer": "^22.12.1"
   },
   "type": "module"

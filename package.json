@@ -23,5 +23,8 @@
     "helmet": "^8.1.0",
     "puppeteer": "^22.12.1"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@types/express": "^5.0.1"
+  }
 }

@@ -1,3 +1,4 @@
+// @ts-check
 import helmet from "helmet";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
@@ -5,7 +6,7 @@ import config from "../config";
 
 /**
  * Configure and apply security middleware to Express App
- * @parm {object} app - Express application
+ * @parm {import('express').Application} app - Express application
  */
 export default function setupSecurityMiddleware(app) {
   // Use Helmet for setting HTTP sercurity headers

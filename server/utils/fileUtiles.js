@@ -3,9 +3,12 @@ import fs from "fs/promises";
 import path from "path";
 
 /**
- * Read directory contents
- * @param {string} dirPath - Directory path
- * @returns {Promise<Array>} List of files
+ * Reads the contents of a directory and returns a list of file names.
+ *
+ * @async
+ * @param {string} dirPath - Absolute or relative path to the directory.
+ * @returns {Promise<string[]>} Resolves to an array of file names in the directory.
+ * @throws {Error} If the directory cannot be read.
  */
 export async function readDir(dirPath) {
   try {
@@ -17,18 +20,22 @@ export async function readDir(dirPath) {
 }
 
 /**
- * Check if a file is a CSV file
- * @param {string} filename - File name
- * @returns {boolean} True if file is CSV
+ * Checks if a file name has a .csv extension (case-insensitive).
+ *
+ * @param {string} filename - Name of the file to check.
+ * @returns {boolean} True if the file is a CSV file, false otherwise.
  */
 export function isCSVFile(filename) {
   return path.extname(filename).toLowerCase() === ".csv";
 }
 
 /**
- * Get file stats
- * @param {string} filePath - File path
- * @returns {Promise<Object>} File stats
+ * Retrieves file statistics for a given file path.
+ *
+ * @async
+ * @param {string} filePath - Absolute or relative path to the file.
+ * @returns {Promise<import('fs').Stats>} Resolves to a Stats object describing the file.
+ * @throws {Error} If the file stats cannot be retrieved.
  */
 export async function getFileStatus(filePath) {
   try {

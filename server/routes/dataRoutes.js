@@ -1,4 +1,3 @@
-// @ts-check
 import express from "express";
 import {
   getDataSets,
@@ -6,14 +5,20 @@ import {
   getDatasetContent,
 } from "../services/dataServices";
 import path from "path";
+import { createReadStream } from "fs";
 import fsP from "fs/promises";
 import config from "../config";
 
+/** @type {import('express').Router} */
 const router = express.Router();
 
 /**
  * GET /api/data/datasets
  * List all avalibale datasets
+ *
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @param {import('express').NextFunction} next
  */
 router.get("/datasets", async (req, res, next) => {
   try {
@@ -27,6 +32,10 @@ router.get("/datasets", async (req, res, next) => {
 /**
  * GET /api/data/datasets/:name
  * Get info about a specific dataset
+ *
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @param {import('express').NextFunction} next
  */
 router.get("/datasets/:name", async (req, res, next) => {
   try {
@@ -37,7 +46,7 @@ router.get("/datasets/:name", async (req, res, next) => {
       return res.status(404).json({ error: "Dataset not found" });
     }
 
-    res.json(info);
+    res.json(datasetInfo);
   } catch (error) {
     next(error);
   }
@@ -46,6 +55,10 @@ router.get("/datasets/:name", async (req, res, next) => {
 /**
  * GET /api/data/csv/:filename
  * Get a specific CSV file
+ *
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @param {import('express').NextFunction} next
  */
 router.get("/csv/:filename", async (req, res, next) => {
   try {
@@ -65,7 +78,7 @@ router.get("/csv/:filename", async (req, res, next) => {
       `attachment; filename=${filename}.csv`,
     );
 
-    const fileStream = fs.createReadStream(filePath);
+    const fileStream = createReadStream(filePath);
     fileStream.pipe(res);
   } catch (error) {
     next(error);

@@ -1,7 +1,17 @@
-// @ts-check
 import config from "../config.js";
 
 // ANSI color codes for terminal output
+/**
+ * @typedef {Object} LoggerColors
+ * @property {string} reset
+ * @property {string} red
+ * @property {string} green
+ * @property {string} yellow
+ * @property {string} blue
+ * @property {string} magenta
+ */
+
+/** @type {LoggerColors} */
 const colors = {
   reset: "\x1b[0m",
   red: "\x1b[31m",
@@ -12,7 +22,9 @@ const colors = {
 };
 
 /**
- * Log levels
+ * Log levels (higher number = more verbose)
+ * @readonly
+ * @enum {number}
  */
 const levels = {
   ERROR: 0,
@@ -25,10 +37,11 @@ const levels = {
 let logLevel = config.env === "production" ? levels.INFO : levels.DEBUG;
 
 /**
- * Format message with timestamp
- * @param {string} level - Log level
- * @param {string} message - Log message
- * @returns {string} Formatted message
+ * Formats a log message with an ISO timestamp and log level.
+ *
+ * @param {string} level - The log level (e.g., "INFO", "ERROR").
+ * @param {string} message - The log message.
+ * @returns {string} The formatted log message.
  */
 function formatMessage(level, message) {
   const timestamp = new Date().toISOString();
@@ -36,9 +49,24 @@ function formatMessage(level, message) {
 }
 
 /**
- * Logger object
+ * Logger object for structured and colored console logging.
+ *
+ * @typedef {Object} Logger
+ * @property {(message: string, error?: Error) => void} error - Log an error message and optional error stack.
+ * @property {(message: string) => void} warn - Log a warning message.
+ * @property {(message: string) => void} info - Log an informational message.
+ * @property {(message: string) => void} debug - Log a debug message.
+ * @property {(level: number) => void} setLevel - Set the minimum log level (see `levels`).
  */
+
+/** @type {Logger} */
 const logger = {
+  /**
+   * Log an error message with optional error stack trace.
+   * @param {string} message - Error message.
+   * @param {Error} [error] - Optional error object for stack trace.
+   * @returns {void}
+   */
   error(message, error) {
     if (logLevel >= levels.ERROR) {
       console.error(
@@ -50,6 +78,11 @@ const logger = {
     }
   },
 
+  /**
+   * Log a warning message.
+   * @param {string} message - Warning message.
+   * @returns {void}
+   */
   warn(message) {
     if (logLevel >= levels.WARN) {
       console.warn(
@@ -58,6 +91,11 @@ const logger = {
     }
   },
 
+  /**
+   * Log an informational message.
+   * @param {string} message - Info message.
+   * @returns {void}
+   */
   info(message) {
     if (logLevel >= levels.INFO) {
       console.info(
@@ -66,6 +104,11 @@ const logger = {
     }
   },
 
+  /**
+   * Log a debug message.
+   * @param {string} message - Debug message.
+   * @returns {void}
+   */
   debug(message) {
     if (logLevel >= levels.DEBUG) {
       console.debug(
@@ -74,6 +117,11 @@ const logger = {
     }
   },
 
+  /**
+   * Set the minimum log level for output.
+   * @param {number} level - New log level (see `levels` enum).
+   * @returns {void}
+   */
   setLevel(level) {
     if (Object.values(levels).includes(level)) {
       logLevel = level;

@@ -2,22 +2,37 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale-1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Tour Rankings</title>
         <link rel="stylesheet" href="css/styles.css" />
     </head>
     <body>
         <header>
-            <h1>Data Visualization Dashboard</h1>
+            <h1>Cycling Tour Rankings</h1>
+            <nav>
+                <ul>
+                    <li><a href="#" id="dashboard-link">Dashboard</a></li>
+                    <li><a href="#" id="datasets-link">Datasets</a></li>
+                </ul>
+            </nav>
         </header>
         <main>
-            <div class="dashboard-container"></div>
-        </main>
-    </body>
-    <footer>
-        <p>Data last updated: <span id="last-updated"></span></p>
-    </footer>
+            <div class="dashboard-container">
+                <div id="loading" class="hidden">Loading data...</div>
+                <div id="dataset-selector"></div>
+                <div id="visualization-area"></div>
+            </div>
 
-    <!-- <script src="js/vendor/d3.min.js"></script> -->
-    <!-- <script src="js/vendor/duckdb.js"></script> -->
+            <div class="datasets-container hidden">
+                <h2>Available Datasets</h2>
+                <ul id="datasets-list"></ul>
+            </div>
+        </main>
+        <footer>
+            <p>Data last updated: <span id="last-updated"></span></p>
+        </footer>
+
+        <!-- <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script> -->
+        <!-- <script src="js/app.js" type="module"></script> -->
+    </body>
 </html>

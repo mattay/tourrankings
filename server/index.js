@@ -5,6 +5,7 @@ import { dirname, join } from "path";
 import config from "./config";
 import setupMiddleware from "./middleware";
 import routes from "./routes";
+import seasonRaces from "./options/races";
 
 /**
  * Absolute path to the current file (ESM equivalent of __filename).
@@ -33,6 +34,9 @@ const app = express();
 // Apply all middleware (logging, parsing, security, error handling, etc.)
 setupMiddleware(app);
 
+app.set("view engine", "ejs");
+app.set("views", join(__dirname, "views"));
+
 // Mount API routes under /api
 app.use("/api", routes);
 
@@ -48,7 +52,17 @@ app.use(express.static(publicPath));
  * @returns {void}
  */
 app.get("/", (req, res) => {
-  res.sendFile(join(publicPath, "index.html"));
+  try {
+    const races = seasonRaces();
+    res.render("pages/home", {
+      title: "TourRankings",
+      description: "Explore rankings for multi-stage races.",
+      races,
+    });
+  } catch (err) {
+    console.error("Unable to render /", err);
+    // next(err); // Passes error to Express error handler
+  }
 });
 
 // Start the server

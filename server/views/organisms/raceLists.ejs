@@ -1,0 +1,29 @@
+<div class="races">
+  <% if (races.current.length) { %>
+    <%- include('../molecules/races--grouped', {
+      title: 'Current Races',
+      races: races.current
+    })%>
+  <% } %>
+
+  <% if (races.upcoming.length) { %>
+    <%- include('../molecules/races--grouped', {
+      title: 'Upcoming Races',
+      races: races.upcoming
+    })%>
+  <% } %>
+
+  <% if (races.previous.length) { %>
+    <%- include('../molecules/races--grouped', {
+      title: 'Previous Races',
+      races: races.previous
+    })%>
+  <% } %>
+
+  <% if (races.future.length) { %>
+    <%- include('../molecules/races--grouped', {
+      title: 'Future Races',
+      races: races.future
+    })%>
+  <% } %>
+</div>

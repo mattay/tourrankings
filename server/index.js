@@ -33,6 +33,9 @@ const app = express();
 // Apply all middleware (logging, parsing, security, error handling, etc.)
 setupMiddleware(app);
 
+app.set("view engine", "ejs");
+app.set("views", join(__dirname, "views"));
+
 // Mount API routes under /api
 app.use("/api", routes);
 

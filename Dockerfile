@@ -44,4 +44,4 @@ ENV NODE_ENV=production
 ENV PORT=8080
 
 # Start the application
-CMD ["bun", "start"]
+CMD ["sh", "-c", "bun start & supercronic /app/crontab"]

@@ -61,10 +61,16 @@ const config = {
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'"],
-          scriptSrc: ["'self'", "cdn.jsdelivr.net", "'unsafe-inline'"],
-          styleSrc: ["'self'", "'unsafe-inline'"], // Fixed: removed extra comma
+          scriptSrc: [
+            "'self'",
+            "cdn.jsdelivr.net",
+            "'wasm-unsafe-eval'",
+            "'unsafe-inline'",
+          ],
+          workerSrc: ["'self'", "blob:"],
+          styleSrc: ["'self'", "'unsafe-inline'"],
           imgSrc: ["'self'", "data:"],
-          connectSrc: ["'self'"],
+          connectSrc: ["'self'", "cdn.jsdelivr.net"],
         },
       },
     },

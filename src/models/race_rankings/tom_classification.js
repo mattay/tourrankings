@@ -1,4 +1,4 @@
-import CSVdataModel from "../../utils/dataModel_csv.js";
+import CSVdataModel from "../dataModel_csv.js";
 
 class TomClassification extends CSVdataModel {
   constructor() {

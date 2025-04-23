@@ -2,8 +2,9 @@
     --primary-color: #2c3e50;
     --secondary-color: #3498db;
     --background-color: #f8f7f6;
-    --text-primary-color: #4f4c30;
-    --text-secondary-color: #a3a085;
+    --color-text-primary: #4f4c30;
+    --color-text-secondary: #a3a085;
+    --color-text-accent: #817618;
 }
 
 * {
@@ -15,13 +16,12 @@
 body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    color: var(--text-primary-color);
+    color: var(--color-text-primary);
     background-color: var(--background-color);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
-
 
 header {
     padding: 1rem 4rem;
@@ -33,7 +33,7 @@ header {
 footer {
     padding: 1rem 4rem;
     font-size: 0.75rem;
-    color: var(--text-secondary-color);
+    color: var(--color-text-secondary);
 }
 
 main {
@@ -41,9 +41,17 @@ main {
     padding: 2rem 4rem;
 }
 
-h1 {
-    color: var(--primary-color);
+/* h1 {
+    color: var(--text-primary-color);
     margin-bottom: 20px;
+} */
+
+a {
+    text-decoration: none;
+    color: var(--color-text-primary);
+    &:hover {
+        color: var(--color-text-accent);
+    }
 }
 
 .races,
@@ -63,14 +71,7 @@ h1 {
         font-size: 1rem;
         line-height: 1.25;
         font-weight: normal;
-        color: var(--text-secondary-color);
-    }
-    a {
-        text-decoration: none;
-        color: var(--text-primary-color);
-    }
-    a:hover {
-        color: var(--secondary-color);
+        color: var(--color-text-secondary);
     }
 }
 

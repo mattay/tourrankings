@@ -3,4 +3,5 @@ node_modules/
 .env
 
 # Do not track scraped data.
-*_data.csv
+data/
+charts/

@@ -51,7 +51,7 @@ app.use(express.static(publicPath));
  * @param {import('express').Response} res - Express response object.
  * @returns {void}
  */
-app.get("/", (req, res) => {
+app.get("/", (req, res, next) => {
   try {
     const races = seasonRaces();
     res.render("pages/home", {
@@ -61,7 +61,47 @@ app.get("/", (req, res) => {
     });
   } catch (err) {
     console.error("Unable to render /", err);
-    // next(err); // Passes error to Express error handler
+    next(err); // Passes error to Express error handler
+  }
+});
+
+/**
+ * Race details route handler.
+ * Handles routes in the format /:race/:year/:stage/:ranking
+ *
+ * @param {import('express').Request} req - Express request object.
+ * @param {import('express').Response} res - Express response object.
+ * @param {import('express').NextFunction} next - Express next function.
+ * @returns {void}
+ */
+app.get("/:raceId/:year/:stageNumber/:rankingType", (req, res, next) => {
+  try {
+    const { raceId, year, stageNumber, rankingType } = req.params;
+
+    const raceDetails = {
+      raceId,
+      raceName: raceId,
+      year,
+      stageNumber,
+      stageName: stageNumber,
+      rankingType,
+    }; //TODO: Implement data service to fetch race details
+    // if (!raceDetails) {
+    //   // Race not found
+    //   return res.status(404).render("pages/error", {
+    //     title: "Race Not Found",
+    //     message: `The race '${race}' for year ${year} was not found.`,
+    //   });
+    // }
+
+    //raceDetails.raceName
+    res.render("pages/race", {
+      description: `View ${rankingType.toUpperCase()} rankings for ${raceDetails.raceName} ${year}, Stage ${stageNumber} ${raceDetails.stageName}`,
+      ...raceDetails,
+    });
+  } catch (err) {
+    console.error(`Error handling race route:`, err);
+    next(err);
   }
 });
 

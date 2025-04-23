@@ -1,0 +1,29 @@
+<!-- server/views/pages/race.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="<%= description %>" />
+
+  <title><%= raceName %> <% stageName  %> | TourRankings</title>
+  <link href="/css/style.css" rel="stylesheet">
+ </head>
+<body>
+  <%- include('../organisms/header') %>
+
+  <main>
+    <h1><%= year %> <%= raceName %></h1>
+
+    <h2>Stage <%= stageNumber %> <%= stageName %></h2>
+    <h4><%= rankingType %></h4>
+
+    <div class="race-details">
+    </div>
+  </main>
+
+  <%- include('../organisms/footer') %>
+
+
+</body>
+</html>

@@ -36,7 +36,7 @@ const __dirname = dirname(__fileName);
 /** @type {Config} */
 const config = {
   env: process.env.NODE_ENV || "development",
-  port: parseInt(process.env.PORT, 10) || 3000,
+  port: parseInt(process.env.PORT, 10) || 8080,
 
   // Path configuration
   paths: {
@@ -54,7 +54,7 @@ const config = {
       methods: ["GET"],
     },
     rateLimit: {
-      windowMs: 17 * 60 * 1000, // 17 minutes (fixed: was missing a zero)
+      windowMs: 17 * 60 * 1000, // 17 minutes
       max: 100, // Limit each IP to 100 requests per windowMs
     },
     headers: {

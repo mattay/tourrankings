@@ -1,6 +1,17 @@
 import CSVdataModel from "../dataModel_csv.js";
 
-class RaceRiders extends CSVdataModel {
+/**
+ * @typedef {Object} RaceStageLocationPointsData
+ * @property {number} locationID - The unique identifier for the location.
+ * @property {number} stageId - The unique identifier for the stage.
+ * @property {number} year - The year of the race.
+ * @property {number} stage - The stage number.
+ * @property {string} type - The type of the stage.
+ * @property {string} locationName - The name of the location.
+ * @property {number} distance - The distance of the stage.
+ */
+
+class RaceStageLocationPoints extends CSVdataModel {
   constructor() {
     super("data/raw/csv/race_stages_locations_points_data.csv", [
       "Location ID",
@@ -16,10 +27,10 @@ class RaceRiders extends CSVdataModel {
       "Distance",
     ];
     this.sortOrder = [
-      ["Race Id", "asc"],
-      ["Bib", "asc"],
+      ["raceId", "asc"],
+      ["bib", "asc"],
     ];
   }
 }
 
-export default RaceRiders;
+export default RaceStageLocationPoints;

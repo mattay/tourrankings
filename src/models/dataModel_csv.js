@@ -2,6 +2,8 @@ import path from "path";
 import fs from "fs";
 import csv from "csv-parser";
 import { toCamelCase, toTitleCase } from "../utils/string.js";
+import { logError, logOut } from "../utils/logging.js";
+import { debug } from "console";
 
 class CSVdataModel {
   rows = [];
@@ -15,7 +17,7 @@ class CSVdataModel {
     this.filePath = path.resolve(filePath);
     this.indexOn = indexOn.map((index) => toCamelCase(index));
     this.sortOrder = [];
-    this.csvHeaders = [""];
+    this.csvHeaders = [];
   }
 
   /**
@@ -35,8 +37,11 @@ class CSVdataModel {
 
     for (const key of this.indexOn) {
       if (!result.hasOwnProperty(key)) {
-        console.warn(`Incoming CSV row missing index ${key}`);
-        console.log(Object.keys(result));
+        logError(
+          this.constructor.name,
+          `Incoming CSV row missing index ${key}`,
+        );
+        logOut(this.constructor.name, Object.keys(result), "debug");
         return null;
       }
     }
@@ -44,6 +49,10 @@ class CSVdataModel {
     return result;
   }
 
+  /**
+   * Reads data from a CSV file and populates the rows array.
+   * @returns {Promise<Array>} A promise that resolves with the array of rows.
+   */
   async #readFromCSV() {
     return new Promise((resolve, reject) => {
       // Removed existing cached data
@@ -55,7 +64,6 @@ class CSVdataModel {
         console.warn("Creating database", this.filePath);
         this.#writeToCSV();
       }
-
       fs.createReadStream(this.filePath)
         .pipe(csv())
         .on("data", (data) => {
@@ -68,9 +76,16 @@ class CSVdataModel {
         })
         .on("end", () => resolve(this.rows))
         .on("error", reject);
+
+      logOut(this.constructor.name, `Loaded ${this.filePath}`, "debug");
+      this.sortRows();
     });
   }
 
+  /**
+   * Writes data to the CSV file.
+   * @returns {Promise<void>} A promise that resolves when the data is written.
+   */
   async #writeToCSV() {
     let csvContent = `${this.csvHeaders.join(",")}\n`;
 
@@ -83,10 +98,18 @@ class CSVdataModel {
     fs.writeFileSync(this.filePath, csvContent, "utf8");
   }
 
+  /**
+   * Reads data from the CSV file and populates the rows array.
+   * @returns {Promise<Array<Object>>} The array of rows read from the CSV file.
+   */
   async read() {
     return await this.#readFromCSV();
   }
 
+  /**
+   * Writes data to the CSV file.
+   * @returns {Promise<void>} A promise that resolves when the data is written.
+   */
   async write() {
     return await this.#writeToCSV();
   }
@@ -105,16 +128,19 @@ class CSVdataModel {
     return updates.filter((record) => !indexed.has(createKey(record)));
   }
 
+  /**
+   * Updates the data model with new or modified records.
+   * @param {Array<Object>} updates - The list of records to update.
+   * @returns {Promise<void>} A promise that resolves when the data is updated.
+   */
   async update(updates) {
     await this.read(); // Refresh
 
     updates.forEach((entry) => {
       for (const key of this.indexOn) {
         if (!entry.hasOwnProperty(key)) {
-          console.warn(
-            `[${this.constructor.name}] Update row missing index ${key}`,
-          );
-          console.error(Object.keys(entry));
+          logError(this.constructor.name, `Update row missing index ${key}`);
+          logOut(this.constructor.name, Object.keys(entry), "debug");
           throw new Error("Invalid Update");
         }
       }
@@ -125,6 +151,9 @@ class CSVdataModel {
     await this.write();
   }
 
+  /**
+   * Sorts the rows in the data model based on the specified order.
+   */
   sortRows() {
     this.rows.sort((a, b) => {
       // return new Date(a.startDate) - new Date(b.startDate);

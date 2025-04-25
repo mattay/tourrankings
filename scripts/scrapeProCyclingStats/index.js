@@ -20,7 +20,6 @@ import { generateId } from "../src/utils/idGenerator.js";
 import { buildUrl } from "../src/utils/url.js";
 import { randomFromRange, sleep } from "../src/utils/utils.js";
 
-const HEADLESS = true;
 const TESTING = false;
 const WAIT = 420;
 
@@ -72,88 +71,6 @@ async function futureRaces(races) {
     upcoming.forEach((race) => {
       console.log(" ", race.startDate, "->", race.endDate, race.raceName);
     });
-  }
-}
-
-/**
- *
- * @param {Races} races
- * @param {number} year
- * @param {Page} page
- */
-async function collectWorldTourRaces(races, year, page) {
-  const filter = {
-    year: year,
-    circuit: 1,
-    class: "2.UWT",
-    filter: "Filter",
-    p: "uci",
-    s: "year-calendar",
-  };
-
-  // const races = new Race();
-  // console.table(await races.read());
-
-  const url = buildUrl("https://www.procyclingstats.com/races.php", filter);
-
-  const tableRows = await scrapeRaces(page, url, filter.year);
-  await races.update(tableRows);
-}
-
-/**
- *
- * @param {Page} page
- * @param {string} raceId
- * @param {number} year
- */
-async function collectRace(page, raceId, year) {
-  try {
-    // Check for races
-    const stages = new RaceStages();
-    const teams = new Teams();
-    const riders = new RaceRiders();
-
-    // Stages
-    await stages.read();
-    console.log("Scraping -> Stages", raceId, year);
-    const stagesInRace = await scrapeStages(page, raceId, year).catch(
-      (exception) => console.error(exception.name, exception.message),
-    );
-
-    if (stagesInRace) {
-      console.log("Updating -> Stages", raceId, year);
-      await stages.update(stagesInRace);
-    }
-
-    // Start List
-    await teams.read();
-    console.log("Scraping -> StartList", raceId, year);
-    const raceStartlist = await scrapeRaceStartList(page, raceId, year).catch(
-      (exception) => console.error(exception),
-    );
-    if (raceStartlist) {
-      console.log("Updating -> StartList", raceId, year);
-      const updatesTeams = [];
-      const updatesRiders = [];
-      for (let team of raceStartlist) {
-        updatesTeams.push({
-          year,
-          ...team,
-        });
-
-        for (let rider of team.riders) {
-          updatesRiders.push({
-            raceId: generateId.race(raceId, year),
-            teamId: team.teamId,
-            ...rider,
-          });
-        }
-      }
-      await teams.update(updatesTeams);
-      await riders.update(updatesRiders);
-    }
-  } catch (exception) {
-    console.error(exception.name, exception.message);
   }
 }
 
@@ -212,27 +129,6 @@ async function collectRaceStageResults(page, race, year, stage) {
   }
 }
 
-/**
- *
- * @param {Handler<HTTPRequest} request
- */
-function interceptRequests(request) {
-  const url = new URL(request.url());
-  const domain = url.hostname;
-
-  if (WhitelistDomains.includes(domain)) {
-    request.continue();
-  } else {
-    request.abort();
-  }
-}
-
-const WhitelistDomains = [
-  "www.procyclingstats.com",
-  "ajax.googleapis.com",
-  "code.jquery.com",
-];
-
 async function main() {
   // Bowser Setup
   const browser = await puppeteer.launch({
@@ -240,8 +136,6 @@ async function main() {
     defaultViewport: null,
   });
   const page = await browser.newPage();
-  page.setRequestInterception(true);
-  page.on("request", interceptRequests);
 
   // let year = 2024;
   const season = process.env.SEASON || null;
@@ -249,34 +143,13 @@ async function main() {
   const races = new Races();
   const raceStages = new RaceStages();
 
-  console.log("season", season);
+  // console.log("season", season);
 
   let racesToScrape = [
     // "giro-d-italia",
     // "tour-de-france",
     // "tour-down-under",
   ];
-
-  if (season) {
-    console.log("collectWorldTourRaces");
-    await collectWorldTourRaces(races, season, page);
-
-    const seasonRaces = await races.season(season);
-    console.table(seasonRaces);
-
-    racesToScrape = [
-      ...racesToScrape,
-      ...seasonRaces.map((race) => race.raceId),
-    ];
-  }
-
-  if (!TESTING) {
-    console.log("collectWorldTourRaces");
-    await collectWorldTourRaces(races, currentYear, page);
-
-    console.log("currentRaces");
-    await currentRaces(races);
-  }
 
   try {
     for (const raceCode of racesToScrape) {

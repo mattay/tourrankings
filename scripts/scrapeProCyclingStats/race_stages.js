@@ -1,14 +1,15 @@
-import { generateId } from "../src/utils/idGenerator.js";
-import { formatDate } from "../src/utils/string.js";
+import { generateId } from "../../src/utils/idGenerator.js";
+import { formatDate } from "../../src/utils/string.js";
+import { logError } from "../../src/utils/logging.js";
 
 function cleanRecord(record) {
   const regexStage = /^(?<stageNumber>\d+)( \((?<stageType>.*)\))?$/;
   let stageType = null;
   let stageNumber = null;
 
-  if (record.stage === "Prologe") {
+  if (record.stage === "Prologue") {
     stageType = record.stage.toLowerCase();
-    stageNumber = stageType;
+    stageNumber = 0;
   } else {
     const matchStage = record.stage.match(regexStage);
     if (!matchStage) {
@@ -17,11 +18,12 @@ function cleanRecord(record) {
     stageNumber = matchStage?.groups.stageNumber || null;
     stageType = matchStage?.groups.stageType || null;
   }
-  const stageId = generateId.stage(record.raceId, stageNumber);
+  const raceId = generateId.race(record.raceUrlId, record.year);
+  const stageId = generateId.stage(raceId, stageNumber);
 
   return {
     ...record,
-    raceId: generateId.race(record.raceId, record.year),
+    raceId,
     date: formatDate(record.year, record.date, "/"),
     stageId,
     stage: stageNumber,
@@ -39,8 +41,7 @@ export async function scrapeStages(page, race, year) {
         timeout: 1200,
       })
       .catch((exception) => {
-        console.error("Exception in scrapeStages page-content");
-        console.log(exception.name, exception.message);
+        logError("scrapeStages page-content", exception);
         throw exception;
       });
 
@@ -64,7 +65,7 @@ export async function scrapeStages(page, race, year) {
 
           return {
             year,
-            raceId: race,
+            raceUrlId: race,
             date: dateText,
             stage: tds[2].textContent.trim().replace("Stage ", ""),
             parcoursType,
@@ -81,8 +82,8 @@ export async function scrapeStages(page, race, year) {
 
     return data.map((record) => cleanRecord(record));
   } catch (exception) {
-    console.error("URL", url);
-    console.error(exception);
+    logError("scrapeStages", url);
+    logError("scrapeStages", exception);
     throw exception;
   }
 }

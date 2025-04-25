@@ -1,6 +1,7 @@
-import { generateId } from "../src/utils/idGenerator.js";
-import { formatDate } from "../src/utils/string.js";
-import { urlSections } from "../src/utils/url.js";
+import { generateId } from "../../src/utils/idGenerator";
+import { logError, logOut } from "../../src/utils/logging";
+import { formatDate } from "../../src/utils/string";
+import { buildUrl, urlSections } from "../../src/utils/url";
 
 /**
  * @typedef {Object} RaceRecord
@@ -14,11 +15,37 @@ import { urlSections } from "../src/utils/url.js";
  */
 
 /**
+ * Collects World Tour races for a given year
+ * @param {Page} page - The Puppeteer page object
+ * @param {Races} races - The Races collection to update
+ * @param {number} year - The year of the races to collect
+ */
+export async function collectWorldTourRaces(page, races, year) {
+  const filter = {
+    year: year,
+    circuit: 1,
+    class: "2.UWT",
+    filter: "Filter",
+    p: "uci",
+    s: "year-calendar",
+  };
+  const url = buildUrl("https://www.procyclingstats.com/races.php", filter);
+
+  const tableRows = await scrapeRaces(page, url, filter.year);
+  if (!tableRows) {
+    logError("collectWorldTourRaces", url);
+    logError("collectWorldTourRaces", `No races found for year ${year}`);
+    return;
+  }
+  await races.update(tableRows);
+}
+
+/**
  * Creates a race ID from the race details
  * @param {string} Url - URL of the race
  * @returns {string|null} Race ID or null if couldn't be created
  */
-export function extractFromUrlRaceId(Url, urlParser = urlSections) {
+function extractFromUrlRaceId(Url, urlParser = urlSections) {
   const cleanUrl = Url.replace(/\/gc$/, "");
   const sections = urlParser(cleanUrl, ["_race", "raceId", "year"]);
 
@@ -32,7 +59,7 @@ export function extractFromUrlRaceId(Url, urlParser = urlSections) {
  * @param {Function} dateFormatter - Function to format dates
  * @returns {RaceRecord|null} The cleaned race record or null if invalid
  */
-export function cleanRecord(record, dateFormatter = formatDate) {
+function cleanRecord(record, dateFormatter = formatDate) {
   if (!record || !record.raceUrl || !record.year) return null;
 
   const raceUrl = record.raceUrl.replace(/\/gc$/, "");
@@ -96,14 +123,14 @@ export async function scrapeRaces(page, url, year) {
       },
       year,
     );
-    console.debug("completed page.$$eval");
 
     // Cleanup records - eval happens within browser.
     return rawData
       .map((record) => cleanRecord(record))
       .filter((record) => record !== null);
   } catch (exception) {
-    console.error(exception.error, exception.message);
+    logError("Races cleanRecord", url);
+    logError("Races cleanRecord", exception);
     return null;
   }
 }

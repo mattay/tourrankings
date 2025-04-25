@@ -9,11 +9,11 @@ import Teams from "../src/models/teams/teams";
 import { generateId } from "../src/utils/idGenerator";
 import { logError, logOut } from "../src/utils/logging";
 // Scrape
-import config from "./scrape_pcs/config";
-import { interceptRequests } from "./scrape_pcs/page_pcs";
-import { scrapeStages } from "./scrape_pcs/race_stages";
-import { scrapeRaceStartList } from "./scrape_pcs/race_startList";
-import { collectWorldTourRaces } from "./scrape_pcs/races";
+import config from "./scrape_proCyclingStats/config";
+import { interceptRequests } from "./scrape_proCyclingStats/page_proCyclingStats";
+import { scrapeStages } from "./scrape_proCyclingStats/race_stages";
+import { scrapeRaceStartList } from "./scrape_proCyclingStats/race_startList";
+import { collectWorldTourRaces } from "./scrape_proCyclingStats/races";
 // import { buildUrl } from "../src/utils/url";
 
 /**
@@ -35,7 +35,6 @@ async function collectRace(page, raceId, year) {
 
   try {
     // Stages
-    // await stages.read();
     logOut("Scraping -> Stages", `${raceId}, ${year}`, "debug");
     const stagesInRace = await scrapeStages(page, raceId, year).catch(
       (exception) => logError("Scrape Stages", exception),
@@ -43,13 +42,11 @@ async function collectRace(page, raceId, year) {
 
     if (stagesInRace) {
       stages.push(...stagesInRace);
-      // await stages.update(stagesInRace);
     } else {
       logError("CollectRace", "No stages found");
     }
 
     // Start List - Teams and Riders
-    // await teams.read();
     logOut("Scraping -> StartList", `${raceId}, ${year}`, "debug");
     const raceStartlist = await scrapeRaceStartList(page, raceId, year).catch(
       (exception) => logError("Scrape StartList", exception),
@@ -74,8 +71,6 @@ async function collectRace(page, raceId, year) {
       }
       teams.push(...updatesTeams);
       riders.push(...updatesRiders);
-      // await teams.update(updatesTeams);
-      // await riders.update(updatesRiders);
     } else {
       logError("CollectRace", "No startlist found");
     }
@@ -170,6 +165,11 @@ async function updateRaces(page, races, raceStages) {
       race.year,
     );
     console.table(stages);
+    console.table(teams);
+
+    // await stages.update(stagesInRace);
+    // await teams.update(updatesTeams);
+    // await riders.update(updatesRiders);
     // for (const stage of stages) {
     //   logOut("Collecting Stages", `${stage.stage} - ${stage.stageId} for ${stage.}`);
     //   // await collectStage(page, stage.stageId, stage.stageUrlId, stage.year);

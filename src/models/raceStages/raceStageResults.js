@@ -1,7 +1,7 @@
 import CSVdataModel from "../dataModel_csv.js";
 
 /**
- * @typedef {Object} StageResultData
+ * @typedef {Object} RaceStageResultData
  * @property {string} stageId - The unique identifier for the stage RaceStageData.stageId.
  * @property {number} stage - The name of the stage.
  * @property {number} rank - The rank of the rider in the stage.
@@ -19,9 +19,9 @@ import CSVdataModel from "../dataModel_csv.js";
  * @property {string} delta - The time difference between the rider's time and the winner's time.
  */
 
-class StageResults extends CSVdataModel {
+export class RaceStageResults extends CSVdataModel {
   constructor() {
-    super("data/raw/csv/stage_results_data.csv", ["Stage Id", "Rank"]);
+    super("data/raw/csv/raceStageResults.csv", ["Stage Id", "Rank"]);
     this.csvHeaders = [
       "Stage Id",
       "Stage",
@@ -59,5 +59,3 @@ class StageResults extends CSVdataModel {
     return this.rows.filter((record) => record.stageId === stageId);
   }
 }
-
-export default StageResults;

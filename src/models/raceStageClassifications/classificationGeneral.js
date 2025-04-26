@@ -1,7 +1,7 @@
 import CSVdataModel from "../dataModel_csv.js";
 
 /**
- * @typedef {Object} general_classification_data
+ * @typedef {Object} ClassificationGeneralData
  * @property {string} stageId - Unique identifier for the stage.
  * @property {string} stage - Name of the stage.
  * @property {number} rank - Rank of the rider in the general classification.
@@ -18,9 +18,12 @@ import CSVdataModel from "../dataModel_csv.js";
  * @property {string} delta - Rider's delta time.
  */
 
-class GeneralClassification extends CSVdataModel {
+export class ClassificationGeneral extends CSVdataModel {
   constructor() {
-    super("data/raw/csv/general_classification_data.csv", ["Stage Id", "Rank"]);
+    super("data/raw/csv/raceStageClassificationGeneral.csv", [
+      "Stage Id",
+      "Rank",
+    ]);
     this.csvHeaders = [
       "Stage Id",
       "Stage",
@@ -43,5 +46,3 @@ class GeneralClassification extends CSVdataModel {
     ];
   }
 }
-
-export default GeneralClassification;

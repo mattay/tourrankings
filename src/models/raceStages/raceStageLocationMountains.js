@@ -1,7 +1,7 @@
 import CSVdataModel from "../dataModel_csv.js";
 
 /**
- * @typedef {Object} RaceStageLocationMountainData
+ * @typedef {Object} RaceStageLocationMountainsData
  * @property {string} locationId - Unique identifier for the location.
  * @property {string} stageId - Unique identifier for the stage.
  * @property {string} year - Year of the race.
@@ -11,9 +11,9 @@ import CSVdataModel from "../dataModel_csv.js";
  * @property {string} distance
  */
 
-class RaceStageLocationMountain extends CSVdataModel {
+export class RaceStageLocationMountains extends CSVdataModel {
   constructor() {
-    super("data/raw/csv/race_stages_locations_tom_data.csv", [
+    super("data/raw/csv/raceStagesLocationMountains.csv", [
       "Location Id",
       "Stage Id",
     ]);
@@ -32,5 +32,3 @@ class RaceStageLocationMountain extends CSVdataModel {
     ];
   }
 }
-
-export default RaceStageLocationMountain;

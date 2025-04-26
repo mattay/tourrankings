@@ -11,12 +11,9 @@ import CSVdataModel from "../dataModel_csv.js";
  * @property {number} distance - The distance of the stage.
  */
 
-class RaceStageLocationPoints extends CSVdataModel {
+export class RaceStageLocationPoints extends CSVdataModel {
   constructor() {
-    super("data/raw/csv/race_stages_locations_points_data.csv", [
-      "Location ID",
-      "Bib",
-    ]);
+    super("data/raw/csv/raceStageLocationPoints.csv", ["Location ID", "Bib"]);
     this.csvHeaders = [
       "Location ID",
       "Stage Id",
@@ -32,5 +29,3 @@ class RaceStageLocationPoints extends CSVdataModel {
     ];
   }
 }
-
-export default RaceStageLocationPoints;

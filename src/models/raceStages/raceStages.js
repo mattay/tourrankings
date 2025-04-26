@@ -18,9 +18,9 @@ import CSVdataModel from "../dataModel_csv.js";
 /**
  *
  */
-class RaceStages extends CSVdataModel {
+export class RaceStages extends CSVdataModel {
   constructor() {
-    super("data/raw/csv/race_stages_data.csv", ["Stage Id", "Race Id"]);
+    super("data/raw/csv/raceStages.csv", ["Stage Id", "Race Id"]);
     this.csvHeaders = [
       "Year",
       "Date",
@@ -69,5 +69,3 @@ class RaceStages extends CSVdataModel {
     return this.rows.filter((row) => row.raceId == raceId);
   }
 }
-
-export default RaceStages;

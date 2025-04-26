@@ -15,9 +15,9 @@ import CSVdataModel from "../dataModel_csv.js";
 /**
  * Races model class
  */
-class Races extends CSVdataModel {
+export class Races extends CSVdataModel {
   constructor() {
-    super("data/raw/csv/races_data.csv", ["raceId"]);
+    super("data/raw/csv/races.csv", ["raceId"]);
     this.csvHeaders = [
       "Year",
       "Start Date",
@@ -104,5 +104,3 @@ class Races extends CSVdataModel {
     });
   }
 }
-
-export default Races;

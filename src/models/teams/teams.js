@@ -1,8 +1,20 @@
 import CSVdataModel from "../dataModel_csv.js";
 
-class Teams extends CSVdataModel {
+/** @typedef {Object} Team -
+ * @property {number} year - The year the team was established.
+ * @property {string} teamId - The unique identifier for the team.
+ * @property {string} classification - The classification of the team.
+ * @property {string} teamName - The name of the team.
+ * @property {string} jerseyImageUrl - The URL of the team's jersey image.
+ * @property {string} previousTeamId - The unique identifier of the previous team.
+ * @property {string} nextTeamId - The unique identifier of the next team.
+ */
+
+/**
+ */
+export class Teams extends CSVdataModel {
   constructor() {
-    super("data/raw/csv/teams_data.csv", ["team Id"]);
+    super("data/raw/csv/teams.csv", ["team Id"]);
     this.csvHeaders = [
       "Year",
       "Team Id",
@@ -18,5 +30,3 @@ class Teams extends CSVdataModel {
     ];
   }
 }
-
-export default Teams;

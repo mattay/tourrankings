@@ -264,14 +264,25 @@ async function main() {
   // Data Models
   const races = new Races();
   const raceStages = new RaceStages();
+  const raceRiders = new RaceRiders();
+  const teams = new Teams();
+  const riders = new Riders();
   const raceStageResults = new RaceStageResults();
+  // const raceStageGeneral = new GeneralClassification();
+  // const raceStagePoints = new PointsClassification();
+  // const raceStageMountain = new MountainClassification();
+  // const raceStageTeam = new TeamClassification();
+  // const raceStageYouth = new YouthClassification();
   // Load data
   await races.read();
   await raceStages.read();
   await raceStageResults.read();
+  await raceRiders.read();
+  await teams.read();
+  await riders.read();
 
-  await updateRaces(page, races, raceStages);
-  await updateStages(page, races, raceStages, raceStageResults);
+  await updateRaces(page, races, raceStages, raceRiders, riders, teams);
+  await updateStageResults(page, races, raceStages, raceStageResults);
 
   await browser.close();
 }

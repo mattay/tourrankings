@@ -12,9 +12,9 @@ import CSVdataModel from "../dataModel_csv.js";
  */
 export class Riders extends CSVdataModel {
   constructor() {
-    super("data/raw/csv/riders.csv", ["Rider Id"]);
+    super("data/raw/csv/riders.csv", ["Rider Pcs Id"]);
     this.csvHeaders = [
-      "Rider Id",
+      "Rider Pcs Id",
       "Rider Name",
       "Date Of Birth",
       "Nationality",

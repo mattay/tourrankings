@@ -21,9 +21,9 @@ import CSVdataModel from "../dataModel_csv.js";
 
 export class RaceStageResults extends CSVdataModel {
   constructor() {
-    super("data/raw/csv/raceStageResults.csv", ["Stage Id", "Rank"]);
+    super("data/raw/csv/raceStageResults.csv", ["Stage UID", "Rank"]);
     this.csvHeaders = [
-      "Stage Id",
+      "Stage UID",
       "Stage",
       "Rank",
       "GC",
@@ -40,22 +40,22 @@ export class RaceStageResults extends CSVdataModel {
       "Delta",
     ];
     this.sortOrder = [
-      ["stageId", "asc"],
-      ["rank", "asc"],
+      ["Stage UID", "asc"],
+      ["Rank", "asc"],
     ];
   }
 
   /**
    * Retrieves the stage results for a given stage ID.
-   * @param {string} stageId - The ID of the stage.
-   * @returns {Array<StageResultData>|null} - A promise that resolves to an array of stage results.
+   * @param {string} stageUID - The ID of the stage.
+   * @returns {Array<RaceStageResults>|null} - A promise that resolves to an array of stage results.
    */
-  getStageResults(stageId) {
-    if (!stageId) {
+  getStageResults(stageUID) {
+    if (!stageUID) {
       console.error("stageId is required for getStageResults()");
       return null;
     }
 
-    return this.rows.filter((record) => record.stageId === stageId);
+    return this.rows.filter((record) => record.stageUID === stageUID);
   }
 }

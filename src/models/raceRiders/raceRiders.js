@@ -1,10 +1,10 @@
 import CSVdataModel from "../dataModel_csv.js";
 
 /** @typedef {Object} RaceRiderData -
- * @property {string} raceId - The unique identifier of the race.
+ * @property {string} raceUID - The unique identifier of the race.
  * @property {string} bib - The bib number of the rider.
- * @property {string} riderId - The unique identifier of the rider.
- * @property {string} teamId - The unique identifier of the team.
+ * @property {string} riderPcsId - The unique identifier of the rider.
+ * @property {string} teamPcsId - The unique identifier of the team.
  * @property {string} rider - The name of the rider.
  * @property {string} flag - The flag of the rider's country.
  */
@@ -14,12 +14,12 @@ import CSVdataModel from "../dataModel_csv.js";
  */
 export class RaceRiders extends CSVdataModel {
   constructor() {
-    super("data/raw/csv/raceRiders.csv", ["Race Id", "Bib"]);
+    super("data/raw/csv/raceRiders.csv", ["Race UID", "Bib"]);
     this.csvHeaders = [
-      "Race Id",
+      "Race UID",
       "Bib",
-      "Rider Id",
-      "Team Id",
+      "Rider Pcs Id",
+      "Team Pcs Id",
       "Rider",
       "Flag",
     ];

@@ -1,28 +1,29 @@
 import CSVdataModel from "../dataModel_csv.js";
 
-/** @typedef {Object} Team -
+/** @typedef {Object} TeamData
  * @property {number} year - The year the team was established.
- * @property {string} teamId - The unique identifier for the team.
- * @property {string} classification - The classification of the team.
+ * @property {string} teamPcsId - The unique identifier for the team.
  * @property {string} teamName - The name of the team.
- * @property {string} jerseyImageUrl - The URL of the team's jersey image.
- * @property {string} previousTeamId - The unique identifier of the previous team.
- * @property {string} nextTeamId - The unique identifier of the next team.
+ * @property {string} classification - The classification of the team.
+ * @property {string} jerseyImagePcsUrl - The URL of the team's jersey image.
+ * @property {string} previousTeamPcsId - The unique identifier of the previous team.
+ * @property {string} nextTeamPcsId - The unique identifier of the next team.
  */
 
 /**
  */
 export class Teams extends CSVdataModel {
   constructor() {
-    super("data/raw/csv/teams.csv", ["team Id"]);
+    super("data/raw/csv/teams.csv", ["Team Pcs Id"]);
     this.csvHeaders = [
       "Year",
-      "Team Id",
-      "Classification",
+      "Team Pcs Id",
       "Team Name",
-      "Jersey Image Url",
-      "Previous Team Id",
-      "Next Team Id",
+      "Classification",
+      "Team Pcs Url",
+      "Jersey Image Pcs Url",
+      "Previous Team Pcs Id",
+      "Next Team Pcs Id",
     ];
     this.sortOrder = [
       ["Year", "asc"],

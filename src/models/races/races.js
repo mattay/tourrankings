@@ -2,14 +2,14 @@ import CSVdataModel from "../dataModel_csv.js";
 
 /**
  * @typedef {Object} RaceData
+ * @property {string} raceUID - The unique identifier of the race.
  * @property {string} year - The year of the race.
  * @property {string} startDate - The start date of the race.
  * @property {string} endDate - The end date of the race.
  * @property {string} raceClass - The class of the race.
- * @property {string} raceId - The unique identifier of the race.
  * @property {string} raceName - The name of the race.
- * @property {string} raceUrlId - The URL identifier of the race.
- * @property {string} raceUrl - The URL of the race.
+ * @property {string} racePcsID - The URL identifier of the race.
+ * @property {string} racePcsUrl - The URL of the race.
  */
 
 /**
@@ -17,16 +17,16 @@ import CSVdataModel from "../dataModel_csv.js";
  */
 export class Races extends CSVdataModel {
   constructor() {
-    super("data/raw/csv/races.csv", ["raceId"]);
+    super("data/raw/csv/races.csv", ["Race UID"]);
     this.csvHeaders = [
+      "Race UID",
       "Year",
       "Start Date",
       "End Date",
       "Race Class",
-      "Race Id",
       "Race Name",
-      "Race Url Id",
-      "Race Url",
+      "Race Pcs ID",
+      "Race Pcs Url",
     ];
   }
 

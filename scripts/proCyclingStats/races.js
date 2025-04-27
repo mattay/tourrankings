@@ -4,17 +4,6 @@ import { formatDate } from "../../src/utils/string";
 import { buildUrl, urlSections } from "../../src/utils/url";
 
 /**
- * @typedef {Object} RaceRecord
- * @property {string} raceId - The unique identifier for the race (raceId-year)
- * @property {string} raceName - The name of the race
- * @property {string} raceClass - The classification of the race
- * @property {string} raceUrl - The cleaned URL of the race page
- * @property {string} startDate - The start date of the race in YYYY-MM-DD format
- * @property {string} endDate - The end date of the race in YYYY-MM-DD format
- * @property {number} year - The year of the race
- */
-
-/**
  * Collects World Tour races for a given year
  * @param {Page} page - The Puppeteer page object
  * @param {Races} races - The Races collection to update
@@ -32,7 +21,7 @@ export async function collectWorldTourRaces(page, races, year) {
   const url = buildUrl("https://www.procyclingstats.com/races.php", filter);
 
   const tableRows = await scrapeRaces(page, url, filter.year);
-  if (!tableRows) {
+  if (!tableRows || tableRows.length == 0) {
     logError("collectWorldTourRaces", url);
     logError("collectWorldTourRaces", `No races found for year ${year}`);
     return;
@@ -47,34 +36,34 @@ export async function collectWorldTourRaces(page, races, year) {
  */
 function extractFromUrlRaceId(Url, urlParser = urlSections) {
   const cleanUrl = Url.replace(/\/gc$/, "");
-  const sections = urlParser(cleanUrl, ["_race", "raceId", "year"]);
+  const sections = urlParser(cleanUrl, ["_race", "racePcsID", "year"]);
 
   if (!sections) return null;
-  return { raceUrlId: sections.raceId, year: sections.year };
+  return { racePcsID: sections.racePcsID, year: sections.year };
 }
 
 /**
  * Cleans and normalizes a race record
- * @param {RaceRecord} record - The raw race record to clean
+ * @param {ScrapedRace} record - The raw race record to clean
  * @param {Function} dateFormatter - Function to format dates
- * @returns {RaceRecord|null} The cleaned race record or null if invalid
+ * @returns {ScrapedRace|null} The cleaned race record or null if invalid
  */
 function cleanRecord(record, dateFormatter = formatDate) {
-  if (!record || !record.raceUrl || !record.year) return null;
+  if (!record || !record.racePcsUrl || !record.year) return null;
 
-  const raceUrl = record.raceUrl.replace(/\/gc$/, "");
-  const { raceUrlId, year } = extractFromUrlRaceId(raceUrl);
-  const raceId = generateId.race(raceUrlId, year);
+  const racePcsUrl = record.racePcsUrl.replace(/\/gc$/, "");
+  const { racePcsID, year } = extractFromUrlRaceId(racePcsUrl);
+  const raceUID = generateId.race(racePcsID, year);
 
-  if (!raceId) return null;
+  if (!raceUID) return null;
 
   return {
     ...record,
-    raceId,
+    raceUID,
     startDate: dateFormatter(record.year, record.startDate, "."),
     endDate: dateFormatter(record.year, record.endDate, "."),
-    raceUrl,
-    raceUrlId,
+    racePcsID,
+    racePcsUrl,
   };
 }
 
@@ -83,7 +72,7 @@ function cleanRecord(record, dateFormatter = formatDate) {
  * @param {import('puppeteer').Page} page - The Puppeteer page object
  * @param {string} url - The URL to scrape
  * @param {number} year - The year of the races being scraped
- * @returns {Promise<RaceRecord[]|null>} Array of cleaned race records or null if an error occurs
+ * @returns {Promise<Array<ScrapedRace>|null>} Array of cleaned race records or null if an error occurs
  */
 export async function scrapeRaces(page, url, year) {
   try {
@@ -106,17 +95,17 @@ export async function scrapeRaces(page, url, year) {
             const [startDateText, endDateText] = dateText.split(" - ");
 
             const raceName = raceLink.textContent.trim();
-            const raceUrl = raceLink.href;
+            const racePcsUrl = raceLink.href;
 
             return {
-              raceId: "",
-              raceName,
-              raceClass,
-              raceUrl,
-              raceUrlId: "",
+              raceUID: "",
+              year,
               startDate: startDateText,
               endDate: endDateText || startDateText,
-              year,
+              raceClass,
+              raceName,
+              racePcsUrl,
+              racePcsID: "",
             };
           })
           .filter((record) => record !== null);

@@ -10,7 +10,7 @@
  */
 
 /** @type {Config} */
-const config = {
+export const config = {
   browser: {
     headless: true,
     defaultViewport: null,
@@ -25,4 +25,5 @@ const config = {
   },
   wait: 420,
 };
+
 export default config;

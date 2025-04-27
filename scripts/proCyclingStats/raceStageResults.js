@@ -1,12 +1,13 @@
 import { Page } from "puppeteer";
-import { generateId } from "../src/utils/idGenerator";
-import { renameKeys } from "../src/utils/object";
-import { toCamelCase } from "../src/utils/string";
-import { addTime, formatSeconds } from "../src/utils/time";
+import { generateId } from "../../src/utils/idGenerator";
+import { renameKeys } from "../../src/utils/object";
+import { toCamelCase } from "../../src/utils/string";
+import { addTime, formatSeconds } from "../../src/utils/time";
 
 /**
- * @param {}
- * @returns {Array<Object>}
+ * @param {Array<Object>} table - The table to clean up.
+ * @param {Object} additionalValues - Additional values to add to each row.
+ * @returns {Array<Object>} The cleaned up table.
  */
 function cleanUpStageTable(table, additionalValues) {
   const rename = {
@@ -107,8 +108,8 @@ function cleanUpStageTable(table, additionalValues) {
 
 /**
  *
- * @param {string} label
- * @returns
+ * @param {string} label - The label for the sprint.
+ * @returns {Object<{location: string, distance: string}>} The parsed sprint label.
  */
 function sprint(label) {
   // Sprint -> "Sprint | Dozza (108.1 km)""
@@ -136,8 +137,8 @@ function sprint(label) {
 
 /**
  *
- * @param {string} label
- * @returns
+ * @param {string} label - The label for the climb.
+ * @returns {Object<{category: string, location: string, distance: string}>} The parsed climb label.
  */
 function climb(label) {
   // Stage Classification -> "KOM Sprint (3) Côte de San Luca (186.6 km)""
@@ -165,10 +166,10 @@ function climb(label) {
 
 /**
  *
- * @param {Array<Object>} tables
- * @param {string} stageId
- * @param {number} stage
- * @returns
+ * @param {Array<Object>} tables - The tables for the race.
+ * @param {string} stageId - The ID of the stage.
+ * @param {number} stage - The number of the stage.
+ * @returns {Object} The cleaned up stage rankings.
  */
 function cleanUpStages(tables, stageId, stage) {
   const stageRankings = {};
@@ -255,12 +256,13 @@ function cleanUpStages(tables, stageId, stage) {
 }
 
 /**
- * @param {Page} page
- * @param {string} race
- * @param {number|string} year
- * @param {number|string} stage
+ *
+ * @param {Page} page - Page object from Puppeteer
+ * @param {string} race - Race name
+ * @param {number|string} year - Year of the race
+ * @param {number|string} stage - Stage number
  */
-export async function srapeStageResults(page, race, year, stage) {
+export async function scrapeRaceStageResults(page, race, year, stage) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/stage-${stage}`;
   const raceId = generateId.race(race, year);
   const stageId = generateId.stage(raceId, stage);

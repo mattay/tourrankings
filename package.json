@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "server/index.js",
   "scripts": {
-    "scrape": "bun ./scrape/index.js",
+    "scrape": "bun scripts/scrape_proCyclingStats.js",
     "dev": "bun --hot server/index.js",
     "start": "bun server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,10 +22,13 @@
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.0",
     "helmet": "^8.1.0",
-    "puppeteer": "^22.12.1"
+    "puppeteer": "^22.15.0"
   },
   "type": "module",
   "devDependencies": {
     "@types/express": "^5.0.1"
+  },
+  "engines": {
+    "bun": ">=1.2.10"
   }
 }

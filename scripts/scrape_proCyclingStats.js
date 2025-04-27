@@ -185,15 +185,15 @@ function stagesWithoutResults(races, raceStages, raceStageResults) {
  * @example
  * await updateRaces(page, races, raceStages, raceRiders, riders, teams);
  */
-async function updateRaces(page, races, raceStages) {
-  const today = new Date("2020");
-  const raceSeason = today.getFullYear() + 1;
 
-  // let seasonRaces = ;
-  if (!races.season(raceSeason)) {
+async function updateRaces(page, races, raceStages, raceRiders, riders, teams) {
+  const today = new Date();
+  const raceSeason = today.getFullYear();
+
+  if (races.season(raceSeason).length == 0) {
     logOut("Update Races", `Collecting races for the ${raceSeason} season.`);
     try {
-      await collectWorldTourRaces(races, raceSeason, page);
+      await collectWorldTourRaces(page, races, raceSeason);
     } catch (error) {
       logError("Update Races", error);
     }
@@ -203,33 +203,36 @@ async function updateRaces(page, races, raceStages) {
     (race) => race.stages.length === 0,
   );
   for (const race of pastRaces) {
-    console.log(
-      " ",
-      race.startDate,
-      "->",
-      race.endDate,
-      race.raceName,
-      race.year,
-      race.raceId,
-    );
-    const { stages, teams, riders } = await collectRace(
-      page,
-      race.raceUrlId,
-      race.year,
-    );
-    console.table(stages);
-    console.table(teams);
-
-    // await stages.update(stagesInRace);
-    // await teams.update(updatesTeams);
-    // await riders.update(updatesRiders);
-    // for (const stage of stages) {
-    //   logOut("Collecting Stages", `${stage.stage} - ${stage.stageId} for ${stage.}`);
-    //   // await collectStage(page, stage.stageId, stage.stageUrlId, stage.year);
-    // }
+    try {
+      const raceDetails = await collectRace(page, race.racePcsID, race.year);
+      // Record stages in race
+      await raceStages.update(raceDetails.stages);
+      // Record teams in race
+      await teams.update(
+        raceDetails.teams.map((team) => ({
+          year: team.year,
+          teamName: team.teamName,
+          teamPcsUrl: team.teamPcsUrl,
+          jerseyImageUrl: team.jerseyImageUrl,
+          teamPcsId: team.teamPcsId,
+          teamClassification: team.teamClassification,
+        })),
+      );
+      // Record riders in race
+      await raceRiders.update(raceDetails.riders);
+      // Record riders
+      await riders.update(
+        raceDetails.riders.map((raceRider) => {
+          return {
+            riderPcsId: raceRider.riderPcsId,
+            riderName: raceRider.rider,
+          };
+        }),
+      );
+    } catch (error) {
+      logError("Update Races", error);
+    }
   }
-
-  // console.log(pastRaces);
 }
 
 /**

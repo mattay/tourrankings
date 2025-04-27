@@ -1,14 +1,20 @@
-import { generateId } from "../src/utils/idGenerator.js";
-import { formatDate } from "../src/utils/string.js";
+import { generateId } from "../../src/utils/idGenerator.js";
+import { formatDate } from "../../src/utils/string.js";
+import { logError } from "../../src/utils/logging.js";
 
+/**
+ * Cleans a record by extracting stage number and type, and generating IDs.
+ * @param {RawStageRecord} record - The record to clean.
+ * @returns {ScrapedRaceStage} The cleaned record.
+ */
 function cleanRecord(record) {
   const regexStage = /^(?<stageNumber>\d+)( \((?<stageType>.*)\))?$/;
   let stageType = null;
   let stageNumber = null;
 
-  if (record.stage === "Prologe") {
+  if (record.stage === "Prologue") {
     stageType = record.stage.toLowerCase();
-    stageNumber = stageType;
+    stageNumber = 0;
   } else {
     const matchStage = record.stage.match(regexStage);
     if (!matchStage) {
@@ -17,19 +23,35 @@ function cleanRecord(record) {
     stageNumber = matchStage?.groups.stageNumber || null;
     stageType = matchStage?.groups.stageType || null;
   }
-  const stageId = generateId.stage(record.raceId, stageNumber);
+  const raceUID = generateId.race(record.raceUrlId, record.year);
+  const stageUID = generateId.stage(raceUID, stageNumber);
 
   return {
     ...record,
-    raceId: generateId.race(record.raceId, record.year),
+    raceUID,
+    stageUID,
     date: formatDate(record.year, record.date, "/"),
-    stageId,
     stage: stageNumber,
     stageType,
   };
 }
 
-export async function scrapeStages(page, race, year) {
+/**
+@typedef {Object} RawStageRecord - Raw stage record from the ProCyclingStats website.
+ * @property {number} year - The year of the race.
+ * @property {string} raceUrlId - The race URL ID.
+ * @property {string} date - The stage date.
+ * @property {string} stage - The stage name.
+ */
+
+/**
+ * Scrapes stage data from the ProCyclingStats website.
+ * @param {import('puppeteer').Page}} page - The Puppeteer page object.
+ * @param {string} race - The race name.
+ * @param {number} year - The year of the race.
+ * @returns {Promise<Array<ScrapedRaceStage>} An array of stage data.
+ */
+export async function scrapeRaceStages(page, race, year) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/route/stages`;
   try {
     await page.goto(url, { waitUntil: "networkidle2" });
@@ -39,8 +61,7 @@ export async function scrapeStages(page, race, year) {
         timeout: 1200,
       })
       .catch((exception) => {
-        console.error("Exception in scrapeStages page-content");
-        console.log(exception.name, exception.message);
+        logError("scrapeStages page-content", exception);
         throw exception;
       });
 
@@ -64,7 +85,7 @@ export async function scrapeStages(page, race, year) {
 
           return {
             year,
-            raceId: race,
+            raceUrlId: race,
             date: dateText,
             stage: tds[2].textContent.trim().replace("Stage ", ""),
             parcoursType,
@@ -81,8 +102,8 @@ export async function scrapeStages(page, race, year) {
 
     return data.map((record) => cleanRecord(record));
   } catch (exception) {
-    console.error("URL", url);
-    console.error(exception);
+    logError("scrapeStages", url);
+    logError("scrapeStages", exception);
     throw exception;
   }
 }

@@ -1,18 +1,35 @@
-import { urlSections } from "../src/utils/url";
+import { logError } from "../../src/utils/logging";
+import { urlSections } from "../../src/utils/url";
+
+/** @typedef {Object} RawStartListRider
+ * @property {number} bib - The bib number of the rider.
+ * @property {string} flag - The flag of the rider.
+ * @property {string} rider - The name of the rider.
+ * @property {string} riderPcsUrl - The ProcyclingStats URL of the rider.
+ */
+
+/** @typedef {Object} RawTeamStartList
+ * @property {string} teamName - The name of the team.
+ * @property {string} teamPcsUrl - The ProcyclingStats URL of the team.
+ * @property {string} jerseyImageUrl - The name of the team.
+ * @property {Array<RawStartListRider>} riders - An array of riders.
+ */
 
 /**
  * Refines a startlist by extracting team information and adding team ID.
- * @param {Array<Object>} startlist - The list of teams to refine.
- * @returns {Array<Object>} The refined startlist with extracted team information.
+ * @param {Array<RawTeamStartList>} startlist - The list of teams to refine.
+ * @returns {Array<ScrapedRaceStartListTeam>} The refined startlist with extracted team information.
+ *
+ * @see ScrapedRaceStartListTeam
  */
 function refineStartlist(team) {
   const regexTeam = /^(?<teamName>.*) \((?<teamClassification>.*)\)$/;
 
-  const teamLinkSections = urlSections(team.teamLink, ["_team", "teamId"]);
+  const teamLinkSections = urlSections(team.teamPcsUrl, ["_team", "teamPcsId"]);
   const matchTeam = team.teamName.match(regexTeam);
 
   if (teamLinkSections) {
-    team.teamId = teamLinkSections.teamId;
+    team.teamPcsId = teamLinkSections.teamPcsId;
   }
   if (matchTeam) {
     team.teamName = matchTeam.groups.teamName || null;
@@ -20,17 +37,28 @@ function refineStartlist(team) {
   }
 
   team.riders = team.riders.map((rider) => {
-    const riderLinkSections = urlSections(rider.riderLink, [
+    const riderLinkSections = urlSections(rider.riderPcsUrl, [
       "_rider",
-      "riderId",
+      "riderPcsId",
     ]);
-    rider.riderId = riderLinkSections.riderId || null;
+    rider.riderPcsId = riderLinkSections.riderPcsId || null;
     return rider;
   });
 
   return team;
 }
 
+/**
+ * Scrape the startlist of a race from ProcyclingStats.
+ * @async
+ * @param {import('puppeteer').Page} page - The Puppeteer page instance used for navigation and DOM extraction.
+ * @param {string} race - The race identifier (e.g., 'tour-de-france').
+ * @param {number} year - The year of the race (e.g., 2024).
+ * @returns {Promise<Array<ScrapedRaceStartListTeam>} Resolves to an array of teams, each with their riders.
+ * @throws {Error} Throws if navigation or scraping fails.
+ *
+ * @see ScrapedRaceStartListTeam
+ */
 export async function scrapeRaceStartList(page, race, year) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/startlist`;
   try {
@@ -48,7 +76,7 @@ export async function scrapeRaceStartList(page, race, year) {
           ".ridersCont > div > a.team",
         );
         const teamName = teamNameElement ? teamNameElement.innerText : null;
-        const teamLink = teamNameElement ? teamNameElement.href : null;
+        const teamPcsUrl = teamNameElement ? teamNameElement.href : null;
 
         const jerseyImageElement = teamElement.querySelector(".shirtCont img");
         const jerseyImageUrl = jerseyImageElement
@@ -68,14 +96,14 @@ export async function scrapeRaceStartList(page, race, year) {
           const rider = riderElement.querySelector("a")
             ? riderElement.querySelector("a").innerText
             : null;
-          const riderLink = riderElement.querySelector("a")
+          const riderPcsUrl = riderElement.querySelector("a")
             ? riderElement.querySelector("a").href
             : null;
 
-          riders.push({ bib, flag, rider, riderLink });
+          riders.push({ bib, rider, flag, riderPcsUrl });
         });
 
-        teams.push({ teamName, teamLink, jerseyImageUrl, riders });
+        teams.push({ teamName, teamPcsUrl, jerseyImageUrl, riders });
       });
 
       return teams;
@@ -83,6 +111,7 @@ export async function scrapeRaceStartList(page, race, year) {
 
     return teams.map((team) => refineStartlist(team));
   } catch (exception) {
+    logError("scrapeRaceStartList - url", url);
     throw exception;
   }
 }

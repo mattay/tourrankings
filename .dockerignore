@@ -4,5 +4,5 @@
 **/.env
 
 # Do not track scraped data.
-**/*_data.csv
+**/*.csv
 fly.toml

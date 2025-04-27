@@ -3,21 +3,23 @@
   "version": "1.0.0",
   "main": "server/index.js",
   "scripts": {
-    "scrape": "bun ./scrape/index.js",
+    "scrape": "bun scripts/scrape_proCyclingStats.js",
     "dev": "bun --hot server/index.js",
     "start": "bun server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["cycling"],
+  "keywords": [
+    "cycling"
+  ],
   "author": "Matthew Anderson",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@duckdb/duckdb-wasm": "^1.29.0",
     "compression": "^1.8.0",
     "cors": "^2.8.5",
     "csv-parser": "^3.0.0",
     "d3": "^7.9.0",
+    "duckdb": "^1.2.1",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.0",
@@ -27,5 +29,8 @@
   "type": "module",
   "devDependencies": {
     "@types/express": "^5.0.1"
+  },
+  "engines": {
+    "bun": ">=1.2.10"
   }
 }

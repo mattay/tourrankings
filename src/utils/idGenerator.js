@@ -1,5 +1,5 @@
 export const generateId = {
   race: (raceCode, year) => `${raceCode}:${year}`,
-  stage: (raceId, stageNumber) => `${raceId}:${stageNumber}`,
+  stage: (racePcsID, stageNumber) => `${racePcsID}:${stageNumber}`,
   result: (stageId, riderId) => `${stageId}:${riderId}`,
 };

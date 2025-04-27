@@ -97,8 +97,6 @@ async function collectRace(page, racePcsID, year) {
       logError("CollectRace", exception);
     });
     if (raceStartlist) {
-      const updatesTeams = [];
-      const updatesRiders = [];
       for (let team of raceStartlist) {
         // Add year
         teams.push({

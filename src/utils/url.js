@@ -1,3 +1,5 @@
+import { logError } from "./logging";
+
 /**
  * Builds a URL with query parameters.
  * @param {string} baseUrl - The base URL to which the query parameters will be appended.
@@ -23,6 +25,14 @@ export function buildUrl(baseUrl, params) {
  * @returns {Object|null} An object mapping each label to the corresponding section of the URL's pathname, or null if the number of labels does not match the number of sections.
  */
 export function urlSections(urlString, sectionLabels = []) {
+  if (!urlString || !sectionLabels) {
+    logError(
+      "urlSections",
+      "Invalid input: urlString and sectionLabels are required",
+    );
+    return null;
+  }
+
   const url = new URL(urlString);
   const pathname = url.pathname;
   // Remove empty results of splitting by "/"

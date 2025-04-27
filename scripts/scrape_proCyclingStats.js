@@ -1,25 +1,60 @@
 import puppeteer, { Page } from "puppeteer";
 // Data Models
-import RaceRiders from "../src/models/race_riders/race_riders";
-import RaceStageResults from "../src/models/race_stages/race_stage_results";
-import RaceStages from "../src/models/race_stages/race_stages";
-import Races from "../src/models/races/races";
-import Teams from "../src/models/teams/teams";
+import {
+  Races,
+  RaceStages,
+  RaceStageResults,
+  RaceRiders,
+  Teams,
+  Riders,
+  // GeneralClassification,
+  // PointsClassification,
+  // MountainClassification,
+  // YouthClassification,
+  // TeamClassification,
+} from "../src/models/";
 // Utils
 import { generateId } from "../src/utils/idGenerator";
 import { logError, logOut } from "../src/utils/logging";
 // Scrape
-import config from "./scrape_proCyclingStats/config";
-import { interceptRequests } from "./scrape_proCyclingStats/page_proCyclingStats";
-import { scrapeStages } from "./scrape_proCyclingStats/race_stages";
-import { scrapeRaceStartList } from "./scrape_proCyclingStats/race_startList";
-import { collectWorldTourRaces } from "./scrape_proCyclingStats/races";
-// import { buildUrl } from "../src/utils/url";
+import {
+  config,
+  interceptRequests,
+  collectWorldTourRaces,
+  scrapeRaceStartList,
+  scrapeRaceStages,
+} from "./proCyclingStats";
 
 /**
+ * Classes
  * @typedef {import('../src/models/races/races').RaceData} RaceData
- * @typedef {import('../src/models/race_stages/race_stages').RaceStageData} RaceStageData
- * @typedef {RaceData & { stages: Array<RaceStageData> }} RaceWithStages
+ * @typedef {import('../src/models/raceStages/raceStages').RaceStageData} RaceStageData
+ * @typedef {import('../src/models/teams/teams').TeamData} TeamData
+ * @typedef {import('../src/models/riders/riders').RiderData} RiderData
+ */
+
+/**
+ * @typedef {RaceData & { raceStages: Array<RaceStageData>, raceTeams: Array<TeamData>, raceRiders: Array<RiderData> }} RaceWithStages
+ */
+
+/**
+ * Modified results of scrapeRaceStartList()
+ *
+ * @typedef {ScrapedRaceStartListTeam & { year: number }} ScrapedRaceTeam
+ * @typedef {ScrapedRaceStartListRider & { raceUID: string, teamPcsId: string }} ScrapedRaceRider
+ */
+
+/**
+ * Returned by collectRace()
+ *
+ * @typedef {Object} CollectedRaceData
+ * @property {Array<ScrapedRaceStage>} stages - Array of race stages
+ * @property {Array<ScrapedRaceTeam>} teams - Array of teams
+ * @property {Array<ScrapedRaceRider>} riders - Array of riders
+ *
+ * @see ScrapedRaceStage
+ * @see ScrapedRaceTeam
+ * @see ScrapedRaceRider
  */
 
 /**
@@ -128,9 +163,23 @@ function stagesWithoutResults(races, raceStages, raceStageResults) {
 }
 
 /**
- * Update Races logic here
- * @param {Page} page - The Puppeteer page object
- * @param {Races} races - The Races object
+ * Updates race data by collecting and recording new races, stages, teams, and riders for the current season.
+ *
+ * - If there are no races for the current season, collects them.
+ * - For each past race with missing stages, fetches and updates detailed data.
+ *
+ * @async
+ * @param {import('puppeteer').Page} page - Puppeteer page instance for scraping. * @param {Races} races - The Races object
+ * @param {Races} races - Races data manager.
+ * @param {RaceStages} raceStages - RaceStages data manager.
+ * @param {RaceRiders} raceRiders - RaceRiders data manager.
+ * @param {Riders} riders - Riders data manager.
+ * @param {Teams} teams - Teams data manager.
+ * @returns {Promise<void>} Resolves when all updates are complete.
+ * @throws {Error} If scraping or updating fails.
+ *
+ * @example
+ * await updateRaces(page, races, raceStages, raceRiders, riders, teams);
  */
 async function updateRaces(page, races, raceStages) {
   const today = new Date("2020");

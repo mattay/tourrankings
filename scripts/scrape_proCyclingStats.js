@@ -62,73 +62,80 @@ import {
  * @param {Page} page - Page object from Puppeteer
  * @param {string} raceId - ID of the race to scrape
  * @param {number} year - Year of the race to scrape
+ * @returns {Promise<CollectedRaceData>} CollectedRaceData - Object containing stages, teams, and riders data
  */
-async function collectRace(page, raceId, year) {
-  const stages = []; //new RaceStages();
-  const teams = []; //new Teams();
-  const riders = []; //new RaceRiders();
+async function collectRace(page, racePcsID, year) {
+  /** @type {Array<ScrapedRaceStage>} */
+  const stages = [];
+  /** @type {Array<ScrapedRaceTeam>} */
+  const teams = [];
+  /** @type {Array<ScrapedRaceRider>} */
+  const riders = [];
 
   try {
-    // Stages
-    logOut("Scraping -> Stages", `${raceId}, ${year}`, "debug");
-    const stagesInRace = await scrapeStages(page, raceId, year).catch(
-      (exception) => logError("Scrape Stages", exception),
+    logOut("CollectRace", `${racePcsID}, ${year}`);
+    // Race stages
+    const stagesInRace = await scrapeRaceStages(page, racePcsID, year).catch(
+      (exception) => {
+        logError("CollectRace", `Error collecting stages`);
+        logError("CollectRace", exception);
+      },
     );
-
     if (stagesInRace) {
       stages.push(...stagesInRace);
     } else {
       logError("CollectRace", "No stages found");
     }
 
-    // Start List - Teams and Riders
-    logOut("Scraping -> StartList", `${raceId}, ${year}`, "debug");
-    const raceStartlist = await scrapeRaceStartList(page, raceId, year).catch(
-      (exception) => logError("Scrape StartList", exception),
-    );
-
+    // Race start list - Teams and Riders
+    const raceStartlist = await scrapeRaceStartList(
+      page,
+      racePcsID,
+      year,
+    ).catch((exception) => {
+      logError("CollectRace", `Error collecting startlist`);
+      logError("CollectRace", exception);
+    });
     if (raceStartlist) {
       const updatesTeams = [];
       const updatesRiders = [];
       for (let team of raceStartlist) {
-        updatesTeams.push({
+        // Add year
+        teams.push({
           year,
           ...team,
         });
-
+        // Add race and team to rider
         for (let rider of team.riders) {
-          updatesRiders.push({
-            raceId: generateId.race(raceId, year),
-            teamId: team.teamId,
+          riders.push({
+            raceUID: generateId.race(racePcsID, year),
+            teamPcsId: team.teamPcsId,
             ...rider,
           });
         }
       }
-      teams.push(...updatesTeams);
-      riders.push(...updatesRiders);
     } else {
       logError("CollectRace", "No startlist found");
     }
   } catch (exception) {
     logError("CollectRace", exception);
-    logOut("CollectRace", `${raceId}, ${year}`);
   }
   return {
-    stages,
-    teams,
-    riders,
+    stages: stages,
+    teams: teams,
+    riders: riders,
   };
 }
 
 /**
  *
  * @param {RaceStages} raceStages - The RaceStages object
- * @param {Array<RaceData>} raceIds - The array of race IDs
- * @returns {Array<RaceWithStages>}
+ * @param {Array<RaceData>} races - The array of race IDs
+ * @returns {Array<RaceWithStages>} - Array of RaceWithStages objects
  */
 function stagesInRaces(raceStages, races) {
   for (const race of races) {
-    race.stages = raceStages.stagesInRace(race.raceId);
+    race.stages = raceStages.stagesInRace(race.raceUID);
   }
   return races;
 }
@@ -235,13 +242,12 @@ async function updateRaces(page, races, raceStages) {
  * @param {RaceStages} raceStages - The RaceStages object
  * @param {RaceStageResults} raceStageResults - The RaceStageResults object
  */
-async function updateStages(page, races, raceStages, raceStageResults) {
+async function updateStageResults(page, races, raceStages, raceStageResults) {
   const stagesRequireResults = stagesWithoutResults(
     races,
     raceStages,
     raceStageResults,
   );
-  console.log("stagesRequireResults", stagesRequireResults);
 }
 
 /**

@@ -143,12 +143,11 @@ function stagesInRaces(raceStages, races) {
  * @param {Races} races - The Races object
  * @param {RaceStages} raceStages - The RaceStages object
  * @param {RaceStageResults} raceStageResults - The RaceStageResults object
- * @returns {Array<RaceWithStages>}
+ * @returns {Array<RaceWithStages>} - Array of RaceWithStages objects
  */
 function stagesWithoutResults(races, raceStages, raceStageResults) {
-  const today = new Date("2025/01/22");
+  const today = new Date();
   const raceSeason = today.getFullYear();
-  console.log(raceSeason, today);
 
   const races_past = races.past(raceSeason);
   const races_inProgress = races.inProgress(today);

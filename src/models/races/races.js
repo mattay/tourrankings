@@ -14,7 +14,12 @@ import { logOut } from "src/utils/logging.js";
  */
 
 /**
- * Races model class
+ * @class Races
+ * @extends CSVdataModel
+ * @description Represents the races data.
+ * @constructor
+ * @param {string} filePath - The path to the CSV file.
+ * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
  */
 export class Races extends CSVdataModel {
   constructor() {
@@ -128,5 +133,21 @@ export class Races extends CSVdataModel {
     return this.rows.filter((record) => {
       return Number(record.year) == year;
     });
+  }
+
+  /**
+   * Get a specific race by ID and year.
+   * @param {string} id - The ID of the race.
+   * @param {string} key [raceUID|racePcsID] - The key to identify the race.
+   * @param {number} year - The year of the race.
+   * @returns {RaceData|null} - The race data object or null if not found.
+   */
+  race(raceID, key = "raceUID", year) {
+    for (const record of this.rows) {
+      if (record[key] === raceID && Number(record.year) === Number(year)) {
+        return record;
+      }
+    }
+    return null;
   }
 }

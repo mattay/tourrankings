@@ -14,7 +14,12 @@ import CSVdataModel from "../dataModel_csv.js";
  */
 
 /**
- * Represents a classification for youth riders in a race stage.
+ * @class ClassificationYouth
+ * @extends CSVdataModel
+ * @description Represents a classification for youth riders in a race stage.
+ * @constructor
+ * @param {string} filePath - The path to the CSV file.
+ * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
  */
 export class ClassificationYouth extends CSVdataModel {
   constructor() {

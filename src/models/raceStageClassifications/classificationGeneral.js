@@ -18,6 +18,14 @@ import CSVdataModel from "../dataModel_csv.js";
  * @property {string} delta - Rider's delta time.
  */
 
+/**
+ * @class ClassificationGeneral
+ * @extends CSVdataModel
+ * @description Represents the general classification data for a race stage.
+ * @constructor
+ * @param {string} filePath - The path to the CSV file.
+ * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
+ */
 export class ClassificationGeneral extends CSVdataModel {
   constructor() {
     super("data/raw/csv/raceStageClassificationGeneral.csv", [

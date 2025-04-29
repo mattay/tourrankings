@@ -19,7 +19,12 @@ import CSVdataModel from "../dataModel_csv.js";
  */
 
 /**
- *
+ * @class ClassificationPoints
+ * @extends CSVdataModel
+ * @description Represents a classification for points in a race stage.
+ * @constructor
+ * @param {string} filePath - The path to the CSV file.
+ * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
  */
 export class ClassificationPoints extends CSVdataModel {
   constructor() {

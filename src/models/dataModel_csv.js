@@ -6,18 +6,15 @@ import { logError, logOut } from "../utils/logging.js";
 import { debug } from "console";
 
 /**
- * Class representing a data model for CSV files.
- * @class
+ * @class CSVdataModel
+ * @description Represents a data model for CSV files.
+ * @constructor
+ * @param {string} filePath - The path to the CSV file.
+ * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
  */
 class CSVdataModel {
   rows = [];
 
-  /**
-   * Creates an instance of CsvHandler.
-   * @constructor
-   * @param {string} filePath - The path to the CSV file.
-   * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
-   */
   constructor(filePath, indexOn) {
     this.filePath = path.resolve(filePath);
     this.indexOn = indexOn.map((index) => toCamelCase(index));

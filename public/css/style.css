@@ -7,6 +7,10 @@
     --color-text-accent: #817618;
 }
 
+html {
+    color-scheme: light;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -30,6 +34,7 @@ header {
         font-weight: bold;
     }
 }
+
 footer {
     padding: 1rem 4rem;
     font-size: 0.75rem;
@@ -39,12 +44,18 @@ footer {
 main {
     flex-grow: 1;
     padding: 2rem 4rem;
+    display: flex;
+    flex-direction: column;
 }
 
 /* h1 {
     color: var(--text-primary-color);
     margin-bottom: 20px;
 } */
+
+.stage-name {
+    color: var(--color-text-secondary);
+}
 
 a {
     text-decoration: none;
@@ -82,6 +93,16 @@ a {
 .races--list {
     gap: 0.5rem;
     align-items: flex-start;
+}
+
+#race-rankings {
+    display: flex;
+    width: 100%;
+    flex-grow: 1;
+
+    svg {
+        width: 100%;
+    }
 }
 
 /* ul {

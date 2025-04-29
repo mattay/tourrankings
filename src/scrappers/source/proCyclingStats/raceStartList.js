@@ -1,5 +1,5 @@
-import { logError } from "../../src/utils/logging";
-import { urlSections } from "../../src/utils/url";
+import { logError } from "../../../utils/logging";
+import { urlSections } from "../../../utils/url";
 
 /** @typedef {Object} RawStartListRider
  * @property {number} bib - The bib number of the rider.

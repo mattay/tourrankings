@@ -1,8 +1,8 @@
 import { Page } from "puppeteer";
-import { generateId } from "../../src/utils/idGenerator";
-import { renameKeys } from "../../src/utils/object";
-import { toCamelCase } from "../../src/utils/string";
-import { addTime, formatSeconds } from "../../src/utils/time";
+import { generateId } from "../../../utils/idGenerator";
+import { renameKeys } from "../../../utils/object";
+import { toCamelCase } from "../../../utils/string";
+import { addTime, formatSeconds } from "../../../utils/time";
 
 /**
  * @param {Array<Object>} table - The table to clean up.

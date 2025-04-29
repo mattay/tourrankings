@@ -1,7 +1,7 @@
-import { generateId } from "../../src/utils/idGenerator";
-import { logError, logOut } from "../../src/utils/logging";
-import { formatDate } from "../../src/utils/string";
-import { buildUrl, urlSections } from "../../src/utils/url";
+import { generateId } from "../../../utils/idGenerator";
+import { logError, logOut } from "../../../utils/logging";
+import { formatDate } from "../../../utils/string";
+import { buildUrl, urlSections } from "../../../utils/url";
 
 /**
  * Collects World Tour races for a given year

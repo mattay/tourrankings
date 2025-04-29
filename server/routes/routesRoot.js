@@ -1,5 +1,5 @@
 import express from "express";
-import seasonRaces from "../options/races";
+import { seasonRaces } from "../controllers/raceController";
 
 const router = express.Router();
 
@@ -14,13 +14,14 @@ const router = express.Router();
  */
 router.get("/", (req, res, next) => {
   try {
-    const races = seasonRaces();
-    console.log(races);
-    res.render("pages/home", {
-      title: "TourRankings",
-      description: "Explore rankings for multi-stage races.",
-      races,
-    });
+    const homePage = {
+      title: "Tour Rankings",
+      description: "A web application for tracking and ranking tours.",
+      keywords: "tour, ranking, web application",
+      races: seasonRaces(),
+    };
+
+    res.render("pages/home", homePage);
   } catch (err) {
     console.error("Unable to render /", err);
     next(err); // Passes error to Express error handler

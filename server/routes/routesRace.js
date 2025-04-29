@@ -1,5 +1,6 @@
 import express from "express";
-import { seasonRaces } from "../controllers/raceController";
+import { raceContent } from "../controllers/raceController";
+import { logOut } from "../../src/utils/logging";
 
 const router = express.Router();
 
@@ -12,21 +13,31 @@ const router = express.Router();
  * @param {import('express').NextFunction} next - Express next function.
  * @returns {void}
  */
-router.get("/", (req, res, next) => {
+router.get("/:racePcsID", (req, res, next) => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const content = raceContent(req.params.racePcsID, year);
+
+  console.log(content);
+
+  if (!content.race) {
+    return res.status(404).send("Race not found");
+  }
+
   try {
-    const homePage = {
+    const racePage = {
       title: "Tour Rankings",
       description: "A web application for tracking and ranking tours.",
       keywords: "tour, ranking, web application",
-      races: seasonRaces(),
+      race: content.race,
+      stage: content.viewingStage,
     };
 
-    res.render("pages/home", homePage);
+    res.render("pages/race", racePage);
   } catch (err) {
-    console.error("Unable to render /", err);
+    logOut("Unable to render /", err);
     next(err); // Passes error to Express error handler
   }
 });
 
-// export default router;
-export { router as routesRoot };
+export { router as routesRace };

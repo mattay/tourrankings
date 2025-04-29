@@ -2,7 +2,7 @@
   <h2><%= title %></h2>
   <div class="races--list">
     <% races.forEach(race => { %>
-      <a href="/<%= race.raceUrlId %>/<%= race.year %>/1/gc">
+      <a href="/<%= race.racePcsID %>">
         <%= race.raceName %>
       </a>
       <% }); %>

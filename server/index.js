@@ -3,7 +3,7 @@ import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import config from "./config";
 import setupMiddleware from "./middleware";
-import { routesRoot } from "./routes";
+import { routesRace, routesRoot } from "./routes";
 import { logError, logOut } from "../src/utils/logging";
 import dataService from "../src/services/dataServiceInstance";
 
@@ -52,6 +52,9 @@ async function setupRoutes(app) {
     // Mount API routes under /api
     // app.use("/api", routesAPI);
 
+    // Mount race routes before root and static handlers
+    app.use("/", routesRace); // This will match /:racePcsID
+
     // Mount view routes at the application level
     app.use("/", routesRoot);
 
@@ -80,10 +83,11 @@ async function setupRoutes(app) {
 async function startServer(app) {
   try {
     app.listen(config.port, () => {
-      logOut("Server", `Running on port ${config.port}} in ${config.env} mode`);
+      logOut("Server", `Running on port ${config.port} in ${config.env} mode`);
     });
   } catch (error) {
-    console.error("Failed to initialize DuckDB:", error);
+    logError("Server", "Failed to start server");
+    logError("Server", error);
     process.exit(1);
   }
 }

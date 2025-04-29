@@ -5,6 +5,7 @@ import config from "./config";
 import setupMiddleware from "./middleware";
 import { routesRoot } from "./routes";
 import { logError, logOut } from "../src/utils/logging";
+import dataService from "../src/services/dataServiceInstance";
 
 // Absolute path to the current file (ESM equivalent of __filename).
 const __filename = fileURLToPath(import.meta.url);
@@ -26,6 +27,9 @@ async function setupServer(app) {
   try {
     // Apply all middleware (logging, parsing, security, error handling, etc.)
     setupMiddleware(app);
+
+    // Data service instance
+    await dataService.initialize();
 
     // Templating
     app.set("view engine", "ejs");

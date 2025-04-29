@@ -8,7 +8,12 @@ import CSVdataModel from "../dataModel_csv.js";
  */
 
 /**
- * Riders class extends CSVdataModel to handle rider data.
+ * @class Riders
+ * @extends CSVdataModel
+ * @description Represents the riders data.
+ * @constructor
+ * @param {string} filePath - The path to the CSV file.
+ * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
  */
 export class Riders extends CSVdataModel {
   constructor() {

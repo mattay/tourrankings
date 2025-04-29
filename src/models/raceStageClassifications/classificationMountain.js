@@ -15,6 +15,14 @@ import CSVdataModel from "../dataModel_csv.js";
  * @property {number} today - The points earned by the rider in the current stage.
  */
 
+/**
+ * @class ClassificationMountain
+ * @extends CSVdataModel
+ * @description Represents the mountain classification data for a race stage.
+ * @constructor
+ * @param {string} filePath - The path to the CSV file.
+ * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
+ */
 export class ClassificationMountain extends CSVdataModel {
   constructor() {
     super("data/raw/csv/raceStageClassificationMountain.csv", [

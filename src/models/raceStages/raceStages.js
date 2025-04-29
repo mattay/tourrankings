@@ -17,7 +17,12 @@ import CSVdataModel from "../dataModel_csv.js";
  */
 
 /**
- * Represents a collection of race stages.
+ * @class RaceStages
+ * @extends CSVdataModel
+ * @description Represents a collection of race stages.
+ * @constructor
+ * @param {string} filePath - The path to the CSV file.
+ * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
  */
 export class RaceStages extends CSVdataModel {
   constructor() {

@@ -19,6 +19,14 @@ import CSVdataModel from "../dataModel_csv.js";
  * @property {string} delta - The time difference between the rider's time and the winner's time.
  */
 
+/**
+ * @class RaceStageResults
+ * @extends CSVdataModel
+ * @description Represents the results of a race stage.
+ * @constructor
+ * @param {string} filePath - The path to the CSV file.
+ * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
+ */
 export class RaceStageResults extends CSVdataModel {
   constructor() {
     super("data/raw/csv/raceStageResults.csv", ["Stage UID", "Rank"]);
@@ -48,9 +56,9 @@ export class RaceStageResults extends CSVdataModel {
   /**
    * Retrieves the stage results for a given stage ID.
    * @param {string} stageUID - The ID of the stage.
-   * @returns {Array<RaceStageResults>|null} - A promise that resolves to an array of stage results.
+   * @returns {Array<RaceStageResultData>|null} - A promise that resolves to an array of stage results.
    */
-  getStageResults(stageUID) {
+  stageResults(stageUID) {
     if (!stageUID) {
       console.error("stageId is required for getStageResults()");
       return null;

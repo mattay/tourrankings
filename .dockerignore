@@ -1,8 +1,27 @@
 # flyctl launch added from .gitignore
-**/node_modules
-**/.DS_Store
-**/.env
+# Node modules and local dependencies
+**/node_modules/
+node_modules/
 
-# Do not track scraped data.
+# macOS system files
+**/.DS_Store
+
+# Environment files (secrets)
+**/.env
+**/.env*
+
+# Git and VCS files
+**/.git
+.gitignore
+.github
+
+# Data and CSVs
+/data/
 **/*.csv
+
+# Miscellaneous
 fly.toml
+Dockerfile
+docker-compose*
+README.md
+LICENSE

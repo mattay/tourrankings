@@ -20,4 +20,4 @@ cpus = 1
 
 [mounts]
 source = "data_volume"
-destination = "/app/data"
+destination = "/tourRanking/data"

@@ -121,13 +121,15 @@ async function initializeServer() {
 
     // Handle uncaught exceptions
     process.on("uncaughtException", (err) => {
-      logError("Process", "Uncaught Exception", err);
+      logError("Process", "Uncaught Exception");
+      logError("Process", err);
       // Always exit on uncaught exceptions
       logOut("Process", "Shutting down due to uncaught exception");
       process.exit(1);
     });
   } catch (error) {
-    logError("Server", "Failed to initialize server", error);
+    logError("Server", "Failed to initialize server");
+    logError("Server", error);
     process.exit(1);
   }
 }

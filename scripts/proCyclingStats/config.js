@@ -12,6 +12,7 @@
 /** @type {Config} */
 export const config = {
   browser: {
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
     headless: true,
     defaultViewport: null,
   },

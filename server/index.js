@@ -53,7 +53,7 @@ async function setupRoutes(app) {
     // app.use("/api", routesAPI);
 
     // Mount race routes before root and static handlers
-    app.use("/", routesRace); // This will match /:racePcsID
+    app.use("/race", routesRace); // This will match /:racePcsID
 
     // Mount view routes at the application level
     app.use("/", routesRoot);

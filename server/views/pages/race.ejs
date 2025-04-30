@@ -6,20 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="<%= description %>" />
 
-  <title><%= raceName %> <% stageName  %> | TourRankings</title>
+  <title><%= race.raceName %> | TourRankings</title>
   <link href="/css/style.css" rel="stylesheet">
  </head>
 <body>
-  <%- include('../organisms/header') %>
+  <%- include('../organisms/header')%>
 
   <main>
-    <h1><%= year %> <%= raceName %></h1>
+    <h1><%=  race.year %> <%=  race.raceName %></h1>
+    <% if (stage && stage.stage !== 0) { %>
+     <h2>Stage <%= stage.stage %> <% if (stage.stageType) {%> <%= stage.stageType %> <% }%>  <span class="stage-name"><%= stage.departure %> &gt; <%= stage.arrival %></span></h2>
+     <% } else if (stage && stage.stageType == "prologue") { %>
+       <h2>Prologue <span class="stage-name"><%= stage.departure %> &gt; <%= stage.arrival %><span></h2>
+     <% } %>
 
-    <h2>Stage <%= stageNumber %> <%= stageName %></h2>
-    <h4><%= rankingType %></h4>
+    <section id="race-rankings">
+    <svg/>
+    </section>
 
-    <div class="race-details">
-    </div>
   </main>
 
   <%- include('../organisms/footer') %>

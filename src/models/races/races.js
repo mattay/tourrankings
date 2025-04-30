@@ -1,4 +1,5 @@
 import CSVdataModel from "../dataModel_csv.js";
+import { logOut } from "src/utils/logging.js";
 
 /**
  * @typedef {Object} RaceData
@@ -38,10 +39,35 @@ export class Races extends CSVdataModel {
   /**
    * Sort the rows by start date.
    * overrides sortRows method from CSVdataModel
+   * @returns {void}
    */
   sortRows() {
     this.rows.sort((a, b) => {
-      return new Date(a.startDate) - new Date(b.startDate);
+      return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+    });
+  }
+
+  /**
+   * Get a race by its unique identifier.
+   * @param {string} raceUID - The unique identifier of the race.
+   * @returns {RaceData|null} - The race data object or null if not found.
+   */
+  raceUID(raceUID) {
+    logOut(this.constructor.name, `raceUID(${raceUID})`, "debug");
+    return this.rows.find((race) => race.raceUID === raceUID);
+  }
+
+  /**
+   * Get a race by its unique identifier and year.
+   * @param {string} racePcsID - The unique identifier of the race.
+   * @param {number} year - The year of the race.
+   * @returns {RaceData|null} - The race data object or null if not found.
+   */
+  racePcsID(racePcsID, year) {
+    logOut(this.constructor.name, `racePcsID(${racePcsID}, ${year})`, "debug");
+    return this.rows.find((race) => {
+      console.log(race.racePcsID, race.year);
+      return race.racePcsID === racePcsID && Number(race.year) === Number(year);
     });
   }
 

@@ -60,12 +60,12 @@ export function seasonRaces() {
 }
 
 /**
-@typedef {Object} RaceContent
-* @property {RaceData} race - The race details.
-* @property {Array<RaceStageData>} stages - The race stages.
-* @property {RaceStageData} lastCompletedStage - The last completed stage.
-* @property {RaceStageData } viewingStage - The stage being viewed.
-*/
+ * @typedef {Object} RaceContent
+ * @property {RaceData} race - The race details.
+ * @property {Array<RaceStageData>} stages - The race stages.
+ * @property {RaceStageData} lastCompletedStage - The last completed stage.
+ * @property {RaceStageData } viewingStage - The stage being viewed.
+ */
 
 /**
  * Fetches race content for a given race ID and year.
@@ -74,6 +74,8 @@ export function seasonRaces() {
  * @returns {RaceContent}} - The race content.
  */
 export function raceContent(racePcsID, year = null) {
+  // logOut("raceContent", `${racePcsID} ${year}`, "debug");
+
   const today = new Date();
   year = year ? year : today.getFullYear();
 
@@ -86,8 +88,9 @@ export function raceContent(racePcsID, year = null) {
     lastCompletedStage: null,
     viewingStage: null,
   };
+  // console.debug("RaceContent", raceContent);
 
-  if (raceContent.race.raceUID) {
+  if (raceContent.race?.raceUID) {
     raceContent.stages = dataService.raceStages(raceContent.race.raceUID);
     raceContent.lastCompletedStage = raceContent.stages.find(
       (el) => el !== undefined,

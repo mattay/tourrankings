@@ -1,4 +1,4 @@
-import { Page } from "puppeteer";
+import { Page } from "puppeteer-core";
 import { generateId } from "../../src/utils/idGenerator";
 import { renameKeys } from "../../src/utils/object";
 import { toCamelCase } from "../../src/utils/string";

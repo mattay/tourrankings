@@ -1,3 +1,4 @@
+import { Page } from "puppeteer-core";
 import { generateId } from "../../src/utils/idGenerator";
 import { logError, logOut } from "../../src/utils/logging";
 import { formatDate } from "../../src/utils/string";
@@ -69,7 +70,7 @@ function cleanRecord(record, dateFormatter = formatDate) {
 
 /**
  * Scrapes race data from a cycling results page
- * @param {import('puppeteer').Page} page - The Puppeteer page object
+ * @param {Page} page - The Puppeteer page object
  * @param {string} url - The URL to scrape
  * @param {number} year - The year of the races being scraped
  * @returns {Promise<Array<ScrapedRace>|null>} Array of cleaned race records or null if an error occurs

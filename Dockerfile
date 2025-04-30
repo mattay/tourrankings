@@ -45,4 +45,5 @@ ENV PORT=8080
 ENV DATA_DIR=/tourRanking/data/csv
 
 # Start the application
-CMD ["sh", "-c", "bun start & supercronic /app/crontab"]
+# CMD ["sh", "-c", "bun start & supercronic /app/crontab"]
+CMD ["sh", "-c", "bun start"]

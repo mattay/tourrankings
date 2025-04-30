@@ -8,15 +8,41 @@ COPY package.json bun.lockb ./
 # Install dependencies
 RUN bun install --production
 
+# Install Chrome for Testing - https://developer.chrome.com/blog/chrome-for-testing
+RUN bunx @puppeteer/browsers install chrome@stable && \
+    echo "PUPPETEER_EXECUTABLE_PATH=$(find . -type f -name chrome | head -n 1)" >> .env
+
 # Copy application code
 COPY . .
 
 # Production stage
 FROM oven/bun:1-slim
 
-WORKDIR /app
+WORKDIR /tourRanking
 
-RUN apt-get update && apt-get install -y curl
+# Required libs for Chrome which is used by Puppeteer
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    curl \
+    libglib2.0-0 \
+    libnss3 \
+    libatk1.0-0 \
+    libdbus-1-3 \
+    libatk-bridge2.0-0 \
+    libcups2 \
+    libexpat1 \
+    libxkbcommon0 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxfixes3 \
+    libxrandr2 \
+    libgbm1 \
+    libpango-1.0-0 \
+    libcairo2 \
+    libasound2 \
+    --no-install-recommends && \
+    rm -rf /var/lib/apt/lists/*
+
 
 # Install Supercronic
 # Latest releases available at https://github.com/aptible/supercronic/releases

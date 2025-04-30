@@ -1,29 +1,16 @@
-// @ts-check
 import express from "express";
-import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 import config from "./config";
 import setupMiddleware from "./middleware";
-import routes from "./routes";
-import seasonRaces from "./options/races";
+import { routesRace, routesRoot } from "./routes";
+import { logError, logOut } from "../src/utils/logging";
+import dataService from "../src/services/dataServiceInstance";
 
-/**
- * Absolute path to the current file (ESM equivalent of __filename).
- * @type {string}
- */
+// Absolute path to the current file (ESM equivalent of __filename).
 const __filename = fileURLToPath(import.meta.url);
-
-/**
- * Absolute path to the current directory (ESM equivalent of __dirname).
- * @type {string}
- */
+// Absolute path to the current directory (ESM equivalent of __dirname).
 const __dirname = dirname(__filename);
-
-/**
- * Absolute path to the public directory.
- * @type {string}
- */
-const publicPath = config.paths.public;
 
 /**
  * Express application instance.
@@ -31,96 +18,123 @@ const publicPath = config.paths.public;
  */
 const app = express();
 
-// Apply all middleware (logging, parsing, security, error handling, etc.)
-setupMiddleware(app);
+/**
+ * Sets up server middleware, view engine, and other configurations.
+ * @param {import('express').Application} app - Express application instance.
+ * @returns {Promise<void>}
+ */
+async function setupServer(app) {
+  try {
+    // Apply all middleware (logging, parsing, security, error handling, etc.)
+    setupMiddleware(app);
 
-app.set("view engine", "ejs");
-app.set("views", join(__dirname, "views"));
+    // Data service instance
+    await dataService.initialize();
 
-// Mount API routes under /api
-app.use("/api", routes);
-
-// Serve static files from the public directory
-app.use(express.static(publicPath));
+    // Templating
+    app.set("view engine", "ejs");
+    app.set("views", join(__dirname, "views"));
+  } catch (error) {
+    logError("Server", "Failed to configure server");
+    logError("Server", error);
+    process.exit(1);
+  }
+}
 
 /**
- * Root route handler.
- * Serves the main HTML file for the root URL.
+ * Sets up all routes for the application
  *
- * @param {import('express').Request} req - Express request object.
- * @param {import('express').Response} res - Express response object.
- * @returns {void}
+ * @param {import('express').Application} app - Express application instance
+ * @returns {Promise<void>}
  */
-app.get("/", (req, res, next) => {
+async function setupRoutes(app) {
   try {
-    const races = seasonRaces();
-    res.render("pages/home", {
-      title: "TourRankings",
-      description: "Explore rankings for multi-stage races.",
-      races,
+    // Mount API routes under /api
+    // app.use("/api", routesAPI);
+
+    // Mount race routes before root and static handlers
+    app.use("/race", routesRace); // This will match /:racePcsID
+
+    // Mount view routes at the application level
+    app.use("/", routesRoot);
+
+    // Serve static files from the public directory
+    app.use(express.static(config.paths.public));
+    // Add 404 handler for undefined routes
+    app.use((req, res) => {
+      res.status(404).render("pages/error", {
+        title: "Page Not Found",
+        message: `The page ${req.path} could not be found.`,
+      });
     });
-  } catch (err) {
-    console.error("Unable to render /", err);
-    next(err); // Passes error to Express error handler
+  } catch (error) {
+    logError("Server", "Failed to configure routes");
+    logError("Server", error);
+    process.exit(1);
   }
-});
+}
 
 /**
- * Race details route handler.
- * Handles routes in the format /:race/:year/:stage/:ranking
+ * Starts the Express server
  *
- * @param {import('express').Request} req - Express request object.
- * @param {import('express').Response} res - Express response object.
- * @param {import('express').NextFunction} next - Express next function.
- * @returns {void}
+ * @param {import('express').Application} app - Express application instance
+ * @returns {Promise<void>}
  */
-app.get("/:raceId/:year/:stageNumber/:rankingType", (req, res, next) => {
+async function startServer(app) {
   try {
-    const { raceId, year, stageNumber, rankingType } = req.params;
-
-    const raceDetails = {
-      raceId,
-      raceName: raceId,
-      year,
-      stageNumber,
-      stageName: stageNumber,
-      rankingType,
-    }; //TODO: Implement data service to fetch race details
-    // if (!raceDetails) {
-    //   // Race not found
-    //   return res.status(404).render("pages/error", {
-    //     title: "Race Not Found",
-    //     message: `The race '${race}' for year ${year} was not found.`,
-    //   });
-    // }
-
-    //raceDetails.raceName
-    res.render("pages/race", {
-      description: `View ${rankingType.toUpperCase()} rankings for ${raceDetails.raceName} ${year}, Stage ${stageNumber} ${raceDetails.stageName}`,
-      ...raceDetails,
+    app.listen(config.port, () => {
+      logOut("Server", `Running on port ${config.port} in ${config.env} mode`);
     });
-  } catch (err) {
-    console.error(`Error handling race route:`, err);
-    next(err);
+  } catch (error) {
+    logError("Server", "Failed to start server");
+    logError("Server", error);
+    process.exit(1);
   }
-});
+}
+
+/**
+ * Initialize and start the server
+ */
+async function initializeServer() {
+  try {
+    await setupServer(app);
+    await setupRoutes(app);
+    await startServer(app);
+
+    // Handle unhandled promise rejections globally
+    // TODO: Implement proper error handling and logging
+    process.on("unhandledRejection", (err) => {
+      // In production environments, consider graceful shutdown
+      if (config.env === "production") {
+        logOut(
+          "Process",
+          "Initiating graceful shutdown due to unhandled rejection",
+        );
+        // Give existing connections time to finish
+        setTimeout(() => process.exit(1), 3000);
+      } else {
+        logError("Process", "Unhandled Promise Rejection");
+        logError("Process", err);
+        // process.exit(1);
+      }
+    });
+
+    // Handle uncaught exceptions
+    process.on("uncaughtException", (err) => {
+      logError("Process", "Uncaught Exception");
+      logError("Process", err);
+      // Always exit on uncaught exceptions
+      logOut("Process", "Shutting down due to uncaught exception");
+      process.exit(1);
+    });
+  } catch (error) {
+    logError("Server", "Failed to initialize server");
+    logError("Server", error);
+    process.exit(1);
+  }
+}
 
 // Start the server
-const PORT = config.port;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} in ${config.env} mode`);
-});
-
-/**
- * Handle unhandled promise rejections globally.
- *
- * @param {unknown} err - The rejection reason or error.
- * @returns {void}
- */
-process.on("unhandledRejection", (err) => {
-  console.error("Unhandled Promise Rejection", err);
-  // In production, you might want to exit the process
-  // process.exit(1);
-});
+initializeServer();
 
 export default app;

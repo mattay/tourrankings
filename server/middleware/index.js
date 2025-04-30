@@ -2,6 +2,7 @@ import express from "express";
 import compression from "compression";
 import setupSecurityMiddleware from "./security";
 import errorHandler from "./errorHandler";
+import { logOut } from "../../src/utils/logging";
 
 /**
  * Configures and applies all middleware to the provided Express app.
@@ -25,8 +26,11 @@ export default function setupMiddleware(app) {
    * @param {import('express').NextFunction} next
    */
   app.use((req, res, next) => {
-    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-    next(); // Fixed: should be next(), not req.next()
+    logOut(
+      "Middleware",
+      `[${new Date().toISOString()}] ${req.method} ${req.url}`,
+    );
+    next();
   });
 
   // Parse JSON and URL-encoded data

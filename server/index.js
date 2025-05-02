@@ -35,9 +35,8 @@ async function setupServer(app) {
     app.set("view engine", "ejs");
     app.set("views", join(__dirname, "views"));
   } catch (error) {
-    logError("Server", "Failed to configure server");
-    logError("Server", error);
-    process.exit(1);
+    logError("Server", error.message);
+    throw new Error("Failed to configure server");
   }
 }
 
@@ -68,9 +67,8 @@ async function setupRoutes(app) {
       });
     });
   } catch (error) {
-    logError("Server", "Failed to configure routes");
-    logError("Server", error);
-    process.exit(1);
+    logError("Server", error.message);
+    throw new Error("Failed to configure routes");
   }
 }
 
@@ -86,9 +84,8 @@ async function startServer(app) {
       logOut("Server", `Running on port ${config.port} in ${config.env} mode`);
     });
   } catch (error) {
-    logError("Server", "Failed to start server");
-    logError("Server", error);
-    process.exit(1);
+    logError("Server", error.message);
+    throw new Error("Failed to start server");
   }
 }
 
@@ -103,7 +100,7 @@ async function initializeServer() {
 
     // Handle unhandled promise rejections globally
     // TODO: Implement proper error handling and logging
-    process.on("unhandledRejection", (err) => {
+    process.on("unhandledRejection", (error) => {
       // In production environments, consider graceful shutdown
       if (config.env === "production") {
         logOut(
@@ -114,22 +111,21 @@ async function initializeServer() {
         setTimeout(() => process.exit(1), 3000);
       } else {
         logError("Process", "Unhandled Promise Rejection");
-        logError("Process", err);
-        // process.exit(1);
+        logError("Process", error.message);
       }
     });
 
     // Handle uncaught exceptions
-    process.on("uncaughtException", (err) => {
+    process.on("uncaughtException", (error) => {
       logError("Process", "Uncaught Exception");
-      logError("Process", err);
+      logError("Process", error.message);
       // Always exit on uncaught exceptions
       logOut("Process", "Shutting down due to uncaught exception");
       process.exit(1);
     });
   } catch (error) {
-    logError("Server", "Failed to initialize server");
-    logError("Server", error);
+    logError("Server", error.message);
+    logError("Server", "Failed to initialize server. Exiting...");
     process.exit(1);
   }
 }

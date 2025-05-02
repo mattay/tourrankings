@@ -43,7 +43,7 @@ class CSVdataModel {
           this.constructor.name,
           `Incoming CSV row missing index ${key}`,
         );
-        logOut(this.constructor.name, Object.keys(result), "debug");
+        logOut(this.constructor.name, Object.keys(result).join(","), "debug");
         return null;
       }
     }

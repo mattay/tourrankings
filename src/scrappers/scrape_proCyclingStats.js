@@ -1,4 +1,5 @@
-import puppeteer, { Page } from "puppeteer";
+import puppeteer, { Page } from "puppeteer-core";
+
 // Data Models
 import {
   Races,
@@ -160,7 +161,7 @@ function stagesWithoutResults(races, raceStages, raceStageResults) {
       const stageDate = new Date(stage.date);
       return (
         stageDate <= today &&
-        raceStageResults.getStageResults(stage.stageId).length === 0
+        raceStageResults.stageResults(stage.stageUID).length === 0
       );
     })
     .map((stage) => stage.stageId);

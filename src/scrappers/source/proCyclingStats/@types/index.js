@@ -42,13 +42,13 @@
  * Represents a team in the race startlist, including team details and its riders.
  *
  * @typedef {Object} ScrapedRaceStartListTeam - Represents a team in the startlist.
- * @prop {number} year - The year of the race.
- * @prop {string} teamName - The name of the team.
- * @prop {string} teamPcsUrl - The URL of the team on ProcyclingStats.
- * @prop {string} jerseyImageUrl - The URL of the team's jersey image.
- * @prop {string} teamPcsId - The ID of the team on ProcyclingStats.
- * @prop {string} teamClassification - The classification of the team.
- * @prop {Array<ScrapedRaceStartListRider>} riders - An array of riders in the team.
+ * @property {number} year - The year of the race.
+ * @property {string} teamName - The name of the team.
+ * @property {string} teamPcsUrl - The URL of the team on ProcyclingStats.
+ * @property {string} jerseyImageUrl - The URL of the team's jersey image.
+ * @property {string} teamPcsId - The ID of the team on ProcyclingStats.
+ * @property {string} teamClassification - The classification of the team.
+ * @property {Array<ScrapedRaceStartListRider>} riders - An array of riders in the team.
  *
  * @see ScrapedRaceStartListRider
  */

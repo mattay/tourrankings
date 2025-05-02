@@ -1,3 +1,4 @@
+import { Page } from "puppeteer-core";
 import { logError } from "../../../utils/logging";
 import { urlSections } from "../../../utils/url";
 
@@ -17,10 +18,8 @@ import { urlSections } from "../../../utils/url";
 
 /**
  * Refines a startlist by extracting team information and adding team ID.
- * @param {Array<RawTeamStartList>} startlist - The list of teams to refine.
- * @returns {Array<ScrapedRaceStartListTeam>} The refined startlist with extracted team information.
- *
- * @see ScrapedRaceStartListTeam
+ * @param {RawTeamStartList} team - The team to refine.
+ * @returns {ScrapedRaceStartListTeam} The refined startlist with extracted team information.
  */
 function refineStartlist(team) {
   const regexTeam = /^(?<teamName>.*) \((?<teamClassification>.*)\)$/;
@@ -51,7 +50,7 @@ function refineStartlist(team) {
 /**
  * Scrape the startlist of a race from ProcyclingStats.
  * @async
- * @param {import('puppeteer').Page} page - The Puppeteer page instance used for navigation and DOM extraction.
+ * @param {Page} page - The Puppeteer page instance used for navigation and DOM extraction.
  * @param {string} race - The race identifier (e.g., 'tour-de-france').
  * @param {number} year - The year of the race (e.g., 2024).
  * @returns {Promise<Array<ScrapedRaceStartListTeam>} Resolves to an array of teams, each with their riders.

@@ -154,7 +154,7 @@ class CSVdataModel {
       for (const key of this.indexOn) {
         if (!entry.hasOwnProperty(key)) {
           logError(this.constructor.name, `Update row missing index ${key}`);
-          logOut(this.constructor.name, Object.keys(entry), "debug");
+          logOut(this.constructor.name, Object.keys(entry).join(", "), "debug");
           throw new Error("Invalid Update");
         }
       }

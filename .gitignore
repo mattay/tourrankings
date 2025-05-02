@@ -1,7 +1,9 @@
 node_modules/
 .DS_Store
-.env
+.env*
+
+# Temporary files
+/_sample_code
 
 # Do not track scraped data.
-data/
-charts/
+/data/

@@ -3,7 +3,7 @@ import fs from "fs";
 import csv from "csv-parser";
 import { toCamelCase, toTitleCase } from "../utils/string.js";
 import { logError, logOut } from "../utils/logging.js";
-import { debug } from "console";
+import { dirname } from "path";
 
 /**
  * Generic data model for managing CSV file data.
@@ -98,15 +98,28 @@ class CSVdataModel {
    * @returns {Promise<void>} A promise that resolves when the data is written.
    */
   async #writeToCSV() {
-    let csvContent = `${this.csvHeaders.join(",")}\n`;
+    return new Promise((resolve, reject) => {
+      let csvContent = `${this.csvHeaders.join(",")}\n`;
 
-    const columns = this.csvHeaders.map(toCamelCase);
-    this.rows.forEach((row) => {
-      const rowData = columns.map((column) => row[column]).join(",");
-      csvContent += `${rowData}\n`;
+      const columns = this.csvHeaders.map(toCamelCase);
+      this.rows.forEach((row) => {
+        const rowData = columns.map((column) => row[column]).join(",");
+        csvContent += `${rowData}\n`;
+      });
+      try {
+        fs.writeFileSync(this.filePath, csvContent, "utf8");
+        logOut(
+          this.constructor.name,
+          `Wrote to ${this.filePath} ${fs.existsSync(this.filePath)}`,
+          "debug",
+        );
+      } catch (error) {
+        logError(this.constructor.name, `Failed to write to ${this.filePath}`);
+        logError(this.constructor.name, error.message);
+        // reject(error); This might need to be handled differently depending on the use case.
+      }
+      resolve();
     });
-
-    fs.writeFileSync(this.filePath, csvContent, "utf8");
   }
 
   /**

@@ -23,6 +23,7 @@ export function logOut(domain, message, logLevel = "log") {
  */
 export function logError(domain, message, error = null) {
   const timestamp = isoDateTime(new Date());
+<<<<<<< HEAD
   console.error(`${timestamp} ${domain.padEnd(PADDINGDOMAIN)} ${message}`);
   if (error) {
     console.error(`${timestamp} ${domain.padEnd(PADDINGDOMAIN)} ${error.name}`);
@@ -30,4 +31,9 @@ export function logError(domain, message, error = null) {
       `${timestamp} ${domain.padEnd(PADDINGDOMAIN)} ${error.message}`,
     );
   }
+=======
+  console.error(
+    `${timestamp} ${domain.padEnd(PADDINGDOMAIN)} ERROR: ${message}`,
+  );
+>>>>>>> develop
 }

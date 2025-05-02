@@ -1,23 +1,22 @@
 import CSVdataModel from "../dataModel_csv.js";
 
-/** @typedef {Object} ClassificationMountainData
- * @property {number} stageId - The unique identifier for the stage.
- * @property {number} stage
- * @property {number} rank - The rank of the rider in the mountain classification.
- * @property {number} previousStageRanking - The rank of the rider in the previous stage.
- * @property {number} change - The change in rank from the previous stage.
- * @property {number} bib - The unique identifier for the rider.
- * @property {string} specialty - The specialty of the rider.
- * @property {string} rider - The name of the rider.
- * @property {number} age - The age of the rider.
- * @property {string} team - The name of the team.
- * @property {number} points - The points earned by the rider.
- * @property {number} today - The points earned by the rider in the current stage.
+/**
+ * @typedef {import('../@types/classifications').ClassificationMountainModel} ClassificationMountainModel
  */
 
+/**
+ * Class for managing mountain classification data for race stages, loaded from a CSV file.
+ *
+ * Extends {@link CSVdataModel} to provide specialized handling for mountain classification records.
+ *
+ * @extends CSVdataModel
+ */
 export class ClassificationMountain extends CSVdataModel {
+  /** @type {ClassificationMountainModel[]} */
+  rows = [];
+
   constructor() {
-    super("data/raw/csv/raceStageClassificationMountain.csv", [
+    super(`${process.env.DATA_DIR}/raceStageClassificationMountain.csv`, [
       "Stage Id",
       "Rank",
     ]);

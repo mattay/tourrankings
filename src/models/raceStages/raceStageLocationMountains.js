@@ -1,19 +1,22 @@
 import CSVdataModel from "../dataModel_csv.js";
 
 /**
- * @typedef {Object} RaceStageLocationMountainsData
- * @property {string} locationId - Unique identifier for the location.
- * @property {string} stageId - Unique identifier for the stage.
- * @property {string} year - Year of the race.
- * @property {string} stage - Name of the stage.
- * @property {string} type - Type of the stage.
- * @property {string} locationName - Name of the location.
- * @property {string} distance
+ * @typedef {import('../@types/races').RaceStageLocationMountainModel} RaceStageLocationMountainModel
  */
 
+/**
+ * Class for managing mountain location data within race stages, loaded from a CSV file.
+ *
+ * Extends {@link CSVdataModel} to provide specialized handling for mountain location records in race stages.
+ *
+ * @extends CSVdataModel
+ */
 export class RaceStageLocationMountains extends CSVdataModel {
+  /** @type {RaceStageLocationMountainModel[]} */
+  rows = [];
+
   constructor() {
-    super("data/raw/csv/raceStagesLocationMountains.csv", [
+    super(`${process.env.DATA_DIR}/raceStagesLocationMountains.csv`, [
       "Location Id",
       "Stage Id",
     ]);

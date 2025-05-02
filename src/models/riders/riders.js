@@ -1,18 +1,22 @@
 import CSVdataModel from "../dataModel_csv.js";
 
-/** @typedef {Object} RiderData - Rider data object
- * @property {string} riderId - Unique identifier for the rider
- * @property {string} riderName - Full name of the rider
- * @property {string} dateOfBirth - Date of birth of the rider
- * @property {string} nationality - Nationality of the rider
+/**
+ * @typedef {import('../@types/riders').RiderModel} RiderModel
  */
 
 /**
- * Riders class extends CSVdataModel to handle rider data.
+ * Class for managing rider data loaded from a CSV file.
+ *
+ * Extends {@link CSVdataModel} to provide specialized handling for rider-specific CSV data.
+ *
+ * @extends CSVdataModel
  */
 export class Riders extends CSVdataModel {
+  /** @type {RiderModel[]} */
+  rows = [];
+
   constructor() {
-    super("data/raw/csv/riders.csv", ["Rider Pcs Id"]);
+    super(`${process.env.DATA_DIR}/riders.csv`, ["Rider Pcs Id"]);
     this.csvHeaders = [
       "Rider Pcs Id",
       "Rider Name",

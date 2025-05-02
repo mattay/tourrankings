@@ -1,4 +1,5 @@
 import puppeteer, { Page } from "puppeteer-core";
+
 // Data Models
 import {
   Races,
@@ -12,10 +13,10 @@ import {
   // MountainClassification,
   // YouthClassification,
   // TeamClassification,
-} from "../src/models/";
+} from "../models";
 // Utils
-import { generateId } from "../src/utils/idGenerator";
-import { logError, logOut } from "../src/utils/logging";
+import { generateId } from "../utils/idGenerator";
+import { logError, logOut } from "../utils/logging";
 // Scrape
 import {
   config,
@@ -23,7 +24,7 @@ import {
   collectWorldTourRaces,
   scrapeRaceStartList,
   scrapeRaceStages,
-} from "./proCyclingStats";
+} from "./source/proCyclingStats";
 
 /**
  * Models
@@ -160,7 +161,7 @@ function stagesWithoutResults(races, raceStages, raceStageResults) {
       const stageDate = new Date(stage.date);
       return (
         stageDate <= today &&
-        raceStageResults.getStageResults(stage.stageUID).length === 0
+        raceStageResults.stageResults(stage.stageUID).length === 0
       );
     })
     .map((stage) => stage.stageId);

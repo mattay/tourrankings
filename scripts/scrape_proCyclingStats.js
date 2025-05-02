@@ -255,36 +255,64 @@ async function updateStageResults(page, races, raceStages, raceStageResults) {
  */
 async function main() {
   // Bowser Setup
-  const browser = await puppeteer.launch(config.browser);
-  // Page Setup
-  const page = await browser.newPage();
-  page.setRequestInterception(true);
-  page.on("request", interceptRequests);
+  let browser;
+  try {
+    browser = await puppeteer.launch(config.browser);
 
-  // Data Models
-  const races = new Races();
-  const raceStages = new RaceStages();
-  const raceRiders = new RaceRiders();
-  const teams = new Teams();
-  const riders = new Riders();
-  const raceStageResults = new RaceStageResults();
-  // const raceStageGeneral = new GeneralClassification();
-  // const raceStagePoints = new PointsClassification();
-  // const raceStageMountain = new MountainClassification();
-  // const raceStageTeam = new TeamClassification();
-  // const raceStageYouth = new YouthClassification();
-  // Load data
-  await races.read();
-  await raceStages.read();
-  await raceStageResults.read();
-  await raceRiders.read();
-  await teams.read();
-  await riders.read();
+    // Page Setup
+    const page = await browser.newPage();
+    page.setRequestInterception(true);
+    page.on("request", interceptRequests);
 
-  await updateRaces(page, races, raceStages, raceRiders, riders, teams);
-  await updateStageResults(page, races, raceStages, raceStageResults);
+    // Data Models
+    const races = new Races();
+    const raceStages = new RaceStages();
+    const raceRiders = new RaceRiders();
+    const teams = new Teams();
+    const riders = new Riders();
+    const raceStageResults = new RaceStageResults();
+    // const raceStageGeneral = new GeneralClassification();
+    // const raceStagePoints = new PointsClassification();
+    // const raceStageMountain = new MountainClassification();
+    // const raceStageTeam = new TeamClassification();
+    // const raceStageYouth = new YouthClassification();
 
-  await browser.close();
+    // Load data
+    try {
+      await races.read();
+      await raceStages.read();
+      await raceStageResults.read();
+      await raceRiders.read();
+      await teams.read();
+      await riders.read();
+    } catch (error) {
+      logError("Main", "Error loading data", error);
+      throw error;
+    }
+
+    try {
+      await updateRaces(page, races, raceStages, raceRiders, riders, teams);
+    } catch {
+      logError("Main", "Error collecting race information", error);
+    }
+
+    try {
+      await updateStageResults(page, races, raceStages, raceStageResults);
+    } catch (error) {
+      logError("Main", "Error collecting race information", error);
+    }
+  } catch (error) {
+    // Catch-all for any errors not handled above
+    logError("Main", "Fatal error in main", error);
+
+    // if (error instanceof Error) {
+    // if (err instanceof puppeteer.errors.TimeoutError) {
+    // logError("PUPPETEER_EXECUTABLE_PATH", Bun.env.PUPPETEER_EXECUTABLE_PATH);
+  } finally {
+    if (browser) {
+      await browser.close();
+    }
+  }
 }
 
 await main();

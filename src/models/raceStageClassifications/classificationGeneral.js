@@ -7,21 +7,12 @@ import CSVdataModel from "../dataModel_csv.js";
  *
  * @extends CSVdataModel
  */
-
-/**
- * @class ClassificationGeneral
- * @extends CSVdataModel
- * @description Represents the general classification data for a race stage.
- * @constructor
- * @param {string} filePath - The path to the CSV file.
- * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
- */
 export class ClassificationGeneral extends CSVdataModel {
   /** @type {ClassificationGeneralData[]} */
   rows = [];
 
   constructor() {
-    super("data/raw/csv/raceStageClassificationGeneral.csv", [
+    super(`${process.env.DATA_DIR}/raceStageClassificationGeneral.csv`, [
       "Stage Id",
       "Rank",
     ]);

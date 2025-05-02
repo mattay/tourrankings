@@ -7,21 +7,12 @@ import CSVdataModel from "../dataModel_csv.js";
  *
  * @extends CSVdataModel
  */
-
-/**
- * @class RaceStageLocationMountains
- * @extends CSVdataModel
- * @description Represents a race stage location on mountains.
- * @constructor
- * @param {string} filePath - The path to the CSV file.
- * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
- */
 export class RaceStageLocationMountains extends CSVdataModel {
   /** @type {RaceStageLocationMountainData[]} */
   rows = [];
 
   constructor() {
-    super("data/raw/csv/raceStagesLocationMountains.csv", [
+    super(`${process.env.DATA_DIR}/raceStagesLocationMountains.csv`, [
       "Location Id",
       "Stage Id",
     ]);

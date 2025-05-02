@@ -7,21 +7,15 @@ import CSVdataModel from "../dataModel_csv.js";
  *
  * @extends CSVdataModel
  */
-
-/**
- * @class RaceStageResults
- * @extends CSVdataModel
- * @description Represents the results of a race stage.
- * @constructor
- * @param {string} filePath - The path to the CSV file.
- * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
- */
 export class RaceStageResults extends CSVdataModel {
   /** @type {RaceStageResultData[]} */
   rows = [];
 
   constructor() {
-    super("data/raw/csv/raceStageResults.csv", ["Stage UID", "Rank"]);
+    super(`${process.env.DATA_DIR}/raceStageResults.csv`, [
+      "Stage UID",
+      "Rank",
+    ]);
     this.csvHeaders = [
       "Stage UID",
       "Stage",
@@ -48,7 +42,11 @@ export class RaceStageResults extends CSVdataModel {
   /**
    * Retrieves the stage results for a given stage ID.
    * @param {string} stageUID - The ID of the stage.
+<<<<<<< HEAD
    * @returns {Array<RaceStageResultData>|null} - A promise that resolves to an array of stage results.
+=======
+   * @returns {RaceStageResultData[]|null} - A promise that resolves to an array of stage results.
+>>>>>>> 648e3fe (Use enviroment varibale as the base path to csv files allow for)
    */
   stageResults(stageUID) {
     if (!stageUID) {

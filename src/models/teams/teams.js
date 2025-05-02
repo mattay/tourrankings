@@ -12,7 +12,7 @@ export class Teams extends CSVdataModel {
   rows = [];
 
   constructor() {
-    super("data/raw/csv/teams.csv", ["Team Pcs Id"]);
+    super(`${process.env.DATA_DIR}/teams.csv`, ["Team Pcs Id"]);
     this.csvHeaders = [
       "Year",
       "Team Pcs Id",

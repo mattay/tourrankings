@@ -19,7 +19,7 @@ export class Races extends CSVdataModel {
   rows = [];
 
   constructor() {
-    super("data/raw/csv/races.csv", ["Race UID"]);
+    super(`${process.env.DATA_DIR}/races.csv`, ["Race UID"]);
     this.csvHeaders = [
       "Race UID",
       "Year",

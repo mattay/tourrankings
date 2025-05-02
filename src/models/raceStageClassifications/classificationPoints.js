@@ -12,7 +12,7 @@ export class ClassificationPoints extends CSVdataModel {
   rows = [];
 
   constructor() {
-    super("data/raw/csv/raceStageClassificationPoints.csv", [
+    super(`${process.env.DATA_DIR}/raceStageClassificationPoints.csv`, [
       "Stage Id",
       "Rank",
     ]);

@@ -1,6 +1,10 @@
 import CSVdataModel from "../dataModel_csv.js";
 
 /**
+ * @typedef {import('../@types/riders').RiderModel} RiderModel
+ */
+
+/**
  * Class for managing rider data loaded from a CSV file.
  *
  * Extends {@link CSVdataModel} to provide specialized handling for rider-specific CSV data.
@@ -8,7 +12,7 @@ import CSVdataModel from "../dataModel_csv.js";
  * @extends CSVdataModel
  */
 export class Riders extends CSVdataModel {
-  /** @type {RiderData[]} */
+  /** @type {RiderModel[]} */
   rows = [];
 
   constructor() {

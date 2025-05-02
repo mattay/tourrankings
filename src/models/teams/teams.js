@@ -1,6 +1,10 @@
 import CSVdataModel from "../dataModel_csv.js";
 
 /**
+ * @typedef {import('../@types/teams').TeamModel} TeamModel
+ */
+
+/**
  * Class for managing cycling team data loaded from a CSV file.
  *
  * Extends {@link CSVdataModel} to handle team-specific CSV data operations.
@@ -8,7 +12,7 @@ import CSVdataModel from "../dataModel_csv.js";
  * @extends CSVdataModel
  */
 export class Teams extends CSVdataModel {
-  /** @type {TeamData[]} */
+  /** @type {TeamModel[]} */
   rows = [];
 
   constructor() {

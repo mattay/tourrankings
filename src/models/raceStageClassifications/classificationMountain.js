@@ -1,6 +1,10 @@
 import CSVdataModel from "../dataModel_csv.js";
 
 /**
+ * @typedef {import('../@types/classifications').ClassificationMountainModel} ClassificationMountainModel
+ */
+
+/**
  * Class for managing mountain classification data for race stages, loaded from a CSV file.
  *
  * Extends {@link CSVdataModel} to provide specialized handling for mountain classification records.
@@ -8,7 +12,7 @@ import CSVdataModel from "../dataModel_csv.js";
  * @extends CSVdataModel
  */
 export class ClassificationMountain extends CSVdataModel {
-  /** @type {ClassificationMountainData[]} */
+  /** @type {ClassificationMountainModel[]} */
   rows = [];
 
   constructor() {

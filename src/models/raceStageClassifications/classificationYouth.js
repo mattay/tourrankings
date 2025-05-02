@@ -1,6 +1,10 @@
 import CSVdataModel from "../dataModel_csv.js";
 
 /**
+ * @typedef {import('../@types/classifications').ClassificationYouthModel} ClassificationYouthModel
+ */
+
+/**
  * Class for managing youth classification data for race stages, loaded from a CSV file.
  *
  * Extends {@link CSVdataModel} to provide specialized handling for youth classification records.
@@ -8,7 +12,7 @@ import CSVdataModel from "../dataModel_csv.js";
  * @extends CSVdataModel
  */
 export class ClassificationYouth extends CSVdataModel {
-  /** @type {ClassificationYouthData[]} */
+  /** @type {ClassificationYouthModel[]} */
   rows = [];
 
   constructor() {

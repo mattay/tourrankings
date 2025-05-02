@@ -1,6 +1,10 @@
 import CSVdataModel from "../dataModel_csv.js";
 
 /**
+ * @typedef {import('../@types/classifications').ClassificationPointModel} ClassificationPointModel
+ */
+
+/**
  * Class for managing race stage classification points loaded from a CSV file.
  *
  * Extends {@link CSVdataModel} to provide specialized handling for classification points data.
@@ -8,7 +12,7 @@ import CSVdataModel from "../dataModel_csv.js";
  * @extends CSVdataModel
  */
 export class ClassificationPoints extends CSVdataModel {
-  /** @type {ClassificationPointsData[]} */
+  /** @type {ClassificationPointModel[]} */
   rows = [];
 
   constructor() {

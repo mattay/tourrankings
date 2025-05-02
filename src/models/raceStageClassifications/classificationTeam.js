@@ -1,6 +1,10 @@
 import CSVdataModel from "../dataModel_csv.js";
 
 /**
+ * @typedef {import('../@types/classifications').ClassificationTeamModel} ClassificationTeamModel
+ */
+
+/**
  * Class for managing team classification data for race stages, loaded from a CSV file.
  *
  * Extends {@link CSVdataModel} to provide specialized handling for team classification records.
@@ -8,7 +12,7 @@ import CSVdataModel from "../dataModel_csv.js";
  * @extends CSVdataModel
  */
 export class ClassificationTeam extends CSVdataModel {
-  /** @type {ClassificationTeamData[]} */
+  /** @type {ClassificationTeamModel[]} */
   rows = [];
 
   constructor() {

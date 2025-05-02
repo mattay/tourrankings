@@ -1,32 +1,20 @@
 import { logError } from "../../utils/logging.js";
 import CSVdataModel from "../dataModel_csv.js";
 
-/**
- * @typedef {Object} RaceStageData
- * @property {string} stageUID - The unique identifier for the stage.
- * @property {string} raceUID - The unique identifier for the race (matches RaceData.raceId).
- * @property {number} year - The year of the stage.
- * @property {string} date - The date of the stage.
- * @property {number} stage - The stage number.
- * @property {string} stageType - The type of the stage.
- * @property {string} parcoursType - The type of the parcours.
- * @property {string} departure - The departure location of the stage.
- * @property {string} arrival - The arrival location of the stage.
- * @property {number} distance - The distance of the stage in kilometers.
- * @property {number} verticalMeters - The vertical meters of the stage.
- */
+/** @typedef {import('../@types/races').RaceStageModel} RaceStageModel*/
 
 /**
- * @class RaceStages
- * @extends CSVdataModel
- * @description Represents a collection of race stages.
- * @constructor
- * @param {string} filePath - The path to the CSV file.
- * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
+ * Class for managing a collection of race stage data loaded from a CSV file.
+ *
+ * Extends {@link CSVdataModel} to provide specialized handling for race stage records.
+ *
  */
 export class RaceStages extends CSVdataModel {
+  /** @type {RaceStageModel[]} */
+  rows = [];
+
   constructor() {
-    super("data/raw/csv/raceStages.csv", ["Stage UID", "Race UID"]);
+    super(`${process.env.DATA_DIR}/raceStages.csv`, ["Stage UID", "Race UID"]);
     this.csvHeaders = [
       "Race UID",
       "Stage UID",
@@ -50,8 +38,8 @@ export class RaceStages extends CSVdataModel {
   }
 
   /**
-   * @param {Array<RaceStageData>} stages - The array of stages to filter.
-   * @returns {Generator<RaceStageData>} - A generator of past stages.
+   * @param {RaceStageModel[]} stages - The array of stages to filter.
+   * @returns {Generator<RaceStageModel>} - A generator of past stages.
    */
   *pastStagesGenerator(stages) {
     const currentDate = new Date();
@@ -66,7 +54,7 @@ export class RaceStages extends CSVdataModel {
 
   /**
    * @param {string} raceUID - The unique identifier for the race.
-   * @returns {Array<RaceStageData>|null} - An array of stages in the specified race.
+   * @returns {RaceStageModel[]|null} - An array of stages in the specified race.
    */
   stagesInRace(raceUID) {
     if (!raceUID) {

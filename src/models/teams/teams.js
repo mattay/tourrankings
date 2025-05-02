@@ -1,26 +1,22 @@
 import CSVdataModel from "../dataModel_csv.js";
 
-/** @typedef {Object} TeamData
- * @property {number} year - The year the team was established.
- * @property {string} teamPcsId - The unique identifier for the team.
- * @property {string} teamName - The name of the team.
- * @property {string} classification - The classification of the team.
- * @property {string} jerseyImagePcsUrl - The URL of the team's jersey image.
- * @property {string} previousTeamPcsId - The unique identifier of the previous team.
- * @property {string} nextTeamPcsId - The unique identifier of the next team.
+/**
+ * @typedef {import('../@types/teams').TeamModel} TeamModel
  */
 
 /**
- * @class Teams
+ * Class for managing cycling team data loaded from a CSV file.
+ *
+ * Extends {@link CSVdataModel} to handle team-specific CSV data operations.
+ *
  * @extends CSVdataModel
- * @description Represents the teams data.
- * @constructor
- * @param {string} filePath - The path to the CSV file.
- * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
  */
 export class Teams extends CSVdataModel {
+  /** @type {TeamModel[]} */
+  rows = [];
+
   constructor() {
-    super("data/raw/csv/teams.csv", ["Team Pcs Id"]);
+    super(`${process.env.DATA_DIR}/teams.csv`, ["Team Pcs Id"]);
     this.csvHeaders = [
       "Year",
       "Team Pcs Id",

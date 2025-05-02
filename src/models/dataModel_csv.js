@@ -3,16 +3,16 @@ import fs from "fs";
 import csv from "csv-parser";
 import { toCamelCase, toTitleCase } from "../utils/string.js";
 import { logError, logOut } from "../utils/logging.js";
-import { debug } from "console";
+import { dirname } from "path";
 
 /**
- * @class CSVdataModel
- * @description Represents a data model for CSV files.
- * @constructor
- * @param {string} filePath - The path to the CSV file.
- * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
+ * Generic data model for managing CSV file data.
+ *
+ * Provides methods for reading, writing, updating, and sorting rows of data from a CSV file.
+ * Designed to be extended by subclasses for specific data shapes and business logic.
  */
 class CSVdataModel {
+  /** @type {Array<Object>} */
   rows = [];
 
   constructor(filePath, indexOn) {
@@ -43,7 +43,7 @@ class CSVdataModel {
           this.constructor.name,
           `Incoming CSV row missing index ${key}`,
         );
-        logOut(this.constructor.name, Object.keys(result), "debug");
+        logOut(this.constructor.name, Object.keys(result).join(","), "debug");
         return null;
       }
     }
@@ -64,9 +64,16 @@ class CSVdataModel {
       // Check if the file exists
       if (!fs.existsSync(this.filePath)) {
         // Create file with headers
-        console.warn("Creating database", this.filePath);
+        logOut(
+          this.constructor.name,
+          `Creating database ${this.filePath}`,
+          "warn",
+        );
+        fs.mkdirSync(dirname(this.filePath), { recursive: true });
         this.#writeToCSV();
       }
+
+      // Write to CSV
       fs.createReadStream(this.filePath)
         .pipe(csv())
         .on("data", (data) => {
@@ -91,15 +98,28 @@ class CSVdataModel {
    * @returns {Promise<void>} A promise that resolves when the data is written.
    */
   async #writeToCSV() {
-    let csvContent = `${this.csvHeaders.join(",")}\n`;
+    return new Promise((resolve, reject) => {
+      let csvContent = `${this.csvHeaders.join(",")}\n`;
 
-    const columns = this.csvHeaders.map(toCamelCase);
-    this.rows.forEach((row) => {
-      const rowData = columns.map((column) => row[column]).join(",");
-      csvContent += `${rowData}\n`;
+      const columns = this.csvHeaders.map(toCamelCase);
+      this.rows.forEach((row) => {
+        const rowData = columns.map((column) => row[column]).join(",");
+        csvContent += `${rowData}\n`;
+      });
+      try {
+        fs.writeFileSync(this.filePath, csvContent, "utf8");
+        logOut(
+          this.constructor.name,
+          `Wrote to ${this.filePath} ${fs.existsSync(this.filePath)}`,
+          "debug",
+        );
+      } catch (error) {
+        logError(this.constructor.name, `Failed to write to ${this.filePath}`);
+        logError(this.constructor.name, error.message);
+        // reject(error); This might need to be handled differently depending on the use case.
+      }
+      resolve();
     });
-
-    fs.writeFileSync(this.filePath, csvContent, "utf8");
   }
 
   /**
@@ -147,7 +167,7 @@ class CSVdataModel {
       for (const key of this.indexOn) {
         if (!entry.hasOwnProperty(key)) {
           logError(this.constructor.name, `Update row missing index ${key}`);
-          logOut(this.constructor.name, Object.keys(entry), "debug");
+          logOut(this.constructor.name, Object.keys(entry).join(", "), "debug");
           throw new Error("Invalid Update");
         }
       }

@@ -1,6 +1,10 @@
 import CSVdataModel from "../dataModel_csv.js";
 
 /**
+ * @typedef {import('../@types/races').RaceStageLocationMountainModel} RaceStageLocationMountainModel
+ */
+
+/**
  * Class for managing mountain location data within race stages, loaded from a CSV file.
  *
  * Extends {@link CSVdataModel} to provide specialized handling for mountain location records in race stages.
@@ -8,7 +12,7 @@ import CSVdataModel from "../dataModel_csv.js";
  * @extends CSVdataModel
  */
 export class RaceStageLocationMountains extends CSVdataModel {
-  /** @type {RaceStageLocationMountainData[]} */
+  /** @type {RaceStageLocationMountainModel[]} */
   rows = [];
 
   constructor() {

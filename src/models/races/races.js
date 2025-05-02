@@ -2,12 +2,10 @@ import CSVdataModel from "../dataModel_csv.js";
 import { logOut } from "src/utils/logging.js";
 
 /**
- * @class Races
- * @extends CSVdataModel
- * @description Represents the races data.
- * @constructor
- * @param {string} filePath - The path to the CSV file.
- * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
+ * @typedef {import('../@types/races').RaceModel} RaceModel
+ */
+
+/**
  * Class for managing race data loaded from a CSV file.
  *
  * Extends {@link CSVdataModel} to provide specialized handling for cycling race records,
@@ -15,7 +13,7 @@ import { logOut } from "src/utils/logging.js";
  *
  */
 export class Races extends CSVdataModel {
-  /** @type {RaceData[]} */
+  /** @type {RaceModel[]} */
   rows = [];
 
   constructor() {
@@ -46,7 +44,7 @@ export class Races extends CSVdataModel {
   /**
    * Get a race by its unique identifier.
    * @param {string} raceUID - The unique identifier of the race.
-   * @returns {RaceData|null} - The race data object or null if not found.
+   * @returns {RaceModel|null} - The race data object or null if not found.
    */
   raceUID(raceUID) {
     logOut(this.constructor.name, `raceUID(${raceUID})`, "debug");
@@ -57,7 +55,7 @@ export class Races extends CSVdataModel {
    * Get a race by its unique identifier and year.
    * @param {string} racePcsID - The unique identifier of the race.
    * @param {number} year - The year of the race.
-   * @returns {RaceData|null} - The race data object or null if not found.
+   * @returns {RaceModel|null} - The race data object or null if not found.
    */
   racePcsID(racePcsID, year) {
     logOut(this.constructor.name, `racePcsID(${racePcsID}, ${year})`, "debug");
@@ -70,7 +68,7 @@ export class Races extends CSVdataModel {
   /**
    * Get all races for a given season.
    * @param {number} year - The year of the season.
-   * @returns {Array<RaceData>} - An array of race data objects.
+   * @returns {RaceModel[]} - An array of race data objects.
    */
   season(year) {
     return this.rows.filter((record) => Number(record.year) === Number(year));
@@ -79,7 +77,7 @@ export class Races extends CSVdataModel {
   /**
    * Get all races that have already happened.
    * @param {number} year - The year of the season.
-   * @returns {Array<RaceData>} - An array of race data objects.
+   * @returns {RaceModel[]} - An array of race data objects.
    */
   past(year = null) {
     const today = new Date();
@@ -96,7 +94,7 @@ export class Races extends CSVdataModel {
   /**
    * Get all races currently in progress.
    * @param {Date} date - The date to check against.
-   * @returns {Array<RaceData>} - An array of race data objects.
+   * @returns {RaceModel[]} - An array of race data objects.
    */
   inProgress(date) {
     // const today = new Date();
@@ -109,7 +107,7 @@ export class Races extends CSVdataModel {
 
   /**
    * Get all races that are upcoming.
-   * @returns {Array<RaceData>} - An array of race data objects.
+   * @returns {RaceModel[]} - An array of race data objects.
    */
   upcoming() {
     const today = new Date();
@@ -123,7 +121,7 @@ export class Races extends CSVdataModel {
   /**
    * Get all races in a given year.
    * @param {number} year - The year of the races.
-   * @returns {Array<RaceData>} - An array of race data objects.
+   * @returns {RaceModel[]} - An array of race data objects.
    */
   racesInYear(year) {
     return this.rows.filter((record) => {

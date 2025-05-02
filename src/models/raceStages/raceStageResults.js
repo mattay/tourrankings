@@ -1,6 +1,10 @@
 import CSVdataModel from "../dataModel_csv.js";
 
 /**
+ * @typedef {import('../@types/races').RaceStageResultModel} RaceStageResultModel
+ */
+
+/**
  * Class for managing race stage results loaded from a CSV file.
  *
  * Extends {@link CSVdataModel} to provide specialized handling for race stage result records.
@@ -8,7 +12,7 @@ import CSVdataModel from "../dataModel_csv.js";
  * @extends CSVdataModel
  */
 export class RaceStageResults extends CSVdataModel {
-  /** @type {RaceStageResultData[]} */
+  /** @type {RaceStageResultModel[]} */
   rows = [];
 
   constructor() {
@@ -42,11 +46,7 @@ export class RaceStageResults extends CSVdataModel {
   /**
    * Retrieves the stage results for a given stage ID.
    * @param {string} stageUID - The ID of the stage.
-<<<<<<< HEAD
-   * @returns {Array<RaceStageResultData>|null} - A promise that resolves to an array of stage results.
-=======
    * @returns {RaceStageResultData[]|null} - A promise that resolves to an array of stage results.
->>>>>>> 648e3fe (Use enviroment varibale as the base path to csv files allow for)
    */
   stageResults(stageUID) {
     if (!stageUID) {

@@ -1,6 +1,8 @@
 import { logError } from "../../utils/logging.js";
 import CSVdataModel from "../dataModel_csv.js";
 
+/** @typedef {import('../@types/races').RaceStageModel} RaceStageModel*/
+
 /**
  * Class for managing a collection of race stage data loaded from a CSV file.
  *
@@ -8,7 +10,7 @@ import CSVdataModel from "../dataModel_csv.js";
  *
  */
 export class RaceStages extends CSVdataModel {
-  /** @type {Array<RaceStageData>} */
+  /** @type {RaceStageModel[]} */
   rows = [];
 
   constructor() {
@@ -36,8 +38,8 @@ export class RaceStages extends CSVdataModel {
   }
 
   /**
-   * @param {Array<RaceStageData>} stages - The array of stages to filter.
-   * @returns {Generator<RaceStageData>} - A generator of past stages.
+   * @param {RaceStageModel[]} stages - The array of stages to filter.
+   * @returns {Generator<RaceStageModel>} - A generator of past stages.
    */
   *pastStagesGenerator(stages) {
     const currentDate = new Date();
@@ -52,7 +54,7 @@ export class RaceStages extends CSVdataModel {
 
   /**
    * @param {string} raceUID - The unique identifier for the race.
-   * @returns {Array<RaceStageData>|null} - An array of stages in the specified race.
+   * @returns {RaceStageModel[]|null} - An array of stages in the specified race.
    */
   stagesInRace(raceUID) {
     if (!raceUID) {

@@ -6,11 +6,10 @@ import { logError, logOut } from "../utils/logging.js";
 import { debug } from "console";
 
 /**
- * @class CSVdataModel
- * @description Represents a data model for CSV files.
- * @constructor
- * @param {string} filePath - The path to the CSV file.
- * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
+ * Generic data model for managing CSV file data.
+ *
+ * Provides methods for reading, writing, updating, and sorting rows of data from a CSV file.
+ * Designed to be extended by subclasses for specific data shapes and business logic.
  */
 class CSVdataModel {
   /** @type {Array<Object>} */

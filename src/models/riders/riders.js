@@ -1,12 +1,11 @@
 import CSVdataModel from "../dataModel_csv.js";
 
 /**
- * @class Riders
+ * Class for managing rider data loaded from a CSV file.
+ *
+ * Extends {@link CSVdataModel} to provide specialized handling for rider-specific CSV data.
+ *
  * @extends CSVdataModel
- * @description Represents the riders data.
- * @constructor
- * @param {string} filePath - The path to the CSV file.
- * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
  */
 export class Riders extends CSVdataModel {
   /** @type {RiderData[]} */

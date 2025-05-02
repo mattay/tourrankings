@@ -1,12 +1,11 @@
 import CSVdataModel from "../dataModel_csv.js";
 
 /**
- * @class Teams
+ * Class for managing cycling team data loaded from a CSV file.
+ *
+ * Extends {@link CSVdataModel} to handle team-specific CSV data operations.
+ *
  * @extends CSVdataModel
- * @description Represents the teams data.
- * @constructor
- * @param {string} filePath - The path to the CSV file.
- * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
  */
 export class Teams extends CSVdataModel {
   /** @type {TeamData[]} */

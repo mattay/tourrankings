@@ -1,5 +1,5 @@
 /**
- * @typedef {Object} RaceData
+ * @typedef {Object} RaceModel
  * @property {string} raceUID - The unique identifier of the race.
  * @property {string} year - The year of the race.
  * @property {string} startDate - The start date of the race.
@@ -11,7 +11,7 @@
  */
 
 /**
- * @typedef {Object} RaceStageData
+ * @typedef {Object} RaceStageModel
  * @property {string} stageUID - The unique identifier for the stage.
  * @property {string} raceUID - The unique identifier for the race (matches RaceData.raceId).
  * @property {number} year - The year of the stage.
@@ -26,7 +26,7 @@
  */
 
 /**
- * @typedef {Object} RaceStageLocationPointData
+ * @typedef {Object} RaceStageLocationPointModel
  * @property {number} locationID - The unique identifier for the location.
  * @property {number} stageId - The unique identifier for the stage.
  * @property {number} year - The year of the race.
@@ -37,7 +37,7 @@
  */
 
 /**
- * @typedef {Object} RaceStageLocationMountainData
+ * @typedef {Object} RaceStageLocationMountainModel
  * @property {string} locationId - Unique identifier for the location.
  * @property {string} stageId - Unique identifier for the stage.
  * @property {string} year - Year of the race.
@@ -48,8 +48,8 @@
  */
 
 /**
- * @typedef {Object} RaceStageResultData
- * @property {string} stageUID - The unique identifier for the stage RaceStageData.stageId.
+ * @typedef {Object} RaceStageResultModel
+ * @property {string} stageUID - The unique identifier for the stage RaceStageModel.stageId.
  * @property {number} stage - The stage number.
  * @property {number} rank - The rank of the rider in the stage.
  * @property {number} gc - The General Classification points earned by the rider.
@@ -66,7 +66,7 @@
  * @property {string} delta - The time difference between the rider's time and the winner's time.
  */
 
-/** @typedef {Object} RaceRiderData -
+/** @typedef {Object} RaceRiderModel -
  * @property {string} raceUID - The unique identifier of the race.
  * @property {string} bib - The bib number of the rider.
  * @property {string} riderPcsId - The unique identifier of the rider.
@@ -74,3 +74,5 @@
  * @property {string} rider - The name of the rider.
  * @property {string} flag - The flag of the rider's country.
  */
+
+export {};

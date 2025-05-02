@@ -1,5 +1,5 @@
 /**
- * @typedef {Object} ClassificationGeneralData
+ * @typedef {Object} ClassificationGeneralModel
  * @property {string} stageId - Unique identifier for the stage.
  * @property {string} stage - Name of the stage.
  * @property {number} rank - Rank of the rider in the general classification.
@@ -16,7 +16,7 @@
  * @property {string} delta - Rider's delta time.
  */
 
-/** @typedef {Object} ClassificationYouthData -
+/** @typedef {Object} ClassificationYouthModel -
  * @property {number} stageId - The unique identifier for the stage.
  * @property {string} stage - The name of the stage.
  * @property {number} rank - The rank of the rider in the stage.
@@ -29,7 +29,7 @@
  * @property {string} team - The name of the team the rider is part of.
  */
 
-/** @typedef {Object} ClassificationPointsData
+/** @typedef {Object} ClassificationPointModel
  * @property {number} stageId - The unique identifier for the stage.
  * @property {string} stage - The name of the stage.
  * @property {number} rank - The rank of the rider in the classification.
@@ -47,7 +47,7 @@
  * @property {string} delta - The time difference between the rider and the leader.
  */
 
-/** @typedef {Object} ClassificationMountainData
+/** @typedef {Object} ClassificationMountainModel
  * @property {number} stageId - The unique identifier for the stage.
  * @property {number} stage
  * @property {number} rank - The rank of the rider in the mountain classification.
@@ -62,7 +62,7 @@
  * @property {number} today - The points earned by the rider in the current stage.
  */
 
-/** @typedef {Object} ClassificationTeamData -
+/** @typedef {Object} ClassificationTeamModel -
  * @property {number} stageId - The unique identifier for the stage.
  * @property {string} stage - The name of the stage.
  * @property {number} rank - The rank of the team in the stage.
@@ -73,3 +73,5 @@
  * @property {string} time - The time taken by the team to complete the stage.
  * @property {string} delta - The time difference between the team's time and the fastest time.
  */
+
+export {};

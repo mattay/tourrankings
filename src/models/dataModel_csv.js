@@ -64,9 +64,16 @@ class CSVdataModel {
       // Check if the file exists
       if (!fs.existsSync(this.filePath)) {
         // Create file with headers
-        console.warn("Creating database", this.filePath);
+        logOut(
+          this.constructor.name,
+          `Creating database ${this.filePath}`,
+          "warn",
+        );
+        fs.mkdirSync(dirname(this.filePath), { recursive: true });
         this.#writeToCSV();
       }
+
+      // Write to CSV
       fs.createReadStream(this.filePath)
         .pipe(csv())
         .on("data", (data) => {

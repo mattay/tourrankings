@@ -1,6 +1,6 @@
 import { Page } from "puppeteer-core";
-import { logError } from "../../src/utils/logging";
-import { urlSections } from "../../src/utils/url";
+import { logError } from "../../../utils/logging";
+import { urlSections } from "../../../utils/url";
 
 /** @typedef {Object} RawStartListRider
  * @property {number} bib - The bib number of the rider.
@@ -18,10 +18,8 @@ import { urlSections } from "../../src/utils/url";
 
 /**
  * Refines a startlist by extracting team information and adding team ID.
- * @param {Array<RawTeamStartList>} startlist - The list of teams to refine.
- * @returns {Array<ScrapedRaceStartListTeam>} The refined startlist with extracted team information.
- *
- * @see ScrapedRaceStartListTeam
+ * @param {RawTeamStartList} team - The team to refine.
+ * @returns {ScrapedRaceStartListTeam} The refined startlist with extracted team information.
  */
 function refineStartlist(team) {
   const regexTeam = /^(?<teamName>.*) \((?<teamClassification>.*)\)$/;

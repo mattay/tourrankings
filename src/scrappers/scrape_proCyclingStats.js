@@ -12,10 +12,10 @@ import {
   // MountainClassification,
   // YouthClassification,
   // TeamClassification,
-} from "../src/models/";
+} from "../models";
 // Utils
-import { generateId } from "../src/utils/idGenerator";
-import { logError, logOut } from "../src/utils/logging";
+import { generateId } from "../utils/idGenerator";
+import { logError, logOut } from "../utils/logging";
 // Scrape
 import {
   config,
@@ -23,7 +23,7 @@ import {
   collectWorldTourRaces,
   scrapeRaceStartList,
   scrapeRaceStages,
-} from "./proCyclingStats";
+} from "./source/proCyclingStats";
 
 /**
  * Classes

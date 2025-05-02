@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "server/index.js",
   "scripts": {
-    "scrape": "bun scripts/scrape_proCyclingStats.js",
+    "scrape": "bun src/scrappers/scrape_proCyclingStats.js",
     "dev": "bun --hot server/index.js",
     "start": "bun server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"

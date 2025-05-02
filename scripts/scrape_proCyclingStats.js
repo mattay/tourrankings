@@ -26,11 +26,11 @@ import {
 } from "./proCyclingStats";
 
 /**
- * Classes
- * @typedef {import('../src/models/races/races').RaceData} RaceData
- * @typedef {import('../src/models/raceStages/raceStages').RaceStageData} RaceStageData
- * @typedef {import('../src/models/teams/teams').TeamData} TeamData
- * @typedef {import('../src/models/riders/riders').RiderData} RiderData
+ * Models
+ * @typedef {import('../src/models/@types/races').RaceModel} RaceData
+ * @typedef {import('../src/models/@types/races').RaceStageData} RaceStageData
+ * @typedef {import('../src/models/@types/teams').TeamModel} TeamData
+ * @typedef {import('../src/models/@types/riders').RiderModel} RiderData
  */
 
 /**

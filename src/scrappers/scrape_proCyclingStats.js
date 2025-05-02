@@ -27,11 +27,11 @@ import {
 } from "./source/proCyclingStats";
 
 /**
- * Classes
- * @typedef {import('../src/models/races/races').RaceData} RaceData
- * @typedef {import('../src/models/raceStages/raceStages').RaceStageData} RaceStageData
- * @typedef {import('../src/models/teams/teams').TeamData} TeamData
- * @typedef {import('../src/models/riders/riders').RiderData} RiderData
+ * Models
+ * @typedef {import('../src/models/@types/races').RaceModel} RaceData
+ * @typedef {import('../src/models/@types/races').RaceStageData} RaceStageData
+ * @typedef {import('../src/models/@types/teams').TeamModel} TeamData
+ * @typedef {import('../src/models/@types/riders').RiderModel} RiderData
  */
 
 /**
@@ -168,6 +168,107 @@ function stagesWithoutResults(races, raceStages, raceStageResults) {
 }
 
 /**
+ * Collects races for the current season.
+ *
+ * @async
+ * @param {import('puppeteer').Page} page - Puppeteer page instance for scraping.
+ * @param {Races} races - The Races object.
+ * @param {number} raceSeason - The season for which to collect races.
+ */
+async function collectSeasonRaces(page, races, raceSeason) {
+  if (races.season(raceSeason).length == 0) {
+    logOut(
+      "collectSeasonRaces",
+      `Collecting races for the ${raceSeason} season.`,
+    );
+    try {
+      await collectWorldTourRaces(page, races, raceSeason);
+    } catch (error) {
+      logError(
+        "collectSeasonRaces",
+        `Failed to collect races for the ${raceSeason} season.`,
+        error,
+      );
+    }
+  }
+}
+
+/**
+ * Collects past races.
+ *
+ * @async
+ * @param {import('puppeteer').Page} page - Puppeteer page instance for scraping.
+ * @param {Races} races - The Races object.
+ * @param {RaceStages} raceStages - The race stages.
+ * @param {RaceRiders} raceRiders - The race riders.
+ * @param {Riders} riders - The riders.
+ * @param {Teams} teams - The teams.
+ */
+async function collectPastRaceDetails(
+  page,
+  races,
+  raceStages,
+  raceRiders,
+  riders,
+  teams,
+) {
+  const pastRacesWithoutStages = stagesInRaces(raceStages, races.past()).filter(
+    (race) => race.stages.length === 0,
+  );
+
+  for (const race of pastRacesWithoutStages) {
+    logOut("collectPastRaces", `${race.name}`);
+    try {
+      const raceDetails = await collectRace(page, race.racePcsID, race.year);
+      await updateRace(raceDetails, raceStages, raceRiders, riders, teams);
+    } catch (error) {
+      logError(
+        "collectPastRaces",
+        `Failed to collect race details for ${race.name}`,
+        error,
+      );
+    }
+  }
+}
+
+/**
+ * Updates race data by collecting and recording new races, stages, teams, and riders for the current season.
+ *
+ * @async
+ * @param {CollectedRaceData} raceDetails - The race details.
+ * @param {RaceStages} raceStages - The race stage
+ * @param {RaceRiders} raceRiders - The race riders.
+ * @param {Riders} riders - The Riders object.
+ * @param {Teams} teams - The Teams object.
+ */
+async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
+  // Record stages in race
+  await raceStages.update(raceDetails.stages);
+  // Record teams in race
+  await teams.update(
+    raceDetails.teams.map((team) => ({
+      year: team.year,
+      teamName: team.teamName,
+      teamPcsUrl: team.teamPcsUrl,
+      jerseyImageUrl: team.jerseyImageUrl,
+      teamPcsId: team.teamPcsId,
+      teamClassification: team.teamClassification,
+    })),
+  );
+  // Record riders in race
+  await raceRiders.update(raceDetails.riders);
+  // Record riders
+  await riders.update(
+    raceDetails.riders.map((raceRider) => {
+      return {
+        riderPcsId: raceRider.riderPcsId,
+        riderName: raceRider.rider,
+      };
+    }),
+  );
+}
+
+/**
  * Updates race data by collecting and recording new races, stages, teams, and riders for the current season.
  *
  * - If there are no races for the current season, collects them.
@@ -186,54 +287,27 @@ function stagesWithoutResults(races, raceStages, raceStageResults) {
  * @example
  * await updateRaces(page, races, raceStages, raceRiders, riders, teams);
  */
-
 async function updateRaces(page, races, raceStages, raceRiders, riders, teams) {
   const today = new Date();
   const raceSeason = today.getFullYear();
 
-  if (races.season(raceSeason).length == 0) {
-    logOut("Update Races", `Collecting races for the ${raceSeason} season.`);
-    try {
-      await collectWorldTourRaces(page, races, raceSeason);
-    } catch (error) {
-      logError("Update Races", error);
-    }
-  }
-
-  const pastRaces = stagesInRaces(raceStages, races.past()).filter(
-    (race) => race.stages.length === 0,
+  await collectSeasonRaces(page, races, raceSeason);
+  await collectPastRaceDetails(
+    page,
+    races,
+    raceStages,
+    raceRiders,
+    riders,
+    teams,
   );
-  for (const race of pastRaces) {
-    try {
-      const raceDetails = await collectRace(page, race.racePcsID, race.year);
-      // Record stages in race
-      await raceStages.update(raceDetails.stages);
-      // Record teams in race
-      await teams.update(
-        raceDetails.teams.map((team) => ({
-          year: team.year,
-          teamName: team.teamName,
-          teamPcsUrl: team.teamPcsUrl,
-          jerseyImageUrl: team.jerseyImageUrl,
-          teamPcsId: team.teamPcsId,
-          teamClassification: team.teamClassification,
-        })),
-      );
-      // Record riders in race
-      await raceRiders.update(raceDetails.riders);
-      // Record riders
-      await riders.update(
-        raceDetails.riders.map((raceRider) => {
-          return {
-            riderPcsId: raceRider.riderPcsId,
-            riderName: raceRider.rider,
-          };
-        }),
-      );
-    } catch (error) {
-      logError("Update Races", error);
-    }
-  }
+  await collectPastRaceDetails(
+    page,
+    races,
+    raceStages,
+    raceRiders,
+    riders,
+    teams,
+  );
 }
 
 /**
@@ -249,6 +323,7 @@ async function updateStageResults(page, races, raceStages, raceStageResults) {
     raceStages,
     raceStageResults,
   );
+  logOut("updateStageResults", "Needs implementation", "warn");
 }
 
 /**
@@ -256,36 +331,65 @@ async function updateStageResults(page, races, raceStages, raceStageResults) {
  */
 async function main() {
   // Bowser Setup
-  const browser = await puppeteer.launch(config.browser);
-  // Page Setup
-  const page = await browser.newPage();
-  page.setRequestInterception(true);
-  page.on("request", interceptRequests);
+  let browser;
+  try {
+    browser = await puppeteer.launch(config.browser);
 
-  // Data Models
-  const races = new Races();
-  const raceStages = new RaceStages();
-  const raceRiders = new RaceRiders();
-  const teams = new Teams();
-  const riders = new Riders();
-  const raceStageResults = new RaceStageResults();
-  // const raceStageGeneral = new GeneralClassification();
-  // const raceStagePoints = new PointsClassification();
-  // const raceStageMountain = new MountainClassification();
-  // const raceStageTeam = new TeamClassification();
-  // const raceStageYouth = new YouthClassification();
-  // Load data
-  await races.read();
-  await raceStages.read();
-  await raceStageResults.read();
-  await raceRiders.read();
-  await teams.read();
-  await riders.read();
+    // Page Setup
+    const page = await browser.newPage();
+    page.setRequestInterception(true);
+    page.on("request", interceptRequests);
 
-  await updateRaces(page, races, raceStages, raceRiders, riders, teams);
-  await updateStageResults(page, races, raceStages, raceStageResults);
+    // Data Models
+    // TODO utilse dataService
+    const races = new Races();
+    const raceStages = new RaceStages();
+    const raceRiders = new RaceRiders();
+    const teams = new Teams();
+    const riders = new Riders();
+    const raceStageResults = new RaceStageResults();
+    // const raceStageGeneral = new GeneralClassification();
+    // const raceStagePoints = new PointsClassification();
+    // const raceStageMountain = new MountainClassification();
+    // const raceStageTeam = new TeamClassification();
+    // const raceStageYouth = new YouthClassification();
 
-  await browser.close();
+    // Load data
+    try {
+      await races.read();
+      await raceStages.read();
+      await raceStageResults.read();
+      await raceRiders.read();
+      await teams.read();
+      await riders.read();
+    } catch (error) {
+      logError("Main", "Error loading data", error);
+      throw error;
+    }
+
+    try {
+      await updateRaces(page, races, raceStages, raceRiders, riders, teams);
+    } catch {
+      logError("Main", "Error collecting race information", error);
+    }
+
+    try {
+      await updateStageResults(page, races, raceStages, raceStageResults);
+    } catch (error) {
+      logError("Main", "Error collecting race information", error);
+    }
+  } catch (error) {
+    // Catch-all for any errors not handled above
+    logError("Main", "Fatal error in main", error);
+
+    // if (error instanceof Error) {
+    // if (err instanceof puppeteer.errors.TimeoutError) {
+    // logError("PUPPETEER_EXECUTABLE_PATH", Bun.env.PUPPETEER_EXECUTABLE_PATH);
+  } finally {
+    if (browser) {
+      await browser.close();
+    }
+  }
 }
 
 await main();

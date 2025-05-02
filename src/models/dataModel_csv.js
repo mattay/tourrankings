@@ -13,6 +13,7 @@ import { debug } from "console";
  * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
  */
 class CSVdataModel {
+  /** @type {Array<Object>} */
   rows = [];
 
   constructor(filePath, indexOn) {

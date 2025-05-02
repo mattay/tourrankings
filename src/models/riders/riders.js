@@ -1,12 +1,5 @@
 import CSVdataModel from "../dataModel_csv.js";
 
-/** @typedef {Object} RiderData - Rider data object
- * @property {string} riderId - Unique identifier for the rider
- * @property {string} riderName - Full name of the rider
- * @property {string} dateOfBirth - Date of birth of the rider
- * @property {string} nationality - Nationality of the rider
- */
-
 /**
  * @class Riders
  * @extends CSVdataModel
@@ -16,6 +9,9 @@ import CSVdataModel from "../dataModel_csv.js";
  * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
  */
 export class Riders extends CSVdataModel {
+  /** @type {RiderData[]} */
+  rows = [];
+
   constructor() {
     super("data/raw/csv/riders.csv", ["Rider Pcs Id"]);
     this.csvHeaders = [

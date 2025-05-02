@@ -2,26 +2,22 @@ import CSVdataModel from "../dataModel_csv.js";
 import { logOut } from "src/utils/logging.js";
 
 /**
- * @typedef {Object} RaceData
- * @property {string} raceUID - The unique identifier of the race.
- * @property {string} year - The year of the race.
- * @property {string} startDate - The start date of the race.
- * @property {string} endDate - The end date of the race.
- * @property {string} raceClass - The class of the race.
- * @property {string} raceName - The name of the race.
- * @property {string} racePcsID - The URL identifier of the race.
- * @property {string} racePcsUrl - The URL of the race.
- */
-
-/**
  * @class Races
  * @extends CSVdataModel
  * @description Represents the races data.
  * @constructor
  * @param {string} filePath - The path to the CSV file.
  * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
+ * Class for managing race data loaded from a CSV file.
+ *
+ * Extends {@link CSVdataModel} to provide specialized handling for cycling race records,
+ * including sorting, filtering, and retrieval by various identifiers and dates.
+ *
  */
 export class Races extends CSVdataModel {
+  /** @type {RaceData[]} */
+  rows = [];
+
   constructor() {
     super("data/raw/csv/races.csv", ["Race UID"]);
     this.csvHeaders = [

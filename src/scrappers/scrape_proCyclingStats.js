@@ -1,4 +1,5 @@
 import puppeteer, { Page } from "puppeteer-core";
+
 // Data Models
 import {
   Races,

@@ -6,7 +6,7 @@
     "scrape": "bun src/scrappers/scrape_proCyclingStats.js",
     "start": "bun server/index.js",
     "build": "bun scripts/build.js",
-    "build:watch": "bun scripts/build.js --watch",
+    "build:watch": "bun build ./src/client/index.js --outdir ./public/js/dist --watch",
     "dev": "bun --hot server/index.js",
     "dev:all": "bun scripts/build.js --watch & bun --hot server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"

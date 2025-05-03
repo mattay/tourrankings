@@ -5,13 +5,56 @@ import { sortByDate } from "../utils/sorts.js";
 /**
  * @typedef {import("../../src/services/dataServiceInstance").RaceData} RaceData
  * @typedef {import("../../src/services/dataServiceInstance").RaceStageData} RaceStageData
+ * @typedef {import("../../src/services/dataServiceInstance").RaceRiderData} RaceRiderData
+ * @typedef {import("../../src/services/dataServiceInstance").TeamData} TeamData
  */
 
-/** @typedef {Object} TemporalSeasonRaces
+/**
+ * @typedef {Object} TemporalSeasonRaces
  * @property {import("../../src/services/dataServiceInstance").RaceData[]} current - Races currently ongoing.
  * @property {import("../../src/services/dataServiceInstance").RaceData[]} upcoming - Races yet to start.
  * @property {import("../../src/services/dataServiceInstance").RaceData[]} previous - Races already completed.
  * @property {import("../../src/services/dataServiceInstance").RaceData[]} future - Races scheduled for the future.
+ */
+
+/**
+ * @typedef {Object} RaceContent
+ * @property {Race} race - The race details.
+ * @property {RaceStage[]} stages - The race stages.
+ * @property {RaceStage} lastCompletedStage - The last completed stage.
+ * @property {RaceStage} viewingStage - The stage being viewed.
+ * @property {Object<string, RaceTeam>} teams - Teams indexed by team ID.
+ * @property {Object<string, RaceRider>} riders - Riders indexed by bib number.
+ */
+
+/**
+ * @typedef {RaceData} Race
+ */
+
+/**
+ * @typedef {RaceStageData} RaceStage
+ */
+
+/**
+ * @typedef {Object} RaceResults
+ */
+
+/**
+ * @typedef {Object} RaceRider -
+ * @property {number} bib - The rider's bib number.
+ * @property {string} rider - The rider's name.
+ * @property {string} teamId - The ID of the rider's team.
+ * @property {string} id - The rider's ID.
+ * @property {string} flag - The rider's flag.
+ */
+
+/**
+ * @typedef {Object} RaceTeam
+ * @property {string} id - The team's ID.
+ * @property {string} name - The team's name.
+ * @property {string} classification - The team's classification.
+ * @property {string} jerseyImage - The team's jersey image URL.
+ * @property {Array<RaceRider>} riders - The team's riders.
  */
 
 /**
@@ -63,14 +106,6 @@ export function seasonRaces() {
 
   return grouped;
 }
-
-/**
- * @typedef {Object} RaceContent
- * @property {RaceData} race - The race details.
- * @property {RaceStageData[]} stages - The race stages.
- * @property {RaceStageData} lastCompletedStage - The last completed stage.
- * @property {RaceStageData} viewingStage - The stage being viewed.
- */
 
 /**
  * Fetches race content for a given race ID and year.

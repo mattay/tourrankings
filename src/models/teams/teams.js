@@ -1,3 +1,4 @@
+import { logOut } from "src/utils/logging.js";
 import CSVdataModel from "../dataModel_csv.js";
 
 /**
@@ -31,5 +32,20 @@ export class Teams extends CSVdataModel {
       ["Year", "asc"],
       ["Team Name", "asc"],
     ];
+  }
+
+  /**
+   * Retrieve a team by its ID.
+   *
+   * @param {String} teamId - The ID of the team to retrieve.
+   * @returns {TeamModel|null} The team object if found, otherwise null.
+   */
+  teamById(teamId) {
+    return this.rows.find((team) => team.teamPcsId === teamId);
+  }
+
+  teamsInRace(raceUID) {
+    logOut(this.constructor.name, "There is not a raceUID in the teams model");
+    return null;
   }
 }

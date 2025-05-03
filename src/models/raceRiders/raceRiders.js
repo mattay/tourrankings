@@ -30,4 +30,14 @@ export class RaceRiders extends CSVdataModel {
       ["Bib", "asc"],
     ];
   }
+
+  /**
+   * Retrieves all riders participating in a specific race.
+   *
+   * @param {string} raceUID - The unique identifier of the race.
+   * @returns {RaceRiderModel[]} An array of race rider models.
+   */
+  ridersInRace(raceUID) {
+    return this.rows.filter((row) => row.raceUID === raceUID);
+  }
 }

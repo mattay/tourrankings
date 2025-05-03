@@ -4,6 +4,22 @@ import { formatDate } from "../../../utils/string.js";
 import { logError } from "../../../utils/logging.js";
 
 /**
+ * @typedef {import('./@types').ScrapedRaceStage} ScrapedRaceStage
+ *
+ * @typedef {Object} RawStageRecord - Raw stage record from the ProCyclingStats website.
+ * @property {Number} year - The year of the race.
+ * @property {String} raceUrlId - The race URL ID.
+ * @property {String} date - The stage date.
+ * @property {String} stage - The stage name.
+ * @property {String} parcoursType - The stage parcours type.
+ * @property {String} departure - The stage departure location.
+ * @property {String} arrival - The stage arrival location.
+ * @property {Number} distance - The stage distance.
+ * @property {Number} verticalMeters - The stage vertical meters.
+ * @property {String} stagePcsUrl - The cleaned URL of the stage page
+ */
+
+/**
  * Cleans a record by extracting stage number and type, and generating IDs.
  * @param {RawStageRecord} record - The record to clean.
  * @returns {ScrapedRaceStage} The cleaned record.
@@ -11,17 +27,16 @@ import { logError } from "../../../utils/logging.js";
 function cleanRecord(record) {
   const regexStage = /^(?<stageNumber>\d+)( \((?<stageType>.*)\))?$/;
   let stageType = null;
-  let stageNumber = null;
+  let stageNumber = 0;
 
   if (record.stage === "Prologue") {
     stageType = record.stage.toLowerCase();
-    stageNumber = 0;
   } else {
     const matchStage = record.stage.match(regexStage);
     if (!matchStage) {
       console.log(record.stage);
     }
-    stageNumber = matchStage?.groups.stageNumber || null;
+    stageNumber = Number(matchStage?.groups.stageNumber) || null;
     stageType = matchStage?.groups.stageType || null;
   }
   const raceUID = generateId.race(record.raceUrlId, record.year);
@@ -38,16 +53,8 @@ function cleanRecord(record) {
 }
 
 /**
-@typedef {Object} RawStageRecord - Raw stage record from the ProCyclingStats website.
- * @property {number} year - The year of the race.
- * @property {string} raceUrlId - The race URL ID.
- * @property {string} date - The stage date.
- * @property {string} stage - The stage name.
- */
-
-/**
  * Scrapes stage data from the ProCyclingStats website.
- * @param {Page}} page - The Puppeteer page object.
+ * @param {Page} page - The Puppeteer page object.
  * @param {string} race - The race name.
  * @param {number} year - The year of the race.
  * @returns {Promise<Array<ScrapedRaceStage>} An array of stage data.
@@ -94,6 +101,7 @@ export async function scrapeRaceStages(page, race, year) {
             arrival: tds[4].textContent.trim(),
             distance: tds[5].textContent.trim(),
             verticalMeters: tds[6].textContent.trim(),
+            stagePcsUrl: url,
           };
         });
       },

@@ -76,7 +76,7 @@ export function seasonRaces() {
  * Fetches race content for a given race ID and year.
  * @param {string} racePcsID - The race ID.
  * @param {number} year - The year of the race.
- * @returns {RaceContent}} - The race content.
+ * @returns {RaceContent} - The race content.
  */
 export function raceContent(racePcsID, year = null) {
   // logOut("raceContent", `${racePcsID} ${year}`, "debug");
@@ -92,11 +92,15 @@ export function raceContent(racePcsID, year = null) {
     stages: [],
     lastCompletedStage: null,
     viewingStage: null,
+    teams: {},
+    riders: {},
   };
   // console.debug("RaceContent", raceContent);
 
   if (raceContent.race?.raceUID) {
-    raceContent.stages = dataService.raceStages(raceContent.race.raceUID);
+    const raceUID = raceContent.race.raceUID;
+
+    raceContent.stages = dataService.raceStages(raceUID);
     raceContent.lastCompletedStage = raceContent.stages.find(
       (el) => el !== undefined,
     );
@@ -106,13 +110,38 @@ export function raceContent(racePcsID, year = null) {
 
     /** @type {RaceStageData} */
     for (const stage of raceContent.stages) {
+      // Looking for most recent stages to default to
       stage.stage = Number(stage.stage);
       stage.verticalMeters = Number(stage.verticalMeters);
-      console.log(stage);
       if (new Date(stage.date) <= today) {
         raceContent.lastCompletedStage = stage;
         raceContent.viewingStage = stage;
       }
+    }
+
+    const riders = dataService.ridersInRace(raceUID);
+
+    for (const rider of riders) {
+      let team = raceContent.teams[rider.teamPcsId];
+      if (!team) {
+        const teamDets = dataService.raceTeam(rider.teamPcsId);
+        team = {
+          id: teamDets.teamPcsId,
+          name: teamDets.teamName,
+          classification: teamDets.classification,
+          jerseyImage: teamDets.jerseyImagePcsUrl,
+          riders: [],
+        };
+      }
+      raceContent.teams[rider.teamPcsId] = team;
+      // Clean up data for client
+      raceContent.riders[rider.bib] = {
+        bib: Number(rider.bib),
+        rider: rider.rider,
+        teamId: rider.teamPcsId,
+        id: rider.riderPcsId,
+        flag: rider.flag,
+      };
     }
   }
 

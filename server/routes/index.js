@@ -1,3 +1,4 @@
+export { routesAPI } from "./routesAPI";
 export { routesRoot } from "./routesRoot";
 export { routesRace } from "./routesRace";
 // export { routesViews } from "./routesViews.js";

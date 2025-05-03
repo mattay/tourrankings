@@ -2,11 +2,16 @@ import dataService from "../../src/services/dataServiceInstance.js";
 import { logOut } from "../../src/utils/logging.js";
 import { sortByDate } from "../utils/sorts.js";
 
+/**
+ * @typedef {import("../../src/services/dataServiceInstance").RaceData} RaceData
+ * @typedef {import("../../src/services/dataServiceInstance").RaceStageData} RaceStageData
+ */
+
 /** @typedef {Object} TemporalSeasonRaces
- * @property {Array<RaceData>} current - Races currently ongoing.
- * @property {Array<RaceData>} upcoming - Races yet to start.
- * @property {Array<RaceData>} previous - Races already completed.
- * @property {Array<RaceData>} future - Races scheduled for the future.
+ * @property {import("../../src/services/dataServiceInstance").RaceData[]} current - Races currently ongoing.
+ * @property {import("../../src/services/dataServiceInstance").RaceData[]} upcoming - Races yet to start.
+ * @property {import("../../src/services/dataServiceInstance").RaceData[]} previous - Races already completed.
+ * @property {import("../../src/services/dataServiceInstance").RaceData[]} future - Races scheduled for the future.
  */
 
 /**
@@ -62,9 +67,9 @@ export function seasonRaces() {
 /**
  * @typedef {Object} RaceContent
  * @property {RaceData} race - The race details.
- * @property {Array<RaceStageData>} stages - The race stages.
+ * @property {RaceStageData[]} stages - The race stages.
  * @property {RaceStageData} lastCompletedStage - The last completed stage.
- * @property {RaceStageData } viewingStage - The stage being viewed.
+ * @property {RaceStageData} viewingStage - The stage being viewed.
  */
 
 /**

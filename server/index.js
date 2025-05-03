@@ -3,7 +3,7 @@ import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import config from "./config";
 import setupMiddleware from "./middleware";
-import { routesRace, routesRoot } from "./routes";
+import { routesAPI, routesRace, routesRoot } from "./routes";
 import { logError, logOut } from "../src/utils/logging";
 import dataService from "../src/services/dataServiceInstance";
 
@@ -50,7 +50,7 @@ async function setupServer(app) {
 async function setupRoutes(app) {
   try {
     // Mount API routes under /api
-    // app.use("/api", routesAPI);
+    app.use("/api", routesAPI);
 
     // Mount race routes before root and static handlers
     app.use("/race", routesRace); // This will match /:racePcsID

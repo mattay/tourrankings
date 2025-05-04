@@ -1,4 +1,3 @@
-import { path } from "d3";
 import { prepRaceData } from "./raceData.js";
 import { racePathParts } from "./page.js";
 

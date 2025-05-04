@@ -1,3 +1,4 @@
+import config from "server/config.js";
 import DataService from "./data/dataService.js";
 
 /**
@@ -10,6 +11,6 @@ import DataService from "./data/dataService.js";
  * @typedef {import('./data/dataService').RiderData} RiderData
  */
 
-const dataService = new DataService();
+const dataService = new DataService(config.dataService);
 
 export default dataService;

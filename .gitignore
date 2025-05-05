@@ -1,6 +1,16 @@
+# Build
 node_modules/
+/public/js/dist/
+
+# OS files
 .DS_Store
-.env*
+
+# Environment
+.env
+.env.local
+
+
+_sample_code
 
 # Scraped data.
 /data/

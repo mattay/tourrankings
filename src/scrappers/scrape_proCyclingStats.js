@@ -217,7 +217,7 @@ async function collectPastRaceDetails(
   );
 
   for (const race of pastRacesWithoutStages) {
-    logOut("collectPastRaces", `${race.name}`);
+    logOut("collectPastRaces", `${race.raceName}`);
     try {
       const raceDetails = await collectRace(page, race.racePcsID, race.year);
       await updateRace(raceDetails, raceStages, raceRiders, riders, teams);

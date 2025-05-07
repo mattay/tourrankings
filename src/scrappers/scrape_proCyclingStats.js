@@ -153,8 +153,11 @@ function stagesWithoutResults(races, raceStages, raceStageResults) {
   const races_past = races.past(raceSeason);
   const races_inProgress = races.inProgress(today);
   const races_upcoming = races.upcoming();
-  const seasonRaces = stagesInRaces(raceStages, races_inProgress);
-  //
+  const seasonRaces = stagesInRaces(raceStages, [
+    ...races_past,
+    ...races_inProgress,
+  ]);
+
   return seasonRaces
     .flatMap((race) => race.stages)
     .filter((stage) => {

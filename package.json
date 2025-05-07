@@ -21,7 +21,6 @@
     "compression": "^1.8.0",
     "cors": "^2.8.5",
     "csv-parser": "^3.0.0",
-    "d3": "^7.9.0",
     "duckdb": "^1.2.1",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
@@ -31,6 +30,7 @@
   },
   "type": "module",
   "devDependencies": {
+    "@types/d3": "^7.4.3",
     "@types/express": "^5.0.1"
   },
   "engines": {

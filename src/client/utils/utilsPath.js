@@ -1,4 +1,8 @@
-export function racePathParts() {
+/**
+ * Extract race information from the current URL path
+ * @returns {Object} Object containing raceID, year, stage, and ranking
+ */
+export function getRacePathInfo() {
   const pathParts = window.location.pathname.split("/").filter((part) => part);
 
   const raceID = pathParts[1];
@@ -7,7 +11,6 @@ export function racePathParts() {
   const stage = pathParts.length > 4 ? parseInt(pathParts[4]) : null;
   const ranking = pathParts.length > 5 ? pathParts[5] : null;
 
-  console.log("pathParts", raceID, year, stage);
   return {
     raceID,
     year,

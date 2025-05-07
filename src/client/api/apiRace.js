@@ -2,12 +2,14 @@
  * API client for fetching race data
  */
 
+/** @typedef {import('./@types/').RaceContent} RaceContent */
+
 /**
  * Fetch race data from the API
  *
  * @param {string} raceID - The raceID
  * @param {number} year - The race year
- * @returns {Promise<Object>} The race data
+ * @returns {Promise<RaceContent>} The race data
  */
 export async function fetchRaceData(raceID, year) {
   try {

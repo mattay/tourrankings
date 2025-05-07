@@ -80,7 +80,7 @@ export async function scrapeRaceStages(page, race, year) {
     // Extract data from the specified selector
     const data = await page.$$eval(
       ".page-content table",
-      (tables, race, year) => {
+      (tables, race, year, url) => {
         const stages = Array.from(
           tables[0].querySelectorAll("tbody tr:not(.sum)"),
         );
@@ -111,6 +111,7 @@ export async function scrapeRaceStages(page, race, year) {
       },
       race,
       year,
+      url,
     );
 
     return data.map((record) => cleanRecord(record));

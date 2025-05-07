@@ -144,7 +144,7 @@ function stagesInRaces(raceStages, races) {
  * @param {Races} races - The Races object
  * @param {RaceStages} raceStages - The RaceStages object
  * @param {RaceStageResults} raceStageResults - The RaceStageResults object
- * @returns {Array<RaceWithStages>} - Array of RaceWithStages objects
+ * @returns {Array<string>} - Array of RaceWithStages objects
  */
 function stagesWithoutResults(races, raceStages, raceStageResults) {
   const today = new Date();
@@ -152,7 +152,7 @@ function stagesWithoutResults(races, raceStages, raceStageResults) {
 
   const races_past = races.past(raceSeason);
   const races_inProgress = races.inProgress(today);
-  const races_upcoming = races.upcoming();
+  // const races_upcoming = races.upcoming();
   const seasonRaces = stagesInRaces(raceStages, [
     ...races_past,
     ...races_inProgress,
@@ -327,6 +327,17 @@ async function updateStageResults(page, races, raceStages, raceStageResults) {
     raceStageResults,
   );
   logOut("updateStageResults", "Needs implementation", "warn");
+  for (const stage of stagesRequireResults) {
+    const [race, year, stageNo] = stage.split(":");
+    const stageResults = await scrapeRaceStageResults(
+      page,
+      race,
+      year,
+      stageNo,
+    );
+    console.log(stageResults);
+    break;
+  }
 }
 
 /**

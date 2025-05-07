@@ -134,14 +134,8 @@ export class Race {
     // TODO: fix Scales Bib id range is bigger than ranking range
     const yScale = d3
       .scaleLinear()
-      .domain(
-        [0, riders.length],
-        // d3.extent(riders, (d) => {
-        //   // console.log(d.bib);
-        //   return d.bib;
-        // }),
-      )
-      .range([this.margin.top, riders.length * 20]);
+      .domain([0, riders.length])
+      .range([0, riders.length * 20]);
 
     console.log(yScale(1));
 

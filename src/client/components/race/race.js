@@ -1,5 +1,4 @@
 // import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
-import { size } from "../canvas/svg";
 import { EVENT_TYPES } from "../../state/events";
 import { createStageComponent } from "../stage/stage";
 import { createRiderComponent } from "../rider/rider";
@@ -86,9 +85,8 @@ export class Race {
 
   resized() {
     // Take the size of the container element
-    let { width, height } = size(this.container);
-    this.height = height;
-    this.width = width;
+    this.height = this.container.clientHeight;
+    this.width = this.container.clientWidth;
     this.innerWidth = this.width - this.margin.left - this.margin.right;
     this.innerHeight = this.height - this.margin.top - this.margin.bottom;
 

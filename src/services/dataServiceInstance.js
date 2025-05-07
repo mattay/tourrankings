@@ -1,5 +1,16 @@
+import config from "server/config.js";
 import DataService from "./data/dataService.js";
 
-const dataService = new DataService();
+/**
+ * Classes
+ * @typedef {import('./data/dataService').RaceData} RaceData
+ * @typedef {import('./data/dataService').RaceStageData} RaceStageData
+ * @typedef {import('./data/dataService').RaceStageResultData} RaceStageResultData
+ * @typedef {import('./data/dataService').RaceRiderData} RaceRiderData
+ * @typedef {import('./data/dataService').TeamData} TeamData
+ * @typedef {import('./data/dataService').RiderData} RiderData
+ */
+
+const dataService = new DataService(config.dataService);
 
 export default dataService;

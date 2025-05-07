@@ -1,25 +1,22 @@
 import CSVdataModel from "../dataModel_csv.js";
 
-/** @typedef {Object} RaceRiderData -
- * @property {string} raceUID - The unique identifier of the race.
- * @property {string} bib - The bib number of the rider.
- * @property {string} riderPcsId - The unique identifier of the rider.
- * @property {string} teamPcsId - The unique identifier of the team.
- * @property {string} rider - The name of the rider.
- * @property {string} flag - The flag of the rider's country.
+/**
+ * @typedef {import('../@types/races').RaceRiderModel} RaceRiderModel
  */
 
 /**
- * @class RaceRiders
+ * Class for managing race riders data loaded from a CSV file.
+ *
+ * Extends {@link CSVdataModel} to provide specialized handling for race rider records.
+ *
  * @extends CSVdataModel
- * @description Represents the race riders data.
- * @constructor
- * @param {string} filePath - The path to the CSV file.
- * @param {Array<string>} indexOn - An array of strings representing the columns to index on.
  */
 export class RaceRiders extends CSVdataModel {
+  /** @type {RaceRiderModel[]} */
+  rows = [];
+
   constructor() {
-    super("data/raw/csv/raceRiders.csv", ["Race UID", "Bib"]);
+    super(`${process.env.DATA_DIR}/raceRiders.csv`, ["Race UID", "Bib"]);
     this.csvHeaders = [
       "Race UID",
       "Bib",
@@ -32,5 +29,15 @@ export class RaceRiders extends CSVdataModel {
       ["Race Id", "asc"],
       ["Bib", "asc"],
     ];
+  }
+
+  /**
+   * Retrieves all riders participating in a specific race.
+   *
+   * @param {string} raceUID - The unique identifier of the race.
+   * @returns {RaceRiderModel[]} An array of race rider models.
+   */
+  ridersInRace(raceUID) {
+    return this.rows.filter((row) => row.raceUID === raceUID);
   }
 }

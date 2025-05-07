@@ -58,9 +58,9 @@ router.get("/:racePcsID/:year?/:stage?/:ranking?", (req, res, next) => {
 
   try {
     res.render("pages/race", pageContent);
-  } catch (err) {
-    logOut("Unable to render /", err);
-    next(err); // Passes error to Express error handler
+  } catch (error) {
+    logOut("Unable to render /", error);
+    next(error); // Passes error to Express error handler
   }
 });
 

@@ -1,4 +1,4 @@
-import { Page } from "puppeteer";
+import { Page } from "puppeteer-core";
 import { generateId } from "../../../utils/idGenerator";
 import { renameKeys } from "../../../utils/object";
 import { toCamelCase } from "../../../utils/string";
@@ -109,7 +109,7 @@ function cleanUpStageTable(table, additionalValues) {
 /**
  *
  * @param {string} label - The label for the sprint.
- * @returns {Object<{location: string, distance: string}>} The parsed sprint label.
+ * @returns {{location: string, distance: string}} The parsed sprint label.
  */
 function sprint(label) {
   // Sprint -> "Sprint | Dozza (108.1 km)""
@@ -138,7 +138,7 @@ function sprint(label) {
 /**
  *
  * @param {string} label - The label for the climb.
- * @returns {Object<{category: string, location: string, distance: string}>} The parsed climb label.
+ * @returns {{category: string, location: string, distance: string}} The parsed climb label.
  */
 function climb(label) {
   // Stage Classification -> "KOM Sprint (3) Côte de San Luca (186.6 km)""
@@ -195,6 +195,11 @@ function cleanUpStages(tables, stageId, stage) {
       stageRankings[tab] = general;
     } else {
       console.error(tab, index, Object.keys(tables[index]));
+      logOut(
+        this.constructor.name,
+        `${tab}, ${index} ${Object.keys(tables[index]).join(", ")}`,
+        "debug",
+      );
     }
 
     if (

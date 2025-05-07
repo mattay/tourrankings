@@ -99,7 +99,7 @@ a {
     display: flex;
     width: 100%;
     flex-grow: 1;
-
+    padding-top: 16px;
     svg {
         width: 100%;
     }
@@ -137,5 +137,41 @@ button:hover {
 
     .controls {
         flex-direction: column;
+    }
+}
+
+.stage-container {
+    .stage {
+        cursor: pointer;
+    }
+
+    text {
+        font-size: 1rem;
+        line-height: 1;
+        font-weight: bold;
+        fill: var(--color-text-secondary);
+    }
+
+    circle {
+        .upcomming {
+            r: 16px;
+            stroke-width: 2px;
+            stroke: var(--color-text-primary);
+            fill: var(--color-background);
+        }
+        .completed {
+            r: 20px;
+            stroke-width: 2px;
+            stroke: var(--color-background);
+            fill: var(--color-text-primary);
+        }
+    }
+}
+
+.rider-container {
+    text {
+        font-size: 1rem;
+        line-height: 1;
+        fill: var(--color-text-primary);
     }
 }

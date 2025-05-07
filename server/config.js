@@ -31,7 +31,9 @@ const __dirname = dirname(__fileName);
  * @property {string[]} security.headers.contentSecurityPolicy.directives.styleSrc - Allowed style sources.
  * @property {string[]} security.headers.contentSecurityPolicy.directives.imgSrc - Allowed image sources.
  * @property {string[]} security.headers.contentSecurityPolicy.directives.connectSrc - Allowed connect sources.
- */
+ * @property {Object} dataService - Data service configuration.
+ * @property {boolean} dataService.autoRefresh - Enable auto-refresh.
+ * @property {number} dataService.refreshInterval - Interval in milliseconds for auto-refresh.
 
 /** @type {Config} */
 const config = {
@@ -68,6 +70,11 @@ const config = {
         },
       },
     },
+  },
+
+  dataService: {
+    autoRefresh: false,
+    refreshInterval: 3600000,
   },
 };
 

@@ -19,8 +19,15 @@ export function logOut(domain, message, logLevel = "log") {
  *
  * @param {string} domain - The category or source of the error message.
  * @param {string} message - The error message to log.
+ * @param {Error|null} error - The error object to log.
  */
-export function logError(domain, message) {
+export function logError(domain, message, error = null) {
   const timestamp = isoDateTime(new Date());
   console.error(`${timestamp} ${domain.padEnd(PADDINGDOMAIN)} ${message}`);
+  if (error) {
+    console.error(`${timestamp} ${domain.padEnd(PADDINGDOMAIN)} ${error.name}`);
+    console.error(
+      `${timestamp} ${domain.padEnd(PADDINGDOMAIN)} ${error.message}`,
+    );
+  }
 }

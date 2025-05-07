@@ -1,6 +1,6 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 
-app = 'tourRankings'
+app = 'tourrankings'
 primary_region = 'syd'
 
 [build]
@@ -20,4 +20,4 @@ cpus = 1
 
 [mounts]
 source = "data_volume"
-destination = "/app/data"
+destination = "/tourRanking/data"

@@ -1,7 +1,16 @@
+# Build
 node_modules/
-.DS_Store
-.env
+/public/js/dist/
 
-# Do not track scraped data.
-data/
-charts/
+# OS files
+.DS_Store
+
+# Environment
+.env
+.env.local
+
+
+_sample_code
+
+# Scraped data.
+/data/

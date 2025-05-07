@@ -8,6 +8,9 @@ COPY package.json bun.lockb ./
 # Install dependencies
 RUN bun install --production
 
+# Run build step
+RUN bun run build
+
 # Install Chrome for Testing - https://developer.chrome.com/blog/chrome-for-testing
 RUN bunx @puppeteer/browsers install chrome@stable && \
     echo "PUPPETEER_EXECUTABLE_PATH=$(find . -type f -name chrome | head -n 1)" >> .env

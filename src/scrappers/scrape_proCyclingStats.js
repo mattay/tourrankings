@@ -164,7 +164,7 @@ function stagesWithoutResults(races, raceStages, raceStageResults) {
         raceStageResults.stageResults(stage.stageUID).length === 0
       );
     })
-    .map((stage) => stage.stageId);
+    .map((stage) => stage.stageUID);
 }
 
 /**

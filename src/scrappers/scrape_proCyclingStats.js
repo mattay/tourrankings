@@ -28,10 +28,10 @@ import {
 
 /**
  * Models
- * @typedef {import('../src/models/@types/races').RaceModel} RaceData
- * @typedef {import('../src/models/@types/races').RaceStageData} RaceStageData
- * @typedef {import('../src/models/@types/teams').TeamModel} TeamData
- * @typedef {import('../src/models/@types/riders').RiderModel} RiderData
+ * @typedef {import('../models/@types/races').RaceModel} RaceData
+ * @typedef {import('../models/@types/races').RaceStageModel} RaceStageData
+ * @typedef {import('../models/@types/teams').TeamModel} TeamData
+ * @typedef {import('../models/@types/riders').RiderModel} RiderData
  */
 
 /**

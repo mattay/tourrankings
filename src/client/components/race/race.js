@@ -62,7 +62,8 @@ export class Race {
     // .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
     this.containerRiders = this.svg
       .append("g")
-      .attr("class", "rider-container");
+      .attr("class", "rider-container")
+      .attr("transform", `translate(24, 64)`);
 
     console.debug("Race initializing Event listerns...");
     window.addEventListener("resize", () => {

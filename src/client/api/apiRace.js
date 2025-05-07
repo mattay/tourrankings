@@ -14,7 +14,7 @@
 export async function fetchRaceData(raceID, year) {
   try {
     // Construct the API URL
-    const url = `/api/race/${raceID}/${year}}`;
+    const url = `/api/race/${raceID}/${year}`;
 
     // Fetch the data
     const response = await fetch(url);

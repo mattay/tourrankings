@@ -62,7 +62,11 @@ function cleanRecord(record) {
 export async function scrapeRaceStages(page, race, year) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/route/stages`;
   try {
-    await page.goto(url, { waitUntil: "networkidle2" });
+    await page.goto(url, { waitUntil: "networkidle2" }).catch((exception) => {
+      logError("scrapeStages", "Navigation failed");
+      logError("scrapeStages", exception.name);
+      logError("scrapeStages", exception.message);
+    });
 
     await page
       .waitForSelector(".page-content", {
@@ -112,7 +116,9 @@ export async function scrapeRaceStages(page, race, year) {
     return data.map((record) => cleanRecord(record));
   } catch (exception) {
     logError("scrapeStages", url);
-    logError("scrapeStages", exception);
+    logError("scrapeStages", exception.name);
+    logError("scrapeStages", exception.message);
+
     throw exception;
   }
 }

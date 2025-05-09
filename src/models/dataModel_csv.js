@@ -87,7 +87,7 @@ class CSVdataModel {
         .on("end", () => resolve(this.rows))
         .on("error", reject);
 
-      logOut(this.constructor.name, `Loaded ${this.filePath}`, "debug");
+      // logOut(this.constructor.name, `Loaded ${this.filePath}`, "debug");
       this.sortRows();
     });
   }
@@ -108,11 +108,11 @@ class CSVdataModel {
       });
       try {
         fs.writeFileSync(this.filePath, csvContent, "utf8");
-        logOut(
-          this.constructor.name,
-          `Wrote to ${this.filePath} ${fs.existsSync(this.filePath)}`,
-          "debug",
-        );
+        // logOut(
+        //   this.constructor.name,
+        //   `Wrote to ${this.filePath} ${fs.existsSync(this.filePath)}`,
+        //   "debug",
+        // );
       } catch (error) {
         logError(this.constructor.name, `Failed to write to ${this.filePath}`);
         logError(this.constructor.name, error.message);

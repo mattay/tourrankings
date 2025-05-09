@@ -1,6 +1,6 @@
 /**
  * @typedef {Object} ClassificationGeneralModel
- * @property {string} stageId - Unique identifier for the stage.
+ * @property {string} stageUID - Unique identifier for the stage.
  * @property {string} stage - Name of the stage.
  * @property {number} rank - Rank of the rider in the general classification.
  * @property {number} previousStageRanking - Rank of the rider in the previous stage.
@@ -17,7 +17,7 @@
  */
 
 /** @typedef {Object} ClassificationYouthModel -
- * @property {number} stageId - The unique identifier for the stage.
+ * @property {number} stageUID - The unique identifier for the stage.
  * @property {string} stage - The name of the stage.
  * @property {number} rank - The rank of the rider in the stage.
  * @property {number} previousStageRanking - The rank of the rider in the previous stage.
@@ -30,7 +30,7 @@
  */
 
 /** @typedef {Object} ClassificationPointModel
- * @property {number} stageId - The unique identifier for the stage.
+ * @property {number} stageUID - The unique identifier for the stage.
  * @property {string} stage - The name of the stage.
  * @property {number} rank - The rank of the rider in the classification.
  * @property {number} previousStageRanking - The rank of the rider in the previous stage.
@@ -48,7 +48,7 @@
  */
 
 /** @typedef {Object} ClassificationMountainModel
- * @property {number} stageId - The unique identifier for the stage.
+ * @property {number} stageUID - The unique identifier for the stage.
  * @property {number} stage
  * @property {number} rank - The rank of the rider in the mountain classification.
  * @property {number} previousStageRanking - The rank of the rider in the previous stage.
@@ -63,7 +63,7 @@
  */
 
 /** @typedef {Object} ClassificationTeamModel -
- * @property {number} stageId - The unique identifier for the stage.
+ * @property {number} stageUID - The unique identifier for the stage.
  * @property {string} stage - The name of the stage.
  * @property {number} rank - The rank of the team in the stage.
  * @property {number} previousStageRanking - The rank of the team in the previous stage.

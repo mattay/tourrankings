@@ -273,11 +273,11 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
   const stageUID = generateId.stage(raceId, stage);
 
   try {
+    // Ensure page loads
     await page.goto(url, { waitUntil: "networkidle2" }).catch((exception) => {
       console.error(exception.name, `Failed to Navigate to '${url}'`);
       return null;
     });
-
     await page
       .waitForSelector(".page-content", {
         timeout: 1200,
@@ -290,6 +290,7 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
         return null;
       });
 
+    // Fetch table data
     const tables = await page.evaluate(() => {
       const resultConts = document.querySelectorAll(".result-cont");
 

@@ -31,14 +31,14 @@ class CSVdataModel {
     const result = {};
 
     for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
+      if (obj.hasOwn(key)) {
         const camelCaseKey = toCamelCase(key);
         result[camelCaseKey] = obj[key];
       }
     }
 
     for (const key of this.indexOn) {
-      if (!result.hasOwnProperty(key)) {
+      if (!result.hasOwn(key)) {
         logError(
           this.constructor.name,
           `Incoming CSV row missing index ${key}`,
@@ -165,7 +165,7 @@ class CSVdataModel {
 
     updates.forEach((entry) => {
       for (const key of this.indexOn) {
-        if (!entry.hasOwnProperty(key)) {
+        if (!entry.hasOwn(key)) {
           logError(this.constructor.name, `Update row missing index ${key}`);
           logOut(this.constructor.name, Object.keys(entry).join(", "), "debug");
           throw new Error("Invalid Update");

@@ -164,7 +164,7 @@ function stagesWithoutResults(races, raceStages, raceStageResults) {
       const stageDate = new Date(stage.date);
       return (
         stageDate <= today &&
-        raceStageResults.stageResults(stage.stageUID).length === 0
+        raceStageResults.getStageResults(stage.stageUID).length === 0
       );
     })
     .map((stage) => stage.stageUID);

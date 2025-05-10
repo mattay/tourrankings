@@ -65,7 +65,7 @@ import {
 /**
  *
  * @param {Page} page - Page object from Puppeteer
- * @param {string} raceId - ID of the race to scrape
+ * @param {string} racePcsID - ID of the race to scrape
  * @param {number} year - Year of the race to scrape
  * @returns {Promise<CollectedRaceData>} CollectedRaceData - Object containing stages, teams, and riders data
  */

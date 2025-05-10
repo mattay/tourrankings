@@ -3,6 +3,7 @@ import js from "@eslint/js";
 import prettierRecommended from "eslint-config-prettier";
 import pluginPrettier from "eslint-plugin-prettier";
 import pluginJest from "eslint-plugin-jest";
+import globals from "globals";
 
 export default [
   // Base JS rules
@@ -13,6 +14,12 @@ export default [
 
   {
     files: ["**/*.js"],
+    languageOptions: {
+      globals: {
+        ...globals.node, // Node.js globals (console, process, etc.)
+        ...globals.browser, // Browser globals (window, document, etc.)
+      },
+    },
     plugins: {
       prettier: pluginPrettier,
     },
@@ -33,7 +40,11 @@ export default [
       jest: pluginJest,
     },
     languageOptions: {
-      globals: pluginJest.environments.globals.globals,
+      globals: {
+        ...globals.node,
+        ...globals.browser,
+        ...pluginJest.environments.globals.globals,
+      },
     },
     extends: ["plugin:jest/recommended"],
     rules: {

@@ -245,7 +245,7 @@ class DataService {
     for (const stage of this.stages.stagesInRace(raceUID)) {
       logOut("DataService", `stageUID ${stage.stageUID}`);
 
-      const results = this.stageResults.stageResults(stage.stageUID);
+      const results = this.stageResults.getStageResults(stage.stageUID);
       if (!results) {
         logError(
           this.constructor.name,

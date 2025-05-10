@@ -22,7 +22,7 @@ export class RaceStageLocationPoints extends CSVdataModel {
     ]);
     this.csvHeaders = [
       "Location ID",
-      "Stage Id",
+      "Stage UID",
       "Year",
       "Stage",
       "Type",

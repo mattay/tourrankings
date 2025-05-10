@@ -167,11 +167,11 @@ function climb(label) {
 /**
  *
  * @param {Array<Object>} tables - The tables for the race.
- * @param {string} stageId - The ID of the stage.
+ * @param {string} stageUID - The ID of the stage.
  * @param {number} stage - The number of the stage.
  * @returns {Object} The cleaned up stage rankings.
  */
-function cleanUpStages(tables, stageId, stage) {
+function cleanUpStages(tables, stageUID, stage) {
   const stageRankings = {};
 
   const resultsIndex = [
@@ -189,7 +189,7 @@ function cleanUpStages(tables, stageId, stage) {
     // Accumulated times and points rankings
     if (tab && tables[index].hasOwnProperty("general")) {
       const general = cleanUpStageTable(tables[index]["general"], {
-        stageId,
+        stageUID,
         stage,
       });
       stageRankings[tab] = general;
@@ -216,7 +216,7 @@ function cleanUpStages(tables, stageId, stage) {
             stageRankings[tab + "-location"] = cleanUpStageTable(
               ranking.standings,
               {
-                stageId,
+                stageUID,
                 stage,
                 ...sprint(ranking.label),
               },
@@ -227,7 +227,7 @@ function cleanUpStages(tables, stageId, stage) {
             stageRankings[tab + "-location"] = cleanUpStageTable(
               ranking.standings,
               {
-                stageId,
+                stageUID,
                 stage,
                 ...climb(ranking.label),
               },
@@ -236,19 +236,19 @@ function cleanUpStages(tables, stageId, stage) {
           case "youth":
             stageRankings[tab + "-day-classification"] = cleanUpStageTable(
               ranking.standings,
-              { stageId, stage },
+              { stageUID, stage },
             );
             break;
           case "teams":
             stageRankings[tab + "-day-classification"] = cleanUpStageTable(
               ranking.standings,
-              { stageId, stage },
+              { stageUID, stage },
             );
             break;
           default:
             console.log("Ranking:", ranking.label);
 
-            table = cleanUpStageTable(ranking.standings, { stageId, stage });
+            table = cleanUpStageTable(ranking.standings, { stageUID, stage });
             stageRankings[tab + "-location"] = table;
             break;
         }
@@ -270,14 +270,14 @@ function cleanUpStages(tables, stageId, stage) {
 export async function scrapeRaceStageResults(page, race, year, stage) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/stage-${stage}`;
   const raceId = generateId.race(race, year);
-  const stageId = generateId.stage(raceId, stage);
+  const stageUID = generateId.stage(raceId, stage);
 
   try {
+    // Ensure page loads
     await page.goto(url, { waitUntil: "networkidle2" }).catch((exception) => {
       console.error(exception.name, `Failed to Navigate to '${url}'`);
       return null;
     });
-
     await page
       .waitForSelector(".page-content", {
         timeout: 1200,
@@ -290,6 +290,7 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
         return null;
       });
 
+    // Fetch table data
     const tables = await page.evaluate(() => {
       const resultConts = document.querySelectorAll(".result-cont");
 
@@ -366,7 +367,7 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
       return results;
     });
 
-    return cleanUpStages(tables, stageId, stage);
+    return cleanUpStages(tables, stageUID, stage);
   } catch (exception) {
     throw exception;
   }

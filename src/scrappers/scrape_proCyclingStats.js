@@ -27,6 +27,10 @@ import {
 } from "./source/proCyclingStats";
 
 /**
+ * @typedef {import('puppeteer-core').Page} Page - Puppeteer
+ */
+
+/**
  * Models
  * @typedef {import('../src/models/@types/races').RaceModel} RaceData
  * @typedef {import('../src/models/@types/races').RaceStageData} RaceStageData
@@ -197,7 +201,7 @@ async function collectSeasonRaces(page, races, raceSeason) {
  * Collects past races.
  *
  * @async
- * @param {import('puppeteer').Page} page - Puppeteer page instance for scraping.
+ * @param {Page} page - Puppeteer page instance for scraping.
  * @param {Races} races - The Races object.
  * @param {RaceStages} raceStages - The race stages.
  * @param {RaceRiders} raceRiders - The race riders.
@@ -275,7 +279,7 @@ async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
  * - For each past race with missing stages, fetches and updates detailed data.
  *
  * @async
- * @param {import('puppeteer').Page} page - Puppeteer page instance for scraping. * @param {Races} races - The Races object
+ * @param {Page} page - Puppeteer page instance for scraping.
  * @param {Races} races - Races data manager.
  * @param {RaceStages} raceStages - RaceStages data manager.
  * @param {RaceRiders} raceRiders - RaceRiders data manager.

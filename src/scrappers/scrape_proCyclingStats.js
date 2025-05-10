@@ -369,7 +369,7 @@ async function main() {
 
     try {
       await updateRaces(page, races, raceStages, raceRiders, riders, teams);
-    } catch {
+    } catch (error) {
       logError("Main", "Error collecting race information", error);
     }
 

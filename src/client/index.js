@@ -9,10 +9,7 @@ class tourRankingApp {
 
   constructor() {
     // Initialize components
-    // race-rankings
-    // this.raceChart = new RaceChart('race-chart');
     this.race = new Race("race-rankings");
-    // this.stageSelector = new StageSelector('stage-selector');
 
     // Start the application
     this.init();
@@ -42,8 +39,6 @@ class tourRankingApp {
         raceData: processedData,
         isLoading: false,
       });
-
-      console.log(processedData);
 
       // Dispatch event for components
       dispatch(EVENT_TYPES.RACE_DATA_LOADED, processedData);

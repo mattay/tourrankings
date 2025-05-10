@@ -1,4 +1,4 @@
-import puppeteer, { Page } from "puppeteer-core";
+import puppeteer from "puppeteer-core";
 
 // Data Models
 import {
@@ -25,6 +25,10 @@ import {
   scrapeRaceStartList,
   scrapeRaceStages,
 } from "./source/proCyclingStats";
+
+/**
+ * @typedef {import('puppeteer-core').Page} Page - Puppeteer
+ */
 
 /**
  * Models
@@ -61,7 +65,7 @@ import {
 /**
  *
  * @param {Page} page - Page object from Puppeteer
- * @param {string} raceId - ID of the race to scrape
+ * @param {string} racePcsID - ID of the race to scrape
  * @param {number} year - Year of the race to scrape
  * @returns {Promise<CollectedRaceData>} CollectedRaceData - Object containing stages, teams, and riders data
  */
@@ -148,11 +152,11 @@ function stagesInRaces(raceStages, races) {
  */
 function stagesWithoutResults(races, raceStages, raceStageResults) {
   const today = new Date();
-  const raceSeason = today.getFullYear();
+  // const raceSeason = today.getFullYear();
 
-  const races_past = races.past(raceSeason);
+  // const races_past = races.past(raceSeason);
   const races_inProgress = races.inProgress(today);
-  const races_upcoming = races.upcoming();
+  // const races_upcoming = races.upcoming();
   const seasonRaces = stagesInRaces(raceStages, races_inProgress);
   //
   return seasonRaces
@@ -197,7 +201,7 @@ async function collectSeasonRaces(page, races, raceSeason) {
  * Collects past races.
  *
  * @async
- * @param {import('puppeteer').Page} page - Puppeteer page instance for scraping.
+ * @param {Page} page - Puppeteer page instance for scraping.
  * @param {Races} races - The Races object.
  * @param {RaceStages} raceStages - The race stages.
  * @param {RaceRiders} raceRiders - The race riders.
@@ -275,7 +279,7 @@ async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
  * - For each past race with missing stages, fetches and updates detailed data.
  *
  * @async
- * @param {import('puppeteer').Page} page - Puppeteer page instance for scraping. * @param {Races} races - The Races object
+ * @param {Page} page - Puppeteer page instance for scraping.
  * @param {Races} races - Races data manager.
  * @param {RaceStages} raceStages - RaceStages data manager.
  * @param {RaceRiders} raceRiders - RaceRiders data manager.
@@ -324,6 +328,7 @@ async function updateStageResults(page, races, raceStages, raceStageResults) {
     raceStageResults,
   );
   logOut("updateStageResults", "Needs implementation", "warn");
+  console.log(stagesRequireResults);
 }
 
 /**
@@ -369,7 +374,7 @@ async function main() {
 
     try {
       await updateRaces(page, races, raceStages, raceRiders, riders, teams);
-    } catch {
+    } catch (error) {
       logError("Main", "Error collecting race information", error);
     }
 

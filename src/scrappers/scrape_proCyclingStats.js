@@ -24,6 +24,7 @@ import {
   collectWorldTourRaces,
   scrapeRaceStartList,
   scrapeRaceStages,
+  scrapeRaceStageResults,
 } from "./source/proCyclingStats";
 
 /**
@@ -330,24 +331,83 @@ async function updateRaces(page, races, raceStages, raceRiders, riders, teams) {
  * @param {ClassificationYouth} raceStageYouth -
  * @param {ClassificationTeam} raceStageTeam -
  */
-async function updateStageResults(page, races, raceStages, raceStageResults) {
+async function updateStageResults(
+  page,
+  races,
+  raceStages,
+  raceStageResults,
+  raceStageGeneral,
+  raceStagePoints,
+  raceStageMountain,
+  raceStageYouth,
+  raceStageTeam,
+) {
   const stagesRequireResults = stagesWithoutResults(
     races,
     raceStages,
     raceStageResults,
   );
-  logOut("updateStageResults", "Needs implementation", "warn");
+
+  const raceResults = {
+    stage: [],
+    gc: [],
+    points: [],
+    mountain: [],
+    youth: [],
+    teams: [],
+  };
+
   for (const stage of stagesRequireResults) {
     const [race, year, stageNo] = stage.split(":");
-    const stageResults = await scrapeRaceStageResults(
-      page,
-      race,
-      year,
-      stageNo,
+    logOut(
+      "Update Stage Results",
+      `Scraping -> Stage Results, ${race}, ${year}, ${stage}`,
     );
-    console.log(stageResults);
+    try {
+      const stageResults = await scrapeRaceStageResults(
+        page,
+        race,
+        year,
+        stageNo,
+      );
+      // Collect Results for bulk update
+      for (let ranking in stageResults) {
+        switch (ranking) {
+          case "stage":
+          case "gc":
+          case "points":
+          case "youth":
+          case "teams":
+            raceResults[ranking].push(...stageResults[ranking]);
+            break;
+          case "kom":
+          case "qom":
+            raceResults["mountain"].push(...stageResults[ranking]);
+            break;
+          default:
+            logOut(
+              "Update Stage Results",
+              `Classification not yet recorded ${ranking}`,
+            );
+            break;
+        }
+      }
+    } catch (error) {
+      logError(
+        "Update Stage Results",
+        `Failed to collect stage results for ${stage}`,
+        error,
+      );
+    }
+
     break;
   }
+  await raceStageResults.update(raceResults.stage);
+  await raceStageGeneral.update(raceResults.gc);
+  await raceStagePoints.update(raceResults.points);
+  await raceStageMountain.update(raceResults.mountain);
+  await raceStageYouth.update(raceResults.youth);
+  await raceStageTeam.update(raceResults.teams);
 }
 
 /**
@@ -403,7 +463,17 @@ async function main() {
     }
 
     try {
-      await updateStageResults(page, races, raceStages, raceStageResults);
+      await updateStageResults(
+        page,
+        races,
+        raceStages,
+        raceStageResults,
+        raceStageGeneral,
+        raceStagePoints,
+        raceStageMountain,
+        raceStageYouth,
+        raceStageTeam,
+      );
     } catch (error) {
       logError("Main", "Error collecting race information", error);
     }

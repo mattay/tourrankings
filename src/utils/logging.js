@@ -23,11 +23,15 @@ export function logOut(domain, message, logLevel = "log") {
  */
 export function logError(domain, message, error = null) {
   const timestamp = isoDateTime(new Date());
-  console.error(`${timestamp} ${domain.padEnd(PADDINGDOMAIN)} ${message}`);
+  console.error(
+    `${timestamp} ${domain.padEnd(PADDINGDOMAIN)} [ERROR] ${message}`,
+  );
   if (error) {
-    console.error(`${timestamp} ${domain.padEnd(PADDINGDOMAIN)} ${error.name}`);
     console.error(
-      `${timestamp} ${domain.padEnd(PADDINGDOMAIN)} ${error.message}`,
+      `${timestamp} ${domain.padEnd(PADDINGDOMAIN)} [ERROR NAME] ${error.name}`,
+    );
+    console.error(
+      `${timestamp} ${domain.padEnd(PADDINGDOMAIN)} [ERROR MESSAGE] ${error.message}`,
     );
   }
 }

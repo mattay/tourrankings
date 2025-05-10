@@ -88,8 +88,7 @@ async function collectRace(page, racePcsID, year) {
     // Race stages
     const stagesInRace = await scrapeRaceStages(page, racePcsID, year).catch(
       (exception) => {
-        logError("CollectRace", `Error collecting stages`);
-        logError("CollectRace", exception);
+        logError("CollectRace", `Failed to collect stages`, exception);
       },
     );
     if (stagesInRace) {
@@ -104,8 +103,7 @@ async function collectRace(page, racePcsID, year) {
       racePcsID,
       year,
     ).catch((exception) => {
-      logError("CollectRace", `Error collecting startlist`);
-      logError("CollectRace", exception);
+      logError("CollectRace", `Failed to collect startlist`, exception);
     });
     if (raceStartlist) {
       for (let team of raceStartlist) {
@@ -127,7 +125,7 @@ async function collectRace(page, racePcsID, year) {
       logError("CollectRace", "No startlist found");
     }
   } catch (exception) {
-    logError("CollectRace", exception);
+    logError("CollectRace", "Failed to collect race details", exception);
   }
   return {
     stages: stages,
@@ -456,14 +454,14 @@ async function main() {
       await raceStageYouth.read();
       await raceStageTeam.read();
     } catch (error) {
-      logError("Main", "Error loading data", error);
+      logError("Main", "Loading data", error);
       throw error;
     }
 
     try {
       await updateRaces(page, races, raceStages, raceRiders, riders, teams);
     } catch (error) {
-      logError("Main", "Error collecting race information", error);
+      logError("Main", "Collecting race information", error);
     }
 
     try {
@@ -479,7 +477,7 @@ async function main() {
         raceStageTeam,
       );
     } catch (error) {
-      logError("Main", "Error collecting race information", error);
+      logError("Main", "Failed to collect race information", error);
     }
   } catch (error) {
     // Catch-all for any errors not handled above

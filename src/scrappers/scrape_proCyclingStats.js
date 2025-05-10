@@ -328,6 +328,7 @@ async function updateStageResults(page, races, raceStages, raceStageResults) {
     raceStageResults,
   );
   logOut("updateStageResults", "Needs implementation", "warn");
+  console.log(stagesRequireResults);
 }
 
 /**

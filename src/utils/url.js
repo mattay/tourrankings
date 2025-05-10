@@ -9,7 +9,7 @@ import { logError } from "./logging";
 export function buildUrl(baseUrl, params) {
   let queryString = "";
   for (const key in params) {
-    if (params.hasOwnProperty(key)) {
+    if (params.hasOwn(key)) {
       queryString += `${key}=${params[key]}&`;
     }
   }

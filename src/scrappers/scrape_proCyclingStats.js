@@ -152,11 +152,11 @@ function stagesInRaces(raceStages, races) {
  */
 function stagesWithoutResults(races, raceStages, raceStageResults) {
   const today = new Date();
-  const raceSeason = today.getFullYear();
+  // const raceSeason = today.getFullYear();
 
-  const races_past = races.past(raceSeason);
+  // const races_past = races.past(raceSeason);
   const races_inProgress = races.inProgress(today);
-  const races_upcoming = races.upcoming();
+  // const races_upcoming = races.upcoming();
   const seasonRaces = stagesInRaces(raceStages, races_inProgress);
   //
   return seasonRaces

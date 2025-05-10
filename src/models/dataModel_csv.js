@@ -116,7 +116,7 @@ class CSVdataModel {
       } catch (error) {
         logError(this.constructor.name, `Failed to write to ${this.filePath}`);
         logError(this.constructor.name, error.message);
-        // reject(error); This might need to be handled differently depending on the use case.
+        reject(error);
       }
       resolve();
     });

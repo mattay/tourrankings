@@ -1,4 +1,4 @@
-import puppeteer, { Page } from "puppeteer-core";
+import puppeteer from "puppeteer-core";
 
 // Data Models
 import {

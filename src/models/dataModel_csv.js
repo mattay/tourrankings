@@ -31,14 +31,14 @@ class CSVdataModel {
     const result = {};
 
     for (const key in obj) {
-      if (obj.hasOwn(key)) {
+      if (Object.hasOwn(obj, key)) {
         const camelCaseKey = toCamelCase(key);
         result[camelCaseKey] = obj[key];
       }
     }
 
     for (const key of this.indexOn) {
-      if (!result.hasOwn(key)) {
+      if (!Object.hasOwn(result, key)) {
         logError(
           this.constructor.name,
           `Incoming CSV row missing index ${key}`,
@@ -163,19 +163,34 @@ class CSVdataModel {
   async update(updates) {
     await this.read(); // Refresh
 
+    const validated = [];
+    const failed = [];
+    // Check if results are valid
     updates.forEach((entry) => {
       for (const key of this.indexOn) {
-        if (!entry.hasOwn(key)) {
-          logError(this.constructor.name, `Update row missing index ${key}`);
-          logOut(this.constructor.name, Object.keys(entry).join(", "), "debug");
-          throw new Error("Invalid Update");
+        if (!Object.hasOwn(entry, key)) {
+          failed.push(entry);
+        } else {
+          validated.push(entry);
         }
       }
     });
 
-    this.rows = [...this.rows, ...this.#newEntries(updates)];
+    this.rows = [...this.rows, ...this.#newEntries(validated)];
     this.sortRows();
-    await this.write();
+    const writePromise = this.write();
+
+    // Log failed entries while writing
+    if (failed.length > 0) {
+      logError(this.constructor.name, "Invalid Entries");
+      logError(
+        this.constructor.name,
+        "Expected Keys: " + this.indexOn.join(", "),
+      );
+      console.table(failed);
+    }
+
+    await writePromise;
   }
 
   /**

@@ -395,8 +395,6 @@ async function updateStageResults(
         error,
       );
     }
-
-    break;
   }
   await raceStageResults.update(raceResults.stage);
   await raceStageGeneral.update(raceResults.gc);

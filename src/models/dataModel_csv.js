@@ -187,7 +187,6 @@ class CSVdataModel {
         this.constructor.name,
         "Expected Keys: " + this.indexOn.join(", "),
       );
-      console.table(failed);
     }
 
     await writePromise;

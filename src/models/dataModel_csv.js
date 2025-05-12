@@ -15,6 +15,17 @@ class CSVdataModel {
   /** @type {Array<Object>} */
   rows = [];
 
+  /**
+   * Represents a data handler for a CSV file with indexed columns.
+   *
+   * @param {string} filePath - Path to the CSV file.
+   * @param {string[]} indexOn - Array of column names to use as indexes.
+   *
+   * @property {string} filePath - Absolute path to the CSV file.
+   * @property {string[]} indexOn - Array of column names (camelCased) used as indexes.
+   * @property {string[]} csvHeaders - List of CSV column headers expected in the file.
+   * @property {Array.<Array.<string>>} sortOrder - Array of [column, direction] pairs for sorting.
+   */
   constructor(filePath, indexOn) {
     this.filePath = path.resolve(filePath);
     this.indexOn = indexOn.map((index) => toCamelCase(index));
@@ -167,12 +178,12 @@ class CSVdataModel {
     const failed = [];
     // Check if results are valid
     updates.forEach((entry) => {
-      for (const key of this.indexOn) {
-        if (!Object.hasOwn(entry, key)) {
-          failed.push(entry);
-        } else {
-          validated.push(entry);
-        }
+      const indexed = this.indexOn.every((key) => Object.hasOwn(entry, key));
+
+      if (indexed) {
+        validated.push(entry);
+      } else {
+        failed.push(entry);
       }
     });
 
@@ -187,7 +198,6 @@ class CSVdataModel {
         this.constructor.name,
         "Expected Keys: " + this.indexOn.join(", "),
       );
-      console.table(failed);
     }
 
     await writePromise;

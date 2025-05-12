@@ -46,7 +46,7 @@ export class RaceStageResults extends CSVdataModel {
   /**
    * Retrieves the stage results for a given stage ID.
    * @param {string} stageUID - The ID of the stage.
-   * @returns {RaceStageResultData[]|null} - A promise that resolves to an array of stage results.
+   * @returns {RaceStageResultModel[]|null} - A promise that resolves to an array of stage results.
    */
   getStageResults(stageUID) {
     if (!stageUID) {

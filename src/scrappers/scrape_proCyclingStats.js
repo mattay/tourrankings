@@ -223,9 +223,11 @@ async function collectPastRaceDetails(
   riders,
   teams,
 ) {
-  const pastRacesWithoutStages = stagesInRaces(raceStages, races.past()).filter(
-    (race) => race.stages.length === 0,
-  );
+  const today = new Date();
+  const pastRacesWithoutStages = stagesInRaces(raceStages, [
+    ...races.past(),
+    ...races.inProgress(today),
+  ]).filter((race) => race.stages.length === 0);
 
   for (const race of pastRacesWithoutStages) {
     logOut("collectPastRaces", `${race.raceName}`);

@@ -25,14 +25,14 @@ function cleanUpStageTable(table, additionalValues) {
     })
     .map((row, index, rankings) => {
       for (const key in rename) {
-        if (row.hasOwnProperty(key)) {
+        if (Object.hasOwn(row, key)) {
           row[rename[key]] = row[key];
           delete row[key];
         }
       }
 
       // ▼▲
-      if (row.hasOwnProperty("Change")) {
+      if (Object.hasOwn(row, "Change")) {
         // row["Change"] = row["▼▲"];
         // delete row["▼▲"];
 
@@ -45,12 +45,12 @@ function cleanUpStageTable(table, additionalValues) {
       }
 
       // Strip team from rider
-      if (row.hasOwnProperty("Rider") && row.hasOwnProperty("Team")) {
+      if (Object.hasOwn(row, "Rider") && Object.hasOwn(row, "Team")) {
         row["Rider"] = row["Rider"].replace(row["Team"], "").trim();
       }
 
       // Record actual time
-      if (row.hasOwnProperty("Time")) {
+      if (Object.hasOwn(row, "Time")) {
         if (index == 0) {
           // First position
           row["Delta"] = "0:00";
@@ -71,7 +71,7 @@ function cleanUpStageTable(table, additionalValues) {
       }
 
       // Not needed.
-      if (row.hasOwnProperty("H2H")) {
+      if (Object.hasOwn(row, "H2H")) {
         delete row["H2H"];
       }
 

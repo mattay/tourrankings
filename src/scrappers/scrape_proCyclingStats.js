@@ -127,6 +127,7 @@ async function collectRace(page, racePcsID, year) {
   } catch (exception) {
     logError("CollectRace", "Failed to collect race details", exception);
   }
+
   return {
     stages: stages,
     teams: teams,
@@ -187,20 +188,18 @@ function stagesWithoutResults(races, raceStages, raceStageResults) {
  * @param {number} raceSeason - The season for which to collect races.
  */
 async function collectSeasonRaces(page, races, raceSeason) {
-  if (races.season(raceSeason).length == 0) {
-    logOut(
+  logOut(
+    "collectSeasonRaces",
+    `Collecting races for the ${raceSeason} season.`,
+  );
+  try {
+    await collectWorldTourRaces(page, races, raceSeason);
+  } catch (error) {
+    logError(
       "collectSeasonRaces",
-      `Collecting races for the ${raceSeason} season.`,
+      `Failed to collect races for the ${raceSeason} season.`,
+      error,
     );
-    try {
-      await collectWorldTourRaces(page, races, raceSeason);
-    } catch (error) {
-      logError(
-        "collectSeasonRaces",
-        `Failed to collect races for the ${raceSeason} season.`,
-        error,
-      );
-    }
   }
 }
 

@@ -311,14 +311,6 @@ async function updateRaces(page, races, raceStages, raceRiders, riders, teams) {
     riders,
     teams,
   );
-  await collectPastRaceDetails(
-    page,
-    races,
-    raceStages,
-    raceRiders,
-    riders,
-    teams,
-  );
 }
 
 /**

@@ -223,9 +223,11 @@ async function collectPastRaceDetails(
   riders,
   teams,
 ) {
-  const pastRacesWithoutStages = stagesInRaces(raceStages, races.past()).filter(
-    (race) => race.stages.length === 0,
-  );
+  const today = new Date();
+  const pastRacesWithoutStages = stagesInRaces(raceStages, [
+    ...races.past(),
+    ...races.inProgress(today),
+  ]).filter((race) => race.stages.length === 0);
 
   for (const race of pastRacesWithoutStages) {
     logOut("collectPastRaces", `${race.raceName}`);
@@ -303,14 +305,6 @@ async function updateRaces(page, races, raceStages, raceRiders, riders, teams) {
   const raceSeason = today.getFullYear();
 
   await collectSeasonRaces(page, races, raceSeason);
-  await collectPastRaceDetails(
-    page,
-    races,
-    raceStages,
-    raceRiders,
-    riders,
-    teams,
-  );
   await collectPastRaceDetails(
     page,
     races,
@@ -401,8 +395,6 @@ async function updateStageResults(
         error,
       );
     }
-
-    break;
   }
   await raceStageResults.update(raceResults.stage);
   await raceStageGeneral.update(raceResults.gc);

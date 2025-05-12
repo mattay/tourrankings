@@ -15,6 +15,17 @@ class CSVdataModel {
   /** @type {Array<Object>} */
   rows = [];
 
+  /**
+   * Represents a data handler for a CSV file with indexed columns.
+   *
+   * @param {string} filePath - Path to the CSV file.
+   * @param {string[]} indexOn - Array of column names to use as indexes.
+   *
+   * @property {string} filePath - Absolute path to the CSV file.
+   * @property {string[]} indexOn - Array of column names (camelCased) used as indexes.
+   * @property {string[]} csvHeaders - List of CSV column headers expected in the file.
+   * @property {Array.<Array.<string>>} sortOrder - Array of [column, direction] pairs for sorting.
+   */
   constructor(filePath, indexOn) {
     this.filePath = path.resolve(filePath);
     this.indexOn = indexOn.map((index) => toCamelCase(index));

@@ -27,7 +27,11 @@ export async function collectWorldTourRaces(page, races, year) {
     logError("collectWorldTourRaces", `No races found for year ${year}`);
     return;
   }
-  await races.update(tableRows);
+  try {
+    await races.update(tableRows);
+  } catch (error) {
+    logError("collectWorldTourRaces", "Failed to update races", error);
+  }
 }
 
 /**

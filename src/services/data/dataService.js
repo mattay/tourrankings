@@ -171,7 +171,6 @@ class DataService {
     }
     logOut("DataService", `${racePcsID} | ${raceUID} -> ${year}`);
 
-    let details;
     if (!raceUID && !racePcsID) {
       throw new Error(this.DATA_SERVICE_ERROR.INVALID_INPUT);
     } else if (raceUID) {
@@ -244,7 +243,7 @@ class DataService {
 
     const stageResults = [];
     for (const stage of this.stages.stagesInRace(raceUID)) {
-      logOut("DataService", `stageUID ${stage.stageUID}`);
+      logOut("DataService", `Fetched stage ${stage.stageUID}`);
 
       const results = this.stageResults.getStageResults(stage.stageUID);
       if (!results) {

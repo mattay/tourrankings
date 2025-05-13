@@ -1,4 +1,35 @@
 /**
+ *
+ * @param {Array<Object>} rider
+ * @returns {Array<Object>} rider
+ */
+function cleanRiderResults(rider) {
+  return rider.map((stage) => {
+    const cleanedStage = {};
+    for (const key of Object.keys(stage)) {
+      let value = stage[key];
+      switch (key) {
+        case "Stage":
+        case "BIB":
+        case "GC":
+        case "Rank":
+        case "Age":
+          if (value != "-" && value != "") {
+            value = parseInt(value, 10);
+          } else if (value == "-") {
+            value = "";
+          }
+          break;
+        default:
+          break;
+      }
+      cleanedStage[key] = value;
+    }
+    return cleanedStage;
+  });
+}
+
+/**
  * Process and prepare race data for visualization
  * @param {Object} rawData - Raw data from API
  * @returns {Object} Processed data ready for D3 visualization

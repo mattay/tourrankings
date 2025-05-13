@@ -185,3 +185,33 @@ export function raceContent(racePcsID, year = null) {
 
   return raceContent;
 }
+
+/**
+ *
+ * @param {Array<RaceStageResultData[]>} raceResults
+ * @returns {Array<RaceStageResultData[]>}
+ */
+function groupStagesByRider(raceResults) {
+  const ridersByBib = [];
+
+  for (const stage of raceResults.values()) {
+    if (!stage) continue; // Only races with a prologue start at 0
+
+    for (const riderStageResult of stage) {
+      if (!riderStageResult.bib) {
+        logError(
+          "Race Controller",
+          `No bib for rider on stage ${riderStageResult.stage}. Possible relegation message`,
+        );
+        continue;
+      }
+      const bib = Number(riderStageResult.bib);
+      if (ridersByBib[bib] === undefined) {
+        ridersByBib[bib] = [];
+      }
+      ridersByBib[bib].push(riderStageResult);
+    }
+  }
+
+  return ridersByBib;
+}

@@ -7,6 +7,7 @@ import { sortByDate } from "../utils/sorts.js";
  * @typedef {import("../../src/services/dataServiceInstance").RaceStageData} RaceStageData
  * @typedef {import("../../src/services/dataServiceInstance").RaceRiderData} RaceRiderData
  * @typedef {import("../../src/services/dataServiceInstance").TeamData} TeamData
+ * @typedef {import("../../src/services/dataServiceInstance.js").RaceStageResultData} RaceStageResultData
  */
 
 /**
@@ -25,6 +26,7 @@ import { sortByDate } from "../utils/sorts.js";
  * @property {RaceStage} viewingStage - The stage being viewed.
  * @property {Object<string, RaceTeam>} teams - Teams indexed by team ID.
  * @property {Object<string, RaceRider>} riders - Riders indexed by bib number.
+ * @property {Array<RaceStageResultData[]>} results -
  */
 
 /**
@@ -129,6 +131,7 @@ export function raceContent(racePcsID, year = null) {
     viewingStage: null,
     teams: {},
     riders: {},
+    results: [],
   };
   // console.debug("RaceContent", raceContent);
 

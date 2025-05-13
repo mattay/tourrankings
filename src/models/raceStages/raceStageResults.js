@@ -26,7 +26,7 @@ export class RaceStageResults extends CSVdataModel {
       "Rank",
       "GC",
       "Timelag",
-      "BIB",
+      "Bib",
       "Specialty",
       "Rider",
       "Age",

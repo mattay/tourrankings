@@ -233,8 +233,9 @@ class DataService {
 
   /**
    * Get results for a specific race
+   * Stages are indexed by the stage number in the array. Eg Prologe at 0 else races start at 1
    * @param {string} raceUID - The unique identifier of the race
-   * @returns {RaceStageResultData[]} Promise that resolves to the results details
+   * @returns {Array<RaceStageResultData[]>} Promise that resolves to the results details
    */
   raceResults(raceUID) {
     if (!this.isInitialized) {

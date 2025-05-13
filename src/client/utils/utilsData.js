@@ -55,6 +55,10 @@ export function prepRaceData(rawData) {
     rider.team = team; // link team to rider
   }
 
+  const riderResults = rawData.results.map((rider) =>
+    rider ? cleanRiderResults(rider) : rider,
+  );
+
   return {
     race,
     stages,
@@ -62,5 +66,6 @@ export function prepRaceData(rawData) {
     viewingStage,
     riders: riders,
     teams: teams,
+    results: riderResults,
   };
 }

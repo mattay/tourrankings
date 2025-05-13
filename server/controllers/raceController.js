@@ -1,5 +1,5 @@
 import dataService from "../../src/services/dataServiceInstance.js";
-import { logOut } from "../../src/utils/logging.js";
+import { logError, logOut } from "../../src/utils/logging.js";
 import { sortByDate } from "../utils/sorts.js";
 
 /**
@@ -116,8 +116,6 @@ export function seasonRaces() {
  * @returns {RaceContent} - The race content.
  */
 export function raceContent(racePcsID, year = null) {
-  // logOut("raceContent", `${racePcsID} ${year}`, "debug");
-
   const today = new Date();
   year = year ? year : today.getFullYear();
 
@@ -133,55 +131,74 @@ export function raceContent(racePcsID, year = null) {
     riders: {},
     results: [],
   };
-  // console.debug("RaceContent", raceContent);
 
-  if (raceContent.race?.raceUID) {
-    const raceUID = raceContent.race.raceUID;
+  if (!raceContent.race?.raceUID) {
+    logError("Race Controller", `Race not Found for ${racePcsID} ${year}`);
+    return raceContent;
+    // Maybe this should be null
+  }
 
-    raceContent.stages = dataService.raceStages(raceUID);
-    raceContent.lastCompletedStage = raceContent.stages.find(
-      (el) => el !== undefined,
-    );
-    raceContent.viewingStage = raceContent.stages.find(
-      (el) => el !== undefined,
-    );
+  // Stages
+  const raceUID = raceContent.race.raceUID;
 
-    /** @type {RaceStageData} */
-    for (const stage of raceContent.stages) {
-      // Looking for most recent stages to default to
-      stage.stage = Number(stage.stage);
-      stage.verticalMeters = Number(stage.verticalMeters);
-      if (new Date(stage.date) <= today) {
-        raceContent.lastCompletedStage = stage;
-        raceContent.viewingStage = stage;
-      }
-    }
+  raceContent.stages = dataService.raceStages(raceUID);
+  raceContent.lastCompletedStage = raceContent.stages.find(
+    (el) => el !== undefined,
+  );
+  raceContent.viewingStage = raceContent.stages.find((el) => el !== undefined);
 
-    const riders = dataService.ridersInRace(raceUID);
-
-    for (const rider of riders) {
-      let team = raceContent.teams[rider.teamPcsId];
-      if (!team) {
-        const teamDets = dataService.raceTeam(rider.teamPcsId);
-        team = {
-          id: teamDets.teamPcsId,
-          name: teamDets.teamName,
-          classification: teamDets.classification,
-          jerseyImage: teamDets.jerseyImagePcsUrl,
-          riders: [],
-        };
-      }
-      raceContent.teams[rider.teamPcsId] = team;
-      // Clean up data for client
-      raceContent.riders[rider.bib] = {
-        bib: Number(rider.bib),
-        rider: rider.rider,
-        teamId: rider.teamPcsId,
-        id: rider.riderPcsId,
-        flag: rider.flag,
-      };
+  for (const stage of raceContent.stages) {
+    // Looking for most recent stages to default to
+    stage.stage = Number(stage.stage);
+    stage.verticalMeters = Number(stage.verticalMeters);
+    if (new Date(stage.date) <= today) {
+      raceContent.lastCompletedStage = stage;
+      raceContent.viewingStage = stage;
     }
   }
+
+  // Riders
+  const riders = dataService.ridersInRace(raceUID);
+  // Split teams and riders
+  for (const rider of riders) {
+    let team = raceContent.teams[rider.teamPcsId];
+    if (!team) {
+      const teamDets = dataService.raceTeam(rider.teamPcsId);
+      team = {
+        id: teamDets.teamPcsId,
+        name: teamDets.teamName,
+        classification: teamDets.classification,
+        jerseyImage: teamDets.jerseyImagePcsUrl,
+        riders: [],
+      };
+    }
+    raceContent.teams[rider.teamPcsId] = team;
+    // Clean up data for client
+    raceContent.riders[rider.bib] = {
+      bib: Number(rider.bib),
+      rider: rider.rider,
+      teamId: rider.teamPcsId,
+      id: rider.riderPcsId,
+      flag: rider.flag,
+    };
+  }
+
+  // TODO: Add race results and classification to race RaceContent
+  // We want to group the results by rider, ie the line
+  // ---
+  // resutls: [rider : stageResult[]]
+  // classification: {type: rider[ stageClasifications[] ]}
+  // ---
+  // Collect Stages
+  // Results
+  const rr = dataService.raceResults(raceUID);
+  raceContent.results = groupStagesByRider(rr);
+
+  // GC
+  // Points
+  // Mountain
+  // Youth
+  // Team
 
   return raceContent;
 }

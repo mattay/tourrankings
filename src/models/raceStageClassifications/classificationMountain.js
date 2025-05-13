@@ -26,7 +26,7 @@ export class ClassificationMountain extends CSVdataModel {
       "Rank",
       "Previous Stage Ranking",
       "Change",
-      "BIB",
+      "Bib",
       "Specialty",
       "Rider",
       "Age",

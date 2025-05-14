@@ -1,19 +1,14 @@
 /**
+ * @typedef {import('./@types/store').State} State
+ */
+
+/**
  * Simple state management for the application.
  * Provides methods to get, set, and subscribe to state changes,
  * as well as to register and use selector functions for derived data.
+ * @class
  */
 class Store {
-  /**
-   * @typedef {Object} State
-   * @property {?Object} raceData - Data related to the race.
-   * @property {?string|number} currentRaceId - The current race identifier.
-   * @property {?number} currentYear - The current year.
-   * @property {?string|number} currentStage - The current stage identifier.
-   * @property {boolean} isLoading - Loading state.
-   * @property {?Error|string} error - Error information, if any.
-   */
-
   /**
    * Internal state object.
    * @type {State}
@@ -102,8 +97,4 @@ class Store {
   }
 }
 
-/**
- * The singleton store instance for the application.
- * @type {Store}
- */
-export const store = new Store();
+export default Store;

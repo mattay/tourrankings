@@ -1,4 +1,3 @@
-import { Page } from "puppeteer-core";
 import { generateId } from "../../../utils/idGenerator.js";
 import { formatDate } from "../../../utils/string.js";
 import { logError } from "../../../utils/logging.js";
@@ -54,7 +53,7 @@ function cleanRecord(record) {
 
 /**
  * Scrapes stage data from the ProCyclingStats website.
- * @param {Page} page - The Puppeteer page object.
+ * @param {import("puppeteer-core").Page} page - The Puppeteer page object.
  * @param {string} race - The race name.
  * @param {number} year - The year of the race.
  * @returns {Promise<Array<ScrapedRaceStage>} An array of stage data.

@@ -1,5 +1,35 @@
 /**
  *
+ * @param {Array<Object>} stages
+ * @returns {Array<Object>}
+ */
+function cleanStages(stages) {
+  return stages.map((stage) => {
+    if (!stage) return stage;
+
+    const cleanedStage = {};
+    for (const key of Object.keys(stage)) {
+      let value = stage[key];
+      switch (key) {
+        case "stage":
+        case "distance":
+        case "verticalMeters":
+        case "year":
+          if (value != "-" && value != "") {
+            value = Number(value);
+          }
+          break;
+        default:
+          break;
+      }
+      cleanedStage[key] = value;
+    }
+    return cleanedStage;
+  });
+}
+
+/**
+ *
  * @param {Array<Object>} rider
  * @returns {Array<Object>} rider
  */

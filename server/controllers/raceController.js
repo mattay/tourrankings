@@ -19,26 +19,18 @@ import { sortByDate } from "../utils/sorts.js";
  */
 
 /**
+ * @typedef {RaceData} Race
+ * @typedef {RaceStageData & {raced: boolean}} RaceStage
+ * @typedef {Object} RaceResults
+ */
+/**
  * @typedef {Object} RaceContent
  * @property {Race} race - The race details.
  * @property {RaceStage[]} stages - The race stages.
- * @property {RaceStage} lastCompletedStage - The last completed stage.
- * @property {RaceStage} viewingStage - The stage being viewed.
+ * @property {Number} stagesCompleted - The stage being viewed.
  * @property {Object<string, RaceTeam>} teams - Teams indexed by team ID.
  * @property {Object<string, RaceRider>} riders - Riders indexed by bib number.
- * @property {Array<RaceStageResultData[]>} results -
- */
-
-/**
- * @typedef {RaceData} Race
- */
-
-/**
- * @typedef {RaceStageData} RaceStage
- */
-
-/**
- * @typedef {Object} RaceResults
+ * @property {Array<RaceStageResultData[]>} results - Indexed by rider bib number.
  */
 
 /**
@@ -125,8 +117,7 @@ export function raceContent(racePcsID, year = null) {
   const raceContent = {
     race: dataService.raceDetails({ racePcsID, year }),
     stages: [],
-    lastCompletedStage: null,
-    viewingStage: null,
+    stagesCompleted: -1,
     teams: {},
     riders: {},
     results: [],
@@ -140,20 +131,25 @@ export function raceContent(racePcsID, year = null) {
 
   // Stages
   const raceUID = raceContent.race.raceUID;
-
-  raceContent.stages = dataService.raceStages(raceUID);
-  raceContent.lastCompletedStage = raceContent.stages.find(
-    (el) => el !== undefined,
-  );
-  raceContent.viewingStage = raceContent.stages.find((el) => el !== undefined);
+  // map stage number to array index
+  raceContent.stages = dataService
+    .raceStages(raceUID)
+    .reduce((results, stage) => {
+      results[stage.stage] = stage;
+      return results;
+    }, []);
 
   for (const stage of raceContent.stages) {
-    // Looking for most recent stages to default to
+    if (!stage) continue;
+
     stage.stage = Number(stage.stage);
-    stage.verticalMeters = Number(stage.verticalMeters);
+    stage.raced = false;
     if (new Date(stage.date) <= today) {
-      raceContent.lastCompletedStage = stage;
-      raceContent.viewingStage = stage;
+      stage.raced = true;
+      // Looking for most recent stages to default to
+      if (raceContent.stagesCompleted < stage.stage) {
+        raceContent.stagesCompleted = stage.stage;
+      }
     }
   }
 

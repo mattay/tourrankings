@@ -1,5 +1,5 @@
 /**
- * @typedef {import('./@types/store').State} State
+ * @typedef {import('./store.d').State} State
  */
 
 /**
@@ -18,6 +18,7 @@ class Store {
     currentRaceId: null,
     currentYear: null,
     currentStage: null,
+    currentRanking: null,
     isLoading: false,
     error: null,
   };
@@ -91,8 +92,12 @@ class Store {
    * @throws {Error} If the selector is not found.
    */
   select(selectorName) {
+    console.log("[Store] select", selectorName);
     const selector = this.#selectors.get(selectorName);
-    if (!selector) throw new Error(`Selector "${selectorName}" not found`);
+    if (!selector) {
+      console.log(this.#selectors);
+      throw new Error(`Selector "${selectorName}" not found`);
+    }
     return selector(this.#state);
   }
 }

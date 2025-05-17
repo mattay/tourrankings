@@ -171,7 +171,7 @@ export function raceContent(racePcsID, year = null) {
     raceContent.teams[rider.teamPcsId] = team;
     // Clean up data for client
     raceContent.riders[rider.bib] = {
-      bib: parseInt(rider.bib),
+      bib: Number(rider.bib),
       rider: rider.rider,
       teamId: rider.teamPcsId,
       id: rider.riderPcsId,

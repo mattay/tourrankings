@@ -11,6 +11,7 @@ import { addTime, formatSeconds } from "../../../utils/time";
  */
 function cleanUpStageTable(table, additionalValues) {
   const rename = {
+    BIB: "Bib",
     Rnk: "Rank",
     Pnt: "Points",
     "▼▲": "Change",
@@ -83,7 +84,7 @@ function cleanUpStageTable(table, additionalValues) {
           case "Rank":
           case "Previous Stage Ranking":
           case "GC":
-          case "BIB":
+          case "Bib":
           case "Age":
           case "Points":
           case "Today":

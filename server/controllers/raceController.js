@@ -171,7 +171,7 @@ export function raceContent(racePcsID, year = null) {
     raceContent.teams[rider.teamPcsId] = team;
     // Clean up data for client
     raceContent.riders[rider.bib] = {
-      bib: Number(rider.bib),
+      bib: parseInt(rider.bib),
       rider: rider.rider,
       teamId: rider.teamPcsId,
       id: rider.riderPcsId,
@@ -210,12 +210,10 @@ function groupStagesByRider(raceResults) {
   for (const stage of raceResults.values()) {
     if (!stage) continue; // Only races with a prologue start at 0
 
+    const rowsMissingBib = [];
     for (const riderStageResult of stage) {
       if (!riderStageResult.bib) {
-        logError(
-          "Race Controller",
-          `No bib for rider on stage ${riderStageResult.stage}. Possible relegation message`,
-        );
+        rowsMissingBib.push(riderStageResult);
         continue;
       }
       const bib = Number(riderStageResult.bib);

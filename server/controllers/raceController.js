@@ -216,11 +216,20 @@ function groupStagesByRider(raceResults) {
         rowsMissingBib.push(riderStageResult);
         continue;
       }
-      const bib = Number(riderStageResult.bib);
-      if (ridersByBib[bib] === undefined) {
-        ridersByBib[bib] = [];
+
+      const bibNumber = Number(riderStageResult.bib);
+      const stageNumber = Number(riderStageResult.stage);
+      if (ridersByBib[bibNumber] === undefined) {
+        ridersByBib[bibNumber] = [];
       }
-      ridersByBib[bib].push(riderStageResult);
+      ridersByBib[bibNumber][stageNumber] = riderStageResult;
+    }
+    if (rowsMissingBib.length > 0) {
+      logError(
+        "Race Controller",
+        `No bib for riders, Possible relegation message`,
+      );
+      console.table(rowsMissingBib);
     }
   }
 

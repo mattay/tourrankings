@@ -125,7 +125,7 @@ export class Races extends CSVdataModel {
    */
   racesInYear(year) {
     return this.rows.filter((record) => {
-      return Number(record.year) == year;
+      return Number(record.year) == Number(year);
     });
   }
 

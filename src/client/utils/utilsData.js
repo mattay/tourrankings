@@ -2,9 +2,6 @@
  * @typedef {import('./parse/raceContent.d').RawRaceContent } RawRaceContent
  * @typedef {import('./parse/raceContent.d').RaceContent } RaceContent
  */
-function cleanStages(stages) {
-  return stages.map((stage) => {
-    if (!stage) return stage;
 
 import { parseRace, parseRiderStageResults, parseStage } from "./parse";
 
@@ -34,17 +31,17 @@ export function prepRaceData(rawData) {
     rider.team = team; // link team to rider
   }
 
-  const riderResults = rawData.results.map((rider) =>
-    rider ? cleanRiderResults(rider) : rider,
+  const riderResults = results.map((rider) =>
+    rider ? parseRiderStageResults(rider) : rider,
   );
 
   return {
-    race,
-    stages,
-    currentStage,
-    viewingStage,
+    race: parseRace(race),
+    stages: stages.map((stage) => parseStage(stage)),
+    stagesCompleted: Number(stagesCompleted),
     riders: riders,
     teams: teams,
     results: riderResults,
+    // TODO: Classifications
   };
 }

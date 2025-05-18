@@ -51,10 +51,10 @@
  * @typedef {Object} RaceStageResultModel
  * @property {string} stageUID - The unique identifier for the stage RaceStageModel.stageUID.
  * @property {number} stage - The stage number.
+ * @property {number} bib - The unique identifier for the rider.
  * @property {number} rank - The rank of the rider in the stage.
  * @property {number} gc - The General Classification points earned by the rider.
  * @property {string} timelag - The time difference between the rider's time and the winner's time.
- * @property {number} bib - The unique identifier for the rider.
  * @property {string} specialty - The specialty of the rider.
  * @property {string} rider - The name of the rider.
  * @property {number} age - The age of the rider.

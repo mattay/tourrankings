@@ -5,7 +5,8 @@ import { sortByDate } from "../utils/sorts.js";
 /**
  * @typedef {import('./@types/temporalSeasonRaces.d').TemporalSeasonRaces} TemporalSeasonRaces
  * @typedef {import('./@types/raceContent.d').RaceContent} RaceContent
- * @typedef {import('./@types/raceContent.d').RaceStageResult} RaceStageResult
+ * @typedef {import('./@types/raceContent.d').StagesRiderResults} StagesRiderResults
+ * @typedef {import('./@types/raceContent.d').RidersStageResults} RidersStageResults
 
  */
 
@@ -158,8 +159,8 @@ export function raceContent(racePcsID, year = null) {
 
 /**
  * Regroup stage: rider resutls -> rider: stage results
- * @param {Array<RaceStageResult[]>} raceResults
- * @returns {Array<RaceStageResult[]>}
+ * @param {StagesRiderResults} raceResults
+ * @returns {RidersStageResults}
  */
 function groupStagesByRider(raceResults) {
   const ridersByBib = [];

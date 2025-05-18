@@ -103,33 +103,33 @@ async function initializeServer() {
 
     // Handle unhandled promise rejections globally
     // TODO: Implement proper error handling and logging
-    process.on("unhandledRejection", (err) => {
+    process.on("unhandledRejection", (reason, promise) => {
+      const message =
+        reason instanceof Error ? reason : new Error(String(reason));
       // In production environments, consider graceful shutdown
       if (config.env === "production") {
-        logOut(
+        logError(
           "Process",
           "Initiating graceful shutdown due to unhandled rejection",
+          message,
         );
         // Give existing connections time to finish
         setTimeout(() => process.exit(1), 3000);
       } else {
-        logError("Process", "Unhandled Promise Rejection");
-        logError("Process", err);
+        logError("Process", "Unhandled Promise Rejection", message);
         // process.exit(1);
       }
     });
 
     // Handle uncaught exceptions
-    process.on("uncaughtException", (err) => {
-      logError("Process", "Uncaught Exception");
-      logError("Process", err);
+    process.on("uncaughtException", (error) => {
+      logError("Process", "Uncaught Exception", error);
       // Always exit on uncaught exceptions
       logOut("Process", "Shutting down due to uncaught exception");
       process.exit(1);
     });
   } catch (error) {
-    logError("Server", "Failed to initialize server");
-    logError("Server", error);
+    logError("Server", "Failed to initialize server", error);
     process.exit(1);
   }
 }

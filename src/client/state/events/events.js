@@ -1,9 +1,3 @@
-export const EVENT_TYPES = {
-  RACE_DATA_LOADED: "race-data-loaded",
-  STAGE_CHANGED: "stage-changed",
-  ERROR: "error",
-};
-
 /**
  * Dispatch an event with the given type and detail.
  * @param {string} eventType - The event type to dispatch.
@@ -17,7 +11,7 @@ export function dispatch(eventType, detail) {
 /**
  * Subscribe to an event type.
  * @param {string} eventType - The event type to subscribe to.
- * @param {function} callback - The callback function to invoke when the event is dispatched.
+ * @param {EventListener} callback - The callback function to invoke when the
  * @returns {function} - A function to unsubscribe from the event.
  */
 export function subscribe(eventType, callback) {

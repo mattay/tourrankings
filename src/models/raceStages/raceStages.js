@@ -14,7 +14,18 @@ export class RaceStages extends CSVdataModel {
   rows = [];
 
   constructor() {
-    super(`${process.env.DATA_DIR}/raceStages.csv`, ["Stage UID", "Race UID"]);
+    const fieldTypes = {
+      year: "number",
+      // date: "date",
+      stage: "number",
+      distance: "number",
+      verticalMeters: "number",
+    };
+    super(
+      `${process.env.DATA_DIR}/raceStages.csv`,
+      ["Stage UID", "Race UID"],
+      fieldTypes,
+    );
     this.csvHeaders = [
       "Race UID",
       "Stage UID",

@@ -3,11 +3,9 @@ import { logError, logOut } from "../../src/utils/logging.js";
 import { sortByDate } from "../utils/sorts.js";
 
 /**
- * @typedef {import('./@types/temporalSeasonRaces.d').TemporalSeasonRaces} TemporalSeasonRaces
- * @typedef {import('./@types/raceContent.d').RaceContent} RaceContent
- * @typedef {import('./@types/raceContent.d').StagesRiderResults} StagesRiderResults
- * @typedef {import('./@types/raceContent.d').RidersStageResults} RidersStageResults
-
+ * @typedef {import('./raceController.d.js').TemporalSeasonRaces} TemporalSeasonRaces
+ * @typedef {import('./raceController.d.js').RaceContent} RaceContent
+ * @typedef {import('./raceController.d.js').RaceResults} RaceResults
  */
 
 /**

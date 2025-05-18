@@ -1,7 +1,6 @@
 /**
- *
- * @param {Array<Object>} stages
- * @returns {Array<Object>}
+ * @typedef {import('./parse/raceContent.d').RawRaceContent } RawRaceContent
+ * @typedef {import('./parse/raceContent.d').RaceContent } RaceContent
  */
 function cleanStages(stages) {
   return stages.map((stage) => {
@@ -11,8 +10,8 @@ import { parseRace, parseRiderStageResults, parseStage } from "./parse";
 
 /**
  * Process and prepare race data for visualization
- * @param {Object} rawData - Raw data from API
- * @returns {Object} Processed data ready for D3 visualization
+ * @param {RawRaceContent} rawData - Raw data from API
+ * @returns {RaceContent} Processed race data ready for D3 visualization.
  */
 export function prepRaceData(rawData) {
   const {

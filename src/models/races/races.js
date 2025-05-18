@@ -17,7 +17,13 @@ export class Races extends CSVdataModel {
   rows = [];
 
   constructor() {
-    super(`${process.env.DATA_DIR}/races.csv`, ["Race UID"]);
+    const fieldTypes = {
+      year: "number",
+      // startDate: "date",
+      // endDate: "date",
+    };
+
+    super(`${process.env.DATA_DIR}/races.csv`, ["Race UID"], fieldTypes);
     this.csvHeaders = [
       "Race UID",
       "Year",
@@ -131,7 +137,7 @@ export class Races extends CSVdataModel {
 
   /**
    * Get a specific race by ID and year.
-   * @param {string} id - The ID of the race.
+   * @param {string} raceID - The ID of the race.
    * @param {string} key [raceUID|racePcsID] - The key to identify the race.
    * @param {number} year - The year of the race.
    * @returns {RaceData|null} - The race data object or null if not found.

@@ -25,12 +25,38 @@ class CSVdataModel {
    * @property {string[]} indexOn - Array of column names (camelCased) used as indexes.
    * @property {string[]} csvHeaders - List of CSV column headers expected in the file.
    * @property {Array.<Array.<string>>} sortOrder - Array of [column, direction] pairs for sorting.
+   * @property {Object.<string, string>} fieldTypes - Object mapping field names to their expected types.
    */
-  constructor(filePath, indexOn) {
+  constructor(filePath, indexOn, fieldTypes = {}) {
     this.filePath = path.resolve(filePath);
     this.indexOn = indexOn.map((index) => toCamelCase(index));
     this.sortOrder = [];
     this.csvHeaders = [];
+    this.fieldTypes = fieldTypes;
+  }
+
+  /**
+   * Converts a string value to the specified type.
+   * @param {string} value - The input string value.
+   * @param {string} type - The type to convert to ('number', 'boolean', etc.).
+   * @returns {any} The converted value.
+   */
+  #convertType(value, type) {
+    if (value === null || value === undefined || value === "") {
+      return null;
+    }
+
+    switch (type) {
+      case "number":
+        // Use parseFloat for decimal values and parseInt for integers
+        return isNaN(parseFloat(value)) ? value : parseFloat(value);
+      case "boolean":
+        return value.toLowerCase() === "true";
+      case "date":
+        return new Date(value);
+      default:
+        return value;
+    }
   }
 
   /**
@@ -41,10 +67,20 @@ class CSVdataModel {
   #cleanRowCSV(obj) {
     const result = {};
 
+    // convert table headers and apply typing
     for (const key in obj) {
       if (Object.hasOwn(obj, key)) {
         const camelCaseKey = toCamelCase(key);
-        result[camelCaseKey] = obj[key];
+        const value = obj[key];
+        // Apply type conversion if a field type is specified
+        if (this.fieldTypes[camelCaseKey]) {
+          result[camelCaseKey] = this.#convertType(
+            value,
+            this.fieldTypes[camelCaseKey],
+          );
+        } else {
+          result[camelCaseKey] = value;
+        }
       }
     }
 

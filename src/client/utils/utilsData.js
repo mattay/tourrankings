@@ -7,57 +7,7 @@ function cleanStages(stages) {
   return stages.map((stage) => {
     if (!stage) return stage;
 
-    const cleanedStage = {};
-    for (const key of Object.keys(stage)) {
-      let value = stage[key];
-      switch (key) {
-        case "stage":
-        case "distance":
-        case "verticalMeters":
-        case "year":
-          if (value != "-" && value != "") {
-            value = Number(value);
-          }
-          break;
-        default:
-          break;
-      }
-      cleanedStage[key] = value;
-    }
-    return cleanedStage;
-  });
-}
-
-/**
- *
- * @param {Array<Object>} rider
- * @returns {Array<Object>} rider
- */
-function cleanRiderResults(rider) {
-  return rider.map((stage) => {
-    const cleanedStage = {};
-    for (const key of Object.keys(stage)) {
-      let value = stage[key];
-      switch (key) {
-        case "Stage":
-        case "BIB":
-        case "GC":
-        case "Rank":
-        case "Age":
-          if (value != "-" && value != "") {
-            value = parseInt(value, 10);
-          } else if (value == "-") {
-            value = "";
-          }
-          break;
-        default:
-          break;
-      }
-      cleanedStage[key] = value;
-    }
-    return cleanedStage;
-  });
-}
+import { parseRace, parseRiderStageResults, parseStage } from "./parse";
 
 /**
  * Process and prepare race data for visualization
@@ -71,6 +21,7 @@ export function prepRaceData(rawData) {
     stagesCompleted,
     riders: ridersObj,
     teams: teamsObj,
+    results,
   } = rawData;
 
   // Convert objects to Maps for better data handling

@@ -68,8 +68,7 @@ export function prepRaceData(rawData) {
   const {
     race,
     stages,
-    currentStage,
-    viewingStage,
+    stagesCompleted,
     riders: ridersObj,
     teams: teamsObj,
   } = rawData;

@@ -3,60 +3,9 @@ import { logError, logOut } from "../../src/utils/logging.js";
 import { sortByDate } from "../utils/sorts.js";
 
 /**
- * @typedef {import("../../src/services/dataServiceInstance").RaceData} RaceData
- * @typedef {import("../../src/services/dataServiceInstance").RaceStageData} RaceStageData
- * @typedef {import("../../src/services/dataServiceInstance").RaceRiderData} RaceRiderData
- * @typedef {import("../../src/services/dataServiceInstance").TeamData} TeamData
- * @typedef {import("../../src/services/dataServiceInstance.js").RaceStageResultData} RaceStageResultData
- */
-
-/**
- * @typedef {Object} TemporalSeasonRaces
- * @property {import("../../src/services/dataServiceInstance").RaceData[]} current - Races currently ongoing.
- * @property {import("../../src/services/dataServiceInstance").RaceData[]} upcoming - Races yet to start.
- * @property {import("../../src/services/dataServiceInstance").RaceData[]} previous - Races already completed.
- * @property {import("../../src/services/dataServiceInstance").RaceData[]} future - Races scheduled for the future.
- */
-
-/**
- * @typedef {Object} RaceContent
- * @property {Race} race - The race details.
- * @property {RaceStage[]} stages - The race stages.
- * @property {RaceStage} lastCompletedStage - The last completed stage.
- * @property {RaceStage} viewingStage - The stage being viewed.
- * @property {Object<string, RaceTeam>} teams - Teams indexed by team ID.
- * @property {Object<string, RaceRider>} riders - Riders indexed by bib number.
- * @property {Array<RaceStageResultData[]>} results -
- */
-
-/**
- * @typedef {RaceData} Race
- */
-
-/**
- * @typedef {RaceStageData} RaceStage
- */
-
-/**
- * @typedef {Object} RaceResults
- */
-
-/**
- * @typedef {Object} RaceRider -
- * @property {number} bib - The rider's bib number.
- * @property {string} rider - The rider's name.
- * @property {string} teamId - The ID of the rider's team.
- * @property {string} id - The rider's ID.
- * @property {string} flag - The rider's flag.
- */
-
-/**
- * @typedef {Object} RaceTeam
- * @property {string} id - The team's ID.
- * @property {string} name - The team's name.
- * @property {string} classification - The team's classification.
- * @property {string} jerseyImage - The team's jersey image URL.
- * @property {Array<RaceRider>} riders - The team's riders.
+ * @typedef {import('./raceController.d.js').TemporalSeasonRaces} TemporalSeasonRaces
+ * @typedef {import('./raceController.d.js').RaceContent} RaceContent
+ * @typedef {import('./raceController.d.js').RaceResults} RaceResults
  */
 
 /**
@@ -125,8 +74,7 @@ export function raceContent(racePcsID, year = null) {
   const raceContent = {
     race: dataService.raceDetails({ racePcsID, year }),
     stages: [],
-    lastCompletedStage: null,
-    viewingStage: null,
+    stagesCompleted: -1,
     teams: {},
     riders: {},
     results: [],
@@ -140,20 +88,25 @@ export function raceContent(racePcsID, year = null) {
 
   // Stages
   const raceUID = raceContent.race.raceUID;
-
-  raceContent.stages = dataService.raceStages(raceUID);
-  raceContent.lastCompletedStage = raceContent.stages.find(
-    (el) => el !== undefined,
-  );
-  raceContent.viewingStage = raceContent.stages.find((el) => el !== undefined);
+  // map stage number to array index
+  raceContent.stages = dataService
+    .raceStages(raceUID)
+    .reduce((results, stage) => {
+      results[stage.stage] = stage;
+      return results;
+    }, []);
 
   for (const stage of raceContent.stages) {
-    // Looking for most recent stages to default to
+    if (!stage) continue;
+
     stage.stage = Number(stage.stage);
-    stage.verticalMeters = Number(stage.verticalMeters);
+    stage.raced = false;
     if (new Date(stage.date) <= today) {
-      raceContent.lastCompletedStage = stage;
-      raceContent.viewingStage = stage;
+      stage.raced = true;
+      // Looking for most recent stages to default to
+      if (raceContent.stagesCompleted < stage.stage) {
+        raceContent.stagesCompleted = stage.stage;
+      }
     }
   }
 
@@ -205,8 +158,8 @@ export function raceContent(racePcsID, year = null) {
 
 /**
  *
- * @param {Array<RaceStageResultData[]>} raceResults
- * @returns {Array<RaceStageResultData[]>}
+ * @param {RaceResults} raceResults
+ * @returns {RaceResults}
  */
 function groupStagesByRider(raceResults) {
   const ridersByBib = [];
@@ -214,19 +167,26 @@ function groupStagesByRider(raceResults) {
   for (const stage of raceResults.values()) {
     if (!stage) continue; // Only races with a prologue start at 0
 
+    const rowsMissingBib = [];
     for (const riderStageResult of stage) {
       if (!riderStageResult.bib) {
-        logError(
-          "Race Controller",
-          `No bib for rider on stage ${riderStageResult.stage}. Possible relegation message`,
-        );
+        rowsMissingBib.push(riderStageResult);
         continue;
       }
-      const bib = Number(riderStageResult.bib);
-      if (ridersByBib[bib] === undefined) {
-        ridersByBib[bib] = [];
+
+      const bibNumber = Number(riderStageResult.bib);
+      const stageNumber = Number(riderStageResult.stage);
+      if (ridersByBib[bibNumber] === undefined) {
+        ridersByBib[bibNumber] = [];
       }
-      ridersByBib[bib].push(riderStageResult);
+      ridersByBib[bibNumber][stageNumber] = riderStageResult;
+    }
+    if (rowsMissingBib.length > 0) {
+      logError(
+        "Race Controller",
+        `No bib for riders, Possible relegation message`,
+      );
+      console.table(rowsMissingBib);
     }
   }
 

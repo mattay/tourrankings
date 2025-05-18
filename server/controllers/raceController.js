@@ -3,52 +3,10 @@ import { logError, logOut } from "../../src/utils/logging.js";
 import { sortByDate } from "../utils/sorts.js";
 
 /**
- * @typedef {import("../../src/services/dataServiceInstance").RaceData} RaceData
- * @typedef {import("../../src/services/dataServiceInstance").RaceStageData} RaceStageData
- * @typedef {import("../../src/services/dataServiceInstance").RaceRiderData} RaceRiderData
- * @typedef {import("../../src/services/dataServiceInstance").TeamData} TeamData
- * @typedef {import("../../src/services/dataServiceInstance.js").RaceStageResultData} RaceStageResultData
- */
+ * @typedef {import('./@types/temporalSeasonRaces.d').TemporalSeasonRaces} TemporalSeasonRaces
+ * @typedef {import('./@types/raceContent.d').RaceContent} RaceContent
+ * @typedef {import('./@types/raceContent.d').RaceStageResult} RaceStageResult
 
-/**
- * @typedef {Object} TemporalSeasonRaces
- * @property {import("../../src/services/dataServiceInstance").RaceData[]} current - Races currently ongoing.
- * @property {import("../../src/services/dataServiceInstance").RaceData[]} upcoming - Races yet to start.
- * @property {import("../../src/services/dataServiceInstance").RaceData[]} previous - Races already completed.
- * @property {import("../../src/services/dataServiceInstance").RaceData[]} future - Races scheduled for the future.
- */
-
-/**
- * @typedef {RaceData} Race
- * @typedef {RaceStageData & {raced: boolean}} RaceStage
- * @typedef {Object} RaceResults
- */
-/**
- * @typedef {Object} RaceContent
- * @property {Race} race - The race details.
- * @property {RaceStage[]} stages - The race stages.
- * @property {Number} stagesCompleted - The stage being viewed.
- * @property {Object<string, RaceTeam>} teams - Teams indexed by team ID.
- * @property {Object<string, RaceRider>} riders - Riders indexed by bib number.
- * @property {Array<RaceStageResultData[]>} results - Indexed by rider bib number.
- */
-
-/**
- * @typedef {Object} RaceRider -
- * @property {number} bib - The rider's bib number.
- * @property {string} rider - The rider's name.
- * @property {string} teamId - The ID of the rider's team.
- * @property {string} id - The rider's ID.
- * @property {string} flag - The rider's flag.
- */
-
-/**
- * @typedef {Object} RaceTeam
- * @property {string} id - The team's ID.
- * @property {string} name - The team's name.
- * @property {string} classification - The team's classification.
- * @property {string} jerseyImage - The team's jersey image URL.
- * @property {Array<RaceRider>} riders - The team's riders.
  */
 
 /**
@@ -63,9 +21,9 @@ export function seasonRaces() {
   const races = dataService.seasonRaces(season);
 
   // Initialize grouped object
-  const grouped = {
+  const grouped /** @type TemporalSeasonRaces */ = {
     current: [],
-    upcoming: [],
+    upcomming: [],
     previous: [],
     future: [],
   };
@@ -94,7 +52,7 @@ export function seasonRaces() {
 
   // Extract the next upcoming race (soonest in the future)
   if (grouped.future.length > 0) {
-    grouped.upcoming = [grouped.future[0]];
+    grouped.upcomming = [grouped.future[0]];
     grouped.future = grouped.future.slice(1);
   }
 
@@ -113,8 +71,7 @@ export function raceContent(racePcsID, year = null) {
 
   logOut("raceContent", `Fetching race content for ${racePcsID} ${year}`);
 
-  /** @type {RaceContent} */
-  const raceContent = {
+  const raceContent /** @type {RaceContent} */ = {
     race: dataService.raceDetails({ racePcsID, year }),
     stages: [],
     stagesCompleted: -1,
@@ -200,9 +157,9 @@ export function raceContent(racePcsID, year = null) {
 }
 
 /**
- *
- * @param {Array<RaceStageResultData[]>} raceResults
- * @returns {Array<RaceStageResultData[]>}
+ * Regroup stage: rider resutls -> rider: stage results
+ * @param {Array<RaceStageResult[]>} raceResults
+ * @returns {Array<RaceStageResult[]>}
  */
 function groupStagesByRider(raceResults) {
   const ridersByBib = [];

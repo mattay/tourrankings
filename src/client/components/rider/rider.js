@@ -15,6 +15,7 @@
  *
  * @typedef {Object} RiderComponentOptions
  * @property {number} [fontHeight=16] - Font size for rider labels
+ * @property {d3.ScaleLinear<number, number>} xScale - D3 linear scale for horizontal positioning
  * @property {d3.ScaleLinear<number, number>} yScale - D3 linear scale for vertical positioning
  * @property {Object} offsets - Offsets for layout adjustments (e.g., text offset)
  * @property {function(RiderDatum): void} [onRiderClick] - Callback invoked on rider click
@@ -25,8 +26,8 @@
  * Creates a rider component function that manages data binding, enter/update/exit lifecycle,
  * and renders rider elements with transitions and event handlers.
  *
- * @param {RiderComponentOptions} [options={}] - Configuration options for the component
- * @returns {function(d3.Selection<SVGGElement, unknown, null, undefined>, RiderDatum[]): void}
+ * @param {RiderComponentOptions} options - Configuration options for the component
+ * @returns {function(d3.Selection<SVGElement, unknown, null, undefined>, RiderDatum[]): void}
  *          A function that takes a D3 selection and rider data array to render riders.
  */
 export function createRiderComponent({
@@ -63,7 +64,7 @@ export function createRiderComponent({
   /**
    * Update rider groups with transitions and styles.
    *
-   * @param {d3.Selection<SVGGElement, RiderDatum, any, any>} riderSelection - D3 selection of rider groups to update.
+   * @param {d3.Selection<SVGElement, RiderDatum, any, any>} riderSelection - D3 selection of rider groups to update.
    */
   const updateRidersGroup = (riderSelection) => {
     riderSelection

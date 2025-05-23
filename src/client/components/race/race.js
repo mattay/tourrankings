@@ -92,6 +92,19 @@ export class Race {
     };
 
     this.initialize();
+
+    this.unsubscribe = store.subscribe((state) => {
+      this.dataViewStage = state.currentStage;
+      // Only re-render if we have race data and it's different from what we have
+      if (!state.isLoading && state.raceData) {
+        //&& (!this.data || this.data !== state.raceData)
+        this.updateData();
+        this.resize(); // Need dimensions for setting scales
+        this.updateScalesDomain();
+        this.updateScalesRange();
+        this.render();
+      }
+    });
   }
 
   /**
@@ -119,17 +132,16 @@ export class Race {
       this.resized();
     });
 
-    document.addEventListener(EVENT_TYPES.RACE_DATA_LOADED, (event) => {
-      /**
-       * @type {CustomEvent<import('../../api/@types').RaceContent>}
-       */
-      const eventRaceDataLoaded = /** @type {CustomEvent} */ (event);
-      console.log("Event", "race-data-loaded");
-      console.log("Event", eventRaceDataLoaded.detail);
-      this.data = eventRaceDataLoaded.detail;
-      this.render();
-    });
-    console.log("Race initialized");
+  /**
+   * Updates the data properties of the visualization from the store.
+   * @property {Array} dataStages - Current stages data.
+   * @property {Array} dataRiders - Current riders data.
+   * @property {Array} dataRankings - Current rankings data.
+   */
+  updateData() {
+    this.dataStages = store.select("raceStages");
+    this.dataRiders = store.select("riders");
+    this.dataRankings = store.select("rankings");
   }
 
   /**
@@ -233,11 +245,8 @@ export class Race {
   }
 
   updateStages() {
-    const stages = this.data.stages;
-    const xScale = d3
-      .scaleLinear()
-      .domain(d3.extent(stages, (d) => d.stage))
-      .range([this.margin.left, this.innerWidth]);
+    if (!this.dataStages) return;
+
     const stageComponent = createStageComponent({
       xScale: this.xScaleStages,
       offsets: this.offsets,
@@ -246,34 +255,49 @@ export class Race {
       },
     });
 
-    stageComponent(this.containerStages, stages);
-
-    console.log("Stage rendered");
+    stageComponent(this.containerStages, this.dataStages);
   }
 
   updateRankings() {
-    // Convert map to array of rider objects
-    const riders = Array.from(this.data.riders.values());
-
-    // TODO: fix Scales Bib id range is bigger than ranking range
-    const yScale = d3
-      .scaleLinear()
-      .domain([0, riders.length])
-      .range([0, riders.length * 20]);
-
-    console.log(yScale(1));
+    if (!this.dataRiders) return;
+    if (!this.dataRankings) return;
 
     const riderComponent = createRiderComponent({
       xScale: this.xScaleStages,
       yScale: this.yScaleRiders,
       offsets: this.offsets,
+      stage: this.dataViewStage,
       onRiderClick: (rider) => {
         console.log("Rider clicked:", rider);
       },
     });
 
-    riderComponent(this.containerRiders, riders);
+    riderComponent(this.containerRiders, this.dataRiders);
+  }
 
-    console.log("Rankings rendered");
+  /**
+   * Renders the visualization by updating the stages and rankings components.
+   * This method is typically called after data or layout changes.
+   */
+  render() {
+    this.updateStages();
+    this.updateRankings();
+  }
+
+  /**
+   * Clean up any subscriptions or event listeners when component is destroyed
+   */
+  destroy() {
+    // Clean up store subscription
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+
+    // Clean up event listeners
+    window.removeEventListener("resize", this.resize);
+    // document.removeEventListener(
+    //   EVENT_TYPES.STAGE_CHANGED,
+    //   this.handleStageChange,
+    // );
   }
 }

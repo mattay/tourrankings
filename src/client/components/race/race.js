@@ -100,8 +100,9 @@ export class Race {
    * and adds a window resize listener to handle responsive layout.
    */
   initialize() {
-    // Update sizing dimensions
-    this.resized();
+    // Scales
+    this.xScaleStages = d3.scaleLinear();
+    this.yScaleRiders = d3.scaleLinear();
 
     this.containerStages = this.svg
       .append("g")
@@ -238,7 +239,7 @@ export class Race {
       .domain(d3.extent(stages, (d) => d.stage))
       .range([this.margin.left, this.innerWidth]);
     const stageComponent = createStageComponent({
-      xScale,
+      xScale: this.xScaleStages,
       offsets: this.offsets,
       onStageClick: (stage) => {
         console.log("Stage clicked:", stage);
@@ -263,7 +264,8 @@ export class Race {
     console.log(yScale(1));
 
     const riderComponent = createRiderComponent({
-      yScale,
+      xScale: this.xScaleStages,
+      yScale: this.yScaleRiders,
       offsets: this.offsets,
       onRiderClick: (rider) => {
         console.log("Rider clicked:", rider);

@@ -8,17 +8,37 @@ import { parseRaceContent } from "./utils/parse";
 // Components
 import { Race } from "./components/race/race.js";
 
+/**
+ * Main application class for the Tour Ranking app.
+ * Manages state, data fetching, and component initialization.
+ */
 class tourRankingApp {
   constructor() {
-    // Initialize components
-    this.race = new Race("race-rankings");
-
-    // Start the application
-    this.init();
+    setupSelectors();
+    this.race = new Race("race-rankings"); // Initialize components (SVG + D3)
+    this.setupControls();
+    this.init(); // Start the application
   }
 
   /**
-   * Initialize the client
+   * Sets up UI controls for changing view and chart types.
+   */
+  setupControls() {
+    // Set up controls for changing view type
+    // document
+    //   .getElementById("btn-stage-results")
+    //   .addEventListener("click", () => {
+    //     changeViewType("stageResults");
+    //   });
+    // // Set up controls for changing chart type
+    // const chartTypeSelect = document.getElementById("chart-type-select");
+    // chartTypeSelect.addEventListener("change", (e) => {
+    //   changeChartType(e.target.value);
+    // });
+  }
+
+  /**
+   * Initializes the client: fetches data, updates state, and notifies components.
    */
   async init() {
     try {

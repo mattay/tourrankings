@@ -1,6 +1,5 @@
 // State Management
 import store from "./state/storeInstance";
-import { EVENT_TYPES, dispatch } from "./state/events";
 import { setupSelectors } from "./state/selectors";
 import { fetchRaceData } from "./api/index.js";
 // Utils
@@ -10,8 +9,6 @@ import { parseRaceContent } from "./utils/parse";
 import { Race } from "./components/race/race.js";
 
 class tourRankingApp {
-  data = {};
-
   constructor() {
     // Initialize components
     this.race = new Race("race-rankings");
@@ -45,18 +42,9 @@ class tourRankingApp {
         currentStage: stage || processedData.stagesCompleted,
         isLoading: false,
       });
-
-      // Dispatch event for components
-      dispatch(EVENT_TYPES.RACE_DATA_LOADED, processedData);
-
-      // If a stage was specified in the URL, notify components
-      if (stage) {
-        dispatch(EVENT_TYPES.STAGE_CHANGED, stage);
-      }
     } catch (error) {
       console.error("Failed to initialize race app:", error);
       store.setState({ error: error.message, isLoading: false });
-      dispatch(EVENT_TYPES.ERROR, error.message);
     }
   }
 }

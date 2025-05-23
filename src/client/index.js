@@ -37,11 +37,12 @@ class tourRankingApp {
 
       // Fetch data
       const rawData = await fetchRaceData(raceID, year);
-      const processedData = prepRaceData(rawData);
+      const processedData = parseRaceContent(rawData);
 
       // Update state and notify components
       store.setState({
         raceData: processedData,
+        currentStage: stage || processedData.stagesCompleted,
         isLoading: false,
       });
 

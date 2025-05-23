@@ -1,13 +1,82 @@
 // import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
-import { EVENT_TYPES } from "../../state/events";
+
+// State Managment
+import store from "src/client/state/storeInstance";
+import { actionSelectStage } from "src/client/state/actions";
+// Components
 import { createStageComponent } from "../stage/stage";
 import { createRiderComponent } from "../rider/rider";
+// Utils
 
+/**
+ * @typedef {import('d3')} d3
+ */
+
+/**
+ * @typedef {CustomEvent<import('../../api/@types').RaceContent>} RaceContent
+ */
+/** @typedef {Array<import('../../utils/parse/raceContent/stage.d').Stage>} Stage */
+/** @typedef {Array<import('../../utils/parse/raceContent/riders.d').Rider>} Rider */
+/** @typedef {Array<import('../../utils/parse/raceContent/results.d').Results>} Results */
+
+/**
+ * @typedef {Object} Margin
+ * @property {number} top
+ * @property {number} right
+ * @property {number} bottom
+ * @property {number} left
+ */
+
+/**
+ * @typedef {Object} options
+ * @prop {Margin} margin
+ */
+
+/**
+ * @typedef {Object} Coordinates
+ * @property {number} top
+ * @property {number} bottom
+ * @property {number} left
+ * @property {number} right
+ * @property {number} width
+ * @property {number} height
+ */
+
+/** @type {options} */
+const DEFAULT_OPTIONS = {
+  margin: { top: 8, right: 8, bottom: 16, left: 8 },
+};
+
+/**
+ * Represents a race visualization, managing layout and rendering of stages and rankings.
+ */
 export class Race {
+  /** @type {Array<Stage>} */
+  dataStages = [];
+  /** @type {Array<Rider>} */ // Adjust path/type as needed
+  dataRiders = [];
+  /** @type {Array<Ranking>} */ // Adjust path/type as needed
+  dataRankings = [];
+  /** @type {number | null} */ // Adjust as needed
+  dataViewStage = null;
+  /** @type {HTMLElement} */
+  container;
+  /** @type {d3.Selection} */
+  svg;
+  /** @type {Margin} */
+  margin;
+  /** @type {{stages: Coordinates, rankings: Coordinates}} */
+  coordinates;
+  /** @type {{radius: number, text: number}} */
+  offsets;
+  /** @type {Function} */
+  unsubscribe;
+
   /**
-   *
-   * @param {string} containerId
-   * @param {object} options
+   * Creates a new Race visualization.
+   * @param {string} containerId - The ID of the DOM element to contain the visualization.
+   * @param {object} options - Configuration options for the visualization.
+   * @param {Partial<Margin>} [options.margin] - Margins for the visualization.
    */
   constructor(
     containerId,
@@ -52,6 +121,11 @@ export class Race {
     this.initialize();
   }
 
+  /**
+   * Initializes the visualization by setting up scales, containers, and event listeners.
+   * Creates SVG groups for stages and riders, positions them according to calculated coordinates,
+   * and adds a window resize listener to handle responsive layout.
+   */
   initialize() {
     // Update sizing dimensions
     this.resized();

@@ -166,6 +166,7 @@ button:hover {
       stroke: var(--color-text-primary);
       /* r: 8px; */
     }
+  }
 
   .viewing {
     .stage-indicator {
@@ -197,9 +198,9 @@ button:hover {
 }
 
 .rider-container {
-    text {
-        font-size: 1rem;
-        line-height: 1;
-        fill: var(--color-text-primary);
-    }
+  text {
+    font-size: 1rem;
+    line-height: 1;
+    fill: var(--color-text-primary);
+  }
 }

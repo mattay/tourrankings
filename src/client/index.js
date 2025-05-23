@@ -1,56 +1,70 @@
+// State Management
+import store from "./state/storeInstance";
+import { setupSelectors } from "./state/selectors";
 import { fetchRaceData } from "./api/index.js";
-import { getRacePathInfo, prepRaceData } from "./utils/index.js";
-import { store } from "./state/store.js";
-import { dispatch, EVENT_TYPES } from "./state/events.js";
+// Utils
+import { getRaceInfoFromUrlPath } from "./utils";
+import { parseRaceContent } from "./utils/parse";
+// Components
 import { Race } from "./components/race/race.js";
 
+/**
+ * Main application class for the Tour Ranking app.
+ * Manages state, data fetching, and component initialization.
+ */
 class tourRankingApp {
-  data = {};
-
   constructor() {
-    // Initialize components
-    this.race = new Race("race-rankings");
-
-    // Start the application
-    this.init();
+    setupSelectors();
+    this.race = new Race("race-rankings"); // Initialize components (SVG + D3)
+    this.setupControls();
+    this.init(); // Start the application
   }
 
   /**
-   * Initialize the client
+   * Sets up UI controls for changing view and chart types.
+   */
+  setupControls() {
+    // Set up controls for changing view type
+    // document
+    //   .getElementById("btn-stage-results")
+    //   .addEventListener("click", () => {
+    //     changeViewType("stageResults");
+    //   });
+    // // Set up controls for changing chart type
+    // const chartTypeSelect = document.getElementById("chart-type-select");
+    // chartTypeSelect.addEventListener("change", (e) => {
+    //   changeChartType(e.target.value);
+    // });
+  }
+
+  /**
+   * Initializes the client: fetches data, updates state, and notifies components.
    */
   async init() {
     try {
-      const { raceID, year, stage } = getRacePathInfo();
-
       // Update state
+      const { raceID, year, stage, ranking } = getRaceInfoFromUrlPath();
       store.setState({
+        isLoading: true,
         currentRaceId: raceID,
         currentYear: year,
         currentStage: stage,
-        isLoading: true,
+        currentRanking: ranking || "results",
       });
 
       // Fetch data
       const rawData = await fetchRaceData(raceID, year);
-      const processedData = prepRaceData(rawData);
+      const processedData = parseRaceContent(rawData);
 
       // Update state and notify components
       store.setState({
         raceData: processedData,
+        currentStage: stage || processedData.stagesCompleted,
         isLoading: false,
       });
-
-      // Dispatch event for components
-      dispatch(EVENT_TYPES.RACE_DATA_LOADED, processedData);
-
-      // If a stage was specified in the URL, notify components
-      if (stage) {
-        dispatch(EVENT_TYPES.STAGE_CHANGED, stage);
-      }
     } catch (error) {
       console.error("Failed to initialize race app:", error);
       store.setState({ error: error.message, isLoading: false });
-      dispatch(EVENT_TYPES.ERROR, error.message);
     }
   }
 }

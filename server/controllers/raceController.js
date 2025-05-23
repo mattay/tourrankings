@@ -20,9 +20,9 @@ export function seasonRaces() {
   const races = dataService.seasonRaces(season);
 
   // Initialize grouped object
-  const grouped = {
+  const grouped /** @type TemporalSeasonRaces */ = {
     current: [],
-    upcoming: [],
+    upcomming: [],
     previous: [],
     future: [],
   };
@@ -51,7 +51,7 @@ export function seasonRaces() {
 
   // Extract the next upcoming race (soonest in the future)
   if (grouped.future.length > 0) {
-    grouped.upcoming = [grouped.future[0]];
+    grouped.upcomming = [grouped.future[0]];
     grouped.future = grouped.future.slice(1);
   }
 
@@ -70,8 +70,7 @@ export function raceContent(racePcsID, year = null) {
 
   logOut("raceContent", `Fetching race content for ${racePcsID} ${year}`);
 
-  /** @type {RaceContent} */
-  const raceContent = {
+  const raceContent /** @type {RaceContent} */ = {
     race: dataService.raceDetails({ racePcsID, year }),
     stages: [],
     stagesCompleted: -1,
@@ -157,9 +156,9 @@ export function raceContent(racePcsID, year = null) {
 }
 
 /**
- *
- * @param {RaceResults} raceResults
- * @returns {RaceResults}
+ * Regroup stage: rider resutls -> rider: stage results
+ * @param {StagesRiderResults} raceResults
+ * @returns {RidersStageResults}
  */
 function groupStagesByRider(raceResults) {
   const ridersByBib = [];

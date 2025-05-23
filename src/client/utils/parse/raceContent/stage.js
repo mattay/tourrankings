@@ -1,15 +1,17 @@
 /**
- *
- * @param {RawStage} stage
- * @returns {Stage}
+ * @typedef {import('./stage.d').RawStage} RawStage
+ * @typedef {import('./stage.d').Stage} Stage
+ */
+
+/**
+ * Parses a raw stage object into a Stage object.
+ * Optionally converts the date string to a Date object.
+ * @param {RawStage} stage - The raw stage data to parse.
+ * @returns {Stage} The parsed stage object.
  */
 export function parseStage(stage) {
   return {
     ...stage,
-    year: Number(stage.year),
-    stage: Number(stage.stage),
-    date: new Date(stage.date),
-    distance: Number(stage.distance),
-    verticalMeters: Number(stage.verticalMeters),
+    //   date: new Date(stage.date),
   };
 }

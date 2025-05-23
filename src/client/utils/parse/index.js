@@ -1,1 +1,1 @@
-export { praseRaceContent } from "./raceContent/raceContent";
+export { parseRaceContent } from "./raceContent/raceContent";

@@ -1,6 +1,6 @@
 /**
  * @typedef {object} RawRider -
- * @property {string} bib - The bib number of the rider.
+ * @property {number} bib - The bib number of the rider.
  * @property {string} rider - The name of the rider.
  * @property {string} teamId - The unique identifier of the team.
  * @property {string} flag - The flag of the rider's country.
@@ -9,6 +9,10 @@
 
 /**
  * @typedef {{ [riderBib: number]: RawRider }} RawRaceRiders
+ */
+
+/**
+ * @typedef {import('./teams.d').Team} Team
  */
 
 /**
@@ -24,3 +28,5 @@
 /**
  * @typedef {Map<number, Rider>} RaceRiders
  */
+
+export {};

@@ -21,3 +21,5 @@
  * @typedef {RiderStageResults[]} RaceResults
  * RacerResults[riderBib][stageNumber] = StageResult
  */
+
+export {};

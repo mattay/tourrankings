@@ -1,4 +1,9 @@
 /**
+ * @typedef {import('./results.d').RawRiderStageResults} RawRiderStageResults
+ * @typedef {import('./results.d').RiderStageResults} RiderStageResults
+ */
+
+/**
  *
  * @param {RawRiderStageResults} rider
  * @returns {RiderStageResults} rider

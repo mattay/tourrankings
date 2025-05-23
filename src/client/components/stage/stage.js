@@ -119,16 +119,6 @@ export function createStageComponent({
       .remove();
   };
 
-  //TODO fix this object definition
-  /**
-   * @typedef {Object} StageDatum
-   * @property {number|string} stage - Unique identifier for the stage
-   * @property {number} [positionX] - Optional X coordinate for positioning
-   * @property {number} [positionY] - Optional Y coordinate for positioning
-   * @property {boolean} [raced] - Whether the stage has been raced
-   * @property {boolean} [viewed] - Whether the stage has been viewed
-   */
-
   /**
    * Main stage component function: binds data to selection and manages enter/update/exit.
    *

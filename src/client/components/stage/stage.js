@@ -34,7 +34,7 @@ export function createStageComponent({
   xScale,
   offsets,
   onStageClick = () => {},
-  transitionDuration = 750,
+  transitionDuration = 840,
 } = {}) {
   /** @property {number} radius */
   const halfRadius = (radius) => (radius || maxRadius) / 2;
@@ -47,14 +47,18 @@ export function createStageComponent({
    */ const initializeStageGroup = (stageEnter) => {
     stageEnter
       .attr("class", "stage")
-      .style("opacity", 0)
-      .on("click", (event, d) => onStageClick(d));
+
+      .on("click", (event, d) => {
+        if (d.raced) return onStageClick(d);
+      });
 
     stageEnter
       .append("circle")
+      .attr("class", "stage-indicator")
       .attr("r", 0)
       .attr("cy", halfRadius())
-      .attr("cx", (d) => xScale(d.stage));
+      .attr("cx", (d) => xScale(d.stage))
+      .attr("stroke-width", 0);
 
     stageEnter
       .append("text")
@@ -62,6 +66,7 @@ export function createStageComponent({
       .attr("y", maxRadius + fontHeight)
       .attr("dy", offsets.text)
       .attr("text-anchor", "middle")
+      .style("opacity", 0)
       .text((d) => d.stage);
 
     // TODO Transform the location of the stage node
@@ -78,21 +83,34 @@ export function createStageComponent({
    */
   const updateStageGroup = (stageSelection) => {
     stageSelection
-      .transition()
-      .duration(transitionDuration)
-      .style("opacity", 1)
+      // .transition()
+      // .delay((d) => d.stage * 40)
+      // .duration(transitionDuration)
       .attr("class", (d) => {
         let classes = "stage";
         if (d.raced) classes += " raced";
-        if (d.viewed) classes += " viewed";
+        if (d.viewing) classes += " viewing";
         return classes;
       });
+    // .style("opacity", 1);
+
+    stageSelection
+      .select("text")
+      .transition()
+      .delay((d) => d.stage * 40)
+      .duration(transitionDuration)
+      .style("opacity", 1);
 
     stageSelection
       .select("circle")
       .transition()
+      .delay((d) => d.stage * 20)
       .duration(transitionDuration)
-      .attr("r", 8);
+      .ease(d3.easeQuadInOut)
+      .attr("r", (d) => {
+        return d.viewing ? 9 : 8;
+      })
+      .style("opacity", 1);
 
     // TODO
     // .attr(

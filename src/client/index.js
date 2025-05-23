@@ -1,7 +1,12 @@
+// State Management
+import store from "./state/storeInstance";
+import { EVENT_TYPES, dispatch } from "./state/events";
+import { setupSelectors } from "./state/selectors";
 import { fetchRaceData } from "./api/index.js";
-import { getRacePathInfo, prepRaceData } from "./utils/index.js";
-import { store } from "./state/store.js";
-import { dispatch, EVENT_TYPES } from "./state/events.js";
+// Utils
+import { getRaceInfoFromUrlPath } from "./utils";
+import { parseRaceContent } from "./utils/parse";
+// Components
 import { Race } from "./components/race/race.js";
 
 class tourRankingApp {

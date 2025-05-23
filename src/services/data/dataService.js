@@ -1,4 +1,3 @@
-import { fail } from "assert";
 import {
   Races,
   RaceStages,
@@ -169,7 +168,6 @@ class DataService {
     if (!this.isInitialized) {
       throw new Error(this.DATA_SERVICE_ERROR.NOT_INITIALIZED);
     }
-    logOut("DataService", `${racePcsID} | ${raceUID} -> ${year}`);
 
     if (!raceUID && !racePcsID) {
       throw new Error(this.DATA_SERVICE_ERROR.INVALID_INPUT);
@@ -243,8 +241,6 @@ class DataService {
 
     const stageResults = [];
     for (const stage of this.stages.stagesInRace(raceUID)) {
-      logOut("DataService", `Fetched stage ${stage.stageUID}`);
-
       const results = this.stageResults.getStageResults(stage.stageUID);
       if (!results) {
         logError(

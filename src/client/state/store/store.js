@@ -90,12 +90,11 @@ class Store {
    * @param {string} selectorName - The name of the selector to use.
    * @returns {any} The result of the selector function.
    * @throws {Error} If the selector is not found.
+
    */
   select(selectorName) {
-    console.log("[Store] select", selectorName);
     const selector = this.#selectors.get(selectorName);
     if (!selector) {
-      console.log(this.#selectors);
       throw new Error(`Selector "${selectorName}" not found`);
     }
     return selector(this.#state);

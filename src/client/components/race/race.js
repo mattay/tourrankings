@@ -244,20 +244,28 @@ export class Race {
     // }
   }
 
+  /**
+   * Updates the stages visualization component.
+   * Only updates if stages data is available.
+   * Uses the configured stage component to render the stages.
+   */
   updateStages() {
     if (!this.dataStages) return;
 
     const stageComponent = createStageComponent({
       xScale: this.xScaleStages,
       offsets: this.offsets,
-      onStageClick: (stage) => {
-        console.log("Stage clicked:", stage);
-      },
+      onStageClick: actionSelectStage,
     });
 
     stageComponent(this.containerStages, this.dataStages);
   }
 
+  /**
+   * Updates the rankings visualization component.
+   * Only updates if riders and rankings data are available.
+   * Uses the configured rider component to render the rankings.
+   */
   updateRankings() {
     if (!this.dataRiders) return;
     if (!this.dataRankings) return;
@@ -268,7 +276,7 @@ export class Race {
       offsets: this.offsets,
       stage: this.dataViewStage,
       onRiderClick: (rider) => {
-        console.log("Rider clicked:", rider);
+        console.log("Rider clicked:", rider); // Future Feature
       },
     });
 

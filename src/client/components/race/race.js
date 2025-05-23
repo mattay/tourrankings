@@ -78,41 +78,14 @@ export class Race {
    * @param {object} options - Configuration options for the visualization.
    * @param {Partial<Margin>} [options.margin] - Margins for the visualization.
    */
-  constructor(
-    containerId,
-    options = {
-      margin: { top: 40, right: 320, bottom: 60, left: 8 },
-    },
-  ) {
-    console.log("Race constructor");
+  constructor(containerId, options = {}) {
     this.container = document.getElementById(containerId);
     this.svg = d3.select(this.container).append("svg");
 
-    this.height = 0;
-    this.width = 0;
-    this.margin = options.margin;
-    this.innerWidth = 0;
-    this.innerHeight = 0;
+    /** @type {Margin} */
+    this.margin = { ...DEFAULT_OPTIONS.margin, ...options.margin };
 
-    this.coordinates = {
-      stages: {
-        top: this.margin.top,
-        bottom: 40,
-        left: this.margin.left,
-        right: this.innerWidth - this.margin.right,
-        width: this.innerWidth - this.margin.left - this.margin.right,
-        height: 40,
-      },
-      rankings: {
-        top: this.margin.top + 40,
-        bottom: this.margin.bottom,
-        left: this.margin.left,
-        right: this.innerWidth - this.margin.right,
-        width: this.innerWidth - this.margin.left - this.margin.right,
-        height: this.innerHeight - this.margin.top - this.margin.bottom - 40,
-      },
-    };
-
+    this.coordinates = this.calculateCoordinates();
     this.offsets = {
       radius: 12,
       text: 4,
@@ -158,27 +131,104 @@ export class Race {
     console.log("Race initialized");
   }
 
-  resized() {
-    // Take the size of the container element
-    this.height = this.container.clientHeight;
-    this.width = this.container.clientWidth;
-    this.innerWidth = this.width - this.margin.left - this.margin.right;
-    this.innerHeight = this.height - this.margin.top - this.margin.bottom;
-
-    this.coordinates.stages.right = this.innerWidth - this.margin.right;
-    this.coordinates.stages.width =
-      this.coordinates.stages.right - this.margin.left;
-    this.coordinates.rankings.right = this.innerWidth - this.margin.right;
-    this.coordinates.rankings.width =
-      this.coordinates.rankings.right - this.margin.left;
-    console.log("Event", "resized");
+  /**
+   * Updates the domains of the scales based on the current data.
+   * @property {d3.ScaleLinear} xScaleStages - Scale for stage positions.
+   * @property {d3.ScaleLinear} yScaleRiders - Scale for rider positions.
+   */
+  updateScalesDomain() {
+    this.xScaleStages.domain(d3.extent(this.dataStages, (d) => d.stage));
+    this.yScaleRiders.domain([0, this.dataRiders.length]);
   }
 
-  render() {
-    console.log(this.data);
-    this.updateStages();
-    this.updateRankings();
-    console.log("Race rendered");
+  /**
+   * Updates the ranges of the scales based on the current layout coordinates.
+   * @property {d3.ScaleLinear} xScaleStages - Scale for stage positions.
+   * @property {d3.ScaleLinear} yScaleRiders - Scale for rider positions.
+   */
+  updateScalesRange() {
+    this.xScaleStages.range([this.margin.left, this.coordinates.stages.width]);
+    this.yScaleRiders.range([0, this.coordinates.rankings.height]);
+  }
+
+  /**
+   * Adds together top, height, and bottom from a coordinates object.
+   * @param {Coordinates} coordinates
+   * @returns {number}
+   */
+  containerHeight(coordinates) {
+    return (
+      Number(coordinates.top) +
+      Number(coordinates.height) +
+      Number(coordinates.bottom)
+    );
+  }
+
+  /**
+   * Calculates the layout coordinates for stages and rankings containers.
+   * @returns {{stages: Coordinates, rankings: Coordinates}}
+   */
+  calculateCoordinates() {
+    const numberOfRiders = this.dataRiders.filter(
+      (element) => element != null,
+    ).length;
+    const { top, right, bottom, left } = this.margin;
+    const riderLabelWidth = 320;
+    const riderLabelHeight = 20;
+    const riderRankingHeight = numberOfRiders * riderLabelHeight;
+
+    const stagesCoordinates = {
+      top,
+      bottom: 32,
+      left,
+      right: this.innerWidth - right,
+      width: this.innerWidth - riderLabelWidth,
+      height: 40,
+    };
+    const rankingsCoordinates = {
+      top,
+      bottom,
+      left,
+      right: this.innerWidth - right,
+      width: this.innerWidth - riderLabelWidth,
+      height: numberOfRiders ? riderRankingHeight : this.innerHeight,
+    };
+
+    return {
+      stages: stagesCoordinates,
+      rankings: rankingsCoordinates,
+    };
+  }
+
+  /**
+   * Handles resizing of the visualization container.
+   * Updates the inner width and height based on the container's current size and margins,
+   * recalculates the coordinates for stages and rankings, and resizes the SVG to fit the content.
+   * Note: The SVG height is calculated by adding the heights of stages and rankings containers,
+   * but ensure this logic matches your layout requirements (see earlier discussion on double-counting).
+   */
+  resize() {
+    const visableWidth = this.container.clientWidth;
+    const visableHeight = this.container.clientHeight; // Visable.
+    // Update container dimensions
+    this.innerWidth = visableWidth - this.margin.left - this.margin.right;
+    this.innerHeight = visableHeight - this.margin.top - this.margin.bottom;
+
+    // Recalculate coordinates
+    this.coordinates = this.calculateCoordinates();
+
+    // Calculate the total height needed for the SVG
+    const neededHeight =
+      this.containerHeight(this.coordinates.stages) +
+      this.containerHeight(this.coordinates.rankings);
+    this.svg.attr("width", visableWidth).attr("height", neededHeight);
+    // Calculate group sizing
+    // const gNode = this.containerStages.node();
+    // const gBBox = gNode.getBBox(); // Only works if the <g> has children with visible content
+    // if (gBBox) {
+    //   console.log("gBBox Width:", gBBox.width);
+    //   console.log("gBBox Height:", gBBox.height);
+    // }
   }
 
   updateStages() {

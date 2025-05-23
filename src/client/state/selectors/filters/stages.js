@@ -8,7 +8,6 @@
  * @returns {Object}
  */
 export function raceStages(state) {
-  console.debug("[SELECTOR]", "raceStages", state.currentStage);
   if (!state.raceData || !state.currentStage) return null;
 
   return state.raceData.stages.reduce((results, stage) => {

@@ -8,7 +8,6 @@
  * @returns {Object}
  */
 export function riders(state) {
-  console.debug("[SELECTOR]", "riders");
   if (!state.raceData || !state.currentStage) return null;
 
   return Array.from(state.raceData.riders.values());

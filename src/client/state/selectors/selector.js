@@ -10,12 +10,10 @@ import { riders } from "./filters/riders";
  *
  * @returns {void}
  */
-function setupSelectors() {
+export function setupSelectors() {
   store.registerSelector("raceStages", raceStages);
 
   store.registerSelector("riders", riders);
 
   store.registerSelector("rankings", rankings);
 }
-
-export default setupSelectors;

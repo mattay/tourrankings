@@ -117,20 +117,29 @@ export class Race {
     this.xScaleStages = d3.scaleLinear();
     this.yScaleRiders = d3.scaleLinear();
 
+    // Stages
     this.containerStages = this.svg
       .append("g")
-      .attr("class", "stage-container");
-    // .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
+      .attr("class", "stage-container")
+      .attr(
+        "transform",
+        `translate(${this.coordinates.stages.left}, ${this.coordinates.stages.top})`,
+      );
+
+    // Riders
     this.containerRiders = this.svg
       .append("g")
       .attr("class", "rider-container")
-      .attr("transform", `translate(24, 64)`);
+      .attr(
+        "transform",
+        `translate(${this.coordinates.rankings.left}, ${this.containerHeight(this.coordinates.stages)})`,
+      );
 
-    console.debug("Race initializing Event listerns...");
+    // Event Listeners
     window.addEventListener("resize", () => {
-      console.log("Event", "resized");
-      this.resized();
+      this.resize();
     });
+  }
 
   /**
    * Updates the data properties of the visualization from the store.

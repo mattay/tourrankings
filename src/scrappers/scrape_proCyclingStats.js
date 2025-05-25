@@ -1,4 +1,4 @@
-import puppeteer, { Page } from "puppeteer-core";
+import puppeteer from "puppeteer-core";
 
 // Data Models
 import {
@@ -8,11 +8,11 @@ import {
   RaceRiders,
   Teams,
   Riders,
-  // GeneralClassification,
-  // PointsClassification,
-  // MountainClassification,
-  // YouthClassification,
-  // TeamClassification,
+  ClassificationGeneral,
+  ClassificationPoints,
+  ClassificationMountain,
+  ClassificationYouth,
+  ClassificationTeam,
 } from "../models";
 // Utils
 import { generateId } from "../utils/idGenerator";
@@ -24,14 +24,24 @@ import {
   collectWorldTourRaces,
   scrapeRaceStartList,
   scrapeRaceStages,
+  scrapeRaceStageResults,
 } from "./source/proCyclingStats";
 
 /**
+ * @typedef {import('puppeteer-core').Page} Page - Puppeteer
+ */
+
+/**
  * Models
- * @typedef {import('../src/models/@types/races').RaceModel} RaceData
- * @typedef {import('../src/models/@types/races').RaceStageData} RaceStageData
- * @typedef {import('../src/models/@types/teams').TeamModel} TeamData
- * @typedef {import('../src/models/@types/riders').RiderModel} RiderData
+ * @typedef {import('../models/@types/races').RaceModel} RaceData
+ * @typedef {import('../models/@types/races').RaceStageModel} RaceStageData
+ * @typedef {import('../models/@types/teams').TeamModel} TeamData
+ * @typedef {import('../models/@types/riders').RiderModel} RiderData
+ * @typedef {import('../models/@types/classifications').ClassificationGeneralModel} ClassificationGeneralModel
+ * @typedef {import('../models/@types/classifications').ClassificationYouthModel} ClassificationYouthData
+ * @typedef {import('../models/@types/classifications').ClassificationPointModel} ClassificationPointData
+ * @typedef {import('../models/@types/classifications').ClassificationMountainModel} ClassificationMountainData
+ * @typedef {import('../models/@types/classifications').ClassificationTeamModel} ClassificationTeamData
  */
 
 /**
@@ -61,7 +71,7 @@ import {
 /**
  *
  * @param {Page} page - Page object from Puppeteer
- * @param {string} raceId - ID of the race to scrape
+ * @param {string} racePcsID - ID of the race to scrape
  * @param {number} year - Year of the race to scrape
  * @returns {Promise<CollectedRaceData>} CollectedRaceData - Object containing stages, teams, and riders data
  */
@@ -78,8 +88,7 @@ async function collectRace(page, racePcsID, year) {
     // Race stages
     const stagesInRace = await scrapeRaceStages(page, racePcsID, year).catch(
       (exception) => {
-        logError("CollectRace", `Error collecting stages`);
-        logError("CollectRace", exception);
+        logError("CollectRace", `Failed to collect stages`, exception);
       },
     );
     if (stagesInRace) {
@@ -94,8 +103,7 @@ async function collectRace(page, racePcsID, year) {
       racePcsID,
       year,
     ).catch((exception) => {
-      logError("CollectRace", `Error collecting startlist`);
-      logError("CollectRace", exception);
+      logError("CollectRace", `Failed to collect startlist`, exception);
     });
     if (raceStartlist) {
       for (let team of raceStartlist) {
@@ -117,8 +125,9 @@ async function collectRace(page, racePcsID, year) {
       logError("CollectRace", "No startlist found");
     }
   } catch (exception) {
-    logError("CollectRace", exception);
+    logError("CollectRace", "Failed to collect race details", exception);
   }
+
   return {
     stages: stages,
     teams: teams,
@@ -144,7 +153,7 @@ function stagesInRaces(raceStages, races) {
  * @param {Races} races - The Races object
  * @param {RaceStages} raceStages - The RaceStages object
  * @param {RaceStageResults} raceStageResults - The RaceStageResults object
- * @returns {Array<RaceWithStages>} - Array of RaceWithStages objects
+ * @returns {Array<string>} - Array of RaceWithStages objects
  */
 function stagesWithoutResults(races, raceStages, raceStageResults) {
   const today = new Date();
@@ -152,44 +161,45 @@ function stagesWithoutResults(races, raceStages, raceStageResults) {
 
   const races_past = races.past(raceSeason);
   const races_inProgress = races.inProgress(today);
-  const races_upcoming = races.upcoming();
-  const seasonRaces = stagesInRaces(raceStages, races_inProgress);
-  //
+  // const races_upcoming = races.upcoming();
+  const seasonRaces = stagesInRaces(raceStages, [
+    ...races_past,
+    ...races_inProgress,
+  ]);
+
   return seasonRaces
     .flatMap((race) => race.stages)
     .filter((stage) => {
       const stageDate = new Date(stage.date);
       return (
         stageDate <= today &&
-        raceStageResults.stageResults(stage.stageUID).length === 0
+        raceStageResults.getStageResults(stage.stageUID).length === 0
       );
     })
-    .map((stage) => stage.stageId);
+    .map((stage) => stage.stageUID);
 }
 
 /**
  * Collects races for the current season.
  *
  * @async
- * @param {import('puppeteer').Page} page - Puppeteer page instance for scraping.
+ * @param {Page} page - Puppeteer page instance for scraping.
  * @param {Races} races - The Races object.
  * @param {number} raceSeason - The season for which to collect races.
  */
 async function collectSeasonRaces(page, races, raceSeason) {
-  if (races.season(raceSeason).length == 0) {
-    logOut(
+  logOut(
+    "collectSeasonRaces",
+    `Collecting races for the ${raceSeason} season.`,
+  );
+  try {
+    await collectWorldTourRaces(page, races, raceSeason);
+  } catch (error) {
+    logError(
       "collectSeasonRaces",
-      `Collecting races for the ${raceSeason} season.`,
+      `Failed to collect races for the ${raceSeason} season.`,
+      error,
     );
-    try {
-      await collectWorldTourRaces(page, races, raceSeason);
-    } catch (error) {
-      logError(
-        "collectSeasonRaces",
-        `Failed to collect races for the ${raceSeason} season.`,
-        error,
-      );
-    }
   }
 }
 
@@ -197,7 +207,7 @@ async function collectSeasonRaces(page, races, raceSeason) {
  * Collects past races.
  *
  * @async
- * @param {import('puppeteer').Page} page - Puppeteer page instance for scraping.
+ * @param {Page} page - Puppeteer page instance for scraping.
  * @param {Races} races - The Races object.
  * @param {RaceStages} raceStages - The race stages.
  * @param {RaceRiders} raceRiders - The race riders.
@@ -212,9 +222,11 @@ async function collectPastRaceDetails(
   riders,
   teams,
 ) {
-  const pastRacesWithoutStages = stagesInRaces(raceStages, races.past()).filter(
-    (race) => race.stages.length === 0,
-  );
+  const today = new Date();
+  const pastRacesWithoutStages = stagesInRaces(raceStages, [
+    ...races.past(),
+    ...races.inProgress(today),
+  ]).filter((race) => race.stages.length === 0);
 
   for (const race of pastRacesWithoutStages) {
     logOut("collectPastRaces", `${race.raceName}`);
@@ -275,7 +287,7 @@ async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
  * - For each past race with missing stages, fetches and updates detailed data.
  *
  * @async
- * @param {import('puppeteer').Page} page - Puppeteer page instance for scraping. * @param {Races} races - The Races object
+ * @param {Page} page - Puppeteer page instance for scraping.
  * @param {Races} races - Races data manager.
  * @param {RaceStages} raceStages - RaceStages data manager.
  * @param {RaceRiders} raceRiders - RaceRiders data manager.
@@ -300,14 +312,6 @@ async function updateRaces(page, races, raceStages, raceRiders, riders, teams) {
     riders,
     teams,
   );
-  await collectPastRaceDetails(
-    page,
-    races,
-    raceStages,
-    raceRiders,
-    riders,
-    teams,
-  );
 }
 
 /**
@@ -316,14 +320,87 @@ async function updateRaces(page, races, raceStages, raceRiders, riders, teams) {
  * @param {Races} races - The Races object
  * @param {RaceStages} raceStages - The RaceStages object
  * @param {RaceStageResults} raceStageResults - The RaceStageResults object
+ * @param {ClassificationGeneral} raceStageGeneral -
+ * @param {ClassificationPoints} raceStagePoints -
+ * @param {ClassificationMountain} raceStageMountain -
+ * @param {ClassificationYouth} raceStageYouth -
+ * @param {ClassificationTeam} raceStageTeam -
  */
-async function updateStageResults(page, races, raceStages, raceStageResults) {
+async function updateStageResults(
+  page,
+  races,
+  raceStages,
+  raceStageResults,
+  raceStageGeneral,
+  raceStagePoints,
+  raceStageMountain,
+  raceStageYouth,
+  raceStageTeam,
+) {
   const stagesRequireResults = stagesWithoutResults(
     races,
     raceStages,
     raceStageResults,
   );
-  logOut("updateStageResults", "Needs implementation", "warn");
+
+  const raceResults = {
+    stage: [],
+    gc: [],
+    points: [],
+    mountain: [],
+    youth: [],
+    teams: [],
+  };
+
+  for (const stage of stagesRequireResults) {
+    const [race, year, stageNo] = stage.split(":");
+    logOut(
+      "Update Stage Results",
+      `Scraping -> Stage Results, ${race}, ${year}, ${stage}`,
+    );
+    try {
+      const stageResults = await scrapeRaceStageResults(
+        page,
+        race,
+        year,
+        stageNo,
+      );
+      // Collect Results for bulk update
+      for (let ranking in stageResults) {
+        switch (ranking) {
+          case "stage":
+          case "gc":
+          case "points":
+          case "youth":
+          case "teams":
+            raceResults[ranking].push(...stageResults[ranking]);
+            break;
+          case "kom":
+          case "qom":
+            raceResults["mountain"].push(...stageResults[ranking]);
+            break;
+          default:
+            logOut(
+              "Update Stage Results",
+              `Classification not yet recorded ${ranking}`,
+            );
+            break;
+        }
+      }
+    } catch (error) {
+      logError(
+        "Update Stage Results",
+        `Failed to collect stage results for ${stage}`,
+        error,
+      );
+    }
+  }
+  await raceStageResults.update(raceResults.stage);
+  await raceStageGeneral.update(raceResults.gc);
+  await raceStagePoints.update(raceResults.points);
+  await raceStageMountain.update(raceResults.mountain);
+  await raceStageYouth.update(raceResults.youth);
+  await raceStageTeam.update(raceResults.teams);
 }
 
 /**
@@ -348,11 +425,11 @@ async function main() {
     const teams = new Teams();
     const riders = new Riders();
     const raceStageResults = new RaceStageResults();
-    // const raceStageGeneral = new GeneralClassification();
-    // const raceStagePoints = new PointsClassification();
-    // const raceStageMountain = new MountainClassification();
-    // const raceStageTeam = new TeamClassification();
-    // const raceStageYouth = new YouthClassification();
+    const raceStageGeneral = new ClassificationGeneral();
+    const raceStagePoints = new ClassificationPoints();
+    const raceStageMountain = new ClassificationMountain();
+    const raceStageYouth = new ClassificationYouth();
+    const raceStageTeam = new ClassificationTeam();
 
     // Load data
     try {
@@ -362,21 +439,36 @@ async function main() {
       await raceRiders.read();
       await teams.read();
       await riders.read();
+      await raceStageGeneral.read();
+      await raceStagePoints.read();
+      await raceStageMountain.read();
+      await raceStageYouth.read();
+      await raceStageTeam.read();
     } catch (error) {
-      logError("Main", "Error loading data", error);
+      logError("Main", "Loading data", error);
       throw error;
     }
 
     try {
       await updateRaces(page, races, raceStages, raceRiders, riders, teams);
-    } catch {
-      logError("Main", "Error collecting race information", error);
+    } catch (error) {
+      logError("Main", "Collecting race information", error);
     }
 
     try {
-      await updateStageResults(page, races, raceStages, raceStageResults);
+      await updateStageResults(
+        page,
+        races,
+        raceStages,
+        raceStageResults,
+        raceStageGeneral,
+        raceStagePoints,
+        raceStageMountain,
+        raceStageYouth,
+        raceStageTeam,
+      );
     } catch (error) {
-      logError("Main", "Error collecting race information", error);
+      logError("Main", "Failed to collect race information", error);
     }
   } catch (error) {
     // Catch-all for any errors not handled above

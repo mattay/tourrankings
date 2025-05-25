@@ -16,17 +16,27 @@ export class ClassificationGeneral extends CSVdataModel {
   rows = [];
 
   constructor() {
-    super(`${process.env.DATA_DIR}/raceStageClassificationGeneral.csv`, [
-      "Stage Id",
-      "Rank",
-    ]);
+    const fieldTypes = {
+      stage: "number",
+      rank: "number",
+      previousStageRanking: "number",
+      change: "number",
+      bib: "number",
+      age: "number",
+      uci: "number",
+    };
+    super(
+      `${process.env.DATA_DIR}/raceStageClassificationGeneral.csv`,
+      ["Stage UID", "Rank"],
+      fieldTypes,
+    );
     this.csvHeaders = [
-      "Stage Id",
+      "Stage UID",
       "Stage",
       "Rank",
       "Previous Stage Ranking",
       "Change",
-      "BIB",
+      "Bib",
       "Specialty",
       "Rider",
       "Age",
@@ -37,7 +47,7 @@ export class ClassificationGeneral extends CSVdataModel {
       "Delta",
     ];
     this.sortOrder = [
-      ["Stage Id", "asc"],
+      ["Stage UID", "asc"],
       ["Rank", "asc"],
     ];
   }

@@ -1,51 +1,51 @@
 :root {
-    --primary-color: #2c3e50;
-    --secondary-color: #3498db;
-    --background-color: #f8f7f6;
-    --color-text-primary: #4f4c30;
-    --color-text-secondary: #a3a085;
-    --color-text-accent: #817618;
+  --primary-color: #2c3e50;
+  --secondary-color: #3498db;
+  --color-background: #f8f7f6;
+  --color-text-primary: #4f4c30;
+  --color-text-secondary: #a3a085;
+  --color-text-accent: #817618;
 }
 
 html {
-    color-scheme: light;
+  color-scheme: light;
 }
 
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    color: var(--color-text-primary);
-    background-color: var(--background-color);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
-    padding: 1rem 4rem;
-    #site--title {
-        font-size: 1rem;
-        font-weight: bold;
-    }
+  padding: 1rem 4rem;
+  #site--title {
+    font-size: 1rem;
+    font-weight: bold;
+  }
 }
 
 footer {
-    padding: 1rem 4rem;
-    font-size: 0.75rem;
-    color: var(--color-text-secondary);
+  padding: 1rem 4rem;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
 }
 
 main {
-    flex-grow: 1;
-    padding: 2rem 4rem;
-    display: flex;
-    flex-direction: column;
+  flex-grow: 1;
+  padding: 2rem 4rem;
+  display: flex;
+  flex-direction: column;
 }
 
 /* h1 {
@@ -54,55 +54,55 @@ main {
 } */
 
 .stage-name {
-    color: var(--color-text-secondary);
+  color: var(--color-text-secondary);
 }
 
 a {
-    text-decoration: none;
-    color: var(--color-text-primary);
-    &:hover {
-        color: var(--color-text-accent);
-    }
+  text-decoration: none;
+  color: var(--color-text-primary);
+  &:hover {
+    color: var(--color-text-accent);
+  }
 }
 
 .races,
 .races--grouped,
 .races--list {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .races {
-    gap: 4rem;
+  gap: 4rem;
 
-    font-size: 1.5rem;
+  font-size: 1.5rem;
+  line-height: 1.25;
+
+  h2 {
+    font-size: 1rem;
     line-height: 1.25;
-
-    h2 {
-        font-size: 1rem;
-        line-height: 1.25;
-        font-weight: normal;
-        color: var(--color-text-secondary);
-    }
+    font-weight: normal;
+    color: var(--color-text-secondary);
+  }
 }
 
 .races--grouped {
-    gap: 0.75rem;
+  gap: 0.75rem;
 }
 
 .races--list {
-    gap: 0.5rem;
-    align-items: flex-start;
+  gap: 0.5rem;
+  align-items: flex-start;
 }
 
 #race-rankings {
-    display: flex;
+  display: flex;
+  width: 100%;
+  flex-grow: 1;
+  padding-top: 16px;
+  svg {
     width: 100%;
-    flex-grow: 1;
-    padding-top: 16px;
-    svg {
-        width: 100%;
-    }
+  }
 }
 
 /* ul {
@@ -112,66 +112,101 @@ a {
 select,
 input,
 button {
-    padding: 8px 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    font-size: 14px;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 button {
-    background-color: var(--secondary-color);
-    color: white;
-    cursor: pointer;
-    border: none;
-    transition: background-color 0.3s;
+  background-color: var(--secondary-color);
+  color: white;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s;
 }
 
 button:hover {
-    background-color: #2980b9;
+  background-color: #2980b9;
 }
 
 @media (max-width: 768px) {
-    .dashboard-container {
-        grid-template-columns: 1fr;
-    }
+  .dashboard-container {
+    grid-template-columns: 1fr;
+  }
 
-    .controls {
-        flex-direction: column;
-    }
+  .controls {
+    flex-direction: column;
+  }
 }
 
 .stage-container {
-    .stage {
-        cursor: pointer;
-    }
+  text {
+    font-size: 1rem;
+    line-height: 1;
+    font-weight: bold;
+    fill: var(--color-text-secondary);
+  }
 
-    text {
-        font-size: 1rem;
-        line-height: 1;
-        font-weight: bold;
-        fill: var(--color-text-secondary);
-    }
+  .stage-indicator {
+    fill: var(--color-background);
+    stroke-width: 2;
+  }
 
-    circle {
-        .upcomming {
-            r: 16px;
-            stroke-width: 2px;
-            stroke: var(--color-text-primary);
-            fill: var(--color-background);
-        }
-        .completed {
-            r: 20px;
-            stroke-width: 2px;
-            stroke: var(--color-background);
-            fill: var(--color-text-primary);
-        }
+  g:not(.raced) .stage-indicator {
+    stroke-dasharray: 2, 3;
+    stroke: var(--color-text-secondary);
+  }
+
+  .raced {
+    cursor: pointer;
+
+    .stage-indicator {
+      stroke-dasharray: none;
+      stroke: var(--color-text-primary);
+      /* r: 8px; */
     }
+  }
+
+  .viewing {
+    .stage-indicator {
+      fill: var(--color-text-primary);
+      stroke: var(--color-background);
+      /* r: 10px; */
+    }
+  }
+
+  /* .raced:not(){
+
+  } */
+  /* circle {
+    /* .upcomming { */
+  /* r: 8px;
+    stroke-width: 2px;
+    stroke: var(--color-text-secondary);
+    fill: var(--color-background);
+    stroke-dasharray: 2px 3px;
+    /* } */
+  /* .completed */
+  /* &:hover {
+      r: 10px;
+      stroke-width: 2px;
+      stroke: var(--color-background);
+      fill: var(--color-text-secondary);
+    }
+  }  */
 }
 
+/* .stage-container circle:hover {
+  stroke: var(--color-background);
+  fill: var(--color-text-secondary);
+  /* You cannot change 'r' via CSS! */
+/* } */
+
 .rider-container {
-    text {
-        font-size: 1rem;
-        line-height: 1;
-        fill: var(--color-text-primary);
-    }
+  text {
+    font-size: 1rem;
+    line-height: 1;
+    fill: var(--color-text-primary);
+  }
 }

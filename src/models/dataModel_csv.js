@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
 import csv from "csv-parser";
-import { toCamelCase, toTitleCase } from "../utils/string.js";
+import { toCamelCase } from "../utils/string.js";
 import { logError, logOut } from "../utils/logging.js";
 import { dirname } from "path";
 
@@ -15,11 +15,48 @@ class CSVdataModel {
   /** @type {Array<Object>} */
   rows = [];
 
-  constructor(filePath, indexOn) {
+  /**
+   * Represents a data handler for a CSV file with indexed columns.
+   *
+   * @param {string} filePath - Path to the CSV file.
+   * @param {string[]} indexOn - Array of column names to use as indexes.
+   *
+   * @property {string} filePath - Absolute path to the CSV file.
+   * @property {string[]} indexOn - Array of column names (camelCased) used as indexes.
+   * @property {string[]} csvHeaders - List of CSV column headers expected in the file.
+   * @property {Array.<Array.<string>>} sortOrder - Array of [column, direction] pairs for sorting.
+   * @property {Object.<string, string>} fieldTypes - Object mapping field names to their expected types.
+   */
+  constructor(filePath, indexOn, fieldTypes = {}) {
     this.filePath = path.resolve(filePath);
     this.indexOn = indexOn.map((index) => toCamelCase(index));
     this.sortOrder = [];
     this.csvHeaders = [];
+    this.fieldTypes = fieldTypes;
+  }
+
+  /**
+   * Converts a string value to the specified type.
+   * @param {string} value - The input string value.
+   * @param {string} type - The type to convert to ('number', 'boolean', etc.).
+   * @returns {any} The converted value.
+   */
+  #convertType(value, type) {
+    if (value === null || value === undefined || value === "") {
+      return null;
+    }
+
+    switch (type) {
+      case "number":
+        // Use parseFloat for decimal values and parseInt for integers
+        return isNaN(parseFloat(value)) ? value : parseFloat(value);
+      case "boolean":
+        return value.toLowerCase() === "true";
+      case "date":
+        return new Date(value);
+      default:
+        return value;
+    }
   }
 
   /**
@@ -30,15 +67,25 @@ class CSVdataModel {
   #cleanRowCSV(obj) {
     const result = {};
 
+    // convert table headers and apply typing
     for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
+      if (Object.hasOwn(obj, key)) {
         const camelCaseKey = toCamelCase(key);
-        result[camelCaseKey] = obj[key];
+        const value = obj[key];
+        // Apply type conversion if a field type is specified
+        if (this.fieldTypes[camelCaseKey]) {
+          result[camelCaseKey] = this.#convertType(
+            value,
+            this.fieldTypes[camelCaseKey],
+          );
+        } else {
+          result[camelCaseKey] = value;
+        }
       }
     }
 
     for (const key of this.indexOn) {
-      if (!result.hasOwnProperty(key)) {
+      if (!Object.hasOwn(result, key)) {
         logError(
           this.constructor.name,
           `Incoming CSV row missing index ${key}`,
@@ -87,7 +134,7 @@ class CSVdataModel {
         .on("end", () => resolve(this.rows))
         .on("error", reject);
 
-      logOut(this.constructor.name, `Loaded ${this.filePath}`, "debug");
+      // logOut(this.constructor.name, `Loaded ${this.filePath}`, "debug");
       this.sortRows();
     });
   }
@@ -108,15 +155,15 @@ class CSVdataModel {
       });
       try {
         fs.writeFileSync(this.filePath, csvContent, "utf8");
-        logOut(
-          this.constructor.name,
-          `Wrote to ${this.filePath} ${fs.existsSync(this.filePath)}`,
-          "debug",
-        );
+        // logOut(
+        //   this.constructor.name,
+        //   `Wrote to ${this.filePath} ${fs.existsSync(this.filePath)}`,
+        //   "debug",
+        // );
       } catch (error) {
         logError(this.constructor.name, `Failed to write to ${this.filePath}`);
         logError(this.constructor.name, error.message);
-        // reject(error); This might need to be handled differently depending on the use case.
+        reject(error);
       }
       resolve();
     });
@@ -163,19 +210,33 @@ class CSVdataModel {
   async update(updates) {
     await this.read(); // Refresh
 
+    const validated = [];
+    const failed = [];
+    // Check if results are valid
     updates.forEach((entry) => {
-      for (const key of this.indexOn) {
-        if (!entry.hasOwnProperty(key)) {
-          logError(this.constructor.name, `Update row missing index ${key}`);
-          logOut(this.constructor.name, Object.keys(entry).join(", "), "debug");
-          throw new Error("Invalid Update");
-        }
+      const indexed = this.indexOn.every((key) => Object.hasOwn(entry, key));
+
+      if (indexed) {
+        validated.push(entry);
+      } else {
+        failed.push(entry);
       }
     });
 
-    this.rows = [...this.rows, ...this.#newEntries(updates)];
+    this.rows = [...this.rows, ...this.#newEntries(validated)];
     this.sortRows();
-    await this.write();
+    const writePromise = this.write();
+
+    // Log failed entries while writing
+    if (failed.length > 0) {
+      logError(this.constructor.name, "Invalid Entries");
+      logError(
+        this.constructor.name,
+        "Expected Keys: " + this.indexOn.join(", "),
+      );
+    }
+
+    await writePromise;
   }
 
   /**

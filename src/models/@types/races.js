@@ -28,7 +28,7 @@
 /**
  * @typedef {Object} RaceStageLocationPointModel
  * @property {number} locationID - The unique identifier for the location.
- * @property {number} stageId - The unique identifier for the stage.
+ * @property {number} stageUID - The unique identifier for the stage.
  * @property {number} year - The year of the race.
  * @property {number} stage - The stage number.
  * @property {string} type - The type of the stage.
@@ -39,7 +39,7 @@
 /**
  * @typedef {Object} RaceStageLocationMountainModel
  * @property {string} locationId - Unique identifier for the location.
- * @property {string} stageId - Unique identifier for the stage.
+ * @property {string} stageUID - Unique identifier for the stage.
  * @property {string} year - Year of the race.
  * @property {string} stage - Name of the stage.
  * @property {string} type - Type of the stage.
@@ -49,12 +49,12 @@
 
 /**
  * @typedef {Object} RaceStageResultModel
- * @property {string} stageUID - The unique identifier for the stage RaceStageModel.stageId.
+ * @property {string} stageUID - The unique identifier for the stage RaceStageModel.stageUID.
  * @property {number} stage - The stage number.
+ * @property {number} bib - The unique identifier for the rider.
  * @property {number} rank - The rank of the rider in the stage.
  * @property {number} gc - The General Classification points earned by the rider.
  * @property {string} timelag - The time difference between the rider's time and the winner's time.
- * @property {number} bib - The unique identifier for the rider.
  * @property {string} specialty - The specialty of the rider.
  * @property {string} rider - The name of the rider.
  * @property {number} age - The age of the rider.

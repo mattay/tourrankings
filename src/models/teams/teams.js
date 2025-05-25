@@ -17,7 +17,10 @@ export class Teams extends CSVdataModel {
   rows = [];
 
   constructor() {
-    super(`${process.env.DATA_DIR}/teams.csv`, ["Team Pcs Id"]);
+    const fieldTypes = {
+      year: "number",
+    };
+    super(`${process.env.DATA_DIR}/teams.csv`, ["Team Pcs Id"], fieldTypes);
     this.csvHeaders = [
       "Year",
       "Team Pcs Id",

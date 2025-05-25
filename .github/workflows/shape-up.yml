@@ -22,3 +22,11 @@ jobs:
           project: Shaping Board  
           column: Ready for Betting
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Archive completed cycle
+        if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'cycle-')
+        uses: actions/github-script@v6
+        with:
+          script: |
+            // Move completed work to "Shipped" column
+            // Create cycle retrospective issue

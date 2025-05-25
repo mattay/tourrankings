@@ -1,0 +1,45 @@
+name: 📋 Pitch
+description: A shaped piece of work ready for betting
+labels: ["pitch", "needs-betting"]
+body:
+  - type: dropdown
+    id: appetite
+    attributes:
+      label: Appetite
+      options:
+        - "Small Batch (1-2 weeks)"
+        - "Big Batch (4-6 weeks)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What user problem does this solve?
+      placeholder: "Users can't easily compare riders across different race classifications because..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solution (Shaped)
+      description: High-level approach, not detailed specs
+      placeholder: "Add a unified comparison view that shows rider performance across GC, Points, and KOM classifications..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: rabbit_holes
+    attributes:
+      label: Rabbit Holes
+      description: What could go wrong or take too long?
+      placeholder: "- Don't get caught up perfecting the visual design\n- Avoid building a complex filtering system initially"
+
+  - type: textarea
+    id: no_gos
+    attributes:
+      label: No-Gos
+      description: What are we explicitly NOT doing?
+      placeholder: "- No historical data beyond current season\n- No mobile optimization in this cycle"

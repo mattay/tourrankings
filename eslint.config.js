@@ -18,6 +18,7 @@ export default [
       globals: {
         ...globals.node, // Node.js globals (console, process, etc.)
         ...globals.browser, // Browser globals (window, document, etc.)
+        d3: "readonly",
       },
     },
     plugins: {

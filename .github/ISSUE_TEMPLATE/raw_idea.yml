@@ -1,0 +1,17 @@
+name: 💡 Raw Idea
+description: Unformed idea that needs shaping
+labels: ["raw-idea", "needs-shaping"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: The Idea
+      description: What's the rough concept?
+    validations:
+      required: true
+
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Use Case
+      description: When/why would someone need this?

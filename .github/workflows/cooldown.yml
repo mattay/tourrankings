@@ -1,0 +1,14 @@
+name: Cooldown Management
+on:
+  issues:
+    types: [labeled]
+jobs:
+  move-to-cooldown:
+    if: contains(github.event.issue.labels.*.name, 'bug')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add to cooldown
+        uses: alex-page/github-project-automation-plus@v0.8.1
+        with:
+          project: Cooldown Board
+          column: Bug Fixes

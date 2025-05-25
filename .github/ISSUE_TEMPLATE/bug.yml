@@ -1,0 +1,26 @@
+name: 🐛 Bug
+description: Something broken (for cooldown fixes)
+labels: ["bug", "cooldown"]
+body:
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - "Critical (breaks core functionality)"
+        - "High (significant impact)"
+        - "Medium (minor impact)"
+        - "Low (cosmetic/edge case)"
+
+  - type: input
+    id: race_context
+    attributes:
+      label: Race/Context
+      placeholder: "Tour de France 2024, Stage 15 results"
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What's broken?
+    validations:
+      required: true

@@ -1,0 +1,32 @@
+name: Shape Up Workflow
+on:
+  issues:
+    types: [opened, labeled, unlabeled]
+  
+jobs:
+  manage-shaping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Move raw ideas to shaping board
+        if: contains(github.event.issue.labels.*.name, 'raw-idea')
+        uses: alex-page/github-project-automation-plus@v0.8.1
+        with:
+          project: Shaping Board
+          column: Raw Ideas
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Move pitches to betting
+        if: contains(github.event.issue.labels.*.name, 'pitch')
+        uses: alex-page/github-project-automation-plus@v0.8.1
+        with:
+          project: Shaping Board  
+          column: Ready for Betting
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Archive completed cycle
+        if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'cycle-')
+        uses: actions/github-script@v6
+        with:
+          script: |
+            // Move completed work to "Shipped" column
+            // Create cycle retrospective issue

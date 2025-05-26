@@ -209,4 +209,7 @@ button:hover {
     line-height: 1;
     fill: var(--color-text-primary);
   }
+  .abandoned {
+    text-decoration-line: line-through;
+  }
 }

@@ -52,7 +52,11 @@ export function createRiderComponent({
     riderEnter
       .attr("class", "rider")
       .style("opacity", 0)
-      .attr("transform", (d, i) => `translate(${xScale(stage)}, ${yScale(i)})`)
+      .attr(
+        "transform",
+        (d, i) =>
+          `translate(${xScale(d.lastStage)}, ${yScale(d.stageRankings.result)})`,
+      )
       .on("click", (event, d) => onRiderClick(d));
 
     riderEnter
@@ -73,14 +77,19 @@ export function createRiderComponent({
   const updateRidersGroup = (riderSelection) => {
     riderSelection
       .transition()
-      .delay((d, i) => 420 + i * 5)
+      .delay((d, i) => 420 + d.stageRankings.result * 5)
       .duration(transitionDuration)
       .ease(d3.easeQuadInOut)
-      // TODO: have data ordered by ranking for given stage
-      .attr("transform", (d, i) => `translate(${xScale(stage)}, ${yScale(i)})`)
+      .attr("transform", (d, i) => {
+        if (isNaN(d.stageRankings.result)) {
+          console.log(d);
+        }
+        return `translate(${xScale(d.lastStage)}, ${yScale(d.stageRankings.result)})`;
+      })
       .style("opacity", 1)
       .attr("class", (d) => {
         let classes = "rider";
+        if (d.abandoned) classes += " abandoned";
         return classes;
       });
 

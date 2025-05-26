@@ -1,0 +1,1 @@
+export { setupSelectors } from "./selector";

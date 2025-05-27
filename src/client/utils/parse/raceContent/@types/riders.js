@@ -12,7 +12,7 @@
  */
 
 /**
- * @typedef {import('./teams.d').Team} Team
+ * @typedef {import('./teams').Team} Team
  */
 
 /**

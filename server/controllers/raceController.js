@@ -3,9 +3,9 @@ import { logError, logOut } from "../../src/utils/logging.js";
 import { sortByDate } from "../utils/sorts.js";
 
 /**
- * @typedef {import('./raceController.d.js').TemporalSeasonRaces} TemporalSeasonRaces
- * @typedef {import('./raceController.d.js').RaceContent} RaceContent
- * @typedef {import('./raceController.d.js').RaceResults} RaceResults
+ * @typedef {import('./@types/raceController.js').TemporalSeasonRaces} TemporalSeasonRaces
+ * @typedef {import('./@types/raceController.js').RaceContent} RaceContent
+ * @typedef {import('./@types/raceController.js').RaceResults} RaceResults
  */
 
 /**
@@ -100,6 +100,7 @@ export function raceContent(racePcsID, year = null) {
 
     stage.stage = Number(stage.stage);
     stage.raced = false;
+    stage.veiwing = false;
     if (new Date(stage.date) <= today) {
       stage.raced = true;
       // Looking for most recent stages to default to

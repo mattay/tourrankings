@@ -1,6 +1,6 @@
 /**
- * @typedef {import('./results.d').RawRiderStageResults} RawRiderStageResults
- * @typedef {import('./results.d').RiderStageResults} RiderStageResults
+ * @typedef {import('./@types/results').RawRiderStageResults} RawRiderStageResults
+ * @typedef {import('./@types/results').RiderStageResults} RiderStageResults
  */
 
 /**

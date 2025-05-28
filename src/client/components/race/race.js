@@ -16,9 +16,10 @@ import { createRankingComponent } from "../ranking/ranking";
 /**
  * @typedef {CustomEvent<import('../../api/@types').RaceContent>} RaceContent
  */
-/** @typedef {Array<import('../../utils/parse/raceContent/stage.d').Stage>} Stage */
-/** @typedef {Array<import('../../utils/parse/raceContent/riders.d').Rider>} Rider */
-/** @typedef {Array<import('../../utils/parse/raceContent/results.d').Results>} Results */
+
+/** @typedef {import('../../state/selectors/@types/stage').FilteredStage} FilteredStage */
+/** @typedef {import('../../state/selectors/@types/rider').FilteredStageRider} FilteredStageRider */
+/** @typedef {import('../../state/selectors/@types/result').FilteredStageResult} FilteredStageResult */
 
 /**
  * @typedef {Object} Margin
@@ -54,9 +55,11 @@ const DEFAULT_OPTIONS = {
 export class Race {
   /** @type {Array<Stage>} */
   dataStages = [];
-  /** @type {Array<Rider>} */ // Adjust path/type as needed
+
+  /** @type {Array<FilteredStageRider>} */ // Adjust path/type as needed
   dataRiders = [];
-  /** @type {Array<Ranking>} */ // Adjust path/type as needed
+
+  /** @type {Array<FilteredStageResult>} */ // Adjust path/type as needed
   dataRankings = [];
   /** @type {number | null} */ // Adjust as needed
   dataViewStage = null;

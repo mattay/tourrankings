@@ -221,10 +221,10 @@ button:hover {
 
   .background {
     stroke: var(--color-background);
-    stroke-width: 8;
-  }
-  .forground {
     stroke-width: 4;
+  }
+  .foreground {
+    stroke-width: 2;
     stroke: var(--color-text-secondary);
   }
 }

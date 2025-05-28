@@ -1,5 +1,4 @@
 import { raceContent } from "./raceController.js";
-// import dataService from "../../src/services/dataServiceInstance.js";
 import { logOut } from "../../src/utils/logging.js";
 
 /**

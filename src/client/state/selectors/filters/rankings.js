@@ -1,5 +1,5 @@
 /**
- * @typedef {import('../../store/store.d').State} State
+ * @typedef {import('../../store/@types/store').State} State
  */
 
 /**

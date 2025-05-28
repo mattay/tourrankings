@@ -1,6 +1,6 @@
 /**
- * @typedef {import('./race.d').RawRace} RawRace
- * @typedef {import('./race.d').Race} Race
+ * @typedef {import('./@types/race').RawRace} RawRace
+ * @typedef {import('./@types/race').Race} Race
  */
 
 /**

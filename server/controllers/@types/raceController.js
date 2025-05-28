@@ -1,16 +1,16 @@
 /**
  * Data Models
- * @typedef {import("../../src/services/dataServiceInstance").RaceData} RaceData
- * @typedef {import("../../src/services/dataServiceInstance").RaceStageData} RaceStageData
- * @typedef {import("../../src/services/dataServiceInstance").RaceRiderData} RaceRiderData
- * @typedef {import("../../src/services/dataServiceInstance").TeamData} TeamData
- * @typedef {import("../../src/services/dataServiceInstance.js").RaceStageResultData} RaceStageResultData
+ * @typedef {import("../../../src/services/dataServiceInstance").RaceData} RaceData
+ * @typedef {import("../../../src/services/dataServiceInstance").RaceStageData} RaceStageData
+ * @typedef {import("../../../src/services/dataServiceInstance").RaceRiderData} RaceRiderData
+ * @typedef {import("../../../src/services/dataServiceInstance").TeamData} TeamData
+ * @typedef {import("../../../src/services/dataServiceInstance.js").RaceStageResultData} RaceStageResultData
  */
 
 /**
  * Supports RaceContent
  * @typedef {RaceData} Race
- * @typedef {RaceStageData & {raced: boolean}} RaceStage
+ * @typedef {RaceStageData & {raced: boolean, viewing: boolean}} RaceStage
  * @typedef {Array<RaceStageResultData[]>} RaceResults
  */
 

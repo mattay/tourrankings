@@ -1,5 +1,6 @@
 /**
  * @typedef {import('../../store/@types/store').State} State
+ * @typedef {import('./../@types/riders').FilteredStageRider} FilteredStageRider
  */
 
 function sortAbandoned(a, b) {
@@ -13,7 +14,7 @@ function sortAbandoned(a, b) {
 /**
  *
  * @param {State} state -
- * @returns {Array}
+ * @returns {Array<FilteredStageRider>}
  */
 export function riders(state) {
   if (!state.raceData || !state.currentStage) return null;

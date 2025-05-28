@@ -53,7 +53,7 @@ const DEFAULT_OPTIONS = {
  * Represents a race visualization, managing layout and rendering of stages and rankings.
  */
 export class Race {
-  /** @type {Array<Stage>} */
+  /** @type {Array<FilteredStage>} */
   dataStages = [];
 
   /** @type {Array<FilteredStageRider>} */ // Adjust path/type as needed

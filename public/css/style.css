@@ -207,9 +207,24 @@ button:hover {
   text {
     font-size: 1rem;
     line-height: 1;
-    fill: var(--color-text-primary);
+    fill: var(--color-text-secondary);
   }
   .abandoned {
     text-decoration-line: line-through;
+  }
+}
+
+.ranking {
+  path {
+    fill: none;
+  }
+
+  .background {
+    stroke: var(--color-background);
+    stroke-width: 8;
+  }
+  .forground {
+    stroke-width: 4;
+    stroke: var(--color-text-secondary);
   }
 }

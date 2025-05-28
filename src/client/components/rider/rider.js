@@ -1,14 +1,6 @@
 /** <reference types="d3" /> */
 
-/**
- * @typedef {Object} RiderDatum
- * @property {number|string} bib - Unique rider bib number or identifier
- * @property {string} rider - Rider name or label
- * @property {boolean} [raced] - Optional flag if rider has raced
- * @property {boolean} [viewed] - Optional flag if rider has been viewed
- * @property {number} [positionX] - Optional X coordinate for layout
- * @property {number} [positionY] - Optional Y coordinate for layout
- */
+/** @typedef {import('../../state/selectors/@types/riders').FilteredStageRider} RiderDatum */
 
 /**
  * Options for creating the rider component.
@@ -55,7 +47,7 @@ export function createRiderComponent({
       .attr(
         "transform",
         (d, i) =>
-          `translate(${xScale(d.lastStage)}, ${yScale(d.stageRankings.result)})`,
+          `translate(${xScale(d.lastStage) + offsets.text}, ${yScale(d.stageRankings.result)})`,
       )
       .on("click", (event, d) => onRiderClick(d));
 
@@ -84,7 +76,7 @@ export function createRiderComponent({
         if (isNaN(d.stageRankings.result)) {
           console.log(d);
         }
-        return `translate(${xScale(d.lastStage)}, ${yScale(d.stageRankings.result)})`;
+        return `translate(${xScale(d.lastStage) + offsets.text}, ${yScale(d.stageRankings.result)})`;
       })
       .style("opacity", 1)
       .attr("class", (d) => {

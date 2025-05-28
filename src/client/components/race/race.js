@@ -6,6 +6,7 @@ import { actionSelectStage } from "src/client/state/actions";
 // Components
 import { createStageComponent } from "../stage/stage";
 import { createRiderComponent } from "../rider/rider";
+import { createRankingComponent } from "../ranking/ranking";
 // Utils
 
 /**
@@ -88,7 +89,7 @@ export class Race {
     this.coordinates = this.calculateCoordinates();
     this.offsets = {
       radius: 12,
-      text: 4,
+      text: 8,
     };
 
     this.initialize();
@@ -130,6 +131,15 @@ export class Race {
     this.containerRiders = this.svg
       .append("g")
       .attr("class", "rider-container")
+      .attr(
+        "transform",
+        `translate(${this.coordinates.rankings.left}, ${this.containerHeight(this.coordinates.stages)})`,
+      );
+
+    // Rankings
+    this.containerRankings = this.svg
+      .append("g")
+      .attr("class", "ranking-container")
       .attr(
         "transform",
         `translate(${this.coordinates.rankings.left}, ${this.containerHeight(this.coordinates.stages)})`,
@@ -290,6 +300,18 @@ export class Race {
     });
 
     riderComponent(this.containerRiders, this.dataRiders);
+
+    const rankingComponent = createRankingComponent({
+      xScale: this.xScaleStages,
+      yScale: this.yScaleRiders,
+      offsets: this.offsets,
+      stage: this.dataViewStage,
+      onRiderClick: (rider) => {
+        console.log("Rider clicked:", rider); // Future Feature
+      },
+    });
+
+    rankingComponent(this.containerRankings, this.dataRankings);
   }
 
   /**

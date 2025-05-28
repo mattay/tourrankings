@@ -1,11 +1,12 @@
 /**
  * @typedef {import('../../store/@types/store').State} State
+ * @typedef {import('../@types/result').FilteredStageResult} FilteredStageResult
  */
 
 /**
  *
  * @param {State} state -
- * @returns {Object}
+ * @returns {Array<FilteredStageResult>}
  */
 export function rankings(state) {
   if (!state.raceData || !state.currentStage) return null;

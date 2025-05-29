@@ -97,7 +97,8 @@ function cleanUpStageTable(table, additionalValues) {
           case "Rank":
           case "Previous Stage Ranking":
           case "GC":
-          case "BIB":
+          case "Bib":
+          case "UCI":
           case "Age":
           case "Points":
           case "Today":

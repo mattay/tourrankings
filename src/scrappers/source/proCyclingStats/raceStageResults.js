@@ -8,7 +8,7 @@ import { addTime, formatSeconds } from "../../../utils/time";
  * @param {Object} additionalValues - Additional values to add to each row.
  * @returns {Array<Object>} The cleaned up table.
  */
-function cleanUpStageTable(table, additionalValues) {
+function tableHeaders(column) {
   const rename = {
     Rnk: "Rank",
     Pnt: "Points",
@@ -16,7 +16,19 @@ function cleanUpStageTable(table, additionalValues) {
     "": "Bonis",
     Prev: "Previous Stage Ranking",
     "#": "Rank",
+    BIB: "Bib",
   };
+
+  return rename[column] || column;
+}
+
+/**
+ * @param {Array<Object>} table - The table to clean up.
+ * @param {Object} additionalValues - Additional values to add to each row.
+ * @returns {Array<Object>} The cleaned up table.
+ */
+function cleanUpStageTable(table, additionalValues) {
+  const drop = ["H2H", "Specialty", "Age"];
 
   return table
     .sort((a, b) => {

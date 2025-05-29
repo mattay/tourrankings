@@ -23,12 +23,8 @@ function cleanUpStageTable(table, additionalValues) {
       return parseInt(a.Rnk) - parseInt(b.Rnk);
     })
     .map((row, index, rankings) => {
-      for (const key in rename) {
-        if (Object.hasOwn(row, key)) {
-          row[rename[key]] = row[key];
-          delete row[key];
-        }
-      }
+      row = renameKeys(row, tableHeaders);
+      // console.log(row);
 
       // ▼▲
       if (Object.hasOwn(row, "Change")) {
@@ -69,9 +65,16 @@ function cleanUpStageTable(table, additionalValues) {
         }
       }
 
-      // Not needed.
-      if (Object.hasOwn(row, "H2H")) {
-        delete row["H2H"];
+      // Drop not needed
+      for (const column of drop) {
+        if (Object.hasOwn(row, column)) {
+          delete row[column];
+        }
+      }
+
+      // Drop Team
+      if (Object.hasOwn(row, "Bib") && Object.hasOwn(row, "Team")) {
+        delete row["Team"];
       }
 
       // Format values
@@ -186,7 +189,7 @@ function cleanUpStages(tables, stageUID, stage) {
     const tab = resultsIndex[index].tab || null;
 
     // Accumulated times and points rankings
-    if (tab && tables[index].hasOwnProperty("general")) {
+    if (tab && Object.hasOwn(tables[index], "general")) {
       const general = cleanUpStageTable(tables[index]["general"], {
         stageUID,
         stage,
@@ -203,7 +206,7 @@ function cleanUpStages(tables, stageUID, stage) {
 
     if (
       tab &&
-      tables[index].hasOwnProperty("today") &&
+      Object.hasOwn(tables[index], "today") &&
       tables[index]["today"].length > 0
     ) {
       for (let i = 0; i < tables[index]["today"].length; i += 1) {

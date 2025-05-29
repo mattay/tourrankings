@@ -1,4 +1,3 @@
-import { Page } from "puppeteer-core";
 import { generateId } from "../../../utils/idGenerator";
 import { renameKeys } from "../../../utils/object";
 import { toCamelCase } from "../../../utils/string";
@@ -262,10 +261,10 @@ function cleanUpStages(tables, stageUID, stage) {
 
 /**
  *
- * @param {Page} page - Page object from Puppeteer
+ * @param {import('puppeteer-core').Page} page - Page object from Puppeteer
  * @param {string} race - Race name
- * @param {number|string} year - Year of the race
- * @param {number|string} stage - Stage number
+ * @param {number} year - Year of the race
+ * @param {number} stage - Stage number
  */
 export async function scrapeRaceStageResults(page, race, year, stage) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/stage-${stage}`;

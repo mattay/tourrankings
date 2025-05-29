@@ -362,8 +362,8 @@ async function updateStageResults(
       const stageResults = await scrapeRaceStageResults(
         page,
         race,
-        year,
-        stageNo,
+        Number(year),
+        Number(stageNo),
       );
       // Collect Results for bulk update
       for (let ranking in stageResults) {

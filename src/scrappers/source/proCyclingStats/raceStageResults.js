@@ -4,9 +4,9 @@ import { toCamelCase } from "../../../utils/string";
 import { addTime, formatSeconds } from "../../../utils/time";
 
 /**
- * @param {Array<Object>} table - The table to clean up.
- * @param {Object} additionalValues - Additional values to add to each row.
- * @returns {Array<Object>} The cleaned up table.
+ * Renames the scraped column name
+ * @param {string} column - the html column name
+ * @returns {string} - the column name to be used when stored
  */
 function tableHeaders(column) {
   const rename = {

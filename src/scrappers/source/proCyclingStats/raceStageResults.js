@@ -2,6 +2,7 @@ import { generateId } from "../../../utils/idGenerator";
 import { renameKeys } from "../../../utils/object";
 import { toCamelCase } from "../../../utils/string";
 import { addTime, formatSeconds } from "../../../utils/time";
+import { logOut } from "src/utils/logging";
 
 /**
  * Renames the scraped column name
@@ -65,12 +66,16 @@ function cleanUpStageTable(table, additionalValues) {
           const firstPosition = rankings[0];
           const previousPosition = rankings[index - 1];
 
-          if (row["Time"] == ",,") {
+          if (row["Time"] == "-") {
+            // Rider Abandoned
+            row["Time"] = null;
+          } else if (row["Time"] == ",,") {
             // Same time a previous
             row["Delta"] = previousPosition["Delta"];
           } else {
             row["Delta"] = row["Time"];
           }
+
           row["Time"] = formatSeconds(
             addTime(firstPosition["Time"], row["Delta"]),
           );

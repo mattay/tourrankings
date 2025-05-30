@@ -214,7 +214,10 @@ class CSVdataModel {
     const failed = [];
     // Check if results are valid
     updates.forEach((entry) => {
-      const indexed = this.indexOn.every((key) => Object.hasOwn(entry, key));
+      // const indexed = this.indexOn.every((key) => Object.hasOwn(entry, key));
+      const indexed = this.indexOn.every(
+        (key) => entry[key] != null && entry[key] !== "",
+      );
 
       if (indexed) {
         validated.push(entry);

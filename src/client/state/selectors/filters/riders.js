@@ -26,13 +26,14 @@ export function riders(state) {
     if (!rider) continue;
     const bib = rider.bib;
     const riderResults = state.raceData.results[bib];
-    const riderStageResult = riderResults[state.currentStage];
+    const riderStageResult = riderResults[state.currentStage] || {};
     let lastStage = state.currentStage;
     let lastRank = riderStageResult?.rank || NaN;
+    let isAbandoned = false;
 
     let newRider = {
       ...rider,
-      abandoned: false,
+      abandoned: isAbandoned,
       lastStage,
       stageRankings: {
         result: lastRank,

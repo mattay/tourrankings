@@ -166,7 +166,7 @@ export function raceContent(racePcsID, year = null) {
 }
 
 /**
- * Regroup stage: rider resutls -> rider: stage results
+ * Regroup stage: rider results -> rider: stage results
  * @param {StagesRiderResults} raceResults
  * @returns {RidersStageResults}
  */

@@ -4,7 +4,7 @@
  * @typedef {import("../../../src/services/dataServiceInstance").RaceStageData} RaceStageData
  * @typedef {import("../../../src/services/dataServiceInstance").RaceRiderData} RaceRiderData
  * @typedef {import("../../../src/services/dataServiceInstance").TeamData} TeamData
- * @typedef {import("../../../src/services/dataServiceInstance.js").RaceStageResultData} RaceStageResultData
+ * @typedef {import("../../../src/services/dataServiceInstance.js").RaceStageRiderResultData} RaceStageResultData
  */
 
 /**
@@ -35,6 +35,16 @@
  */
 
 /**
+ * Supports RaceContent
+ * @typedef {Object} RaceClassifications
+ * @property {Object[]} gc
+ * @property {Object[]} youth
+ * @property {Object[]} points
+ * @property {Object[]} mountain
+ * @property {Object[]} team
+ */
+
+/**
  * @typedef {Object} TemporalSeasonRaces
  * @property {RaceData[]} current - Races currently ongoing.
  * @property {RaceData[]} upcoming - Races yet to start.
@@ -50,6 +60,7 @@
  * @property {Object<string, RaceTeam>} teams - Teams indexed by team ID.
  * @property {Object<string, RaceRider>} riders - Riders indexed by bib number.
  * @property {RaceResults} results - Indexed by rider bib number.
+ * @property {RaceClassifications} classifications -
  */
 
 export {};

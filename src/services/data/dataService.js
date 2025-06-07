@@ -21,6 +21,7 @@ import { logError, logOut } from "../../utils/logging";
  * @typedef {import('../../models/@types/races').RaceRiderModel} RaceRiderData
  * @typedef {import('../../models/@types/teams').TeamModel} TeamData
  * @typedef {import('../../models/@types/riders').RiderModel} RiderData
+ * @typedef {import('../../models/@types/classifications').ClassificationPointModel} PointsData
  */
 
 /**
@@ -284,7 +285,7 @@ class DataService {
    * Stages are indexed by the stage number in the returned array.
    *
    * @param {string} raceUID - The unique identifier of the race.
-   * @returns {Array<Object>} Array of points classification results, indexed by stage number.
+   * @returns {Array<PointsData[]>} Array of points classification results, indexed by stage number.
    * @throws {Error} If the service is not initialized.
    */
   raceClassificationsPoints(raceUID) {

@@ -156,7 +156,7 @@ export function raceContent(racePcsID, year = null) {
 
   // GC
   // Points
-  const points = [];
+  const points = dataService.raceClassificationsPoints(raceUID);
   raceContent.classifications.points = points;
   // Mountain
   // Youth

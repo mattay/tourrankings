@@ -253,6 +253,26 @@ class DataService {
     }
     return stageResults;
   }
+
+  raceClassificationsPoints(raceUID) {
+    if (!this.isInitialized) {
+      throw new Error(this.DATA_SERVICE_ERROR.NOT_INITIALIZED);
+    }
+    const stagePoints = [];
+    for (const stage of this.stages.stagesInRace(raceUID)) {
+      const results = this.classificationPoints.getStagePoints(stage.stageUID);
+      if (!results) {
+        logError(
+          this.constructor.name,
+          `No results for stage ${stage.stageUID}`,
+        );
+      } else {
+        stagePoints[stage.stage] = results;
+      }
+    }
+
+    return stagePoints;
+  }
 }
 
 export default DataService;

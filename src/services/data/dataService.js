@@ -289,27 +289,29 @@ class DataService {
    * Stages are indexed by the stage number in the returned array.
    *
    * @param {string} raceUID - The unique identifier of the race.
-   * @returns {Array<ClassificationTeamData[]>} Array of points classification results, indexed by stage number.
+   * @returns {Array<ClassificationPointsData[]>} Array of points classification results, indexed by stage number.
    * @throws {Error} If the service is not initialized.
    */
   raceClassificationsPoints(raceUID) {
     if (!this.isInitialized) {
       throw new Error(this.DATA_SERVICE_ERROR.NOT_INITIALIZED);
     }
-    const stagePoints = [];
+    const stageRankings = [];
     for (const stage of this.stages.stagesInRace(raceUID)) {
-      const results = this.classificationPoints.getStagePoints(stage.stageUID);
+      const results = this.classificationPoints.getStageRankings(
+        stage.stageUID,
+      );
       if (!results) {
         logError(
           this.constructor.name,
           `No results for stage ${stage.stageUID}`,
         );
       } else {
-        stagePoints[stage.stage] = results;
+        stageRankings[stage.stage] = results;
       }
     }
 
-    return stagePoints;
+    return stageRankings;
   }
 }
 

@@ -59,7 +59,7 @@ export class ClassificationPoints extends CSVdataModel {
    * @param {string} stageUID - The ID of the stage.
    * @returns {ClassificationPointModel[]|null} - Returns an array of stage points.
    */
-  getStagePoints(stageUID) {
+  getStageRankings(stageUID) {
     if (!stageUID) {
       console.error("stageId is required for getStageResults()");
       return null;

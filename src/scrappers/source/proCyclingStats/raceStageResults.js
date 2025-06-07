@@ -2,11 +2,12 @@ import { generateId } from "../../../utils/idGenerator";
 import { renameKeys } from "../../../utils/object";
 import { toCamelCase } from "../../../utils/string";
 import { addTime, formatSeconds } from "../../../utils/time";
+import { logOut } from "src/utils/logging";
 
 /**
- * @param {Array<Object>} table - The table to clean up.
- * @param {Object} additionalValues - Additional values to add to each row.
- * @returns {Array<Object>} The cleaned up table.
+ * Renames the scraped column name
+ * @param {string} column - the html column name
+ * @returns {string} - the column name to be used when stored
  */
 function tableHeaders(column) {
   const rename = {
@@ -65,12 +66,16 @@ function cleanUpStageTable(table, additionalValues) {
           const firstPosition = rankings[0];
           const previousPosition = rankings[index - 1];
 
-          if (row["Time"] == ",,") {
+          if (row["Time"] == "-") {
+            // Rider Abandoned
+            row["Time"] = null;
+          } else if (row["Time"] == ",,") {
             // Same time a previous
             row["Delta"] = previousPosition["Delta"];
           } else {
             row["Delta"] = row["Time"];
           }
+
           row["Time"] = formatSeconds(
             addTime(firstPosition["Time"], row["Delta"]),
           );

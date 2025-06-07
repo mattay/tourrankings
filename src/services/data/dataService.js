@@ -253,6 +253,15 @@ class DataService {
     }
     return stageResults;
   }
+
+  raceClassificationsPoints(raceUID) {
+    if (!this.isInitialized) {
+      throw new Error(this.DATA_SERVICE_ERROR.NOT_INITIALIZED);
+    }
+    const stagePoints = [];
+
+    return stagePoints;
+  }
 }
 
 export default DataService;

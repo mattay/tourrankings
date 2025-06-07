@@ -77,6 +77,13 @@ export function raceContent(racePcsID, year = null) {
     teams: {},
     riders: {},
     results: [],
+    classifications: {
+      gc: [],
+      youth: [],
+      points: [],
+      mountain: [],
+      team: [],
+    },
   };
 
   if (!raceContent.race?.raceUID) {
@@ -149,6 +156,8 @@ export function raceContent(racePcsID, year = null) {
 
   // GC
   // Points
+  const points = [];
+  raceContent.classifications.points = points;
   // Mountain
   // Youth
   // Team

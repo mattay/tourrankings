@@ -35,8 +35,7 @@ async function setupServer(app) {
     app.set("view engine", "ejs");
     app.set("views", join(__dirname, "views"));
   } catch (error) {
-    logError("Server", "Failed to configure server");
-    logError("Server", error);
+    logError("Server", "Failed to configure server", error);
     process.exit(1);
   }
 }
@@ -81,8 +80,7 @@ async function setupRoutes(app) {
       });
     });
   } catch (error) {
-    logError("Server", "Failed to configure routes");
-    logError("Server", error);
+    logError("Server", "Failed to configure routes", error);
     process.exit(1);
   }
 }
@@ -99,8 +97,7 @@ async function startServer(app) {
       logOut("Server", `Running on port ${config.port} in ${config.env} mode`);
     });
   } catch (error) {
-    logError("Server", "Failed to start server");
-    logError("Server", error);
+    logError("Server", "Failed to start server", error);
     process.exit(1);
   }
 }

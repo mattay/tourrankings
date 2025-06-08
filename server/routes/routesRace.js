@@ -1,6 +1,6 @@
 import express from "express";
 import { raceContent } from "../controllers/raceController";
-import { logOut } from "../../src/utils/logging";
+import { logError } from "../../src/utils/logging";
 
 /** @type {import('../controllers/raceController').RaceContent} RaceContent */
 
@@ -61,7 +61,7 @@ router.get("/:racePcsID/:year?/:stage?/:ranking?", (req, res, next) => {
   try {
     res.render("pages/race", pageContent);
   } catch (error) {
-    logOut("Unable to render /", error);
+    logError("Routes Race", "Unable to render /", error);
     next(error); // Passes error to Express error handler
   }
 });

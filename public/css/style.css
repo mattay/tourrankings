@@ -52,9 +52,29 @@ main {
     color: var(--text-primary-color);
     margin-bottom: 20px;
 } */
-
-.stage-name {
+#race-name {
+}
+#race-year {
+  padding: 0 0 0 8px;
+  font-weight: normal;
   color: var(--color-text-secondary);
+}
+
+#stage-title {
+  font-weight: normal;
+}
+#stage-label {
+  font-weight: bold;
+}
+#stage-number {
+  font-weight: bold;
+}
+#stage-type {
+  color: var(--color-text-secondary);
+}
+#stage-name {
+  color: var(--color-text-secondary);
+  padding: 0 0 0 8px;
 }
 
 a {
@@ -63,6 +83,14 @@ a {
   &:hover {
     color: var(--color-text-accent);
   }
+}
+
+.smooth-text {
+  transition: opacity 321ms ease-in-out;
+}
+
+.smooth-text.updating {
+  opacity: 0.2;
 }
 
 .races,
@@ -109,7 +137,7 @@ a {
     list-style-type: none;
 } */
 
-select,
+/* select,
 input,
 button {
   padding: 8px 12px;
@@ -128,9 +156,9 @@ button {
 
 button:hover {
   background-color: #2980b9;
-}
+} */
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   .dashboard-container {
     grid-template-columns: 1fr;
   }
@@ -138,19 +166,23 @@ button:hover {
   .controls {
     flex-direction: column;
   }
-}
+} */
 
 .stage-container {
   text {
     font-size: 1rem;
     line-height: 1;
-    font-weight: bold;
+    /* font-weight: bold; */
     fill: var(--color-text-secondary);
+    transition: fill 321ms ease-in-out;
   }
 
   .stage-indicator {
     fill: var(--color-background);
     stroke-width: 2;
+    transition: stroke 210ms ease-out;
+    transition: fill 210ms ease-out;
+    /* transition: 321ms ease-in-out; */
   }
 
   g:not(.raced) .stage-indicator {
@@ -164,44 +196,38 @@ button:hover {
     .stage-indicator {
       stroke-dasharray: none;
       stroke: var(--color-text-primary);
-      /* r: 8px; */
+    }
+  }
+
+  .raced:hover {
+    text {
+      fill: var(--color-text-accent);
+    }
+    .stage-indicator {
+      stroke-width: 3;
+      stroke: var(--color-text-accent);
+      transition: stroke 321ms ease-in;
     }
   }
 
   .viewing {
+    text {
+      font-weight: bold;
+    }
     .stage-indicator {
       fill: var(--color-text-primary);
       stroke: var(--color-background);
-      /* r: 10px; */
     }
   }
 
-  /* .raced:not(){
-
-  } */
-  /* circle {
-    /* .upcomming { */
-  /* r: 8px;
-    stroke-width: 2px;
-    stroke: var(--color-text-secondary);
-    fill: var(--color-background);
-    stroke-dasharray: 2px 3px;
-    /* } */
-  /* .completed */
-  /* &:hover {
-      r: 10px;
-      stroke-width: 2px;
-      stroke: var(--color-background);
-      fill: var(--color-text-secondary);
+  .viewing:hover {
+    .stage-indicator {
+      stroke-width: 1;
+      fill: var(--color-text-accent);
+      transition: stroke 321ms ease-in;
     }
-  }  */
+  }
 }
-
-/* .stage-container circle:hover {
-  stroke: var(--color-background);
-  fill: var(--color-text-secondary);
-  /* You cannot change 'r' via CSS! */
-/* } */
 
 .rider-container {
   text {

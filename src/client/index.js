@@ -7,16 +7,23 @@ import { getRaceInfoFromUrlPath } from "./utils";
 import { parseRaceContent } from "./utils/parse";
 // Components
 import { Race } from "./components/race/race.js";
+import { updatePageHeadings } from "./components/page/title";
 
 /**
  * Main application class for the Tour Ranking app.
  * Manages state, data fetching, and component initialization.
  */
 class tourRankingApp {
+  /**
+   * @type {Function} Unsubscribe function for the store subscription
+   */
+  #unsubscribe;
+
   constructor() {
     setupSelectors();
     this.race = new Race("race-rankings"); // Initialize components (SVG + D3)
     this.setupControls();
+    this.setupDOMSubscription(); // Subscribe to state changes for DOM updates
     this.init(); // Start the application
   }
 
@@ -35,6 +42,16 @@ class tourRankingApp {
     // chartTypeSelect.addEventListener("change", (e) => {
     //   changeChartType(e.target.value);
     // });
+  }
+
+  /**
+   * Sets up subscription to state changes for DOM modifications outside SVG
+   * @returns {void}
+   */
+  setupDOMSubscription() {
+    this.#unsubscribe = store.subscribe((state) => {
+      updatePageHeadings(state);
+    });
   }
 
   /**
@@ -65,6 +82,19 @@ class tourRankingApp {
     } catch (error) {
       console.error("Failed to initialize race app:", error);
       store.setState({ error: error.message, isLoading: false });
+    }
+  }
+
+  /**
+   * Clean up subscriptions when the app is destroyed
+   * @returns {void}
+   */
+  destroy() {
+    if (this.#unsubscribe) {
+      this.#unsubscribe();
+    }
+    if (this.race) {
+      this.race.destroy();
     }
   }
 }

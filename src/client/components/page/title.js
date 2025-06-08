@@ -22,11 +22,19 @@ function updateTextSmooth(element, newText) {
  * @returns {void}
  */
 export function updatePageHeadings(state) {
-  const stageLabel = document.getElementById("stage-label");
-  const stageNumber = document.getElementById("stage-number");
-  const stageType = document.getElementById("stage-type");
-  const stageDeparture = document.getElementById("stage-depature");
-  const stageArrival = document.getElementById("stage-arrival");
+  const STAGE_ELEMENT_IDS = {
+    LABEL: "stage-label",
+    NUMBER: "stage-number",
+    TYPE: "stage-type",
+    DEPARTURE: "stage-departure",
+    ARRIVAL: "stage-arrival",
+  };
+
+  const stageLabel = document.getElementById(STAGE_ELEMENT_IDS.LABEL);
+  const stageNumber = document.getElementById(STAGE_ELEMENT_IDS.NUMBER);
+  const stageType = document.getElementById(STAGE_ELEMENT_IDS.TYPE);
+  const stageDeparture = document.getElementById(STAGE_ELEMENT_IDS.DEPARTURE);
+  const stageArrival = document.getElementById(STAGE_ELEMENT_IDS.ARRIVAL);
 
   if (state.raceData && state.currentStage) {
     const stage = state.raceData.stages[state.currentStage];

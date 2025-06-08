@@ -180,9 +180,7 @@ button:hover {
   .stage-indicator {
     fill: var(--color-background);
     stroke-width: 2;
-    transition: stroke 210ms ease-out;
-    transition: fill 210ms ease-out;
-    /* transition: 321ms ease-in-out; */
+    transition: stroke 210ms ease-out, fill 210ms ease-out;
   }
 
   g:not(.raced) .stage-indicator {

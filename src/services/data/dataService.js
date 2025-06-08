@@ -360,6 +360,21 @@ class DataService {
       "mountain classification",
     );
   }
+
+  /**
+   * Retrieves mountain classification results for all stages in a specific race.
+   *
+   * @param {string} raceUID - The unique identifier of the race.
+   * @returns {Array<ClassificationTeamData[]>} Array of mountain classification results, indexed by stage number.
+   * @throws {Error} If the service is not initialized.
+   */
+  raceClassificationsTeams(raceUID) {
+    return this._getStageClassifications(
+      raceUID,
+      this.classificationTeam,
+      "team classification",
+    );
+  }
 }
 
 export default DataService;

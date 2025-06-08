@@ -167,6 +167,8 @@ export function raceContent(racePcsID, year = null) {
   const youth = dataService.raceClassificationsYouth(raceUID);
   raceContent.classifications.youth = youth;
   // Team
+  const team = dataService.raceClassificationsTeams(raceUID);
+  raceContent.classifications.team = team;
 
   return raceContent;
 }

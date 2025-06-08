@@ -1,3 +1,4 @@
+import { logError } from "src/utils/logging.js";
 import CSVdataModel from "../dataModel_csv.js";
 
 /**
@@ -43,5 +44,19 @@ export class ClassificationTeam extends CSVdataModel {
       ["Stage UID", "asc"],
       ["Rank", "asc"],
     ];
+  }
+
+  /**
+   * Retrieves the stage results for a given stage ID.
+   * @param {string} stageUID - The ID of the stage.
+   * @returns {ClassificationTeamModel[]|null} - A promise that resolves to an array of stage results.
+   */
+  getStageRankings(stageUID) {
+    if (!stageUID) {
+      logError(this.constructor.name, "getStageRankings expects stageUID");
+      return null;
+    }
+
+    return this.rows.filter((record) => record.stageUID === stageUID);
   }
 }

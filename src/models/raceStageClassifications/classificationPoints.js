@@ -1,3 +1,4 @@
+import { logError } from "src/utils/logging.js";
 import CSVdataModel from "../dataModel_csv.js";
 
 /**
@@ -59,9 +60,9 @@ export class ClassificationPoints extends CSVdataModel {
    * @param {string} stageUID - The ID of the stage.
    * @returns {ClassificationPointModel[]|null} - Returns an array of stage points.
    */
-  getStagePoints(stageUID) {
+  getStageRankings(stageUID) {
     if (!stageUID) {
-      console.error("stageId is required for getStageResults()");
+      logError(this.constructor.name, "getStageRankings expects stageUID");
       return null;
     }
 

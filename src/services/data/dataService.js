@@ -256,6 +256,35 @@ class DataService {
   }
 
   /**
+   * Helper to retrieve classification results for all stages in a specific race.
+   *
+   * @private
+   * @param {string} raceUID - The unique identifier of the race.
+   * @param {Object} classificationModel - The model with a getStageRankings method.
+   * @param {string} classificationName - Name for logging.
+   * @returns {Array<Object[]>} Array of classification results, indexed by stage number.
+   * @throws {Error} If the service is not initialized.
+   */
+  _getStageClassifications(raceUID, classificationModel, classificationName) {
+    if (!this.isInitialized) {
+      throw new Error(this.DATA_SERVICE_ERROR.NOT_INITIALIZED);
+    }
+    const stageRankings = [];
+    for (const stage of this.stages.stagesInRace(raceUID)) {
+      const results = classificationModel.getStageRankings(stage.stageUID);
+      if (!results) {
+        logError(
+          this.constructor.name,
+          `No ${classificationName} results for stage ${stage.stageUID}`,
+        );
+      } else {
+        stageRankings[stage.stage] = results;
+      }
+    }
+    return stageRankings;
+  }
+
+  /**
    * Retrieves results for all stages in a specific race.
    * Stages are indexed by the stage number in the returned array.
    * For example, a prologue is at index 0, otherwise stages start at 1.
@@ -265,51 +294,86 @@ class DataService {
    * @throws {Error} If the service is not initialized.
    */
   raceResults(raceUID) {
-    if (!this.isInitialized) {
-      throw new Error(this.DATA_SERVICE_ERROR.NOT_INITIALIZED);
-    }
+    return this._getStageClassifications(
+      raceUID,
+      this.stageResults,
+      "stage results",
+    );
+  }
 
-    const stageResults = [];
-    for (const stage of this.stages.stagesInRace(raceUID)) {
-      const results = this.stageResults.getStageResults(stage.stageUID);
-      if (!results) {
-        logError(
-          this.constructor.name,
-          `No results for stage ${stage.stageUID}`,
-        );
-      } else {
-        stageResults[stage.stage] = results;
-      }
-    }
-    return stageResults;
+  /**
+   * Retrieves general classification results for all stages in a specific race.
+   *
+   * @param {string} raceUID - The unique identifier of the race.
+   * @returns {Array<ClassificationGeneralData[]>} Array of general classification results, indexed by stage number.
+   * @throws {Error} If the service is not initialized.
+   */
+  raceClassificationsGeneral(raceUID) {
+    return this._getStageClassifications(
+      raceUID,
+      this.classificationGeneral,
+      "general classification",
+    );
+  }
+
+  /**
+   * Retrieves general classification results for all stages in a specific race.
+   *
+   * @param {string} raceUID - The unique identifier of the race.
+   * @returns {Array<ClassificationYouthData[]>} Array of general classification results, indexed by stage number.
+   * @throws {Error} If the service is not initialized.
+   */
+  raceClassificationsYouth(raceUID) {
+    return this._getStageClassifications(
+      raceUID,
+      this.classificationYouth,
+      "youth classification",
+    );
   }
 
   /**
    * Retrieves points classification results for all stages in a specific race.
-   * Stages are indexed by the stage number in the returned array.
    *
    * @param {string} raceUID - The unique identifier of the race.
-   * @returns {Array<ClassificationTeamData[]>} Array of points classification results, indexed by stage number.
+   * @returns {Array<ClassificationPointsData[]>} Array of points classification results, indexed by stage number.
    * @throws {Error} If the service is not initialized.
    */
   raceClassificationsPoints(raceUID) {
-    if (!this.isInitialized) {
-      throw new Error(this.DATA_SERVICE_ERROR.NOT_INITIALIZED);
-    }
-    const stagePoints = [];
-    for (const stage of this.stages.stagesInRace(raceUID)) {
-      const results = this.classificationPoints.getStagePoints(stage.stageUID);
-      if (!results) {
-        logError(
-          this.constructor.name,
-          `No results for stage ${stage.stageUID}`,
-        );
-      } else {
-        stagePoints[stage.stage] = results;
-      }
-    }
+    return this._getStageClassifications(
+      raceUID,
+      this.classificationPoints,
+      "points classification",
+    );
+  }
 
-    return stagePoints;
+  /**
+   * Retrieves mountain classification results for all stages in a specific race.
+   *
+   * @param {string} raceUID - The unique identifier of the race.
+   * @returns {Array<ClassificationMountainData[]>} Array of mountain classification results, indexed by stage number.
+   * @throws {Error} If the service is not initialized.
+   */
+  raceClassificationsMountain(raceUID) {
+    return this._getStageClassifications(
+      raceUID,
+      this.classificationMountain,
+      "mountain classification",
+    );
+  }
+
+  /**
+   * Retrieves mountain classification results for all stages in a specific race.
+   *
+   * @param {string} raceUID - The unique identifier of the race.
+   * @returns {Array<ClassificationTeamData[]>} Array of mountain classification results, indexed by stage number.
+   * @throws {Error} If the service is not initialized.
+   */
+  raceClassificationsTeams(raceUID) {
+    return this._getStageClassifications(
+      raceUID,
+      this.classificationTeam,
+      "team classification",
+    );
   }
 }
 

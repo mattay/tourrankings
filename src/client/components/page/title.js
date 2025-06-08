@@ -40,7 +40,7 @@ export function updatePageHeadings(state) {
     const stage = state.raceData.stages[state.currentStage];
     if (!stage) return;
 
-    if (stage.stageType == "prologue") {
+    if (stage.stageType === "prologue") {
       // Prologue
       updateTextSmooth(stageLabel, "Prologue");
       updateTextSmooth(stageType, "");

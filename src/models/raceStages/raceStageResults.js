@@ -1,3 +1,4 @@
+import { logError } from "src/utils/logging.js";
 import CSVdataModel from "../dataModel_csv.js";
 
 /**
@@ -58,7 +59,7 @@ export class RaceStageResults extends CSVdataModel {
    * @param {string} stageUID - The ID of the stage.
    * @returns {RaceStageResultModel[]|null} - A promise that resolves to an array of stage results.
    */
-  getStageResults(stageUID) {
+  getStageRankings(stageUID) {
     if (!stageUID) {
       logError(this.constructor.name, "getStageRankings expects stageUID");
       return null;

@@ -1,3 +1,5 @@
+const TRANSITION_DURATION = 432; // matches CSS transition timing
+
 /**
  * Updates text with a simple CSS transition
  * @param {HTMLElement} element - Element to update
@@ -13,7 +15,7 @@ function updateTextSmooth(element, newText) {
   setTimeout(() => {
     element.textContent = newText;
     element.classList.remove("updating");
-  }, 432);
+  }, TRANSITION_DURATION);
 }
 
 /**

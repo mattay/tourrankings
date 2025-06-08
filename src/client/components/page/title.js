@@ -1,4 +1,4 @@
-const TRANSITION_DURATION = 432; // matches CSS transition timing
+const TRANSITION_DURATION = 321; // matches CSS transition timing
 
 /**
  * Updates text with a simple CSS transition

@@ -149,20 +149,18 @@ export function raceContent(racePcsID, year = null) {
   // results: [rider : stageResult[]]
   // classification: {type: rider[ stageClasifications[] ]}
   // ---
-  // Collect Stages
   // Results
   const rr = dataService.raceResults(raceUID);
   raceContent.results = groupStagesByRider(rr);
-
   // GC
   const general = dataService.raceClassificationsGeneral(raceUID);
-  raceContent.classifications.general = general;
+  raceContent.classifications.general = groupStagesByRider(general);
   // Points
   const points = dataService.raceClassificationsPoints(raceUID);
-  raceContent.classifications.points = points;
+  raceContent.classifications.points = groupStagesByRider(points);
   // Mountain
   const mountain = dataService.raceClassificationsMountain(raceUID);
-  raceContent.classifications.mountain = mountain;
+  raceContent.classifications.mountain = groupStagesByRider(mountain);
   // Youth
   const youth = dataService.raceClassificationsYouth(raceUID);
   raceContent.classifications.youth = youth;

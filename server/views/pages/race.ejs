@@ -22,8 +22,7 @@
     <% if (stage) { %>
       <h2 id="stage-title">
         <span id="stage-label" class="smooth-text">
-          <% } if (stage.stageType == "prologue") { %>Prologue
-          <% } else { %>Stage<% } %>
+          <% if (stage.stageType == "prologue") { %>Prologue<% } else { %>Stage<% } %>
         </span>
         <span id="stage-number" class="smooth-text"><%= stage.stage %></span>
         <span id="stage-type" class="smooth-text">

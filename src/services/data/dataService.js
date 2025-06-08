@@ -313,6 +313,36 @@ class DataService {
 
     return stageRankings;
   }
+
+  /**
+   * Retrieves mountain classification results for all stages in a specific race.
+   * Stages are indexed by the stage number in the returned array.
+   *
+   * @param {string} raceUID - The unique identifier of the race.
+   * @returns {Array<ClassificationMountainData[]>} Array of mountain classification results, indexed by stage number.
+   * @throws {Error} If the service is not initialized.
+   */
+  raceClassificationsMountain(raceUID) {
+    if (!this.isInitialized) {
+      throw new Error(this.DATA_SERVICE_ERROR.NOT_INITIALIZED);
+    }
+    const stageRankings = [];
+    for (const stage of this.stages.stagesInRace(raceUID)) {
+      const results = this.classificationMountain.getStageRankings(
+        stage.stageUID,
+      );
+      if (!results) {
+        logError(
+          this.constructor.name,
+          `No results for stage ${stage.stageUID}`,
+        );
+      } else {
+        stageRankings[stage.stage] = results;
+      }
+    }
+
+    return stageRankings;
+  }
 }
 
 export default DataService;

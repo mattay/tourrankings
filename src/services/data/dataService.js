@@ -329,6 +329,21 @@ class DataService {
   }
 
   /**
+   * Retrieves general classification results for all stages in a specific race.
+   *
+   * @param {string} raceUID - The unique identifier of the race.
+   * @returns {Array<ClassificationYouthData[]>} Array of general classification results, indexed by stage number.
+   * @throws {Error} If the service is not initialized.
+   */
+  raceClassificationsYouth(raceUID) {
+    return this._getStageClassifications(
+      raceUID,
+      this.classificationYouth,
+      "youth classification",
+    );
+  }
+
+  /**
    * Retrieves points classification results for all stages in a specific race.
    *
    * @param {string} raceUID - The unique identifier of the race.

@@ -36,6 +36,18 @@ export function updatePageHeadings(state) {
   const stageDeparture = document.getElementById(STAGE_ELEMENT_IDS.DEPARTURE);
   const stageArrival = document.getElementById(STAGE_ELEMENT_IDS.ARRIVAL);
 
+  // Early return if critical elements are missing
+  if (
+    !stageLabel ||
+    !stageNumber ||
+    !stageType ||
+    !stageDeparture ||
+    !stageArrival
+  ) {
+    console.warn("Some stage elements not found in DOM");
+    return;
+  }
+
   if (state.raceData && state.currentStage) {
     const stage = state.raceData.stages[state.currentStage];
     if (!stage) return;

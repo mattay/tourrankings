@@ -161,8 +161,11 @@ class CSVdataModel {
         //   "debug",
         // );
       } catch (error) {
-        logError(this.constructor.name, `Failed to write to ${this.filePath}`);
-        logError(this.constructor.name, error.message);
+        logError(
+          this.constructor.name,
+          `Failed to write to ${this.filePath}`,
+          error,
+        );
         reject(error);
       }
       resolve();

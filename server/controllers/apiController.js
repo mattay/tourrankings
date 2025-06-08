@@ -23,7 +23,7 @@ export function getRaceData(req, res) {
 
     res.json(content);
   } catch (error) {
-    logOut("API", `Error fetching race data: ${error.message}`, "error");
+    logOut("API", "fetching race data", error);
     res.status(500).json({
       error: "Failed to fetch race data",
       message: error.message,

@@ -1,5 +1,6 @@
 import express from "express";
 import { seasonRaces } from "../controllers/raceController";
+import { logError } from "src/utils/logging";
 
 const router = express.Router();
 
@@ -22,9 +23,9 @@ router.get("/", (req, res, next) => {
     };
 
     res.render("pages/home", homePage);
-  } catch (err) {
-    console.error("Unable to render /", err);
-    next(err); // Passes error to Express error handler
+  } catch (error) {
+    logError("Routes Root", "Unable to render /", error);
+    next(error); // Passes error to Express error handler
   }
 });
 

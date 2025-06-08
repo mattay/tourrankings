@@ -66,7 +66,6 @@ export class Races extends CSVdataModel {
   racePcsID(racePcsID, year) {
     logOut(this.constructor.name, `racePcsID(${racePcsID}, ${year})`, "debug");
     return this.rows.find((race) => {
-      console.log(race.racePcsID, race.year);
       return race.racePcsID === racePcsID && Number(race.year) === Number(year);
     });
   }

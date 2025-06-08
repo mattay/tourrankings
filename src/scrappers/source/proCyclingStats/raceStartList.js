@@ -110,7 +110,7 @@ export async function scrapeRaceStartList(page, race, year) {
 
     return teams.map((team) => refineStartlist(team));
   } catch (exception) {
-    logError("scrapeRaceStartList - url", url);
+    logError("scrapeRaceStartList - url", url, exception);
     throw exception;
   }
 }

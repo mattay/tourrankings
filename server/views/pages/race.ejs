@@ -19,20 +19,20 @@
       <span id="race-name"> <%=  race.raceName %></span>
       <span id="race-year"><%=  race.year %></span>
     </h1>
-    <% if (stage) { %>
       <h2 id="stage-title">
         <span id="stage-label" class="smooth-text">
-          <% } if (stage.stageType == "prologue") { %>Prologue
-          <% } else { %>Stage<% } %>
+          <% if (stage?.stageType == "prologue") { %>Prologue<% } else { %>Stage<% } %>
         </span>
-        <span id="stage-number" class="smooth-text"><%= stage.stage %></span>
+        <span id="stage-number" class="smooth-text">
+          <% if (stage?.stage !== 0) { %><%= stage?.stage %><% } %>
+        </span>
         <span id="stage-type" class="smooth-text">
-          <% if (stage.stageType && stage.stageType != "prologue") {%>(<%= stage.stageType %>)<% }%>
+          <% if (stage?.stageType && stage?.stageType != "prologue") { %>(<%= stage?.stageType %>)<% } %>
         </span>
         <span id="stage-name">
-          <span id="stage-depature" class="smooth-text"><%= stage.departure %></span>
+          <span id="stage-departure" class="smooth-text"><%= stage?.departure %></span>
           to
-          <span id="stage-arrival" class="smooth-text"><%= stage.arrival %></span>
+          <span id="stage-arrival" class="smooth-text"><%= stage?.arrival %></span>
         </span>
       </h2>
     <section id="race-rankings">

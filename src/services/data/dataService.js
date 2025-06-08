@@ -21,10 +21,18 @@ import { logError, logOut } from "../../utils/logging";
  * @typedef {import('../../models/@types/races').RaceRiderModel} RaceRiderData
  * @typedef {import('../../models/@types/teams').TeamModel} TeamData
  * @typedef {import('../../models/@types/riders').RiderModel} RiderData
+ * @typedef {import('../../models/@types/classifications').ClassificationPointModel} ClassificationPointsData
+ * @typedef {import('../../models/@types/classifications').ClassificationMountainModel} ClassificationMountainData
+ * @typedef {import('../../models/@types/classifications').ClassificationGeneralModel} ClassificationGeneralData
+ * @typedef {import('../../models/@types/classifications').ClassificationYouthModel} ClassificationYouthData
+ * @typedef {import('../../models/@types/classifications').ClassificationTeamModel} ClassificationTeamData
  */
 
 /**
- * Constructor for the DataService class.
+ * DataService provides methods to load and query cycling race data from various models.
+ * It supports initialization, auto-refresh, and a range of data accessors for races, teams, riders, and classifications.
+ *
+ * @class
  */
 class DataService {
   DATA_SERVICE_ERROR = {
@@ -66,9 +74,12 @@ class DataService {
   }
 
   /**
-   * Initialize repository - load all data
-   * @param {boolean} forceRefresh - Force refresh even if already initialized
+   * Initializes the repository by loading all data models.
+   * If already initialized, does nothing unless forceRefresh is true.
+   *
+   * @param {boolean} [forceRefresh=false] - If true, forces a reload of all data models.
    * @returns {Promise<void>}
+   * @throws {Error} If initialization fails.
    */
   async initialize(forceRefresh = false) {
     if (this.isInitialized && !forceRefresh) return;
@@ -120,7 +131,9 @@ class DataService {
   }
 
   /**
-   * Clean up resources
+   * Releases resources, such as timers, used by the service.
+   *
+   * @returns {void}
    */
   dispose() {
     if (this._refreshTimer) {
@@ -130,7 +143,8 @@ class DataService {
   }
 
   /**
-   * Refresh data from CSV files
+   * Refreshes all data from the source.
+   *
    * @returns {Promise<void>}
    */
   async refreshData() {
@@ -143,9 +157,11 @@ class DataService {
   }
 
   /**
-   * Get all races for a specific year
-   * @param {number} year - The year to filter races by
-   * @returns {Array<RaceData>} - Array of races for the specified year
+   * Returns all races for a given year.
+   *
+   * @param {number} year - The year to filter races by.
+   * @returns {RaceData[]} Array of races for the specified year.
+   * @throws {Error} If the service is not initialized or year is invalid.
    */
   seasonRaces(year) {
     if (!this.isInitialized) {
@@ -158,11 +174,14 @@ class DataService {
   }
 
   /**
-   * Get details for a specific race
-   * @param {Object} params - The parameters object.
-   * @param {string} [params.raceUID] - The unique identifier of the race.
-   * @param {string} [params.racePcsID] - The unique identifier of the race.
-   * @param {number} [params.year] - The year of the race.
+   * Retrieves details for a specific race.
+   *
+   * @param {Object} params - Query parameters.
+   * @param {string} [params.raceUID] - Unique identifier for the race.
+   * @param {string} [params.racePcsID] - PCS identifier for the race.
+   * @param {number} [params.year] - Year of the race.
+   * @returns {RaceData|undefined} The race details, or undefined if not found.
+   * @throws {Error} If not initialized or if required parameters are missing.
    */
   raceDetails({ raceUID, racePcsID, year }) {
     if (!this.isInitialized) {
@@ -181,9 +200,11 @@ class DataService {
   }
 
   /**
-   * Get stages for a specific race
-   * @param {string} raceUID - The unique identifier of the race
-   * @returns {RaceStageData[]} Promise that resolves to the stages details
+   * Returns all stages for a given race.
+   *
+   * @param {string} raceUID - Unique identifier for the race.
+   * @returns {RaceStageData[]} Array of stages for the race.
+   * @throws {Error} If the service is not initialized.
    */
   raceStages(raceUID) {
     if (!this.isInitialized) {
@@ -193,9 +214,11 @@ class DataService {
   }
 
   /**
-   * Get teams for a specific race
-   * @param {string} raceUID - The unique identifier of the race
-   * @returns {TeamData[]} Promise that resolves to the teams details
+   * Retrieves all teams participating in a specific race.
+   *
+   * @param {string} raceUID - The unique identifier of the race.
+   * @returns {TeamData[]} Array of team details for the specified race.
+   * @throws {Error} If the service is not initialized.
    */
   raceTeams(raceUID) {
     if (!this.isInitialized) {
@@ -205,9 +228,11 @@ class DataService {
   }
 
   /**
-   * Get team details for a specific race
-   * @param {string} teamID - The unique identifier of the team
-   * @returns {TeamData} Promise that resolves to the team details
+   * Retrieves details for a specific team by its ID.
+   *
+   * @param {string} teamID - The unique identifier of the team.
+   * @returns {TeamData} The team details.
+   * @throws {Error} If the service is not initialized.
    */
   raceTeam(teamID) {
     if (!this.isInitialized) {
@@ -217,9 +242,11 @@ class DataService {
   }
 
   /**
-   * Get riders for a specific race
-   * @param {string} raceUID - The unique identifier of the race
-   * @returns {RaceRiderData[]} Promise that resolves to the riders details
+   * Retrieves all riders participating in a specific race.
+   *
+   * @param {string} raceUID - The unique identifier of the race.
+   * @returns {RaceRiderData[]} Array of rider details for the specified race.
+   * @throws {Error} If the service is not initialized.
    */
   ridersInRace(raceUID) {
     if (!this.isInitialized) {
@@ -229,10 +256,13 @@ class DataService {
   }
 
   /**
-   * Get results for a specific race
-   * Stages are indexed by the stage number in the array. Eg Prologe at 0 else races start at 1
-   * @param {string} raceUID - The unique identifier of the race
-   * @returns {Array<RaceStageResultData[]>} Promise that resolves to the results details
+   * Retrieves results for all stages in a specific race.
+   * Stages are indexed by the stage number in the returned array.
+   * For example, a prologue is at index 0, otherwise stages start at 1.
+   *
+   * @param {string} raceUID - The unique identifier of the race.
+   * @returns {Array<RaceStageResultData[]>} Array of stage results arrays, indexed by stage number.
+   * @throws {Error} If the service is not initialized.
    */
   raceResults(raceUID) {
     if (!this.isInitialized) {
@@ -252,6 +282,34 @@ class DataService {
       }
     }
     return stageResults;
+  }
+
+  /**
+   * Retrieves points classification results for all stages in a specific race.
+   * Stages are indexed by the stage number in the returned array.
+   *
+   * @param {string} raceUID - The unique identifier of the race.
+   * @returns {Array<ClassificationTeamData[]>} Array of points classification results, indexed by stage number.
+   * @throws {Error} If the service is not initialized.
+   */
+  raceClassificationsPoints(raceUID) {
+    if (!this.isInitialized) {
+      throw new Error(this.DATA_SERVICE_ERROR.NOT_INITIALIZED);
+    }
+    const stagePoints = [];
+    for (const stage of this.stages.stagesInRace(raceUID)) {
+      const results = this.classificationPoints.getStagePoints(stage.stageUID);
+      if (!results) {
+        logError(
+          this.constructor.name,
+          `No results for stage ${stage.stageUID}`,
+        );
+      } else {
+        stagePoints[stage.stage] = results;
+      }
+    }
+
+    return stagePoints;
   }
 }
 

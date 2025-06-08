@@ -77,6 +77,13 @@ export function raceContent(racePcsID, year = null) {
     teams: {},
     riders: {},
     results: [],
+    classifications: {
+      gc: [],
+      youth: [],
+      points: [],
+      mountain: [],
+      team: [],
+    },
   };
 
   if (!raceContent.race?.raceUID) {
@@ -149,6 +156,8 @@ export function raceContent(racePcsID, year = null) {
 
   // GC
   // Points
+  const points = dataService.raceClassificationsPoints(raceUID);
+  raceContent.classifications.points = points;
   // Mountain
   // Youth
   // Team
@@ -157,7 +166,7 @@ export function raceContent(racePcsID, year = null) {
 }
 
 /**
- * Regroup stage: rider resutls -> rider: stage results
+ * Regroup stage: rider results -> rider: stage results
  * @param {StagesRiderResults} raceResults
  * @returns {RidersStageResults}
  */

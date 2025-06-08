@@ -285,6 +285,35 @@ class DataService {
   }
 
   /**
+   * Helper to retrieve classification results for all stages in a specific race.
+   *
+   * @private
+   * @param {string} raceUID - The unique identifier of the race.
+   * @param {Object} classificationModel - The model with a getStageRankings method.
+   * @param {string} classificationName - Name for logging.
+   * @returns {Array<Object[]>} Array of classification results, indexed by stage number.
+   * @throws {Error} If the service is not initialized.
+   */
+  _getStageClassifications(raceUID, classificationModel, classificationName) {
+    if (!this.isInitialized) {
+      throw new Error(this.DATA_SERVICE_ERROR.NOT_INITIALIZED);
+    }
+    const stageRankings = [];
+    for (const stage of this.stages.stagesInRace(raceUID)) {
+      const results = classificationModel.getStageRankings(stage.stageUID);
+      if (!results) {
+        logError(
+          this.constructor.name,
+          `No ${classificationName} results for stage ${stage.stageUID}`,
+        );
+      } else {
+        stageRankings[stage.stage] = results;
+      }
+    }
+    return stageRankings;
+  }
+
+  /**
    * Retrieves points classification results for all stages in a specific race.
    * Stages are indexed by the stage number in the returned array.
    *

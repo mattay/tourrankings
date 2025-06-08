@@ -50,7 +50,11 @@ class tourRankingApp {
    */
   setupDOMSubscription() {
     this.#unsubscribe = store.subscribe((state) => {
-      updatePageHeadings(state);
+      try {
+        updatePageHeadings(state);
+      } catch (error) {
+        console.error("Failed to update page headings:", error);
+      }
     });
   }
 

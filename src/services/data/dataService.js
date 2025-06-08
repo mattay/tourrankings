@@ -322,25 +322,11 @@ class DataService {
    * @throws {Error} If the service is not initialized.
    */
   raceClassificationsPoints(raceUID) {
-    if (!this.isInitialized) {
-      throw new Error(this.DATA_SERVICE_ERROR.NOT_INITIALIZED);
-    }
-    const stageRankings = [];
-    for (const stage of this.stages.stagesInRace(raceUID)) {
-      const results = this.classificationPoints.getStageRankings(
-        stage.stageUID,
-      );
-      if (!results) {
-        logError(
-          this.constructor.name,
-          `No results for stage ${stage.stageUID}`,
-        );
-      } else {
-        stageRankings[stage.stage] = results;
-      }
-    }
-
-    return stageRankings;
+    return this._getStageClassifications(
+      raceUID,
+      this.classificationPoints,
+      "points classification",
+    );
   }
 
   /**
@@ -352,25 +338,11 @@ class DataService {
    * @throws {Error} If the service is not initialized.
    */
   raceClassificationsMountain(raceUID) {
-    if (!this.isInitialized) {
-      throw new Error(this.DATA_SERVICE_ERROR.NOT_INITIALIZED);
-    }
-    const stageRankings = [];
-    for (const stage of this.stages.stagesInRace(raceUID)) {
-      const results = this.classificationMountain.getStageRankings(
-        stage.stageUID,
-      );
-      if (!results) {
-        logError(
-          this.constructor.name,
-          `No results for stage ${stage.stageUID}`,
-        );
-      } else {
-        stageRankings[stage.stage] = results;
-      }
-    }
-
-    return stageRankings;
+    return this._getStageClassifications(
+      raceUID,
+      this.classificationMountain,
+      "mountain classification",
+    );
   }
 }
 

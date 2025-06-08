@@ -51,4 +51,18 @@ export class ClassificationGeneral extends CSVdataModel {
       ["Rank", "asc"],
     ];
   }
+
+  /**
+   * Retrieves the stage points for a given stage ID.
+   * @param {string} stageUID - The ID of the stage.
+   * @returns {ClassificationGeneralModel[]|null} - Returns an array of stage points.
+   */
+  getStageRankings(stageUID) {
+    if (!stageUID) {
+      console.error("stageId is required for getStageResults()");
+      return null;
+    }
+
+    return this.rows.filter((record) => record.stageUID === stageUID);
+  }
 }

@@ -314,8 +314,22 @@ class DataService {
   }
 
   /**
+   * Retrieves general classification results for all stages in a specific race.
+   *
+   * @param {string} raceUID - The unique identifier of the race.
+   * @returns {Array<ClassificationGeneralData[]>} Array of general classification results, indexed by stage number.
+   * @throws {Error} If the service is not initialized.
+   */
+  raceClassificationsGeneral(raceUID) {
+    return this._getStageClassifications(
+      raceUID,
+      this.classificationGeneral,
+      "general classification",
+    );
+  }
+
+  /**
    * Retrieves points classification results for all stages in a specific race.
-   * Stages are indexed by the stage number in the returned array.
    *
    * @param {string} raceUID - The unique identifier of the race.
    * @returns {Array<ClassificationPointsData[]>} Array of points classification results, indexed by stage number.
@@ -331,7 +345,6 @@ class DataService {
 
   /**
    * Retrieves mountain classification results for all stages in a specific race.
-   * Stages are indexed by the stage number in the returned array.
    *
    * @param {string} raceUID - The unique identifier of the race.
    * @returns {Array<ClassificationMountainData[]>} Array of mountain classification results, indexed by stage number.

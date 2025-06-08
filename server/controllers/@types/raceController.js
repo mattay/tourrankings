@@ -44,7 +44,7 @@
  * Represents all classification results for a race, grouped by type and stage.
  * Each property is an array of arrays, where each inner array contains results for a stage.
  * @typedef {Object} RaceClassifications
- * @property {ClassificationGeneral[][]} gc - General classification results per stage.
+ * @property {ClassificationGeneral[][]} general - General classification results per stage.
  * @property {ClassificationYouth[][]} youth - Youth classification results per stage.
  * @property {ClassificationPoints[][]} points - Points classification results per stage.
  * @property {ClassificationMountain[][]} mountain - Mountain classification results per stage.

@@ -12,9 +12,6 @@
  * @property {string} [stage] - Stage number if applicable
  */
 
-// const DEPLOYMENT_ID ="AKfycbwg97Ui8tg7our5pgTS2BHSZK5j-WJul316j8I7S0hLENLhEzgvThIRSrAsemQd8tsL";
-// apiUrl: `https://script.google.com/macros/s/${DEPLOYMENT_ID}/exec`,
-
 /**
  * Configuration for the feedback system
  * @typedef {Object} FeedbackConfig
@@ -261,7 +258,7 @@ class FeedbackManager {
   }
 
   /**
-   * Submit feedback to Google Sheets
+   * Submit feedback to internal server API
    * @param {Object} data - Feedback data
    * @returns {Promise} Submission promise
    */

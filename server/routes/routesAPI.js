@@ -3,7 +3,7 @@ import { getRaceData } from "../controllers/apiController";
 import {
   getFeedbackStatus,
   submitFeedback,
-} from "server/controllers/feedbackController";
+} from "../controllers/feedbackController";
 
 /** @type {import('express').Router} */
 const router = express.Router();

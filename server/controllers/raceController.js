@@ -68,8 +68,6 @@ export function raceContent(racePcsID, year = null) {
   const today = new Date();
   year = year ? year : today.getFullYear();
 
-  logOut("raceContent", `Fetching race content for ${racePcsID} ${year}`);
-
   const raceContent /** @type {RaceContent} */ = {
     race: dataService.raceDetails({ racePcsID, year }),
     stages: [],

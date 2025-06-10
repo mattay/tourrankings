@@ -8,7 +8,6 @@ import { logOut } from "../../src/utils/logging.js";
  * @param {import('express').Response} res - Express response object
  */
 export function getRaceData(req, res) {
-  logOut("API", "getRaceData");
   try {
     const { racePcsID } = req.params;
     const year = req.params.year

@@ -53,7 +53,7 @@ const config = {
   security: {
     cors: {
       origin: process.env.CORS_ORIGIN || "*",
-      methods: ["GET"],
+      methods: ["GET", "POST"],
     },
     rateLimit: {
       windowMs: 17 * 60 * 1000, // 17 minutes
@@ -64,9 +64,10 @@ const config = {
         directives: {
           defaultSrc: ["'self'"],
           scriptSrc: ["'self'", "cdn.jsdelivr.net", "'unsafe-inline'"],
-          styleSrc: ["'self'", "'unsafe-inline'"], // Fixed: removed extra comma
+          styleSrc: ["'self'", "'unsafe-inline'"],
           imgSrc: ["'self'", "data:"],
           connectSrc: ["'self'"],
+          formAction: ["'self'"],
         },
       },
     },

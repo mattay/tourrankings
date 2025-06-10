@@ -1,0 +1,78 @@
+<!-- Feedback Form Component -->
+
+<link rel="stylesheet" href="/css/feedback-form.css">
+<script type="module" src="/js/feedback.js" defer></script>
+
+<div class="feedback-form-container" id="feedback-container">
+  <button class="feedback-toggle" id="feedback-toggle" aria-label="Open feedback form">
+    <span class="feedback-icon">💬</span>
+    <span class="feedback-text">Feedback</span>
+  </button>
+
+  <div class="feedback-modal" id="feedback-modal">
+    <div class="feedback-modal-content">
+      <div class="feedback-header">
+        <h3>Share Your Feedback</h3>
+        <button class="feedback-close" id="feedback-close" aria-label="Close feedback form">&times;</button>
+      </div>
+
+      <form class="feedback-form" id="feedback-form">
+        <div class="form-group">
+          <label for="feedbackType">Feedback Type</label>
+          <select id="feedbackType" name="feedbackType" required>
+            <option value="">Select type...</option>
+            <option value="bug">Bug Report</option>
+            <option value="data-error">Data Error</option>
+            <option value="feature-request">Feature Request</option>
+            <option value="general">General Feedback</option>
+            <option value="praise">Praise</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="4"
+            placeholder="Please describe your feedback in detail..."
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="userEmail">Email (optional)</label>
+          <input
+            type="email"
+            id="userEmail"
+            name="userEmail"
+            placeholder="your.email@example.com"
+          />
+          <small class="form-help">Only if you'd like a response</small>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="feedback-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="feedback-submit">
+            <span class="submit-text">Send Feedback</span>
+            <span class="submit-loading" style="display: none;">Sending...</span>
+          </button>
+        </div>
+      </form>
+
+      <div class="feedback-success" id="feedback-success" style="display: none;">
+        <div class="success-icon">✅</div>
+        <h4>Thank you!</h4>
+        <p>Your feedback has been submitted successfully.</p>
+        <button class="btn btn-primary" id="feedback-done">Done</button>
+      </div>
+
+      <div class="feedback-error" id="feedback-error" style="display: none;">
+        <div class="error-icon">❌</div>
+        <h4>Something went wrong</h4>
+        <p id="error-message">Please try again later.</p>
+        <button class="btn btn-secondary" id="feedback-retry">Try Again</button>
+      </div>
+    </div>
+  </div>
+</div>

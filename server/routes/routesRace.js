@@ -25,7 +25,6 @@ const router = express.Router();
  */
 function racePageContent(racePcsID, year = null, stage = null) {
   const content = raceContent(racePcsID, year || new Date().getFullYear());
-  // console.debug(content);
 
   const keywords = ["cycling", "tour", "ranking", content.race?.raceName];
   const racePage = {

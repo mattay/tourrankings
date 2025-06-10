@@ -68,7 +68,9 @@ function validateFeedbackData(data) {
 
   // Validate email format if provided
   if (data.userEmail && data.userEmail.trim() !== "") {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    //TODO: Consider using a validation library like validator.js for more robust email validation.
+    const emailRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
     if (!emailRegex.test(data.userEmail)) {
       errors.push("Invalid email format");
     }

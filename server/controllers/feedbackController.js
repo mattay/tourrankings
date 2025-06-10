@@ -1,4 +1,5 @@
 import { logError, logOut } from "../../src/utils/logging.js";
+import { googleSheetsService } from "../services/googleSheetsService.js";
 
 /**
  * @typedef {Object} FeedbackData
@@ -142,20 +143,17 @@ async function processFeedback(data) {
       logOut("Feedback", `Contact: ${data.userEmail}`);
     }
 
-    // Generate a simple ID for the feedback
-    const feedbackId = `feedback_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    // Write to Google Sheets
+    const result = await googleSheetsService.writeFeedback(data);
 
-    // TODO: Replace this with your actual storage implementation
-    // Examples:
-    // - Save to database
-    // - Write to file
-    // - Send to external service
-    // - Add to queue for processing
-
-    return {
-      success: true,
-      id: feedbackId,
-    };
+    if (result.success) {
+      return {
+        success: true,
+        id: `feedback_${result.rowId || Date.now()}`,
+      };
+    } else {
+      throw new Error(result.error || "Failed to write to Google Sheets");
+    }
   } catch (error) {
     logError("Feedback", "Failed to process feedback", error);
     return {
@@ -195,6 +193,7 @@ export async function submitFeedback(req, res) {
     }
 
     // Process the feedback
+    console.log("sanitizedData", sanitizedData);
     const result = await processFeedback(sanitizedData);
 
     if (result.success) {

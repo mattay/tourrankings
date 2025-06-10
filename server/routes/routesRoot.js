@@ -1,6 +1,6 @@
 import express from "express";
 import { seasonRaces } from "../controllers/raceController";
-import { logError } from "src/utils/logging";
+import { logError } from "../../src/utils/logging";
 
 const router = express.Router();
 

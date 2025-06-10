@@ -1,8 +1,8 @@
 // import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 // State Managment
-import store from "src/client/state/storeInstance";
-import { actionSelectStage } from "src/client/state/actions";
+import store from "../../state/storeInstance";
+import { actionSelectStage } from "../../state/actions";
 // Components
 import { createStageComponent } from "../stage/stage";
 import { createRiderComponent } from "../rider/rider";

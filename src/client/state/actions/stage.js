@@ -2,7 +2,7 @@
 import store from "../storeInstance";
 import { EVENT_TYPES, dispatch } from "../events";
 // Utils
-import { getRaceInfoFromUrlPath } from "src/client/utils";
+import { getRaceInfoFromUrlPath } from "../../../../src/client/utils";
 
 /**
  * @typedef {import('../../models/@types/stage.d').RaceStageData} RaceStageData

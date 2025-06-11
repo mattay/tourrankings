@@ -10,7 +10,9 @@ import { googleSheetsService } from "../../src/services/google/googleSheetsServi
  * @property {string} userAgent - Browser user agent
  * @property {string} timestamp - Submission timestamp
  * @property {string} [raceId] - Race ID if on race page
+ * @property {number} [year] - Year if on race page
  * @property {string} [stage] - Stage number if applicable
+ * @property {string} [classification] - Classification if applicable
  */
 
 /**

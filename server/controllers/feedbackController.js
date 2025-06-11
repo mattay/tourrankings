@@ -193,7 +193,6 @@ export async function submitFeedback(req, res) {
     }
 
     // Process the feedback
-    console.log("sanitizedData", sanitizedData);
     const result = await processFeedback(sanitizedData);
 
     if (result.success) {

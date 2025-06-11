@@ -223,7 +223,7 @@ class ServiceGoogleSheets {
     try {
       const response = await this.sheets.spreadsheets.values.get({
         spreadsheetId: SHEETS_CONFIG.spreadsheetId,
-        range: `${SHEETS_CONFIG.sheetName}!A1:${String.fromCharCode(64 + SHEETS_CONFIG.headers.length)}1`,
+        range: `${SHEETS_CONFIG.sheetName}!A1:${getColumnLetter(SHEETS_CONFIG.headers.length - 1)}1`,
       });
 
       const existingHeaders = response.data.values?.[0] || [];
@@ -235,7 +235,7 @@ class ServiceGoogleSheets {
       ) {
         await this.sheets.spreadsheets.values.update({
           spreadsheetId: SHEETS_CONFIG.spreadsheetId,
-          range: `${SHEETS_CONFIG.sheetName}!A1:${String.fromCharCode(64 + SHEETS_CONFIG.headers.length)}1`,
+          range: `${SHEETS_CONFIG.sheetName}!A1:${getColumnLetter(SHEETS_CONFIG.headers.length - 1)}1`,
           valueInputOption: "RAW",
           requestBody: {
             values: [SHEETS_CONFIG.headers],
@@ -277,7 +277,7 @@ class ServiceGoogleSheets {
       // Append the row
       const response = await this.sheets.spreadsheets.values.append({
         spreadsheetId: SHEETS_CONFIG.spreadsheetId,
-        range: `${SHEETS_CONFIG.sheetName}!A:${getColumnLetter(rowData.length)}`,
+        range: `${SHEETS_CONFIG.sheetName}!A:${getColumnLetter(SHEETS_CONFIG.headers.length - 1)}`,
         valueInputOption: "RAW",
         insertDataOption: "INSERT_ROWS",
         requestBody: {

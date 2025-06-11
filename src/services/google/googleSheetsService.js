@@ -346,6 +346,11 @@ class ServiceGoogleSheets {
 
 // Create singleton instance
 const googleSheetsService = new ServiceGoogleSheets();
-googleSheetsService.initialize();
+
+// Initialize with error handling
+googleSheetsService.initialize().catch((error) => {
+  logError("ServiceGoogleSheets", "Failed to initialize on startup", error);
+  // Service methods will retry initialization when called
+});
 
 export { googleSheetsService };

@@ -1,4 +1,4 @@
-import { logOut } from "../../utils/logging";
+import { logOut } from "src/utils/logging.js";
 import CSVdataModel from "../dataModel_csv.js";
 
 /**

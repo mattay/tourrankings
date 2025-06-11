@@ -1,4 +1,4 @@
-import { logError } from "../../utils/logging";
+import { logError } from "src/utils/logging.js";
 import CSVdataModel from "../dataModel_csv.js";
 
 /**

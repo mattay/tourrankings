@@ -1,8 +1,8 @@
 import path from "path";
 import fs from "fs";
 import csv from "csv-parser";
-import { toCamelCase } from "../utils/string.js";
-import { logError, logOut } from "../utils/logging.js";
+import { toCamelCase } from "../utils/string";
+import { logError, logOut } from "../utils/logging";
 import { dirname } from "path";
 
 /**

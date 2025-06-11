@@ -1,5 +1,5 @@
-import { logError } from "src/utils/logging.js";
-import CSVdataModel from "../dataModel_csv.js";
+import { logError } from "../../utils/logging";
+import CSVdataModel from "../dataModel_csv";
 
 /**
  * @typedef {import('../@types/classifications').ClassificationPointModel} ClassificationPointModel

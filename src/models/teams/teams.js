@@ -48,7 +48,10 @@ export class Teams extends CSVdataModel {
   }
 
   teamsInRace(raceUID) {
-    logOut(this.constructor.name, "There is not a raceUID in the teams model");
+    logError(
+      this.constructor.name,
+      "There is not a raceUID in the teams model",
+    );
     return null;
   }
 }

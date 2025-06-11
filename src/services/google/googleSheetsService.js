@@ -26,6 +26,20 @@ const SHEETS_CONFIG = {
 };
 
 /**
+ * Converts a column index to A1 notation column letter(s)
+ * @param {number} index - 0-based column index
+ * @returns {string} Column letter(s) (e.g., 'A', 'Z', 'AA', 'AB')
+ */
+function getColumnLetter(index) {
+  let letter = "";
+  while (index >= 0) {
+    letter = String.fromCharCode((index % 26) + 65) + letter;
+    index = Math.floor(index / 26) - 1;
+  }
+  return letter;
+}
+
+/**
  * Google Sheets service class
  */
 class ServiceGoogleSheets {
@@ -144,7 +158,7 @@ class ServiceGoogleSheets {
       // Add headers
       await this.sheets.spreadsheets.values.update({
         spreadsheetId: SHEETS_CONFIG.spreadsheetId,
-        range: `${SHEETS_CONFIG.sheetName}!A1:${String.fromCharCode(64 + SHEETS_CONFIG.headers.length)}1`,
+        range: `${SHEETS_CONFIG.sheetName}!A1:${getColumnLetter(SHEETS_CONFIG.headers.length - 1)}1`,
         valueInputOption: "RAW",
         requestBody: {
           values: [SHEETS_CONFIG.headers],

@@ -131,18 +131,6 @@ function sanitizeFeedbackData(data) {
  */
 async function processFeedback(data) {
   try {
-    // For now, just log the feedback
-    // TODO: Implement your preferred storage method (database, file, external API, etc.)
-    logOut(
-      "Feedback",
-      `New ${data.feedbackType} feedback received from ${data.pageUrl}`,
-    );
-    logOut("Feedback", `Message: ${data.message}`);
-
-    if (data.userEmail) {
-      logOut("Feedback", `Contact: ${data.userEmail}`);
-    }
-
     // Write to Google Sheets
     const result = await googleSheetsService.writeFeedback(data);
 

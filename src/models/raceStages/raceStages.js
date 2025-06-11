@@ -69,7 +69,7 @@ export class RaceStages extends CSVdataModel {
    */
   stagesInRace(raceUID) {
     if (!raceUID) {
-      logError("RaceStages", "raceUID is required for stagesInRace()");
+      logError(this.constructor.name, "raceUID is required for stagesInRace()");
       return null;
     }
     return this.rows.filter((row) => row.raceUID == raceUID);

@@ -260,7 +260,6 @@ class ServiceGoogleSheets {
         await this.initialize();
       }
 
-      console.log(feedbackData);
       // Prepare row data matching the headers
       const rowData = [
         feedbackData.timestamp || new Date().toISOString(),
@@ -270,13 +269,15 @@ class ServiceGoogleSheets {
         feedbackData.userEmail || "",
         feedbackData.userAgent || "",
         feedbackData.raceId || "",
+        feedbackData.year || "",
         feedbackData.stage || "",
+        feedbackData.classification || "",
       ];
 
       // Append the row
       const response = await this.sheets.spreadsheets.values.append({
         spreadsheetId: SHEETS_CONFIG.spreadsheetId,
-        range: `${SHEETS_CONFIG.sheetName}!A:H`,
+        range: `${SHEETS_CONFIG.sheetName}!A:${getColumnLetter(rowData.length)}`,
         valueInputOption: "RAW",
         insertDataOption: "INSERT_ROWS",
         requestBody: {

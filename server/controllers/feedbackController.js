@@ -192,7 +192,7 @@ export async function submitFeedback(req, res) {
     } else {
       res.status(500).json({
         success: false,
-        message: result.error || "Failed to process feedback",
+        message: result.error ?? "Failed to process feedback",
       });
     }
   } catch (error) {

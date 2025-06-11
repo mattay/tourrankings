@@ -1,5 +1,5 @@
 import { google } from "googleapis";
-import { logError, logOut } from "../../src/utils/logging.js";
+import { logError, logOut } from "../../utils/logging.js";
 
 /**
  * Configuration for Google Sheets integration
@@ -18,15 +18,17 @@ const SHEETS_CONFIG = {
     "Message",
     "User Email",
     "User Agent",
-    "Race ID",
-    "Stage",
+    "Viewing Race ID",
+    "Viewing Year",
+    "Viewing Stage",
+    "Viewing Classification",
   ],
 };
 
 /**
  * Google Sheets service class
  */
-class GoogleSheetsService {
+class ServiceGoogleSheets {
   constructor() {
     this.sheets = null;
     this.auth = null;
@@ -37,7 +39,7 @@ class GoogleSheetsService {
    * @returns {Promise<void>}
    */
   async initialize() {
-    logOut("Service.GoogleSheets", "initializing...");
+    logOut(this.constructor.name, "initializing...");
     try {
       // Use multiple authentication methods in priority order
       const authConfig = {
@@ -49,17 +51,20 @@ class GoogleSheetsService {
         authConfig.credentials = JSON.parse(
           process.env.GOOGLE_SERVICE_ACCOUNT_CREDENTIALS,
         );
-        logOut("GoogleSheets", "Using explicit service account credentials");
+        logOut(
+          this.constructor.name,
+          "Using explicit service account credentials",
+        );
       }
       // Priority 2: Key file path (if keys are allowed)
       else if (process.env.GOOGLE_SERVICE_ACCOUNT_KEY_FILE) {
         authConfig.keyFile = process.env.GOOGLE_SERVICE_ACCOUNT_KEY_FILE;
-        logOut("GoogleSheets", "Using service account key file");
+        logOut(this.constructor.name, "Using service account key file");
       }
       // Priority 3: Application Default Credentials (ADC) - works without keys
       else {
         logOut(
-          "GoogleSheets",
+          this.constructor.name,
           "Using Application Default Credentials (no explicit credentials provided)",
         );
         // No explicit credentials - will use ADC
@@ -71,10 +76,13 @@ class GoogleSheetsService {
       // Verify connection and ensure sheet exists
       await this.ensureSheetExists();
 
-      logOut("GoogleSheets", "Successfully initialized Google Sheets service");
+      logOut(
+        this.constructor.name,
+        "Successfully initialized Google Sheets service",
+      );
     } catch (error) {
       logError(
-        "GoogleSheets",
+        this.constructor.name,
         "Failed to initialize Google Sheets service",
         error,
       );
@@ -106,7 +114,7 @@ class GoogleSheetsService {
         await this.verifyHeaders();
       }
     } catch (error) {
-      logError("GoogleSheets", "Error ensuring sheet exists", error);
+      logError(this.constructor.name, "Error ensuring sheet exists", error);
       throw error;
     }
   }
@@ -170,9 +178,9 @@ class GoogleSheetsService {
         },
       });
 
-      logOut("GoogleSheets", "Created new feedback sheet with headers");
+      logOut(this.constructor.name, "Created new feedback sheet with headers");
     } catch (error) {
-      logError("GoogleSheets", "Error creating sheet", error);
+      logError(this.constructor.name, "Error creating sheet", error);
       throw error;
     }
   }
@@ -219,10 +227,10 @@ class GoogleSheetsService {
             values: [SHEETS_CONFIG.headers],
           },
         });
-        logOut("GoogleSheets", "Updated sheet headers");
+        logOut(this.constructor.name, "Updated sheet headers");
       }
     } catch (error) {
-      logError("GoogleSheets", "Error verifying headers", error);
+      logError(this.constructor.name, "Error verifying headers", error);
       throw error;
     }
   }
@@ -238,6 +246,7 @@ class GoogleSheetsService {
         await this.initialize();
       }
 
+      console.log(feedbackData);
       // Prepare row data matching the headers
       const rowData = [
         feedbackData.timestamp || new Date().toISOString(),
@@ -266,14 +275,17 @@ class GoogleSheetsService {
       const rowMatch = updatedRange.match(/(\d+):(\d+)$/);
       const rowId = rowMatch ? parseInt(rowMatch[1]) : null;
 
-      logOut("GoogleSheets", `Successfully wrote feedback to row ${rowId}`);
+      logOut(
+        this.constructor.name,
+        `Successfully wrote feedback to row ${rowId}`,
+      );
 
       return {
         success: true,
         rowId: rowId,
       };
     } catch (error) {
-      logError("GoogleSheets", "Error writing feedback to sheet", error);
+      logError(this.constructor.name, "Error writing feedback to sheet", error);
       return {
         success: false,
         error: error.message,
@@ -318,6 +330,7 @@ class GoogleSheetsService {
 }
 
 // Create singleton instance
-const googleSheetsService = new GoogleSheetsService();
+const googleSheetsService = new ServiceGoogleSheets();
+googleSheetsService.initialize();
 
 export { googleSheetsService };

@@ -1,5 +1,5 @@
 import { logError, logOut } from "../../src/utils/logging.js";
-import { googleSheetsService } from "../services/googleSheetsService.js";
+import { googleSheetsService } from "../../src/services/google/googleSheetsService.js";
 
 /**
  * @typedef {Object} FeedbackData

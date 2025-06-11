@@ -1,5 +1,5 @@
-import { logOut } from "../../utils/logging";
-import CSVdataModel from "../dataModel_csv.js";
+import { logError } from "../../utils/logging";
+import CSVdataModel from "../dataModel_csv";
 
 /**
  * @typedef {import('../@types/teams').TeamModel} TeamModel
@@ -48,7 +48,10 @@ export class Teams extends CSVdataModel {
   }
 
   teamsInRace(raceUID) {
-    logOut(this.constructor.name, "There is not a raceUID in the teams model");
+    logError(
+      this.constructor.name,
+      "There is not a raceUID in the teams model",
+    );
     return null;
   }
 }

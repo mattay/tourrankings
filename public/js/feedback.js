@@ -124,7 +124,7 @@ class FeedbackManager {
    */
   showSuccess() {
     this.form.style.display = "none";
-    this.successView.style.display = "block";
+    this.successView.style.display = "flex";
     this.errorView.style.display = "none";
   }
 
@@ -135,7 +135,7 @@ class FeedbackManager {
   showError(message) {
     this.form.style.display = "none";
     this.successView.style.display = "none";
-    this.errorView.style.display = "block";
+    this.errorView.style.display = "flex";
 
     const errorMessage = document.getElementById("error-message");
     if (errorMessage) {

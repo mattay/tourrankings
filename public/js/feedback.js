@@ -114,7 +114,7 @@ class FeedbackManager {
    * Show the feedback form
    */
   showForm() {
-    this.form.style.display = "block";
+    this.form.style.display = "flex";
     this.successView.style.display = "none";
     this.errorView.style.display = "none";
   }
@@ -165,10 +165,12 @@ class FeedbackManager {
 
     if (loading) {
       this.submitBtn.disabled = true;
+      this.submitBtn.classList.add("sending");
       submitText.style.display = "none";
       submitLoading.style.display = "inline";
     } else {
       this.submitBtn.disabled = false;
+      this.submitBtn.classList.remove("sending");
       submitText.style.display = "inline";
       submitLoading.style.display = "none";
     }

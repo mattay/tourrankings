@@ -16,8 +16,8 @@
 
 .feedback-form-container {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: var(--size-medium);
+  right: var(--size-medium);
   z-index: 1000;
 }
 
@@ -74,7 +74,8 @@
   width: 90%;
   max-height: 80vh;
   overflow-y: auto;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 var(--size-medium) var(--size-large)
+    color-mix(in srgb, var(--color-primary) 20%, transparent);
   transform: scale(0.9);
   transition: transform 0.3s ease;
 }
@@ -101,12 +102,12 @@
 .feedback-close {
   background: none;
   border: none;
-  font-size: 24px;
-  color: #666;
+  font-size: var(--size-large);
+  color: var(--color-secondary);
   cursor: pointer;
   padding: 0;
-  width: 30px;
-  height: 30px;
+  width: var(--size-large);
+  height: var(--size-large);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -161,23 +162,24 @@
 
 .form-help {
   display: block;
-  margin-top: 4px;
-  font-size: 12px;
-  color: #666;
+  margin-top: var(--size-extra-small);
+  font-size: var(--size-text-small);
+  color: var(--color-text-secondary);
 }
 
 .form-actions {
   display: flex;
-  gap: 12px;
+  gap: var(--size-medium);
   justify-content: flex-end;
-  margin-top: 24px;
+  margin-top: var(--size-medium);
 }
 
 .btn {
-  padding: 10px 20px;
+  display: flex;
+  padding: var(--size-small-medium) var(--size-large);
   border: none;
-  border-radius: 6px;
-  font-size: 14px;
+  border-radius: var(--size-extra-small);
+  font-size: var(--size-text-small-medium);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -198,8 +200,12 @@
 }
 
 .btn-secondary {
-  background: #6c757d;
-  color: white;
+  background: var(--color-secondary);
+  color: var(--color-background);
+
+  &:hover {
+    background: var(--color-accent);
+  }
 }
 
 .btn-secondary:hover {
@@ -233,20 +239,20 @@
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .feedback-toggle {
-    padding: 10px 16px;
-    font-size: 13px;
+    padding: var(--size-small-medium) var(--size-medium);
+    font-size: var(--size-text-small);
   }
 
   .feedback-modal-content {
     width: 95%;
-    margin: 20px;
+    margin: var(--size-medium-large);
   }
 
   .feedback-header,
   .feedback-form,
   .feedback-success,
   .feedback-error {
-    padding: 16px;
+    padding: var(--size-medium);
   }
 
   .form-actions {

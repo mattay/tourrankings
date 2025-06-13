@@ -187,18 +187,9 @@
 .btn-primary {
   background: var(--color-primary);
   color: var(--color-background);
-  transition: transform 0.3s ease;
 
   &:hover:not(:disabled) {
     background: var(--color-accent);
-  }
-
-  &:hover .icon {
-    transform: translateX(-2px) translateY(2px) scale(1.1);
-  }
-
-  &:active .icon {
-    transform: translateX(1px) translateY(-1px) scale(0.9);
   }
 
   &:disabled {
@@ -212,15 +203,27 @@
     width: var(--size-text-medium);
     height: var(--size-text-medium);
     fill: var(--color-background);
-    transform: translateX(-1px) translateY(1px);
   }
 }
 
-.sending {
-    .icon {
-      animation: fly-pulse 1.75s linear infinite;
-      fill: var(--color-background);
-    }
+#feedback-submit {
+  transition: transform 0.3s ease;
+
+  .icon {
+    transform: translateX(-1px) translateY(1px);
+  }
+
+  &:hover .icon {
+    transform: translateX(-2px) translateY(2px) scale(1.1);
+  }
+
+  &:active .icon {
+    transform: translateX(1px) translateY(-1px) scale(0.9);
+  }
+
+  &.sending .icon {
+    animation: fly-pulse 1.75s linear infinite;
+    fill: var(--color-background);
   }
 }
 
@@ -250,7 +253,7 @@
     transform: translateX(-12px) translateY(-3px) scale(0.1);
   }
   70% {
-    transform: translateX(-14px) translateY(-0px) scale(0.2);
+    transform: translateX(-14px) translateY(0px) scale(0.2);
   }
   80% {
     transform: translateX(-16px) translateY(1px) scale(0.3);

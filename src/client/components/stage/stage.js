@@ -142,7 +142,9 @@ export function createStageComponent({
    *
    * @param {d3.Selection<SVGGElement, unknown, null, undefined>} selection - D3 selection to bind data to.
    * @param {StageDatum[]} data - Array of stage data objects.
-   */ return function stageComponent(selection, data) {
+   * @returns void
+   */
+  return function stageComponent(selection, data) {
     // Bind data with key function
     const stages = selection.selectAll("g.stage").data(data, (d) => d.stage);
 

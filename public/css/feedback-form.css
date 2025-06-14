@@ -1,17 +1,17 @@
 /* Feedback Form Styles */
 :root {
   /* Sizes - Text */
-  --size-text-small: 0.75rem;           /* 12 */
-  --size-text-small-medium: 0.875rem;   /* 14 */
-  --size-text-medium: 1rem;             /* 16 */
- /* Sizes - General */
-  --size-extra-small: 0.25rem;          /* 4 */
-  --size-small: 0.5rem;                 /* 8 */
-  --size-small-medium: 0.75rem;         /* 12 */
-  --size-medium: 1rem;                  /* 16 */
-  --size-medium-large: 1.25rem;         /* 20 */
-  --size-large: 1.5rem;                 /* 24 */
-  --size-extra-large: 2rem;             /* 32 */
+  --size-text-small: 0.75rem; /* 12 */
+  --size-text-small-medium: 0.875rem; /* 14 */
+  --size-text-medium: 1rem; /* 16 */
+  /* Sizes - General */
+  --size-extra-small: 0.25rem; /* 4 */
+  --size-small: 0.5rem; /* 8 */
+  --size-small-medium: 0.75rem; /* 12 */
+  --size-medium: 1rem; /* 16 */
+  --size-medium-large: 1.25rem; /* 20 */
+  --size-large: 1.5rem; /* 24 */
+  --size-extra-large: 2rem; /* 32 */
 }
 
 .feedback-form-container {
@@ -83,8 +83,8 @@
   align-items: baseline;
   border-bottom: 1px solid
     color-mix(in srgb, var(--color-primary), var(--color-background) 80%);
-  padding-top: 16px;
-  padding-bottom: 16px;
+  padding-top: var(--size-medium);
+  padding-bottom: var(--size-medium);
 }
 
 .feedback-close {
@@ -340,4 +340,8 @@
     vertical-align: -0.125em;
     fill: var(--color-background);
   }
+}
+
+.is-hidden {
+  display: none;
 }

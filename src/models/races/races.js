@@ -1,5 +1,5 @@
-import CSVdataModel from "../dataModel_csv.js";
 import { logOut } from "../../utils/logging";
+import CSVdataModel from "../dataModel_csv";
 
 /**
  * @typedef {import('../@types/races').RaceModel} RaceModel

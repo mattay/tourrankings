@@ -14,3 +14,7 @@ _sample_code
 
 # Scraped data.
 /data/
+
+
+# Keys
+*service-account-key.json

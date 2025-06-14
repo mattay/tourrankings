@@ -1,4 +1,5 @@
-import { logError, logOut } from "../../src/utils/logging.js";
+import { logError } from "../../src/utils/logging";
+import { googleSheetsService } from "../../src/services/google/googleSheetsService";
 
 /**
  * @typedef {Object} FeedbackData
@@ -9,7 +10,9 @@ import { logError, logOut } from "../../src/utils/logging.js";
  * @property {string} userAgent - Browser user agent
  * @property {string} timestamp - Submission timestamp
  * @property {string} [raceId] - Race ID if on race page
+ * @property {number} [year] - Year if on race page
  * @property {string} [stage] - Stage number if applicable
+ * @property {string} [classification] - Classification if applicable
  */
 
 /**
@@ -130,32 +133,17 @@ function sanitizeFeedbackData(data) {
  */
 async function processFeedback(data) {
   try {
-    // For now, just log the feedback
-    // TODO: Implement your preferred storage method (database, file, external API, etc.)
-    logOut(
-      "Feedback",
-      `New ${data.feedbackType} feedback received from ${data.pageUrl}`,
-    );
-    logOut("Feedback", `Message: ${data.message}`);
+    // Write to Google Sheets
+    const result = await googleSheetsService.writeFeedback(data);
 
-    if (data.userEmail) {
-      logOut("Feedback", `Contact: ${data.userEmail}`);
+    if (result.success) {
+      return {
+        success: true,
+        id: `feedback_${result.rowId || Date.now()}`,
+      };
+    } else {
+      throw new Error(result.error || "Failed to write to Google Sheets");
     }
-
-    // Generate a simple ID for the feedback
-    const feedbackId = `feedback_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-
-    // TODO: Replace this with your actual storage implementation
-    // Examples:
-    // - Save to database
-    // - Write to file
-    // - Send to external service
-    // - Add to queue for processing
-
-    return {
-      success: true,
-      id: feedbackId,
-    };
   } catch (error) {
     logError("Feedback", "Failed to process feedback", error);
     return {
@@ -206,7 +194,7 @@ export async function submitFeedback(req, res) {
     } else {
       res.status(500).json({
         success: false,
-        message: result.error || "Failed to process feedback",
+        message: result.error ?? "Failed to process feedback",
       });
     }
   } catch (error) {

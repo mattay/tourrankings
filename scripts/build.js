@@ -29,7 +29,7 @@ async function buildClient() {
     }
   } catch (error) {
     console.error("Build failed:", error);
-    process.exit(1);
+    throw error;
   }
 }
 

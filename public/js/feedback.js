@@ -89,7 +89,7 @@ class FeedbackManager {
    */
   openModal() {
     this.isOpen = true;
-    this.modal.style.display = "flex";
+    this.modal.classList.remove("is-hidden");
     this.modal.classList.add("active");
     this.showForm();
 
@@ -105,7 +105,7 @@ class FeedbackManager {
     this.isOpen = false;
     this.modal.classList.remove("active");
     setTimeout(() => {
-      this.modal.style.display = "none";
+      this.modal.classList.add("is-hidden");
       this.resetForm();
     }, 300);
   }
@@ -114,18 +114,18 @@ class FeedbackManager {
    * Show the feedback form
    */
   showForm() {
-    this.form.style.display = "block";
-    this.successView.style.display = "none";
-    this.errorView.style.display = "none";
+    this.form.classList.remove("is-hidden");
+    this.successView.classList.add("is-hidden");
+    this.errorView.classList.add("is-hidden");
   }
 
   /**
    * Show success message
    */
   showSuccess() {
-    this.form.style.display = "none";
-    this.successView.style.display = "block";
-    this.errorView.style.display = "none";
+    this.form.classList.add("is-hidden");
+    this.successView.classList.remove("is-hidden");
+    this.errorView.classList.add("is-hidden");
   }
 
   /**
@@ -133,9 +133,9 @@ class FeedbackManager {
    * @param {string} message - Error message to display
    */
   showError(message) {
-    this.form.style.display = "none";
-    this.successView.style.display = "none";
-    this.errorView.style.display = "block";
+    this.form.classList.add("is-hidden");
+    this.successView.classList.add("is-hidden");
+    this.errorView.classList.remove("is-hidden");
 
     const errorMessage = document.getElementById("error-message");
     if (errorMessage) {
@@ -162,15 +162,18 @@ class FeedbackManager {
 
     const submitText = this.submitBtn.querySelector(".submit-text");
     const submitLoading = this.submitBtn.querySelector(".submit-loading");
+    if (!submitText || !submitLoading) return; // markup mismatch – bail out gracefully
 
     if (loading) {
       this.submitBtn.disabled = true;
-      submitText.style.display = "none";
-      submitLoading.style.display = "inline";
+      this.submitBtn.classList.add("sending");
+      submitText.classList.add("is-hidden");
+      submitLoading.classList.remove("is-hidden");
     } else {
       this.submitBtn.disabled = false;
-      submitText.style.display = "inline";
-      submitLoading.style.display = "none";
+      this.submitBtn.classList.remove("sending");
+      submitText.classList.remove("is-hidden");
+      submitLoading.classList.add("is-hidden");
     }
   }
 

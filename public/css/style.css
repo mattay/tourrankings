@@ -1,7 +1,8 @@
 :root {
-  --primary-color: #2c3e50;
-  --secondary-color: #3498db;
   --color-background: #f8f7f6;
+  --color-primary: #4f4c30;
+  --color-secondary: #a3a085;
+  --color-accent: #817618;
   --color-text-primary: #4f4c30;
   --color-text-secondary: #a3a085;
   --color-text-accent: #817618;
@@ -180,7 +181,9 @@ button:hover {
   .stage-indicator {
     fill: var(--color-background);
     stroke-width: 2;
-    transition: stroke 210ms ease-out, fill 210ms ease-out;
+    transition:
+      stroke 210ms ease-out,
+      fill 210ms ease-out;
   }
 
   g:not(.raced) .stage-indicator {

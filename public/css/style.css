@@ -187,7 +187,7 @@ button:hover {
     font-size: 1rem;
     line-height: 1;
     /* font-weight: bold; */
-    fill: var(--color-text-secondary);
+    fill: var(--color-secondary);
     transition: fill 321ms ease-in-out;
   }
 
@@ -201,7 +201,7 @@ button:hover {
 
   g:not(.raced) .stage-indicator {
     stroke-dasharray: 2, 3;
-    stroke: var(--color-text-secondary);
+    stroke: var(--color-secondary);
   }
 
   .raced {
@@ -209,17 +209,17 @@ button:hover {
 
     .stage-indicator {
       stroke-dasharray: none;
-      stroke: var(--color-text-primary);
+      stroke: var(--color-secondary);
     }
   }
 
   .raced:hover {
     text {
-      fill: var(--color-text-accent);
+      fill: var(--color-accent);
     }
     .stage-indicator {
       stroke-width: 3;
-      stroke: var(--color-text-accent);
+      stroke: var(--color-accent);
       transition: stroke 321ms ease-in;
     }
   }
@@ -229,7 +229,7 @@ button:hover {
       font-weight: bold;
     }
     .stage-indicator {
-      fill: var(--color-text-primary);
+      fill: var(--color-primary);
       stroke: var(--color-background);
     }
   }
@@ -237,7 +237,7 @@ button:hover {
   .viewing:hover {
     .stage-indicator {
       stroke-width: 1;
-      fill: var(--color-text-accent);
+      fill: var(--color-accent);
       transition: stroke 321ms ease-in;
     }
   }
@@ -247,7 +247,7 @@ button:hover {
   text {
     font-size: 1rem;
     line-height: 1;
-    fill: var(--color-text-secondary);
+    fill: var(--color-secondary);
   }
   .abandoned {
     text-decoration-line: line-through;
@@ -265,6 +265,6 @@ button:hover {
   }
   .foreground {
     stroke-width: 2;
-    stroke: var(--color-text-secondary);
+    stroke: var(--color-secondary);
   }
 }

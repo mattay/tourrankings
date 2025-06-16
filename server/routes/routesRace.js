@@ -14,6 +14,7 @@ const router = express.Router();
  * @property {string[]} keywords - The keywords for the page.
  * @property {Object} race - The race object.
  * @property {Object} stage - The stage object.
+ * @property {Object[]} classifications - Available classifications
  */
 
 /**
@@ -21,18 +22,29 @@ const router = express.Router();
  * @param {string} racePcsID - The ID of the race.
  * @param {number} [year] - The year of the race.
  * @param {number} [stage] - The stage to view
+ * @param {string} [ranking] -
  * @returns {PageContentRace}
  */
-function racePageContent(racePcsID, year = null, stage = null) {
+function racePageContent(racePcsID, year = null, stage = null, ranking = null) {
   const content = raceContent(racePcsID, year || new Date().getFullYear());
 
   const keywords = ["cycling", "tour", "ranking", content.race?.raceName];
+  const classifications = [
+    { type: "general", label: "General", active: true },
+    { type: "youth", label: "Youth" },
+    { type: "team", label: "Team" },
+    { type: "points", label: "Points" },
+    { type: "mountain", label: "Mountain" },
+  ].filter(
+    (c) => c.type && content.classifications?.[c.type]
+  );
   const racePage = {
     title: "Tour Rankings",
     description: "A web application for tracking and ranking tours.",
     keywords,
     race: content.race,
     stage: content.stages[stage || content.stagesCompleted],
+    classifications,
   };
   return racePage;
 }
@@ -50,7 +62,8 @@ router.get("/:racePcsID/:year?/:stage?/:ranking?", (req, res, next) => {
   const { racePcsID } = req.params;
   const year = Number(req.params.year) || null;
   const stage = Number(req.params.stage) || null;
-  const pageContent = racePageContent(racePcsID, year, stage);
+  const ranking = req.params.ranking || null;
+  const pageContent = racePageContent(racePcsID, year, stage, ranking);
 
   if (!pageContent.race) {
     // TODO: Implement error handling for missing race data

@@ -14,6 +14,7 @@ const router = express.Router();
  * @property {string[]} keywords - The keywords for the page.
  * @property {Object} race - The race object.
  * @property {Object} stage - The stage object.
+ * @property {Object[]} classifications - Avaliable classifications
  */
 
 /**
@@ -27,12 +28,23 @@ function racePageContent(racePcsID, year = null, stage = null) {
   const content = raceContent(racePcsID, year || new Date().getFullYear());
 
   const keywords = ["cycling", "tour", "ranking", content.race?.raceName];
+  const classifications = [
+    { type: "general", label: "General", active: true },
+    { type: "youth", label: "Youth" },
+    { type: "team", label: "Team" },
+    { type: "points", label: "Points" },
+    { type: "mountain", label: "Mountain" },
+  ].filter((classification) => {
+    if (classification?.type && content.classifications[classification?.type])
+      return true;
+  });
   const racePage = {
     title: "Tour Rankings",
     description: "A web application for tracking and ranking tours.",
     keywords,
     race: content.race,
     stage: content.stages[stage || content.stagesCompleted],
+    classifications,
   };
   return racePage;
 }

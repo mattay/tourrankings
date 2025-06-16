@@ -22,9 +22,10 @@ const router = express.Router();
  * @param {string} racePcsID - The ID of the race.
  * @param {number} [year] - The year of the race.
  * @param {number} [stage] - The stage to view
+ * @param {string} [ranking] -
  * @returns {PageContentRace}
  */
-function racePageContent(racePcsID, year = null, stage = null) {
+function racePageContent(racePcsID, year = null, stage = null, ranking = null) {
   const content = raceContent(racePcsID, year || new Date().getFullYear());
 
   const keywords = ["cycling", "tour", "ranking", content.race?.raceName];
@@ -61,7 +62,8 @@ router.get("/:racePcsID/:year?/:stage?/:ranking?", (req, res, next) => {
   const { racePcsID } = req.params;
   const year = Number(req.params.year) || null;
   const stage = Number(req.params.stage) || null;
-  const pageContent = racePageContent(racePcsID, year, stage);
+  const ranking = req.params.ranking || null;
+  const pageContent = racePageContent(racePcsID, year, stage, ranking);
 
   if (!pageContent.race) {
     // TODO: Implement error handling for missing race data

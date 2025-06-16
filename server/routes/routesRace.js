@@ -34,10 +34,9 @@ function racePageContent(racePcsID, year = null, stage = null) {
     { type: "team", label: "Team" },
     { type: "points", label: "Points" },
     { type: "mountain", label: "Mountain" },
-  ].filter((classification) => {
-    if (classification?.type && content.classifications[classification?.type])
-      return true;
-  });
+  ].filter(
+    (c) => c.type && content.classifications?.[c.type]
+  );
   const racePage = {
     title: "Tour Rankings",
     description: "A web application for tracking and ranking tours.",

@@ -8,6 +8,7 @@
 
   <title><%= race.raceName %> | TourRankings</title>
   <link href="/css/style.css" rel="stylesheet">
+  <link href="/css/tabs.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
   <script type="module" src="/js/dist/index.js" defer></script>
  </head>
@@ -35,6 +36,7 @@
           <span id="stage-arrival" class="smooth-text"><%= stage?.arrival %></span>
         </span>
       </h2>
+      <%- include('../controls/classifications-tab-group') %>
     <section id="race-rankings">
     </section>
 

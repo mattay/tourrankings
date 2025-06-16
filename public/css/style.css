@@ -226,7 +226,7 @@ button:hover {
 
   .viewing {
     text {
-      font-weight: bold;
+      fill: var(--color-primary);
     }
     .stage-indicator {
       fill: var(--color-primary);

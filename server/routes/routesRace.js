@@ -14,7 +14,7 @@ const router = express.Router();
  * @property {string[]} keywords - The keywords for the page.
  * @property {Object} race - The race object.
  * @property {Object} stage - The stage object.
- * @property {Object[]} classifications - Avaliable classifications
+ * @property {Object[]} classifications - Available classifications
  */
 
 /**

@@ -12,7 +12,7 @@ export function rankings(state) {
   if (!state.raceData || !state.currentStage) return null;
 
   switch (state.currentClassification) {
-    case "stage":
+    case "stages":
       return state.raceData.results.map((rider) => {
         return !rider ? rider : rider.slice(0, state.currentStage + 1);
       });

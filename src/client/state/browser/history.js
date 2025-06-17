@@ -22,7 +22,7 @@ export function updateUrl(state) {
       raceId: currentRaceId,
       year: currentYear,
       stage: currentStage,
-      ranking: currentClassification,
+      classification: currentClassification,
     },
     "",
     newPath,

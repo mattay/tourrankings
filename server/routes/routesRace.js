@@ -22,10 +22,15 @@ const router = express.Router();
  * @param {string} racePcsID - The ID of the race.
  * @param {number} [year] - The year of the race.
  * @param {number} [stage] - The stage to view
- * @param {string} [ranking] -
+ * @param {string} [classification] -
  * @returns {PageContentRace}
  */
-function racePageContent(racePcsID, year = null, stage = null, ranking = null) {
+function racePageContent(
+  racePcsID,
+  year = null,
+  stage = null,
+  classification = null,
+) {
   const content = raceContent(racePcsID, year || new Date().getFullYear());
 
   const keywords = ["cycling", "tour", "ranking", content.race?.raceName];
@@ -37,10 +42,10 @@ function racePageContent(racePcsID, year = null, stage = null, ranking = null) {
     { type: "points", label: "Points" },
     { type: "mountain", label: "Mountain" },
   ].reduce((results, c) => {
-    c.active = ranking && c.type === ranking;
+    c.active = classification && c.type === classification;
 
     if (c.type === "stage" && content.results) {
-      c.active = !ranking;
+      c.active = !classification;
       results.push(c);
     } else if (c.type && content.classifications?.[c.type]) {
       results.push(c);

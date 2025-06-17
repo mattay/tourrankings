@@ -64,13 +64,13 @@ class tourRankingApp {
   async init() {
     try {
       // Update state
-      const { raceID, year, stage, ranking } = getRaceInfoFromUrlPath();
+      const { raceID, year, stage, classification } = getRaceInfoFromUrlPath();
       store.setState({
         isLoading: true,
         currentRaceId: raceID,
         currentYear: year,
         currentStage: stage,
-        currentRanking: ranking || "results",
+        currentClassification: classification || "stages",
       });
 
       // Fetch data

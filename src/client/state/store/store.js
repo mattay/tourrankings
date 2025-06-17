@@ -18,7 +18,7 @@ class Store {
     currentRaceId: null,
     currentYear: null,
     currentStage: null,
-    currentRanking: null,
+    currentClassification: null,
     isLoading: false,
     error: null,
   };

@@ -15,7 +15,12 @@ export function actionSelectStage(stage) {
     return;
   }
 
+  const stageNumber = Number(stage.stage);
+  if (Number.isNaN(stageNumber)) {
+    console.warn("Invalid stage number");
+    return;
+  }
+
   // Update store
-  const stageNumber = stage.stage;
   store.setState({ currentStage: stageNumber });
 }

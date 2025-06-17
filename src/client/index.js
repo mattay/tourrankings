@@ -3,7 +3,7 @@ import store from "./state/storeInstance";
 import { setupSelectors } from "./state/selectors";
 import { fetchRaceData } from "./api/index.js";
 // Utils
-import { getRaceInfoFromUrlPath } from "./utils";
+import { getRaceInfoFromUrlPath } from "./state/browser/location";
 import { parseRaceContent } from "./utils/parse";
 // Components
 import { Race } from "./components/race/race.js";

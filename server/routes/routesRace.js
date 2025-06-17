@@ -36,14 +36,17 @@ function racePageContent(racePcsID, year = null, stage = null, ranking = null) {
     { type: "team", label: "Team" },
     { type: "points", label: "Points" },
     { type: "mountain", label: "Mountain" },
-  ].reduce((results, c) => {
-    c.active = ranking && c.type === ranking;
+  ].reduce((results, option) => {
+    const newOption = {
+      ...option,
+      active: ranking && option.type === ranking,
+    };
 
-    if (c.type === "stage" && content.results) {
-      c.active = !ranking;
-      results.push(c);
-    } else if (c.type && content.classifications?.[c.type]) {
-      results.push(c);
+    if (option.type === "stage" && content.results) {
+      newOption.active = !ranking;
+      results.push(newOption);
+    } else if (option.type && content.classifications?.[option.type]) {
+      results.push(newOption);
     }
 
     return results;

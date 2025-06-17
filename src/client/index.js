@@ -8,6 +8,11 @@ import { parseRaceContent } from "./utils/parse";
 // Components
 import { Race } from "./components/race/race.js";
 import { updatePageHeadings } from "./components/page/title";
+import {
+  setupClassificasionTabs,
+  updateClassificationTabs,
+} from "./components/page/classification-tabs";
+import { updateUrl } from "./state/browser/history";
 
 /**
  * Main application class for the Tour Ranking app.
@@ -31,17 +36,7 @@ class tourRankingApp {
    * Sets up UI controls for changing view and chart types.
    */
   setupControls() {
-    // Set up controls for changing view type
-    // document
-    //   .getElementById("btn-stage-results")
-    //   .addEventListener("click", () => {
-    //     changeViewType("stageResults");
-    //   });
-    // // Set up controls for changing chart type
-    // const chartTypeSelect = document.getElementById("chart-type-select");
-    // chartTypeSelect.addEventListener("change", (e) => {
-    //   changeChartType(e.target.value);
-    // });
+    setupClassificasionTabs();
   }
 
   /**
@@ -51,7 +46,9 @@ class tourRankingApp {
   setupDOMSubscription() {
     this.#unsubscribe = store.subscribe((state) => {
       try {
+        updateUrl(state);
         updatePageHeadings(state);
+        updateClassificationTabs(state);
       } catch (error) {
         console.error("Failed to update page headings:", error);
       }

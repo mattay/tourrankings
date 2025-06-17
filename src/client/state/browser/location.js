@@ -4,7 +4,8 @@
  * @property {string} raceID -
  * @property {number} year -
  * @property {number} stage -
- * @property {string} ranking -
+ * @property {string} classification,
+ -
  */
 
 /**
@@ -19,13 +20,13 @@ export function getRaceInfoFromUrlPath() {
   const year =
     pathParts.length > 2 ? parseInt(pathParts[2]) : new Date().getFullYear();
   const stage = pathParts.length > 3 ? parseInt(pathParts[3]) : null;
-  const ranking = pathParts.length > 4 ? pathParts[4] : null;
+  const classification = pathParts.length > 4 ? pathParts[4] : null;
 
   return {
     root,
     raceID,
     year,
     stage,
-    ranking,
+    classification,
   };
 }

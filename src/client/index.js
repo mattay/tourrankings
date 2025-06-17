@@ -9,7 +9,7 @@ import { parseRaceContent } from "./utils/parse";
 import { Race } from "./components/race/race.js";
 import { updatePageHeadings } from "./components/page/title";
 import {
-  setupClassificasionTabs,
+  setupClassificationTabs,
   updateClassificationTabs,
 } from "./components/page/classification-tabs";
 import { updateUrl } from "./state/browser/history";
@@ -36,7 +36,7 @@ class tourRankingApp {
    * Sets up UI controls for changing view and chart types.
    */
   setupControls() {
-    setupClassificasionTabs();
+    setupClassificationTabs();
   }
 
   /**

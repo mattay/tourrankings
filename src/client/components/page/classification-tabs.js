@@ -9,7 +9,7 @@ const CLASSIFICATION_ELEMENT_CLASS = {
  * Sets up event listeners for classification tab controls
  * @returns {void}
  */
-export function setupClassificasionTabs() {
+export function setupClassificationTabs() {
   const tabsContainer = document.querySelector(
     CLASSIFICATION_ELEMENT_CLASS.CONTAINER,
   );

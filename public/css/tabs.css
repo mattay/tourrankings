@@ -11,24 +11,27 @@
 .tab {
   padding: var(--size-small-medium) var(--size-medium-large);
   border: none;
-  background: transparent;
+  background-color: transparent;
   color: var(--color-text-secondary);
   cursor: pointer;
   border-radius: 2px 2px 0 0;
   border-bottom: 3px solid transparent;
-  transition: all 0.2s ease;
   font-size: var(--size-text-small-medium);
+  transition:
+    color 0ms ease-in-out,
+    background-color 0ms ease-out,
+    border-bottom-color 321ms ease-in;
   /* font-weight: 500; */
 
   &:hover:not(.active) {
     /* color: var(--color-text-accent); */
     color: var(--color-background);
-    background: var(--color-secondary);
+    background-color: var(--color-accent);
   }
 
   &.active {
     cursor: default;
-    color: var(--color-text-accent);
-    border-bottom-color: var(--color-accent);
+    color: var(--color-text-primary);
+    border-bottom-color: var(--color-primary);
   }
 }

@@ -34,6 +34,7 @@ function racePageContent(
   const content = raceContent(racePcsID, year || new Date().getFullYear());
 
   const keywords = ["cycling", "tour", "ranking", content.race?.raceName];
+
   const classifications = [
     { type: "stage", label: "Stage" },
     { type: "general", label: "General" },
@@ -41,14 +42,17 @@ function racePageContent(
     { type: "team", label: "Team" },
     { type: "points", label: "Points" },
     { type: "mountain", label: "Mountain" },
-  ].reduce((results, c) => {
-    c.active = classification && c.type === classification;
+  ].reduce((results, option) => {
+    const newOption = {
+      ...option,
+      active: classification && option.type === classification,
+    };
 
-    if (c.type === "stage" && content.results) {
-      c.active = !classification;
-      results.push(c);
-    } else if (c.type && content.classifications?.[c.type]) {
-      results.push(c);
+    if (option.type === "stage" && content.results) {
+      newOption.active = !classification;
+      results.push(newOption);
+    } else if (option.type && content.classifications?.[option.type]) {
+      results.push(newOption);
     }
 
     return results;

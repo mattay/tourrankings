@@ -1,2 +1,2 @@
-export { actionSelectStage as actionSelectStage } from "./stage";
-export { actionSelectClassification as actionSelectClassification } from "./classification";
+export { actionSelectStage } from "./stage";
+export { actionSelectClassification } from "./classification";

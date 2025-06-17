@@ -30,14 +30,28 @@ function racePageContent(racePcsID, year = null, stage = null, ranking = null) {
 
   const keywords = ["cycling", "tour", "ranking", content.race?.raceName];
   const classifications = [
-    { type: "general", label: "General", active: true },
+    { type: "stage", label: "Stage" },
+    { type: "general", label: "General" },
     { type: "youth", label: "Youth" },
     { type: "team", label: "Team" },
     { type: "points", label: "Points" },
     { type: "mountain", label: "Mountain" },
-  ].filter(
-    (c) => c.type && content.classifications?.[c.type]
-  );
+  ].reduce((results, option) => {
+    const newOption = {
+      ...option,
+      active: ranking && option.type === ranking,
+    };
+
+    if (option.type === "stage" && content.results) {
+      newOption.active = !ranking;
+      results.push(newOption);
+    } else if (option.type && content.classifications?.[option.type]) {
+      results.push(newOption);
+    }
+
+    return results;
+  }, []);
+
   const racePage = {
     title: "Tour Rankings",
     description: "A web application for tracking and ranking tours.",

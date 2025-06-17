@@ -10,7 +10,7 @@ import store from "../storeInstance";
  * @returns {void}
  */
 export function actionSelectStage(stage) {
-  if (!stage && stage.stage) {
+  if (!stage && stage.stage == null) {
     console.warn("Stage is required");
     return;
   }

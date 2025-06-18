@@ -13,9 +13,7 @@
  * @property {string} YOUTH - Youth classification (young rider).
  * @property {string} TEAM - Team classification.
  *
- * @example
- * import { CLASSIFICATION_TYPES } from './constants';
- *
+ * @example *
  * if (type === CLASSIFICATION_TYPES.POINTS) {
  *   // handle points classification
  * }

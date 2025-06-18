@@ -17,10 +17,7 @@
   border-radius: 2px 2px 0 0;
   border-bottom: 3px solid transparent;
   font-size: var(--size-text-small-medium);
-  transition:
-    color 0ms ease-in-out,
-    background-color 0ms ease-out,
-    border-bottom-color 321ms ease-in;
+  transition: border-bottom-color 321ms ease-in;
   /* font-weight: 500; */
 
   &:hover:not(.active) {

@@ -19,6 +19,9 @@ export function rankings(state) {
         return !rider ? rider : rider.slice(0, state.currentStage + 1);
       });
     default:
+      console.warn(
+        `Unhandled classification type in selector: ${state.currentClassification}`,
+      );
       return [];
   }
 }

@@ -47,7 +47,8 @@ function racePageContent(
       };
 
       if (option.type === CLASSIFICATION_TYPES.STAGE && content.results) {
-        newOption.active = !classification;
+        // Stage is active when no classification is given OR when explicitly requested
+        newOption.active = !classification || option.type === classification;
         results.push(newOption);
       } else if (option.type && content.classifications?.[option.type]) {
         results.push(newOption);

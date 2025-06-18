@@ -1,6 +1,10 @@
 import express from "express";
 import { raceContent } from "../controllers/raceController";
 import { logError } from "../../src/utils/logging";
+import {
+  CLASSIFICATION_TYPES,
+  CLASSIFICATION_UI_OPTIONS,
+} from "src/core/cycling/classification/classification";
 
 /** @type {import('../controllers/raceController').RaceContent} RaceContent */
 
@@ -42,15 +46,17 @@ function racePageContent(
         active: Boolean(classification && option.type === classification),
       };
 
-    if (option.type === "stage" && content.results) {
-      newOption.active = !classification;
-      results.push(newOption);
-    } else if (option.type && content.classifications?.[option.type]) {
-      results.push(newOption);
-    }
+      if (option.type === CLASSIFICATION_TYPES.STAGE && content.results) {
+        newOption.active = !classification;
+        results.push(newOption);
+      } else if (option.type && content.classifications?.[option.type]) {
+        results.push(newOption);
+      }
 
-    return results;
-  }, []);
+      return results;
+    },
+    [],
+  );
 
   const racePage = {
     title: "Tour Rankings",

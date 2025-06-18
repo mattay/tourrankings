@@ -1,4 +1,5 @@
 import { actionSelectClassification } from "src/client/state/actions";
+import { CLASSIFICATION_TYPES } from "src/core/cycling/classification/classification";
 
 const CLASSIFICATION_ELEMENT_CLASS = {
   CONTAINER: ".tabs-container",
@@ -33,7 +34,8 @@ export function setupClassificationTabs() {
  * @returns {void}
  */
 export function updateClassificationTabs(state) {
-  const currentClassification = state.currentClassification || "stage";
+  const currentClassification =
+    state.currentClassification || CLASSIFICATION_TYPES.STAGE;
 
   const activeTab = document.querySelector(
     `[data-classification="${currentClassification}"]`,

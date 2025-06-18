@@ -1,6 +1,11 @@
 import express from "express";
 import { raceContent } from "../controllers/raceController";
 import { logError } from "../../src/utils/logging";
+import {
+  CLASSIFICATION_TYPES,
+  CLASSIFICATION_UI_OPTIONS,
+  isValidClassificationType,
+} from "src/core/cycling/classification/classification";
 
 /** @type {import('../controllers/raceController').RaceContent} RaceContent */
 
@@ -35,28 +40,30 @@ function racePageContent(
 
   const keywords = ["cycling", "tour", "ranking", content.race?.raceName];
 
-  const classifications = [
-    { type: "stage", label: "Stage" },
-    { type: "general", label: "General" },
-    { type: "youth", label: "Youth" },
-    { type: "team", label: "Team" },
-    { type: "points", label: "Points" },
-    { type: "mountain", label: "Mountain" },
-  ].reduce((results, option) => {
-    const newOption = {
-      ...option,
-      active: classification && option.type === classification,
-    };
+  const classifications = CLASSIFICATION_UI_OPTIONS.reduce(
+    (results, option) => {
+      const safeClassification = isValidClassificationType(classification)
+        ? classification
+        : null;
+      const newOption = {
+        ...option,
+        active: Boolean(
+          safeClassification && option.type === safeClassification,
+        ),
+      };
 
-    if (option.type === "stage" && content.results) {
-      newOption.active = !classification;
-      results.push(newOption);
-    } else if (option.type && content.classifications?.[option.type]) {
-      results.push(newOption);
-    }
+      if (option.type === CLASSIFICATION_TYPES.STAGE && content.results) {
+        // Stage is active when no classification is given OR when explicitly requested
+        newOption.active = !classification || option.type === classification;
+        results.push(newOption);
+      } else if (option.type && content.classifications?.[option.type]) {
+        results.push(newOption);
+      }
 
-    return results;
-  }, []);
+      return results;
+    },
+    [],
+  );
 
   const racePage = {
     title: "Tour Rankings",

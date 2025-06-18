@@ -13,6 +13,10 @@ import {
   updateClassificationTabs,
 } from "./components/page/classification-tabs";
 import { updateUrl } from "./state/browser/history";
+import {
+  CLASSIFICATION_TYPES,
+  isValidClassificationType,
+} from "src/core/cycling/classification/classification";
 
 /**
  * Main application class for the Tour Ranking app.
@@ -67,7 +71,9 @@ class tourRankingApp {
         currentRaceId: raceID,
         currentYear: year,
         currentStage: stage,
-        currentClassification: classification || "stage",
+        currentClassification: isValidClassificationType(classification)
+          ? classification
+          : CLASSIFICATION_TYPES.STAGE,
       });
 
       // Fetch data

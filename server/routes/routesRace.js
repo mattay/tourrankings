@@ -4,6 +4,7 @@ import { logError } from "../../src/utils/logging";
 import {
   CLASSIFICATION_TYPES,
   CLASSIFICATION_UI_OPTIONS,
+  isValidClassificationType,
 } from "src/core/cycling/classification/classification";
 
 /** @type {import('../controllers/raceController').RaceContent} RaceContent */
@@ -41,9 +42,14 @@ function racePageContent(
 
   const classifications = CLASSIFICATION_UI_OPTIONS.reduce(
     (results, option) => {
+      const safeClassification = isValidClassificationType(classification)
+        ? classification
+        : null;
       const newOption = {
         ...option,
-        active: Boolean(classification && option.type === classification),
+        active: Boolean(
+          safeClassification && option.type === safeClassification,
+        ),
       };
 
       if (option.type === CLASSIFICATION_TYPES.STAGE && content.results) {

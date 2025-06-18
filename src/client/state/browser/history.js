@@ -16,15 +16,17 @@ export function updateUrl(state) {
 
   const newPath = `${pathBase}${pathStage}${pathClassification}`;
 
-  // Update URL without triggering page reload
-  window.history.pushState(
-    {
-      raceId: currentRaceId,
-      year: currentYear,
-      stage: currentStage,
-      classification: currentClassification,
-    },
-    "",
-    newPath,
-  );
+  if (newPath !== window.location.pathname) {
+    // Update URL without triggering page reload
+    window.history.pushState(
+      {
+        raceId: currentRaceId,
+        year: currentYear,
+        stage: currentStage,
+        classification: currentClassification,
+      },
+      "",
+      newPath,
+    );
+  }
 }

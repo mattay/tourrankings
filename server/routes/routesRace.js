@@ -22,7 +22,7 @@ const router = express.Router();
  * @param {string} racePcsID - The ID of the race.
  * @param {number} [year] - The year of the race.
  * @param {number} [stage] - The stage to view
- * @param {string} [classification] -
+ * @param {string} [classification] - Classification type to display
  * @returns {PageContentRace}
  */
 function racePageContent(

@@ -29,6 +29,15 @@ export const CLASSIFICATION_TYPES = {
   TEAM: "team",
 };
 
+export const CLASSIFICATION_UI_OPTIONS = [
+  { type: CLASSIFICATION_TYPES.STAGE, label: "Stage" },
+  { type: CLASSIFICATION_TYPES.GENERAL, label: "General" },
+  { type: CLASSIFICATION_TYPES.POINTS, label: "Points" },
+  { type: CLASSIFICATION_TYPES.MOUNTAIN, label: "Mountain" },
+  { type: CLASSIFICATION_TYPES.YOUTH, label: "Youth" },
+  { type: CLASSIFICATION_TYPES.TEAM, label: "Team" },
+];
+
 /**
  * Checks if a given classification type is valid.
  *

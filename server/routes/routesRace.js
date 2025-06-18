@@ -35,18 +35,12 @@ function racePageContent(
 
   const keywords = ["cycling", "tour", "ranking", content.race?.raceName];
 
-  const classifications = [
-    { type: "stage", label: "Stage" },
-    { type: "general", label: "General" },
-    { type: "youth", label: "Youth" },
-    { type: "team", label: "Team" },
-    { type: "points", label: "Points" },
-    { type: "mountain", label: "Mountain" },
-  ].reduce((results, option) => {
-    const newOption = {
-      ...option,
-      active: classification && option.type === classification,
-    };
+  const classifications = CLASSIFICATION_UI_OPTIONS.reduce(
+    (results, option) => {
+      const newOption = {
+        ...option,
+        active: Boolean(classification && option.type === classification),
+      };
 
     if (option.type === "stage" && content.results) {
       newOption.active = !classification;

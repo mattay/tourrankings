@@ -242,6 +242,7 @@ class FeedbackManager {
    * @returns {string|null} Race ID or null
    */
   extractRaceId() {
+    // TODO replace with getRaceInfoFromUrlPath()
     const match = window.location.pathname.match(/\/race\/([^\/]+)/);
     return match ? match[1] : null;
   }
@@ -251,6 +252,7 @@ class FeedbackManager {
    * @returns {string|null} Stage number or null
    */
   extractStage() {
+    // TODO replace with getRaceInfoFromUrlPath()
     const urlMatch = window.location.pathname.match(
       /\/race\/[^\/]+\/\d+\/(\d+)/,
     );

@@ -18,7 +18,7 @@
  * @property {?string} currentRaceId - The current race identifier.
  * @property {?number} currentYear - The current year.
  * @property {?number} currentStage - The current stage identifier.
- * @property {?string} currentRanking - The current ranking view.
+ * @property {?string} currentClassification - The current ranking view.
  * @property {boolean} isLoading - Loading state.
  * @property {?Error|string} error - Error information, if any.
  */

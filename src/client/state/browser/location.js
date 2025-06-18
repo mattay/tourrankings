@@ -10,7 +10,7 @@
 
 /**
  * Extract race information from the current URL path
- * @returns {UrlPathRace} Object containing raceID, year, stage, and ranking
+ * @returns {UrlPathRace} Object containing raceID, year, stage, and classification
  */
 export function getRaceInfoFromUrlPath() {
   const pathParts = window.location.pathname.split("/").filter((part) => part);

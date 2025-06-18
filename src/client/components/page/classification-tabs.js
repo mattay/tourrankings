@@ -33,14 +33,14 @@ export function setupClassificationTabs() {
  * @returns {void}
  */
 export function updateClassificationTabs(state) {
-  const currentRanking = state.currentClassification || "results";
+  const currentClassification = state.currentClassification || "stage";
 
   const activeTab = document.querySelector(
-    `[data-classification="${currentRanking}"]`,
+    `[data-classification="${currentClassification}"]`,
   );
   if (!activeTab) return;
 
-  // Get patern
+  // Locate the surrounding tab container
   const tabsContainer = activeTab.closest(
     CLASSIFICATION_ELEMENT_CLASS.CONTAINER,
   );

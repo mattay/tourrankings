@@ -67,7 +67,7 @@ class tourRankingApp {
         currentRaceId: raceID,
         currentYear: year,
         currentStage: stage,
-        currentClassification: classification || "stages",
+        currentClassification: classification || "stage",
       });
 
       // Fetch data

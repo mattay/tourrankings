@@ -77,9 +77,9 @@ export function raceContent(racePcsID, year = null) {
     results: [],
     classifications: {
       general: [],
-      youth: [],
       points: [],
       mountain: [],
+      youth: [],
       team: [],
     },
   };
@@ -141,8 +141,6 @@ export function raceContent(racePcsID, year = null) {
     };
   }
 
-  // TODO: Add race results and classification to race RaceContent
-  // We want to group the results by rider, ie the line
   // ---
   // results: [rider : stageResult[]]
   // classification: {type: rider[ stageClasifications[] ]}

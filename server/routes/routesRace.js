@@ -22,13 +22,19 @@ const router = express.Router();
  * @param {string} racePcsID - The ID of the race.
  * @param {number} [year] - The year of the race.
  * @param {number} [stage] - The stage to view
- * @param {string} [ranking] -
+ * @param {string} [classification] - Classification type to display
  * @returns {PageContentRace}
  */
-function racePageContent(racePcsID, year = null, stage = null, ranking = null) {
+function racePageContent(
+  racePcsID,
+  year = null,
+  stage = null,
+  classification = null,
+) {
   const content = raceContent(racePcsID, year || new Date().getFullYear());
 
   const keywords = ["cycling", "tour", "ranking", content.race?.raceName];
+
   const classifications = [
     { type: "stage", label: "Stage" },
     { type: "general", label: "General" },
@@ -39,11 +45,11 @@ function racePageContent(racePcsID, year = null, stage = null, ranking = null) {
   ].reduce((results, option) => {
     const newOption = {
       ...option,
-      active: ranking && option.type === ranking,
+      active: classification && option.type === classification,
     };
 
     if (option.type === "stage" && content.results) {
-      newOption.active = !ranking;
+      newOption.active = !classification;
       results.push(newOption);
     } else if (option.type && content.classifications?.[option.type]) {
       results.push(newOption);
@@ -72,12 +78,12 @@ function racePageContent(racePcsID, year = null, stage = null, ranking = null) {
  * @param {import('express').NextFunction} next - Express next function.
  * @returns {void}
  */
-router.get("/:racePcsID/:year?/:stage?/:ranking?", (req, res, next) => {
+router.get("/:racePcsID/:year?/:stage?/:classification?", (req, res, next) => {
   const { racePcsID } = req.params;
   const year = Number(req.params.year) || null;
   const stage = Number(req.params.stage) || null;
-  const ranking = req.params.ranking || null;
-  const pageContent = racePageContent(racePcsID, year, stage, ranking);
+  const classification = req.params.classification || null;
+  const pageContent = racePageContent(racePcsID, year, stage, classification);
 
   if (!pageContent.race) {
     // TODO: Implement error handling for missing race data

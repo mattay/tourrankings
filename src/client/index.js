@@ -3,11 +3,16 @@ import store from "./state/storeInstance";
 import { setupSelectors } from "./state/selectors";
 import { fetchRaceData } from "./api/index.js";
 // Utils
-import { getRaceInfoFromUrlPath } from "./utils";
+import { getRaceInfoFromUrlPath } from "./state/browser/location";
 import { parseRaceContent } from "./utils/parse";
 // Components
 import { Race } from "./components/race/race.js";
 import { updatePageHeadings } from "./components/page/title";
+import {
+  setupClassificationTabs,
+  updateClassificationTabs,
+} from "./components/page/classification-tabs";
+import { updateUrl } from "./state/browser/history";
 
 /**
  * Main application class for the Tour Ranking app.
@@ -31,17 +36,7 @@ class tourRankingApp {
    * Sets up UI controls for changing view and chart types.
    */
   setupControls() {
-    // Set up controls for changing view type
-    // document
-    //   .getElementById("btn-stage-results")
-    //   .addEventListener("click", () => {
-    //     changeViewType("stageResults");
-    //   });
-    // // Set up controls for changing chart type
-    // const chartTypeSelect = document.getElementById("chart-type-select");
-    // chartTypeSelect.addEventListener("change", (e) => {
-    //   changeChartType(e.target.value);
-    // });
+    setupClassificationTabs();
   }
 
   /**
@@ -51,7 +46,9 @@ class tourRankingApp {
   setupDOMSubscription() {
     this.#unsubscribe = store.subscribe((state) => {
       try {
+        updateUrl(state);
         updatePageHeadings(state);
+        updateClassificationTabs(state);
       } catch (error) {
         console.error("Failed to update page headings:", error);
       }
@@ -64,13 +61,13 @@ class tourRankingApp {
   async init() {
     try {
       // Update state
-      const { raceID, year, stage, ranking } = getRaceInfoFromUrlPath();
+      const { raceID, year, stage, classification } = getRaceInfoFromUrlPath();
       store.setState({
         isLoading: true,
         currentRaceId: raceID,
         currentYear: year,
         currentStage: stage,
-        currentRanking: ranking || "results",
+        currentClassification: classification || "stage",
       });
 
       // Fetch data

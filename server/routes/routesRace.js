@@ -78,12 +78,12 @@ function racePageContent(
  * @param {import('express').NextFunction} next - Express next function.
  * @returns {void}
  */
-router.get("/:racePcsID/:year?/:stage?/:ranking?", (req, res, next) => {
+router.get("/:racePcsID/:year?/:stage?/:classification?", (req, res, next) => {
   const { racePcsID } = req.params;
   const year = Number(req.params.year) || null;
   const stage = Number(req.params.stage) || null;
-  const ranking = req.params.ranking || null;
-  const pageContent = racePageContent(racePcsID, year, stage, ranking);
+  const classification = req.params.classification || null;
+  const pageContent = racePageContent(racePcsID, year, stage, classification);
 
   if (!pageContent.race) {
     // TODO: Implement error handling for missing race data

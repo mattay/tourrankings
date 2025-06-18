@@ -9,7 +9,7 @@
 }
 
 .tab {
-  padding: var(--size-small-medium) var(--size-medium-large);
+  padding: var(--size-medium) var(--size-large);
   border: none;
   background-color: transparent;
   color: var(--color-text-secondary);

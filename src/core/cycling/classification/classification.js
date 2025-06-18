@@ -18,14 +18,14 @@
  *   // handle points classification
  * }
  */
-export const CLASSIFICATION_TYPES = {
+export const CLASSIFICATION_TYPES = Object.freeze({
   STAGE: "stage",
   GENERAL: "general",
   POINTS: "points",
   MOUNTAIN: "mountain",
   YOUTH: "youth",
   TEAM: "team",
-};
+});
 
 /**
  * List of available cycling classification options for UI components.

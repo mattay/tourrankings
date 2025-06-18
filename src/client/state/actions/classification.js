@@ -19,7 +19,7 @@ export function actionSelectClassification(classificationType) {
   }
 
   if (!isValidClassificationType(classificationType)) {
-    console.warn(`Classification type "${classificationType}" is not valid.}`);
+    console.warn(`Classification type "${classificationType}" is not valid.`);
     return;
   }
 

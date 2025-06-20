@@ -52,7 +52,7 @@ export function riders(state) {
     if (!rider) continue;
 
     const riderClassifications = classificationsRankings[bib];
-    const riderStageStanding = riderClassifications?.[state.currentStage] || {};
+    let riderStageStanding = riderClassifications?.[state.currentStage] || {};
     let lastStage = state.currentStage;
     let lastRank = riderStageStanding?.rank || NaN;
     let hasAbandoned = false;
@@ -85,10 +85,13 @@ export function riders(state) {
     }
 
     if (isNaN(lastRank)) {
-      for (let i = riderResults.length - 1; i >= 0; i--) {
-        if (!riderResults[i]) continue;
-        lastRank = riderResults[i].rank;
-        lastStage = riderResults[i].stage;
+      // Work back from the last classification to find the last stage result
+      for (let stage = riderClassifications.length - 1; stage >= 0; stage--) {
+        riderStageStanding = riderClassifications[stage];
+        if (riderStageStanding) continue;
+
+        lastRank = riderStageStanding.rank;
+        lastStage = riderStageStanding.stage;
         newRider.stageRankings.result = lastRank;
         // Find last stage resutls where ranking is not a number
         if (isNaN(lastRank)) {

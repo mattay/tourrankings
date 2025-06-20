@@ -6,12 +6,13 @@ import {
 /**
  * @typedef {import('../../store/@types/store').State} State
  * @typedef {import('../@types/result').FilteredStageResult} FilteredStageResult
+ * @typedef {import('../@types/classifications').FilteredClassifications} FilteredClassifications
  */
 
 /**
  *
  * @param {State} state -
- * @returns {Array<FilteredStageResult>}
+ * @returns {Array<FilteredStageResult|FilteredClassifications>|null}
  */
 export function rankings(state) {
   if (

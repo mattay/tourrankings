@@ -17,7 +17,13 @@ function sortAbandoned(a, b) {
  * @returns {Array<FilteredStageRider>}
  */
 export function riders(state) {
-  if (!state.raceData || !state.currentStage) return null;
+  if (
+    !state.raceData ||
+    state.currentStage == null ||
+    !isValidClassificationType(state.currentClassification)
+  ) {
+    return null;
+  }
 
   const ridersWithStageRanking = [];
   const abandoned = [];

@@ -54,16 +54,21 @@ export function riders(state) {
     const riderStageResult = riderResults[state.currentStage] || {};
     let lastStage = state.currentStage;
     let lastRank = riderStageResult?.rank || NaN;
-    let isAbandoned = false;
+    let hasAbandoned = false;
 
     let newRider = {
       ...rider,
-      abandoned: isAbandoned,
+      hasAbandoned,
       lastStage,
       stageRankings: {
         result: lastRank,
       },
     };
+
+    if (newRider.hasAbandoned) {
+      abandoned.push(newRider);
+      continue;
+    }
 
     if (isNaN(lastRank)) {
       for (let i = riderResults.length - 1; i >= 0; i--) {

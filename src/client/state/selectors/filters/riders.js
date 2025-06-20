@@ -66,6 +66,19 @@ export function riders(state) {
       },
     };
 
+    if (
+      !riderClassifications &&
+      state.currentClassification === CLASSIFICATION_TYPES.STAGE
+    ) {
+      console.warn(
+        `No classifications found for rider ${bib} ${rider.rider}.`,
+        "Rider may have abandoned the race",
+      );
+      hasAbandoned = true;
+    } else if (!riderClassifications) {
+      continue;
+    }
+
     if (newRider.hasAbandoned) {
       abandoned.push(newRider);
       continue;

@@ -17,7 +17,7 @@ import {
 export function rankings(state) {
   if (
     !state.raceData ||
-    !state.currentStage ||
+    state.currentStage == null ||
     !isValidClassificationType(state.currentClassification)
   ) {
     return null;

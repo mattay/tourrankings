@@ -97,9 +97,9 @@ export function riders(state) {
             rider.bib,
             rider.rider,
           );
-          isAbandoned = true;
+          hasAbandoned = true;
           newRider.lastStage = lastStage;
-          newRider.abandoned = isAbandoned;
+          newRider.hasAbandoned = hasAbandoned;
           abandoned.push(newRider);
           break;
         } else if (lastRank) {
@@ -107,7 +107,7 @@ export function riders(state) {
         }
       }
       // Catch the last stage if we don't have results yet
-      if (!isAbandoned) {
+      if (!hasAbandoned) {
         ridersWithStageRanking.push(newRider);
       }
       // We need a way to indicate that we don't have results

@@ -47,13 +47,14 @@ export function riders(state) {
     );
   }
 
-  for (const rider of state.raceData.riders.values()) {
+  // Rider bib number is user to index the rider in the Array
+  for (const [bib, rider] of state.raceData.riders) {
     if (!rider) continue;
-    const bib = rider.bib;
-    const riderResults = state.raceData.results[bib];
-    const riderStageResult = riderResults[state.currentStage] || {};
+
+    const riderClassifications = classificationsRankings[bib];
+    const riderStageStanding = riderClassifications?.[state.currentStage] || {};
     let lastStage = state.currentStage;
-    let lastRank = riderStageResult?.rank || NaN;
+    let lastRank = riderStageStanding?.rank || NaN;
     let hasAbandoned = false;
 
     let newRider = {

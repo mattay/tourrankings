@@ -1,3 +1,8 @@
+import {
+  isValidClassificationType,
+  CLASSIFICATION_TYPES,
+} from "src/core/cycling/classification/classification";
+
 /**
  * @typedef {import('../../store/@types/store').State} State
  * @typedef {import('./../@types/riders').FilteredStageRider} FilteredStageRider
@@ -27,6 +32,20 @@ export function riders(state) {
 
   const ridersWithStageRanking = [];
   const abandoned = [];
+  let classificationsRankings = [];
+
+  if (state.currentClassification === CLASSIFICATION_TYPES.STAGE) {
+    classificationsRankings = state.raceData.results;
+  } else if (
+    Object.hasOwn(state.raceData.classifications, state.currentClassification)
+  ) {
+    classificationsRankings =
+      state.raceData.classifications[state.currentClassification];
+  } else {
+    console.warn(
+      `Unhandled classification type in selector: ${state.currentClassification}`,
+    );
+  }
 
   for (const rider of state.raceData.riders.values()) {
     if (!rider) continue;

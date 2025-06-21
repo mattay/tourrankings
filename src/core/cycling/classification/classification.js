@@ -47,6 +47,56 @@ export const CLASSIFICATION_TYPES = Object.freeze({
 });
 
 /**
+ * Configuration object mapping each classification type to its calculation method and properties.
+ *
+ * @readonly
+ * @type {Object<string, {label: string, calculationType: string, description: string, ageRestriction?: number, teamBased?: boolean}>}
+ */
+export const CLASSIFICATION_CONFIG = Object.freeze({
+  [CLASSIFICATION_TYPES.STAGE]: {
+    label: "Stage",
+    calculationType: CALCULATION_TYPES.STAGE_POSITION,
+    description: "Position at finish line for individual stage completion",
+    teamBased: false,
+  },
+  [CLASSIFICATION_TYPES.GENERAL]: {
+    label: "General",
+    calculationType: CALCULATION_TYPES.ACCUMULATED_TIME,
+    description:
+      "Total stage completion time minus bonifications, accumulated across all stages",
+    teamBased: false,
+  },
+  [CLASSIFICATION_TYPES.POINTS]: {
+    label: "Points",
+    calculationType: CALCULATION_TYPES.ACCUMULATED_POINTS,
+    description:
+      "Points collected at designated locations during and/or at end of stages",
+    teamBased: false,
+  },
+  [CLASSIFICATION_TYPES.MOUNTAIN]: {
+    label: "Mountain",
+    calculationType: CALCULATION_TYPES.ACCUMULATED_POINTS,
+    description:
+      "Points collected at mountain/climb locations, may include bonifications for time-based classifications",
+    teamBased: false,
+  },
+  [CLASSIFICATION_TYPES.YOUTH]: {
+    label: "Youth",
+    calculationType: CALCULATION_TYPES.ACCUMULATED_TIME,
+    description:
+      "Same as General Classification but restricted to riders under 25 years old",
+    ageRestriction: 25,
+    teamBased: false,
+  },
+  [CLASSIFICATION_TYPES.TEAM]: {
+    label: "Team",
+    calculationType: CALCULATION_TYPES.TEAM_TIME,
+    description: "Sum of top 3 riders' accumulated times per team",
+    teamBased: true,
+  },
+});
+
+/**
  * List of available cycling classification options for UI components.
  *
  * Each option pairs a classification type (from {@link CLASSIFICATION_TYPES})

@@ -36,6 +36,23 @@ class Store {
   #selectors = new Map();
 
   /**
+   * Checks if a selector exists.
+   * @param {string} selectorName - The name of the selector to check.
+   * @returns {boolean} True if the selector exists.
+   */
+  hasSelector(selectorName) {
+    return this.#selectors.has(selectorName);
+  }
+
+  /**
+   * Gets a list of all registered selector names.
+   * @returns {Array<string>} Array of selector names.
+   */
+  getAvailableSelectors() {
+    return Array.from(this.#selectors.keys());
+  }
+
+  /**
    * Returns a shallow copy of the current state.
    * @returns {State} The current state object.
    */

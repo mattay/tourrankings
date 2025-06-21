@@ -50,7 +50,7 @@ export const CLASSIFICATION_TYPES = Object.freeze({
  * Configuration object mapping each classification type to its calculation method and properties.
  *
  * @readonly
- * @type {Object<string, {label: string, calculationType: string, description: string, ageRestriction?: number, teamBased?: boolean}>}
+ * @type {Object<string, {label: string, calculationType: string, description: string, teamBased: boolean, ageRestriction?: number}>}
  */
 export const CLASSIFICATION_CONFIG = Object.freeze({
   [CLASSIFICATION_TYPES.STAGE]: {
@@ -85,8 +85,8 @@ export const CLASSIFICATION_CONFIG = Object.freeze({
     calculationType: CALCULATION_TYPES.ACCUMULATED_TIME,
     description:
       "Same as General Classification but restricted to riders under 25 years old",
-    ageRestriction: 25,
     teamBased: false,
+    ageRestriction: 25,
   },
   [CLASSIFICATION_TYPES.TEAM]: {
     label: "Team",

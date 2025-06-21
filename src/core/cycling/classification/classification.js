@@ -123,15 +123,18 @@ export const CLASSIFICATION_UI_OPTIONS = Object.entries(
 /**
  * Checks if a given classification type is valid.
  *
- * @param {string} type - The classification type to validate.
+ * @param {string} classificationType - The classification type to validate.
  * @returns {boolean} True if the type is a valid classification type, false otherwise.
  *
  * @example
  * isValidClassificationType("points"); // true
  * isValidClassificationType("foobar"); // false
  */
-export function isValidClassificationType(type) {
-  return Object.values(CLASSIFICATION_TYPES).includes(type);
+export function isValidClassificationType(classificationType) {
+  if (typeof classificationType !== "string") {
+    return null;
+  }
+  return Object.values(CLASSIFICATION_TYPES).includes(classificationType);
 }
 
 /**
@@ -145,6 +148,9 @@ export function isValidClassificationType(type) {
  * getCalculationType("general"); // "accumulated_time"
  */
 export function getCalculationType(classificationType) {
+  if (typeof classificationType !== "string") {
+    return null;
+  }
   const config = CLASSIFICATION_CONFIG[classificationType];
   return config ? config.calculationType : null;
 }
@@ -160,11 +166,14 @@ export function getCalculationType(classificationType) {
  * // Returns: {
  * //   calculationType: "accumulated_time",
  * //   description: "Same as General Classification but restricted to riders under 25 years old",
- * //   ageRestriction: 25,
  * //   teamBased: false
+ * //   ageRestriction: 25,
  * // }
  */
 export function getClassificationConfig(classificationType) {
+  if (typeof classificationType !== "string") {
+    return null;
+  }
   return CLASSIFICATION_CONFIG[classificationType] || null;
 }
 
@@ -179,6 +188,9 @@ export function getClassificationConfig(classificationType) {
  * isTeamClassification("general"); // false
  */
 export function isTeamClassification(classificationType) {
+  if (typeof classificationType !== "string") {
+    return null;
+  }
   const config = CLASSIFICATION_CONFIG[classificationType];
   return config ? config.teamBased : false;
 }
@@ -194,6 +206,9 @@ export function isTeamClassification(classificationType) {
  * getClassificationsByCalculationType("accumulated_time"); // ["general", "youth"]
  */
 export function getClassificationsByCalculationType(calculationType) {
+  if (typeof calculationType !== "string") {
+    return [];
+  }
   return Object.entries(CLASSIFICATION_CONFIG)
     .filter(([_, config]) => config.calculationType === calculationType)
     .map(([classificationType, _]) => classificationType);

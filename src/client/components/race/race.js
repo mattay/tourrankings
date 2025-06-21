@@ -3,6 +3,10 @@
 // State Managment
 import store from "../../state/storeInstance";
 import { actionSelectStage } from "../../state/actions";
+import {
+  StoreSelectorError,
+  StoreSelectorExecutionError,
+} from "../../state/errors/store";
 // Components
 import { createStageComponent } from "../stage/stage";
 import { createRiderComponent } from "../rider/rider";
@@ -161,9 +165,24 @@ export class Race {
    * @property {Array} dataRankings - Current rankings data.
    */
   updateData() {
-    this.dataStages = store.select("raceStages");
-    this.dataRiders = store.select("riders");
-    this.dataRankings = store.select("rankings");
+    try {
+      this.dataStages = store.select("raceStages");
+      this.dataRiders = store.select("riders");
+      this.dataRankings = store.select("rankings");
+    } catch (error) {
+      if (error instanceof StoreSelectorError) {
+        console.error(error.message);
+        // Handle gracefully - set defaults or show error state
+        // this.handleMissingSelector(error.context.selector);
+      } else if (error instanceof StoreSelectorExecutionError) {
+        console.error(error.message);
+        // Handle execution errors - maybe retry or use cached data
+        // this.handleSelectorExecutionError(error.context.selector);
+      } else {
+        console.error("Unexpected error updating data:", error);
+        // this.handleUnexpectedError(error);
+      }
+    }
   }
 
   /**

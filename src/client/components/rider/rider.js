@@ -81,7 +81,7 @@ export function createRiderComponent({
       .style("opacity", 1)
       .attr("class", (d) => {
         let classes = "rider";
-        if (d.abandoned) classes += " abandoned";
+        if (d.hasAbandoned) classes += " hasAbandoned";
         return classes;
       });
 

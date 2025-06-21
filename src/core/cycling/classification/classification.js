@@ -98,9 +98,10 @@ export const CLASSIFICATION_CONFIG = Object.freeze({
 
 /**
  * List of available cycling classification options for UI components.
+ * Generated from CLASSIFICATION_CONFIG to ensure consistency.
  *
- * Each option pairs a classification type (from {@link CLASSIFICATION_TYPES})
- * with a human-readable label for display purposes (e.g., in tab bars or dropdowns).
+ * Each option pairs a classification type with its human-readable label
+ * for display purposes (e.g., in tab bars or dropdowns).
  *
  * @readonly
  * @type {Array<{type: string, label: string}>}
@@ -111,15 +112,13 @@ export const CLASSIFICATION_CONFIG = Object.freeze({
  *   console.log(option.label); // e.g., "Stage"
  *   console.log(option.type);  // e.g., "stage"
  * });
- * */
-export const CLASSIFICATION_UI_OPTIONS = [
-  { type: CLASSIFICATION_TYPES.STAGE, label: "Stage" },
-  { type: CLASSIFICATION_TYPES.GENERAL, label: "General" },
-  { type: CLASSIFICATION_TYPES.POINTS, label: "Points" },
-  { type: CLASSIFICATION_TYPES.MOUNTAIN, label: "Mountain" },
-  { type: CLASSIFICATION_TYPES.YOUTH, label: "Youth" },
-  { type: CLASSIFICATION_TYPES.TEAM, label: "Team" },
-];
+ */
+export const CLASSIFICATION_UI_OPTIONS = Object.entries(
+  CLASSIFICATION_CONFIG,
+).map(([type, config]) => ({
+  type,
+  label: config.label,
+}));
 
 /**
  * Checks if a given classification type is valid.

@@ -68,8 +68,8 @@ class StoreSelectorExecutionError extends StoreError {
     const type = ERROR_CODES.STORE_SELECTOR_EXECUTION_FAILED;
     const context = {
       selectorName,
-      originalError: originalError.name,
-      originalMessage: originalError.message,
+      originalError: originalError?.name || "Unknown",
+      originalMessage: originalError?.message || "No error message",
       state: state ? Object.keys(state) : null,
       type,
     };

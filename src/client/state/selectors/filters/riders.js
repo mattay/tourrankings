@@ -94,7 +94,7 @@ export function riders(state) {
       // Work back from the last classification to find the last stage result
       for (let stage = riderClassifications.length - 1; stage >= 0; stage--) {
         riderStageStanding = riderClassifications[stage];
-        if (riderStageStanding) continue;
+        if (!riderStageStanding) continue;
 
         lastRank = riderStageStanding.rank;
         lastStage = riderStageStanding.stage;

@@ -2,6 +2,10 @@ import {
   isValidClassificationType,
   CLASSIFICATION_TYPES,
 } from "src/core/cycling/classification/classification";
+import {
+  riderCompetingIn,
+  selectedClassifications,
+} from "./utils/classifications";
 
 /**
  * @typedef {import('../../store/@types/store').State} State
@@ -38,26 +42,19 @@ export function riders(state) {
 
   const ridersWithStageRanking = [];
   const abandoned = [];
-  let classificationsRankings = [];
-
-  if (state.currentClassification === CLASSIFICATION_TYPES.STAGE) {
-    classificationsRankings = state.raceData.results;
-  } else if (
-    Object.hasOwn(state.raceData.classifications, state.currentClassification)
-  ) {
-    classificationsRankings =
-      state.raceData.classifications[state.currentClassification];
-  } else {
-    console.warn(
-      `Unhandled classification type in selector: ${state.currentClassification}`,
-    );
-  }
+  const classificationsRankings = selectedClassifications(state);
 
   // Rider bib number is used to index the rider in the Array
   for (const [bib, rider] of state.raceData.riders) {
     if (!rider) continue;
 
     const riderClassifications = classificationsRankings[bib];
+
+    // Check if rider is competing in the current classification
+    if (!riderCompetingIn(riderClassifications)) {
+      continue;
+    }
+
     let riderStageStanding = riderClassifications?.[state.currentStage] || {};
     let lastStage = state.currentStage;
     let lastRank = riderStageStanding?.rank || NaN;

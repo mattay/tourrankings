@@ -5,7 +5,7 @@ import {
 
 /**
  * @typedef {import('../../store/@types/store').State} State
- * @typedef {import('./../@types/riders').FilteredStageRider} FilteredStageRider
+ * @typedef {import('./../@types/rider').FilteredStageRider} FilteredStageRider
  */
 
 function sortAbandoned(a, b) {

@@ -3,14 +3,14 @@
 // State Managment
 import store from "../../state/storeInstance";
 import { actionSelectStage } from "../../state/actions";
+import {
+  StoreSelectorError,
+  StoreSelectorExecutionError,
+} from "../../state/errors/store";
 // Components
 import { createStageComponent } from "../stage/stage";
 import { createRiderComponent } from "../rider/rider";
 import { createRankingComponent } from "../ranking/ranking";
-import {
-  StoreSelectorError,
-  StoreSelectorExecutionError,
-} from "src/client/state/errors/store";
 // Utils
 
 /**

@@ -61,11 +61,9 @@ export function riders(state) {
     let riderStageStanding = riderClassifications?.[state.currentStage] || {};
     let lastStage = state.currentStage;
     let lastRank = riderStageStanding?.rank || NaN;
-    let hasAbandoned = false;
-
     let newRider = {
       ...rider,
-      hasAbandoned,
+      hasAbandoned: false,
       lastStage,
       stageRankings: {
         result: lastRank,
@@ -80,7 +78,7 @@ export function riders(state) {
         `No classifications found for rider ${bib} ${rider.rider}.`,
         "Rider may have abandoned the race",
       );
-      hasAbandoned = true;
+      newRider.hasAbandoned = true;
     } else if (!riderClassifications) {
       continue;
     }
@@ -106,9 +104,8 @@ export function riders(state) {
             rider.bib,
             rider.rider,
           );
-          hasAbandoned = true;
           newRider.lastStage = lastStage;
-          newRider.hasAbandoned = hasAbandoned;
+          newRider.hasAbandoned = true;
           abandoned.push(newRider);
           break;
         } else if (lastRank) {
@@ -116,7 +113,7 @@ export function riders(state) {
         }
       }
       // Catch the last stage if we don't have results yet
-      if (!hasAbandoned) {
+      if (!newRider.hasAbandoned) {
         ridersWithStageRanking.push(newRider);
       }
       // We need a way to indicate that we don't have results

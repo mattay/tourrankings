@@ -8,6 +8,12 @@ import {
  * @typedef {import('./../@types/rider').FilteredStageRider} FilteredStageRider
  */
 
+/**
+ * Sorts abandoned riders by last stage completed, then by bib number
+ * @param {FilteredStageRider} a - First rider to compare
+ * @param {FilteredStageRider} b - Second rider to compare
+ * @returns {number} Comparison result for sorting
+ */
 function sortAbandoned(a, b) {
   const compared = b.lastStage - a.lastStage;
   if (compared == 0) {

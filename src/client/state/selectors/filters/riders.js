@@ -53,7 +53,7 @@ export function riders(state) {
     );
   }
 
-  // Rider bib number is user to index the rider in the Array
+  // Rider bib number is used to index the rider in the Array
   for (const [bib, rider] of state.raceData.riders) {
     if (!rider) continue;
 
@@ -99,7 +99,7 @@ export function riders(state) {
         lastRank = riderStageStanding.rank;
         lastStage = riderStageStanding.stage;
         newRider.stageRankings.result = lastRank;
-        // Find last stage resutls where ranking is not a number
+        // Find last stage results where ranking is not a number
         if (isNaN(lastRank)) {
           console.warn(
             "Rider may have abandoned the race",

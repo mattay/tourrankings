@@ -2,6 +2,12 @@
  * @typedef {import('./@types/store').State} State
  */
 
+import {
+  StoreSelectorError,
+  StoreSelectorExecutionError,
+  StoreSelectorRegistrationError,
+} from "../errors/store";
+
 /**
  * Simple state management for the application.
  * Provides methods to get, set, and subscribe to state changes,
@@ -98,6 +104,28 @@ class Store {
    * @returns {Store} The store instance (for chaining).
    */
   registerSelector(selectorName, selectorFn) {
+    // Validation
+    if (typeof selectorName !== "string" || selectorName.trim() === "") {
+      throw new StoreSelectorRegistrationError(
+        selectorName,
+        "Selector name must be a non-empty string",
+      );
+    }
+
+    if (typeof selectorFn !== "function") {
+      throw new StoreSelectorRegistrationError(
+        selectorName,
+        "Selector must be a function",
+      );
+    }
+
+    if (this.hasSelector(selectorName)) {
+      throw new StoreSelectorRegistrationError(
+        selectorName,
+        "Selector with this name already exists",
+      );
+    }
+
     this.#selectors.set(selectorName, selectorFn);
     return this;
   }
@@ -121,9 +149,14 @@ class Store {
   select(selectorName) {
     const selector = this.#selectors.get(selectorName);
     if (!selector) {
-      throw new Error(`Selector "${selectorName}" not found`);
+      throw new StoreSelectorError(selectorName, this.getAvailableSelectors());
     }
-    return selector(this.#state);
+
+    try {
+      return selector(this.#state);
+    } catch (error) {
+      throw new StoreSelectorExecutionError(selectorName, error, this.#state);
+    }
   }
 }
 

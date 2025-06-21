@@ -133,3 +133,68 @@ export const CLASSIFICATION_UI_OPTIONS = Object.entries(
 export function isValidClassificationType(type) {
   return Object.values(CLASSIFICATION_TYPES).includes(type);
 }
+
+/**
+ * Gets the calculation type for a given classification.
+ *
+ * @param {string} classificationType - The classification type to get calculation info for.
+ * @returns {string|null} The calculation type, or null if classification type is invalid.
+ *
+ * @example
+ * getCalculationType("points"); // "accumulated_points"
+ * getCalculationType("general"); // "accumulated_time"
+ */
+export function getCalculationType(classificationType) {
+  const config = CLASSIFICATION_CONFIG[classificationType];
+  return config ? config.calculationType : null;
+}
+
+/**
+ * Gets the full configuration for a given classification type.
+ *
+ * @param {string} classificationType - The classification type to get config for.
+ * @returns {Object|null} The classification configuration object, or null if invalid.
+ *
+ * @example
+ * getClassificationConfig("youth");
+ * // Returns: {
+ * //   calculationType: "accumulated_time",
+ * //   description: "Same as General Classification but restricted to riders under 25 years old",
+ * //   ageRestriction: 25,
+ * //   teamBased: false
+ * // }
+ */
+export function getClassificationConfig(classificationType) {
+  return CLASSIFICATION_CONFIG[classificationType] || null;
+}
+
+/**
+ * Checks if a classification is team-based.
+ *
+ * @param {string} classificationType - The classification type to check.
+ * @returns {boolean} True if the classification is team-based, false otherwise.
+ *
+ * @example
+ * isTeamClassification("team"); // true
+ * isTeamClassification("general"); // false
+ */
+export function isTeamClassification(classificationType) {
+  const config = CLASSIFICATION_CONFIG[classificationType];
+  return config ? config.teamBased : false;
+}
+
+/**
+ * Gets classifications that use a specific calculation type.
+ *
+ * @param {string} calculationType - The calculation type to filter by.
+ * @returns {string[]} Array of classification types that use the specified calculation method.
+ *
+ * @example
+ * getClassificationsByCalculationType("accumulated_points"); // ["points", "mountain"]
+ * getClassificationsByCalculationType("accumulated_time"); // ["general", "youth"]
+ */
+export function getClassificationsByCalculationType(calculationType) {
+  return Object.entries(CLASSIFICATION_CONFIG)
+    .filter(([_, config]) => config.calculationType === calculationType)
+    .map(([classificationType, _]) => classificationType);
+}

@@ -132,7 +132,7 @@ export const CLASSIFICATION_UI_OPTIONS = Object.entries(
  */
 export function isValidClassificationType(classificationType) {
   if (typeof classificationType !== "string") {
-    return null;
+    return false;
   }
   return Object.values(CLASSIFICATION_TYPES).includes(classificationType);
 }
@@ -189,7 +189,7 @@ export function getClassificationConfig(classificationType) {
  */
 export function isTeamClassification(classificationType) {
   if (typeof classificationType !== "string") {
-    return null;
+    return false;
   }
   const config = CLASSIFICATION_CONFIG[classificationType];
   return config ? config.teamBased : false;

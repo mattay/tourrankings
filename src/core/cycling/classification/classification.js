@@ -1,4 +1,23 @@
 /**
+ * Enum-like object containing all valid cycling classification calculation types.
+ *
+ * Defines how each classification is calculated and accumulated throughout a race.
+ *
+ * @readonly
+ * @enum {string}
+ * @property {string} STAGE_POSITION - Based on finish line position for individual stages
+ * @property {string} ACCUMULATED_POINTS - Points collected at designated locations during/end of stages
+ * @property {string} ACCUMULATED_TIME - Total time with bonifications, accumulated across stages
+ * @property {string} TEAM_TIME - Sum of top 3 riders' times per team
+ */
+export const CALCULATION_TYPES = Object.freeze({
+  STAGE_POSITION: "stage_position",
+  ACCUMULATED_POINTS: "accumulated_points",
+  ACCUMULATED_TIME: "accumulated_time",
+  TEAM_TIME: "team_time",
+});
+
+/**
  * Enum-like object containing all valid cycling classification types.
  *
  * The keys are semantic identifiers, and the values are the string representations

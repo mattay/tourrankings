@@ -86,6 +86,15 @@ class Store {
   }
 
   /**
+   * Removes a selector from the store.
+   * @param {string} selectorName - The name of the selector to remove.
+   * @returns {boolean} True if the selector was removed, false if it didn't exist.
+   */
+  unregisterSelector(selectorName) {
+    return this.#selectors.delete(selectorName);
+  }
+
+  /**
    * Retrieves processed data using a registered selector.
    * @param {string} selectorName - The name of the selector to use.
    * @returns {any} The result of the selector function.

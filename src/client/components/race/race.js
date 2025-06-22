@@ -166,9 +166,9 @@ export class Race {
    */
   updateData() {
     try {
-      this.dataStages = store.select("raceStages");
-      this.dataRiders = store.select("riders");
-      this.dataRankings = store.select("rankings");
+      this.dataStages = store.select("raceStages", []);
+      this.dataRiders = store.select("riders", []);
+      this.dataRankings = store.select("rankings", []);
     } catch (error) {
       if (error instanceof StoreSelectorError) {
         console.error(error.message);

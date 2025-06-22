@@ -170,17 +170,14 @@ export class Race {
       this.dataRiders = store.select("riders", []);
       this.dataRankings = store.select("rankings", []);
     } catch (error) {
-      if (error instanceof StoreSelectorError) {
-        console.error(error.message);
-        // Handle gracefully - set defaults or show error state
-        // this.handleMissingSelector(error.context.selector);
-      } else if (error instanceof StoreSelectorExecutionError) {
-        console.error(error.message);
-        // Handle execution errors - maybe retry or use cached data
-        // this.handleSelectorExecutionError(error.context.selector);
+      if (
+        error instanceof StoreSelectorError ||
+        error instanceof StoreSelectorExecutionError
+      ) {
+        throw error;
       } else {
         console.error("Unexpected error updating data:", error);
-        // this.handleUnexpectedError(error);
+        // TODO handle Unexpected Error - error;
       }
     }
   }

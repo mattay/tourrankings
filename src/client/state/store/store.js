@@ -41,6 +41,10 @@ class Store {
    */
   #selectors = new Map();
 
+  constructor({ strictMode = process.env.NODE_ENV === "development" } = {}) {
+    this.strictMode = strictMode;
+  }
+
   /**
    * Checks if a selector exists.
    * @param {string} selectorName - The name of the selector to check.
@@ -137,6 +141,21 @@ class Store {
    */
   unregisterSelector(selectorName) {
     return this.#selectors.delete(selectorName);
+  }
+
+  /**
+   * Handles errors thrown by selectors.
+   * @param {StoreSelectorError|StoreSelectorError|StoreSelectorExecutionError} error - The error thrown by the selector.
+   * @param {any} fallbackValue - The value to return if the selector fails.
+   * @returns {any} The fallback value.
+   */
+  #handleSelectorError(error, fallbackValue) {
+    if (this.strictMode) {
+      throw error;
+    } else {
+      console.warn(error.message);
+      return fallbackValue;
+    }
   }
 
   /**

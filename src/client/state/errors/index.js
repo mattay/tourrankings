@@ -33,8 +33,9 @@ const ERROR_MESSAGES = Object.freeze({
 function formatMessage(code, context = {}) {
   const template = ERROR_MESSAGES[code] || `Unknown error: ${code}`;
 
-  return template.replace(/{(\w+)}/g, (match, key) => {
-    return context[key] !== undefined ? context[key] : match;
+  return template.replace(/{([\w.]+)}/g, (match, key) => {
+    const value = key.split(".").reduce((obj, prop) => obj?.[prop], context);
+    return value !== undefined ? value : match;
   });
 }
 

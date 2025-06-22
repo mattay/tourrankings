@@ -160,21 +160,29 @@ class Store {
 
   /**
    * Retrieves processed data using a registered selector.
+   * Throws in development, returns fallback in production.
+   *
    * @param {string} selectorName - The name of the selector to use.
-   * @returns {any} The result of the selector function.
-   * @throws {Error} If the selector is not found.
-
+   * @param {any} fallbackValue - The value to return if the selector is not found or fails.
+   * @returns {any} The result of the selector function or the fallback value.
+   * @throws {StoreSelectorError|StoreSelectorExecutionError} In development mode.
    */
-  select(selectorName) {
+  select(selectorName, fallbackValue = null) {
     const selector = this.#selectors.get(selectorName);
     if (!selector) {
-      throw new StoreSelectorError(selectorName, this.getAvailableSelectors());
+      return this.#handleSelectorError(
+        new StoreSelectorError(selectorName, this.getAvailableSelectors()),
+        fallbackValue,
+      );
     }
 
     try {
       return selector(this.#state);
     } catch (error) {
-      throw new StoreSelectorExecutionError(selectorName, error, this.#state);
+      return this.#handleSelectorError(
+        new StoreSelectorExecutionError(selectorName, error, this.#state),
+        fallbackValue,
+      );
     }
   }
 }

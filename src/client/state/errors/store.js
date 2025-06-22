@@ -26,7 +26,7 @@ class StoreError extends Error {
    */
   getDetailedMessage() {
     const contextStr =
-      Object.keys(this.context).length > 0
+      this.context && Object.keys(this.context).length > 0
         ? `Context: ${JSON.stringify(this.context, null, 2)}`
         : "";
 

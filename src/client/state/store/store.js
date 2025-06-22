@@ -145,7 +145,7 @@ class Store {
 
   /**
    * Handles errors thrown by selectors.
-   * @param {StoreSelectorError|StoreSelectorError|StoreSelectorExecutionError} error - The error thrown by the selector.
+   * @param {StoreSelectorError|StoreSelectorExecutionError} error - The error thrown by the selector.
    * @param {any} fallbackValue - The value to return if the selector fails.
    * @returns {any} The fallback value.
    */

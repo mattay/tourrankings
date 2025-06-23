@@ -12,6 +12,13 @@ updates:
       day: "monday"
       time: "06:00"
       timezone: "Australia/Brisbane"
+    # Use deps/ branch naming pattern
+    pull-request-branch-name:
+      separator: "/"
+    # Customize commit messages
+    commit-message:
+      prefix: "chore"
+      include: "scope"
     # Group updates by type to reduce PR noise
     groups:
       # Group all production dependencies together
@@ -60,6 +67,13 @@ updates:
       day: "monday"
       time: "06:00"
       timezone: "Australia/Brisbane"
+    # Use deps/ branch naming pattern
+    pull-request-branch-name:
+      separator: "/"
+    # Customize commit messages
+    commit-message:
+      prefix: "chore"
+      include: "scope"
     # Group GitHub Actions updates
     groups:
       github-actions:
@@ -83,6 +97,13 @@ updates:
       day: "monday"
       time: "06:00"
       timezone: "Australia/Brisbane"
+    # Use deps/ branch naming pattern
+    pull-request-branch-name:
+      separator: "/"
+    # Customize commit messages
+    commit-message:
+      prefix: "chore"
+      include: "scope"
     open-pull-requests-limit: 2
     labels:
       - "docker"

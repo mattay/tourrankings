@@ -52,6 +52,9 @@ export const stateCheckSelected = (
  * @param {boolean} riders - Check for riders data
  * @param {boolean} results - Check for results data
  * @param {boolean} classifications - Check for classifications data
+ * @returns {boolean} Returns true if all validations pass
+ * @throws {StateNotInitializedError|StatePropertyNotDefinedError|StatePropertyNotSetError} Throws an error if validation fails
+
  */
 export function stateCheckRaceData(
   state,

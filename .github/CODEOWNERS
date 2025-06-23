@@ -1,0 +1,17 @@
+# Global code owners
+* @mattay
+
+# Dependency updates
+package.json @mattay
+package-lock.json @mattay
+yarn.lock @mattay
+Dockerfile @mattay
+.github/dependabot.yml @mattay
+.github/workflows/ @mattay
+
+# Specific patterns for different file types
+*.js @mattay
+*.ts @mattay
+*.json @mattay
+*.yml @mattay
+*.yaml @mattay

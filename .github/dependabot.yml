@@ -23,25 +23,10 @@ updates:
     groups:
       # Group all production dependencies together
       production-dependencies:
-        patterns:
-          - "compression"
-          - "cors"
-          - "csv-parser"
-          - "ejs"
-          - "express"
-          - "express-rate-limit"
-          - "googleapis"
-          - "helmet"
-          - "puppeteer-core"
-      # Group development and testing dependencies
+        dependency-type: "production"
+      # Group development and testing dependencies  
       development-dependencies:
-        patterns:
-          - "@eslint/*"
-          - "@playwright/*"
-          - "@types/*"
-          - "eslint*"
-          - "globals"
-          - "yarn"
+        dependency-type: "development"
     # Only allow patch and minor updates for production dependencies
     ignore:
       - dependency-name: "*"

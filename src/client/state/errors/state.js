@@ -57,7 +57,7 @@ class StateError extends Error {
 }
 
 /**
- * Error thrown when attempting to register an invalid selector
+ * Error thrown when state is not initialized
  */
 class StateNotInitializedError extends StateError {
   /**
@@ -75,7 +75,7 @@ class StateNotInitializedError extends StateError {
 }
 
 /**
- * Error thrown when attempting to register an invalid selector
+ * Error thrown when a required state property is not defined
  */
 class StatePropertyNotDefinedError extends StateError {
   /**
@@ -95,7 +95,7 @@ class StatePropertyNotDefinedError extends StateError {
 }
 
 /**
- * Error thrown when attempting to register an invalid selector
+ * Error thrown when a required state property is not set
  */
 class StatePropertyNotSetError extends StateError {
   /**

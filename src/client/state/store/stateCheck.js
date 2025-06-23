@@ -9,7 +9,7 @@ import {
 
 /**
  * @param {State} state - The application state
- * @throws {StateNotInitializedError} Throws an error if the state is undefined, currentStage is not set, or currentClassification is not set.
+ * @throws {StateNotInitializedError} Throws an error if the state is undefined or not an object.
  */
 function validateStateInitialized(state) {
   if (!state || typeof state !== "object") {

@@ -9,6 +9,16 @@ import {
 
 /**
  * @param {State} state - The application state
+ * @throws {StateNotInitializedError} Throws an error if the state is undefined, currentStage is not set, or currentClassification is not set.
+ */
+function validateStateInitialized(state) {
+  if (!state || typeof state !== "object") {
+    throw new StateNotInitializedError(state);
+  }
+}
+
+/**
+ * @param {State} state - The application state
  * @param {boolean} stage - Check for current stage
  * @param {boolean} classification - Check for current classification
  * @throws {StateNotInitializedError|StatePropertyNotDefinedError|StatePropertyNotSetError} Throws an error if the state is undefined, currentStage is not set, or currentClassification is not set.
@@ -18,9 +28,7 @@ export const stateCheckSelected = (
   stage = false,
   classification = false,
 ) => {
-  // Check if state is undefined
-  if (!state || typeof state !== "object")
-    throw new StateNotInitializedError(state);
+  validateStateInitialized(state);
 
   // Check state properties exist
   if (!Object.hasOwn(state, "currentStage"))
@@ -51,9 +59,7 @@ export function stateCheckRaceData(
   results = false,
   classifications = false,
 ) {
-  // Check if state is undefined
-  if (!state || typeof state !== "object")
-    throw new StateNotInitializedError(state);
+  validateStateInitialized(state);
 
   // Check state properties exist
   if (!Object.hasOwn(state, "raceData"))

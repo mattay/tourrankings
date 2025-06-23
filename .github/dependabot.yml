@@ -36,12 +36,8 @@ updates:
     # Add labels for easier organization
     labels:
       - "dependencies"
-      - "automated"
-    # Auto-merge minor and patch updates for dev dependencies
-    reviewers:
-      - "mattay"
-    assignees:
-      - "mattay"
+      - "cooldown"
+      - "auto[bot]"
 
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
@@ -67,11 +63,8 @@ updates:
     open-pull-requests-limit: 3
     labels:
       - "github-actions"
-      - "automated"
-    reviewers:
-      - "mattay"  # Replace with your GitHub username
-    assignees:
-      - "mattay"  # Replace with your GitHub username
+      - "cooldown"
+      - "auto[bot]"
 
   # Enable version updates for Docker
   - package-ecosystem: "docker"
@@ -92,8 +85,5 @@ updates:
     open-pull-requests-limit: 2
     labels:
       - "docker"
-      - "automated"
-    reviewers:
-      - "mattay"  # Replace with your GitHub username
-    assignees:
-      - "mattay"  # Replace with your GitHub username
+      - "cooldown"
+      - "auto[bot]"

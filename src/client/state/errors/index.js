@@ -11,6 +11,10 @@ const ERROR_CODES = Object.freeze({
   STORE_SELECTOR_NOT_FOUND: "STORE_SELECTOR_NOT_FOUND",
   STORE_SELECTOR_EXECUTION_FAILED: "STORE_SELECTOR_EXECUTION_FAILED",
   STORE_SELECTOR_REGISTRATION_FAILED: "STORE_SELECTOR_REGISTRATION_FAILED",
+
+  STATE_NOT_INITIALIZED: "STATE_NOT_INITIALIZED",
+  STATE_PROPERTY_NOT_DEFINED: "STATE_PROPERTY_NOT_DEFINED",
+  STATE_PROPERTY_NOT_SET: "STATE_PROPERTY_NOT_SET",
 });
 
 /**
@@ -22,6 +26,11 @@ const ERROR_MESSAGES = Object.freeze({
     'Selector "{selectorName}" execution failed: {originalError.message}',
   [ERROR_CODES.STORE_SELECTOR_REGISTRATION_FAILED]:
     'Failed to register selector "{selectorName}": {reason}',
+
+  [ERROR_CODES.STATE_NOT_INITIALIZED]: "State not initialized",
+  [ERROR_CODES.STATE_PROPERTY_NOT_DEFINED]:
+    'State has no property "{property}" defined',
+  [ERROR_CODES.STATE_PROPERTY_NOT_SET]: 'State property "{property}" not set',
 });
 
 /**

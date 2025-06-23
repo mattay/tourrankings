@@ -19,7 +19,8 @@ export const stateCheckSelected = (
   classification = false,
 ) => {
   // Check if state is undefined
-  if (!state) throw new StateNotInitializedError(state);
+  if (!state || typeof state !== "object")
+    throw new StateNotInitializedError(state);
 
   // Check state properties exist
   if (!Object.hasOwn(state, "currentStage"))
@@ -51,7 +52,8 @@ export function stateCheckRaceData(
   classifications = false,
 ) {
   // Check if state is undefined
-  if (!state) throw new StateNotInitializedError(state);
+  if (!state || typeof state !== "object")
+    throw new StateNotInitializedError(state);
 
   // Check state properties exist
   if (!Object.hasOwn(state, "raceData"))

@@ -34,7 +34,7 @@ function sortAbandoned(a, b) {
 export function riders(state) {
   if (
     !state.raceData ||
-    state.currentStage == null ||
+    state.currentStage === null ||
     !isValidClassificationType(state.currentClassification)
   ) {
     return null;

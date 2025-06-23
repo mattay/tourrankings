@@ -82,7 +82,7 @@ export function stateCheckRaceData(
 
   if (
     classifications &&
-    (!state?.raceData?.classifications ||
+    (!state.raceData?.classifications ||
       !Array.isArray(state.raceData.classifications))
   ) {
     throw new StatePropertyNotSetError(state, "raceData.classifications");

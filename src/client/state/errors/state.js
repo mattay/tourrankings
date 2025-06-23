@@ -10,49 +10,18 @@ class StateError extends Error {
   /**
    * @param {string} message - Error message
    * @param {Object} state - The state object that caused the error
-   * @param {Object} [additionalContext] - Additional context data
+   * @param {Object} [context] - Additional context data
    */
-  constructor(message, state, additionalContext = {}) {
+  constructor(message, state, context = {}) {
     super(message);
     this.name = this.constructor.name;
-    // this.state = this.sanitizeState(state);
-    this.context = {
-      // ...this.extractStateContext(state),
-      ...additionalContext,
-    };
+    this.state = state;
+    this.context = context;
     this.timestamp = new Date().toISOString();
 
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, this.constructor);
     }
-  }
-
-  /**
-   * Extracts relevant context from state for logging
-   * @param {Object} state - The state object
-   * @returns {Object} State context
-   */
-  extractStateContext(state) {
-    if (!state || typeof state !== "object") {
-      return {
-        hasState: !!state,
-        stateType: typeof state,
-        stateValue: state,
-      };
-    }
-
-    return {
-      hasState: true,
-      stateKeys: Object.keys(state),
-      hasRaceData: !!state.raceData,
-      raceDataKeys: state.raceData ? Object.keys(state.raceData) : null,
-      selected: {
-        race: state.currentRace,
-        year: state.currentYear,
-        stage: state.currentStage,
-        classification: state.currentClassification,
-      },
-    };
   }
 }
 

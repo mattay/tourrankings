@@ -24,10 +24,10 @@ function validateStateInitialized(state) {
 
 /**
  * @typedef {Object} Selected
- * @property {boolean} race - Whether to check for the current race.
- * @property {boolean} year - Whether to check for the current year.
- * @property {boolean} stage - Whether to check for the current stage.
- * @property {boolean} classification - Whether to check for the current classification.
+ * @property {boolean} [race] - Whether to check for the current race.
+ * @property {boolean} [year] - Whether to check for the current year.
+ * @property {boolean} [stage] - Whether to check for the current stage.
+ * @property {boolean} [classification] - Whether to check for the current classification.
  */
 
 /**

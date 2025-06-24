@@ -53,12 +53,31 @@ export function stateCheckSelected(state, selected) {
 }
 
 /**
- * @param {State} state - The application state
- * @param {boolean} riders - Check for riders data
- * @param {boolean} results - Check for results data
- * @param {boolean} classifications - Check for classifications data
- * @returns {boolean} Returns true if all validations pass
- * @throws {StateNotInitializedError|StatePropertyNotDefinedError|StatePropertyNotSetError} Throws an error if validation fails
+ * Validates that the state's selected classification type is valid.
+ *
+ * Checks if the value of `state.selected.classification` is a valid classification type.
+ * Throws a {@link StatePropertyValueNotValidError} if the classification is invalid.
+ *
+ * @param {State} state - The application state object containing the selected classification.
+ * @returns {true} Returns true if the classification type is valid.
+ * @throws {StatePropertyValueNotValidError} If the classification type is invalid.
+ *
+ * @example
+ * try {
+ *   stateCheckClassificationType(state);
+ * } catch (err) {
+ *   // Handle invalid classification type
+ * }
+ */
+function stateCheckClassificationType(state) {
+  const classification = state.selected.classification;
+  if (!isValidClassificationType(classification)) {
+    throw new StatePropertyValueNotValidError(
+      state,
+      "classification",
+      classification,
+    );
+  }
 
  */
 export function stateCheckRaceData(

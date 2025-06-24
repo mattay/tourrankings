@@ -1,7 +1,5 @@
-import {
-  CLASSIFICATION_TYPES,
-  isValidClassificationType,
-} from "src/core/cycling/classification/classification";
+import { stateCheckSelected } from "../../store/stateCheck";
+import { selectedClassifications } from "./utils/classifications";
 
 /**
  * @typedef {import('../../store/@types/store').State} State
@@ -15,31 +13,13 @@ import {
  * @returns {Array<FilteredStageResult|FilteredClassifications>|null}
  */
 export function rankings(state) {
-  if (
-    !state.sportData ||
-    state.selected.stage === null ||
-    !isValidClassificationType(state.selected.classification)
-  ) {
+  if (!state.sportData) {
     return null;
   }
 
-  let riderRankings = [];
-
-  if (state.selected.classification === CLASSIFICATION_TYPES.STAGE) {
-    riderRankings = state.sportData.results;
-  } else if (
-    Object.hasOwn(
-      state.sportData.classifications,
-      state.selected.classification,
-    )
-  ) {
-    riderRankings =
-      state.sportData.classifications[state.selected.classification];
-  } else {
-    console.warn(
-      `Unhandled classification type in selector: ${state.selected.classification}`,
-    );
-  }
+  // Throw an error if any of the selected properties are not valid
+  stateCheckSelected(state, { stage: true, classification: true });
+  const riderRankings = selectedClassifications(state);
 
   return riderRankings.map((rider) => {
     return !rider ? rider : rider.slice(0, state.selected.stage + 1);

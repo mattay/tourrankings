@@ -22,6 +22,12 @@ class Store {
   #state = {
     sport: "cycling",
     sportData: null,
+    previouslySelected: {
+      raceId: null,
+      year: null,
+      stage: null,
+      classification: null,
+    },
     selected: {
       raceId: null,
       year: null,

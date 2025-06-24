@@ -68,12 +68,14 @@ class tourRankingApp {
       const { raceId, year, stage, classification } = getRaceInfoFromUrlPath();
       store.setState({
         isLoading: true,
-        currentRaceId: raceID,
-        currentYear: year,
-        selected.stage: stage,
-        currentClassification: isValidClassificationType(classification)
-          ? classification
-          : CLASSIFICATION_TYPES.STAGE,
+        selected: {
+          year,
+          raceId,
+          stage,
+          classification: isValidClassificationType(classification)
+            ? classification
+            : CLASSIFICATION_TYPES.STAGE,
+        },
       });
 
       // Fetch data
@@ -81,9 +83,14 @@ class tourRankingApp {
       const processedData = parseRaceContent(rawData);
 
       // Update state and notify components
+      const previouslySelected = store.getState().selected;
       store.setState({
-        raceData: processedData,
-        selected.stage: stage || processedData.stagesCompleted,
+        sportData: processedData,
+        previouslySelected,
+        selected: {
+          ...previouslySelected,
+          stage: stage || processedData.stagesCompleted,
+        },
         isLoading: false,
       });
     } catch (error) {

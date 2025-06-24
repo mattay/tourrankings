@@ -2,16 +2,6 @@
  * @typedef {import('../../../utils/parse/raceContent/@types/raceContent').RaceContent} RaceContent
  */
 
-// /**
-//  * @typedef {Object} RaceData
-//  * @property {Object} race -
-//  * @property {Array<Object>} stages -
-//  * @property {number} stagesCompleted -
-//  * @property {Map<Object>} teams -
-//  * @property {Map<Object>} riders -
-//  * @property {Array<Object>} results -
-//  */
-
 /**
  * @typedef {Object} Selected
  * @property {?string} raceId - The current race identifier.
@@ -24,6 +14,7 @@
  * @typedef {Object} State
  * @property {?string} sport - The sport identifier.
  * @property {?RaceContent} sportData - Data related to the race.
+ * @property {Selected} previouslySelected - Previously selected data.
  * @property {Selected} selected - Selected data.
  * @property {boolean} isLoading - Loading state.
  * @property {?Error|string} error - Error information, if any.

@@ -8,6 +8,7 @@ export {
   StatePropertyNotSetError,
   StatePropertyValueNotValidError,
 } from "./state";
+export { SelectionClassificationNotDefinedError } from "./selector";
 
 /**
  * Predefined error codes and messages for consistency
@@ -21,6 +22,8 @@ const ERROR_CODES = Object.freeze({
   STATE_PROPERTY_NOT_DEFINED: "STATE_PROPERTY_NOT_DEFINED",
   STATE_PROPERTY_NOT_SET: "STATE_PROPERTY_NOT_SET",
   STATE_PROPERTY_VALUE_NOT_VALID: "STATE_PROPERTY_VALUE_NOT_VALID",
+
+  SELECTION_CLASSIFICATION_NOT_DEFINED: "SELECTION_CLASSIFICATION_NOT_DEFINED",
 });
 
 /**
@@ -39,6 +42,9 @@ const ERROR_MESSAGES = Object.freeze({
   [ERROR_CODES.STATE_PROPERTY_NOT_SET]: 'State property "{property}" not set',
   [ERROR_CODES.STATE_PROPERTY_VALUE_NOT_VALID]:
     'State property "{property}" value "{value}" not valid',
+
+  [ERROR_CODES.SELECTION_CLASSIFICATION_NOT_DEFINED]:
+    "Selection of classification {selection} not defined",
 });
 
 /**

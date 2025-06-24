@@ -35,7 +35,7 @@ export function riders(state) {
   if (
     !state.raceData ||
     state.selected.stage === null ||
-    !isValidClassificationType(state.currentClassification)
+    !isValidClassificationType(state.selected.classification)
   ) {
     return null;
   }
@@ -69,7 +69,7 @@ export function riders(state) {
 
     if (
       !riderClassifications &&
-      state.currentClassification === CLASSIFICATION_TYPES.STAGE
+      state.selected.classification === CLASSIFICATION_TYPES.STAGE
     ) {
       console.warn(
         `No classifications found for rider ${bib} ${rider.rider}.`,

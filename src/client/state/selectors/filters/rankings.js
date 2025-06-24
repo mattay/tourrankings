@@ -18,22 +18,23 @@ export function rankings(state) {
   if (
     !state.raceData ||
     state.selected.stage === null ||
-    !isValidClassificationType(state.currentClassification)
+    !isValidClassificationType(state.selected.classification)
   ) {
     return null;
   }
 
   let riderRankings = [];
 
-  if (state.currentClassification === CLASSIFICATION_TYPES.STAGE) {
+  if (state.selected.classification === CLASSIFICATION_TYPES.STAGE) {
     riderRankings = state.raceData.results;
   } else if (
-    Object.hasOwn(state.raceData.classifications, state.currentClassification)
+    Object.hasOwn(state.raceData.classifications, state.selected.classification)
   ) {
-    riderRankings = state.raceData.classifications[state.currentClassification];
+    riderRankings =
+      state.raceData.classifications[state.selected.classification];
   } else {
     console.warn(
-      `Unhandled classification type in selector: ${state.currentClassification}`,
+      `Unhandled classification type in selector: ${state.selected.classification}`,
     );
   }
 

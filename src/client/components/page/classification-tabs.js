@@ -41,9 +41,9 @@ export function setupClassificationTabs() {
  */
 export function updateClassificationTabs(state) {
   const currentClassification = isValidClassificationType(
-    state.currentClassification,
+    state.selected.classification,
   )
-    ? state.currentClassification
+    ? state.selected.classification
     : CLASSIFICATION_TYPES.STAGE;
 
   const activeTab = document.querySelector(

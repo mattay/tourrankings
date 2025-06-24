@@ -28,7 +28,7 @@ function validateStateInitialized(state) {
 /**
  * @param {State} state - The application state
  * @param {Selected} selected - Check for current selected
- * @throws {StateNotInitializedError|StatePropertyNotDefinedError|StatePropertyNotSetError} Throws an error if the state is undefined, currentStage is not set, or currentClassification is not set.
+ * @throws {StateNotInitializedError|StatePropertyNotDefinedError|StatePropertyNotSetError} Throws an error if the state is undefined, stage is not set, or classification is not set.
  */
 export const stateCheckSelected = (state, selected) => {
   validateStateInitialized(state);

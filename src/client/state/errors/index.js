@@ -3,6 +3,11 @@ export {
   StoreSelectorRegistrationError,
   StoreSelectorExecutionError,
 } from "./store";
+export {
+  StatePropertyNotDefinedError,
+  StatePropertyNotSetError,
+  StatePropertyValueNotValidError,
+} from "./state";
 
 /**
  * Predefined error codes and messages for consistency
@@ -15,6 +20,7 @@ const ERROR_CODES = Object.freeze({
   STATE_NOT_INITIALIZED: "STATE_NOT_INITIALIZED",
   STATE_PROPERTY_NOT_DEFINED: "STATE_PROPERTY_NOT_DEFINED",
   STATE_PROPERTY_NOT_SET: "STATE_PROPERTY_NOT_SET",
+  STATE_PROPERTY_VALUE_NOT_VALID: "STATE_PROPERTY_VALUE_NOT_VALID",
 });
 
 /**
@@ -31,6 +37,8 @@ const ERROR_MESSAGES = Object.freeze({
   [ERROR_CODES.STATE_PROPERTY_NOT_DEFINED]:
     'State has no property "{property}" defined',
   [ERROR_CODES.STATE_PROPERTY_NOT_SET]: 'State property "{property}" not set',
+  [ERROR_CODES.STATE_PROPERTY_VALUE_NOT_VALID]:
+    'State property "{property}" value "{value}" not valid',
 });
 
 /**

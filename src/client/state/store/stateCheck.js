@@ -30,22 +30,27 @@ function validateStateInitialized(state) {
  * @param {Selected} selected - Check for current selected
  * @throws {StateNotInitializedError|StatePropertyNotDefinedError|StatePropertyNotSetError} Throws an error if the state is undefined, stage is not set, or classification is not set.
  */
-export const stateCheckSelected = (state, selected) => {
+export function stateCheckSelected(state, selected) {
   validateStateInitialized(state);
 
   for (const key in selected) {
     // Check state properties exist
     if (!Object.hasOwn(state.selected, key)) {
-      throw new StatePropertyNotDefinedError(state, key);
+      throw new StatePropertyNotDefinedError(state, `selected.${key}`);
     }
     // Check values we need are set
-    if (selected[key] && state[key] == null) {
-      throw new StatePropertyNotSetError(state, key);
+    if (selected[key] && state.selected[key] == null) {
+      throw new StatePropertyNotSetError(state, `selected.${key}`);
+    }
+
+    // Check classification key is valid
+    if (key === "classification") {
+      stateCheckClassificationType(state);
     }
   }
 
   return true;
-};
+}
 
 /**
  * @param {State} state - The application state

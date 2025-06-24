@@ -33,7 +33,7 @@ function sortAbandoned(a, b) {
  */
 export function riders(state) {
   if (
-    !state.raceData ||
+    !state.sportData ||
     state.selected.stage === null ||
     !isValidClassificationType(state.selected.classification)
   ) {
@@ -45,7 +45,7 @@ export function riders(state) {
   const classificationsRankings = selectedClassifications(state);
 
   // Rider bib number is used to index the rider in the Array
-  for (const [bib, rider] of state.raceData.riders) {
+  for (const [bib, rider] of state.sportData.riders) {
     if (!rider) continue;
 
     const riderClassifications = classificationsRankings[bib];

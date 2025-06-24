@@ -71,22 +71,22 @@ export function stateCheckRaceData(
   // Check values we need are set
   if (
     riders &&
-    (!state.raceData?.riders || !Array.isArray(state.raceData.riders))
+    (!state.sportData?.riders || !Array.isArray(state.sportData.riders))
   ) {
     throw new StatePropertyNotSetError(state, "raceData.riders");
   }
 
   if (
     results &&
-    (!state.raceData?.results || !Array.isArray(state.raceData.results))
+    (!state.sportData?.results || !Array.isArray(state.sportData.results))
   ) {
     throw new StatePropertyNotSetError(state, "raceData.results");
   }
 
   if (
     classifications &&
-    (!state.raceData?.classifications ||
-      !Array.isArray(state.raceData.classifications))
+    (!state.sportData?.classifications ||
+      !Array.isArray(state.sportData.classifications))
   ) {
     throw new StatePropertyNotSetError(state, "raceData.classifications");
   }

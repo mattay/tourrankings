@@ -16,7 +16,7 @@ import {
  */
 export function rankings(state) {
   if (
-    !state.raceData ||
+    !state.sportData ||
     state.selected.stage === null ||
     !isValidClassificationType(state.selected.classification)
   ) {
@@ -26,12 +26,15 @@ export function rankings(state) {
   let riderRankings = [];
 
   if (state.selected.classification === CLASSIFICATION_TYPES.STAGE) {
-    riderRankings = state.raceData.results;
+    riderRankings = state.sportData.results;
   } else if (
-    Object.hasOwn(state.raceData.classifications, state.selected.classification)
+    Object.hasOwn(
+      state.sportData.classifications,
+      state.selected.classification,
+    )
   ) {
     riderRankings =
-      state.raceData.classifications[state.selected.classification];
+      state.sportData.classifications[state.selected.classification];
   } else {
     console.warn(
       `Unhandled classification type in selector: ${state.selected.classification}`,

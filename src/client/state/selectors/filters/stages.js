@@ -9,9 +9,9 @@
  * @returns {Array<FilteredStage>}
  */
 export function raceStages(state) {
-  if (!state.raceData || !state.selected.stage) return null;
+  if (!state.sportData || !state.selected.stage) return null;
 
-  return state.raceData.stages.reduce((results, stage) => {
+  return state.sportData.stages.reduce((results, stage) => {
     // We need to drop any empty stages
     if (stage) {
       stage.viewing = stage.stage <= state.selected.stage;

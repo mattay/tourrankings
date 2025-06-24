@@ -1,16 +1,21 @@
+import { isValidClassificationType } from "../../../core/cycling/classification/classification";
 import {
   StateNotInitializedError,
   StatePropertyNotDefinedError,
   StatePropertyNotSetError,
+  StatePropertyValueNotValidError,
 } from "../errors/state";
+
 /**
  * @typedef {import('./@types/store').State} State
  */
 
 /**
- * @param {State} state - The application state
- * @throws {StateNotInitializedError} Throws an error if the state is undefined or not an object.
- */
+ * Validates that the application state is initialized and is an object.
+ *
+ * @param {State} state - The application state to validate.
+ * @throws {StateNotInitializedError} If the state is undefined, null, or not an object
+ * */
 function validateStateInitialized(state) {
   if (!state || typeof state !== "object") {
     throw new StateNotInitializedError(state);
@@ -19,16 +24,31 @@ function validateStateInitialized(state) {
 
 /**
  * @typedef {Object} Selected
- * @param {boolean} race - Check for current race
- * @param {boolean} year - Check for current stage
- * @param {boolean} stage - Check for current stage
- * @param {boolean} classification - Check for current classification
+ * @property {boolean} race - Whether to check for the current race.
+ * @property {boolean} year - Whether to check for the current year.
+ * @property {boolean} stage - Whether to check for the current stage.
+ * @property {boolean} classification - Whether to check for the current classification.
  */
 
 /**
- * @param {State} state - The application state
- * @param {Selected} selected - Check for current selected
- * @throws {StateNotInitializedError|StatePropertyNotDefinedError|StatePropertyNotSetError} Throws an error if the state is undefined, stage is not set, or classification is not set.
+ * Validates that the required properties in `state.selected` are defined and set.
+ *
+ * For each property in the `selected` object that is `true`, this function checks:
+ *   - The property exists in `state.selected`.
+ *   - The property is not `null` or `undefined`.
+ *   - If the property is `classification`, its value is a valid classification type.
+ *
+ * @param {State} state - The application state object.
+ * @param {Selected} selected - An object specifying which properties to check.
+ * @returns {true} Returns true if all specified properties are defined and set.
+ * @throws {StateNotInitializedError} If the state is not initialized.
+ * @throws {StatePropertyNotDefinedError} If a required property is not defined in `state.selected`.
+ * @throws {StatePropertyNotSetError} If a required property is not set (null or undefined).
+ * @throws {StatePropertyValueNotValidError} If the classification value is not valid.
+ *
+ * @example
+ * // Will check that 'stage' and 'classification' are defined and set in state.selected
+ * stateCheckSelected(state, { stage: true, classification: true });
  */
 export function stateCheckSelected(state, selected) {
   validateStateInitialized(state);
@@ -79,6 +99,27 @@ function stateCheckClassificationType(state) {
     );
   }
 
+  return true;
+}
+
+/**
+ * Validates that the race data and its required sub-properties exist and are properly set in the application state.
+ *
+ * Checks for the existence of `raceData` on the state object, and optionally checks for
+ * the presence and validity of `riders`, `results`, and `classifications` arrays within `raceData`.
+ *
+ * @param {State} state - The application state object.
+ * @param {boolean} [riders=false] - Whether to validate the presence of the riders array.
+ * @param {boolean} [results=false] - Whether to validate the presence of the results array.
+ * @param {boolean} [classifications=false] - Whether to validate the presence of the classifications array.
+ * @returns {true} Returns true if all validations pass.
+ * @throws {StateNotInitializedError} If the state is not initialized or not an object.
+ * @throws {StatePropertyNotDefinedError} If the `raceData` property is missing on the state.
+ * @throws {StatePropertyNotSetError} If a required property is missing or not an array.
+ *
+ * @example
+ * // Validate that raceData and its riders and results arrays are present and valid
+ * stateCheckRaceData(state, true, true);
  */
 export function stateCheckRaceData(
   state,

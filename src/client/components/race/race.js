@@ -104,7 +104,11 @@ export class Race {
     this.unsubscribe = store.subscribe((state) => {
       this.dataViewStage = state.selected.stage;
       // Only re-render if we have race data and it's different from what we have
-      if (!state.isLoading && state.sportData) {
+      if (
+        !state.isLoading &&
+        state.sport === "cycling" &&
+        state.sportData != null
+      ) {
         //&& (!this.data || this.data !== state.sportData)
         this.updateData();
         this.resize(); // Need dimensions for setting scales

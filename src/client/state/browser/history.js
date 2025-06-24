@@ -5,13 +5,13 @@
  */
 
 export function updateUrl(state) {
-  const { currentRaceId, currentYear, stage, currentClassification } = state;
+  const { raceId, year, stage, classification } = state.selected;
 
   // Construct new URL path
-  const pathBase = `/race/${currentRaceId}/${currentYear}`;
+  const pathBase = `/race/${raceId}/${year}`;
   const pathStage = stage ? `/${stage}` : "";
   const pathClassification =
-    stage && currentClassification ? `/${currentClassification}` : "";
+    stage && classification ? `/${classification}` : "";
 
   const newPath = `${pathBase}${pathStage}${pathClassification}`;
 
@@ -19,10 +19,10 @@ export function updateUrl(state) {
     // Update URL without triggering page reload
     window.history.pushState(
       {
-        raceId: currentRaceId,
-        year: currentYear,
-        stage: stage,
-        classification: currentClassification,
+        raceId,
+        year,
+        stage,
+        classification,
       },
       "",
       newPath,

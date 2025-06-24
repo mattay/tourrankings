@@ -70,7 +70,7 @@ class tourRankingApp {
         isLoading: true,
         currentRaceId: raceID,
         currentYear: year,
-        currentStage: stage,
+        selected.stage: stage,
         currentClassification: isValidClassificationType(classification)
           ? classification
           : CLASSIFICATION_TYPES.STAGE,
@@ -83,7 +83,7 @@ class tourRankingApp {
       // Update state and notify components
       store.setState({
         raceData: processedData,
-        currentStage: stage || processedData.stagesCompleted,
+        selected.stage: stage || processedData.stagesCompleted,
         isLoading: false,
       });
     } catch (error) {

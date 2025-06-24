@@ -17,7 +17,7 @@ import {
 export function rankings(state) {
   if (
     !state.raceData ||
-    state.currentStage === null ||
+    state.selected.stage === null ||
     !isValidClassificationType(state.currentClassification)
   ) {
     return null;
@@ -38,6 +38,6 @@ export function rankings(state) {
   }
 
   return riderRankings.map((rider) => {
-    return !rider ? rider : rider.slice(0, state.currentStage + 1);
+    return !rider ? rider : rider.slice(0, state.selected.stage + 1);
   });
 }

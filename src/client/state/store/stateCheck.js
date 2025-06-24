@@ -35,7 +35,7 @@ export const stateCheckSelected = (state, selected) => {
 
   for (const key in selected) {
     // Check state properties exist
-    if (!Object.hasOwn(state, key)) {
+    if (!Object.hasOwn(state.selected, key)) {
       throw new StatePropertyNotDefinedError(state, key);
     }
     // Check values we need are set

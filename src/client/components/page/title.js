@@ -50,8 +50,8 @@ export function updatePageHeadings(state) {
     return;
   }
 
-  if (state.raceData && state.currentStage) {
-    const stage = state.raceData.stages[state.currentStage];
+  if (state.raceData && state.selected.stage) {
+    const stage = state.raceData.stages[state.selected.stage];
     if (!stage) return;
 
     if (stage.stageType === "prologue") {

@@ -34,7 +34,7 @@ function sortAbandoned(a, b) {
 export function riders(state) {
   if (
     !state.raceData ||
-    state.currentStage === null ||
+    state.selected.stage === null ||
     !isValidClassificationType(state.currentClassification)
   ) {
     return null;
@@ -55,8 +55,8 @@ export function riders(state) {
       continue;
     }
 
-    let riderStageStanding = riderClassifications?.[state.currentStage] || {};
-    let lastStage = state.currentStage;
+    let riderStageStanding = riderClassifications?.[state.selected.stage] || {};
+    let lastStage = state.selected.stage;
     let lastRank = riderStageStanding?.rank || NaN;
     let newRider = {
       ...rider,

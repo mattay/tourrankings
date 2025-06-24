@@ -5,14 +5,13 @@
  */
 
 export function updateUrl(state) {
-  const { currentRaceId, currentYear, currentStage, currentClassification } =
-    state;
+  const { currentRaceId, currentYear, stage, currentClassification } = state;
 
   // Construct new URL path
   const pathBase = `/race/${currentRaceId}/${currentYear}`;
-  const pathStage = currentStage ? `/${currentStage}` : "";
+  const pathStage = stage ? `/${stage}` : "";
   const pathClassification =
-    currentStage && currentClassification ? `/${currentClassification}` : "";
+    stage && currentClassification ? `/${currentClassification}` : "";
 
   const newPath = `${pathBase}${pathStage}${pathClassification}`;
 
@@ -22,7 +21,7 @@ export function updateUrl(state) {
       {
         raceId: currentRaceId,
         year: currentYear,
-        stage: currentStage,
+        stage: stage,
         classification: currentClassification,
       },
       "",

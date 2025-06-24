@@ -22,5 +22,10 @@ export function actionSelectStage(stage) {
   }
 
   // Update store
-  store.setState({ currentStage: stageNumber });
+  store.setState({
+    selected: {
+      ...store.getState().selected,
+      stage: stageNumber,
+    },
+  });
 }

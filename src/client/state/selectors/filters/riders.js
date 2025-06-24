@@ -6,6 +6,7 @@ import {
   riderCompetingIn,
   selectedClassifications,
 } from "./utils/classifications";
+import { stateCheckSelected } from "../../store/stateCheck";
 
 /**
  * @typedef {import('../../store/@types/store').State} State
@@ -32,13 +33,10 @@ function sortAbandoned(a, b) {
  * @returns {Array<FilteredStageRider>}
  */
 export function riders(state) {
-  if (
-    !state.sportData ||
-    state.selected.stage === null ||
-    !isValidClassificationType(state.selected.classification)
-  ) {
+  if (!state.sportData) {
     return null;
   }
+  stateCheckSelected(state, { stage: true, classification: true });
 
   const ridersWithStageRanking = [];
   const abandoned = [];

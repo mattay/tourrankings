@@ -65,7 +65,7 @@ class tourRankingApp {
   async init() {
     try {
       // Update state
-      const { raceID, year, stage, classification } = getRaceInfoFromUrlPath();
+      const { raceId, year, stage, classification } = getRaceInfoFromUrlPath();
       store.setState({
         isLoading: true,
         currentRaceId: raceID,
@@ -77,7 +77,7 @@ class tourRankingApp {
       });
 
       // Fetch data
-      const rawData = await fetchRaceData(raceID, year);
+      const rawData = await fetchRaceData(raceId, year);
       const processedData = parseRaceContent(rawData);
 
       // Update state and notify components

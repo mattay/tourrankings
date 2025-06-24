@@ -13,12 +13,18 @@
 //  */
 
 /**
+ * @typedef {Object} Selected
+ * @property {?string} raceId - The current race identifier.
+ * @property {?number} year - The current year.
+ * @property {?number} stage - The current stage identifier.
+ * @property {?string} classification - The current ranking view.
+ */
+
+/**
  * @typedef {Object} State
- * @property {?RaceContent} raceData - Data related to the race.
- * @property {?string} currentRaceId - The current race identifier.
- * @property {?number} currentYear - The current year.
- * @property {?number} currentStage - The current stage identifier.
- * @property {?string} currentClassification - The current ranking view.
+ * @property {?string} sport - The sport identifier.
+ * @property {?RaceContent} sportData - Data related to the race.
+ * @property {Selected} selected - Selected data.
  * @property {boolean} isLoading - Loading state.
  * @property {?Error|string} error - Error information, if any.
  */

@@ -20,11 +20,14 @@ class Store {
    * @type {State}
    */
   #state = {
-    raceData: null,
-    currentRaceId: null,
-    currentYear: null,
-    currentStage: null,
-    currentClassification: null,
+    sport: "cycling",
+    sportData: null,
+    selected: {
+      raceId: null,
+      year: null,
+      stage: null,
+      classification: null,
+    },
     isLoading: false,
     error: null,
   };

@@ -40,18 +40,18 @@ start_cycle() {
         echo -e "${RED}Error: Cycle number required${NC}"
         exit 1
     fi
-    
+
     local branch_name="cycle-${cycle_num}"
-    
+
     echo -e "${BLUE}🚀 Starting Shape Up Cycle ${cycle_num}${NC}"
     echo -e "${YELLOW}Creating branch: ${branch_name}${NC}"
-    
+
     # Create and switch to cycle branch from main
     git checkout main
     git pull origin main
     git checkout -b "$branch_name"
     git push -u origin "$branch_name"
-    
+
     echo -e "${GREEN}✅ Cycle ${cycle_num} started!${NC}"
     echo -e "${YELLOW}Next steps:${NC}"
     echo "  1. Start building your feature"
@@ -66,29 +66,29 @@ end_cycle() {
         echo -e "${RED}Error: Cycle number required${NC}"
         exit 1
     fi
-    
+
     local cycle_branch="cycle-${cycle_num}"
     local cooldown_branch="cooldown-${cycle_num}"
     local current_branch=$(get_current_branch)
-    
+
     if [[ "$current_branch" != "$cycle_branch" ]]; then
         echo -e "${RED}Error: Not on ${cycle_branch} branch (currently on ${current_branch})${NC}"
         exit 1
     fi
-    
+
     echo -e "${BLUE}🏁 Ending Cycle ${cycle_num} and starting Cooldown${NC}"
-    
+
     # Push final cycle changes
     git add .
     if ! git diff --cached --quiet; then
         git commit -m "End of cycle-${cycle_num}: final changes"
     fi
     git push origin "$cycle_branch"
-    
+
     # Create cooldown branch
     git checkout -b "$cooldown_branch"
     git push -u origin "$cooldown_branch"
-    
+
     echo -e "${GREEN}✅ Cooldown ${cycle_num} started!${NC}"
     echo -e "${YELLOW}Cooldown phase (2 weeks):${NC}"
     echo "  1. Bug fixes and polish only"
@@ -103,11 +103,11 @@ start_cooldown() {
         echo -e "${RED}Error: Cycle number required${NC}"
         exit 1
     fi
-    
+
     local cooldown_branch="cooldown-${cycle_num}"
-    
+
     echo -e "${BLUE}❄️  Starting Cooldown ${cycle_num}${NC}"
-    
+
     if git show-ref --verify --quiet "refs/heads/${cooldown_branch}"; then
         git checkout "$cooldown_branch"
         git pull origin "$cooldown_branch"
@@ -115,7 +115,7 @@ start_cooldown() {
         git checkout -b "$cooldown_branch"
         git push -u origin "$cooldown_branch"
     fi
-    
+
     echo -e "${GREEN}✅ Cooldown ${cycle_num} ready!${NC}"
 }
 
@@ -125,31 +125,31 @@ ship_to_production() {
         echo -e "${RED}Error: Cycle number required${NC}"
         exit 1
     fi
-    
+
     local cooldown_branch="cooldown-${cycle_num}"
     local current_branch=$(get_current_branch)
-    
+
     if [[ "$current_branch" != "$cooldown_branch" ]]; then
         echo -e "${RED}Error: Not on ${cooldown_branch} branch${NC}"
         exit 1
     fi
-    
+
     echo -e "${BLUE}🚢 Shipping Cycle ${cycle_num} to Production${NC}"
-    
+
     # Final checks
     echo -e "${YELLOW}Running final checks...${NC}"
     bun test
     bun run lint
-    
+
     # Push cooldown changes
     git push origin "$cooldown_branch"
-    
+
     # Merge to main
     git checkout main
     git pull origin main
     git merge --no-ff "$cooldown_branch" -m "Ship cycle-${cycle_num}: $(git log -1 --pretty=%B ${cooldown_branch})"
     git push origin main
-    
+
     echo -e "${GREEN}✅ Cycle ${cycle_num} shipped to production!${NC}"
     echo -e "${YELLOW}Post-ship cleanup:${NC}"
     echo "  - Production deployment will trigger automatically"
@@ -159,10 +159,10 @@ ship_to_production() {
 
 show_status() {
     local current_branch=$(get_current_branch)
-    
+
     echo -e "${BLUE}📊 Shape Up Status${NC}"
     echo -e "${YELLOW}Current branch:${NC} $current_branch"
-    
+
     if [[ "$current_branch" =~ ^cycle-([0-9]+)$ ]]; then
         local cycle_num="${BASH_REMATCH[1]}"
         echo -e "${GREEN}🔄 Active Cycle: ${cycle_num}${NC}"
@@ -182,7 +182,7 @@ show_status() {
     else
         echo -e "${RED}⚠️  Unknown branch pattern${NC}"
     fi
-    
+
     echo ""
     echo -e "${BLUE}Recent cycle branches:${NC}"
     git branch -r | grep -E "(cycle-|cooldown-)" | head -5 || echo "  No cycle branches found"
@@ -190,9 +190,9 @@ show_status() {
 
 deploy_dev() {
     local current_branch=$(get_current_branch)
-    
+
     echo -e "${BLUE}🚀 Deploying ${current_branch} to development${NC}"
-    
+
     if [[ "$current_branch" =~ ^(cycle-|cooldown-) ]]; then
         git push origin "$current_branch"
         echo -e "${GREEN}✅ Pushed to origin - GitHub Actions will deploy to dev${NC}"

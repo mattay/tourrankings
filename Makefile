@@ -1,5 +1,9 @@
 # Makefile - Simplified development commands
-.PHONY: help dev dev-docker build test lint clean deploy-dev deploy-prod cycle-start cycle-end cooldown ship status
+.PHONY: all help dev dev-docker build test lint clean \
+        deploy-dev deploy-prod logs-dev logs-prod \
+        cycle-start cycle-end cooldown ship status deploy-current
+
+all: help
 
 help: ## Show this help message
 	@echo 'Usage: make [target]'

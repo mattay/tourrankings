@@ -56,7 +56,9 @@ jobs:
     needs: [test, docker-test]
     # Deploy cycle and cooldown branches to dev environment
     if: startsWith(github.ref, 'refs/heads/cycle-') || startsWith(github.ref, 'refs/heads/cooldown-')
-    concurrency: deploy-dev
+    concurrency:
+      group: deploy-dev-${{ github.ref_name }}
+      cancel-in-progress: true
     environment: development
     steps:
       - uses: actions/checkout@v4

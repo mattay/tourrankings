@@ -144,8 +144,12 @@ ship_to_production() {
 
     # Final checks
     echo -e "${YELLOW}Running final checks...${NC}"
-    bun test
-    bun run lint
+    if command -v bun >/dev/null 2>&1; then
+        bun test
+        bun run lint
+    else
+        echo -e "${YELLOW}⚠️  Bun not found – skipping tests & lint${NC}"
+     fi
 
     # Push cooldown changes
     git push origin "$cooldown_branch"

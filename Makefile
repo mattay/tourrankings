@@ -1,5 +1,5 @@
 # Makefile - Simplified development commands
-.PHONY: help dev dev-docker build test lint clean deploy-dev deploy-prod
+.PHONY: help dev dev-docker build test lint clean deploy-dev deploy-prod cycle-start cycle-end cooldown ship status
 
 help: ## Show this help message
 	@echo 'Usage: make [target]'
@@ -51,3 +51,22 @@ backup-dev: ## Backup development data
 
 backup-prod: ## Backup production data
 	flyctl volumes show --app tourrankings
+
+# Shape Up workflow commands
+cycle-start: ## Start a new Shape Up cycle (usage: make cycle-start N=1)
+	@./scripts/shapeup.sh start-cycle $(N)
+
+cycle-end: ## End current cycle and start cooldown (usage: make cycle-end N=1)
+	@./scripts/shapeup.sh end-cycle $(N)
+
+cooldown: ## Start cooldown phase (usage: make cooldown N=1)
+	@./scripts/shapeup.sh start-cooldown $(N)
+
+ship: ## Ship cooldown to production (usage: make ship N=1)
+	@./scripts/shapeup.sh ship $(N)
+
+status: ## Show current Shape Up cycle status
+	@./scripts/shapeup.sh status
+
+deploy-current: ## Deploy current branch to dev environment
+	@./scripts/shapeup.sh deploy-dev

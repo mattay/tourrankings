@@ -36,7 +36,7 @@ get_current_branch() {
 
 start_cycle() {
     local cycle_num="$1"
-    if [[ -z "$cycle_num" ]]; then
+    if [[ ! "$cycle_num" =~ ^[0-9]+$ ]]; then
         echo -e "${RED}Error: Cycle number required${NC}"
         exit 1
     fi
@@ -66,7 +66,7 @@ start_cycle() {
 
 end_cycle() {
     local cycle_num="$1"
-    if [[ -z "$cycle_num" ]]; then
+    if [[ ! "$cycle_num" =~ ^[0-9]+$ ]]; then
         echo -e "${RED}Error: Cycle number required${NC}"
         exit 1
     fi
@@ -104,7 +104,7 @@ end_cycle() {
 
 start_cooldown() {
     local cycle_num="$1"
-    if [[ -z "$cycle_num" ]]; then
+    if [[ ! "$cycle_num" =~ ^[0-9]+$ ]]; then
         echo -e "${RED}Error: Cycle number required${NC}"
         exit 1
     fi
@@ -126,7 +126,7 @@ start_cooldown() {
 
 ship_to_production() {
     local cycle_num="$1"
-    if [[ -z "$cycle_num" ]]; then
+    if [[ ! "$cycle_num" =~ ^[0-9]+$ ]]; then
         echo -e "${RED}Error: Cycle number required${NC}"
         exit 1
     fi

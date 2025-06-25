@@ -47,7 +47,7 @@ start_cycle() {
     echo -e "${YELLOW}Creating branch: ${branch_name}${NC}"
 
     # Create and switch to cycle branch from main
-    if ! git diff --quiet || ! git diff --cached --quiet ; then
+    if ! ( git diff --quiet && git diff --cached --quiet ); then
       echo -e "${RED}Uncommitted changes on current branch – commit or stash first.${NC}"
       exit 1
     fi

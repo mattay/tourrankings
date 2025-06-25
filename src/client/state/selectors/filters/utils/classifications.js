@@ -49,11 +49,8 @@ export function selectedClassifications(state) {
  */
 export function riderCompetingIn(classification) {
   if (!Array.isArray(classification)) {
-    // throw new SelectorError("Classification data is not an array");
     return null;
   }
-
-  // console.log("riderCompetingIn", classification);
 
   return classification.some((item) => item != null);
 }

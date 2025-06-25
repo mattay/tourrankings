@@ -69,7 +69,8 @@ end_cycle() {
 
     local cycle_branch="cycle-${cycle_num}"
     local cooldown_branch="cooldown-${cycle_num}"
-    local current_branch=$(get_current_branch)
+    local current_branch
+    current_branch=$(get_current_branch)
 
     if [[ "$current_branch" != "$cycle_branch" ]]; then
         echo -e "${RED}Error: Not on ${cycle_branch} branch (currently on ${current_branch})${NC}"
@@ -127,7 +128,8 @@ ship_to_production() {
     fi
 
     local cooldown_branch="cooldown-${cycle_num}"
-    local current_branch=$(get_current_branch)
+    local current_branch
+    current_branch=$(get_current_branch)
 
     if [[ "$current_branch" != "$cooldown_branch" ]]; then
         echo -e "${RED}Error: Not on ${cooldown_branch} branch${NC}"
@@ -158,7 +160,8 @@ ship_to_production() {
 }
 
 show_status() {
-    local current_branch=$(get_current_branch)
+    local current_branch
+    current_branch=$(get_current_branch)
 
     echo -e "${BLUE}📊 Shape Up Status${NC}"
     echo -e "${YELLOW}Current branch:${NC} $current_branch"
@@ -189,7 +192,8 @@ show_status() {
 }
 
 deploy_dev() {
-    local current_branch=$(get_current_branch)
+    local current_branch
+    current_branch=$(get_current_branch)
 
     echo -e "${BLUE}🚀 Deploying ${current_branch} to development${NC}"
 

@@ -83,8 +83,28 @@ class StatePropertyNotSetError extends StateError {
   }
 }
 
+class StatePropertyValueNotValidError extends StateError {
+  /**
+   * @param {State} state - The application state
+   * @param {string} property - The selected state
+   * @param {string} value - The selected value
+   */
+  constructor(state, property, value) {
+    const type = ERROR_CODES.STATE_PROPERTY_VALUE_NOT_VALID;
+    const context = {
+      type,
+      property,
+      value,
+    };
+    const message = formatMessage(type, context);
+
+    super(message, state, context);
+  }
+}
+
 export {
   StateNotInitializedError,
   StatePropertyNotDefinedError,
   StatePropertyNotSetError,
+  StatePropertyValueNotValidError,
 };

@@ -23,7 +23,12 @@ export function actionSelectClassification(classificationType) {
     return;
   }
 
+  const previouslySelected = store.getState().selected;
   store.setState({
-    currentClassification: classificationType,
+    previouslySelected,
+    selected: {
+      ...previouslySelected,
+      classification: classificationType,
+    },
   });
 }

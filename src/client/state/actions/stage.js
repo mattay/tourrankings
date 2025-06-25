@@ -10,7 +10,7 @@ import store from "../storeInstance";
  * @returns {void}
  */
 export function actionSelectStage(stage) {
-  if (!stage && stage.stage == null) {
+  if (!stage || stage.stage === null) {
     console.warn("Stage is required");
     return;
   }
@@ -22,5 +22,12 @@ export function actionSelectStage(stage) {
   }
 
   // Update store
-  store.setState({ currentStage: stageNumber });
+  const previouslySelected = store.getState().selected;
+  store.setState({
+    previouslySelected,
+    selected: {
+      ...previouslySelected,
+      stage: stageNumber,
+    },
+  });
 }

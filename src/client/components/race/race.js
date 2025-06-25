@@ -1,8 +1,12 @@
 // import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 // State Managment
-import store from "src/client/state/storeInstance";
-import { actionSelectStage } from "src/client/state/actions";
+import store from "../../state/storeInstance";
+import { actionSelectStage } from "../../state/actions";
+import {
+  StoreSelectorError,
+  StoreSelectorExecutionError,
+} from "../../state/errors/store";
 // Components
 import { createStageComponent } from "../stage/stage";
 import { createRiderComponent } from "../rider/rider";
@@ -98,10 +102,14 @@ export class Race {
     this.initialize();
 
     this.unsubscribe = store.subscribe((state) => {
-      this.dataViewStage = state.currentStage;
+      this.dataViewStage = state.selected.stage;
       // Only re-render if we have race data and it's different from what we have
-      if (!state.isLoading && state.raceData) {
-        //&& (!this.data || this.data !== state.raceData)
+      if (
+        !state.isLoading &&
+        state.sport === "cycling" &&
+        state.sportData != null
+      ) {
+        //&& (!this.data || this.data !== state.sportData)
         this.updateData();
         this.resize(); // Need dimensions for setting scales
         this.updateScalesDomain();
@@ -161,9 +169,21 @@ export class Race {
    * @property {Array} dataRankings - Current rankings data.
    */
   updateData() {
-    this.dataStages = store.select("raceStages");
-    this.dataRiders = store.select("riders");
-    this.dataRankings = store.select("rankings");
+    try {
+      this.dataStages = store.select("raceStages", []);
+      this.dataRiders = store.select("riders", []);
+      this.dataRankings = store.select("rankings", []);
+    } catch (error) {
+      if (
+        error instanceof StoreSelectorError ||
+        error instanceof StoreSelectorExecutionError
+      ) {
+        throw error;
+      } else {
+        console.error("Unexpected error updating data:", error);
+        // TODO handle Unexpected Error - error;
+      }
+    }
   }
 
   /**

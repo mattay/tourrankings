@@ -1,10 +1,24 @@
 :root {
-  --primary-color: #2c3e50;
-  --secondary-color: #3498db;
   --color-background: #f8f7f6;
+  --color-primary: #4f4c30;
+  --color-secondary: #a3a085;
+  --color-accent: #817618;
   --color-text-primary: #4f4c30;
   --color-text-secondary: #a3a085;
   --color-text-accent: #817618;
+
+  /* Sizes - Text */
+  --size-text-small: 0.75rem; /* 12 */
+  --size-text-small-medium: 0.875rem; /* 14 */
+  --size-text-medium: 1rem; /* 16 */
+  /* Sizes - Spacing */
+  --size-extra-small: 0.25rem; /* 4 */
+  --size-small: 0.5rem; /* 8 */
+  --size-small-medium: 0.75rem; /* 12 */
+  --size-medium: 1rem; /* 16 */
+  --size-medium-large: 1.25rem; /* 20 */
+  --size-large: 1.5rem; /* 24 */
+  --size-extra-large: 2rem; /* 32 */
 }
 
 html {
@@ -173,21 +187,21 @@ button:hover {
     font-size: 1rem;
     line-height: 1;
     /* font-weight: bold; */
-    fill: var(--color-text-secondary);
+    fill: var(--color-secondary);
     transition: fill 321ms ease-in-out;
   }
 
   .stage-indicator {
     fill: var(--color-background);
     stroke-width: 2;
-    transition: stroke 210ms ease-out;
-    transition: fill 210ms ease-out;
-    /* transition: 321ms ease-in-out; */
+    transition:
+      stroke 210ms ease-out,
+      fill 210ms ease-out;
   }
 
   g:not(.raced) .stage-indicator {
     stroke-dasharray: 2, 3;
-    stroke: var(--color-text-secondary);
+    stroke: var(--color-secondary);
   }
 
   .raced {
@@ -195,27 +209,27 @@ button:hover {
 
     .stage-indicator {
       stroke-dasharray: none;
-      stroke: var(--color-text-primary);
+      stroke: var(--color-secondary);
     }
   }
 
   .raced:hover {
     text {
-      fill: var(--color-text-accent);
+      fill: var(--color-accent);
     }
     .stage-indicator {
       stroke-width: 3;
-      stroke: var(--color-text-accent);
+      stroke: var(--color-accent);
       transition: stroke 321ms ease-in;
     }
   }
 
   .viewing {
     text {
-      font-weight: bold;
+      fill: var(--color-primary);
     }
     .stage-indicator {
-      fill: var(--color-text-primary);
+      fill: var(--color-primary);
       stroke: var(--color-background);
     }
   }
@@ -223,7 +237,7 @@ button:hover {
   .viewing:hover {
     .stage-indicator {
       stroke-width: 1;
-      fill: var(--color-text-accent);
+      fill: var(--color-accent);
       transition: stroke 321ms ease-in;
     }
   }
@@ -233,9 +247,9 @@ button:hover {
   text {
     font-size: 1rem;
     line-height: 1;
-    fill: var(--color-text-secondary);
+    fill: var(--color-secondary);
   }
-  .abandoned {
+  .hasAbandoned {
     text-decoration-line: line-through;
   }
 }
@@ -251,6 +265,6 @@ button:hover {
   }
   .foreground {
     stroke-width: 2;
-    stroke: var(--color-text-secondary);
+    stroke: var(--color-secondary);
   }
 }

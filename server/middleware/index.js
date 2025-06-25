@@ -26,10 +26,7 @@ export default function setupMiddleware(app) {
    * @param {import('express').NextFunction} next
    */
   app.use((req, res, next) => {
-    logOut(
-      "Middleware",
-      `[${new Date().toISOString()}] ${req.method} ${req.url}`,
-    );
+    logOut("Middleware", `${req.method} ${req.url}`);
     next();
   });
 

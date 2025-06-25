@@ -68,8 +68,6 @@ export function raceContent(racePcsID, year = null) {
   const today = new Date();
   year = year ? year : today.getFullYear();
 
-  logOut("raceContent", `Fetching race content for ${racePcsID} ${year}`);
-
   const raceContent /** @type {RaceContent} */ = {
     race: dataService.raceDetails({ racePcsID, year }),
     stages: [],
@@ -78,10 +76,10 @@ export function raceContent(racePcsID, year = null) {
     riders: {},
     results: [],
     classifications: {
-      gc: [],
-      youth: [],
+      general: [],
       points: [],
       mountain: [],
+      youth: [],
       team: [],
     },
   };
@@ -143,24 +141,28 @@ export function raceContent(racePcsID, year = null) {
     };
   }
 
-  // TODO: Add race results and classification to race RaceContent
-  // We want to group the results by rider, ie the line
   // ---
-  // resutls: [rider : stageResult[]]
+  // results: [rider : stageResult[]]
   // classification: {type: rider[ stageClasifications[] ]}
   // ---
-  // Collect Stages
   // Results
   const rr = dataService.raceResults(raceUID);
   raceContent.results = groupStagesByRider(rr);
-
   // GC
+  const general = dataService.raceClassificationsGeneral(raceUID);
+  raceContent.classifications.general = groupStagesByRider(general);
   // Points
   const points = dataService.raceClassificationsPoints(raceUID);
-  raceContent.classifications.points = points;
+  raceContent.classifications.points = groupStagesByRider(points);
   // Mountain
+  const mountain = dataService.raceClassificationsMountain(raceUID);
+  raceContent.classifications.mountain = groupStagesByRider(mountain);
   // Youth
+  const youth = dataService.raceClassificationsYouth(raceUID);
+  raceContent.classifications.youth = youth;
   // Team
+  const team = dataService.raceClassificationsTeams(raceUID);
+  raceContent.classifications.team = team;
 
   return raceContent;
 }

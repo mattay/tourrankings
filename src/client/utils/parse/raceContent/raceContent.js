@@ -47,5 +47,6 @@ export function parseRaceContent(rawData) {
     teams,
     riders,
     results: rawData.results,
+    classifications: rawData.classifications,
   };
 }

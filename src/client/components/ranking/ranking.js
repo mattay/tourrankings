@@ -31,7 +31,8 @@ export function createRankingComponent({
 
   const createLine = d3
     .line()
-    .curve(d3.curveMonotoneX)
+    // .curve(d3.curveMonotoneX)
+    .curve(d3.curveBumpX)
     .x((d) => xScale(d.stage))
     .y((d) => yScale(d.rank));
 
@@ -107,6 +108,7 @@ export function createRankingComponent({
 
   return function rankingComponent(selection, data) {
     // Bind data with key function
+    // console.log("rankingComponent", data)
     const rankings = selection.selectAll("g.ranking").data(data, (d, i) => i);
 
     // Enter

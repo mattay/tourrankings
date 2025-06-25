@@ -1,0 +1,90 @@
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+# .github/dependabot.yml
+version: 2
+updates:
+  # Enable version updates for npm dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Australia/Brisbane"
+    # Group updates by type to reduce PR noise
+    groups:
+      # Group all production dependencies together
+      production-dependencies:
+        patterns:
+          - "compression"
+          - "cors"
+          - "csv-parser"
+          - "ejs"
+          - "express"
+          - "express-rate-limit"
+          - "googleapis"
+          - "helmet"
+          - "puppeteer-core"
+      # Group development and testing dependencies
+      development-dependencies:
+        patterns:
+          - "@eslint/*"
+          - "@playwright/*"
+          - "@types/*"
+          - "eslint*"
+          - "globals"
+          - "yarn"
+    # Only allow patch and minor updates for production dependencies
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    # Limit open PRs to avoid overwhelming the project
+    open-pull-requests-limit: 5
+    # Add labels for easier organization
+    labels:
+      - "dependencies"
+      - "automated"
+    # Auto-merge minor and patch updates for dev dependencies
+    reviewers:
+      - "mattay"
+    assignees:
+      - "mattay"
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Australia/Brisbane"
+    # Group GitHub Actions updates
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    open-pull-requests-limit: 3
+    labels:
+      - "github-actions"
+      - "automated"
+    reviewers:
+      - "mattay"  # Replace with your GitHub username
+    assignees:
+      - "mattay"  # Replace with your GitHub username
+
+  # Enable version updates for Docker
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Australia/Brisbane"
+    open-pull-requests-limit: 2
+    labels:
+      - "docker"
+      - "automated"
+    reviewers:
+      - "mattay"  # Replace with your GitHub username
+    assignees:
+      - "mattay"  # Replace with your GitHub username

@@ -1,5 +1,5 @@
-import CSVdataModel from "../dataModel_csv.js";
-import { logOut } from "src/utils/logging.js";
+import { logOut } from "../../utils/logging";
+import CSVdataModel from "../dataModel_csv";
 
 /**
  * @typedef {import('../@types/races').RaceModel} RaceModel
@@ -66,7 +66,6 @@ export class Races extends CSVdataModel {
   racePcsID(racePcsID, year) {
     logOut(this.constructor.name, `racePcsID(${racePcsID}, ${year})`, "debug");
     return this.rows.find((race) => {
-      console.log(race.racePcsID, race.year);
       return race.racePcsID === racePcsID && Number(race.year) === Number(year);
     });
   }

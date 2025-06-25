@@ -2,7 +2,7 @@
  * API client for fetching race data
  */
 
-/** @typedef {import('../utils/parse/raceContent/raceContent.d').RawRaceContent} RawRaceContent */
+/** @typedef {import('../utils/parse/raceContent/@types/raceContent').RawRaceContent} RawRaceContent */
 
 /**
  * Fetch race data from the API

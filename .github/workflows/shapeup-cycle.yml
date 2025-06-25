@@ -92,13 +92,13 @@ jobs:
 
       - name: Add cycle identifier to deployment
         run: |
-          echo "CYCLE_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+          echo "CYCLE_NAME=${GITHUB_REF_NAME}" >> "$GITHUB_ENV"
 
       - name: Deploy with cycle tag
         run: |
           flyctl deploy --config fly.dev.toml --remote-only \
             --env CYCLE_NAME=${{ env.CYCLE_NAME }} \
-            --env DEPLOYMENT_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+            --env "DEPLOYMENT_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 

@@ -59,7 +59,7 @@ export function stateCheckSelected(state, selected) {
       throw new StatePropertyNotDefinedError(state, `selected.${key}`);
     }
     // Check values we need are set
-    if (selected[key] && state.selected[key] == null) {
+    if (selected[key] && state.selected[key] === null) {
       throw new StatePropertyNotSetError(state, `selected.${key}`);
     }
 
@@ -105,8 +105,8 @@ function stateCheckClassificationType(state) {
 /**
  * Validates that the race data and its required sub-properties exist and are properly set in the application state.
  *
- * Checks for the existence of `raceData` on the state object, and optionally checks for
- * the presence and validity of `riders`, `results`, and `classifications` arrays within `raceData`.
+ * Checks for the existence of `sportData` on the state object, and optionally checks for
+ * the presence and validity of `riders`, `results`, and `classifications` arrays within `sportData`.
  *
  * @param {State} state - The application state object.
  * @param {boolean} [riders=false] - Whether to validate the presence of the riders array.
@@ -114,14 +114,14 @@ function stateCheckClassificationType(state) {
  * @param {boolean} [classifications=false] - Whether to validate the presence of the classifications array.
  * @returns {true} Returns true if all validations pass.
  * @throws {StateNotInitializedError} If the state is not initialized or not an object.
- * @throws {StatePropertyNotDefinedError} If the `raceData` property is missing on the state.
+ * @throws {StatePropertyNotDefinedError} If the `sportData` property is missing on the state.
  * @throws {StatePropertyNotSetError} If a required property is missing or not an array.
  *
  * @example
- * // Validate that raceData and its riders and results arrays are present and valid
- * stateCheckRaceData(state, true, true);
+ * // Validate that sportData and its riders and results arrays are present and valid
+ * stateCheckSportData(state, true, true);
  */
-export function stateCheckRaceData(
+export function stateCheckSportData(
   state,
   riders = false,
   results = false,
@@ -130,22 +130,22 @@ export function stateCheckRaceData(
   validateStateInitialized(state);
 
   // Check state properties exist
-  if (!Object.hasOwn(state, "raceData"))
-    throw new StatePropertyNotDefinedError(state, "raceData");
+  if (!Object.hasOwn(state, "sportData"))
+    throw new StatePropertyNotDefinedError(state, "sportData");
 
   // Check values we need are set
   if (
     riders &&
     (!state.sportData?.riders || !Array.isArray(state.sportData.riders))
   ) {
-    throw new StatePropertyNotSetError(state, "raceData.riders");
+    throw new StatePropertyNotSetError(state, "sportData.riders");
   }
 
   if (
     results &&
     (!state.sportData?.results || !Array.isArray(state.sportData.results))
   ) {
-    throw new StatePropertyNotSetError(state, "raceData.results");
+    throw new StatePropertyNotSetError(state, "sportData.results");
   }
 
   if (
@@ -153,7 +153,7 @@ export function stateCheckRaceData(
     (!state.sportData?.classifications ||
       !Array.isArray(state.sportData.classifications))
   ) {
-    throw new StatePropertyNotSetError(state, "raceData.classifications");
+    throw new StatePropertyNotSetError(state, "sportData.classifications");
   }
 
   return true;

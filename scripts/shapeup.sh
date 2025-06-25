@@ -84,7 +84,7 @@ end_cycle() {
     echo -e "${BLUE}🏁 Ending Cycle ${cycle_num} and starting Cooldown${NC}"
 
     # Push final cycle changes
-    git add .
+    git add -u
     if ! git diff --cached --quiet; then
         git commit -m "End of cycle-${cycle_num}: final changes"
     fi

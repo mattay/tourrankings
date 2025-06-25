@@ -5,9 +5,10 @@ on:
   push:
     branches:
       - main
-      - develop
+      - "cycle-*"
+      - "cooldown-*"
   pull_request:
-    branches: [main]
+    branches: [main, "cycle-*"]
 
 jobs:
   test:
@@ -53,7 +54,8 @@ jobs:
     name: Deploy to Development
     runs-on: ubuntu-latest
     needs: [test, docker-test]
-    if: github.ref == 'refs/heads/develop'
+    # Deploy cycle and cooldown branches to dev environment
+    if: startsWith(github.ref, 'refs/heads/cycle-') || startsWith(github.ref, 'refs/heads/cooldown-')
     concurrency: deploy-dev
     environment: development
     steps:

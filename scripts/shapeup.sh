@@ -157,9 +157,11 @@ ship_to_production() {
     # Merge to main
     git checkout main
     git pull origin main
+    commit_subject="$(git log -1 --pretty=%s "${cooldown_branch}")"
+    commit_body="$(git log -1 --pretty=%b "${cooldown_branch}")"
     git merge --no-ff "$cooldown_branch" \
-      -m "Ship cycle-${cycle_num}" \
-      -m "$(git log -1 --pretty=%B "${cooldown_branch}")"
+      -m "Ship cycle-${cycle_num}: ${commit_subject}" \
+      ${commit_body:+-m "$commit_body"}
     git push origin main
 
     echo -e "${GREEN}✅ Cycle ${cycle_num} shipped to production!${NC}"

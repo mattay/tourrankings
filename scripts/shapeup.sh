@@ -148,8 +148,9 @@ ship_to_production() {
         bun test
         bun run lint
     else
-        echo -e "${YELLOW}⚠️  Bun not found – skipping tests & lint${NC}"
-     fi
+        echo -e "${RED}⚠️  Bun is required to run tests & lint. Install Bun first.${NC}"
+        exit 1
+    fi
 
     # Push cooldown changes
     git push origin "$cooldown_branch"

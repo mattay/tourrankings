@@ -9,7 +9,7 @@ PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
+YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
@@ -43,7 +43,7 @@ start_cycle() {
 
     local branch_name="cycle-${cycle_num}"
 
-    echo -e "${BLUE}🚀 Starting Shape Up Cycle ${cycle_num}${NC}"
+    echo -e "${BLUE}Starting Shape Up Cycle ${cycle_num}${NC}"
     echo -e "${YELLOW}Creating branch: ${branch_name}${NC}"
 
     # Create and switch to cycle branch from main
@@ -56,7 +56,7 @@ start_cycle() {
     git checkout -b "$branch_name"
     git push -u origin "$branch_name"
 
-    echo -e "${GREEN}✅ Cycle ${cycle_num} started!${NC}"
+    echo -e "${GREEN}Cycle ${cycle_num} started!${NC}"
     echo -e "${YELLOW}Next steps:${NC}"
     echo "  1. Start building your feature"
     echo "  2. Push regularly - each push deploys to dev environment"
@@ -81,7 +81,7 @@ end_cycle() {
         exit 1
     fi
 
-    echo -e "${BLUE}🏁 Ending Cycle ${cycle_num} and starting Cooldown${NC}"
+    echo -e "${BLUE}Ending Cycle ${cycle_num} and starting Cooldown${NC}"
 
     # Push final cycle changes
     git add -u
@@ -94,7 +94,7 @@ end_cycle() {
     git checkout -b "$cooldown_branch"
     git push -u origin "$cooldown_branch"
 
-    echo -e "${GREEN}✅ Cooldown ${cycle_num} started!${NC}"
+    echo -e "${GREEN}Cooldown ${cycle_num} started!${NC}"
     echo -e "${YELLOW}Cooldown phase (2 weeks):${NC}"
     echo "  1. Bug fixes and polish only"
     echo "  2. Testing and validation"
@@ -111,7 +111,7 @@ start_cooldown() {
 
     local cooldown_branch="cooldown-${cycle_num}"
 
-    echo -e "${BLUE}❄️  Starting Cooldown ${cycle_num}${NC}"
+    echo -e "${BLUE}Starting Cooldown ${cycle_num}${NC}"
 
     if git show-ref --verify --quiet "refs/heads/${cooldown_branch}"; then
         git checkout "$cooldown_branch"
@@ -121,7 +121,7 @@ start_cooldown() {
         git push -u origin "$cooldown_branch"
     fi
 
-    echo -e "${GREEN}✅ Cooldown ${cycle_num} ready!${NC}"
+    echo -e "${GREEN}Cooldown ${cycle_num} ready!${NC}"
 }
 
 ship_to_production() {
@@ -140,7 +140,7 @@ ship_to_production() {
         exit 1
     fi
 
-    echo -e "${BLUE}🚢 Shipping Cycle ${cycle_num} to Production${NC}"
+    echo -e "${BLUE}Shipping Cycle ${cycle_num} to Production${NC}"
 
     # Final checks
     echo -e "${YELLOW}Running final checks...${NC}"
@@ -148,7 +148,7 @@ ship_to_production() {
         bun test
         bun run lint
     else
-        echo -e "${RED}⚠️  Bun is required to run tests & lint. Install Bun first.${NC}"
+        echo -e "${RED}Bun is required to run tests & lint. Install Bun first.${NC}"
         exit 1
     fi
 
@@ -165,7 +165,7 @@ ship_to_production() {
       ${commit_body:+-m "$commit_body"}
     git push origin main
 
-    echo -e "${GREEN}✅ Cycle ${cycle_num} shipped to production!${NC}"
+    echo -e "${GREEN}Cycle ${cycle_num} shipped to production!${NC}"
     echo -e "${YELLOW}Post-ship cleanup:${NC}"
     echo "  - Production deployment will trigger automatically"
     echo "  - Monitor logs: make logs-prod"
@@ -176,27 +176,27 @@ show_status() {
     local current_branch
     current_branch=$(get_current_branch)
 
-    echo -e "${BLUE}📊 Shape Up Status${NC}"
+    echo -e "${BLUE}Shape Up Status${NC}"
     echo -e "${YELLOW}Current branch:${NC} $current_branch"
 
     if [[ "$current_branch" =~ ^cycle-([0-9]+)$ ]]; then
         local cycle_num="${BASH_REMATCH[1]}"
-        echo -e "${GREEN}🔄 Active Cycle: ${cycle_num}${NC}"
+        echo -e "${GREEN}Active Cycle: ${cycle_num}${NC}"
         echo "  - Building phase (6 weeks)"
         echo "  - Dev environment: https://tourrankings-dev.fly.dev"
         echo "  - Next: $0 end-cycle ${cycle_num}"
     elif [[ "$current_branch" =~ ^cooldown-([0-9]+)$ ]]; then
         local cycle_num="${BASH_REMATCH[1]}"
-        echo -e "${YELLOW}❄️  Cooldown: ${cycle_num}${NC}"
+        echo -e "${YELLOW}Cooldown: ${cycle_num}${NC}"
         echo "  - Polish phase (2 weeks)"
         echo "  - Bug fixes and testing only"
         echo "  - Next: $0 ship ${cycle_num}"
     elif [[ "$current_branch" == "main" ]]; then
-        echo -e "${GREEN}🏠 On main branch${NC}"
+        echo -e "${GREEN}On main branch${NC}"
         echo "  - Production environment"
         echo "  - Ready to start new cycle"
     else
-        echo -e "${RED}⚠️  Unknown branch pattern${NC}"
+        echo -e "${RED}Unknown branch pattern${NC}"
     fi
 
     echo ""
@@ -208,11 +208,11 @@ deploy_dev() {
     local current_branch
     current_branch=$(get_current_branch)
 
-    echo -e "${BLUE}🚀 Deploying ${current_branch} to development${NC}"
+    echo -e "${BLUE}Deploying ${current_branch} to development${NC}"
 
     if [[ "$current_branch" =~ ^(cycle-|cooldown-) ]]; then
         git push origin "$current_branch"
-        echo -e "${GREEN}✅ Pushed to origin - GitHub Actions will deploy to dev${NC}"
+        echo -e "${GREEN}Pushed to origin - GitHub Actions will deploy to dev${NC}"
         echo -e "${YELLOW}Development URL:${NC} https://tourrankings-dev.fly.dev"
     else
         echo -e "${RED}Error: Can only deploy cycle-* or cooldown-* branches to dev${NC}"

@@ -109,8 +109,13 @@ end_cycle() {
     git push origin "$cycle_branch"
 
     # Create cooldown branch
-    git checkout -b "$cooldown_branch"
-    git push -u origin "$cooldown_branch"
+    if git show-ref --verify --quiet "refs/heads/${cooldown_branch}"; then
+        git checkout "$cooldown_branch"
+        git pull --ff-only origin "$cooldown_branch"
+    else
+        git checkout -b "$cooldown_branch"
+        git push -u origin "$cooldown_branch"
+    fi
 
     echo -e "${GREEN}Cooldown ${cycle_num} started!${NC}"
     echo -e "${YELLOW}Cooldown phase (2 weeks):${NC}"

@@ -40,7 +40,8 @@ get_current_branch() {
 
 fetch_branch() {
     local branch_name="$1"
-    git fetch --quiet origin "$branch_name":"$branch_name"
+    # Fetch if the branch exists on origin; ignore 128 when it doesn’t.
+    git fetch --quiet origin "$branch_name":"$branch_name" 2>/dev/null || true
 }
 
 start_cycle() {

@@ -159,7 +159,7 @@ export function raceContent(racePcsID, year = null) {
   raceContent.classifications.mountain = groupStagesByRider(mountain);
   // Youth
   const youth = dataService.raceClassificationsYouth(raceUID);
-  raceContent.classifications.youth = youth;
+  raceContent.classifications.youth = groupStagesByRider(youth);
   // Team
   const team = dataService.raceClassificationsTeams(raceUID);
   raceContent.classifications.team = team;

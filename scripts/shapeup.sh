@@ -34,6 +34,10 @@ get_current_branch() {
     git branch --show-current
 }
 
+fetch_branch(branch_name) {
+    git fetch --quiet origin "$branch_name":"$branch_name"
+}
+
 start_cycle() {
     local cycle_num="$1"
     if [[ ! "$cycle_num" =~ ^[0-9]+$ ]]; then
@@ -41,16 +45,23 @@ start_cycle() {
         exit 1
     fi
 
-    local branch_name="cycle-${cycle_num}"
-
-    echo -e "${BLUE}Starting Shape Up Cycle ${cycle_num}${NC}"
-    echo -e "${YELLOW}Creating branch: ${branch_name}${NC}"
-
-    # Create and switch to cycle branch from main
     if ! ( git diff --quiet && git diff --cached --quiet ); then
       echo -e "${RED}Uncommitted changes on current branch – commit or stash first.${NC}"
       exit 1
     fi
+
+
+    local branch_name="cycle-${cycle_num}"
+    fetch_branch(branch_name)
+
+    if git show-ref --verify --quiet "refs/heads/${branch_name}"; then
+      echo -e "${RED}Branch ${branch_name} already exists – Cycle already started.${NC}"
+      exit 1
+    fi
+
+    echo -e "${BLUE}Starting Shape Up Cycle ${cycle_num}${NC}"
+    echo -e "${YELLOW}Creating branch: ${branch_name}${NC}"
+    # Create and switch to cycle branch from main
     git checkout main
     git pull origin main
     git checkout -b "$branch_name"
@@ -72,7 +83,9 @@ end_cycle() {
     fi
 
     local cycle_branch="cycle-${cycle_num}"
+    fetch_branch(cycle_branch)
     local cooldown_branch="cooldown-${cycle_num}"
+    fetch_branch(cooldown_branch)
     local current_branch
     current_branch=$(get_current_branch)
 
@@ -110,6 +123,7 @@ start_cooldown() {
     fi
 
     local cooldown_branch="cooldown-${cycle_num}"
+    fetch_branch(cycle_branch)
 
     echo -e "${BLUE}Starting Cooldown ${cycle_num}${NC}"
 
@@ -132,6 +146,7 @@ ship_to_production() {
     fi
 
     local cooldown_branch="cooldown-${cycle_num}"
+    fetch_branch(cycle_branch)
     local current_branch
     current_branch=$(get_current_branch)
 

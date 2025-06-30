@@ -4,7 +4,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+# PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
 # Colors for output
 RED='\033[0;31m'
@@ -97,7 +97,6 @@ end_cycle() {
     echo -e "${BLUE}Ending Cycle ${cycle_num} and starting Cooldown${NC}"
 
     # Push final cycle changes
-    git add -u
     if ! git diff --cached --quiet; then
         git commit -m "End of cycle-${cycle_num}: final changes"
     fi

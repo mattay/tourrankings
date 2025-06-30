@@ -7,10 +7,14 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
 # Colors for output
+BLACK='\033[0;30m'
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
+MAGENTA='\033[0;35m'
+CYAN='\033[0;36m'
+LIGHTGRAY='\033[0;37m'
 NC='\033[0m' # No Color
 
 print_usage() {
@@ -192,22 +196,26 @@ show_status() {
     current_branch=$(get_current_branch)
 
     echo -e "${BLUE}Shape Up Status${NC}"
-    echo -e "${YELLOW}Current branch:${NC} $current_branch"
+    echo -e "Current branch: ${LIGHTGRAY}$current_branch${NC}"
 
     if [[ "$current_branch" =~ ^cycle-([0-9]+)$ ]]; then
         local cycle_num="${BASH_REMATCH[1]}"
-        echo -e "${GREEN}Active Cycle: ${cycle_num}${NC}"
+        echo -e "Active Cycle: ${LIGHTGRAY}${cycle_num}${NC}"
         echo "  - Building phase (6 weeks)"
         echo "  - Dev environment: https://tourrankings-dev.fly.dev"
         echo "  - Next: $0 end-cycle ${cycle_num}"
     elif [[ "$current_branch" =~ ^cooldown-([0-9]+)$ ]]; then
         local cycle_num="${BASH_REMATCH[1]}"
-        echo -e "${YELLOW}Cooldown: ${cycle_num}${NC}"
+        echo -e "Cooldown: ${LIGHTGRAY}${cycle_num}${NC}"
         echo "  - Polish phase (2 weeks)"
         echo "  - Bug fixes and testing only"
         echo "  - Next: $0 ship ${cycle_num}"
+    elif [[ "$current_branch" =~ ^bet/([a-zA-Z0-9-]+)$ ]]; then
+        local bet="${BASH_REMATCH[1]}"
+        echo -e "Bet: ${LIGHTGRAY}${bet}${NC}"
+
     elif [[ "$current_branch" == "main" ]]; then
-        echo -e "${GREEN}On main branch${NC}"
+        echo -e "${LIGHTGRAY}On main branch${NC}"
         echo "  - Production environment"
         echo "  - Ready to start new cycle"
     else
@@ -215,7 +223,7 @@ show_status() {
     fi
 
     echo ""
-    echo -e "${BLUE}Recent cycle branches:${NC}"
+    echo -e "${LIGHTGRAY}Recent cycle branches:${NC}"
     git branch -r | grep -E "(cycle-|cooldown-)" | head -5 || echo "  No cycle branches found"
 }
 
@@ -223,12 +231,12 @@ deploy_dev() {
     local current_branch
     current_branch=$(get_current_branch)
 
-    echo -e "${BLUE}Deploying ${current_branch} to development${NC}"
+    echo -e "${LIGHTGRAY}Deploying ${current_branch} to development${NC}"
 
     if [[ "$current_branch" =~ ^(cycle-|cooldown-) ]]; then
         git push origin "$current_branch"
-        echo -e "${GREEN}Pushed to origin - GitHub Actions will deploy to dev${NC}"
-        echo -e "${YELLOW}Development URL:${NC} https://tourrankings-dev.fly.dev"
+        echo -e "Pushed to origin - GitHub Actions will deploy to dev"
+        echo -e "Development URL: ${LIGHTGRAY}https://tourrankings-dev.fly.dev${NC}"
     else
         echo -e "${RED}Error: Can only deploy cycle-* or cooldown-* branches to dev${NC}"
         exit 1

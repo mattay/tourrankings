@@ -57,7 +57,7 @@ start_cycle() {
 
 
     local branch_name="cycle-${cycle_num}"
-    fetch_branch ${branch_name}
+    fetch_branch "$branch_name"
 
     if git show-ref --verify --quiet "refs/heads/${branch_name}"; then
       echo -e "${RED}Branch ${branch_name} already exists – Cycle already started.${NC}"
@@ -88,9 +88,9 @@ end_cycle() {
     fi
 
     local cycle_branch="cycle-${cycle_num}"
-    fetch_branch ${cycle_branch}
+    fetch_branch "$cycle_branch"
     local cooldown_branch="cooldown-${cycle_num}"
-    fetch_branch ${cooldown_branch}
+    fetch_branch "$cooldown_branch"
     local current_branch
     current_branch=$(get_current_branch)
 
@@ -127,7 +127,7 @@ start_cooldown() {
     fi
 
     local cooldown_branch="cooldown-${cycle_num}"
-    fetch_branch ${cooldown_branch}
+    fetch_branch "$cooldown_branch"
 
     echo -e "${BLUE}Starting Cooldown ${cycle_num}${NC}"
 
@@ -150,7 +150,7 @@ ship_to_production() {
     fi
 
     local cooldown_branch="cooldown-${cycle_num}"
-    fetch_branch ${cooldown_branch}
+    fetch_branch "$cooldown_branch"
     local current_branch
     current_branch=$(get_current_branch)
 

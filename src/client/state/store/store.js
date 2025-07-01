@@ -155,15 +155,30 @@ class Store {
   /**
    * Handles errors thrown by selectors.
    * @param {StoreSelectorError|StoreSelectorExecutionError} error - The error thrown by the selector.
-   * @param {any} fallbackValue - The value to return if the selector fails.
-   * @returns {any} The fallback value.
+   * @returns {void}
    */
-  #handleSelectorError(error, fallbackValue) {
+  #handleSelectorError(error) {
+    console.error(error.timestamp, error.context.type);
+    console.error(error.timestamp, `Selector: "${error.context.selectorName}"`);
+    if (error instanceof StoreSelectorExecutionError) {
+      console.error(error.timestamp, `Reason: ${error.context.reason}`);
+      console.error(
+        error.timestamp,
+        "Previously Selected:",
+        this.#state.previouslySelected,
+      );
+      console.error(error.timestamp, "Selected:", this.#state.selected);
+    }
+    if (error instanceof StoreSelectorError) {
+      console.error(
+        error.timestamp,
+        "Available Selectors:",
+        error.context.availableSelectors,
+      );
+    }
+
     if (this.strictMode) {
       throw error;
-    } else {
-      console.warn(error.message);
-      return fallbackValue;
     }
   }
 
@@ -174,24 +189,29 @@ class Store {
    * @param {string} selectorName - The name of the selector to use.
    * @param {any} fallbackValue - The value to return if the selector is not found or fails.
    * @returns {any} The result of the selector function or the fallback value.
-   * @throws {StoreSelectorError|StoreSelectorExecutionError} In development mode.
    */
   select(selectorName, fallbackValue = null) {
     const selector = this.#selectors.get(selectorName);
     if (!selector) {
-      return this.#handleSelectorError(
-        new StoreSelectorError(selectorName, this.getAvailableSelectors()),
-        fallbackValue,
+      const error = new StoreSelectorError(
+        selectorName,
+        this.getAvailableSelectors(),
       );
+      this.#handleSelectorError(error);
+      return fallbackValue;
     }
 
     try {
       return selector(this.#state);
-    } catch (error) {
-      return this.#handleSelectorError(
-        new StoreSelectorExecutionError(selectorName, error, this.#state),
-        fallbackValue,
+    } catch (originalError) {
+      const error = new StoreSelectorExecutionError(
+        selectorName,
+        originalError,
+        this.#state,
       );
+      this.#handleSelectorError(error);
+
+      return fallbackValue;
     }
   }
 }

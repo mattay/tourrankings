@@ -32,7 +32,7 @@ const ERROR_CODES = Object.freeze({
 const ERROR_MESSAGES = Object.freeze({
   [ERROR_CODES.STORE_SELECTOR_NOT_FOUND]: 'Selector "{selectorName}" not found',
   [ERROR_CODES.STORE_SELECTOR_EXECUTION_FAILED]:
-    'Selector "{selectorName}" execution failed: {originalError.message}',
+    'Selector "{selectorName}" execution failed: {reason}',
   [ERROR_CODES.STORE_SELECTOR_REGISTRATION_FAILED]:
     'Failed to register selector "{selectorName}": {reason}',
 

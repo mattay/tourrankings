@@ -18,7 +18,7 @@ import { CLASSIFICATION_TYPES } from "../../../../../core/cycling/classification
  * @throws {StatePropertyValueNotValidError} If the classification value is not valid.
  * @throws {SelectionClassificationNotDefinedError} When classification processing fails
  */
-export function selectedClassifications(state) {
+export function selectedClassificationsRankings(state) {
   stateCheckSelected(state, { stage: true, classification: true });
   const selectedStage = state.selected.stage;
   const selectedClassification = state.selected.classification;

@@ -4,7 +4,7 @@ import {
 } from "src/core/cycling/classification/classification";
 import {
   riderCompetingIn,
-  selectedClassifications,
+  selectedClassificationsRankings,
 } from "./utils/classifications";
 import { stateCheckSelected } from "../../store/stateCheck";
 
@@ -40,7 +40,7 @@ export function riders(state) {
 
   const ridersWithStageRanking = [];
   const abandoned = [];
-  const classificationsRankings = selectedClassifications(state);
+  const classificationsRankings = selectedClassificationsRankings(state);
 
   // Rider bib number is used to index the rider in the Array
   for (const [bib, rider] of state.sportData.riders) {

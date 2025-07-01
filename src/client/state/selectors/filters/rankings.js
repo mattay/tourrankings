@@ -1,5 +1,5 @@
 import { stateCheckSelected } from "../../store/stateCheck";
-import { selectedClassifications } from "./utils/classifications";
+import { selectedClassificationsRankings } from "./utils/classifications";
 
 /**
  * @typedef {import('../../store/@types/store').State} State
@@ -19,7 +19,7 @@ export function rankings(state) {
 
   // Throw an error if any of the selected properties are not valid
   stateCheckSelected(state, { stage: true, classification: true });
-  const riderRankings = selectedClassifications(state);
+  const riderRankings = selectedClassificationsRankings(state);
 
   return riderRankings.map((rider) => {
     return !rider ? rider : rider.slice(0, state.selected.stage + 1);

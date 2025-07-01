@@ -365,14 +365,42 @@ class DataService {
    * Retrieves mountain classification results for all stages in a specific race.
    *
    * @param {string} raceUID - The unique identifier of the race.
+   * @param {boolean} complete=false - Whether to include all teams or only those with points.
    * @returns {Array<ClassificationTeamData[]>} Array of mountain classification results, indexed by stage number.
    * @throws {Error} If the service is not initialized.
    */
-  raceClassificationsTeams(raceUID) {
-    return this._getStageClassifications(
+  raceClassificationsTeams(raceUID, complete = false) {
+    const removeProperties = new Set(["stageUID", "class"]);
+
+    const results = this._getStageClassifications(
       raceUID,
       this.classificationTeam,
       "team classification",
+    );
+
+    return complete
+      ? results
+      : results.map((stageResults) => {
+          return this.#removeProperties(removeProperties, stageResults);
+        });
+  }
+
+  /**
+   * Removes specified properties from each item in an array of data.
+   *
+   * @param {Set<string>} properties - Set of property names to remove.
+   * @param {Array<Object>} stageResults - Array of data objects.
+   * @returns {Array<Object>} Array of data objects with specified properties removed.
+   */
+  #removeProperties(properties, stageResults) {
+    if (!(properties instanceof Set)) {
+      throw new Error("Properties must be a Set");
+    }
+
+    return stageResults.map((obj) =>
+      Object.fromEntries(
+        Object.entries(obj).filter(([key]) => !properties.has(key)),
+      ),
     );
   }
 }

@@ -22,7 +22,7 @@ export function seasonRaces() {
   // Initialize grouped object
   const grouped /** @type TemporalSeasonRaces */ = {
     current: [],
-    upcomming: [],
+    upcoming: [],
     previous: [],
     future: [],
   };
@@ -51,7 +51,7 @@ export function seasonRaces() {
 
   // Extract the next upcoming race (soonest in the future)
   if (grouped.future.length > 0) {
-    grouped.upcomming = [grouped.future[0]];
+    grouped.upcoming = [grouped.future[0]];
     grouped.future = grouped.future.slice(1);
   }
 
@@ -105,7 +105,7 @@ export function raceContent(racePcsID, year = null) {
 
     stage.stage = Number(stage.stage);
     stage.raced = false;
-    stage.veiwing = false;
+    stage.viewing = false;
     if (new Date(stage.date) <= today) {
       stage.raced = true;
       // Looking for most recent stages to default to
@@ -159,7 +159,7 @@ export function raceContent(racePcsID, year = null) {
   raceContent.classifications.mountain = groupStagesByRider(mountain);
   // Youth
   const youth = dataService.raceClassificationsYouth(raceUID);
-  raceContent.classifications.youth = youth;
+  raceContent.classifications.youth = groupStagesByRider(youth);
   // Team
   const team = dataService.raceClassificationsTeams(raceUID);
   raceContent.classifications.team = team;

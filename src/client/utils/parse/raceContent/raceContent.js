@@ -1,6 +1,7 @@
 import { parseTeam } from "./teams";
 import { parseRider } from "./riders";
 import { parseClassification } from "./classifications";
+import { toMap } from "../../../../utils/map";
 
 /**
  * Process and prepare race data for visualization
@@ -9,19 +10,16 @@ import { parseClassification } from "./classifications";
  */
 export function parseRaceContent(rawData) {
   // Convert objects to Maps for better data handling
-  const riders = new Map(
-    Object.entries(rawData.riders || {}).map(([bib, rawRider]) => [
-      Number(bib),
-      parseRider(rawRider),
-    ]),
-  );
+  const riders = toMap(rawData.riders, {
+    processValue: parseRider,
+    filterNulls: true,
+    convertNumericKeys: true,
+  });
 
-  const teams = new Map(
-    Object.entries(rawData.teams || {}).map(([teamId, rawTeam]) => [
-      teamId,
-      parseTeam(rawTeam),
-    ]),
-  );
+  const teams = toMap(rawData.teams, {
+    processValue: parseTeam,
+    filterNulls: true,
+  });
 
   // Add relationships between riders and teams
   for (const rider of riders.values()) {
@@ -45,7 +43,7 @@ export function parseRaceContent(rawData) {
     stagesCompleted: rawData.stagesCompleted,
     teams,
     riders,
-    results: rawData.results,
+    results,
     classifications,
   };
 }

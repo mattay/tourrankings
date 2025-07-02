@@ -3,7 +3,7 @@ import {
   CLASSIFICATION_TYPES,
 } from "src/core/cycling/classification/classification";
 import {
-  riderCompetingIn,
+  isCompetingIn,
   selectedClassificationsRankings,
 } from "./utils/classifications";
 import { stateCheckSelected } from "../../store/stateCheck";
@@ -49,7 +49,7 @@ export function riders(state) {
     const riderClassifications = classificationsRankings[bib];
 
     // Check if rider is competing in the current classification
-    if (!riderCompetingIn(riderClassifications)) {
+    if (!isCompetingIn(riderClassifications)) {
       continue;
     }
 

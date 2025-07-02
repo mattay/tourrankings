@@ -47,7 +47,7 @@ export function selectedClassificationsRankings(state) {
  * @param {FilteredClassifications} classification - The array to check.
  * @returns {boolean} True if all elements up to the index are empty, false otherwise.
  */
-export function riderCompetingIn(classification) {
+export function isCompetingIn(classification) {
   if (!Array.isArray(classification)) {
     return null;
   }

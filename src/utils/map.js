@@ -5,7 +5,9 @@
  */
 export function toMapFromArray(arr) {
   return new Map(
-    arr.filter((obj) => obj !== null).map((obj, index) => [index, obj]),
+    arr
+      .map((obj, index) => [index, obj]) // Map first to preserve index
+      .filter(([, obj]) => obj !== null), // Then filter out nulls
   );
 }
 

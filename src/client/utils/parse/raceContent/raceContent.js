@@ -28,6 +28,11 @@ export function parseRaceContent(rawData) {
     rider.team = team; // link team to rider
   }
 
+  const results = toMap(rawData.results, {
+    filterNulls: true,
+    convertNumericKeys: true,
+  });
+
   const classifications = new Map(
     Object.entries(rawData.classifications || {}).map(
       ([classification, rawClassification]) => [

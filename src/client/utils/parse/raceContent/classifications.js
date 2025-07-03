@@ -9,7 +9,7 @@ import { toMapFromArray, toMapFromObject } from "src/utils/map";
  * Normalizes a classification value to a Map if it's an array or object.
  * Returns the value as-is if it's neither.
  * @param {Object<string, RawRaceClassifications>|Array<RawRaceClassifications>} rawClassification - The classification data to normalize.
- * @returns {Map<any, RaceClassifications>|RaceClassifications} The normalized Map or original value.
+ * @returns {Map<number|string, RaceClassifications>|RaceClassifications} The normalized Map or original value.
  */
 export function parseClassification(rawClassification) {
   if (Array.isArray(rawClassification)) {

@@ -18,7 +18,7 @@
  * RiderStageResults[stageNumber] = StageResult
  */
 /**
- * @typedef {RiderStageResults[]} RaceResults
+ * @typedef {Map<number|string, RiderStageResults>} RaceResults
  * RacerResults[riderBib][stageNumber] = StageResult
  */
 

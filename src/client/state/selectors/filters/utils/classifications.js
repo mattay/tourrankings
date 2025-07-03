@@ -11,7 +11,7 @@ import { CLASSIFICATION_TYPES } from "../../../../../core/cycling/classification
 /**
  * Retrieves the classification data for the currently selected classification type
  * @param {State} state - The application state
- * @returns {Array<FilteredStageResult|FilteredClassifications>} The classification data
+ * @returns {Map<number|string, FilteredStageResult|FilteredClassifications>} The classification data
  * @throws {StateNotInitializedError} If the state is not initialized.
  * @throws {StatePropertyNotDefinedError} If a required property is not defined in `state.selected`.
  * @throws {StatePropertyNotSetError} If a required property is not set (null or undefined).
@@ -20,26 +20,60 @@ import { CLASSIFICATION_TYPES } from "../../../../../core/cycling/classification
  */
 export function selectedClassificationsRankings(state) {
   stateCheckSelected(state, { stage: true, classification: true });
-  const selectedStage = state.selected.stage;
-  const selectedClassification = state.selected.classification;
+  stateCheckSelected(state, { stage: true, classification: true });
 
+  const { stage: selectedStage, classification: selectedClassification } =
+    state.selected;
   const { results, classifications } = state.sportData;
 
-  // Stage Results
+  // Determine which data source to use based on classification type
+  const rankingsData = getRankingsDataSource(
+    selectedClassification,
+    results,
+    classifications,
+  );
+
+  // Transform data to include only rankings up to selected stage
+  return createStageFilteredRankings(rankingsData, selectedStage);
+}
+
+/**
+ * Gets the appropriate data source for the selected classification
+ * @param {string} selectedClassification - The classification type
+ * @param {Map} results - Stage results data
+ * @param {Map} classifications - Classification data by type
+ * @returns {Map} The appropriate rankings data source
+ * @throws {SelectionClassificationNotDefinedError} When classification doesn't exist
+ */
+function getRankingsDataSource(
+  selectedClassification,
+  results,
+  classifications,
+) {
   if (selectedClassification === CLASSIFICATION_TYPES.STAGE) {
-    return results.map((rider) => {
-      return !rider ? null : rider.slice(0, selectedStage + 1);
-    });
+    return results;
   }
 
-  // Classifications Rankings
-  if (Object.hasOwn(classifications, selectedClassification)) {
-    return classifications[selectedClassification].map((rider) => {
-      return !rider ? null : rider.slice(0, selectedStage + 1);
-    });
+  if (classifications.has(selectedClassification)) {
+    return classifications.get(selectedClassification);
   }
 
   throw new SelectionClassificationNotDefinedError(selectedClassification);
+}
+
+/**
+ * Creates a new map with rider data filtered to selected stage
+ * @param {Map} rankingsData - Source rankings data
+ * @param {number} selectedStage - Stage number to filter up to
+ * @returns {Map<string, Array|null>} Filtered rankings map
+ */
+function createStageFilteredRankings(rankingsData, selectedStage) {
+  return new Map(
+    Array.from(rankingsData.entries()).map(([riderId, riderData]) => [
+      riderId,
+      riderData ? riderData.slice(0, selectedStage + 1) : null,
+    ]),
+  );
 }
 
 /**

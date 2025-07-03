@@ -191,6 +191,5 @@ export const rankingLabels = (state) => {
 
   const finalList = [...activeParticipants, ...sortedAbandoned];
 
-  console.table(finalList);
   return finalList;
 };

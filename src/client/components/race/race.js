@@ -3,10 +3,6 @@
 // State Managment
 import store from "../../state/storeInstance";
 import { actionSelectStage } from "../../state/actions";
-import {
-  StoreSelectorError,
-  StoreSelectorExecutionError,
-} from "../../state/errors/store";
 // Components
 import { createStageComponent } from "../stage/stage";
 import { createRiderComponent } from "../rider/rider";
@@ -22,7 +18,6 @@ import { createRankingComponent } from "../ranking/ranking";
  */
 
 /** @typedef {import('../../state/selectors/@types/stage').FilteredStage} FilteredStage */
-/** @typedef {import('../../state/selectors/@types/rider').FilteredStageRider} FilteredStageRider */
 /** @typedef {import('../../state/selectors/@types/result').FilteredStageResult} FilteredStageResult */
 
 /** @typedef {import('../../state/selectors/filters/rankingLabels').RankingLabel} RankingLabel */
@@ -61,8 +56,6 @@ const DEFAULT_OPTIONS = {
 export class Race {
   /** @type {Array<FilteredStage>} */
   dataStages = [];
-  /** @type {Array<FilteredStageRider>} */ // Adjust path/type as needed
-  dataRiders = [];
   /** @type {RankingLabel[]} */ // Adjust path/type as needed
   dataLabels = [];
   /** @type {Array<FilteredStageResult>} */ // Adjust path/type as needed
@@ -167,14 +160,13 @@ export class Race {
   /**
    * Updates the data properties of the visualization from the store.
    * @property {Array} dataStages - Current stages data.
-   * @property {Array} dataRiders - Current riders data.
+   * @property {Array} dataLabels - Current label data.
    * @property {Array} dataRankings - Current rankings data.
    */
   updateData() {
     this.dataStages = store.select("raceStages", []);
     this.dataLabels = store.select("rankingLabels", []);
-    // this.dataRiders = store.select("riders", []);
-    // this.dataRankings = store.select("rankings", []);
+    this.dataRankings = store.select("rankings", []);
   }
 
   /**

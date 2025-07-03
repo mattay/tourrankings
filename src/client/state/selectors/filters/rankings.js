@@ -21,7 +21,5 @@ export function rankings(state) {
   stateCheckSelected(state, { stage: true, classification: true });
   const riderRankings = selectedClassificationsRankings(state);
 
-  return riderRankings.map((rider) => {
-    return !rider ? rider : rider.slice(0, state.selected.stage + 1);
-  });
+  return Array.from(riderRankings.values());
 }

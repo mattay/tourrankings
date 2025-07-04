@@ -4,7 +4,7 @@ import { setupSelectors } from "./state/selectors";
 import { fetchRaceData } from "./api/index.js";
 // Utils
 import { getRaceInfoFromUrlPath } from "./state/browser/location";
-import { parseRaceContent } from "./utils/parse";
+import { parseRaceContent } from "./domain/cycling/parse";
 // Components
 import { Race } from "./components/race/race.js";
 import { updatePageHeadings } from "./components/page/title";

@@ -1,7 +1,5 @@
-import { parseTeam } from "./teams";
 import { parseRider } from "./riders";
-import { parseClassification } from "./classifications";
-import { toMap } from "../../../../utils/map";
+import { toMap } from "../../../../../utils/map";
 
 /**
  * Process and prepare race data for visualization
@@ -17,7 +15,6 @@ export function parseRaceContent(rawData) {
   });
 
   const teams = toMap(rawData.teams, {
-    processValue: parseTeam,
     filterNulls: true,
   });
 
@@ -37,7 +34,10 @@ export function parseRaceContent(rawData) {
     Object.entries(rawData.classifications || {}).map(
       ([classification, rawClassification]) => [
         classification,
-        parseClassification(rawClassification),
+        toMap(rawClassification, {
+          filterNulls: true,
+          convertNumericKeys: true,
+        }),
       ],
     ),
   );

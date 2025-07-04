@@ -19,7 +19,7 @@
  */
 /**
  * @typedef {Map<number|string, RiderStageResults>} RaceResults
- * RacerResults[riderBib][stageNumber] = StageResult
+ * RaceResults.get(riderBib)[stageNumber] = StageResult
  */
 
 export {};

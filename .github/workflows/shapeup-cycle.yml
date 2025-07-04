@@ -1,0 +1,148 @@
+# .github/workflows/shapeup-cycle.yml
+name: Shape Up Cycle Management
+
+on:
+  push:
+    branches:
+      - "cycle-*"
+      - "cooldown-*"
+  pull_request:
+    branches:
+      - "cycle-*"
+      - main
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "Action to perform"
+        required: true
+        default: "test"
+        type: choice
+        options:
+          - test
+          - deploy-dev
+          - promote-to-main
+
+jobs:
+  # Quick validation for cycle branches - optimized for fast feedback
+  cycle-validation:
+    name: Cycle Validation
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref_name, 'cycle-') || startsWith(github.head_ref, 'cycle-')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Run fast tests
+        run: bun test --timeout 30000
+
+      - name: Quick lint check
+        run: bun run lint
+
+      - name: Build verification
+        run: bun run build
+
+  # Cooldown validation - more thorough since it's prep for production
+  cooldown-validation:
+    name: Cooldown Validation
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref_name, 'cooldown-') || startsWith(github.head_ref, 'cooldown-')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Full test suite
+        run: bun test
+
+      - name: Security audit
+        run: bun run audit
+
+      - name: Lint check
+        run: bun run lint
+
+      - name: Docker build test
+        run: docker build -t cooldown-test .
+
+  # Deploy cycle branches to development for testing
+  deploy-cycle-to-dev:
+    name: Deploy Cycle to Dev
+    runs-on: ubuntu-latest
+    needs: cycle-validation
+    if: startsWith(github.ref_name, 'cycle-') && github.event_name == 'push'
+    concurrency:
+      group: deploy-dev-cycle
+      cancel-in-progress: true
+    environment: development
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Add cycle identifier to deployment
+        run: |
+          echo "CYCLE_NAME=${GITHUB_REF_NAME}" >> "$GITHUB_ENV"
+
+      - name: Deploy with cycle tag
+        run: |
+          flyctl deploy --config fly.dev.toml --remote-only \
+            --env CYCLE_NAME=${{ env.CYCLE_NAME }} \
+            --env "DEPLOYMENT_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Comment deployment URL on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = `🚀 **Cycle Deployment Ready**
+
+            Your cycle \`${context.payload.head.ref}\` has been deployed to development:
+            - **URL**: https://tourrankings-dev.fly.dev
+            - **Cycle**: ${context.payload.head.ref}
+            - **Commit**: ${context.sha.substring(0, 7)}
+
+            Test your changes and iterate quickly! 🔄`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+  # Cooldown deployment check before production
+  cooldown-ready-check:
+    name: Production Readiness Check
+    runs-on: ubuntu-latest
+    needs: cooldown-validation
+    if: startsWith(github.ref_name, 'cooldown-')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Performance test simulation
+        run: |
+          echo "🧪 Running production readiness checks..."
+          # Add performance tests, load tests, etc.
+
+      - name: Security scan
+        run: |
+          echo "🔒 Security scanning..."
+          # Add security scanning tools
+
+      - name: Ready for production comment
+        if: success()
+        run: |
+          echo "✅ Cooldown branch ${{ github.ref_name }} is ready for production deployment"

@@ -20,7 +20,6 @@ import { CLASSIFICATION_TYPES } from "../../../../../core/cycling/classification
  */
 export function selectedClassificationsRankings(state) {
   stateCheckSelected(state, { stage: true, classification: true });
-  stateCheckSelected(state, { stage: true, classification: true });
 
   const { stage: selectedStage, classification: selectedClassification } =
     state.selected;

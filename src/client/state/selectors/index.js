@@ -2,7 +2,6 @@ import store from "../storeInstance";
 import { rankings } from "./filters/rankings";
 import { rankingLabels } from "./filters/rankingLabels";
 import { raceStages } from "./filters/stages";
-import { riders } from "./filters/riders";
 
 /**
  * Registers selector functions on the provided store instance.
@@ -13,8 +12,6 @@ import { riders } from "./filters/riders";
  */
 export function setupSelectors() {
   store.registerSelector("raceStages", raceStages);
-
-  store.registerSelector("riders", riders);
 
   store.registerSelector("rankingLabels", rankingLabels);
 

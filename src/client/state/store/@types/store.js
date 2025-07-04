@@ -1,5 +1,5 @@
 /**
- * @typedef {import('../../../utils/parse/raceContent/@types/raceContent').RaceContent} RaceContent
+ * @typedef {import('../../../domain/cycling/parse/raceContent/@types/raceContent').RaceContent} RaceContent
  */
 
 /**

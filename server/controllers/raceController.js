@@ -80,7 +80,7 @@ export function raceContent(racePcsID, year = null) {
       points: [],
       mountain: [],
       youth: [],
-      team: [],
+      team: {},
     },
   };
 
@@ -162,44 +162,74 @@ export function raceContent(racePcsID, year = null) {
   raceContent.classifications.youth = groupStagesByRider(youth);
   // Team
   const team = dataService.raceClassificationsTeams(raceUID);
-  raceContent.classifications.team = team;
+  raceContent.classifications.team = groupStagesByTeam(team);
 
   return raceContent;
 }
 
 /**
- * Regroup stage: rider results -> rider: stage results
- * @param {StagesRiderResults} raceResults
- * @returns {RidersStageResults}
+ * Generic function to regroup stage-based results by a specified entity key
+ * @param {Iterable<Array<Object>>} raceResults - Iterable of arrays of stage results
+ * @param {string} keyProperty - Property name to group by (e.g., 'bib', 'team')
+ * @param {string} entityType - Type of entity for error logging (e.g., 'riders', 'teams')
+ * @returns {Object<string|number, Array<Object>>} - Object mapping entity keys to arrays of stage results
  */
-function groupStagesByRider(raceResults) {
-  const ridersByBib = [];
+function groupStagesByEntity(raceResults, keyProperty, entityType) {
+  const entitiesByKey = keyProperty === "bib" ? [] : {};
 
   for (const stage of raceResults.values()) {
     if (!stage) continue; // Only races with a prologue start at 0
 
-    const rowsMissingBib = [];
-    for (const riderStageResult of stage) {
-      if (!riderStageResult.bib) {
-        rowsMissingBib.push(riderStageResult);
+    const rowsMissingKey = [];
+    for (const entityStageResult of stage) {
+      const keyValue = entityStageResult[keyProperty];
+
+      if (!keyValue) {
+        rowsMissingKey.push(entityStageResult);
         continue;
       }
 
-      const bibNumber = Number(riderStageResult.bib);
-      const stageNumber = Number(riderStageResult.stage);
-      if (ridersByBib[bibNumber] === undefined) {
-        ridersByBib[bibNumber] = [];
+      const processedKey = keyProperty === "bib" ? Number(keyValue) : keyValue;
+      const stageNumber = Number(entityStageResult.stage);
+
+      // Initialize if not present
+      if (keyProperty === "bib") {
+        if (entitiesByKey[processedKey] === undefined) {
+          entitiesByKey[processedKey] = [];
+        }
+      } else {
+        entitiesByKey[processedKey] ??= [];
       }
-      ridersByBib[bibNumber][stageNumber] = riderStageResult;
+
+      entitiesByKey[processedKey][stageNumber] = entityStageResult;
     }
-    if (rowsMissingBib.length > 0) {
+
+    if (rowsMissingKey.length > 0) {
       logError(
         "Race Controller",
-        `No bib for riders, Possible relegation message`,
+        `No ${keyProperty} for ${entityType}, Possible relegation message`,
       );
-      console.table(rowsMissingBib);
+      console.table(rowsMissingKey);
     }
   }
 
-  return ridersByBib;
+  return entitiesByKey;
+}
+
+/**
+ * Regroup stage: rider results -> rider: stage results
+ * @param {Iterable<Array<Object>>} raceResults - Iterable of arrays of rider stage results
+ * @returns {Array<Array<Object>>} - Array mapping rider bib numbers to arrays of stage results
+ */
+function groupStagesByRider(raceResults) {
+  return groupStagesByEntity(raceResults, "bib", "riders");
+}
+
+/**
+ * Regroups stage: team results -> team: stage results
+ * @param {Iterable<Array<Object>>} raceResults - Iterable of arrays of team stage results
+ * @returns {Object<string, Array<Object>>} - Object mapping team names to arrays of stage results
+ */
+function groupStagesByTeam(raceResults) {
+  return groupStagesByEntity(raceResults, "team", "teams");
 }

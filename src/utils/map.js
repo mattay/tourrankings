@@ -17,7 +17,7 @@ export function tuple(k, v) {
 function isNumericString(str) {
   if (typeof str !== "string") return false; // Only process strings
   const num = Number(str);
-  return !isNaN(num) && isFinite(num);
+  return !isNaN(num) && Number.isFinite(num);
 }
 
 /**

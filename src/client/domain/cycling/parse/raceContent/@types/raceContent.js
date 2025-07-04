@@ -4,7 +4,7 @@
  * @typedef {import('./teams').RawRaceTeams} RawRaceTeams
  * @typedef {import('./riders').RawRaceRiders} RawRaceRiders
  * @typedef {import('./results').RawRaceResults} RawRaceResults
- * @typedef {import('./classifications').RawClassifications} RawClassifications
+ * @typedef {import('./classifications').RawRaceClassifications} RawRaceClassifications
  */
 
 /**
@@ -15,7 +15,7 @@
  * @property {RawRaceTeams} teams - Raw teams data.
  * @property {RawRaceRiders} riders - Raw riders data.
  * @property {RawRaceResults} results - Raw results data.
- * @property {RawClassifications} classifications - Raw classification data.
+ * @property {RawRaceClassifications} classifications - Raw classification data.
  */
 
 /**

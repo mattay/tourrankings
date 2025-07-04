@@ -3,11 +3,13 @@ FROM oven/bun:1
 
 WORKDIR /tourRanking
 
-# Install Chrome for Testing first (this layer rarely changes)
-RUN bunx @puppeteer/browsers install chrome@stable
+# Copy package files and install dependencies
+COPY package.json bun.lock ./
+RUN bun install
 
-# Discover the installed binary once and bake it as an ENV
-ENV PUPPETEER_EXECUTABLE_PATH="$(find / -type f -name chrome -perm +111 2>/dev/null | head -n 1)"
+# Install Chrome for Testing first (this layer rarely changes)
+RUN bunx @puppeteer/browsers install chrome@stable && \
+    echo "PUPPETEER_EXECUTABLE_PATH=$(find . -type f -name chrome | head -n 1)" >> .env
 
 # Required libs for Chrome
 RUN apt-get update && apt-get install -y \
@@ -32,9 +34,6 @@ RUN apt-get update && apt-get install -y \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy package files and install dependencies
-COPY package.json bun.lockb ./
-RUN bun install
 
 # after deps are cached, bring in the rest
 COPY . .
@@ -49,6 +48,10 @@ EXPOSE 8080
 ENV NODE_ENV=development
 ENV PORT=8080
 ENV DATA_DIR=/tourRanking/data/csv
+
+RUN mkdir -p /tourRanking/data/csv && \
+    chown -R bun:bun /tourRanking/data && \
+    chmod -R 755 /tourRanking/data
 
 # Start with hot reload
 CMD ["bun", "--hot", "server/index.js"]

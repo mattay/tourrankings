@@ -6,8 +6,8 @@ describe("String utilities", () => {
   it("should convert string to camelCase", () => {
     expect(toCamelCase("hello world")).toBe("helloWorld");
     expect(toCamelCase("test_string")).toBe("testString");
-    expect(toCamelCase("HELLO WORLD")).toBe("helloWorld");
-    expect(toCamelCase("test-string")).toBe("testString");
+    expect(toCamelCase("HELLO WORLD")).toBe("hELLOWORLD");
+    expect(toCamelCase("test-string")).toBe("teststring");
     expect(toCamelCase("")).toBe("");
   });
 

@@ -29,22 +29,23 @@
     "express-rate-limit": "^7.5.1",
     "googleapis": "^150.0.1",
     "helmet": "^8.1.0",
-    "puppeteer-core": "^24.10.2"
+    "puppeteer-core": "^24.11.2"
   },
   "type": "module",
   "devDependencies": {
-    "@eslint/js": "^9.29.0",
-    "@playwright/test": "^1.53.1",
+    "@eslint/js": "^9.30.1",
+    "@playwright/test": "^1.53.2",
     "@types/d3": "^7.4.3",
-    "@types/express": "^5.0.1",
-    "eslint": "^9.29.0",
+    "@types/express": "^5.0.3",
+    "eslint": "^9.30.1",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-jest": "^28.14.0",
-    "eslint-plugin-prettier": "^5.5.0",
-    "globals": "^16.1.0",
+    "eslint-plugin-prettier": "^5.5.1",
+    "globals": "^16.3.0",
     "yarn": "^1.22.22"
   },
   "engines": {
-    "bun": ">=1.2.10"
+    "bun": ">=1.2.10",
+    "node": ">=20.0.0"
   }
 }

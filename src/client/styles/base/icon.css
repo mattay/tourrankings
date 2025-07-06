@@ -4,6 +4,6 @@
     width: var(--size-text-small);
     height: var(--size-text-small);
     vertical-align: -0.125em;
-    fill: var(--color-background);
+    fill: currentColor;
   }
 }

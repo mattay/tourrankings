@@ -29,7 +29,7 @@
   .icon {
     width: var(--size-text-medium);
     height: var(--size-text-medium);
-    fill: var(--color-background);
+    fill: currentColor;
   }
 }
 
@@ -37,7 +37,7 @@
   background: var(--color-secondary);
   color: var(--color-background);
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: var(--color-accent);
   }
 }

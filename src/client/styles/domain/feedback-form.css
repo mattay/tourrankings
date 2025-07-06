@@ -119,13 +119,6 @@
   color: var(--color-text-secondary);
 }
 
-.form-actions {
-  display: flex;
-  gap: var(--size-medium);
-  justify-content: flex-end;
-  margin-top: var(--size-medium);
-}
-
 #feedback-submit {
   transition: transform 0.3s ease;
 

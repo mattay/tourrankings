@@ -3,10 +3,6 @@
 // State Managment
 import store from "../../state/storeInstance";
 import { actionSelectStage } from "../../state/actions";
-import {
-  StoreSelectorError,
-  StoreSelectorExecutionError,
-} from "../../state/errors/store";
 // Components
 import { createStageComponent } from "../stage/stage";
 import { createRiderComponent } from "../rider/rider";
@@ -22,8 +18,9 @@ import { createRankingComponent } from "../ranking/ranking";
  */
 
 /** @typedef {import('../../state/selectors/@types/stage').FilteredStage} FilteredStage */
-/** @typedef {import('../../state/selectors/@types/rider').FilteredStageRider} FilteredStageRider */
 /** @typedef {import('../../state/selectors/@types/result').FilteredStageResult} FilteredStageResult */
+
+/** @typedef {import('../../state/selectors/filters/rankingLabels').RankingLabel} RankingLabel */
 
 /**
  * @typedef {Object} Margin
@@ -59,10 +56,8 @@ const DEFAULT_OPTIONS = {
 export class Race {
   /** @type {Array<FilteredStage>} */
   dataStages = [];
-
-  /** @type {Array<FilteredStageRider>} */ // Adjust path/type as needed
-  dataRiders = [];
-
+  /** @type {RankingLabel[]} */ // Adjust path/type as needed
+  dataLabels = [];
   /** @type {Array<FilteredStageResult>} */ // Adjust path/type as needed
   dataRankings = [];
   /** @type {number | null} */ // Adjust as needed
@@ -165,25 +160,13 @@ export class Race {
   /**
    * Updates the data properties of the visualization from the store.
    * @property {Array} dataStages - Current stages data.
-   * @property {Array} dataRiders - Current riders data.
+   * @property {Array} dataLabels - Current label data.
    * @property {Array} dataRankings - Current rankings data.
    */
   updateData() {
-    try {
-      this.dataStages = store.select("raceStages", []);
-      this.dataRiders = store.select("riders", []);
-      this.dataRankings = store.select("rankings", []);
-    } catch (error) {
-      if (
-        error instanceof StoreSelectorError ||
-        error instanceof StoreSelectorExecutionError
-      ) {
-        throw error;
-      } else {
-        console.error("Unexpected error updating data:", error);
-        // TODO handle Unexpected Error - error;
-      }
-    }
+    this.dataStages = store.select("raceStages", []);
+    this.dataLabels = store.select("rankingLabels", []);
+    this.dataRankings = store.select("rankings", []);
   }
 
   /**
@@ -193,7 +176,7 @@ export class Race {
    */
   updateScalesDomain() {
     this.xScaleStages.domain(d3.extent(this.dataStages, (d) => d.stage));
-    this.yScaleRiders.domain([0, this.dataRiders.length]);
+    this.yScaleRiders.domain([0, this.dataLabels.length]);
   }
 
   /**
@@ -224,7 +207,7 @@ export class Race {
    * @returns {{stages: Coordinates, rankings: Coordinates}}
    */
   calculateCoordinates() {
-    const numberOfRiders = this.dataRiders.filter(
+    const numberOfRiders = this.dataLabels.filter(
       (element) => element != null,
     ).length;
     const { top, right, bottom, left } = this.margin;
@@ -309,7 +292,7 @@ export class Race {
    * Uses the configured rider component to render the rankings.
    */
   updateRankings() {
-    if (!this.dataRiders) return;
+    if (!this.dataLabels) return;
     if (!this.dataRankings) return;
 
     const riderComponent = createRiderComponent({
@@ -322,7 +305,7 @@ export class Race {
       },
     });
 
-    riderComponent(this.containerRiders, this.dataRiders);
+    riderComponent(this.containerRiders, this.dataLabels);
 
     const rankingComponent = createRankingComponent({
       xScale: this.xScaleStages,

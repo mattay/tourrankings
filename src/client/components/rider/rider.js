@@ -47,7 +47,7 @@ export function createRiderComponent({
       .attr(
         "transform",
         (d, i) =>
-          `translate(${xScale(d.lastStage) + offsets.text}, ${yScale(d.stageRankings.result)})`,
+          `translate(${xScale(d.lastStage) + offsets.text}, ${yScale(d.ranking)})`,
       )
       .on("click", (event, d) => onRiderClick(d));
 
@@ -58,7 +58,7 @@ export function createRiderComponent({
       .attr("dy", offsets.text)
       .attr("font-size", 0)
       .attr("fill", "none")
-      .text((d) => d.rider);
+      .text((d) => d.label);
   };
 
   /**
@@ -69,14 +69,14 @@ export function createRiderComponent({
   const updateRidersGroup = (riderSelection) => {
     riderSelection
       .transition()
-      .delay((d, i) => 420 + d.stageRankings.result * 5)
+      .delay((d, i) => 420 + d.ranking * 5)
       .duration(transitionDuration)
       .ease(d3.easeQuadInOut)
       .attr("transform", (d, i) => {
-        if (isNaN(d.stageRankings.result)) {
+        if (isNaN(d.ranking)) {
           console.log(d);
         }
-        return `translate(${xScale(d.lastStage) + offsets.text}, ${yScale(d.stageRankings.result)})`;
+        return `translate(${xScale(d.lastStage) + offsets.text}, ${yScale(d.ranking)})`;
       })
       .style("opacity", 1)
       .attr("class", (d) => {
@@ -90,7 +90,8 @@ export function createRiderComponent({
       .transition()
       .delay((d, i) => 420 + i * 10)
       .duration(transitionDuration)
-      .ease(d3.easeQuadInOut);
+      .ease(d3.easeQuadInOut)
+      .text((d) => d.label);
   };
 
   /**
@@ -114,7 +115,7 @@ export function createRiderComponent({
    */
   return function riderComponent(selection, data) {
     // Bind data with key function
-    const riders = selection.selectAll("g.rider").data(data, (d) => d.bib);
+    const riders = selection.selectAll("g.rider").data(data, (d) => d.id);
 
     // Enter
     const ridersEnter = riders.enter().append("g");

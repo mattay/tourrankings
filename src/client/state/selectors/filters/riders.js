@@ -1,8 +1,24 @@
+import {
+  isValidClassificationType,
+  CLASSIFICATION_TYPES,
+} from "src/core/cycling/classification/classification";
+import {
+  riderCompetingIn,
+  selectedClassifications,
+} from "./utils/classifications";
+import { stateCheckSelected } from "../../store/stateCheck";
+
 /**
  * @typedef {import('../../store/@types/store').State} State
- * @typedef {import('./../@types/riders').FilteredStageRider} FilteredStageRider
+ * @typedef {import('./../@types/rider').FilteredStageRider} FilteredStageRider
  */
 
+/**
+ * Sorts abandoned riders by last stage completed, then by bib number
+ * @param {FilteredStageRider} a - First rider to compare
+ * @param {FilteredStageRider} b - Second rider to compare
+ * @returns {number} Comparison result for sorting
+ */
 function sortAbandoned(a, b) {
   const compared = b.lastStage - a.lastStage;
   if (compared == 0) {
@@ -17,45 +33,74 @@ function sortAbandoned(a, b) {
  * @returns {Array<FilteredStageRider>}
  */
 export function riders(state) {
-  if (!state.raceData || !state.currentStage) return null;
+  if (!state.sportData) {
+    return null;
+  }
+  stateCheckSelected(state, { stage: true, classification: true });
 
   const ridersWithStageRanking = [];
   const abandoned = [];
+  const classificationsRankings = selectedClassifications(state);
 
-  for (const rider of state.raceData.riders.values()) {
+  // Rider bib number is used to index the rider in the Array
+  for (const [bib, rider] of state.sportData.riders) {
     if (!rider) continue;
-    const bib = rider.bib;
-    const riderResults = state.raceData.results[bib];
-    const riderStageResult = riderResults[state.currentStage] || {};
-    let lastStage = state.currentStage;
-    let lastRank = riderStageResult?.rank || NaN;
-    let isAbandoned = false;
 
+    const riderClassifications = classificationsRankings[bib];
+
+    // Check if rider is competing in the current classification
+    if (!riderCompetingIn(riderClassifications)) {
+      continue;
+    }
+
+    let riderStageStanding = riderClassifications?.[state.selected.stage] || {};
+    let lastStage = state.selected.stage;
+    let lastRank = riderStageStanding?.rank || NaN;
     let newRider = {
       ...rider,
-      abandoned: isAbandoned,
+      hasAbandoned: false,
       lastStage,
       stageRankings: {
         result: lastRank,
       },
     };
 
+    if (
+      !riderClassifications &&
+      state.selected.classification === CLASSIFICATION_TYPES.STAGE
+    ) {
+      console.warn(
+        `No classifications found for rider ${bib} ${rider.rider}.`,
+        "Rider may have abandoned the race",
+      );
+      newRider.hasAbandoned = true;
+    } else if (!riderClassifications) {
+      continue;
+    }
+
+    if (newRider.hasAbandoned) {
+      abandoned.push(newRider);
+      continue;
+    }
+
     if (isNaN(lastRank)) {
-      for (let i = riderResults.length - 1; i >= 0; i--) {
-        if (!riderResults[i]) continue;
-        lastRank = riderResults[i].rank;
-        lastStage = riderResults[i].stage;
+      // Work back from the last classification to find the last stage result
+      for (let stage = riderClassifications.length - 1; stage >= 0; stage--) {
+        riderStageStanding = riderClassifications[stage];
+        if (!riderStageStanding) continue;
+
+        lastRank = riderStageStanding.rank;
+        lastStage = riderStageStanding.stage;
         newRider.stageRankings.result = lastRank;
-        // Find last stage resutls where ranking is not a number
+        // Find last stage results where ranking is not a number
         if (isNaN(lastRank)) {
           console.warn(
             "Rider may have abandoned the race",
             rider.bib,
             rider.rider,
           );
-          isAbandoned = true;
           newRider.lastStage = lastStage;
-          newRider.abandoned = isAbandoned;
+          newRider.hasAbandoned = true;
           abandoned.push(newRider);
           break;
         } else if (lastRank) {
@@ -63,7 +108,7 @@ export function riders(state) {
         }
       }
       // Catch the last stage if we don't have results yet
-      if (!isAbandoned) {
+      if (!newRider.hasAbandoned) {
         ridersWithStageRanking.push(newRider);
       }
       // We need a way to indicate that we don't have results

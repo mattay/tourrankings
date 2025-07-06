@@ -3,7 +3,7 @@ FROM oven/bun:1 as builder
 WORKDIR /tourRanking
 
 # Copy package files
-COPY package.json bun.lockb ./
+COPY package.json bun.lock ./
 
 # Install dependencies
 RUN bun install --production
@@ -72,6 +72,10 @@ EXPOSE 8080
 ENV NODE_ENV=production
 ENV PORT=8080
 ENV DATA_DIR=/tourRanking/data/csv
+
+RUN mkdir -p /tourRanking/data/csv && \
+    chown -R bun:bun /tourRanking/data && \
+    chmod -R 755 /tourRanking/data
 
 # Start the application
 # CMD ["sh", "-c", "bun start & supercronic /app/crontab"]

@@ -1,23 +1,28 @@
+# fly.dev.toml - Development environment
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 
-app = 'tourrankings'
+app = 'tourrankings-dev'
 primary_region = 'syd'
 
 [build]
-dockerfile = "Dockerfile"
+dockerfile = "Dockerfile.dev"
 
 [http_service]
 internal_port = 8080
 force_https = true
-auto_stop_machines = 'stop'
+auto_stop_machines = 'suspend' # Faster wake-up than 'stop'
 auto_start_machines = true
 min_machines_running = 0
 
 [[vm]]
-memory = '1gb'
+memory = '512mb'
 cpu_kind = 'shared'
 cpus = 1
 
+[env]
+NODE_ENV = "development"
+LOG_LEVEL = "debug"
+
 [mounts]
-source = "data_volume"
+source = "dev_data_volume"
 destination = "/tourRanking/data"

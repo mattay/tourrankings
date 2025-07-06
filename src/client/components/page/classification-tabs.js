@@ -21,8 +21,11 @@ export function setupClassificationTabs() {
 
   // Use event delegation to handle clicks on tab buttons
   tabsContainer.addEventListener("click", (event) => {
-    const tabButton = event.target.closest(".tab");
-    if (!tabButton) return;
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+
+    const tabButton = target.closest(".tab");
+    if (!(tabButton instanceof HTMLElement)) return;
 
     const classificationType = tabButton.dataset.classification;
     if (!classificationType) return;
@@ -38,9 +41,9 @@ export function setupClassificationTabs() {
  */
 export function updateClassificationTabs(state) {
   const currentClassification = isValidClassificationType(
-    state.currentClassification,
+    state.selected.classification,
   )
-    ? state.currentClassification
+    ? state.selected.classification
     : CLASSIFICATION_TYPES.STAGE;
 
   const activeTab = document.querySelector(

@@ -1,8 +1,8 @@
 // import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 // State Managment
-import store from "src/client/state/storeInstance";
-import { actionSelectStage } from "src/client/state/actions";
+import store from "../../state/storeInstance";
+import { actionSelectStage } from "../../state/actions";
 // Components
 import { createStageComponent } from "../stage/stage";
 import { createRiderComponent } from "../rider/rider";
@@ -18,8 +18,9 @@ import { createRankingComponent } from "../ranking/ranking";
  */
 
 /** @typedef {import('../../state/selectors/@types/stage').FilteredStage} FilteredStage */
-/** @typedef {import('../../state/selectors/@types/rider').FilteredStageRider} FilteredStageRider */
 /** @typedef {import('../../state/selectors/@types/result').FilteredStageResult} FilteredStageResult */
+
+/** @typedef {import('../../state/selectors/filters/rankingLabels').RankingLabel} RankingLabel */
 
 /**
  * @typedef {Object} Margin
@@ -55,10 +56,8 @@ const DEFAULT_OPTIONS = {
 export class Race {
   /** @type {Array<FilteredStage>} */
   dataStages = [];
-
-  /** @type {Array<FilteredStageRider>} */ // Adjust path/type as needed
-  dataRiders = [];
-
+  /** @type {RankingLabel[]} */ // Adjust path/type as needed
+  dataLabels = [];
   /** @type {Array<FilteredStageResult>} */ // Adjust path/type as needed
   dataRankings = [];
   /** @type {number | null} */ // Adjust as needed
@@ -98,10 +97,14 @@ export class Race {
     this.initialize();
 
     this.unsubscribe = store.subscribe((state) => {
-      this.dataViewStage = state.currentStage;
+      this.dataViewStage = state.selected.stage;
       // Only re-render if we have race data and it's different from what we have
-      if (!state.isLoading && state.raceData) {
-        //&& (!this.data || this.data !== state.raceData)
+      if (
+        !state.isLoading &&
+        state.sport === "cycling" &&
+        state.sportData != null
+      ) {
+        //&& (!this.data || this.data !== state.sportData)
         this.updateData();
         this.resize(); // Need dimensions for setting scales
         this.updateScalesDomain();
@@ -157,13 +160,13 @@ export class Race {
   /**
    * Updates the data properties of the visualization from the store.
    * @property {Array} dataStages - Current stages data.
-   * @property {Array} dataRiders - Current riders data.
+   * @property {Array} dataLabels - Current label data.
    * @property {Array} dataRankings - Current rankings data.
    */
   updateData() {
-    this.dataStages = store.select("raceStages");
-    this.dataRiders = store.select("riders");
-    this.dataRankings = store.select("rankings");
+    this.dataStages = store.select("raceStages", []);
+    this.dataLabels = store.select("rankingLabels", []);
+    this.dataRankings = store.select("rankings", []);
   }
 
   /**
@@ -173,7 +176,7 @@ export class Race {
    */
   updateScalesDomain() {
     this.xScaleStages.domain(d3.extent(this.dataStages, (d) => d.stage));
-    this.yScaleRiders.domain([0, this.dataRiders.length]);
+    this.yScaleRiders.domain([0, this.dataLabels.length]);
   }
 
   /**
@@ -204,7 +207,7 @@ export class Race {
    * @returns {{stages: Coordinates, rankings: Coordinates}}
    */
   calculateCoordinates() {
-    const numberOfRiders = this.dataRiders.filter(
+    const numberOfRiders = this.dataLabels.filter(
       (element) => element != null,
     ).length;
     const { top, right, bottom, left } = this.margin;
@@ -289,7 +292,7 @@ export class Race {
    * Uses the configured rider component to render the rankings.
    */
   updateRankings() {
-    if (!this.dataRiders) return;
+    if (!this.dataLabels) return;
     if (!this.dataRankings) return;
 
     const riderComponent = createRiderComponent({
@@ -302,7 +305,7 @@ export class Race {
       },
     });
 
-    riderComponent(this.containerRiders, this.dataRiders);
+    riderComponent(this.containerRiders, this.dataLabels);
 
     const rankingComponent = createRankingComponent({
       xScale: this.xScaleStages,

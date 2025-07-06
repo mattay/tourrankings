@@ -22,7 +22,7 @@ export function seasonRaces() {
   // Initialize grouped object
   const grouped /** @type TemporalSeasonRaces */ = {
     current: [],
-    upcomming: [],
+    upcoming: [],
     previous: [],
     future: [],
   };
@@ -51,7 +51,7 @@ export function seasonRaces() {
 
   // Extract the next upcoming race (soonest in the future)
   if (grouped.future.length > 0) {
-    grouped.upcomming = [grouped.future[0]];
+    grouped.upcoming = [grouped.future[0]];
     grouped.future = grouped.future.slice(1);
   }
 
@@ -68,8 +68,6 @@ export function raceContent(racePcsID, year = null) {
   const today = new Date();
   year = year ? year : today.getFullYear();
 
-  logOut("raceContent", `Fetching race content for ${racePcsID} ${year}`);
-
   const raceContent /** @type {RaceContent} */ = {
     race: dataService.raceDetails({ racePcsID, year }),
     stages: [],
@@ -78,11 +76,11 @@ export function raceContent(racePcsID, year = null) {
     riders: {},
     results: [],
     classifications: {
-      gc: [],
-      youth: [],
+      general: [],
       points: [],
       mountain: [],
-      team: [],
+      youth: [],
+      team: {},
     },
   };
 
@@ -107,7 +105,7 @@ export function raceContent(racePcsID, year = null) {
 
     stage.stage = Number(stage.stage);
     stage.raced = false;
-    stage.veiwing = false;
+    stage.viewing = false;
     if (new Date(stage.date) <= today) {
       stage.raced = true;
       // Looking for most recent stages to default to
@@ -143,61 +141,95 @@ export function raceContent(racePcsID, year = null) {
     };
   }
 
-  // TODO: Add race results and classification to race RaceContent
-  // We want to group the results by rider, ie the line
   // ---
-  // resutls: [rider : stageResult[]]
+  // results: [rider : stageResult[]]
   // classification: {type: rider[ stageClasifications[] ]}
   // ---
-  // Collect Stages
   // Results
   const rr = dataService.raceResults(raceUID);
   raceContent.results = groupStagesByRider(rr);
-
   // GC
+  const general = dataService.raceClassificationsGeneral(raceUID);
+  raceContent.classifications.general = groupStagesByRider(general);
   // Points
   const points = dataService.raceClassificationsPoints(raceUID);
-  raceContent.classifications.points = points;
+  raceContent.classifications.points = groupStagesByRider(points);
   // Mountain
+  const mountain = dataService.raceClassificationsMountain(raceUID);
+  raceContent.classifications.mountain = groupStagesByRider(mountain);
   // Youth
+  const youth = dataService.raceClassificationsYouth(raceUID);
+  raceContent.classifications.youth = groupStagesByRider(youth);
   // Team
+  const team = dataService.raceClassificationsTeams(raceUID);
+  raceContent.classifications.team = groupStagesByTeam(team);
 
   return raceContent;
 }
 
 /**
- * Regroup stage: rider results -> rider: stage results
- * @param {StagesRiderResults} raceResults
- * @returns {RidersStageResults}
+ * Generic function to regroup stage-based results by a specified entity key
+ * @param {Iterable<Array<Object>>} raceResults - Iterable of arrays of stage results
+ * @param {string} keyProperty - Property name to group by (e.g., 'bib', 'team')
+ * @param {string} entityType - Type of entity for error logging (e.g., 'riders', 'teams')
+ * @returns {Object<string|number, Array<Object>>} - Object mapping entity keys to arrays of stage results
  */
-function groupStagesByRider(raceResults) {
-  const ridersByBib = [];
+function groupStagesByEntity(raceResults, keyProperty, entityType) {
+  const entitiesByKey = keyProperty === "bib" ? [] : {};
 
   for (const stage of raceResults.values()) {
     if (!stage) continue; // Only races with a prologue start at 0
 
-    const rowsMissingBib = [];
-    for (const riderStageResult of stage) {
-      if (!riderStageResult.bib) {
-        rowsMissingBib.push(riderStageResult);
+    const rowsMissingKey = [];
+    for (const entityStageResult of stage) {
+      const keyValue = entityStageResult[keyProperty];
+
+      if (!keyValue) {
+        rowsMissingKey.push(entityStageResult);
         continue;
       }
 
-      const bibNumber = Number(riderStageResult.bib);
-      const stageNumber = Number(riderStageResult.stage);
-      if (ridersByBib[bibNumber] === undefined) {
-        ridersByBib[bibNumber] = [];
+      const processedKey = keyProperty === "bib" ? Number(keyValue) : keyValue;
+      const stageNumber = Number(entityStageResult.stage);
+
+      // Initialize if not present
+      if (keyProperty === "bib") {
+        if (entitiesByKey[processedKey] === undefined) {
+          entitiesByKey[processedKey] = [];
+        }
+      } else {
+        entitiesByKey[processedKey] ??= [];
       }
-      ridersByBib[bibNumber][stageNumber] = riderStageResult;
+
+      entitiesByKey[processedKey][stageNumber] = entityStageResult;
     }
-    if (rowsMissingBib.length > 0) {
+
+    if (rowsMissingKey.length > 0) {
       logError(
         "Race Controller",
-        `No bib for riders, Possible relegation message`,
+        `No ${keyProperty} for ${entityType}, Possible relegation message`,
       );
-      console.table(rowsMissingBib);
+      console.table(rowsMissingKey);
     }
   }
 
-  return ridersByBib;
+  return entitiesByKey;
+}
+
+/**
+ * Regroup stage: rider results -> rider: stage results
+ * @param {Iterable<Array<Object>>} raceResults - Iterable of arrays of rider stage results
+ * @returns {Array<Array<Object>>} - Array mapping rider bib numbers to arrays of stage results
+ */
+function groupStagesByRider(raceResults) {
+  return groupStagesByEntity(raceResults, "bib", "riders");
+}
+
+/**
+ * Regroups stage: team results -> team: stage results
+ * @param {Iterable<Array<Object>>} raceResults - Iterable of arrays of team stage results
+ * @returns {Object<string, Array<Object>>} - Object mapping team names to arrays of stage results
+ */
+function groupStagesByTeam(raceResults) {
+  return groupStagesByEntity(raceResults, "team", "teams");
 }

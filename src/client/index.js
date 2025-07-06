@@ -3,11 +3,20 @@ import store from "./state/storeInstance";
 import { setupSelectors } from "./state/selectors";
 import { fetchRaceData } from "./api/index.js";
 // Utils
-import { getRaceInfoFromUrlPath } from "./utils";
-import { parseRaceContent } from "./utils/parse";
+import { getRaceInfoFromUrlPath } from "./state/browser/location";
+import { parseRaceContent } from "./domain/cycling/parse";
 // Components
 import { Race } from "./components/race/race.js";
 import { updatePageHeadings } from "./components/page/title";
+import {
+  setupClassificationTabs,
+  updateClassificationTabs,
+} from "./components/page/classification-tabs";
+import { updateUrl } from "./state/browser/history";
+import {
+  CLASSIFICATION_TYPES,
+  isValidClassificationType,
+} from "src/core/cycling/classification/classification";
 
 /**
  * Main application class for the Tour Ranking app.
@@ -31,17 +40,7 @@ class tourRankingApp {
    * Sets up UI controls for changing view and chart types.
    */
   setupControls() {
-    // Set up controls for changing view type
-    // document
-    //   .getElementById("btn-stage-results")
-    //   .addEventListener("click", () => {
-    //     changeViewType("stageResults");
-    //   });
-    // // Set up controls for changing chart type
-    // const chartTypeSelect = document.getElementById("chart-type-select");
-    // chartTypeSelect.addEventListener("change", (e) => {
-    //   changeChartType(e.target.value);
-    // });
+    setupClassificationTabs();
   }
 
   /**
@@ -50,7 +49,13 @@ class tourRankingApp {
    */
   setupDOMSubscription() {
     this.#unsubscribe = store.subscribe((state) => {
-      updatePageHeadings(state);
+      try {
+        updateUrl(state);
+        updatePageHeadings(state);
+        updateClassificationTabs(state);
+      } catch (error) {
+        console.error("Failed to update page headings:", error);
+      }
     });
   }
 
@@ -60,23 +65,32 @@ class tourRankingApp {
   async init() {
     try {
       // Update state
-      const { raceID, year, stage, ranking } = getRaceInfoFromUrlPath();
+      const { raceId, year, stage, classification } = getRaceInfoFromUrlPath();
       store.setState({
         isLoading: true,
-        currentRaceId: raceID,
-        currentYear: year,
-        currentStage: stage,
-        currentRanking: ranking || "results",
+        selected: {
+          year,
+          raceId,
+          stage,
+          classification: isValidClassificationType(classification)
+            ? classification
+            : CLASSIFICATION_TYPES.STAGE,
+        },
       });
 
       // Fetch data
-      const rawData = await fetchRaceData(raceID, year);
+      const rawData = await fetchRaceData(raceId, year);
       const processedData = parseRaceContent(rawData);
 
       // Update state and notify components
+      const previouslySelected = store.getState().selected;
       store.setState({
-        raceData: processedData,
-        currentStage: stage || processedData.stagesCompleted,
+        sportData: processedData,
+        previouslySelected,
+        selected: {
+          ...previouslySelected,
+          stage: stage || processedData.stagesCompleted,
+        },
         isLoading: false,
       });
     } catch (error) {

@@ -6,34 +6,27 @@ updates:
   # Enable version updates for npm dependencies
   - package-ecosystem: "npm"
     directory: "/"
+    target-branch: "cooldown"
     schedule:
       interval: "weekly"
       day: "monday"
-      time: "09:00"
+      time: "06:00"
       timezone: "Australia/Brisbane"
+    # Use deps/ branch naming pattern
+    pull-request-branch-name:
+      separator: "/"
+    # Customize commit messages
+    commit-message:
+      prefix: "chore"
+      include: "scope"
     # Group updates by type to reduce PR noise
     groups:
       # Group all production dependencies together
       production-dependencies:
-        patterns:
-          - "compression"
-          - "cors"
-          - "csv-parser"
-          - "ejs"
-          - "express"
-          - "express-rate-limit"
-          - "googleapis"
-          - "helmet"
-          - "puppeteer-core"
+        dependency-type: "production"
       # Group development and testing dependencies
       development-dependencies:
-        patterns:
-          - "@eslint/*"
-          - "@playwright/*"
-          - "@types/*"
-          - "eslint*"
-          - "globals"
-          - "yarn"
+        dependency-type: "development"
     # Only allow patch and minor updates for production dependencies
     ignore:
       - dependency-name: "*"
@@ -43,21 +36,25 @@ updates:
     # Add labels for easier organization
     labels:
       - "dependencies"
-      - "automated"
-    # Auto-merge minor and patch updates for dev dependencies
-    reviewers:
-      - "mattay"
-    assignees:
-      - "mattay"
+      - "cooldown"
+      - "auto[bot]"
 
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
+    target-branch: "cooldown"
     schedule:
       interval: "weekly"
       day: "monday"
-      time: "09:00"
+      time: "06:00"
       timezone: "Australia/Brisbane"
+    # Use deps/ branch naming pattern
+    pull-request-branch-name:
+      separator: "/"
+    # Customize commit messages
+    commit-message:
+      prefix: "chore"
+      include: "scope"
     # Group GitHub Actions updates
     groups:
       github-actions:
@@ -66,25 +63,27 @@ updates:
     open-pull-requests-limit: 3
     labels:
       - "github-actions"
-      - "automated"
-    reviewers:
-      - "mattay"  # Replace with your GitHub username
-    assignees:
-      - "mattay"  # Replace with your GitHub username
+      - "cooldown"
+      - "auto[bot]"
 
   # Enable version updates for Docker
   - package-ecosystem: "docker"
     directory: "/"
+    target-branch: "cooldown"
     schedule:
       interval: "weekly"
       day: "monday"
-      time: "09:00"
+      time: "06:00"
       timezone: "Australia/Brisbane"
+    # Use deps/ branch naming pattern
+    pull-request-branch-name:
+      separator: "/"
+    # Customize commit messages
+    commit-message:
+      prefix: "chore"
+      include: "scope"
     open-pull-requests-limit: 2
     labels:
       - "docker"
-      - "automated"
-    reviewers:
-      - "mattay"  # Replace with your GitHub username
-    assignees:
-      - "mattay"  # Replace with your GitHub username
+      - "cooldown"
+      - "auto[bot]"

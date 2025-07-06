@@ -288,7 +288,8 @@ function cleanUpStages(tables, stageUID, stage) {
  * @param {number} stage - Stage number
  */
 export async function scrapeRaceStageResults(page, race, year, stage) {
-  const url = `https://www.procyclingstats.com/race/${race}/${year}/stage-${stage}`;
+  const urlStage = stage === 0 ? "prologue" : `stage-${stage}`;
+  const url = `https://www.procyclingstats.com/race/${race}/${year}/${urlStage}`;
   const raceId = generateId.race(race, year);
   const stageUID = generateId.stage(raceId, stage);
 

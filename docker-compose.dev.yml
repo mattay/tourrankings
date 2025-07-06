@@ -1,0 +1,40 @@
+# docker-compose.dev.yml - Local development that mirrors production
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8080:8080"
+    volumes:
+      # Mount source for hot reload
+      - ./src:/tourRanking/src
+      - ./server:/tourRanking/server
+      - ./public:/tourRanking/public
+      - ./data:/tourRanking/data
+      # Exclude node_modules to avoid conflicts
+      - /tourRanking/node_modules
+    environment:
+      - NODE_ENV=development
+      - PORT=8080
+      - DATA_DIR=/tourRanking/data/csv
+      - LOG_LEVEL=debug
+    command: bun run dev:all
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Optional: Add Redis for caching in development
+  # redis:
+  #   image: redis:7-alpine
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis_data:/data
+
+volumes:
+  redis_data:

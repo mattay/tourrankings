@@ -69,7 +69,7 @@ class StoreSelectorExecutionError extends StoreError {
     const context = {
       selectorName,
       originalError: originalError?.name || "Unknown",
-      originalMessage: originalError?.message || "No error message",
+      reason: originalError?.message || "No error message",
       state: state ? Object.keys(state) : null,
       type,
     };

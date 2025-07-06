@@ -225,7 +225,7 @@ function cleanUpStages(tables, stageUID, stage) {
     if (
       tab &&
       Object.hasOwn(tables[index], "today") &&
-      tables[index]["today"].length > 0
+      tables[index]["today"] != null
     ) {
       for (let i = 0; i < tables[index]["today"].length; i += 1) {
         const ranking = tables[index]["today"][i];
@@ -293,37 +293,68 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
   const raceId = generateId.race(race, year);
   const stageUID = generateId.stage(raceId, stage);
 
-  try {
-    // Ensure page loads
-    await page.goto(url, { waitUntil: "networkidle2" }).catch((exception) => {
-      console.error(exception.name, `Failed to Navigate to '${url}'`);
+  // Ensure page loads
+  await page.goto(url, { waitUntil: "networkidle2" }).catch((exception) => {
+    console.error(exception.name, `Failed to Navigate to '${url}'`);
+    return null;
+  });
+
+  await page
+    .waitForSelector(".page-content", {
+      timeout: 1200,
+    })
+    .catch((exception) => {
+      logError(
+        "scrapeRaceStageResults",
+        `Exception in scrapeStage waiting for  selector '.page-content' on '${url}'`,
+        exception,
+      );
       return null;
     });
-    await page
-      .waitForSelector(".page-content", {
-        timeout: 1200,
-      })
-      .catch((exception) => {
-        logError(
-          "scrapeRaceStageResults",
-          `Exception in scrapeStage waiting for  selector '.page-content' on '${url}'`,
-          exception,
-        );
-        return null;
-      });
 
+  try {
     // Fetch table data
     const tables = await page.evaluate(() => {
-      const resultConts = document.querySelectorAll(".result-cont");
+      // 1. PAGE STRUCTURE SELECTORS - UPDATED
+      const pageSelectors = {
+        // Main page container - waited for to ensure page loads
+        // Main results containers
+        resultContainers: "#resultsCont .resTab",
+        // Tab system within each result container
+        generalTab: ".general",
+        todayTab: ".today",
+      };
+
+      const resultConts = document.querySelectorAll(
+        pageSelectors.resultContainers,
+      );
 
       function extractTableData(tableElement) {
+        // 2. TABLE STRUCTURE BEING EXTRACTED
+        const tableStructure = {
+          // Standard table elements
+          headers: "thead th", // Column headers
+          rows: "tbody tr", // Data rows
+          cells: "th, td", // Individual cells (both header and data)
+
+          // Special cell types with custom handling
+          timeCells: {
+            selector: 'cell.classList.contains("time")',
+            nestedSpan: "span", // Time display element
+            nestedDiv: "div", // Actual time value
+          },
+        };
+
         const columns = Array.from(
-          tableElement.querySelectorAll("thead th"),
+          tableElement.querySelectorAll(tableStructure.headers),
         ).map((cell) => cell.innerText.trim());
 
-        const rows = Array.from(tableElement.querySelectorAll("tbody tr"));
+        const rows = Array.from(
+          tableElement.querySelectorAll(tableStructure.rows),
+        );
+
         return rows.map((row) => {
-          const cells = Array.from(row.querySelectorAll("th, td"));
+          const cells = Array.from(row.querySelectorAll(tableStructure.cells));
           const rowDeatils = {};
 
           for (
@@ -358,7 +389,7 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
         };
 
         // Tab [General]
-        const general = resultCont.querySelector(".subTabs:not(.hide)");
+        const general = resultCont.querySelector(pageSelectors.generalTab);
         if (general) {
           results[index]["general"] = extractTableData(
             general.querySelector("table"),
@@ -366,10 +397,10 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
         }
 
         // Tab [Today]
-        const today = resultCont.querySelector(".subTabs.hide");
+        const today = resultCont.querySelector(pageSelectors.todayTab);
         if (today) {
           const pairs = [];
-          const headers = today.querySelectorAll("h3");
+          const headers = today.querySelectorAll("h4");
           const tables = today.querySelectorAll("table");
 
           for (

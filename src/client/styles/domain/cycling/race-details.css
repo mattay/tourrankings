@@ -1,0 +1,24 @@
+/* DOM elements to for context updating */
+#race-name {
+}
+#race-year {
+  padding: 0 0 0 8px;
+  font-weight: normal;
+  color: var(--color-text-secondary);
+}
+#stage-title {
+  font-weight: normal;
+}
+#stage-label {
+  font-weight: bold;
+}
+#stage-number {
+  font-weight: bold;
+}
+#stage-type {
+  color: var(--color-text-secondary);
+}
+#stage-name {
+  color: var(--color-text-secondary);
+  padding: 0 0 0 8px;
+}

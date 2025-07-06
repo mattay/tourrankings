@@ -1,0 +1,9 @@
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .icon {
+    width: var(--size-text-small);
+    height: var(--size-text-small);
+    vertical-align: -0.125em;
+    fill: var(--color-background);
+  }
+}

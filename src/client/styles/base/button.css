@@ -1,0 +1,61 @@
+.btn {
+  display: flex;
+  padding: var(--size-small-medium) var(--size-large);
+  border: none;
+  border-radius: var(--size-extra-small);
+  font-size: var(--size-text-small-medium);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  justify-content: center;
+  gap: var(--size-small);
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-background);
+
+  &:hover:not(:disabled) {
+    background: var(--color-accent);
+  }
+
+  &:disabled {
+    background: var(--color-text-secondary);
+    cursor: not-allowed;
+    opacity: 0.6;
+    color: var(--color-background);
+  }
+
+  .icon {
+    width: var(--size-text-medium);
+    height: var(--size-text-medium);
+    fill: var(--color-background);
+  }
+}
+
+.btn-secondary {
+  background: var(--color-secondary);
+  color: var(--color-background);
+
+  &:hover {
+    background: var(--color-accent);
+  }
+}
+
+.btn-cancel {
+  background: transparent;
+  color: var(--color-secondary);
+  border: 1px solid var(--color-secondary);
+
+  &:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .btn {
+    width: 100%;
+  }
+}

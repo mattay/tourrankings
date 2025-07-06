@@ -1,5 +1,5 @@
 /**
- * @typedef {import('../../../utils/parse/raceContent/@types/stages').Stage} FilteredStage
+ * @typedef {import('../../../domain/cycling/parse/raceContent/@types/stages').Stage} FilteredStage
  */
 
 export {};

@@ -11,6 +11,6 @@
 export function parseRider(rawRider) {
   return {
     ...rawRider,
-    team: null,
+    team: null, // Add to enable reference team
   };
 }

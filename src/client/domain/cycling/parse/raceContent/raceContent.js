@@ -1,8 +1,5 @@
-import { parseTeam } from "./teams";
 import { parseRider } from "./riders";
-// import { parseRace } from "./race";
-// import { parseStage } from "./stage";
-// import { parseRiderStageResults } from "./results";
+import { toMap } from "../../../../../utils/map";
 
 /**
  * Process and prepare race data for visualization
@@ -11,19 +8,15 @@ import { parseRider } from "./riders";
  */
 export function parseRaceContent(rawData) {
   // Convert objects to Maps for better data handling
-  const riders = new Map(
-    Object.entries(rawData.riders || {}).map(([bib, rawRider]) => [
-      Number(bib),
-      parseRider(rawRider),
-    ]),
-  );
+  const riders = toMap(rawData.riders, {
+    processValue: parseRider,
+    filterNulls: true,
+    convertNumericKeys: true,
+  });
 
-  const teams = new Map(
-    Object.entries(rawData.teams || {}).map(([teamId, rawTeam]) => [
-      teamId,
-      parseTeam(rawTeam),
-    ]),
-  );
+  const teams = toMap(rawData.teams, {
+    filterNulls: true,
+  });
 
   // Add relationships between riders and teams
   for (const rider of riders.values()) {
@@ -32,13 +25,22 @@ export function parseRaceContent(rawData) {
     rider.team = team; // link team to rider
   }
 
-  // rawData.stages.map((rawStage) =>
-  //   rawStage ? parseStage(rawStage) : null,
-  // ),
+  const results = toMap(rawData.results, {
+    filterNulls: true,
+    convertNumericKeys: true,
+  });
 
-  // rawData.results.map((rawRiderResults) =>
-  //   rawRiderResults ? parseRiderStageResults(rawRiderResults) : null,
-  // ),
+  const classifications = new Map(
+    Object.entries(rawData.classifications || {}).map(
+      ([classification, rawClassification]) => [
+        classification,
+        toMap(rawClassification, {
+          filterNulls: true,
+          convertNumericKeys: true,
+        }),
+      ],
+    ),
+  );
 
   return {
     race: rawData.race,
@@ -46,6 +48,7 @@ export function parseRaceContent(rawData) {
     stagesCompleted: rawData.stagesCompleted,
     teams,
     riders,
-    results: rawData.results,
+    results,
+    classifications,
   };
 }

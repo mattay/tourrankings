@@ -4,7 +4,7 @@ import { setupSelectors } from "./state/selectors";
 import { fetchRaceData } from "./api/index.js";
 // Utils
 import { getRaceInfoFromUrlPath } from "./state/browser/location";
-import { parseRaceContent } from "./utils/parse";
+import { parseRaceContent } from "./domain/cycling/parse";
 // Components
 import { Race } from "./components/race/race.js";
 import { updatePageHeadings } from "./components/page/title";
@@ -65,25 +65,32 @@ class tourRankingApp {
   async init() {
     try {
       // Update state
-      const { raceID, year, stage, classification } = getRaceInfoFromUrlPath();
+      const { raceId, year, stage, classification } = getRaceInfoFromUrlPath();
       store.setState({
         isLoading: true,
-        currentRaceId: raceID,
-        currentYear: year,
-        currentStage: stage,
-        currentClassification: isValidClassificationType(classification)
-          ? classification
-          : CLASSIFICATION_TYPES.STAGE,
+        selected: {
+          year,
+          raceId,
+          stage,
+          classification: isValidClassificationType(classification)
+            ? classification
+            : CLASSIFICATION_TYPES.STAGE,
+        },
       });
 
       // Fetch data
-      const rawData = await fetchRaceData(raceID, year);
+      const rawData = await fetchRaceData(raceId, year);
       const processedData = parseRaceContent(rawData);
 
       // Update state and notify components
+      const previouslySelected = store.getState().selected;
       store.setState({
-        raceData: processedData,
-        currentStage: stage || processedData.stagesCompleted,
+        sportData: processedData,
+        previouslySelected,
+        selected: {
+          ...previouslySelected,
+          stage: stage || processedData.stagesCompleted,
+        },
         isLoading: false,
       });
     } catch (error) {

@@ -24,7 +24,7 @@ updates:
       # Group all production dependencies together
       production-dependencies:
         dependency-type: "production"
-      # Group development and testing dependencies  
+      # Group development and testing dependencies
       development-dependencies:
         dependency-type: "development"
     # Only allow patch and minor updates for production dependencies

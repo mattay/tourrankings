@@ -18,10 +18,8 @@
   border-bottom: 3px solid transparent;
   font-size: var(--size-text-small-medium);
   transition: border-bottom-color 321ms ease-in;
-  /* font-weight: 500; */
 
   &:hover:not(.active) {
-    /* color: var(--color-text-accent); */
     color: var(--color-background);
     background-color: var(--color-accent);
   }

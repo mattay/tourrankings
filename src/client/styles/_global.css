@@ -1,0 +1,22 @@
+:root {
+  --color-background: #f8f7f6;
+  --color-primary: #4f4c30;
+  --color-secondary: #a3a085;
+  --color-accent: #817618;
+  --color-text-primary: #4f4c30;
+  --color-text-secondary: #a3a085;
+  --color-text-accent: #817618;
+
+  /* Sizes - Text */
+  --size-text-small: 0.75rem; /* 12 */
+  --size-text-small-medium: 0.875rem; /* 14 */
+  --size-text-medium: 1rem; /* 16 */
+  /* Sizes - Spacing */
+  --size-extra-small: 0.25rem; /* 4 */
+  --size-small: 0.5rem; /* 8 */
+  --size-small-medium: 0.75rem; /* 12 */
+  --size-medium: 1rem; /* 16 */
+  --size-medium-large: 1.25rem; /* 20 */
+  --size-large: 1.5rem; /* 24 */
+  --size-extra-large: 2rem; /* 32 */
+}

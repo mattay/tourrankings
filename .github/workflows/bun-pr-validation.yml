@@ -2,9 +2,9 @@ name: PR Validation
 
 on:
   pull_request:
-    branches: [main, develop, 'cycle-*', cooldown]
+    branches: [main, develop, 'cycle-*', 'cooldown-*']
   push:
-    branches: [main, develop, 'cycle-*', cooldown]
+    branches: [main, develop, 'cycle-*', 'cooldown-*']
 
 jobs:
   test:

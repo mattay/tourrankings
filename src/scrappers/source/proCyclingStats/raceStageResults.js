@@ -3,6 +3,7 @@ import { renameKeys } from "../../../utils/object";
 import { toCamelCase } from "../../../utils/string";
 import { addTime, formatSeconds } from "../../../utils/time";
 import { logError, logOut } from "../../../utils/logging";
+import { warn } from "console";
 
 /**
  * Renames the scraped column name
@@ -253,20 +254,23 @@ function cleanUpStages(tables, stageUID, stage) {
               },
             );
             break;
+
           case "youth":
             stageRankings[tab + "-day-classification"] = cleanUpStageTable(
               ranking.standings,
               { stageUID, stage },
             );
             break;
+
           case "teams":
             stageRankings[tab + "-day-classification"] = cleanUpStageTable(
               ranking.standings,
               { stageUID, stage },
             );
             break;
+
           default:
-            console.log("Ranking:", ranking.label);
+            logOut("cleanUpStages", `Ranking: ${ranking.label}`, "warn");
 
             table = cleanUpStageTable(ranking.standings, { stageUID, stage });
             stageRankings[tab + "-location"] = table;
@@ -294,134 +298,130 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
   const stageUID = generateId.stage(raceId, stage);
 
   // Ensure page loads
-  await page.goto(url, { waitUntil: "networkidle2" }).catch((exception) => {
+  try {
+    await page.goto(url, { waitUntil: "networkidle2" });
+  } catch (exception) {
     console.error(exception.name, `Failed to Navigate to '${url}'`);
     return null;
-  });
-
-  await page
-    .waitForSelector(".page-content", {
-      timeout: 1200,
-    })
-    .catch((exception) => {
-      logError(
-        "scrapeRaceStageResults",
-        `Exception in scrapeStage waiting for  selector '.page-content' on '${url}'`,
-        exception,
-      );
-      return null;
-    });
+  }
 
   try {
-    // Fetch table data
-    const tables = await page.evaluate(() => {
-      // 1. PAGE STRUCTURE SELECTORS - UPDATED
-      const pageSelectors = {
-        // Main page container - waited for to ensure page loads
-        // Main results containers
-        resultContainers: "#resultsCont .resTab",
-        // Tab system within each result container
-        generalTab: ".general",
-        todayTab: ".today",
+    // Main page container - waited for to ensure page loads
+    await page.waitForSelector(".page-content", {
+      timeout: 1200,
+    });
+  } catch (exception) {
+    logError(
+      "scrapeRaceStageResults",
+      `Exception in scrapeStage waiting for  selector ".page-content" on '${url}'`,
+      exception,
+    );
+    return null;
+  }
+
+  // Fetch table data
+  const tables = await page.evaluate(() => {
+    // 1. PAGE STRUCTURE SELECTORS - UPDATED
+    const pageSelectors = {
+      // Main results containers
+      resultContainers: "#resultsCont .resTab",
+      // Tab system within each result container
+      generalTab: ".general",
+      todayTab: ".today",
+    };
+
+    const resultConts = document.querySelectorAll(
+      pageSelectors.resultContainers,
+    );
+
+    function extractTableData(tableElement) {
+      const tableStructure = {
+        // Standard table elements
+        headers: "thead th", // Column headers
+        rows: "tbody tr", // Data rows
+        cells: "th, td", // Individual cells (both header and data)
+        // Special cell types with custom handling
+        timeCells: {
+          selector: 'cell.classList.contains("time")',
+          nestedSpan: "span", // Time display element
+          nestedDiv: "div", // Actual time value
+        },
       };
 
-      const resultConts = document.querySelectorAll(
-        pageSelectors.resultContainers,
+      const columns = Array.from(
+        tableElement.querySelectorAll(tableStructure.headers),
+      ).map((cell) => cell.innerText.trim());
+
+      const rows = Array.from(
+        tableElement.querySelectorAll(tableStructure.rows),
       );
 
-      function extractTableData(tableElement) {
-        // 2. TABLE STRUCTURE BEING EXTRACTED
-        const tableStructure = {
-          // Standard table elements
-          headers: "thead th", // Column headers
-          rows: "tbody tr", // Data rows
-          cells: "th, td", // Individual cells (both header and data)
+      return rows.map((row) => {
+        const cells = Array.from(row.querySelectorAll(tableStructure.cells));
+        const rowDetails = {};
 
-          // Special cell types with custom handling
-          timeCells: {
-            selector: 'cell.classList.contains("time")',
-            nestedSpan: "span", // Time display element
-            nestedDiv: "div", // Actual time value
-          },
-        };
+        for (
+          let columnIndex = 0;
+          columnIndex < cells.length;
+          columnIndex += 1
+        ) {
+          const columnLabel = columns[columnIndex];
+          const cell = cells[columnIndex];
+          const nestedSpan = cell.querySelector("span");
+          const nestedDiv = cell.querySelector("div");
+          let cellContent = "";
 
-        const columns = Array.from(
-          tableElement.querySelectorAll(tableStructure.headers),
-        ).map((cell) => cell.innerText.trim());
-
-        const rows = Array.from(
-          tableElement.querySelectorAll(tableStructure.rows),
-        );
-
-        return rows.map((row) => {
-          const cells = Array.from(row.querySelectorAll(tableStructure.cells));
-          const rowDeatils = {};
-
-          for (
-            let columnIndex = 0;
-            columnIndex < cells.length;
-            columnIndex += 1
-          ) {
-            const columnLabel = columns[columnIndex];
-            const cell = cells[columnIndex];
-            const nestedSpan = cell.querySelector("span");
-            const nestedDiv = cell.querySelector("div");
-            let cellContent = "";
-
-            if (cell.classList.contains("time") && nestedSpan !== null) {
-              cellContent = nestedDiv.innerText.trim();
-            } else {
-              cellContent = cell.innerText.trim();
-            }
-
-            rowDeatils[columnLabel] = cellContent;
+          if (cell.classList.contains("time") && nestedSpan !== null) {
+            cellContent = nestedDiv.innerText.trim();
+          } else {
+            cellContent = cell.innerText.trim();
           }
 
-          return rowDeatils;
-        });
+          rowDetails[columnLabel] = cellContent;
+        }
+
+        return rowDetails;
+      });
+    }
+
+    const results = [];
+    resultConts.forEach((resultCont, index) => {
+      results[index] = {
+        general: null,
+        today: null,
+      };
+
+      // Tab [General]
+      const general = resultCont.querySelector(pageSelectors.generalTab);
+      if (general) {
+        results[index]["general"] = extractTableData(
+          general.querySelector("table"),
+        );
       }
 
-      const results = [];
-      resultConts.forEach((resultCont, index) => {
-        results[index] = {
-          general: null,
-          today: null,
-        };
+      // Tab [Today]
+      const today = resultCont.querySelector(pageSelectors.todayTab);
+      if (today) {
+        const pairs = [];
+        const headers = today.querySelectorAll("h4");
+        const tables = today.querySelectorAll("table");
 
-        // Tab [General]
-        const general = resultCont.querySelector(pageSelectors.generalTab);
-        if (general) {
-          results[index]["general"] = extractTableData(
-            general.querySelector("table"),
-          );
+        for (
+          let pair = 0;
+          pair < headers.length && pair < tables.length;
+          pair += 1
+        ) {
+          pairs.push({
+            label: headers[pair].innerText,
+            standings: extractTableData(tables[pair]),
+          });
         }
-
-        // Tab [Today]
-        const today = resultCont.querySelector(pageSelectors.todayTab);
-        if (today) {
-          const pairs = [];
-          const headers = today.querySelectorAll("h4");
-          const tables = today.querySelectorAll("table");
-
-          for (
-            let pair = 0;
-            pair < headers.length && pair < tables.length;
-            pair += 1
-          ) {
-            pairs.push({
-              label: headers[pair].innerText,
-              standings: extractTableData(tables[pair]),
-            });
-          }
-          results[index]["today"] = pairs;
-        }
-      });
-
-      return results;
+        results[index]["today"] = pairs;
+      }
     });
 
-    return cleanUpStages(tables, stageUID, stage);
-  } catch (exception) {
-    throw exception;
-  }
+    return results;
+  });
+
+  return cleanUpStages(tables, stageUID, stage);
 }

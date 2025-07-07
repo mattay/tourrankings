@@ -9,9 +9,9 @@ export function updateUrl(state) {
 
   // Construct new URL path
   const pathBase = `/race/${raceId}/${year}`;
-  const pathStage = stage ? `/${stage}` : "";
+  const pathStage = stage != null ? `/${stage}` : "";
   const pathClassification =
-    stage && classification ? `/${classification}` : "";
+    stage != null && classification ? `/${classification}` : "";
 
   const newPath = `${pathBase}${pathStage}${pathClassification}`;
 

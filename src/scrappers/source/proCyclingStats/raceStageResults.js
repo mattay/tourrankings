@@ -3,8 +3,6 @@ import { renameKeys } from "../../../utils/object";
 import { toCamelCase } from "../../../utils/string";
 import { addTime, formatSeconds } from "../../../utils/time";
 import { logError, logOut } from "../../../utils/logging";
-import { warn } from "console";
-
 /**
  * Renames the scraped column name
  * @param {string} column - the html column name

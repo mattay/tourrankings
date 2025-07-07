@@ -1,3 +1,4 @@
+import { validateStage } from "src/core/cycling/stage/stage";
 import store from "../storeInstance";
 
 /**
@@ -15,14 +16,13 @@ export function actionSelectStage(stage) {
     return;
   }
 
-  const stageNumber = Number(stage.stage);
-  if (Number.isNaN(stageNumber)) {
-    console.warn("Invalid stage number");
+  const stageNumber = validateStage(stage.stage);
+  const previouslySelected = store.getState().selected;
+  if (stageNumber === null || previouslySelected.stage === stageNumber) {
     return;
   }
 
   // Update store
-  const previouslySelected = store.getState().selected;
   store.setState({
     previouslySelected,
     selected: {

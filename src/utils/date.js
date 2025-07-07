@@ -26,3 +26,24 @@ export function isoDateTime(date) {
 
   return `${day} ${time}`;
 }
+
+/**
+ * Validates a year parameter.
+ * @param {any} yearParam - The year value to validate.
+ * @param {number} fallbackYear - The fallback year to use if the input is invalid.
+ * @returns {number|null} - Returns the valid year as a number, or null if invalid.
+ */
+export function validateYear(
+  yearParam,
+  fallbackYear = new Date().getFullYear(),
+) {
+  if (yearParam === undefined || yearParam === null || yearParam === "") {
+    return fallbackYear; // Allow missing year
+  }
+  const year = Number(yearParam);
+  // Adjust range as needed
+  if (Number.isInteger(year) && year >= 1900 && year <= 2100) {
+    return year;
+  }
+  return fallbackYear;
+}

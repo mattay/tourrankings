@@ -5,7 +5,10 @@ import {
   CLASSIFICATION_TYPES,
   CLASSIFICATION_UI_OPTIONS,
   isValidClassificationType,
+  validateClassification,
 } from "src/core/cycling/classification/classification";
+import { validateYear } from "src/utils/date";
+import { validateStage } from "src/core/cycling/stage/stage";
 
 /** @type {import('../controllers/raceController').RaceContent} RaceContent */
 
@@ -87,9 +90,9 @@ function racePageContent(
  */
 router.get("/:racePcsID/:year?/:stage?/:classification?", (req, res, next) => {
   const { racePcsID } = req.params;
-  const year = Number(req.params.year) || null;
-  const stage = Number(req.params.stage) || null;
-  const classification = req.params.classification || null;
+  const year = validateYear(req.params.year);
+  const stage = validateStage(req.params.stage);
+  const classification = validateClassification(req.params.classification);
   const pageContent = racePageContent(racePcsID, year, stage, classification);
 
   if (!pageContent.race) {

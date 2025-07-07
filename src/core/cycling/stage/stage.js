@@ -9,7 +9,7 @@ export function validateStage(stage, fallbackStage = null) {
     return fallbackStage; // Allow missing stage
   }
   const stageNumber = Number(stage);
-  if (!Number.isInteger(stageNumber) && stageNumber < 0) {
+  if (!Number.isInteger(stageNumber) || stageNumber < 0) {
     console.warn("Invalid stage number", stageNumber);
     return fallbackStage;
   }

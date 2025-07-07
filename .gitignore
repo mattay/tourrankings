@@ -1,6 +1,7 @@
 # Build
 node_modules/
 /public/js/dist/
+/public/css/
 
 # OS files
 .DS_Store

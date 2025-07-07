@@ -1,0 +1,29 @@
+.races,
+.races--grouped,
+.races--list {
+  display: flex;
+  flex-direction: column;
+}
+
+.races {
+  gap: 4rem;
+
+  font-size: 1.5rem;
+  line-height: 1.25;
+
+  h2 {
+    font-size: 1rem;
+    line-height: 1.25;
+    font-weight: normal;
+    color: var(--color-text-secondary);
+  }
+}
+
+.races--grouped {
+  gap: 0.75rem;
+}
+
+.races--list {
+  gap: 0.5rem;
+  align-items: flex-start;
+}

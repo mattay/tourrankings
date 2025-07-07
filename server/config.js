@@ -78,4 +78,9 @@ const config = {
   },
 };
 
+if (config.env === "development") {
+  config.security.headers.contentSecurityPolicy.directives.upgradeInsecureRequests =
+    null;
+}
+
 export default config;

@@ -1,0 +1,96 @@
+#race-rankings {
+  display: flex;
+  width: 100%;
+  flex-grow: 1;
+  padding-top: 16px;
+  svg {
+    width: 100%;
+  }
+}
+
+.stage-container {
+  text {
+    font-size: 1rem;
+    line-height: 1;
+    /* font-weight: bold; */
+    fill: var(--color-secondary);
+    transition: fill 321ms ease-in-out;
+  }
+
+  .stage-indicator {
+    fill: var(--color-background);
+    stroke-width: 2;
+    transition:
+      stroke 210ms ease-out,
+      fill 210ms ease-out;
+  }
+
+  g:not(.raced) .stage-indicator {
+    stroke-dasharray: 2, 3;
+    stroke: var(--color-secondary);
+  }
+
+  .raced {
+    cursor: pointer;
+
+    .stage-indicator {
+      stroke-dasharray: none;
+      stroke: var(--color-secondary);
+    }
+  }
+
+  .raced:hover {
+    text {
+      fill: var(--color-accent);
+    }
+    .stage-indicator {
+      stroke-width: 3;
+      stroke: var(--color-accent);
+      transition: stroke 321ms ease-in;
+    }
+  }
+
+  .viewing {
+    text {
+      fill: var(--color-primary);
+    }
+    .stage-indicator {
+      fill: var(--color-primary);
+      stroke: var(--color-background);
+    }
+  }
+
+  .viewing:hover {
+    .stage-indicator {
+      stroke-width: 1;
+      fill: var(--color-accent);
+      transition: stroke 321ms ease-in;
+    }
+  }
+}
+
+.rider-container {
+  text {
+    font-size: 1rem;
+    line-height: 1;
+    fill: var(--color-secondary);
+  }
+  .hasAbandoned {
+    text-decoration-line: line-through;
+  }
+}
+
+.ranking {
+  path {
+    fill: none;
+  }
+
+  .background {
+    stroke: var(--color-background);
+    stroke-width: 4;
+  }
+  .foreground {
+    stroke-width: 2;
+    stroke: var(--color-secondary);
+  }
+}

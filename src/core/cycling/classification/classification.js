@@ -213,3 +213,22 @@ export function getClassificationsByCalculationType(calculationType) {
     .filter(([_, config]) => config.calculationType === calculationType)
     .map(([classificationType, _]) => classificationType);
 }
+
+/**
+ * Validates a classification parameter.
+ * @param {any} classificationParam - The classification value to validate.
+ * @param {string} fallbackClassification - The fallback classification to use if the input is invalid.
+ * @returns {string|null} - Returns the valid classification string, or null if invalid.
+ */
+export function validateClassification(
+  classificationParam,
+  fallbackClassification = CLASSIFICATION_TYPES.STAGE,
+) {
+  if (
+    typeof classificationParam !== "string" ||
+    !Object.values(CLASSIFICATION_TYPES).includes(classificationParam)
+  ) {
+    return fallbackClassification;
+  }
+  return classificationParam;
+}

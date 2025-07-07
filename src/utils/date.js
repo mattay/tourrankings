@@ -31,7 +31,7 @@ export function isoDateTime(date) {
  * Validates a year parameter.
  * @param {any} yearParam - The year value to validate.
  * @param {number} fallbackYear - The fallback year to use if the input is invalid.
- * @returns {number|null} - Returns the valid year as a number, or null if invalid.
+ * @returns {number} - Returns the valid year as a number, or the fallback year if invalid.
  */
 export function validateYear(
   yearParam,

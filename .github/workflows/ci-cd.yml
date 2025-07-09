@@ -140,8 +140,8 @@ jobs:
             --env DEPLOYMENT_TIME=${{ env.DEPLOYMENT_TIME }} \
             --env COMMIT_SHA=${{ env.COMMIT_SHA }}
         env:
-          FLY_API_TOKEN: ${{ secrets.TOURRANKINGDEV_FLYIO }}
-         
+          FLY_API_TOKEN: ${{ secrets.FLY_DEPLOY_TOKEN }}
+
       - name: Comment deployment URL on PR
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
@@ -153,14 +153,13 @@ jobs:
             - **Cycle**: ${context.payload.head.ref}
             - **Commit**: ${context.sha.substring(0, 7)}
             Test your changes and iterate quickly!`;
-            
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: comment
             });
-
 
   deploy-production:
     name: Deploy to Production
@@ -180,8 +179,8 @@ jobs:
       - name: Deploy to production
         run: flyctl deploy --config fly.prod.toml --remote-only
         env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-          
+          FLY_API_TOKEN: ${{ secrets.FLY_DEPLOY_TOKEN }}
+
       - name: Comment deployment URL on PR
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
@@ -193,14 +192,13 @@ jobs:
             - **Cycle**: ${context.payload.head.ref}
             - **Commit**: ${context.sha.substring(0, 7)}
             Test your changes and iterate quickly!`;
-            
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: comment
             });
-      
 
   # SHAPE UP AUTOMATION
   shape-up-automation:

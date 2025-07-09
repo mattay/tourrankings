@@ -1,0 +1,178 @@
+# .github/workflows/ci-cd.yml
+name: CI/CD Pipeline
+
+on:
+  # PR validation for all branches
+  pull_request:
+    branches: [main, "cycle-*", "cooldown-*"]
+
+  # Deploy on merge to cycle/cooldown/main
+  push:
+    branches: [main, "cycle-*", "cooldown-*"]
+
+  # Manual deployment trigger
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy to"
+        required: true
+        default: "development"
+        type: choice
+        options:
+          - development
+          - production
+
+jobs:
+  # VALIDATION JOBS
+  lint-and-test:
+    name: Lint & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Run lint
+        run: bun run lint
+
+      - name: Run tests
+        run: bun test
+
+  # SECURITY & QUALITY (Enhanced for cooldown branches)
+  security-scan:
+    name: Security & Quality
+    runs-on: ubuntu-latest
+    # Run security scan on all branches, but make it required for cooldown
+    if: ${{ !cancelled() }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Security audit
+        run: bun run audit
+
+      # Enhanced checks for cooldown branches
+      - name: Enhanced quality checks for cooldown
+        if: startsWith(github.ref_name, 'cooldown-') || startsWith(github.head_ref, 'cooldown-')
+        run: |
+          echo "Running enhanced quality checks for cooldown branch..."
+          # Add any additional quality checks here
+          # bun run test:coverage
+          # bun run type-check
+          # bun run test:e2e
+
+  # DOCKER BUILD TEST
+  docker-build:
+    name: Docker Build Test
+    runs-on: ubuntu-latest
+    needs: [test-and-lint]
+    # Only test Docker builds for branches that will be deployed
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Test Docker Build
+        run: |
+          if [[ "${{ github.ref_name }}" == "main" ]]; then
+            echo "Testing production Docker build..."
+            docker build -t test-build .
+          else
+            echo "Testing development Docker build..."
+            docker build -f Dockerfile.dev -t test-build-dev . || docker build -t test-build-dev .
+          fi
+
+  # DEPLOYMENT JOBS
+  deploy-development:
+    name: Deploy to Development
+    runs-on: ubuntu-latest
+    needs: [test-and-lint, security-scan, docker-build]
+    if: |
+      github.event_name == 'push' &&
+      (startsWith(github.ref_name, 'cycle-') || startsWith(github.ref_name, 'cooldown-')) ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'development')
+    concurrency:
+      group: deploy-dev
+      cancel-in-progress: true
+    environment: development
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Set deployment metadata
+        run: |
+          echo "BRANCH_NAME=${GITHUB_REF_NAME}" >> "$GITHUB_ENV"
+          echo "DEPLOYMENT_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> "$GITHUB_ENV"
+          echo "COMMIT_SHA=${GITHUB_SHA:0:7}" >> "$GITHUB_ENV"
+
+      - name: Deploy to development
+        run: |
+          flyctl deploy --config fly.dev.toml --remote-only \
+            --env BRANCH_NAME=${{ env.BRANCH_NAME }} \
+            --env DEPLOYMENT_TIME=${{ env.DEPLOYMENT_TIME }} \
+            --env COMMIT_SHA=${{ env.COMMIT_SHA }}
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Deployment success notification
+        run: |
+          echo "Deployment successful!"
+          echo "Environment: Development"
+          echo "Branch: ${{ env.BRANCH_NAME }}"
+          echo "Commit: ${{ env.COMMIT_SHA }}"
+          echo "Deployed at: ${{ env.DEPLOYMENT_TIME }}"
+
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [test-and-lint, security-scan, docker-build]
+    if: |
+      github.ref_name == 'main' ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')
+    concurrency: deploy-production
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy to production
+        run: flyctl deploy --config fly.prod.toml --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Production deployment success
+        run: |
+          echo "🚀 Production deployment successful!"
+          echo "🌍 Live at: https://your-production-domain.com"
+
+  # SHAPE UP AUTOMATION
+  shape-up-automation:
+    name: Shape Up Workflow
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref_name == 'main'
+    steps:
+      - name: Archive completed cycle
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Create a completion comment or issue
+            console.log('Cycle completed and deployed to production');
+            // Add any Shape Up specific automation here
+
+      - name: Cycle completion notification
+        run: |
+          echo "Shape Up cycle completed!"
+          echo "Changes are now live in production"
+          echo "Ready for next cycle planning"

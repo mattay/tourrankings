@@ -180,7 +180,7 @@ knowledge_base:
 
 code_generation:
   docstrings:
-    language: en-US
+    language: en-AU
     path_instructions: []
   unit_tests:
     path_instructions:

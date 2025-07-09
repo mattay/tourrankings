@@ -140,7 +140,7 @@ jobs:
             --env DEPLOYMENT_TIME=${{ env.DEPLOYMENT_TIME }} \
             --env COMMIT_SHA=${{ env.COMMIT_SHA }}
         env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          FLY_API_TOKEN: ${{ secrets.TOURRANKINGDEV_FLYIO }}
          
       - name: Comment deployment URL on PR
         if: github.event_name == 'pull_request'

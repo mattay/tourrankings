@@ -1,8 +1,10 @@
+# .github/workflows/issue-labeling-shape-up.yml
 name: Shape Up Workflow
+
 on:
   issues:
     types: [opened, labeled, unlabeled]
-  
+
 jobs:
   manage-shaping:
     runs-on: ubuntu-latest
@@ -14,15 +16,15 @@ jobs:
           project: Shaping Board
           column: Raw Ideas
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Move pitches to betting
         if: contains(github.event.issue.labels.*.name, 'pitch')
         uses: alex-page/github-project-automation-plus@v0.9.0
         with:
-          project: Shaping Board  
+          project: Shaping Board
           column: Ready for Betting
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Archive completed cycle
         if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'cycle-')
         uses: actions/github-script@v7

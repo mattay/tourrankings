@@ -1,7 +1,10 @@
+# .github/workflows/issue-management-cooldown.yml
 name: Cooldown Management
+
 on:
   issues:
     types: [labeled]
+
 jobs:
   move-to-cooldown:
     if: contains(github.event.issue.labels.*.name, 'bug')

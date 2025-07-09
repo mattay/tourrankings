@@ -39,7 +39,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.bun/install/cache
-          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
           restore-keys: |
             ${{ runner.os }}-bun-
 
@@ -70,7 +70,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.bun/install/cache
-          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
           restore-keys: |
             ${{ runner.os }}-bun-
 
@@ -172,8 +172,8 @@ jobs:
 
       - name: Production deployment success
         run: |
-          echo "🚀 Production deployment successful!"
-          echo "🌍 Live at: https://your-production-domain.com"
+          echo "Production deployment successful!"
+          echo "Live at: https://your-production-domain.com"
 
   # SHAPE UP AUTOMATION
   shape-up-automation:

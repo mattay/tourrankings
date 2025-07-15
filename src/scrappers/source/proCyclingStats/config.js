@@ -6,7 +6,7 @@
  * @property {Object} domains - .
  * @property {Object} domains.whitelist - List of domains to allow.
  * @property {Object} domains.blacklist - List of domains to block.
- *
+ * @property {number} wait - Wait time in milliseconds.
  */
 
 /** @type {Config} */

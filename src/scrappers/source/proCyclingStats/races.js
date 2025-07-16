@@ -1,8 +1,12 @@
-import { Page } from "puppeteer-core";
 import { generateId } from "../../../utils/idGenerator";
 import { logError, logOut } from "../../../utils/logging";
 import { formatDate } from "../../../utils/string";
 import { buildUrl, urlSections } from "../../../utils/url";
+
+/**
+ * @typedef {import('puppeteer-core').Page} Page - Puppeteer
+ * @typedef {import('../../../models/races/races').Races} Races
+ */
 
 /**
  * Collects World Tour races for a given year
@@ -23,14 +27,20 @@ export async function collectWorldTourRaces(page, races, year) {
 
   const tableRows = await scrapeRaces(page, url, filter.year);
   if (!tableRows || tableRows.length == 0) {
-    logError("collectWorldTourRaces", url);
-    logError("collectWorldTourRaces", `No races found for year ${year}`);
+    logError("Collect World Tour Races", url);
+    logError("Collect World Tour Races", `No races found for year ${year}`);
     return;
   }
   try {
+    for (const row of tableRows) {
+      logOut(
+        "Collect World Tour Races",
+        `${row.raceClass}\t${row.startDate} - ${row.endDate}\t${row.raceName}`,
+      );
+    }
     await races.update(tableRows);
   } catch (error) {
-    logError("collectWorldTourRaces", "Failed to update races", error);
+    logError("Collect World Tour Races", "Failed to update races", error);
   }
 }
 

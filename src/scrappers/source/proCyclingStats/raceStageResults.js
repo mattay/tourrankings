@@ -36,7 +36,20 @@ function cleanUpStageTable(table, additionalValues) {
     })
     .map((row, index, rankings) => {
       row = renameKeys(row, tableHeaders);
-      // console.log(row);
+
+      if (Object.hasOwn(row, "Rank")) {
+        let value = row["Rank"];
+
+        if (isNaN(value)) {
+          row["Status"] = value;
+          row["Rank"] = "";
+          // DNF = Did not finish
+          // DNS = Did not start
+          // OTL = Outside time limit
+          // DF = Did finish, no result
+          // NR = No result
+        }
+      }
 
       // ▼▲
       if (Object.hasOwn(row, "Change")) {
@@ -103,7 +116,6 @@ function cleanUpStageTable(table, additionalValues) {
           case "GC":
           case "Bib":
           case "UCI":
-          case "Age":
           case "Points":
           case "Today":
           case "Change":
@@ -142,10 +154,10 @@ function sprint(label) {
 
   const matchSprintLabel = label.match(regexSprintLabel);
   if (label != "Points at finish" && !matchSprintLabel) {
-    console.error(
-      "Label for sprint points does not match: Sprint | <location> (<distance> km)",
+    logError(
+      "Race Stage Results",
+      `Label for Sprint points does not match: ${label}`,
     );
-    console.warn(label);
   } else if (matchSprintLabel) {
     sprint.location = matchSprintLabel.groups.location;
     sprint.distance = matchSprintLabel.groups.distance;
@@ -172,12 +184,14 @@ function climb(label) {
 
   const matchKomLabel = label.match(regexKomLabel);
   if (!matchKomLabel) {
-    console.error(
-      "Label for KOM points does not match: KOM Sprint (<category>) <location> (<distance> km)",
+    logError(
+      "Race Stage Results",
+      `Label for KOM points does not match: ${label}`,
     );
-    console.warn(label);
   } else {
-    return matchKomLabel.groups;
+    climb.category = matchKomLabel.groups.category;
+    climb.location = matchKomLabel.groups.location;
+    climb.distance = matchKomLabel.groups.distance;
   }
 
   return climb;
@@ -214,6 +228,7 @@ function cleanUpStages(tables, stageUID, stage) {
       stageRankings[tab] = general;
     } else {
       console.error(tab, index, Object.keys(tables[index]));
+
       logOut(
         this.constructor.name,
         `${tab}, ${index} ${Object.keys(tables[index]).join(", ")}`,
@@ -268,7 +283,7 @@ function cleanUpStages(tables, stageUID, stage) {
             break;
 
           default:
-            logOut("cleanUpStages", `Ranking: ${ranking.label}`, "warn");
+            logOut("Clean Up Stages", `Ranking: ${ranking.label}`, "warn");
 
             table = cleanUpStageTable(ranking.standings, { stageUID, stage });
             stageRankings[tab + "-location"] = table;
@@ -299,7 +314,7 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
   try {
     await page.goto(url, { waitUntil: "networkidle2" });
   } catch (exception) {
-    console.error(exception.name, `Failed to Navigate to '${url}'`);
+    logError("Race Stage Results", `Failed to Navigate to '${url}'`, exception);
     return null;
   }
 
@@ -310,8 +325,8 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
     });
   } catch (exception) {
     logError(
-      "scrapeRaceStageResults",
-      `Exception in scrapeStage waiting for  selector ".page-content" on '${url}'`,
+      "Race Stage Results",
+      `Exception in scrapeStage waiting for  selector '.page-content' on '${url}'`,
       exception,
     );
     return null;
@@ -323,10 +338,15 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
     const pageSelectors = {
       // Main results containers
       resultContainers: "#resultsCont .resTab",
+      tabsContainer: "ul.tabs.tabnav.resultTabs",
+      tabs: "a.selectResultTab",
       // Tab system within each result container
       generalTab: ".general",
       todayTab: ".today",
     };
+
+    // TODO: Collect Tabs Listed -> Make no assumptions about tab structure
+    // const tabs = document.querySelectorAll(`${pageSelectors.generalTab}, ${pageSelectors.todayTab}`);
 
     const resultConts = document.querySelectorAll(
       pageSelectors.resultContainers,
@@ -337,7 +357,7 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
         // Standard table elements
         headers: "thead th", // Column headers
         rows: "tbody tr", // Data rows
-        cells: "th, td", // Individual cells (both header and data)
+        cells: "td", // Individual cells (both header and data)
         // Special cell types with custom handling
         timeCells: {
           selector: 'cell.classList.contains("time")',
@@ -349,14 +369,30 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
       const columns = Array.from(
         tableElement.querySelectorAll(tableStructure.headers),
       ).map((cell) => cell.innerText.trim());
+      // TODO: cell.getAttribute('data-code') ?? cell.innerText.trim())
 
       const rows = Array.from(
         tableElement.querySelectorAll(tableStructure.rows),
       );
 
-      return rows.map((row) => {
+      return rows.map((row, index) => {
         const cells = Array.from(row.querySelectorAll(tableStructure.cells));
         const rowDetails = {};
+
+        if (cells.length < columns.length) {
+          if (cells.length == 1) {
+            return {
+              type: "nonResult",
+              value: cells[0].innerText,
+              row: index,
+            };
+          }
+          return {
+            type: "columnCount",
+            value: cells.length,
+            row: index,
+          };
+        }
 
         for (
           let columnIndex = 0;
@@ -367,13 +403,13 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
           const cell = cells[columnIndex];
           const nestedSpan = cell.querySelector("span");
           const nestedDiv = cell.querySelector("div");
-          let cellContent = "";
+          let cellContent = cell.innerText.trim();
 
-          if (cell.classList.contains("time") && nestedSpan !== null) {
-            cellContent = nestedDiv.innerText.trim();
-          } else {
-            cellContent = cell.innerText.trim();
-          }
+          // if (cell.classList.contains("time") && nestedSpan !== null) {
+          //   cellContent = nestedDiv.innerText.trim();
+          // } else {
+          //   cellContent = cell.innerText.trim();
+          // }
 
           rowDetails[columnLabel] = cellContent;
         }
@@ -382,8 +418,8 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
       });
     }
 
-    const results = [];
-    resultConts.forEach((resultCont, index) => {
+    const results = /** @type {Object[]} */ [];
+    for (const [index, resultCont] of resultConts.entries()) {
       results[index] = {
         general: null,
         today: null,
@@ -416,7 +452,7 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
         }
         results[index]["today"] = pairs;
       }
-    });
+    }
 
     return results;
   });

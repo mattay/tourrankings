@@ -27,7 +27,7 @@ export function buildUrl(baseUrl, params) {
 export function urlSections(urlString, sectionLabels = []) {
   if (!urlString || !sectionLabels) {
     logError(
-      "urlSections",
+      "Url Sections",
       "Invalid input: urlString and sectionLabels are required",
     );
     return null;
@@ -38,9 +38,9 @@ export function urlSections(urlString, sectionLabels = []) {
   // Remove empty results of splitting by "/"
   const parts = pathname.split("/").filter((part) => part.length > 0);
   if (sectionLabels.length != parts.length) {
-    console.error("sectionLabels does not match path");
-    console.error("sectionLables", sectionLabels);
-    console.error("parts", parts);
+    logError("Url Sections", "sectionLabels does not match path parts");
+    logError("Url Sections", `sectionLabels: ${sectionLabels.join(", ")}`);
+    logError("Url Sections", `parts: ${parts.join(", ")}`);
     return null;
   }
 

@@ -27,7 +27,7 @@ export class ClassificationYouth extends CSVdataModel {
     };
     super(
       `${process.env.DATA_DIR}/raceStageClassificationYouth.csv`,
-      ["Stage UID", "Rank"],
+      ["Stage UID", "Bib"],
       fieldTypes,
     );
     this.csvHeaders = [

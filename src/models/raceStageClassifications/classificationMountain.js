@@ -29,7 +29,7 @@ export class ClassificationMountain extends CSVdataModel {
     };
     super(
       `${process.env.DATA_DIR}/raceStageClassificationMountain.csv`,
-      ["Stage UID", "Rank"],
+      ["Stage UID", "Bib"],
       fieldTypes,
     );
     this.csvHeaders = [

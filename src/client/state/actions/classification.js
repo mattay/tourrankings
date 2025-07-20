@@ -1,4 +1,7 @@
-import { isValidClassificationType } from "src/core/cycling/classification/classification";
+import {
+  isValidClassificationType,
+  validateClassification,
+} from "src/core/cycling/classification/classification";
 import store from "../storeInstance";
 
 /**
@@ -23,7 +26,15 @@ export function actionSelectClassification(classificationType) {
     return;
   }
 
+  const classification = validateClassification(classificationType);
   const previouslySelected = store.getState().selected;
+  if (
+    classification === null ||
+    previouslySelected.classification === classification
+  ) {
+    return;
+  }
+
   store.setState({
     previouslySelected,
     selected: {

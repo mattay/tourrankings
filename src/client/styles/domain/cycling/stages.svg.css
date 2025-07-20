@@ -1,0 +1,72 @@
+#stage-container {
+  text {
+    font-size: 1rem;
+    line-height: 1;
+    /* font-weight: bold; */
+    fill: var(--color-secondary);
+    transition: fill 321ms ease-in-out;
+  }
+
+  .stage-indicator {
+    fill: var(--color-background);
+    stroke-width: 2;
+    transition:
+      stroke 210ms ease-out,
+      fill 210ms ease-out;
+  }
+
+  g:not(.raced) .stage-indicator {
+    stroke-dasharray: 2, 3;
+    stroke: var(--color-secondary);
+  }
+
+  .raced {
+    cursor: pointer;
+
+    .stage-indicator {
+      stroke-dasharray: none;
+      stroke: var(--color-secondary);
+    }
+
+    &:hover {
+      text {
+        fill: var(--color-accent);
+      }
+      .stage-indicator {
+        stroke-width: 3;
+        stroke: var(--color-accent);
+        transition: stroke 321ms ease-in;
+      }
+    }
+  }
+
+  .viewing {
+    text {
+      fill: var(--color-primary);
+    }
+
+    .stage-indicator {
+      fill: var(--color-primary);
+      stroke: var(--color-background);
+    }
+
+    &:hover {
+      .stage-indicator {
+        stroke-width: 1;
+        fill: var(--color-accent);
+        transition: stroke 321ms ease-in;
+      }
+    }
+  }
+}
+
+#stage-progress {
+  stroke-width: 2;
+  stroke: var(--color-secondary);
+
+  .background {
+    stroke-dasharray: 2, 3;
+  }
+  .viewing {
+  }
+}

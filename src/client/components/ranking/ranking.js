@@ -48,11 +48,16 @@ export function createRankingComponent({
     line.attr("d", path(d));
     const newLength = element.getTotalLength();
     const greatestLength = oldLength > newLength ? oldLength : newLength;
+    const firstPoint = d[0].stage;
+    const lastPoint = d[d.length - 1].stage;
+    const steps = lastPoint - firstPoint;
 
     line
       .attr("stroke-dasharray", oldLength + " " + greatestLength)
       .transition()
-      .duration(3000)
+      .ease(d3.easeCubicOut)
+      .delay(transitionDuration)
+      .duration(steps * transitionDuration)
       .attr("stroke-dasharray", newLength + " " + newLength);
   };
 
@@ -66,6 +71,9 @@ export function createRankingComponent({
 
     rankingEnter
       .attr("class", "ranking")
+      .attr("data-id", (d, i) => {
+        return d[0]?.bib || d[0]?.team || i;
+      })
       .on("click", (event, d) => onRiderClick(d));
 
     rankingEnter
@@ -77,6 +85,13 @@ export function createRankingComponent({
       .append("path")
       .attr("class", "foreground")
       .attr("d", "M0,0 L0,0");
+
+    rankingEnter
+      .append("circle")
+      .attr("class", "dot")
+      .attr("r", 0)
+      .attr("cx", (d) => (d.length >= 1 ? xScale(d[0].stage) : 0))
+      .attr("cy", (d) => (d.length >= 1 ? yScale(d[0].rank) : 0));
   };
 
   /**
@@ -91,6 +106,15 @@ export function createRankingComponent({
     rankingSelection.select(".foreground").each(function (d) {
       animatePath(this, d);
     });
+
+    rankingSelection
+      .select(".dot")
+      .transition()
+      .ease(d3.easeQuadInOut)
+      .duration(transitionDuration)
+      .attr("cx", (d) => (d.length >= 1 ? xScale(d[0].stage) : 0))
+      .attr("cy", (d) => (d.length >= 1 ? yScale(d[0].rank) : 0))
+      .attr("r", (d) => (d.length >= 1 ? 4 : 0));
   };
 
   /**
@@ -107,9 +131,17 @@ export function createRankingComponent({
   };
 
   return function rankingComponent(selection, data) {
+    console.log("rankingComponent", data);
     // Bind data with key function
-    // console.log("rankingComponent", data)
-    const rankings = selection.selectAll("g.ranking").data(data, (d, i) => i);
+    const rankings = selection.selectAll("g.ranking").data(data, (d, i) => {
+      return d[0]?.bib || d[0]?.team || i;
+    });
+
+    // Exit
+    exitRankingGroup(rankings.exit());
+
+    // Update existing
+    // updateRankingGroup(rankings);
 
     // Enter
     const rankingsEnter = rankings.enter().append("g");
@@ -118,8 +150,5 @@ export function createRankingComponent({
     // Merge enter + update
     const rankingsMerge = rankingsEnter.merge(rankings);
     updateRankingGroup(rankingsMerge);
-
-    // Exit
-    exitRankingGroup(rankings.exit());
   };
 }

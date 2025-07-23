@@ -78,5 +78,4 @@ RUN mkdir -p /tourRanking/data/csv && \
     chmod -R 755 /tourRanking/data
 
 # Start the application
-# CMD ["sh", "-c", "bun start & supercronic /app/crontab"]
-CMD ["sh", "-c", "bun start"]
+# CMD ["sh", "-c", "bun start"]

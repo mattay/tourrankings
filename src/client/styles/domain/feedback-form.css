@@ -61,8 +61,7 @@
 
 .feedback-header,
 .feedback-form,
-.feedback-success,
-.feedback-error {
+.feedback-confirmation {
   padding: var(--size-large);
   display: flex;
 }
@@ -97,14 +96,12 @@
 }
 
 .feedback-form,
-.feedback-success,
-.feedback-error {
+.feedback-confirmation {
   flex-direction: column;
   gap: var(--size-medium-large);
 }
 
-.feedback-success,
-.feedback-error {
+.feedback-confirmation {
   align-items: center;
 
   p {
@@ -125,16 +122,22 @@
   color: var(--color-text-secondary);
 }
 
-.icon {
-  width: 3rem;
-  height: 3rem;
-  fill: var(--color-text-secondary);
-}
+.feedback-confirmation {
+  .icon {
+    width: 3rem;
+    height: 3rem;
+    fill: var(--color-text-secondary);
+  }
 
-.confirmation-message {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  .confirmation-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .confirmation-action {
+    margin-top: var(--size-medium);
+  }
 }
 
 #feedback-submit {

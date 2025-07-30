@@ -12,6 +12,7 @@ const SHEETS_CONFIG = {
   spreadsheetId: process.env.GOOGLE_SHEETS_ID, // Set this in your environment
   sheetName: "Feedback",
   headers: [
+    "Check Box",
     "Timestamp",
     "Page URL",
     "Feedback Type",
@@ -77,7 +78,7 @@ class ServiceGoogleSheets {
       }
       // Priority 3: Application Default Credentials (ADC) - works without keys
       else {
-        logOut(
+        logError(
           this.constructor.name,
           "Using Application Default Credentials (no explicit credentials provided)",
         );
@@ -262,6 +263,7 @@ class ServiceGoogleSheets {
 
       // Prepare row data matching the headers
       const rowData = [
+        feedbackData.checkBox || "",
         feedbackData.timestamp || new Date().toISOString(),
         feedbackData.pageUrl || "",
         feedbackData.feedbackType || "general",
@@ -274,6 +276,7 @@ class ServiceGoogleSheets {
         feedbackData.classification || "",
       ];
 
+      logOut(this.constructor.name, `[Feedback] ${feedbackData.message}`);
       // Append the row
       const response = await this.sheets.spreadsheets.values.append({
         spreadsheetId: SHEETS_CONFIG.spreadsheetId,
@@ -325,7 +328,7 @@ class ServiceGoogleSheets {
         userEmail: "test@example.com",
         timestamp: new Date().toISOString(),
       };
-
+      logOut(this.constructor.name, "Writing test feedback...");
       const result = await this.writeFeedback(testData);
 
       return {

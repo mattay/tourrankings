@@ -220,8 +220,7 @@
 
   .feedback-header,
   .feedback-form,
-  .feedback-success,
-  .feedback-error {
+  .feedback-confirmation {
     padding: var(--size-medium);
   }
 }

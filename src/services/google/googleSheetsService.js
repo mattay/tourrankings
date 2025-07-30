@@ -78,9 +78,10 @@ class ServiceGoogleSheets {
       }
       // Priority 3: Application Default Credentials (ADC) - works without keys
       else {
-        logError(
+        logOut(
           this.constructor.name,
-          "Using Application Default Credentials (no explicit credentials provided)",
+          "Using Application Default Credentials (fallback method)",
+          "warn",
         );
         // No explicit credentials - will use ADC
       }
@@ -276,7 +277,6 @@ class ServiceGoogleSheets {
         feedbackData.classification || "",
       ];
 
-      logOut(this.constructor.name, `[Feedback] ${feedbackData.message}`);
       // Append the row
       const response = await this.sheets.spreadsheets.values.append({
         spreadsheetId: SHEETS_CONFIG.spreadsheetId,
@@ -290,8 +290,8 @@ class ServiceGoogleSheets {
 
       // Extract row number from the response
       const updatedRange = response.data.updates?.updatedRange || "";
-      const rowMatch = updatedRange.match(/(\d+):(\d+)$/);
-      const rowId = rowMatch ? parseInt(rowMatch[1]) : null;
+      const rowMatch = updatedRange.match(/([A-Z]+)(\d+):([A-Z]+)(\d+)$/i);
+      const rowId = rowMatch ? parseInt(rowMatch[2], 10) : null;
 
       logOut(
         this.constructor.name,

@@ -22,7 +22,7 @@ source = "dev_data_volume"
 destination = "/tourRanking/data"
 
 [processes]
-app = "sh -c 'supercronic -passthrough-logs /tourRanking/crontab & bun start'"
+app = "sh -c 'supercronic -passthrough-logs /tourRanking/crontab & exec bun start'"
 
 [http_service]
 processes = ["app"]

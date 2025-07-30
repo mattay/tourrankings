@@ -74,7 +74,7 @@ const config = {
 
   dataService: {
     autoRefresh: true,
-    refreshInterval: 3600000,
+    refreshInterval: 1800000,
   },
 };
 

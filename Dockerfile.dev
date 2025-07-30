@@ -64,5 +64,5 @@ RUN mkdir -p /tourRanking/data/csv && \
     chown -R bun:bun /tourRanking/data && \
     chmod -R 755 /tourRanking/data
 
-# # Start with hot reload
-# CMD ["bun", "--hot", "server/index.js"]
+# Start with hot reload
+CMD ["bun", "--hot", "server/index.js"]

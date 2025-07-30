@@ -12,6 +12,7 @@ const SHEETS_CONFIG = {
   spreadsheetId: process.env.GOOGLE_SHEETS_ID, // Set this in your environment
   sheetName: "Feedback",
   headers: [
+    "Check Box",
     "Timestamp",
     "Page URL",
     "Feedback Type",
@@ -79,7 +80,8 @@ class ServiceGoogleSheets {
       else {
         logOut(
           this.constructor.name,
-          "Using Application Default Credentials (no explicit credentials provided)",
+          "Using Application Default Credentials (fallback method)",
+          "warn",
         );
         // No explicit credentials - will use ADC
       }
@@ -262,6 +264,7 @@ class ServiceGoogleSheets {
 
       // Prepare row data matching the headers
       const rowData = [
+        feedbackData.checkBox || "",
         feedbackData.timestamp || new Date().toISOString(),
         feedbackData.pageUrl || "",
         feedbackData.feedbackType || "general",
@@ -287,8 +290,8 @@ class ServiceGoogleSheets {
 
       // Extract row number from the response
       const updatedRange = response.data.updates?.updatedRange || "";
-      const rowMatch = updatedRange.match(/(\d+):(\d+)$/);
-      const rowId = rowMatch ? parseInt(rowMatch[1]) : null;
+      const rowMatch = updatedRange.match(/([A-Z]+)(\d+):([A-Z]+)(\d+)$/i);
+      const rowId = rowMatch ? parseInt(rowMatch[2], 10) : null;
 
       logOut(
         this.constructor.name,
@@ -325,7 +328,7 @@ class ServiceGoogleSheets {
         userEmail: "test@example.com",
         timestamp: new Date().toISOString(),
       };
-
+      logOut(this.constructor.name, "Writing test feedback...");
       const result = await this.writeFeedback(testData);
 
       return {

@@ -73,8 +73,10 @@ const config = {
   },
 
   dataService: {
-    autoRefresh: false,
-    refreshInterval: 3600000,
+    autoRefresh:
+      process.env.DATA_AUTO_REFRESH?.toLowerCase() === "true" || false,
+    refreshInterval:
+      parseInt(process.env.DATA_AUTO_REFRESH_INTERVAL, 10) || 3600000,
   },
 };
 

@@ -16,6 +16,8 @@ cpus = 1
 [env]
 NODE_ENV = "production"
 LOG_LEVEL = "info"
+DATA_AUTO_REFRESH = true
+DATA_AUTO_REFRESH_INTERVAL = 1800000
 
 [mounts]
 source = "data_volume"

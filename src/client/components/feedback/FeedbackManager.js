@@ -30,7 +30,6 @@ export class FeedbackManager {
 
   // Store all element IDs in one place
   static ELEMENT_IDS = {
-    container: "feedback-container",
     toggle: "feedback-toggle",
     modal: "feedback-modal",
     btnClose: "feedback-close",

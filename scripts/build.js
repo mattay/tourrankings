@@ -15,14 +15,6 @@ import { build } from "bun";
  * Builds multiple JavaScript bundles with shared configuration
  * @param {boolean} isProduction - Whether this is a production build
  * @returns {Promise<void>}
- * - Minifies output in production.
- * - Generates source maps in development.
- */
-
-/**
- * Builds multiple JavaScript bundles with shared configuration
- * @param {boolean} isProduction - Whether this is a production build
- * @returns {Promise<void>}
  */
 async function buildJavaScript(isProduction) {
   /** @type {BuildTarget[]} */

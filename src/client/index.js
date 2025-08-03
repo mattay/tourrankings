@@ -6,7 +6,6 @@ import { fetchRaceData } from "./api/index.js";
 import { getRaceInfoFromUrlPath } from "./state/browser/location";
 import { parseRaceContent } from "./domain/cycling/parse";
 // Components
-import { initializeFeedback } from "./components/feedback/feedback.js";
 import { Race } from "./components/race/race.js";
 import { updatePageHeadings } from "./components/page/title";
 import {

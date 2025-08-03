@@ -27,8 +27,47 @@ const FEEDBACK_CONFIG = {
  * Feedback form manager class
  */
 class FeedbackManager {
+  /** @type {boolean} */
+  #isOpen = false;
+
+  /** @type {boolean} */
+  #isSubmitting = false;
+
+  /** @type {HTMLElement | null} */
+  #container = null;
+
+  /** @type {HTMLElement | null} */
+  #toggle = null;
+
+  /** @type {HTMLElement | null} */
+  #modal = null;
+
+  /** @type {HTMLElement | null} */
+  #btnClose = null;
+
+  /** @type {HTMLElement | null} */
+  #form = null;
+
+  /** @type {HTMLElement | null} */
+  #btnCancel = null;
+
+  /** @type {HTMLElement | null} */
+  #btnSubmit = null;
+
+  /** @type {HTMLElement | null} */
+  #viewSuccess = null;
+
+  /** @type {HTMLElement | null} */
+  #viewError = null;
+
+  /** @type {HTMLElement | null} */
+  #btnDone = null;
+
+  /** @type {HTMLElement | null} */
+  #btnRetry = null;
+
   constructor() {
-    this.isOpen = false;
+    this.#isOpen = false;
     this.isSubmitting = false;
     this.initializeElements();
     this.bindEvents();
@@ -36,49 +75,51 @@ class FeedbackManager {
 
   /**
    * Initialize DOM elements
+   * @returns {void}
    */
   initializeElements() {
-    this.container = document.getElementById("feedback-container");
-    this.toggle = document.getElementById("feedback-toggle");
-    this.modal = document.getElementById("feedback-modal");
-    this.closeBtn = document.getElementById("feedback-close");
-    this.form = document.getElementById("feedback-form");
-    this.cancelBtn = document.getElementById("feedback-cancel");
-    this.submitBtn = document.getElementById("feedback-submit");
-    this.successView = document.getElementById("feedback-success");
-    this.errorView = document.getElementById("feedback-error");
-    this.doneBtn = document.getElementById("feedback-done");
-    this.retryBtn = document.getElementById("feedback-retry");
+    this.#container = document.getElementById("feedback-container");
+    this.#toggle = document.getElementById("feedback-toggle");
+    this.#modal = document.getElementById("feedback-modal");
+    this.#btnClose = document.getElementById("feedback-close");
+    this.#form = document.getElementById("feedback-form");
+    this.#btnCancel = document.getElementById("feedback-cancel");
+    this.#btnSubmit = document.getElementById("feedback-submit");
+    this.#viewSuccess = document.getElementById("feedback-success");
+    this.#viewError = document.getElementById("feedback-error");
+    this.#btnDone = document.getElementById("feedback-done");
+    this.#btnRetry = document.getElementById("feedback-retry");
   }
 
   /**
    * Bind event listeners
+   * @returns {void}
    */
   bindEvents() {
     // Toggle feedback form
-    this.toggle?.addEventListener("click", () => this.openModal());
+    this.#toggle?.addEventListener("click", () => this.openModal());
 
     // Close modal events
-    this.closeBtn?.addEventListener("click", () => this.closeModal());
-    this.cancelBtn?.addEventListener("click", () => this.closeModal());
-    this.doneBtn?.addEventListener("click", () => this.closeModal());
+    this.#btnClose?.addEventListener("click", () => this.closeModal());
+    this.#btnCancel?.addEventListener("click", () => this.closeModal());
+    this.#btnDone?.addEventListener("click", () => this.closeModal());
 
     // Form submission
-    this.form?.addEventListener("submit", (e) => this.handleSubmit(e));
+    this.#form?.addEventListener("submit", (e) => this.handleSubmit(e));
 
     // Retry button
-    this.retryBtn?.addEventListener("click", () => this.showForm());
+    this.#btnRetry?.addEventListener("click", () => this.showForm());
 
     // Close on outside click
-    this.modal?.addEventListener("click", (e) => {
-      if (e.target === this.modal) {
+    this.#modal?.addEventListener("click", (e) => {
+      if (e.target === this.#modal) {
         this.closeModal();
       }
     });
 
     // Close on escape key
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && this.isOpen) {
+      if (e.key === "Escape" && this.#isOpen) {
         this.closeModal();
       }
     });
@@ -86,56 +127,61 @@ class FeedbackManager {
 
   /**
    * Open the feedback modal
+   * @returns {void}
    */
   openModal() {
-    this.isOpen = true;
-    this.modal.classList.remove("is-hidden");
-    this.modal.classList.add("active");
+    this.#isOpen = true;
+    this.#modal.classList.remove("is-hidden");
+    this.#modal.classList.add("active");
     this.showForm();
 
     // Focus first input
-    const firstInput = this.form?.querySelector("select, input, textarea");
+    const firstInput = this.#form?.querySelector("select, input, textarea");
     firstInput?.focus();
   }
 
   /**
    * Close the feedback modal
+   * @returns {void}
    */
   closeModal() {
-    this.isOpen = false;
-    this.modal.classList.remove("active");
+    this.#isOpen = false;
+    this.#modal.classList.remove("active");
     setTimeout(() => {
-      this.modal.classList.add("is-hidden");
+      this.#modal.classList.add("is-hidden");
       this.resetForm();
     }, 300);
   }
 
   /**
    * Show the feedback form
+   * @returns {void}
    */
   showForm() {
-    this.form.classList.remove("is-hidden");
-    this.successView.classList.add("is-hidden");
-    this.errorView.classList.add("is-hidden");
+    this.#form.classList.remove("is-hidden");
+    this.#viewSuccess.classList.add("is-hidden");
+    this.#viewError.classList.add("is-hidden");
   }
 
   /**
    * Show success message
+   * @returns {void}
    */
   showSuccess() {
-    this.form.classList.add("is-hidden");
-    this.successView.classList.remove("is-hidden");
-    this.errorView.classList.add("is-hidden");
+    this.#form.classList.add("is-hidden");
+    this.#viewSuccess.classList.remove("is-hidden");
+    this.#viewError.classList.add("is-hidden");
   }
 
   /**
    * Show error message
    * @param {string} message - Error message to display
+   * @returns {void}
    */
   showError(message) {
-    this.form.classList.add("is-hidden");
-    this.successView.classList.add("is-hidden");
-    this.errorView.classList.remove("is-hidden");
+    this.#form.classList.add("is-hidden");
+    this.#viewSuccess.classList.add("is-hidden");
+    this.#viewError.classList.remove("is-hidden");
 
     const errorMessage = document.getElementById("error-message");
     if (errorMessage) {
@@ -145,9 +191,10 @@ class FeedbackManager {
 
   /**
    * Reset the form to initial state
+   * @returns {void}
    */
   resetForm() {
-    this.form?.reset();
+    this.#form?.reset();
     this.isSubmitting = false;
     this.updateSubmitButton(false);
     this.showForm();
@@ -156,22 +203,23 @@ class FeedbackManager {
   /**
    * Update submit button state
    * @param {boolean} loading - Whether to show loading state
+   * @returns {void}
    */
   updateSubmitButton(loading) {
-    if (!this.submitBtn) return;
+    if (!this.#btnSubmit) return;
 
-    const submitText = this.submitBtn.querySelector(".submit-text");
-    const submitLoading = this.submitBtn.querySelector(".submit-loading");
+    const submitText = this.#btnSubmit.querySelector(".submit-text");
+    const submitLoading = this.#btnSubmit.querySelector(".submit-loading");
     if (!submitText || !submitLoading) return; // markup mismatch – bail out gracefully
 
     if (loading) {
-      this.submitBtn.disabled = true;
-      this.submitBtn.classList.add("sending");
+      this.#btnSubmit.disabled = true;
+      this.#btnSubmit.classList.add("sending");
       submitText.classList.add("is-hidden");
       submitLoading.classList.remove("is-hidden");
     } else {
-      this.submitBtn.disabled = false;
-      this.submitBtn.classList.remove("sending");
+      this.#btnSubmit.disabled = false;
+      this.#btnSubmit.classList.remove("sending");
       submitText.classList.remove("is-hidden");
       submitLoading.classList.add("is-hidden");
     }
@@ -180,13 +228,14 @@ class FeedbackManager {
   /**
    * Handle form submission
    * @param {Event} e - Form submit event
+   * @returns {Promise<void>}
    */
   async handleSubmit(e) {
     e.preventDefault();
 
-    if (this.isSubmitting) return;
+    if (this.#isSubmitting) return;
 
-    this.isSubmitting = true;
+    this.#isSubmitting = true;
     this.updateSubmitButton(true);
 
     try {
@@ -200,17 +249,17 @@ class FeedbackManager {
       console.error("Feedback submission error:", error);
       this.showError(error.message || "Please try again later.");
     } finally {
-      this.isSubmitting = false;
+      this.#isSubmitting = false;
       this.updateSubmitButton(false);
     }
   }
 
   /**
    * Collect form data including context
-   * @returns {Object} Form data object
+   * @returns {FeedbackSubmissionData} Form data object
    */
   collectFormData() {
-    const formData = new FormData(this.form);
+    const formData = new FormData(this.#form);
     const data = {};
 
     // Collect form fields
@@ -234,7 +283,7 @@ class FeedbackManager {
       data.stage = stage;
     }
 
-    return data;
+    return /** @type {FeedbackSubmissionData} */ (data);
   }
 
   /**
@@ -262,8 +311,8 @@ class FeedbackManager {
 
   /**
    * Submit feedback to internal server API
-   * @param {Object} data - Feedback data
-   * @returns {Promise} Submission promise
+   * @param {FeedbackSubmissionData} data - Feedback data
+   * @returns {Promise<{success: boolean, message?: string}>} Submission promise
    */
   async submitFeedback(data) {
     const controller = new AbortController();
@@ -310,7 +359,16 @@ class FeedbackManager {
   }
 }
 
-// Initialize feedback manager when DOM is ready
-document.addEventListener("DOMContentLoaded", () => {
+/**
+ * Initialize feedback manager when DOM is ready
+ * @returns {void}
+ */
+export function initializeFeedback() {
+  console.log("Initializing feedback manager...");
   new FeedbackManager();
-});
+}
+
+// // Initialize feedback manager when DOM is ready
+// document.addEventListener("DOMContentLoaded", () => {
+//   new FeedbackManager();
+// });

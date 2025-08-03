@@ -6,12 +6,14 @@ import { fetchRaceData } from "./api/index.js";
 import { getRaceInfoFromUrlPath } from "./state/browser/location";
 import { parseRaceContent } from "./domain/cycling/parse";
 // Components
+import { initializeFeedback } from "./components/feedback/feedback.js";
 import { Race } from "./components/race/race.js";
 import { updatePageHeadings } from "./components/page/title";
 import {
   setupClassificationTabs,
   updateClassificationTabs,
 } from "./components/page/classification-tabs";
+//
 import { updateUrl } from "./state/browser/history";
 import { validateClassification } from "src/core/cycling/classification/classification";
 import { validateStage } from "src/core/cycling/stage/stage";
@@ -112,5 +114,6 @@ class tourRankingApp {
 
 // Initialize the client when the DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
+  // initializeFeedback();
   new tourRankingApp();
 });

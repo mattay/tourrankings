@@ -1,2 +1,2 @@
-# Run scraper every day at 3:00 AM UTC
-0 3 * * * bun ./scrape/index.js >> /dev/stdout 2>> /dev/stderr
+# Scrap for data every 47 minutes
+*/45 * * * * cd /tourRanking && bun scrape >> /dev/stdout 2>> /dev/stderr

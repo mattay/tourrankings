@@ -6,14 +6,7 @@ primary_region = 'syd'
 
 [build]
 dockerfile = "Dockerfile"
-
-[http_service]
-internal_port = 8080
-force_https = true
-auto_stop_machines = 'suspend'
-auto_start_machines = true
-min_machines_running = 1
-max_machines_running = 2
+ignorefile = ".dockerignore"
 
 [[vm]]
 memory = '1gb'
@@ -26,17 +19,28 @@ LOG_LEVEL = "info"
 DATA_AUTO_REFRESH = true
 DATA_AUTO_REFRESH_INTERVAL = 1800000
 
-# Production health checks
-[checks]
-[checks.health]
-grace_period = "30s"
-interval = "30s"
-method = "GET"
-path = "/health"
-port = 8080
-timeout = "10s"
-headers = []
-
 [mounts]
 source = "data_volume"
 destination = "/tourRanking/data"
+
+# Production health checks
+# [checks]
+# [checks.health]
+# grace_period = "30s"
+# interval = "30s"
+# method = "GET"
+# path = "/health"
+# port = 8080
+# timeout = "10s"
+# headers = []
+
+[processes]
+app = "sh -c 'supercronic -passthrough-logs /tourRanking/crontab & exec bun start'"
+
+[http_service]
+internal_port = 8080
+force_https = true
+auto_stop_machines = 'suspend'
+auto_start_machines = true
+min_machines_running = 0
+max_machines_running = 2

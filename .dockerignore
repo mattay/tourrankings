@@ -14,14 +14,19 @@ node_modules/
 **/.git
 .gitignore
 .github
+.zed
+coderabbit.yaml
 
 # Data and CSVs
 /data/
 **/*.csv
 
 # Miscellaneous
-fly.toml
+fly.dev.toml
+fly.prod.toml
 Dockerfile
 docker-compose*
 README.md
 LICENSE
+_sample_code/
+development-guidlines.md

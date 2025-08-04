@@ -7,7 +7,7 @@
     "start": "bun server/index.js",
     "build": "bun scripts/build.js",
     "dev:start": "bun --hot server/index.js",
-    "dev:buildStart": "bun scripts/build.js & bun server/index.js",
+    "dev:buildStart": "bun scripts/build.js && bun server/index.js",
     "audit": "yarn audit",
     "lint": "eslint src/**/*.js",
     "test": "bun test",

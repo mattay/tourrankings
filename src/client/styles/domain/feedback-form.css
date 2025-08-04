@@ -65,7 +65,6 @@
   padding: var(--size-large);
   display: flex;
 
-  &.is-hidden,
   &.is-hidden {
     display: none;
   }

@@ -46,8 +46,6 @@ RUN curl -fsSLO "$SUPERCRONIC_URL" \
 # after deps are cached, bring in the rest
 COPY . .
 
-RUN bun run build
-
 # Expose the port
 EXPOSE 8080
 
@@ -60,6 +58,8 @@ ENV DATA_DIR=/tourRanking/data/csv
 RUN mkdir -p /tourRanking/data/csv && \
     chown -R bun:bun /tourRanking/data && \
     chmod -R 755 /tourRanking/data
+
+RUN bun run build
 
 # Start with hot reload
 CMD ["bun", "--hot", "server/index.js"]

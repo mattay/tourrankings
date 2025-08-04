@@ -64,6 +64,10 @@
 .feedback-confirmation {
   padding: var(--size-large);
   display: flex;
+
+  &.is-hidden {
+    display: none;
+  }
 }
 
 .feedback-header {

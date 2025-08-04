@@ -26,7 +26,8 @@ FROM oven/bun:1-slim
 WORKDIR /tourRanking
 
 # Minimal libs for Chrome headless shell (fewer dependencies = less memory)
-RUN apt-get update && apt-get install -y \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
     libglib2.0-0 \
@@ -40,9 +41,8 @@ RUN apt-get update && apt-get install -y \
     libcairo-gobject2 \
     libgtk-3-0 \
     libgdk-pixbuf2.0-0 \
-    --no-install-recommends && \
-    rm -rf /var/lib/apt/lists/* && \
-    apt-get clean
+    && rm -rf /var/lib/apt/lists/*  \
+    && apt-get clean
 
 
 # Install Supercronic
@@ -54,7 +54,8 @@ RUN curl -fsSLO "$SUPERCRONIC_URL" \
     && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
     && chmod +x "$SUPERCRONIC" \
     && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
-    && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
+    && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic \
+    && apt-get purge -y --auto-remove curl
 
 # Copy from builder stage
 COPY --from=builder /tourRanking /tourRanking

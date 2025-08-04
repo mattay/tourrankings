@@ -6,6 +6,8 @@
  * @property {Object} domains - .
  * @property {Object} domains.whitelist - List of domains to allow.
  * @property {Object} domains.blacklist - List of domains to block.
+ * @property {Object} resourceTypes - .
+ * @property {Object} resourceTypes.blacklist - List of resource types to block.
  * @property {number} wait - Wait time in milliseconds.
  */
 
@@ -13,8 +15,8 @@
 export const config = {
   browser: {
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
-    headless: true,
-    defaultViewport: null,
+    headless: "new",
+    defaultViewport: { width: 1024, height: 768 }, // Set explicit small viewport
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
@@ -24,6 +26,13 @@ export const config = {
       "--no-first-run",
       "--no-default-browser-check",
       "--no-zygote",
+      "--single-process", // Critical for memory reduction
+      "--memory-pressure-off",
+      "--disable-background-networking",
+      "--disable-background-timer-throttling",
+      "--disable-renderer-backgrounding",
+      "--disable-backgrounding-occluded-windows",
+      "--disable-features=TranslateUI,BlinkGenPropertyTrees",
     ],
   },
   domains: {
@@ -32,7 +41,25 @@ export const config = {
       "ajax.googleapis.com",
       "code.jquery.com",
     ],
-    blacklist: [],
+    blacklist: [
+      "googletagmanager.com",
+      "google-analytics.com",
+      "facebook.com",
+      "twitter.com",
+      "doubleclick.net",
+      "googlesyndication.com",
+    ],
+  },
+  resourceTypes: {
+    blacklist: [
+      "image",
+      "media",
+      "font",
+      "stylesheet", // Only block if styling isn't needed for scraping
+      "websocket",
+      "manifest",
+      "other",
+    ],
   },
   wait: 420,
 };

@@ -181,11 +181,11 @@ export class FeedbackManager {
    * @param {string} message - Error message to display
    * @returns {void}
    */
-  showError(msg) {
+  showError(message) {
     this._hide([this._element.form, this._element.viewSuccess]);
     this._show([this._element.viewError]);
     if (this._element.errorMessage)
-      this._element.errorMessage.textContent = msg;
+      this._element.errorMessage.textContent = message;
   }
 
   /**
@@ -221,11 +221,11 @@ export class FeedbackManager {
 
   /**
    * Handle form submission with error handling
-   * @param {Event} e - Form submit event
+   * @param {Event} event - Form submit event
    * @returns {Promise<void>}
    */
-  async handleSubmit(e) {
-    e.preventDefault();
+  async handleSubmit(event) {
+    event.preventDefault();
     if (this._isSubmitting || !this._element.form) return;
     this._isSubmitting = true;
     this.updateSubmitButton(true);
@@ -269,7 +269,6 @@ export class FeedbackManager {
    * @param {FeedbackSubmissionData} data - Feedback data
    * @returns {Promise<Object>} API response
    */
-
   async submitFeedback(data) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.config.timeout);

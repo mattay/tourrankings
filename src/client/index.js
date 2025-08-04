@@ -113,6 +113,5 @@ class tourRankingApp {
 
 // Initialize the client when the DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
-  // initializeFeedback();
   new tourRankingApp();
 });

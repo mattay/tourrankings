@@ -33,7 +33,6 @@ export const config = {
       "--disable-renderer-backgrounding",
       "--disable-backgrounding-occluded-windows",
       "--disable-features=TranslateUI,BlinkGenPropertyTrees",
-      "--max_old_space_size=256", // Limit Node.js heap
     ],
   },
   domains: {

@@ -28,6 +28,7 @@ WORKDIR /tourRanking
 # Minimal libs for Chrome headless shell (fewer dependencies = less memory)
 RUN apt-get update && apt-get install -y \
     ca-certificates \
+    curl \
     libglib2.0-0 \
     libnss3 \
     libxss1 \

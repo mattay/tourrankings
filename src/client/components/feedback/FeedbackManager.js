@@ -243,6 +243,16 @@ export class FeedbackManager {
   }
 
   /**
+   * Helper to sanitize string values
+   * @param {string} value - Value to sanitize
+   * @returns {string} Sanitized value
+   */
+  sanitizeValue(value) {
+    if (typeof value !== "string") return value;
+    return value.replace(/[<>]/g, "");
+  }
+
+  /**
    * Collect form data with context information
    * @returns {FeedbackSubmissionData|{}} Form data object
    */
@@ -259,7 +269,9 @@ export class FeedbackManager {
       classification,
     };
     const formData = new FormData(this._element.form);
-    for (let [k, v] of formData.entries()) data[k] = v;
+    for (let [k, v] of formData.entries()) {
+      data[k] = this.sanitizeValue(v);
+    }
 
     return data;
   }

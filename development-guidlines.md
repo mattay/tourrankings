@@ -31,7 +31,7 @@ This document outlines the development workflow for this project, based on Shape
 ## Commit Message Conventions
 
 ### Format
-```text
+```gitcommit
 <type>(<scope>): <subject>
 
 <body>
@@ -57,7 +57,7 @@ This document outlines the development workflow for this project, based on Shape
 - `config` - Configuration changes
 
 ### Examples
-```text
+```gitcommit
 feat(auth): add OAuth2 integration with Google
 
 Implement Google OAuth2 login flow with proper error handling
@@ -66,7 +66,7 @@ and user profile synchronization.
 Closes #45
 ```
 
-```text
+```gitcommit
 circuit(social): abandon social login feature
 
 After 2 weeks of exploration, the third-party APIs are too
@@ -77,7 +77,7 @@ Time spent: 2 weeks
 Reason: External API reliability issues
 ```
 
-```text
+```gitcommit
 chore(deps): update React to 18.2.1
 
 Security patch update, no breaking changes.

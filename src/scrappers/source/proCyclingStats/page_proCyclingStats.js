@@ -9,13 +9,22 @@ export function interceptRequests(request) {
   const domain = url.hostname;
   const resourceType = request.resourceType();
 
+  // Fast path for whitelisted domains (before expensive blacklist checks)
+  if (config.domains.whitelist.includes(domain)) {
+    // Still check resource type blacklist even for whitelisted domains
+    if (config.resourceTypes.blacklist.includes(resourceType)) {
+      request.abort();
+    } else {
+      request.continue();
+    }
+    return;
+  }
+
   if (
     config.domains.blacklist.includes(domain) ||
     config.resourceTypes.blacklist.includes(resourceType)
   ) {
     request.abort();
-  } else if (config.domains.whitelist.includes(domain)) {
-    request.continue();
   } else {
     request.abort();
   }

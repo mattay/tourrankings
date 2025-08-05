@@ -23,10 +23,10 @@ export function rankings(state) {
   const rankings = Array.from(riderRankings.values());
 
   return rankings.reduce((results, ranking) => {
-    if (!ranking.some((item) => item != null)) {
+    if (!ranking.some((item) => item !== null && item !== undefined)) {
       return results;
     }
-    results.push(ranking.filter((item) => item != null));
+    results.push(ranking.filter((item) => item !== null && item !== undefined));
 
     return results;
   }, []);

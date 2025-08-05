@@ -144,7 +144,7 @@ reviews:
     brakeman:
       enabled: false
     dotenvLint:
-      enabled: false
+      enabled: true
     htmlhint:
       enabled: false
     checkmake:

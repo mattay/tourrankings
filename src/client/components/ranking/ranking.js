@@ -67,8 +67,6 @@ export function createRankingComponent({
    * @param {d3.Selection<SVGGElement, RankingDatum, any, any>} rankingEnter - D3 selection of entering rider groups bound to data.
    */
   const initializeRankingGroup = (rankingEnter) => {
-    console.log("[initializeRankingGroup]", rankingEnter);
-
     rankingEnter
       .attr("class", "ranking")
       .attr("data-id", (d, i) => {
@@ -90,8 +88,12 @@ export function createRankingComponent({
       .append("circle")
       .attr("class", "dot")
       .attr("r", 0)
-      .attr("cx", (d) => (d.length >= 1 ? xScale(d[0].stage) : 0))
-      .attr("cy", (d) => (d.length >= 1 ? yScale(d[0].rank) : 0));
+      .attr("cx", (d) =>
+        d.length > 0 && d[0]?.stage != null ? xScale(d[0].stage) : 0,
+      )
+      .attr("cy", (d) =>
+        d.length > 0 && d[0]?.rank != null ? yScale(d[0].rank) : 0,
+      );
   };
 
   /**
@@ -131,7 +133,6 @@ export function createRankingComponent({
   };
 
   return function rankingComponent(selection, data) {
-    console.log("rankingComponent", data);
     // Bind data with key function
     const rankings = selection.selectAll("g.ranking").data(data, (d, i) => {
       return d[0]?.bib || d[0]?.team || i;

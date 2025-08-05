@@ -183,7 +183,6 @@ jobs:
             const { data: allOpen } = await github.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              head: `${context.repo.owner}:${branchName}`,
               state: 'open'
             });
             const prs = allOpen.filter(pr => pr.head.ref === branchName);

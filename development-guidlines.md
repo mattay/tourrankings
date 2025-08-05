@@ -12,7 +12,7 @@ This document outlines the development workflow for this project, based on Shape
 ### Feature Development
 - `bet/{description}` - Shaped work with defined appetite
   - `bet/user-authentication` - Small bet (1-2 weeks)
-  - `bet/profile-redesign` - Medium bet (3-4 weeks) 
+  - `bet/profile-redesign` - Medium bet (3-4 weeks)
   - `bet/dashboard-overhaul` - Large bet (4-6 weeks)
 
 ### Support Branches
@@ -31,7 +31,7 @@ This document outlines the development workflow for this project, based on Shape
 ## Commit Message Conventions
 
 ### Format
-```
+```text
 <type>(<scope>): <subject>
 
 <body>
@@ -57,7 +57,7 @@ This document outlines the development workflow for this project, based on Shape
 - `config` - Configuration changes
 
 ### Examples
-```
+```text
 feat(auth): add OAuth2 integration with Google
 
 Implement Google OAuth2 login flow with proper error handling
@@ -66,7 +66,7 @@ and user profile synchronization.
 Closes #45
 ```
 
-```
+```text
 circuit(social): abandon social login feature
 
 After 2 weeks of exploration, the third-party APIs are too
@@ -77,7 +77,7 @@ Time spent: 2 weeks
 Reason: External API reliability issues
 ```
 
-```
+```text
 chore(deps): update React to 18.2.1
 
 Security patch update, no breaking changes.
@@ -159,7 +159,7 @@ Security patch update, no breaking changes.
 
 ### Appetite Management
 - **Small bets**: 1-2 weeks, single developer
-- **Medium bets**: 3-4 weeks, 1-2 developers  
+- **Medium bets**: 3-4 weeks, 1-2 developers
 - **Large bets**: 4-6 weeks, small team
 - **Circuit breaker**: Stop work if appetite is exceeded
 
@@ -211,7 +211,7 @@ Security patch update, no breaking changes.
 While this is currently a personal project, these guidelines are designed to scale:
 
 - **Individual**: Focus on discipline and habit formation
-- **Small team**: Add pair programming and code review rituals  
+- **Small team**: Add pair programming and code review rituals
 - **Larger team**: Implement formal betting table process and team coordination
 
 The key is maintaining the Shape Up rhythm while building sustainable development practices.

@@ -227,10 +227,8 @@ function cleanUpStages(tables, stageUID, stage) {
       });
       stageRankings[tab] = general;
     } else {
-      console.error(tab, index, Object.keys(tables[index]));
-
       logOut(
-        this.constructor.name,
+        "cleanUpStages",
         `${tab}, ${index} ${Object.keys(tables[index]).join(", ")}`,
         "debug",
       );
@@ -269,12 +267,6 @@ function cleanUpStages(tables, stageUID, stage) {
             break;
 
           case "youth":
-            stageRankings[tab + "-day-classification"] = cleanUpStageTable(
-              ranking.standings,
-              { stageUID, stage },
-            );
-            break;
-
           case "teams":
             stageRankings[tab + "-day-classification"] = cleanUpStageTable(
               ranking.standings,
@@ -401,16 +393,14 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
         ) {
           const columnLabel = columns[columnIndex];
           const cell = cells[columnIndex];
-          const nestedSpan = cell.querySelector("span");
-          const nestedDiv = cell.querySelector("div");
           let cellContent = cell.innerText.trim();
-
+          // const nestedSpan = cell.querySelector("span");
+          // const nestedDiv = cell.querySelector("div");
           // if (cell.classList.contains("time") && nestedSpan !== null) {
           //   cellContent = nestedDiv.innerText.trim();
           // } else {
           //   cellContent = cell.innerText.trim();
           // }
-
           rowDetails[columnLabel] = cellContent;
         }
 

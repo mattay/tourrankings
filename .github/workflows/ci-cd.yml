@@ -167,12 +167,8 @@ jobs:
     name: Notify PR of Deployment
     runs-on: ubuntu-latest
     needs: [deploy-development, deploy-production]
-    if: |
-      always() &&
-      (needs.deploy-development.result == 'success' || needs.deploy-production.result == 'success')
+    if: needs.deploy-development.result == 'success' || needs.deploy-production.result == 'success'
     steps:
-      - uses: actions/checkout@v4
-
       - name: Comment on PR after successful deployment
         uses: actions/github-script@v7
         with:
@@ -192,14 +188,16 @@ jobs:
               return;
             }
 
-            // Determine deployment details
+            const prodOK = ${{ needs.deploy-production.result == 'success' }};
+            const devOK  = ${{ needs.deploy-development.result == 'success' }};
+
             let deploymentUrl, environment;
-            if ('${{ needs.deploy-production.result }}' === 'success') {
+            if (prodOK) {
               deploymentUrl = 'https://tourrankings.fly.dev';
-              environment = 'production';
-            } else if ('${{ needs.deploy-development.result }}' === 'success') {
+              environment   = 'production';
+            } else if (devOK) {
               deploymentUrl = 'https://tourrankings-dev.fly.dev';
-              environment = 'development';
+              environment   = 'development';
             }
 
             const comment = `**Deployment Successful**
@@ -209,18 +207,23 @@ jobs:
             - **Commit**: ${context.sha.substring(0, 7)}
             - **Deployed**: ${new Date().toISOString()}
 
-            Your changes are now live and ready for testing.`;
+            Your changes are now live and ready for testing.
+            `.trim();
 
-            // Comment on all found PRs
-            for (const pr of prs) {
-              await github.rest.issues.createComment({
-                issue_number: pr.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: comment
-              });
-              console.log(`Commented on PR #${pr.number}: ${pr.title}`);
+            const existing = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              per_page: 100
+            });
+
+            const prev = existing.data.find(c => c.body.includes('**Deployment Successful**'));
+            if (prev) {
+              await github.rest.issues.updateComment({ ...prev, body: comment });
+            } else {
+              await github.rest.issues.createComment({ owner: ..., repo: ..., issue_number: pr.number, body: comment });
             }
+            console.log(`Commented on PR #${pr.number}: ${pr.title}`);
 
   # SHAPE UP AUTOMATION
   shape-up-automation:

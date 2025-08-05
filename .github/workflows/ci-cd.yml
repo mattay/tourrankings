@@ -180,12 +180,13 @@ jobs:
             const branchName = context.ref.replace('refs/heads/', '');
 
             // Find PRs with this branch as head
-            const { data: prs } = await github.rest.pulls.list({
+            const { data: allOpen } = await github.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
               head: `${context.repo.owner}:${branchName}`,
               state: 'open'
             });
+            const prs = allOpen.filter(pr => pr.head.ref === branchName);
 
             if (prs.length === 0) {
               console.log('No open PRs found for this branch');

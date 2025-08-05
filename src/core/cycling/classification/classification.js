@@ -222,7 +222,7 @@ export function getClassificationsByCalculationType(calculationType) {
  */
 export function validateClassification(
   classification,
-  fallbackClassification = CLASSIFICATION_TYPES.STAGE,
+  fallbackClassification = CLASSIFICATION_TYPES.GENERAL,
 ) {
   if (classification === undefined || classification === null) {
     return fallbackClassification;

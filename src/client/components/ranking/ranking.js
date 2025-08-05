@@ -48,9 +48,9 @@ export function createRankingComponent({
     line.attr("d", path(d));
     const newLength = element.getTotalLength();
     const greatestLength = oldLength > newLength ? oldLength : newLength;
-    const firstPoint = d[0].stage;
-    const lastPoint = d[d.length - 1].stage;
-    const steps = lastPoint - firstPoint;
+    const firstPoint = d.length > 0 ? d[0].stage : 0;
+    const lastPoint = d.length > 0 ? d[d.length - 1].stage : 0;
+    const steps = Math.max(0, lastPoint - firstPoint);
 
     line
       .attr("stroke-dasharray", oldLength + " " + greatestLength)

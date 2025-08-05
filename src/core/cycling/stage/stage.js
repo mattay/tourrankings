@@ -2,9 +2,9 @@
  * Validates a stage parameter.
  * @param {any} stage - The stage value to validate.
  * @param {number} fallbackStage - The fallback stage to use if the input is invalid.
- * @returns {number|null} - Returns the valid stage as a number, or null if invalid.
+ * @returns {number} - Returns the valid stage as a number, or null if invalid.
  */
-export function validateStage(stage, fallbackStage = null) {
+export function validateStage(stage, fallbackStage = 1) {
   if (stage === undefined || stage === null || stage === "") {
     return fallbackStage; // Allow missing stage
   }

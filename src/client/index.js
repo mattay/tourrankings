@@ -71,7 +71,7 @@ class tourRankingApp {
         selected: {
           raceId,
           year: validateYear(year),
-          stage: validateStage(stage, null),
+          stage: validateStage(stage),
           classification: validateClassification(classification),
         },
       });

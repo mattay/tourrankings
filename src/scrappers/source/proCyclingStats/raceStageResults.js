@@ -227,10 +227,8 @@ function cleanUpStages(tables, stageUID, stage) {
       });
       stageRankings[tab] = general;
     } else {
-      console.error(tab, index, Object.keys(tables[index]));
-
       logOut(
-        this.constructor.name,
+        "cleanUpStages",
         `${tab}, ${index} ${Object.keys(tables[index]).join(", ")}`,
         "debug",
       );

@@ -17,9 +17,17 @@ export function rankings(state) {
     return null;
   }
 
-  // Throw an error if any of the selected properties are not valid
+  // Throws an error if any of the selected properties are not valid
   stateCheckSelected(state, { stage: true, classification: true });
   const riderRankings = selectedClassificationsRankings(state);
+  const rankings = Array.from(riderRankings.values());
 
-  return Array.from(riderRankings.values());
+  return rankings.reduce((results, ranking) => {
+    if (!ranking.some((item) => item !== null && item !== undefined)) {
+      return results;
+    }
+    results.push(ranking.filter((item) => item !== null && item !== undefined));
+
+    return results;
+  }, []);
 }

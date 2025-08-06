@@ -22,11 +22,11 @@ export class ClassificationTeam extends CSVdataModel {
       rank: "number",
       previousStageRanking: "number",
       change: "number",
-      bib: "number",
+      // bib: "number",
     };
     super(
       `${process.env.DATA_DIR}/raceStageClassificationTeams.csv`,
-      ["Stage UID", "Rank"],
+      ["Stage UID", "Team"],
       fieldTypes,
     );
     this.csvHeaders = [

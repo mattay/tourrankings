@@ -50,7 +50,7 @@ export function updatePageHeadings(state) {
     return;
   }
 
-  if (state.sportData && state.selected.stage) {
+  if (state.sportData && state.selected.stage !== null) {
     const stage = state.sportData.stages[state.selected.stage];
     if (!stage) return;
 

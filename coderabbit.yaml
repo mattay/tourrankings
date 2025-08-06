@@ -1,0 +1,188 @@
+# coderabbit.yaml
+# CodeRabbit configuration optimized for Shape Up workflow
+
+language: en-AU
+tone_instructions: "Focus on practical feedback for solo development. Be concise but thorough for cooldown branches (pre-production), and quick/actionable for cycle branches (rapid iteration)."
+early_access: false
+enable_free_tier: true
+
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  high_level_summary_placeholder: "@coderabbitai summary"
+  high_level_summary_in_walkthrough: false
+  auto_title_placeholder: "@coderabbitai"
+  auto_title_instructions: ""
+  review_status: true
+  commit_status: true
+  fail_commit_status: false
+  collapse_walkthrough: false
+  changed_files_summary: true
+  sequence_diagrams: true
+  assess_linked_issues: true
+  related_issues: true
+  related_prs: true
+  suggested_labels: true
+  auto_apply_labels: false
+  suggested_reviewers: false # Solo dev, no need for reviewer suggestions
+  auto_assign_reviewers: false
+  poem: false
+
+  # Shape Up specific labeling
+  labeling_instructions:
+    - "Label PRs to cycle-* branches with 'cycle' for rapid iteration tracking"
+    - "Label PRs to cooldown-* branches with 'cooldown' for production readiness"
+    - "Suggest 'needs-testing' label for cooldown branches without sufficient test coverage"
+    - "Suggest 'ready-for-production' label for well-tested cooldown PRs"
+
+  # Path-specific instructions for Shape Up workflow
+  path_instructions:
+    - path: "src/**/*.js"
+      instructions: "Focus on JavaScript best practices, performance, and maintainability. For cooldown branches, be extra thorough about edge cases and error handling."
+    - path: "tests/**/*"
+      instructions: "Ensure tests are comprehensive for cooldown branches. For cycle branches, focus on core functionality testing."
+    - path: "*.md"
+      instructions: "Light review for documentation. Focus on clarity and accuracy."
+
+  abort_on_close: true
+  disable_cache: false
+
+  auto_review:
+    enabled: true
+    auto_incremental_review: true
+    ignore_title_keywords: []
+    labels: []
+    drafts: false
+    # Enable auto-review for all Shape Up branches
+    base_branches:
+      - main
+      - "cycle-*"
+      - "cooldown-*"
+
+  finishing_touches:
+    docstrings:
+      enabled: true
+    unit_tests:
+      enabled: true # Important for cooldown branches
+
+  tools:
+    # Essential tools for JavaScript/TypeScript projects
+    eslint:
+      enabled: true
+    biome:
+      enabled: true
+    oxc:
+      enabled: true
+
+    # Security tools (important for cooldown branches)
+    gitleaks:
+      enabled: true
+    semgrep:
+      enabled: true
+
+    # Documentation and config
+    markdownlint:
+      enabled: true
+    yamllint:
+      enabled: true
+    actionlint:
+      enabled: true
+
+    # Docker (since you're using Fly.io)
+    hadolint:
+      enabled: true
+
+    # Disable unused tools to keep reviews focused
+    ruff:
+      enabled: false
+    shellcheck:
+      enabled: false
+    github-checks:
+      enabled: true
+      timeout_ms: 90000
+    languagetool:
+      enabled: false
+    phpstan:
+      enabled: false
+    phpmd:
+      enabled: false
+    phpcs:
+      enabled: false
+    golangci-lint:
+      enabled: false
+    checkov:
+      enabled: false
+    detekt:
+      enabled: false
+    flake8:
+      enabled: false
+    rubocop:
+      enabled: false
+    buf:
+      enabled: false
+    regal:
+      enabled: false
+    pmd:
+      enabled: false
+    cppcheck:
+      enabled: false
+    circleci:
+      enabled: false
+    clippy:
+      enabled: false
+    sqlfluff:
+      enabled: false
+    prismaLint:
+      enabled: false
+    pylint:
+      enabled: false
+    shopifyThemeCheck:
+      enabled: false
+    luacheck:
+      enabled: false
+    brakeman:
+      enabled: false
+    dotenvLint:
+      enabled: true
+    htmlhint:
+      enabled: false
+    checkmake:
+      enabled: false
+
+chat:
+  auto_reply: true
+  integrations:
+    jira:
+      usage: disabled
+    linear:
+      usage: disabled
+
+knowledge_base:
+  opt_out: false
+  web_search:
+    enabled: true
+  code_guidelines:
+    enabled: true
+    filePatterns: []
+  learnings:
+    scope: auto
+  issues:
+    scope: auto
+  jira:
+    usage: disabled
+    project_keys: []
+  linear:
+    usage: disabled
+    team_keys: []
+  pull_requests:
+    scope: auto
+
+code_generation:
+  docstrings:
+    language: en-AU
+    path_instructions: []
+  unit_tests:
+    path_instructions:
+      - path: "src/**/*.js"
+        instructions: "Generate comprehensive unit tests for cooldown branches. For cycle branches, focus on core functionality tests."

@@ -1,0 +1,61 @@
+.form-group {
+  label {
+    margin-bottom: var(--size-small);
+    font-size: var(--size-text-small-medium);
+  }
+
+  select,
+  input,
+  textarea {
+    width: 100%;
+    padding: var(--size-small-medium) var(--size-medium);
+    border: 1px solid var(--color-secondary);
+    border-radius: var(--size-extra-small);
+    font-size: var(--size-text-medium);
+    font-family: inherit;
+    font-weight: normal;
+    line-height: 1.5;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+    outline: none;
+    background: var(--color-background);
+
+    &::placeholder {
+      color: var(--color-text-secondary);
+    }
+
+    &:focus
+    /* &:focus-visible  */ {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+      border-color: var(--color-accent);
+      /* Fallback */
+      box-shadow: 0 0 0 2px var(--color-accent);
+      /* Enhanced */
+      @supports (color: color-mix(in srgb, red, blue)) {
+        box-shadow:
+          0 0 0 2px color-mix(in srgb, var(--color-accent) 10%, transparent),
+          0 0 0 4px color-mix(in srgb, var(--color-accent) 10%, transparent);
+      }
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--size-medium);
+  justify-content: flex-end;
+  margin-top: var(--size-medium);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .form-actions {
+    flex-direction: column;
+  }
+}

@@ -12,11 +12,11 @@ import {
   setupClassificationTabs,
   updateClassificationTabs,
 } from "./components/page/classification-tabs";
+//
 import { updateUrl } from "./state/browser/history";
-import {
-  CLASSIFICATION_TYPES,
-  isValidClassificationType,
-} from "src/core/cycling/classification/classification";
+import { validateClassification } from "src/core/cycling/classification/classification";
+import { validateStage } from "src/core/cycling/stage/stage";
+import { validateYear } from "src/utils/date";
 
 /**
  * Main application class for the Tour Ranking app.
@@ -69,12 +69,10 @@ class tourRankingApp {
       store.setState({
         isLoading: true,
         selected: {
-          year,
           raceId,
-          stage,
-          classification: isValidClassificationType(classification)
-            ? classification
-            : CLASSIFICATION_TYPES.STAGE,
+          year: validateYear(year),
+          stage: validateStage(stage),
+          classification: validateClassification(classification),
         },
       });
 
@@ -89,7 +87,7 @@ class tourRankingApp {
         previouslySelected,
         selected: {
           ...previouslySelected,
-          stage: stage || processedData.stagesCompleted,
+          stage: validateStage(stage, processedData.stagesCompleted),
         },
         isLoading: false,
       });

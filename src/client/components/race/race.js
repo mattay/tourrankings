@@ -127,16 +127,22 @@ export class Race {
     // Stages
     this.containerStages = this.svg
       .append("g")
-      .attr("class", "stage-container")
+      .attr("id", "stage-container")
       .attr(
         "transform",
         `translate(${this.coordinates.stages.left}, ${this.coordinates.stages.top})`,
       );
 
+    const stageProgress = this.containerStages
+      .append("g")
+      .attr("id", "stage-progress");
+    stageProgress.append("line").attr("class", "background");
+    stageProgress.append("line").attr("class", "viewing");
+
     // Riders
     this.containerRiders = this.svg
       .append("g")
-      .attr("class", "rider-container")
+      .attr("id", "rider-container")
       .attr(
         "transform",
         `translate(${this.coordinates.rankings.left}, ${this.containerHeight(this.coordinates.stages)})`,
@@ -145,7 +151,7 @@ export class Race {
     // Rankings
     this.containerRankings = this.svg
       .append("g")
-      .attr("class", "ranking-container")
+      .attr("id", "ranking-container")
       .attr(
         "transform",
         `translate(${this.coordinates.rankings.left}, ${this.containerHeight(this.coordinates.stages)})`,
@@ -211,7 +217,7 @@ export class Race {
       (element) => element != null,
     ).length;
     const { top, right, bottom, left } = this.margin;
-    const riderLabelWidth = 320;
+    const riderLabelWidth = 240;
     const riderLabelHeight = 20;
     const riderRankingHeight = numberOfRiders * riderLabelHeight;
 

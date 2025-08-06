@@ -69,9 +69,9 @@ export function createRiderComponent({
   const updateRidersGroup = (riderSelection) => {
     riderSelection
       .transition()
-      .delay((d, i) => 420 + d.ranking * 5)
-      .duration(transitionDuration)
+      .delay((d, i) => transitionDuration / 2 + d.ranking * 5)
       .ease(d3.easeQuadInOut)
+      .duration(transitionDuration)
       .attr("transform", (d, i) => {
         if (isNaN(d.ranking)) {
           console.log(d);
@@ -88,21 +88,22 @@ export function createRiderComponent({
     riderSelection
       .select("text")
       .transition()
-      .delay((d, i) => 420 + i * 10)
-      .duration(transitionDuration)
+      .delay((d, i) => transitionDuration + i * 10)
       .ease(d3.easeQuadInOut)
+      .duration(transitionDuration)
       .text((d) => d.label);
   };
 
   /**
    * Handle exit selection by fading out and removing rider groups.
    *
-   * @param {d3.Selection<SVGElement, RiderDatum, any, any>} riderExit - D3 selection of rider groups to remove.
+   * @param {d3.Selection<SVGElement, FilteredStageRider, any, any>} riderExit - D3 selection of rider groups to remove.
    */
   const exitRidersGroup = (riderExit) => {
     riderExit
       .transition()
-      .duration(transitionDuration)
+      .ease(d3.easeQuadInOut)
+      .duration(transitionDuration / 4)
       .style("opacity", 0)
       .remove();
   };
@@ -117,6 +118,12 @@ export function createRiderComponent({
     // Bind data with key function
     const riders = selection.selectAll("g.rider").data(data, (d) => d.id);
 
+    // Exit
+    exitRidersGroup(riders.exit());
+
+    // Update existing
+    updateRidersGroup(riders);
+
     // Enter
     const ridersEnter = riders.enter().append("g");
     initializeRidersGroup(ridersEnter);
@@ -124,8 +131,5 @@ export function createRiderComponent({
     // Merge enter + update
     const ridersMerge = ridersEnter.merge(riders);
     updateRidersGroup(ridersMerge);
-
-    // Exit
-    exitRidersGroup(riders.exit());
   };
 }

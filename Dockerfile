@@ -8,9 +8,11 @@ COPY package.json bun.lock ./
 # Install dependencies
 RUN bun install --production
 
-# Install Chrome for Testing - https://developer.chrome.com/blog/chrome-for-testing
-RUN bunx @puppeteer/browsers install chrome@stable && \
-    echo "PUPPETEER_EXECUTABLE_PATH=$(find . -type f -name chrome | head -n 1)" >> .env
+# https://developer.chrome.com/blog/chrome-for-testing
+# Install Chrome for Testing with headless shell (lighter than full Chrome)
+# Use chrome-headless-shell for lower memory usage
+RUN bunx @puppeteer/browsers install chrome-headless-shell@stable && \
+    echo "PUPPETEER_EXECUTABLE_PATH=$(find . -type f -name chrome-headless-shell | head -n 1)" >> .env
 
 # Copy application code
 COPY . .
@@ -23,43 +25,35 @@ FROM oven/bun:1-slim
 
 WORKDIR /tourRanking
 
-# Required libs for Chrome which is used by Puppeteer
-RUN apt-get update && apt-get install -y \
+# Minimal libs for Chrome headless shell (fewer dependencies = less memory)
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
     libglib2.0-0 \
     libnss3 \
-    libatk1.0-0 \
-    libdbus-1-3 \
-    libatk-bridge2.0-0 \
-    libcups2 \
-    libexpat1 \
-    libxkbcommon0 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxfixes3 \
+    libxss1 \
+    libgconf-2-4 \
     libxrandr2 \
-    libgbm1 \
-    libpango-1.0-0 \
-    libcairo2 \
     libasound2 \
-    --no-install-recommends && \
-    rm -rf /var/lib/apt/lists/*
+    libpangocairo-1.0-0 \
+    libatk1.0-0 \
+    libcairo-gobject2 \
+    libgtk-3-0 \
+    libgdk-pixbuf2.0-0 \
+    && rm -rf /var/lib/apt/lists/*  \
+    && apt-get clean
 
 
 # Install Supercronic
-# Latest releases available at https://github.com/aptible/supercronic/releases
-ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.2.29/supercronic-linux-amd64 \
-    SUPERCRONIC=supercronic-linux-amd64 \
-    SUPERCRONIC_SHA1SUM=cd48d45c4b10f3f0bfdd3a57d054cd05ac96812b
-
-RUN curl -fsSLO "$SUPERCRONIC_URL" \
+ARG SUPERCRONIC_VERSION=v0.2.34
+ARG SUPERCRONIC=supercronic-linux-amd64
+ARG SUPERCRONIC_SHA1SUM=e8631edc1775000d119b70fd40339a7238eece14
+RUN curl -fsSLO "https://github.com/aptible/supercronic/releases/download/${SUPERCRONIC_VERSION}/${SUPERCRONIC}" \
     && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
-    && chmod +x "$SUPERCRONIC" \
-    && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
-    && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
-
-# You might need to change this depending on where your crontab is located
+    && install -m 0755 "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
+    && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic \
+    && apt-get purge -y --auto-remove curl
 
 # Copy from builder stage
 COPY --from=builder /tourRanking /tourRanking
@@ -70,6 +64,7 @@ EXPOSE 8080
 
 # Set environment variables
 ENV NODE_ENV=production
+ENV NODE_OPTIONS="--max-old-space-size=256"
 ENV PORT=8080
 ENV DATA_DIR=/tourRanking/data/csv
 
@@ -78,5 +73,4 @@ RUN mkdir -p /tourRanking/data/csv && \
     chmod -R 755 /tourRanking/data
 
 # Start the application
-# CMD ["sh", "-c", "bun start & supercronic /app/crontab"]
 CMD ["sh", "-c", "bun start"]

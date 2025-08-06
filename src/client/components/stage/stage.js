@@ -2,7 +2,7 @@
 
 /**
  * @typedef {Object} StageDatum
- * @property {number|string} stage - Unique identifier for the stage
+ * @property {number} stage - Unique identifier for the stage
  * @property {number} [positionX] - Optional X coordinate for positioning
  * @property {number} [positionY] - Optional Y coordinate for positioning
  * @property {boolean} [raced] - Whether the stage has been raced
@@ -108,7 +108,7 @@ export function createStageComponent({
       .duration(transitionDuration)
       .ease(d3.easeQuadInOut)
       .attr("r", (d) => {
-        return d.viewing ? 9 : 8;
+        return d.viewing ? 12 : 10;
       })
       .style("opacity", 1);
 
@@ -137,6 +137,36 @@ export function createStageComponent({
       .remove();
   };
 
+  const updateStageLines = (stageProgress, stagesStart, stagesEnd) => {
+    stageProgress
+      .attr("y1", halfRadius())
+      .attr("y2", halfRadius())
+      .transition()
+      .duration(transitionDuration)
+      .attr("x1", xScale(stagesStart))
+      .attr("x2", xScale(stagesEnd));
+  };
+
+  const progressStages = (data) => {
+    let stagesStart = data.length;
+    let stagesViewing = 0;
+    let stagesTotal = data.length;
+
+    for (let i = 0; i < data.length; i++) {
+      const stage = data[i];
+      if (!stage.raced || !stage.viewing) break;
+
+      if (stage.stage < stagesStart) stagesStart = stage.stage;
+      if (stage.stage > stagesViewing) stagesViewing = stage.stage;
+    }
+
+    return {
+      stagesStart,
+      stagesViewing,
+      stagesTotal,
+    };
+  };
+
   /**
    * Main stage component function: binds data to selection and manages enter/update/exit.
    *
@@ -145,6 +175,20 @@ export function createStageComponent({
    * @returns void
    */
   return function stageComponent(selection, data) {
+    // Update stage progress
+    const stageProgress = selection.select("#stage-progress");
+    const { stagesStart, stagesViewing, stagesTotal } = progressStages(data);
+    updateStageLines(
+      stageProgress.select(".background"),
+      stagesStart,
+      stagesTotal,
+    );
+    updateStageLines(
+      stageProgress.select(".viewing"),
+      stagesStart,
+      stagesViewing,
+    );
+
     // Bind data with key function
     const stages = selection.selectAll("g.stage").data(data, (d) => d.stage);
 

@@ -3,7 +3,6 @@ import { renameKeys } from "../../../utils/object";
 import { toCamelCase } from "../../../utils/string";
 import { addTime, formatSeconds } from "../../../utils/time";
 import { logError, logOut } from "../../../utils/logging";
-
 /**
  * Renames the scraped column name
  * @param {string} column - the html column name
@@ -37,7 +36,20 @@ function cleanUpStageTable(table, additionalValues) {
     })
     .map((row, index, rankings) => {
       row = renameKeys(row, tableHeaders);
-      // console.log(row);
+
+      if (Object.hasOwn(row, "Rank")) {
+        let value = row["Rank"];
+
+        if (isNaN(value)) {
+          row["Status"] = value;
+          row["Rank"] = "";
+          // DNF = Did not finish
+          // DNS = Did not start
+          // OTL = Outside time limit
+          // DF = Did finish, no result
+          // NR = No result
+        }
+      }
 
       // ▼▲
       if (Object.hasOwn(row, "Change")) {
@@ -104,7 +116,6 @@ function cleanUpStageTable(table, additionalValues) {
           case "GC":
           case "Bib":
           case "UCI":
-          case "Age":
           case "Points":
           case "Today":
           case "Change":
@@ -143,10 +154,10 @@ function sprint(label) {
 
   const matchSprintLabel = label.match(regexSprintLabel);
   if (label != "Points at finish" && !matchSprintLabel) {
-    console.error(
-      "Label for sprint points does not match: Sprint | <location> (<distance> km)",
+    logError(
+      "Race Stage Results",
+      `Label for Sprint points does not match: ${label}`,
     );
-    console.warn(label);
   } else if (matchSprintLabel) {
     sprint.location = matchSprintLabel.groups.location;
     sprint.distance = matchSprintLabel.groups.distance;
@@ -173,12 +184,14 @@ function climb(label) {
 
   const matchKomLabel = label.match(regexKomLabel);
   if (!matchKomLabel) {
-    console.error(
-      "Label for KOM points does not match: KOM Sprint (<category>) <location> (<distance> km)",
+    logError(
+      "Race Stage Results",
+      `Label for KOM points does not match: ${label}`,
     );
-    console.warn(label);
   } else {
-    return matchKomLabel.groups;
+    climb.category = matchKomLabel.groups.category;
+    climb.location = matchKomLabel.groups.location;
+    climb.distance = matchKomLabel.groups.distance;
   }
 
   return climb;
@@ -214,9 +227,8 @@ function cleanUpStages(tables, stageUID, stage) {
       });
       stageRankings[tab] = general;
     } else {
-      console.error(tab, index, Object.keys(tables[index]));
       logOut(
-        this.constructor.name,
+        "cleanUpStages",
         `${tab}, ${index} ${Object.keys(tables[index]).join(", ")}`,
         "debug",
       );
@@ -225,7 +237,7 @@ function cleanUpStages(tables, stageUID, stage) {
     if (
       tab &&
       Object.hasOwn(tables[index], "today") &&
-      tables[index]["today"].length > 0
+      tables[index]["today"] != null
     ) {
       for (let i = 0; i < tables[index]["today"].length; i += 1) {
         const ranking = tables[index]["today"][i];
@@ -253,20 +265,17 @@ function cleanUpStages(tables, stageUID, stage) {
               },
             );
             break;
+
           case "youth":
-            stageRankings[tab + "-day-classification"] = cleanUpStageTable(
-              ranking.standings,
-              { stageUID, stage },
-            );
-            break;
           case "teams":
             stageRankings[tab + "-day-classification"] = cleanUpStageTable(
               ranking.standings,
               { stageUID, stage },
             );
             break;
+
           default:
-            console.log("Ranking:", ranking.label);
+            logOut("Clean Up Stages", `Ranking: ${ranking.label}`, "warn");
 
             table = cleanUpStageTable(ranking.standings, { stageUID, stage });
             stageRankings[tab + "-location"] = table;
@@ -288,108 +297,155 @@ function cleanUpStages(tables, stageUID, stage) {
  * @param {number} stage - Stage number
  */
 export async function scrapeRaceStageResults(page, race, year, stage) {
-  const url = `https://www.procyclingstats.com/race/${race}/${year}/stage-${stage}`;
+  const urlStage = stage === 0 ? "prologue" : `stage-${stage}`;
+  const url = `https://www.procyclingstats.com/race/${race}/${year}/${urlStage}`;
   const raceId = generateId.race(race, year);
   const stageUID = generateId.stage(raceId, stage);
 
+  // Ensure page loads
   try {
-    // Ensure page loads
-    await page.goto(url, { waitUntil: "networkidle2" }).catch((exception) => {
-      console.error(exception.name, `Failed to Navigate to '${url}'`);
-      return null;
+    await page.goto(url, { waitUntil: "networkidle2" });
+  } catch (exception) {
+    logError("Race Stage Results", `Failed to Navigate to '${url}'`, exception);
+    return null;
+  }
+
+  try {
+    // Main page container - waited for to ensure page loads
+    await page.waitForSelector(".page-content", {
+      timeout: 1200,
     });
-    await page
-      .waitForSelector(".page-content", {
-        timeout: 1200,
-      })
-      .catch((exception) => {
-        logError(
-          "scrapeRaceStageResults",
-          `Exception in scrapeStage waiting for  selector '.page-content' on '${url}'`,
-          exception,
-        );
-        return null;
-      });
+  } catch (exception) {
+    logError(
+      "Race Stage Results",
+      `Exception in scrapeStage waiting for  selector '.page-content' on '${url}'`,
+      exception,
+    );
+    return null;
+  }
 
-    // Fetch table data
-    const tables = await page.evaluate(() => {
-      const resultConts = document.querySelectorAll(".result-cont");
+  // Fetch table data
+  const tables = await page.evaluate(() => {
+    // 1. PAGE STRUCTURE SELECTORS - UPDATED
+    const pageSelectors = {
+      // Main results containers
+      resultContainers: "#resultsCont .resTab",
+      tabsContainer: "ul.tabs.tabnav.resultTabs",
+      tabs: "a.selectResultTab",
+      // Tab system within each result container
+      generalTab: ".general",
+      todayTab: ".today",
+    };
 
-      function extractTableData(tableElement) {
-        const columns = Array.from(
-          tableElement.querySelectorAll("thead th"),
-        ).map((cell) => cell.innerText.trim());
+    // TODO: Collect Tabs Listed -> Make no assumptions about tab structure
+    // const tabs = document.querySelectorAll(`${pageSelectors.generalTab}, ${pageSelectors.todayTab}`);
 
-        const rows = Array.from(tableElement.querySelectorAll("tbody tr"));
-        return rows.map((row) => {
-          const cells = Array.from(row.querySelectorAll("th, td"));
-          const rowDeatils = {};
+    const resultConts = document.querySelectorAll(
+      pageSelectors.resultContainers,
+    );
 
-          for (
-            let columnIndex = 0;
-            columnIndex < cells.length;
-            columnIndex += 1
-          ) {
-            const columnLabel = columns[columnIndex];
-            const cell = cells[columnIndex];
-            const nestedSpan = cell.querySelector("span");
-            const nestedDiv = cell.querySelector("div");
-            let cellContent = "";
+    function extractTableData(tableElement) {
+      const tableStructure = {
+        // Standard table elements
+        headers: "thead th", // Column headers
+        rows: "tbody tr", // Data rows
+        cells: "td", // Individual cells (both header and data)
+        // Special cell types with custom handling
+        timeCells: {
+          selector: 'cell.classList.contains("time")',
+          nestedSpan: "span", // Time display element
+          nestedDiv: "div", // Actual time value
+        },
+      };
 
-            if (cell.classList.contains("time") && nestedSpan !== null) {
-              cellContent = nestedDiv.innerText.trim();
-            } else {
-              cellContent = cell.innerText.trim();
-            }
+      const columns = Array.from(
+        tableElement.querySelectorAll(tableStructure.headers),
+      ).map((cell) => cell.innerText.trim());
+      // TODO: cell.getAttribute('data-code') ?? cell.innerText.trim())
 
-            rowDeatils[columnLabel] = cellContent;
+      const rows = Array.from(
+        tableElement.querySelectorAll(tableStructure.rows),
+      );
+
+      return rows.map((row, index) => {
+        const cells = Array.from(row.querySelectorAll(tableStructure.cells));
+        const rowDetails = {};
+
+        if (cells.length < columns.length) {
+          if (cells.length == 1) {
+            return {
+              type: "nonResult",
+              value: cells[0].innerText,
+              row: index,
+            };
           }
+          return {
+            type: "columnCount",
+            value: cells.length,
+            row: index,
+          };
+        }
 
-          return rowDeatils;
-        });
+        for (
+          let columnIndex = 0;
+          columnIndex < cells.length;
+          columnIndex += 1
+        ) {
+          const columnLabel = columns[columnIndex];
+          const cell = cells[columnIndex];
+          let cellContent = cell.innerText.trim();
+          // const nestedSpan = cell.querySelector("span");
+          // const nestedDiv = cell.querySelector("div");
+          // if (cell.classList.contains("time") && nestedSpan !== null) {
+          //   cellContent = nestedDiv.innerText.trim();
+          // } else {
+          //   cellContent = cell.innerText.trim();
+          // }
+          rowDetails[columnLabel] = cellContent;
+        }
+
+        return rowDetails;
+      });
+    }
+
+    const results = /** @type {Object[]} */ [];
+    for (const [index, resultCont] of resultConts.entries()) {
+      results[index] = {
+        general: null,
+        today: null,
+      };
+
+      // Tab [General]
+      const general = resultCont.querySelector(pageSelectors.generalTab);
+      if (general) {
+        results[index]["general"] = extractTableData(
+          general.querySelector("table"),
+        );
       }
 
-      const results = [];
-      resultConts.forEach((resultCont, index) => {
-        results[index] = {
-          general: null,
-          today: null,
-        };
+      // Tab [Today]
+      const today = resultCont.querySelector(pageSelectors.todayTab);
+      if (today) {
+        const pairs = [];
+        const headers = today.querySelectorAll("h4");
+        const tables = today.querySelectorAll("table");
 
-        // Tab [General]
-        const general = resultCont.querySelector(".subTabs:not(.hide)");
-        if (general) {
-          results[index]["general"] = extractTableData(
-            general.querySelector("table"),
-          );
+        for (
+          let pair = 0;
+          pair < headers.length && pair < tables.length;
+          pair += 1
+        ) {
+          pairs.push({
+            label: headers[pair].innerText,
+            standings: extractTableData(tables[pair]),
+          });
         }
+        results[index]["today"] = pairs;
+      }
+    }
 
-        // Tab [Today]
-        const today = resultCont.querySelector(".subTabs.hide");
-        if (today) {
-          const pairs = [];
-          const headers = today.querySelectorAll("h3");
-          const tables = today.querySelectorAll("table");
+    return results;
+  });
 
-          for (
-            let pair = 0;
-            pair < headers.length && pair < tables.length;
-            pair += 1
-          ) {
-            pairs.push({
-              label: headers[pair].innerText,
-              standings: extractTableData(tables[pair]),
-            });
-          }
-          results[index]["today"] = pairs;
-        }
-      });
-
-      return results;
-    });
-
-    return cleanUpStages(tables, stageUID, stage);
-  } catch (exception) {
-    throw exception;
-  }
+  return cleanUpStages(tables, stageUID, stage);
 }

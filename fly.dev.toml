@@ -6,13 +6,7 @@ primary_region = 'syd'
 
 [build]
 dockerfile = "Dockerfile.dev"
-
-[http_service]
-internal_port = 8080
-force_https = true
-auto_stop_machines = 'suspend' # Faster wake-up than 'stop'
-auto_start_machines = true
-min_machines_running = 0
+ignorefile = ".dockerignore"
 
 [[vm]]
 memory = '512mb'
@@ -22,7 +16,21 @@ cpus = 1
 [env]
 NODE_ENV = "development"
 LOG_LEVEL = "debug"
+DATA_AUTO_REFRESH = true
+DATA_AUTO_REFRESH_INTERVAL = 1800000
 
 [mounts]
 source = "dev_data_volume"
 destination = "/tourRanking/data"
+
+[processes]
+app = "sh -c 'supercronic -passthrough-logs /tourRanking/crontab & exec bun start'"
+
+[http_service]
+processes = ["app"]
+internal_port = 8080
+force_https = true
+auto_stop_machines = 'suspend' # Faster wake-up than 'stop'
+auto_start_machines = true
+min_machines_running = 0
+max_machines_running = 1

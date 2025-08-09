@@ -3,30 +3,43 @@
 **/node_modules/
 node_modules/
 
+# Build outputs and caches
+
+# IDE files
+.zed
+
+# Logs and temp files
+_temp/
+
+# Testing
+test/
+
 # macOS system files
 **/.DS_Store
+
+# Package manager
 
 # Environment files (secrets)
 **/.env
 **/.env*
+tourrankings-google-service-account-key.json
 
 # Git and VCS files
 **/.git
 .gitignore
 .github
-.zed
 coderabbit.yaml
 
 # Data and CSVs
 /data/
 **/*.csv
 
-# Miscellaneous
-fly.dev.toml
-fly.prod.toml
+# Deployment
+fly.*.toml
 Dockerfile
 docker-compose*
-README.md
+
+# Development guidelines
 LICENSE
-_sample_code/
+README.md
 development-guidlines.md

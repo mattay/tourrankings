@@ -30,20 +30,21 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
-    libglib2.0-0 \
-    libnss3 \
-    libxss1 \
-    libgconf-2-4 \
-    libxrandr2 \
     libasound2 \
-    libpangocairo-1.0-0 \
     libatk1.0-0 \
     libcairo-gobject2 \
-    libgtk-3-0 \
+    libcairo2 \
+    libgbm1 \
+    libgconf-2-4 \
     libgdk-pixbuf2.0-0 \
+    libglib2.0-0 \
+    libgtk-3-0 \
+    libnss3 \
+    libpangocairo-1.0-0 \
+    libxrandr2 \
+    libxss1 \
     && rm -rf /var/lib/apt/lists/*  \
     && apt-get clean
-
 
 # Install Supercronic
 ARG SUPERCRONIC_VERSION=v0.2.34
@@ -64,7 +65,7 @@ EXPOSE 8080
 
 # Set environment variables
 ENV NODE_ENV=production
-ENV NODE_OPTIONS="--max-old-space-size=256"
+ENV NODE_OPTIONS="--max-old-space-size=445"
 ENV PORT=8080
 ENV DATA_DIR=/tourRanking/data/csv
 

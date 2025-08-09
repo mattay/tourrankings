@@ -4,24 +4,40 @@
 app = 'tourrankings'
 primary_region = 'syd'
 
-[build]
-dockerfile = "Dockerfile"
-ignorefile = ".dockerignore"
-
 [[vm]]
-memory = '512mb'
+memory = '1024mb'
+swap_size_mb = 512
 cpu_kind = 'shared'
 cpus = 1
 
-[env]
-NODE_ENV = "production"
-LOG_LEVEL = "info"
-DATA_AUTO_REFRESH = true
-DATA_AUTO_REFRESH_INTERVAL = 1800000
+[deploy]
+wait_timeout = "10m"
 
 [mounts]
 source = "data_volume"
 destination = "/tourRanking/data"
+
+[build]
+dockerfile = "Dockerfile"
+ignorefile = ".dockerignore"
+
+[http_service]
+processes = ["app"]
+internal_port = 8080
+force_https = true
+auto_stop_machines = 'suspend'
+auto_start_machines = true
+min_machines_running = 0
+
+[env]
+NODE_ENV = "production"
+LOG_LEVEL = "debug"
+DATA_AUTO_REFRESH = true
+DATA_AUTO_REFRESH_INTERVAL = 1800000
+
+[processes]
+# app = "sh -c 'supercronic -passthrough-logs /tourRanking/crontab & exec bun start'"
+app = "sh -c 'bun start'"
 
 # Production health checks
 # [checks]
@@ -33,14 +49,3 @@ destination = "/tourRanking/data"
 # port = 8080
 # timeout = "10s"
 # headers = []
-
-[processes]
-app = "sh -c 'supercronic -passthrough-logs /tourRanking/crontab & exec bun start'"
-
-[http_service]
-internal_port = 8080
-force_https = true
-auto_stop_machines = 'suspend'
-auto_start_machines = true
-min_machines_running = 0
-max_machines_running = 1

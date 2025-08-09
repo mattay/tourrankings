@@ -10,8 +10,8 @@ node_modules/
 .env
 .env.local
 
-
-_sample_code
+# Logs and temp files
+_temp/
 
 # Scraped data.
 /data/

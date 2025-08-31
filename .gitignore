@@ -11,7 +11,7 @@ node_modules/
 .env.local
 
 
-_sample_code
+_temp
 
 # Scraped data.
 /data/

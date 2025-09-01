@@ -15,7 +15,7 @@
  * const result = dateTimeFormater(date, options, "-");
  * // result -> "2025-09-01"
  */
-function dateTimeFormater(date, options, separator) {
+function dateTimeFormatter(date, options, separator) {
   function format(option) {
     let formatter = new Intl.DateTimeFormat("en", option);
     return formatter.format(date);
@@ -41,14 +41,14 @@ export function isoDateTime(date) {
     { day: "2-digit" },
   ];
   const timeOptions = {
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
     hour12: false,
     fractionalSecondDigits: 3,
   };
 
-  const day = dateTimeFormater(date, dayOptions, "-");
+  const day = dateTimeFormatter(date, dayOptions, "-");
   const time = new Intl.DateTimeFormat("en-AU", timeOptions).format(date);
 
   return `${day} ${time}`;
@@ -75,13 +75,21 @@ export function validateYear(
   yearParam,
   fallbackYear = new Date().getFullYear(),
 ) {
+  const currentYear = new Date().getFullYear();
+  const safeFallback =
+    Number.isInteger(fallbackYear) &&
+    fallbackYear >= 1900 &&
+    fallbackYear <= 2100
+      ? fallbackYear
+      : currentYear;
+
   if (yearParam === undefined || yearParam === null || yearParam === "") {
-    return fallbackYear; // Allow missing year
+    return safeFallback; // Allow missing year
   }
   const year = Number(yearParam);
   // Adjust range as needed
   if (Number.isInteger(year) && year >= 1900 && year <= 2100) {
     return year;
   }
-  return fallbackYear;
+  return safeFallback;
 }

@@ -21,5 +21,5 @@ export function toTitleCase(str) {
 
 export function formatDate(year, textDate, seperator = ".") {
   const [day, month] = textDate.split(seperator); // Split start date into month and day
-  return `${year}/${month.padStart(2, "0")}/${day.padStart(2, "0")}`; // Format startDate as yyyy/mm/dd
+  return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`; // Format startDate as yyyy/mm/dd
 }

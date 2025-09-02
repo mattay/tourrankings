@@ -121,25 +121,30 @@ class CSVdataModel {
       }
 
       // Write to CSV
-      let lineNumber = 1;
-      fs.createReadStream(this.filePath)
-        .pipe(csv())
+      // csv-parser skips the header row; first data row is file line 2
+      let lineNumber = 2;
+
+      const stream = fs.createReadStream(this.filePath).pipe(csv());
+      stream
         .on("data", (data) => {
           const cleanedData = this.#cleanRowCSV(data);
           if (cleanedData) {
             this.rows.push(cleanedData);
+            lineNumber++;
           } else {
-            throw new Error(
-              `Invalid CSV file ${this.filePath} at line ${lineNumber}`,
+            // Propagate error through the stream; Promise will reject via "error".
+            stream.destroy(
+              new Error(
+                `Invalid CSV file ${this.filePath} at line ${lineNumber}`,
+              ),
             );
           }
-          lineNumber++;
         })
-        .on("end", () => resolve(this.rows))
+        .on("end", () => {
+          this.sortRows();
+          resolve(this.rows);
+        })
         .on("error", reject);
-
-      // logOut(this.constructor.name, `Loaded ${this.filePath}`, "debug");
-      this.sortRows();
     });
   }
 

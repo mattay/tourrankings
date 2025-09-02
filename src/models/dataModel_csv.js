@@ -121,6 +121,7 @@ class CSVdataModel {
       }
 
       // Write to CSV
+      let lineNumber = 1;
       fs.createReadStream(this.filePath)
         .pipe(csv())
         .on("data", (data) => {
@@ -128,8 +129,11 @@ class CSVdataModel {
           if (cleanedData) {
             this.rows.push(cleanedData);
           } else {
-            throw new Error(`Invalid CSV file ${this.filePath}`);
+            throw new Error(
+              `Invalid CSV file ${this.filePath} at line ${lineNumber}`,
+            );
           }
+          lineNumber++;
         })
         .on("end", () => resolve(this.rows))
         .on("error", reject);

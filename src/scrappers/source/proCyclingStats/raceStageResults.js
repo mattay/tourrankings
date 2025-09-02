@@ -344,6 +344,65 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
       pageSelectors.resultContainers,
     );
 
+    /**
+     * Extracts content from a table cell with specialized handling for different cell types
+     * @param {HTMLTableCellElement} cell - The table cell element
+     * @returns {string} The extracted cell content
+     */
+    function extractCellContent(cell) {
+      // Skip cells that are clearly non-data (checkboxes, buttons, etc.)
+      if (cell.querySelector('input[type="checkbox"]')) {
+        return "";
+      }
+
+      // Handle time cells with hidden spans
+      if (cell.classList.contains("time")) {
+        const hiddenSpan = cell.querySelector("span.hide");
+        if (hiddenSpan) {
+          return hiddenSpan.innerText.trim();
+        }
+      }
+
+      // Handle specialty cells with specific structure
+      if (cell.classList.contains("specialty")) {
+        const specialtySpan = cell.querySelector("span.fs10");
+        if (specialtySpan) {
+          return specialtySpan.innerText.trim();
+        }
+      }
+
+      // Handle rider name cells - extract only the main name, ignore team info
+      if (cell.classList.contains("ridername")) {
+        const nameLink = cell.querySelector("a");
+        if (nameLink) {
+          return nameLink.innerText.trim();
+        }
+      }
+
+      // Standard cell content extraction with cleanup
+      let cellContent = cell.innerText.trim();
+
+      // Clean up multi-line content and unwanted text
+      if (cellContent.includes("\n")) {
+        // Split by newlines and take only the first non-empty line
+        const lines = cellContent
+          .split("\n")
+          .map((line) => line.trim())
+          .filter(
+            (line) => line.length > 0 && !line.match(/^(fav_gc|favorite)$/i),
+          );
+        cellContent = lines[0] || "";
+      }
+
+      // Remove common unwanted text patterns
+      cellContent = cellContent
+        .replace(/\b(fav_gc|favorite)\b/gi, "") // Remove fav_gc and favorite text
+        .replace(/\s+/g, " ") // Replace multiple spaces with single space
+        .trim();
+
+      return cellContent;
+    }
+
     function extractTableData(tableElement) {
       const tableStructure = {
         // Standard table elements
@@ -386,21 +445,38 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
           };
         }
 
+        // for (
+        //   let columnIndex = 0;
+        //   columnIndex < cells.length;
+        //   columnIndex += 1
+        // ) {
+        //   const columnLabel = columns[columnIndex];
+        //   const cell = cells[columnIndex];
+        //   let cellContent = cell.innerText.trim();
+        //   const nestedA = cell.querySelector("a");
+        //   const nestedSpan = cell.querySelector("span");
+        //   const nestedDiv = cell.querySelector("div");
+        //   // if (nestedA !== null) {
+        //   //   cellContent = nestedA.innerText.trim();
+        //   // } else if (nestedSpan !== null) {
+        //   //   cellContent = nestedSpan.innerText.trim();
+        //   //   cellContent = nestedDiv.innerText.trim();
+        //   // } else {
+        //   //   cellContent = cell.innerText.trim();
+        //   // }
+        //   rowDetails[columnLabel] = cellContent;
+        // }
+
+        // Process each cell
         for (
           let columnIndex = 0;
-          columnIndex < cells.length;
+          columnIndex < Math.min(cells.length, columns.length);
           columnIndex += 1
         ) {
           const columnLabel = columns[columnIndex];
           const cell = cells[columnIndex];
-          let cellContent = cell.innerText.trim();
-          // const nestedSpan = cell.querySelector("span");
-          // const nestedDiv = cell.querySelector("div");
-          // if (cell.classList.contains("time") && nestedSpan !== null) {
-          //   cellContent = nestedDiv.innerText.trim();
-          // } else {
-          //   cellContent = cell.innerText.trim();
-          // }
+          let cellContent = extractCellContent(cell);
+
           rowDetails[columnLabel] = cellContent;
         }
 

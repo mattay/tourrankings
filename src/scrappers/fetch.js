@@ -40,11 +40,20 @@ export async function fetchHtmlWithFetch(url, options = {}) {
   try {
     const response = await fetch(url, { headers, signal: controller.signal });
     if (!response.ok) {
+      throw new Error(`HTTP ${response.status} while fetching ${url}`);
+    }
+    return response.text();
+  } catch (error) {
+    if (error?.name === "AbortError") {
       throw new Error(
-        `HTTP ${response.status} ${response.statusText} while fetching ${url}`,
+        `Timeout of ${timeout}ms exceeded while fetching ${url}`,
+        { cause: error },
       );
     }
-    return await response.text();
+    throw new Error(
+      `fetchHtmlWithFetch failed for ${url}: ${error?.message ?? error}`,
+      { cause: error },
+    );
   } finally {
     clearTimeout(id);
   }

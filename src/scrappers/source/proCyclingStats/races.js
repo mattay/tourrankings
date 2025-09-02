@@ -70,22 +70,22 @@ export async function collectWorldTourRaces(page, races, year) {
  *   A parser function (like {@link urlSections}) that maps parts of the pathname
  *   to provided labels. Defaults to {@link urlSections}.
  *
- * @returns {{ racePcsID: string, year: string } | null}
+ * @returns {{ racePcsID: string, year: number } | null}
  *   An object containing the extracted `racePcsID` and `year` if successful,
  *   or `null` if parsing fails or required parts are missing.
  *
  * @example
  * // Given a URL such as:
- * const url = "https://example.com/racing/_race/56789/2024";
+ * const url = "https://www.procyclingstats.com/race/tour-down-under/2024/gc";
  * const raceInfo = extractFromUrlRaceId(url);
- * // raceInfo => { racePcsID: "56789", year: "2024" }
+ * // raceInfo => { racePcsID: "tour-down-under", year: "2024" }
  */
 function extractFromUrlRaceId(url, urlParser = urlSections) {
   const cleanUrl = url.replace(/\/gc$/, "");
   const sections = urlParser(cleanUrl, ["_race", "racePcsID", "year"]);
 
-  if (!sections) return null;
-  return { racePcsID: sections.racePcsID, year: sections.year };
+  if (!sections || !sections.racePcsID || !sections.year) return null;
+  return { racePcsID: String(sections.racePcsID), year: Number(sections.year) };
 }
 
 /**
@@ -106,7 +106,7 @@ export function extractRawRaceData(tableRows, year) {
       if (!dateText || !raceLink) return null;
 
       const raceClass = tds[4].textContent?.trim();
-      const [startDateText, endDateText] = dateText.split(" - ");
+      const [startDateText, endDateText] = dateText.split(/\s*[-–—]\s*/);
 
       const raceName = raceLink.textContent?.trim();
       const racePcsUrl = raceLink.href;
@@ -194,6 +194,7 @@ function processRaceRecords(
   urlParser = extractFromUrlRaceId,
   idGenerator = generateId.race,
 ) {
+  if (!rawRecords || rawRecords.length === 0) return [];
   return rawRecords
     .map((record) =>
       cleanRaceRecord(record, dateFormatter, urlParser, idGenerator),
@@ -213,7 +214,7 @@ export async function scrapeRaces(page, url, year) {
     const htmlContent = await fetchHtmlWithPuppeteer(page, url);
     return scrapeRacesFromHtml(htmlContent, year);
   } catch (exception) {
-    logError("Races cleanRecord", url, exception);
+    logError("Races scrapeRaces", url, exception);
 
     return null;
   }

@@ -1,3 +1,6 @@
+const YEAR_MIN = 1900;
+const YEAR_MAX = 2100;
+
 // https://stackoverflow.com/a/3552493/5250085
 /**
  * Formats parts of a date according to multiple Intl.DateTimeFormat options,
@@ -15,7 +18,7 @@
  * const result = dateTimeFormatter(date, options, "-");
  * // result -> "2025-09-01"
  */
-function dateTimeFormatter(date, options, separator) {
+function dateTimeFormatter(date, options, separator = "-") {
   function format(option) {
     let formatter = new Intl.DateTimeFormat("en", option);
     return formatter.format(date);
@@ -83,17 +86,20 @@ export function validateYear(
   const currentYear = new Date().getFullYear();
   const safeFallback =
     Number.isInteger(fallbackYear) &&
-    fallbackYear >= 1900 &&
-    fallbackYear <= 2100
+    fallbackYear >= YEAR_MIN &&
+    fallbackYear <= YEAR_MAX
       ? fallbackYear
       : currentYear;
 
-  if (yearParam === undefined || yearParam === null || yearParam === "") {
+  if (
+    yearParam === undefined ||
+    yearParam === null ||
+    String(yearParam).trim() === ""
+  ) {
     return safeFallback; // Allow missing year
   }
   const year = Number(yearParam);
-  // Adjust range as needed
-  if (Number.isInteger(year) && year >= 1900 && year <= 2100) {
+  if (Number.isInteger(year) && year >= YEAR_MIN && year <= YEAR_MAX) {
     return year;
   }
   return safeFallback;

@@ -71,7 +71,7 @@ export function isoDateTime(date, timeZone) {
 /**
  * Validates and normalizes a year value.
  *
- * If the provided value is missing, not an integer, or falls outside the range [1900, 2100],
+ * If the provided value is missing, not an integer, or falls outside the range [YEAR_MIN, YEAR_MAX],
  * the fallback year is used instead.
  *
  * @param {any} yearParam - The year value to validate.
@@ -85,7 +85,7 @@ export function isoDateTime(date, timeZone) {
  * validateYear("notayear");    // -> current year
  * validateYear("1800", 2000);  // -> 2000
  * validateYear(String(YEAR_MIN)); // -> YEAR_MIN
- + validateYear(String(YEAR_MAX + 1), YEAR_MAX); // -> YEAR_MAX
+ * validateYear(String(YEAR_MAX + 1), YEAR_MAX); // -> YEAR_MAX
  */
 export function validateYear(
   yearParam,

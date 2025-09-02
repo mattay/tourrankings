@@ -142,13 +142,44 @@ function cleanRaceRecord(
   urlParser = extractFromUrlRaceId,
   idGenerator = generateId.race,
 ) {
-  if (!record || !record.racePcsUrl || !record.year) return null;
+  if (!record) {
+    logError("Races cleanRaceRecord", "Record empty", null, record);
+    return null;
+  }
+
+  if (!record.racePcsUrl || !record.year) {
+    logError(
+      "Races cleanRaceRecord",
+      `Missing required fields: racePcsUrl, year`,
+      null,
+      record,
+    );
+    return null;
+  }
 
   const racePcsUrl = record.racePcsUrl.replace(/\/gc$/, "");
-  const { racePcsID, year } = urlParser(racePcsUrl);
-  const raceUID = idGenerator(racePcsID, year);
+  const parsed = urlParser(racePcsUrl);
+  if (!parsed || !parsed.racePcsID || !parsed.year) {
+    logError(
+      "Races cleanRaceRecord",
+      `Failed to parse race URL: ${racePcsUrl} -> racePcsID:'${parsed?.racePcsID}' year:'${parsed?.year}'`,
+      null,
+      record,
+    );
+    return null;
+  }
+  const { racePcsID, year: yearFromUrl } = parsed;
+  const raceUID = idGenerator(racePcsID, Number(record.year ?? yearFromUrl));
 
-  if (!raceUID) return null;
+  if (!raceUID) {
+    logError(
+      "Races cleanRaceRecord",
+      `Failed to generate race UID from racePcsID:'${racePcsID}' year:'${yearFromUrl}'`,
+      null,
+      record,
+    );
+    return null;
+  }
 
   return {
     ...record,

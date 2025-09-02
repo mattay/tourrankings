@@ -1,5 +1,5 @@
-const YEAR_MIN = 1900;
-const YEAR_MAX = 2100;
+export const YEAR_MIN = 1900;
+export const YEAR_MAX = new Date().getFullYear() + 5;
 
 // https://stackoverflow.com/a/3552493/5250085
 /**
@@ -7,7 +7,7 @@ const YEAR_MAX = 2100;
  * then combines them with a separator.
  *
  * @param {Date} date - The Date object to format.
- * @param {Array<Intl.DateTimeFormatOptions>} options - An array of DateTimeFormat options.
+ * @param {Intl.DateTimeFormatOptions[]} options - An array of DateTimeFormat options.
  *   Each option object is applied separately, and the resulting strings are combined.
  * @param {string} separator - The character(s) used to join the formatted parts.
  * @returns {string} The formatted date string.
@@ -28,6 +28,8 @@ function dateTimeFormatter(date, options, separator = "-") {
 
 /**
  * Produces an ISO-like datetime string (YYYY-MM-DD HH:mm:ss.SSS) in 24-hour time.
+ * Note: No offset/Z suffix is included even when a timeZone is supplied.
+ *       Consider appending the numeric offset or 'Z' if disambiguation is required.
  *
  * @param {Date} date - The Date object to format.
  * @param {string} [timeZone] - The time zone to use for formatting.
@@ -39,6 +41,9 @@ function dateTimeFormatter(date, options, separator = "-") {
  * // -> "2025-09-01 20:42:00.123"  (depending on local timezone)
  */
 export function isoDateTime(date, timeZone) {
+  if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
+    throw new TypeError("isoDateTime: invalid Date");
+  }
   const maybeTZ = timeZone ? { timeZone } : {};
   const dayOptions = [
     { year: "numeric", ...maybeTZ },
@@ -51,6 +56,7 @@ export function isoDateTime(date, timeZone) {
     second: "2-digit",
     hour12: false,
     fractionalSecondDigits: 3,
+    numberingSystem: "latn",
     ...maybeTZ,
   };
 
@@ -78,6 +84,8 @@ export function isoDateTime(date, timeZone) {
  * validateYear("");            // -> current year
  * validateYear("notayear");    // -> current year
  * validateYear("1800", 2000);  // -> 2000
+ * validateYear(String(YEAR_MIN)); // -> YEAR_MIN
+ + validateYear(String(YEAR_MAX + 1), YEAR_MAX); // -> YEAR_MAX
  */
 export function validateYear(
   yearParam,

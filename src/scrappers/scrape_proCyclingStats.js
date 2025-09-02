@@ -410,12 +410,16 @@ async function main() {
   // Bowser Setup
   let browser;
   try {
+    logOut("Browser Setup", "Starting browser");
     browser = await puppeteer.launch(config.browser);
+    logOut("Browser Setup", "Browser started");
 
     // Page Setup
     const page = await browser.newPage();
+    logOut("Page Setup", "Page created");
     page.setRequestInterception(true);
     page.on("request", interceptRequests);
+    logOut("Page Setup", "Request interception enabled");
 
     // Data Models
     // TODO utilse dataService
@@ -433,6 +437,7 @@ async function main() {
 
     // Load data
     try {
+      logOut("Data Loading", "Starting data loading");
       await races.read();
       await raceStages.read();
       await raceStageResults.read();
@@ -444,18 +449,22 @@ async function main() {
       await raceStageMountain.read();
       await raceStageYouth.read();
       await raceStageTeam.read();
+      logOut("Data Loading", "Data loading completed");
     } catch (error) {
       logError("Main", "Loading data", error);
       throw error;
     }
 
     try {
+      logOut("Race Information", "Starting race information collection");
       await updateRaces(page, races, raceStages, raceRiders, riders, teams);
+      logOut("Race Information", "Race information collection completed");
     } catch (error) {
       logError("Main", "Collecting race information", error);
     }
 
     try {
+      logOut("Stage Results", "Starting stage results collection");
       await updateStageResults(
         page,
         races,
@@ -467,6 +476,7 @@ async function main() {
         raceStageYouth,
         raceStageTeam,
       );
+      logOut("Stage Results", "Stage results collection completed");
     } catch (error) {
       logError("Main", "Failed to collect race information", error);
     }
@@ -480,6 +490,7 @@ async function main() {
   } finally {
     if (browser) {
       await browser.close();
+      logOut("Browser", "Browser closed");
     }
   }
 }

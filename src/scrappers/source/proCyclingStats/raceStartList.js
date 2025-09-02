@@ -1,15 +1,17 @@
-import { Page } from "puppeteer-core";
 import { logError } from "../../../utils/logging";
 import { urlSections } from "../../../utils/url";
 
-/** @typedef {Object} RawStartListRider
+/**
+ * @typedef {import('puppeteer-core').Page} Page - Puppeteer
+ * @typedef {import('./@types/index').ScrapedRaceStartListTeam} ScrapedRaceStartListTeam -
+ *
+ * @typedef {Object} RawStartListRider
  * @property {number} bib - The bib number of the rider.
  * @property {string} flag - The flag of the rider.
  * @property {string} rider - The name of the rider.
  * @property {string} riderPcsUrl - The ProcyclingStats URL of the rider.
- */
-
-/** @typedef {Object} RawTeamStartList
+ *
+ * @typedef {Object} RawTeamStartList
  * @property {string} teamName - The name of the team.
  * @property {string} teamPcsUrl - The ProcyclingStats URL of the team.
  * @property {string} jerseyImageUrl - The name of the team.

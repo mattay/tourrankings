@@ -1,9 +1,9 @@
-import { Page } from "puppeteer-core";
 import { generateId } from "../../../utils/idGenerator.js";
 import { formatDate } from "../../../utils/string.js";
 import { logError } from "../../../utils/logging.js";
 
 /**
+ * @typedef {import('puppeteer-core').Page} Page - Puppeteer
  * @typedef {import('./@types').ScrapedRaceStage} ScrapedRaceStage
  *
  * @typedef {Object} RawStageRecord - Raw stage record from the ProCyclingStats website.
@@ -34,7 +34,7 @@ function cleanRecord(record) {
   } else {
     const matchStage = record.stage.match(regexStage);
     if (!matchStage) {
-      console.log(record.stage);
+      logError("Clean Record", `Invalid stage format: ${record.stage}`);
     }
     stageNumber = Number(matchStage?.groups.stageNumber) || null;
     stageType = matchStage?.groups.stageType || null;
@@ -61,19 +61,22 @@ function cleanRecord(record) {
  */
 export async function scrapeRaceStages(page, race, year) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/route/stages`;
+
   try {
     await page.goto(url, { waitUntil: "networkidle2" }).catch((exception) => {
-      logError("scrapeStages", "Navigation failed");
-      logError("scrapeStages", exception.name);
-      logError("scrapeStages", exception.message);
+      logError("scrapeStages", `Navigating to ${url}`, exception);
     });
 
     await page
-      .waitForSelector(".page-content", {
+      .waitForSelector(".page-content table", {
         timeout: 1200,
       })
       .catch((exception) => {
-        logError("scrapeStages", "page-content", exception);
+        logError(
+          "scrapeStages",
+          `Waiting for selector '.page-content table' On page ${url}`,
+          exception,
+        );
         throw exception;
       });
 

@@ -27,6 +27,7 @@ function dateTimeFormatter(date, options, separator) {
  * Produces an ISO-like datetime string (YYYY-MM-DD HH:mm:ss.SSS) in 24-hour time.
  *
  * @param {Date} date - The Date object to format.
+ * @param {string} [timeZone] - The time zone to use for formatting.
  * @returns {string} A formatted string containing the date and time with millisecond precision.
  *
  * @example
@@ -34,11 +35,12 @@ function dateTimeFormatter(date, options, separator) {
  * const result = isoDateTime(date);
  * // -> "2025-09-01 20:42:00.123"  (depending on local timezone)
  */
-export function isoDateTime(date) {
+export function isoDateTime(date, timeZone) {
+  const maybeTZ = timeZone ? { timeZone } : {};
   const dayOptions = [
-    { year: "numeric" },
-    { month: "2-digit" },
-    { day: "2-digit" },
+    { year: "numeric", ...maybeTZ },
+    { month: "2-digit", ...maybeTZ },
+    { day: "2-digit", ...maybeTZ },
   ];
   const timeOptions = {
     hour: "2-digit",
@@ -46,10 +48,13 @@ export function isoDateTime(date) {
     second: "2-digit",
     hour12: false,
     fractionalSecondDigits: 3,
+    ...maybeTZ,
   };
 
   const day = dateTimeFormatter(date, dayOptions, "-");
-  const time = new Intl.DateTimeFormat("en-AU", timeOptions).format(date);
+  const rawTime = new Intl.DateTimeFormat("en", timeOptions).format(date);
+  const ms = String(date.getMilliseconds()).padStart(3, "0");
+  const time = rawTime.includes(".") ? rawTime : `${rawTime}.${ms}`;
 
   return `${day} ${time}`;
 }

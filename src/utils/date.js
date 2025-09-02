@@ -12,7 +12,7 @@
  * @example
  * const date = new Date("2025-09-01T10:42:00Z");
  * const options = [{ year: "numeric" }, { month: "2-digit" }, { day: "2-digit" }];
- * const result = dateTimeFormater(date, options, "-");
+ * const result = dateTimeFormatter(date, options, "-");
  * // result -> "2025-09-01"
  */
 function dateTimeFormatter(date, options, separator) {

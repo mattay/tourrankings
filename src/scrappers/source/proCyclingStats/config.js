@@ -9,6 +9,7 @@
  * @property {Object} resourceTypes - .
  * @property {Object} resourceTypes.blacklist - List of resource types to block.
  * @property {number} wait - Wait time in milliseconds.
+ * @property {number} timeout - Timeout in milliseconds.
  */
 
 /** @type {Config} */
@@ -62,6 +63,7 @@ export const config = {
     ],
   },
   wait: 420,
+  timeout: 1200,
 };
 
 export default config;

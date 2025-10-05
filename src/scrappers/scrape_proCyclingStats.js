@@ -410,9 +410,9 @@ async function main() {
   // Bowser Setup
   let browser;
   try {
-    logOut("Browser Setup", "Starting browser");
+    logOut("Browser", "Starting browser");
     browser = await puppeteer.launch(config.browser);
-    logOut("Browser Setup", "Browser started");
+    logOut("Browser", "Browser started");
 
     // Page Setup
     const page = await browser.newPage();

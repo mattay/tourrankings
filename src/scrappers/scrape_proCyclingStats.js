@@ -407,7 +407,7 @@ async function updateStageResults(
  * Main function to orchestrate the scraping process
  */
 async function main() {
-  // Bowser Setup
+  // Browser Setup
   let browser;
   try {
     logOut("Browser", "Starting browser");
@@ -417,7 +417,7 @@ async function main() {
     // Page Setup
     const page = await browser.newPage();
     logOut("Page Setup", "Page created");
-    page.setRequestInterception(true);
+    await page.setRequestInterception(true);
     page.on("request", interceptRequests);
     logOut("Page Setup", "Request interception enabled");
 
@@ -451,7 +451,7 @@ async function main() {
       await raceStageTeam.read();
       logOut("Data Loading", "Data loading completed");
     } catch (error) {
-      logError("Main", "Loading data", error);
+      logError("Data Loading", "Loading data", error);
       throw error;
     }
 
@@ -460,7 +460,7 @@ async function main() {
       await updateRaces(page, races, raceStages, raceRiders, riders, teams);
       logOut("Race Information", "Race information collection completed");
     } catch (error) {
-      logError("Main", "Collecting race information", error);
+      logError("Race Information", "Collecting race information", error);
     }
 
     try {
@@ -478,7 +478,7 @@ async function main() {
       );
       logOut("Stage Results", "Stage results collection completed");
     } catch (error) {
-      logError("Main", "Failed to collect race information", error);
+      logError("Stage Results", "Failed to collect race information", error);
     }
   } catch (error) {
     // Catch-all for any errors not handled above

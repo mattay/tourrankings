@@ -57,7 +57,7 @@ function cleanRecord(record) {
  * @param {Page} page - The Puppeteer page object.
  * @param {string} race - The race name.
  * @param {number} year - The year of the race.
- * @returns {Promise<Array<ScrapedRaceStage>} An array of stage data.
+ * @returns {Promise<Array<ScrapedRaceStage>>} An array of stage data.
  */
 export async function scrapeRaceStages(page, race, year) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/route/stages`;

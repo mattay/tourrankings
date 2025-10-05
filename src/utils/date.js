@@ -37,7 +37,9 @@ function dateTimeFormatter(date, options, separator = "-") {
  * @example
  * const date = new Date("2025-09-01T10:42:00.123Z");
  * const result = isoDateTime(date);
- * // -> "2025-09-01 20:42:00.123"  (depending on local timezone)
+ * // -> "2025-09-01 20:42:00.123"  (depends on local timezone if timeZone is omitted)
+ * const resultUTC = isoDateTime(date, "UTC");
+ * // -> "2025-09-01 10:42:00.123"
  */
 export function isoDateTime(date, timeZone) {
   if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
@@ -60,7 +62,15 @@ export function isoDateTime(date, timeZone) {
   };
 
   const day = dateTimeFormatter(date, dayOptions, "-");
-  const rawTime = new Intl.DateTimeFormat("en", timeOptions).format(date);
+  let rawTime;
+  try {
+    rawTime = new Intl.DateTimeFormat("en", timeOptions).format(date);
+  } catch (e) {
+    if (timeZone && e instanceof RangeError) {
+      throw new RangeError(`isoDateTime: invalid timeZone "${timeZone}"`);
+    }
+    throw e;
+  }
   const ms = String(date.getMilliseconds()).padStart(3, "0");
   const time = rawTime.includes(".") ? rawTime : `${rawTime}.${ms}`;
 
@@ -70,7 +80,8 @@ export function isoDateTime(date, timeZone) {
 /**
  * Validates and normalizes a year value.
  *
- * If the provided value is missing, not an integer, or falls outside the range [YEAR_MIN, YEAR_MAX],
+ * If the provided value is missing, not an integer, or falls outside the range
+ * [YEAR_MIN, current year + 5] (computed at call time),
  * the fallback year is used instead.
  *
  * @param {any} yearParam - The year value to validate.
@@ -84,7 +95,8 @@ export function isoDateTime(date, timeZone) {
  * validateYear("notayear");    // -> current year
  * validateYear("1800", 2000);  // -> 2000
  * validateYear(String(YEAR_MIN)); // -> YEAR_MIN
- * validateYear(String(YEAR_MAX + 1), YEAR_MAX); // -> YEAR_MAX
+ * const DYNAMIC_MAX = new Date().getFullYear() + 5;
+ + validateYear(String(DYNAMIC_MAX + 1), DYNAMIC_MAX); // -> DYNAMIC_MAX
  */
 export function validateYear(
   yearParam,

@@ -1,5 +1,4 @@
 export const YEAR_MIN = 1900;
-export const YEAR_MAX = new Date().getFullYear() + 5;
 
 // https://stackoverflow.com/a/3552493/5250085
 /**
@@ -92,12 +91,13 @@ export function validateYear(
   fallbackYear = new Date().getFullYear(),
 ) {
   const currentYear = new Date().getFullYear();
-  const safeFallback =
-    Number.isInteger(fallbackYear) &&
-    fallbackYear >= YEAR_MIN &&
-    fallbackYear <= YEAR_MAX
-      ? fallbackYear
-      : currentYear;
+  const dynamicMax = currentYear + 5; // compute at call time
+  // normalize + clamp fallback into [YEAR_MIN, dynamicMax]
+  let safeFallback = Number.isInteger(fallbackYear)
+    ? fallbackYear
+    : currentYear;
+  if (safeFallback < YEAR_MIN) safeFallback = YEAR_MIN;
+  if (safeFallback > dynamicMax) safeFallback = dynamicMax;
 
   if (
     yearParam === undefined ||
@@ -107,7 +107,7 @@ export function validateYear(
     return safeFallback; // Allow missing year
   }
   const year = Number(yearParam);
-  if (Number.isInteger(year) && year >= YEAR_MIN && year <= YEAR_MAX) {
+  if (Number.isInteger(year) && year >= YEAR_MIN && year <= dynamicMax) {
     return year;
   }
   return safeFallback;

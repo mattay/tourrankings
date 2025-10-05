@@ -65,6 +65,7 @@ export async function scrapeRaceStages(page, race, year) {
   try {
     await page.goto(url, { waitUntil: "networkidle2" }).catch((exception) => {
       logError("scrapeStages", `Navigating to ${url}`, exception);
+      throw exception;
     });
 
     await page

@@ -1,5 +1,6 @@
 import { logError } from "../../../utils/logging";
 import { urlSections } from "../../../utils/url";
+import { config } from "./config";
 
 /**
  * @typedef {import('puppeteer-core').Page} Page - Puppeteer
@@ -55,7 +56,7 @@ function refineStartlist(team) {
  * @param {Page} page - The Puppeteer page instance used for navigation and DOM extraction.
  * @param {string} race - The race identifier (e.g., 'tour-de-france').
  * @param {number} year - The year of the race (e.g., 2024).
- * @returns {Promise<Array<ScrapedRaceStartListTeam>} Resolves to an array of teams, each with their riders.
+ * @returns {Promise<Array<ScrapedRaceStartListTeam>>} Resolves to an array of teams, each with their riders.
  * @throws {Error} Throws if navigation or scraping fails.
  *
  * @see ScrapedRaceStartListTeam
@@ -64,6 +65,9 @@ export async function scrapeRaceStartList(page, race, year) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/startlist`;
   try {
     await page.goto(url, { waitUntil: "networkidle2" });
+    await page.waitForSelector(".page-content ul.startlist_v4 > li", {
+      timeout: config.timeout,
+    });
 
     const teams = await page.evaluate(() => {
       const teams = [];
@@ -112,7 +116,7 @@ export async function scrapeRaceStartList(page, race, year) {
 
     return teams.map((team) => refineStartlist(team));
   } catch (exception) {
-    logError("scrapeRaceStartList - url", url, exception);
+    logError("scrapeRaceStartList", `Failed to scrape ${url}`, exception);
     throw exception;
   }
 }

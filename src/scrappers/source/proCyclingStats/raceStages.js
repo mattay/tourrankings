@@ -1,6 +1,7 @@
 import { generateId } from "../../../utils/idGenerator.js";
 import { formatDate } from "../../../utils/string.js";
 import { logError } from "../../../utils/logging.js";
+import { config } from "./config";
 
 /**
  * @typedef {import('puppeteer-core').Page} Page - Puppeteer
@@ -70,7 +71,7 @@ export async function scrapeRaceStages(page, race, year) {
 
     await page
       .waitForSelector(".page-content table", {
-        timeout: 1200,
+        timeout: config.timeout,
       })
       .catch((exception) => {
         logError(

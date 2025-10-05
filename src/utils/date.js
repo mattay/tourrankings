@@ -96,7 +96,7 @@ export function isoDateTime(date, timeZone) {
  * validateYear("1800", 2000);  // -> 2000
  * validateYear(String(YEAR_MIN)); // -> YEAR_MIN
  * const DYNAMIC_MAX = new Date().getFullYear() + 5;
- + validateYear(String(DYNAMIC_MAX + 1), DYNAMIC_MAX); // -> DYNAMIC_MAX
+ * validateYear(String(DYNAMIC_MAX + 1), DYNAMIC_MAX); // -> DYNAMIC_MAX
  */
 export function validateYear(
   yearParam,

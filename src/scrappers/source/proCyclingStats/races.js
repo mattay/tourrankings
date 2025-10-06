@@ -70,7 +70,7 @@ export async function collectWorldTourRaces(page, races, year) {
  *   A parser function (like {@link urlSections}) that maps parts of the pathname
  *   to provided labels. Defaults to {@link urlSections}.
  *
- * @returns {{ racePcsID: string, year: string } | null}
+ * @returns {{ racePcsID: string, year: number } | null}
  *   An object containing the extracted `racePcsID` and `year` if successful,
  *   or `null` if parsing fails or required parts are missing.
  *
@@ -146,7 +146,7 @@ export function extractRawRaceData(tableRows, year) {
       if (!dateText || !raceLink) return null;
 
       const raceClass = tds[4].textContent?.trim();
-      const [startDateText, endDateText] = dateText.split(" - ");
+      const [startDateText, endDateText] = dateText.split(/\s*[-–—]\s*/);
 
       const raceName = raceLink.textContent?.trim();
       const racePcsUrl = raceLink.href;

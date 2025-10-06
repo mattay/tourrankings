@@ -70,7 +70,7 @@ export async function collectWorldTourRaces(page, races, year) {
  *   A parser function (like {@link urlSections}) that maps parts of the pathname
  *   to provided labels. Defaults to {@link urlSections}.
  *
- * @returns {{ racePcsID: string, year: number } | null}
+ * @returns {{ racePcsID: string, year: string } | null}
  *   An object containing the extracted `racePcsID` and `year` if successful,
  *   or `null` if parsing fails or required parts are missing.
  *
@@ -107,6 +107,46 @@ export function extractRawRaceData(tableRows, year) {
 
       const raceClass = tds[4].textContent?.trim();
       const [startDateText, endDateText] = dateText.split(/\s*[-–—]\s*/);
+
+      const raceName = raceLink.textContent?.trim();
+      const racePcsUrl = raceLink.href;
+
+      // Validate required fields
+      if (!startDateText || !raceClass || !raceName || !racePcsUrl) return null;
+
+      return {
+        raceUID: "",
+        year,
+        startDate: startDateText,
+        endDate: endDateText || startDateText,
+        raceClass,
+        raceName,
+        racePcsUrl,
+        racePcsID: "",
+      };
+    })
+    .filter((record) => record !== null);
+}
+
+/**
+ * Extracts raw race data from table row elements
+ * @param {Array<Element>} tableRows - Array of table row elements
+ * @param {number} year - The year of the races
+ * @returns {Array<RaceRecord>} Array of raw race records
+ */
+export function extractRawRaceData(tableRows, year) {
+  return tableRows
+    .map((tr) => {
+      const tds = tr.querySelectorAll("td");
+      if (tds.length < 5) return null;
+
+      const dateText = tds[0].textContent?.trim();
+      const raceLink = tds[2].querySelector("a");
+
+      if (!dateText || !raceLink) return null;
+
+      const raceClass = tds[4].textContent?.trim();
+      const [startDateText, endDateText] = dateText.split(" - ");
 
       const raceName = raceLink.textContent?.trim();
       const racePcsUrl = raceLink.href;

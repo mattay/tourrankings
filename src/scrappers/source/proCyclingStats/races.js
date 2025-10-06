@@ -129,46 +129,6 @@ export function extractRawRaceData(tableRows, year) {
 }
 
 /**
- * Extracts raw race data from table row elements
- * @param {Array<Element>} tableRows - Array of table row elements
- * @param {number} year - The year of the races
- * @returns {Array<RaceRecord>} Array of raw race records
- */
-export function extractRawRaceData(tableRows, year) {
-  return tableRows
-    .map((tr) => {
-      const tds = tr.querySelectorAll("td");
-      if (tds.length < 5) return null;
-
-      const dateText = tds[0].textContent?.trim();
-      const raceLink = tds[2].querySelector("a");
-
-      if (!dateText || !raceLink) return null;
-
-      const raceClass = tds[4].textContent?.trim();
-      const [startDateText, endDateText] = dateText.split(/\s*[-–—]\s*/);
-
-      const raceName = raceLink.textContent?.trim();
-      const racePcsUrl = raceLink.href;
-
-      // Validate required fields
-      if (!startDateText || !raceClass || !raceName || !racePcsUrl) return null;
-
-      return {
-        raceUID: "",
-        year,
-        startDate: startDateText,
-        endDate: endDateText || startDateText,
-        raceClass,
-        raceName,
-        racePcsUrl,
-        racePcsID: "",
-      };
-    })
-    .filter((record) => record !== null);
-}
-
-/**
  * Cleans and normalizes a race record
  * @param {RaceRecord} record - The raw race record to clean
  * @param {Function} dateFormatter - Function to format dates

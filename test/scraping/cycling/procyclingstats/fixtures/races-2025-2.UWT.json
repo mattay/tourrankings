@@ -1,0 +1,152 @@
+[
+  {
+    "endDate": "2025-01-26",
+    "raceClass": "2.UWT",
+    "raceName": "Santos Tour Down Under",
+    "racePcsID": "tour-down-under",
+    "racePcsUrl": "https://www.procyclingstats.com/race/tour-down-under/2025",
+    "raceUID": "tour-down-under:2025",
+    "startDate": "2025-01-21",
+    "year": 2025
+  },
+  {
+    "endDate": "2025-02-23",
+    "raceClass": "2.UWT",
+    "raceName": "UAE Tour",
+    "racePcsID": "uae-tour",
+    "racePcsUrl": "https://www.procyclingstats.com/race/uae-tour/2025",
+    "raceUID": "uae-tour:2025",
+    "startDate": "2025-02-17",
+    "year": 2025
+  },
+  {
+    "endDate": "2025-03-16",
+    "raceClass": "2.UWT",
+    "raceName": "Paris-Nice",
+    "racePcsID": "paris-nice",
+    "racePcsUrl": "https://www.procyclingstats.com/race/paris-nice/2025",
+    "raceUID": "paris-nice:2025",
+    "startDate": "2025-03-09",
+    "year": 2025
+  },
+  {
+    "endDate": "2025-03-16",
+    "raceClass": "2.UWT",
+    "raceName": "Tirreno-Adriatico",
+    "racePcsID": "tirreno-adriatico",
+    "racePcsUrl": "https://www.procyclingstats.com/race/tirreno-adriatico/2025",
+    "raceUID": "tirreno-adriatico:2025",
+    "startDate": "2025-03-10",
+    "year": 2025
+  },
+  {
+    "endDate": "2025-03-30",
+    "raceClass": "2.UWT",
+    "raceName": "Volta Ciclista a Catalunya",
+    "racePcsID": "volta-a-catalunya",
+    "racePcsUrl": "https://www.procyclingstats.com/race/volta-a-catalunya/2025",
+    "raceUID": "volta-a-catalunya:2025",
+    "startDate": "2025-03-24",
+    "year": 2025
+  },
+  {
+    "endDate": "2025-04-12",
+    "raceClass": "2.UWT",
+    "raceName": "Itzulia Basque Country",
+    "racePcsID": "itzulia-basque-country",
+    "racePcsUrl": "https://www.procyclingstats.com/race/itzulia-basque-country/2025",
+    "raceUID": "itzulia-basque-country:2025",
+    "startDate": "2025-04-07",
+    "year": 2025
+  },
+  {
+    "endDate": "2025-05-04",
+    "raceClass": "2.UWT",
+    "raceName": "Tour de Romandie",
+    "racePcsID": "tour-de-romandie",
+    "racePcsUrl": "https://www.procyclingstats.com/race/tour-de-romandie/2025",
+    "raceUID": "tour-de-romandie:2025",
+    "startDate": "2025-04-29",
+    "year": 2025
+  },
+  {
+    "endDate": "2025-06-01",
+    "raceClass": "2.UWT",
+    "raceName": "Giro d'Italia",
+    "racePcsID": "giro-d-italia",
+    "racePcsUrl": "https://www.procyclingstats.com/race/giro-d-italia/2025",
+    "raceUID": "giro-d-italia:2025",
+    "startDate": "2025-05-09",
+    "year": 2025
+  },
+  {
+    "endDate": "2025-06-15",
+    "raceClass": "2.UWT",
+    "raceName": "Critérium du Dauphiné",
+    "racePcsID": "dauphine",
+    "racePcsUrl": "https://www.procyclingstats.com/race/dauphine/2025",
+    "raceUID": "dauphine:2025",
+    "startDate": "2025-06-08",
+    "year": 2025
+  },
+  {
+    "endDate": "2025-06-22",
+    "raceClass": "2.UWT",
+    "raceName": "Tour de Suisse",
+    "racePcsID": "tour-de-suisse",
+    "racePcsUrl": "https://www.procyclingstats.com/race/tour-de-suisse/2025",
+    "raceUID": "tour-de-suisse:2025",
+    "startDate": "2025-06-15",
+    "year": 2025
+  },
+  {
+    "endDate": "2025-07-27",
+    "raceClass": "2.UWT",
+    "raceName": "Tour de France",
+    "racePcsID": "tour-de-france",
+    "racePcsUrl": "https://www.procyclingstats.com/race/tour-de-france/2025",
+    "raceUID": "tour-de-france:2025",
+    "startDate": "2025-07-05",
+    "year": 2025
+  },
+  {
+    "endDate": "2025-08-10",
+    "raceClass": "2.UWT",
+    "raceName": "Tour de Pologne",
+    "racePcsID": "tour-de-pologne",
+    "racePcsUrl": "https://www.procyclingstats.com/race/tour-de-pologne/2025",
+    "raceUID": "tour-de-pologne:2025",
+    "startDate": "2025-08-04",
+    "year": 2025
+  },
+  {
+    "endDate": "2025-08-24",
+    "raceClass": "2.UWT",
+    "raceName": "Renewi Tour",
+    "racePcsID": "renewi-tour",
+    "racePcsUrl": "https://www.procyclingstats.com/race/renewi-tour/2025",
+    "raceUID": "renewi-tour:2025",
+    "startDate": "2025-08-20",
+    "year": 2025
+  },
+  {
+    "endDate": "2025-09-14",
+    "raceClass": "2.UWT",
+    "raceName": "La Vuelta Ciclista a España",
+    "racePcsID": "vuelta-a-espana",
+    "racePcsUrl": "https://www.procyclingstats.com/race/vuelta-a-espana/2025",
+    "raceUID": "vuelta-a-espana:2025",
+    "startDate": "2025-08-23",
+    "year": 2025
+  },
+  {
+    "endDate": "2025-10-19",
+    "raceClass": "2.UWT",
+    "raceName": "Gree-Tour of Guangxi",
+    "racePcsID": "tour-of-guangxi",
+    "racePcsUrl": "https://www.procyclingstats.com/race/tour-of-guangxi/2025",
+    "raceUID": "tour-of-guangxi:2025",
+    "startDate": "2025-10-14",
+    "year": 2025
+  }
+]

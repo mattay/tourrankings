@@ -51,6 +51,27 @@ function refineStartlist(team) {
 }
 
 /**
+ * Scrapes race data from HTML content (testable version)
+ * @param {string} htmlContent - The HTML content to parse
+ * @returns {Array<ScrapedRaceStartListTeam>} Array of cleaned race records
+ */
+export function scrapeRaceStartListFromHtml(htmlContent) {
+  // To be implemented -> see scrapeRacesFromHtml()
+  // try {
+  //   const page = htmlDOM(htmlContent);
+  //   const tableRows = Array.from(
+  //     page.querySelectorAll(".content table tbody tr"),
+  //   );
+  //   const rawData = extractRawRaceData(tableRows, year);
+  //   return processRaceRecords(rawData);
+  // } catch (exception) {
+  //   logError("Races scrapeRacesFromHtml", "Failed to parse HTML", exception);
+  //   return [];
+  // }
+  return [];
+}
+
+/**
  * Scrape the startlist of a race from ProcyclingStats.
  * @async
  * @param {Page} page - The Puppeteer page instance used for navigation and DOM extraction.

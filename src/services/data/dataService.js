@@ -53,6 +53,14 @@ class DataService {
       ...options,
     };
 
+    // State
+    this._failureCount = 0;
+    this._baseInterval = options.refreshInterval || 3600000;
+    this._initializing = false;
+    this._refreshTimer = null;
+    this.lastRefreshTime = null;
+    this.isInitialized = false;
+
     // Initialize models
     this.races = new Races();
     this.stages = new RaceStages();
@@ -65,11 +73,6 @@ class DataService {
     this.classificationPoints = new ClassificationPoints();
     this.classificationTeam = new ClassificationTeam();
     this.classificationYouth = new ClassificationYouth();
-
-    // State
-    this.isInitialized = false;
-    this.lastRefreshTime = null;
-    this._refreshTimer = null;
   }
 
   /**
@@ -81,51 +84,74 @@ class DataService {
    * @throws {Error} If initialization fails.
    */
   async initialize(forceRefresh = false) {
-    if (this.isInitialized && !forceRefresh) return;
-
-    // Set up auto refresh if enabled
-    if (
-      this.options.autoRefresh &&
-      !this._refreshTimer &&
-      typeof window === "undefined"
-    ) {
-      // Only set up auto-refresh on server, not in browser
-      this._refreshTimer = setInterval(() => {
-        this.refreshData();
-      }, this.options.refreshInterval);
+    if (this._initializing) {
+      logOut(
+        this.constructor.name,
+        "Initialization already in progress, skipping",
+      );
+      return;
     }
 
-    // Load all data models concurrently
-    const loaded = await Promise.allSettled([
-      this.races.read(),
-      this.stages.read(),
-      this.stageResults.read(),
-      this.teams.read(),
-      this.riders.read(),
-      this.raceRiders.read(),
-      this.classificationGeneral.read(),
-      this.classificationMountain.read(),
-      this.classificationPoints.read(),
-      this.classificationTeam.read(),
-      this.classificationYouth.read(),
-    ]);
-    this.isInitialized = true;
-    this.lastRefreshTime = new Date();
+    if (this.isInitialized && !forceRefresh) return;
 
-    // Handle any errors that occurred during loading
-    loaded.forEach((result, i) => {
-      if (result.status === "rejected") {
-        this.isInitialized = false;
-        logError(this.constructor.name, result.reason.message);
+    this._initializing = true;
+
+    try {
+      // ... existing initialization code ...
+      // Load all data models concurrently
+      const loaded = await Promise.allSettled([
+        this.races.read(),
+        this.stages.read(),
+        this.stageResults.read(),
+        this.teams.read(),
+        this.riders.read(),
+        this.raceRiders.read(),
+        this.classificationGeneral.read(),
+        this.classificationMountain.read(),
+        this.classificationPoints.read(),
+        this.classificationTeam.read(),
+        this.classificationYouth.read(),
+      ]);
+
+      // Set up auto refresh if enabled
+      if (
+        this.options.autoRefresh &&
+        !this._refreshTimer &&
+        typeof window === "undefined"
+      ) {
+        this._refreshTimer = setInterval(() => {
+          // Ensure unhandled rejections don't escalate
+          this.refreshData().catch((err) =>
+            logError(this.constructor.name, err?.message || String(err)),
+          );
+        }, this.options.refreshInterval);
+
+        // Do not keep process alive solely for the timer (Node.js)
+        this._refreshTimer.unref?.();
       }
-    });
 
-    if (!this.isInitialized) {
-      logError(
-        this.constructor.name,
-        this.DATA_SERVICE_ERROR.LOAD_MODELS_FAILED,
-      );
-      throw new Error(this.DATA_SERVICE_ERROR.INITIALIZATION_FAILED);
+      // Determine success and log all failures
+      const failures = loaded.filter((r) => r.status === "rejected");
+      if (failures.length) {
+        failures.forEach((r) =>
+          logError(
+            this.constructor.name,
+            r.reason?.message || String(r.reason),
+          ),
+        );
+        this.isInitialized = false;
+        this.lastRefreshTime = null;
+        logError(
+          this.constructor.name,
+          this.DATA_SERVICE_ERROR.LOAD_MODELS_FAILED,
+        );
+        throw new Error(this.DATA_SERVICE_ERROR.INITIALIZATION_FAILED);
+      }
+
+      this.isInitialized = true;
+      this.lastRefreshTime = new Date();
+    } finally {
+      this._initializing = false;
     }
   }
 
@@ -147,12 +173,26 @@ class DataService {
    * @returns {Promise<void>}
    */
   async refreshData() {
-    if (!this.isInitialized) {
-      return this.initialize();
+    try {
+      if (!this.isInitialized) {
+        await this.initialize();
+      } else {
+        await this.initialize(true);
+      }
+      this._failureCount = 0; // Reset on success
+      logOut("DataService", "Data refreshed");
+    } catch (err) {
+      this._failureCount++;
+      const backoffDelay = Math.min(
+        this._baseInterval * Math.pow(2, this._failureCount - 1),
+        this._baseInterval * 8, // Max 8x backoff
+      );
+      logError(
+        this.constructor.name,
+        `Refresh failed (attempt ${this._failureCount}), next retry in ${backoffDelay}ms`,
+      );
+      throw err; // Re-throw for the interval callback to log
     }
-
-    await this.initialize(true);
-    logOut("DataService", "Data refreshed");
   }
 
   /**

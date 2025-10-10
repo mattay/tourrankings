@@ -119,8 +119,8 @@ async function initializeServer() {
   try {
     await setupServer(app);
     await setupRoutes(app);
-    await startServer(app);
     await initializeDataService();
+    await startServer(app);
 
     // Handle unhandled promise rejections globally
     // TODO: Implement proper error handling and logging

@@ -46,8 +46,6 @@ class DataService {
    * @constructor
    */
   constructor(options = {}) {
-    logOut("DataService", "Starting...");
-
     // Default options
     this.options = {
       autoRefresh: false,

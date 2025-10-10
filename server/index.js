@@ -109,7 +109,6 @@ async function initializeDataService() {
     await dataService.initialize();
   } catch (error) {
     logError("DataService", "Failed to initialize data service", error);
-    throw error;
   }
 }
 

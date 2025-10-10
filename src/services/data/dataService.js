@@ -84,6 +84,18 @@ class DataService {
   async initialize(forceRefresh = false) {
     if (this.isInitialized && !forceRefresh) return;
 
+    // Set up auto refresh if enabled
+    if (
+      this.options.autoRefresh &&
+      !this._refreshTimer &&
+      typeof window === "undefined"
+    ) {
+      // Only set up auto-refresh on server, not in browser
+      this._refreshTimer = setInterval(() => {
+        this.refreshData();
+      }, this.options.refreshInterval);
+    }
+
     // Load all data models concurrently
     const loaded = await Promise.allSettled([
       this.races.read(),
@@ -98,10 +110,10 @@ class DataService {
       this.classificationTeam.read(),
       this.classificationYouth.read(),
     ]);
-
     this.isInitialized = true;
     this.lastRefreshTime = new Date();
 
+    // Handle any errors that occurred during loading
     loaded.forEach((result, i) => {
       if (result.status === "rejected") {
         this.isInitialized = false;
@@ -115,18 +127,6 @@ class DataService {
         this.DATA_SERVICE_ERROR.LOAD_MODELS_FAILED,
       );
       throw new Error(this.DATA_SERVICE_ERROR.INITIALIZATION_FAILED);
-    }
-
-    // Set up auto refresh if enabled
-    if (
-      this.options.autoRefresh &&
-      !this._refreshTimer &&
-      typeof window === "undefined"
-    ) {
-      // Only set up auto-refresh on server, not in browser
-      this._refreshTimer = setInterval(() => {
-        this.refreshData();
-      }, this.options.refreshInterval);
     }
   }
 

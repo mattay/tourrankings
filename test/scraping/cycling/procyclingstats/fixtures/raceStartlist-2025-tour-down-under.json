@@ -1,0 +1,1122 @@
+[
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 1,
+    "Rider Pcs Id": "stephen-williams",
+    "Team Pcs Id": "israel-premier-tech-2025",
+    "Rider": "WILLIAMS Stephen",
+    "Flag": "gb"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 2,
+    "Rider Pcs Id": "george-bennett",
+    "Team Pcs Id": "israel-premier-tech-2025",
+    "Rider": "BENNETT George",
+    "Flag": "nz"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 3,
+    "Rider Pcs Id": "simon-clarke",
+    "Team Pcs Id": "israel-premier-tech-2025",
+    "Rider": "CLARKE Simon",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 4,
+    "Rider Pcs Id": "pier-andre-cote",
+    "Team Pcs Id": "israel-premier-tech-2025",
+    "Rider": "CÔTÉ Pier-André",
+    "Flag": "ca"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 5,
+    "Rider Pcs Id": "nick-schultz",
+    "Team Pcs Id": "israel-premier-tech-2025",
+    "Rider": "SCHULTZ Nick",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 6,
+    "Rider Pcs Id": "corbin-strong",
+    "Team Pcs Id": "israel-premier-tech-2025",
+    "Rider": "STRONG Corbin",
+    "Flag": "nz"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 7,
+    "Rider Pcs Id": "michael-woods",
+    "Team Pcs Id": "israel-premier-tech-2025",
+    "Rider": "WOODS Michael",
+    "Flag": "ca"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 11,
+    "Rider Pcs Id": "luke-plapp",
+    "Team Pcs Id": "team-jayco-alula-2025",
+    "Rider": "PLAPP Luke",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 12,
+    "Rider Pcs Id": "luke-durbridge",
+    "Team Pcs Id": "team-jayco-alula-2025",
+    "Rider": "DURBRIDGE Luke",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 13,
+    "Rider Pcs Id": "chris-harper",
+    "Team Pcs Id": "team-jayco-alula-2025",
+    "Rider": "HARPER Chris",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 14,
+    "Rider Pcs Id": "michael-hepburn",
+    "Team Pcs Id": "team-jayco-alula-2025",
+    "Rider": "HEPBURN Michael",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 15,
+    "Rider Pcs Id": "kelland-brien",
+    "Team Pcs Id": "team-jayco-alula-2025",
+    "Rider": "O'BRIEN Kelland",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 16,
+    "Rider Pcs Id": "mauro-schmid",
+    "Team Pcs Id": "team-jayco-alula-2025",
+    "Rider": "SCHMID Mauro",
+    "Flag": "ch"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 17,
+    "Rider Pcs Id": "campbell-stewart",
+    "Team Pcs Id": "team-jayco-alula-2025",
+    "Rider": "STEWART Campbell",
+    "Flag": "nz"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 21,
+    "Rider Pcs Id": "phil-bauhaus",
+    "Team Pcs Id": "bahrain-victorious-2025",
+    "Rider": "BAUHAUS Phil",
+    "Flag": "de"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 22,
+    "Rider Pcs Id": "nikias-arndt",
+    "Team Pcs Id": "bahrain-victorious-2025",
+    "Rider": "ARNDT Nikias",
+    "Flag": "de"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 23,
+    "Rider Pcs Id": "roman-ermakov",
+    "Team Pcs Id": "bahrain-victorious-2025",
+    "Rider": "ERMAKOV Roman",
+    "Flag": "ru"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 24,
+    "Rider Pcs Id": "afonso-eulalio",
+    "Team Pcs Id": "bahrain-victorious-2025",
+    "Rider": "EULÁLIO Afonso",
+    "Flag": "pt"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 25,
+    "Rider Pcs Id": "mathijs-paasschens",
+    "Team Pcs Id": "bahrain-victorious-2025",
+    "Rider": "PAASSCHENS Mathijs",
+    "Flag": "nl"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 26,
+    "Rider Pcs Id": "daniel-skerl",
+    "Team Pcs Id": "bahrain-victorious-2025",
+    "Rider": "SKERL Daniel",
+    "Flag": "it"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 27,
+    "Rider Pcs Id": "robert-stannard",
+    "Team Pcs Id": "bahrain-victorious-2025",
+    "Rider": "STANNARD Robert",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 31,
+    "Rider Pcs Id": "jay-vine",
+    "Team Pcs Id": "uae-team-emirates-xrg-2025",
+    "Rider": "VINE Jay",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 32,
+    "Rider Pcs Id": "rune-herregodts",
+    "Team Pcs Id": "uae-team-emirates-xrg-2025",
+    "Rider": "HERREGODTS Rune",
+    "Flag": "be"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 33,
+    "Rider Pcs Id": "julius-johansen",
+    "Team Pcs Id": "uae-team-emirates-xrg-2025",
+    "Rider": "JOHANSEN Julius",
+    "Flag": "dk"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 34,
+    "Rider Pcs Id": "jhonatan-narvaez",
+    "Team Pcs Id": "uae-team-emirates-xrg-2025",
+    "Rider": "NARVÁEZ Jhonatan",
+    "Flag": "ec"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 35,
+    "Rider Pcs Id": "rui-oliveira",
+    "Team Pcs Id": "uae-team-emirates-xrg-2025",
+    "Rider": "OLIVEIRA Rui",
+    "Flag": "pt"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 36,
+    "Rider Pcs Id": "marc-soler",
+    "Team Pcs Id": "uae-team-emirates-xrg-2025",
+    "Rider": "SOLER Marc",
+    "Flag": "es"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 37,
+    "Rider Pcs Id": "pablo-torres-arias",
+    "Team Pcs Id": "uae-team-emirates-xrg-2025",
+    "Rider": "TORRES Pablo",
+    "Flag": "es"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 41,
+    "Rider Pcs Id": "pascal-eenkhoorn",
+    "Team Pcs Id": "soudal-quick-step-2025",
+    "Rider": "EENKHOORN Pascal",
+    "Flag": "nl"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 42,
+    "Rider Pcs Id": "pieter-serry",
+    "Team Pcs Id": "soudal-quick-step-2025",
+    "Rider": "SERRY Pieter",
+    "Flag": "be"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 43,
+    "Rider Pcs Id": "andrea-raccagni-noviero",
+    "Team Pcs Id": "soudal-quick-step-2025",
+    "Rider": "RACCAGNI NOVIERO Andrea",
+    "Flag": "it"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 44,
+    "Rider Pcs Id": "casper-pedersen",
+    "Team Pcs Id": "soudal-quick-step-2025",
+    "Rider": "PEDERSEN Casper",
+    "Flag": "dk"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 45,
+    "Rider Pcs Id": "antoine-huby",
+    "Team Pcs Id": "soudal-quick-step-2025",
+    "Rider": "HUBY Antoine",
+    "Flag": "fr"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 46,
+    "Rider Pcs Id": "james-knox",
+    "Team Pcs Id": "soudal-quick-step-2025",
+    "Rider": "KNOX James",
+    "Flag": "gb"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 47,
+    "Rider Pcs Id": "junior-lecerf",
+    "Team Pcs Id": "soudal-quick-step-2025",
+    "Rider": "LECERF Junior",
+    "Flag": "be"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 51,
+    "Rider Pcs Id": "paul-lapeira",
+    "Team Pcs Id": "decathlon-ag2r-la-mondiale-2025",
+    "Rider": "LAPEIRA Paul",
+    "Flag": "fr"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 52,
+    "Rider Pcs Id": "geoffrey-bouchard",
+    "Team Pcs Id": "decathlon-ag2r-la-mondiale-2025",
+    "Rider": "BOUCHARD Geoffrey",
+    "Flag": "fr"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 53,
+    "Rider Pcs Id": "dorian-godon",
+    "Team Pcs Id": "decathlon-ag2r-la-mondiale-2025",
+    "Rider": "GODON Dorian",
+    "Flag": "fr"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 54,
+    "Rider Pcs Id": "noa-isidore",
+    "Team Pcs Id": "decathlon-ag2r-la-mondiale-2025",
+    "Rider": "ISIDORE Noa",
+    "Flag": "fr"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 55,
+    "Rider Pcs Id": "jordan-labrosse",
+    "Team Pcs Id": "decathlon-ag2r-la-mondiale-2025",
+    "Rider": "LABROSSE Jordan",
+    "Flag": "fr"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 56,
+    "Rider Pcs Id": "bastien-tronchon",
+    "Team Pcs Id": "decathlon-ag2r-la-mondiale-2025",
+    "Rider": "TRONCHON Bastien",
+    "Flag": "fr"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 57,
+    "Rider Pcs Id": "andrea-vendrame",
+    "Team Pcs Id": "decathlon-ag2r-la-mondiale-2025",
+    "Rider": "VENDRAME Andrea",
+    "Flag": "it"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 61,
+    "Rider Pcs Id": "francesco-busatto",
+    "Team Pcs Id": "intermarche-wanty-2025",
+    "Rider": "BUSATTO Francesco",
+    "Flag": "it"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 62,
+    "Rider Pcs Id": "dries-de-pooter",
+    "Team Pcs Id": "intermarche-wanty-2025",
+    "Rider": "DE POOTER Dries",
+    "Flag": "be"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 63,
+    "Rider Pcs Id": "arne-marit",
+    "Team Pcs Id": "intermarche-wanty-2025",
+    "Rider": "MARIT Arne",
+    "Flag": "be"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 64,
+    "Rider Pcs Id": "tom-paquot",
+    "Team Pcs Id": "intermarche-wanty-2025",
+    "Rider": "PAQUOT Tom",
+    "Flag": "be"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 65,
+    "Rider Pcs Id": "dion-smith",
+    "Team Pcs Id": "intermarche-wanty-2025",
+    "Rider": "SMITH Dion",
+    "Flag": "nz"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 66,
+    "Rider Pcs Id": "taco-van-der-hoorn",
+    "Team Pcs Id": "intermarche-wanty-2025",
+    "Rider": "VAN DER HOORN Taco",
+    "Flag": "nl"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 67,
+    "Rider Pcs Id": "georg-zimmermann",
+    "Team Pcs Id": "intermarche-wanty-2025",
+    "Rider": "ZIMMERMANN Georg",
+    "Flag": "de"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 71,
+    "Rider Pcs Id": "lucas-hamilton",
+    "Team Pcs Id": "ineos-grenadiers-2025",
+    "Rider": "HAMILTON Lucas",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 72,
+    "Rider Pcs Id": "michal-kwiatkowski",
+    "Team Pcs Id": "ineos-grenadiers-2025",
+    "Rider": "KWIATKOWSKI Michał",
+    "Flag": "pl"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 73,
+    "Rider Pcs Id": "magnus-sheffield",
+    "Team Pcs Id": "ineos-grenadiers-2025",
+    "Rider": "SHEFFIELD Magnus",
+    "Flag": "us"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 74,
+    "Rider Pcs Id": "ben-swift",
+    "Team Pcs Id": "ineos-grenadiers-2025",
+    "Rider": "SWIFT Ben",
+    "Flag": "gb"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 75,
+    "Rider Pcs Id": "connor-swift",
+    "Team Pcs Id": "ineos-grenadiers-2025",
+    "Rider": "SWIFT Connor",
+    "Flag": "gb"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 76,
+    "Rider Pcs Id": "geraint-thomas",
+    "Team Pcs Id": "ineos-grenadiers-2025",
+    "Rider": "THOMAS Geraint",
+    "Flag": "gb"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 77,
+    "Rider Pcs Id": "samuel-watson",
+    "Team Pcs Id": "ineos-grenadiers-2025",
+    "Rider": "WATSON Samuel",
+    "Flag": "gb"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 81,
+    "Rider Pcs Id": "sam-welsford",
+    "Team Pcs Id": "red-bull-bora-hansgrohe-2025",
+    "Rider": "WELSFORD Sam",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 82,
+    "Rider Pcs Id": "finn-fisher-black",
+    "Team Pcs Id": "red-bull-bora-hansgrohe-2025",
+    "Rider": "FISHER-BLACK Finn",
+    "Flag": "nz"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 83,
+    "Rider Pcs Id": "filip-maciejuk",
+    "Team Pcs Id": "red-bull-bora-hansgrohe-2025",
+    "Rider": "MACIEJUK Filip",
+    "Flag": "pl"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 84,
+    "Rider Pcs Id": "ryan-mullen",
+    "Team Pcs Id": "red-bull-bora-hansgrohe-2025",
+    "Rider": "MULLEN Ryan",
+    "Flag": "ie"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 85,
+    "Rider Pcs Id": "laurence-pithie",
+    "Team Pcs Id": "red-bull-bora-hansgrohe-2025",
+    "Rider": "PITHIE Laurence",
+    "Flag": "nz"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 86,
+    "Rider Pcs Id": "danny-van-poppel",
+    "Team Pcs Id": "red-bull-bora-hansgrohe-2025",
+    "Rider": "VAN POPPEL Danny",
+    "Flag": "nl"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 87,
+    "Rider Pcs Id": "ben-zwiehoff",
+    "Team Pcs Id": "red-bull-bora-hansgrohe-2025",
+    "Rider": "ZWIEHOFF Ben",
+    "Flag": "de"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 91,
+    "Rider Pcs Id": "tobias-lund-andresen",
+    "Team Pcs Id": "team-picnic-postnl-2025",
+    "Rider": "ANDRESEN Tobias Lund",
+    "Flag": "dk"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 92,
+    "Rider Pcs Id": "julius-van-den-berg",
+    "Team Pcs Id": "team-picnic-postnl-2025",
+    "Rider": "VAN DEN BERG Julius",
+    "Flag": "nl"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 93,
+    "Rider Pcs Id": "patrick-eddy",
+    "Team Pcs Id": "team-picnic-postnl-2025",
+    "Rider": "EDDY Patrick",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 94,
+    "Rider Pcs Id": "alexander-edmondson",
+    "Team Pcs Id": "team-picnic-postnl-2025",
+    "Rider": "EDMONDSON Alex",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 95,
+    "Rider Pcs Id": "gijs-leemreize",
+    "Team Pcs Id": "team-picnic-postnl-2025",
+    "Rider": "LEEMREIZE Gijs",
+    "Flag": "nl"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 96,
+    "Rider Pcs Id": "oscar-onley",
+    "Team Pcs Id": "team-picnic-postnl-2025",
+    "Rider": "ONLEY Oscar",
+    "Flag": "gb"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 97,
+    "Rider Pcs Id": "bjoern-koerdt",
+    "Team Pcs Id": "team-picnic-postnl-2025",
+    "Rider": "KOERDT Bjorn",
+    "Flag": "gb"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 101,
+    "Rider Pcs Id": "bryan-coquard",
+    "Team Pcs Id": "cofidis-2025",
+    "Rider": "COQUARD Bryan",
+    "Flag": "fr"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 102,
+    "Rider Pcs Id": "jesus-herrada-lopez",
+    "Team Pcs Id": "cofidis-2025",
+    "Rider": "HERRADA Jesús",
+    "Flag": "es"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 103,
+    "Rider Pcs Id": "ion-izagirre",
+    "Team Pcs Id": "cofidis-2025",
+    "Rider": "IZAGIRRE Ion",
+    "Flag": "es"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 104,
+    "Rider Pcs Id": "nolann-mahoudo",
+    "Team Pcs Id": "cofidis-2025",
+    "Rider": "MAHOUDO Nolann",
+    "Flag": "fr"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 105,
+    "Rider Pcs Id": "jan-maas",
+    "Team Pcs Id": "cofidis-2025",
+    "Rider": "MAAS Jan",
+    "Flag": "nl"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 106,
+    "Rider Pcs Id": "paul-ourselin",
+    "Team Pcs Id": "cofidis-2025",
+    "Rider": "OURSELIN Paul",
+    "Flag": "fr"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 107,
+    "Rider Pcs Id": "alexis-renard",
+    "Team Pcs Id": "cofidis-2025",
+    "Rider": "RENARD Alexis",
+    "Flag": "fr"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 111,
+    "Rider Pcs Id": "cristian-rodriguez",
+    "Team Pcs Id": "arkea-b-b-hotels-2025",
+    "Rider": "RODRÍGUEZ Cristián",
+    "Flag": "es"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 112,
+    "Rider Pcs Id": "giosue-epis",
+    "Team Pcs Id": "arkea-b-b-hotels-2025",
+    "Rider": "EPIS Giosuè",
+    "Flag": "it"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 113,
+    "Rider Pcs Id": "donavan-grondin",
+    "Team Pcs Id": "arkea-b-b-hotels-2025",
+    "Rider": "GRONDIN Donavan",
+    "Flag": "fr"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 114,
+    "Rider Pcs Id": "louis-rouland",
+    "Team Pcs Id": "arkea-b-b-hotels-2025",
+    "Rider": "ROULAND Louis",
+    "Flag": "fr"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 115,
+    "Rider Pcs Id": "miles-scotson",
+    "Team Pcs Id": "arkea-b-b-hotels-2025",
+    "Rider": "SCOTSON Miles",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 116,
+    "Rider Pcs Id": "martin-tjotta",
+    "Team Pcs Id": "arkea-b-b-hotels-2025",
+    "Rider": "TJØTTA Martin",
+    "Flag": "no"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 117,
+    "Rider Pcs Id": "alessandro-verre",
+    "Team Pcs Id": "arkea-b-b-hotels-2025",
+    "Rider": "VERRE Alessandro",
+    "Flag": "it"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 121,
+    "Rider Pcs Id": "carlos-canal",
+    "Team Pcs Id": "movistar-team-2025",
+    "Rider": "CANAL Carlos",
+    "Flag": "es"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 122,
+    "Rider Pcs Id": "manlio-moro",
+    "Team Pcs Id": "movistar-team-2025",
+    "Rider": "MORO Manlio",
+    "Flag": "it"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 123,
+    "Rider Pcs Id": "gregor-muhlberger",
+    "Team Pcs Id": "movistar-team-2025",
+    "Rider": "MÜHLBERGER Gregor",
+    "Flag": "at"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 124,
+    "Rider Pcs Id": "mathias-norsgaard",
+    "Team Pcs Id": "movistar-team-2025",
+    "Rider": "NORSGAARD Mathias",
+    "Flag": "dk"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 125,
+    "Rider Pcs Id": "diego-pescador",
+    "Team Pcs Id": "movistar-team-2025",
+    "Rider": "PESCADOR Diego",
+    "Flag": "co"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 126,
+    "Rider Pcs Id": "natnael-tesfatsion",
+    "Team Pcs Id": "movistar-team-2025",
+    "Rider": "TESFATSION Natnael",
+    "Flag": "er"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 127,
+    "Rider Pcs Id": "javier-romo",
+    "Team Pcs Id": "movistar-team-2025",
+    "Rider": "ROMO Javier",
+    "Flag": "es"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 131,
+    "Rider Pcs Id": "dylan-van-baarle",
+    "Team Pcs Id": "team-visma-lease-a-bike-2025",
+    "Rider": "VAN BAARLE Dylan",
+    "Flag": "nl"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 132,
+    "Rider Pcs Id": "loe-van-belle",
+    "Team Pcs Id": "team-visma-lease-a-bike-2025",
+    "Rider": "VAN BELLE Loe",
+    "Flag": "nl"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 133,
+    "Rider Pcs Id": "matthew-brennan",
+    "Team Pcs Id": "team-visma-lease-a-bike-2025",
+    "Rider": "BRENNAN Matthew",
+    "Flag": "gb"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 134,
+    "Rider Pcs Id": "thomas-gloag",
+    "Team Pcs Id": "team-visma-lease-a-bike-2025",
+    "Rider": "GLOAG Thomas",
+    "Flag": "gb"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 135,
+    "Rider Pcs Id": "tijmen-graat",
+    "Team Pcs Id": "team-visma-lease-a-bike-2025",
+    "Rider": "GRAAT Tijmen",
+    "Flag": "nl"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 136,
+    "Rider Pcs Id": "menno-huising",
+    "Team Pcs Id": "team-visma-lease-a-bike-2025",
+    "Rider": "HUISING Menno",
+    "Flag": "nl"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 137,
+    "Rider Pcs Id": "julien-vermote",
+    "Team Pcs Id": "team-visma-lease-a-bike-2025",
+    "Rider": "VERMOTE Julien",
+    "Flag": "be"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 141,
+    "Rider Pcs Id": "johan-esteban-chaves",
+    "Team Pcs Id": "ef-education-easypost-2025",
+    "Rider": "CHAVES Esteban",
+    "Flag": "co"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 142,
+    "Rider Pcs Id": "yuhi-todome",
+    "Team Pcs Id": "ef-education-easypost-2025",
+    "Rider": "TODOME Yuhi",
+    "Flag": "jp"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 143,
+    "Rider Pcs Id": "lukas-nerurkar",
+    "Team Pcs Id": "ef-education-easypost-2025",
+    "Rider": "NERURKAR Lukas",
+    "Flag": "gb"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 144,
+    "Rider Pcs Id": "jardi-christiaan-van-der-lee",
+    "Team Pcs Id": "ef-education-easypost-2025",
+    "Rider": "VAN DER LEE Jardi Christiaan",
+    "Flag": "nl"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 145,
+    "Rider Pcs Id": "markel-beloki",
+    "Team Pcs Id": "ef-education-easypost-2025",
+    "Rider": "BELOKI Markel",
+    "Flag": "es"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 146,
+    "Rider Pcs Id": "max-walker",
+    "Team Pcs Id": "ef-education-easypost-2025",
+    "Rider": "WALKER Max",
+    "Flag": "gb"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 147,
+    "Rider Pcs Id": "alastair-mackellar",
+    "Team Pcs Id": "ef-education-easypost-2025",
+    "Rider": "MACKELLAR Alastair",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 151,
+    "Rider Pcs Id": "tobias-bayer",
+    "Team Pcs Id": "alpecin-deceuninck-2025",
+    "Rider": "BAYER Tobias",
+    "Flag": "at"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 152,
+    "Rider Pcs Id": "lars-boven",
+    "Team Pcs Id": "alpecin-deceuninck-2025",
+    "Rider": "BOVEN Lars",
+    "Flag": "nl"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 153,
+    "Rider Pcs Id": "ramses-debruyne",
+    "Team Pcs Id": "alpecin-deceuninck-2025",
+    "Rider": "DEBRUYNE Ramses",
+    "Flag": "be"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 154,
+    "Rider Pcs Id": "simon-dehairs",
+    "Team Pcs Id": "alpecin-deceuninck-2025",
+    "Rider": "DEHAIRS Simon",
+    "Flag": "be"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 155,
+    "Rider Pcs Id": "gal-glivar",
+    "Team Pcs Id": "alpecin-deceuninck-2025",
+    "Rider": "GLIVAR Gal",
+    "Flag": "si"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 156,
+    "Rider Pcs Id": "henri-uhlig",
+    "Team Pcs Id": "alpecin-deceuninck-2025",
+    "Rider": "UHLIG Henri",
+    "Flag": "de"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 157,
+    "Rider Pcs Id": "fabio-van-den-bossche",
+    "Team Pcs Id": "alpecin-deceuninck-2025",
+    "Rider": "VAN DEN BOSSCHE Fabio",
+    "Flag": "be"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 161,
+    "Rider Pcs Id": "alberto-bettiol",
+    "Team Pcs Id": "xds-astana-team-2025",
+    "Rider": "BETTIOL Alberto",
+    "Flag": "it"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 162,
+    "Rider Pcs Id": "nicola-conci",
+    "Team Pcs Id": "xds-astana-team-2025",
+    "Rider": "CONCI Nicola",
+    "Flag": "it"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 163,
+    "Rider Pcs Id": "aaron-gate",
+    "Team Pcs Id": "xds-astana-team-2025",
+    "Rider": "GATE Aaron",
+    "Flag": "nz"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 164,
+    "Rider Pcs Id": "harold-martin-lopez",
+    "Team Pcs Id": "xds-astana-team-2025",
+    "Rider": "LÓPEZ Harold Martín",
+    "Flag": "ec"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 165,
+    "Rider Pcs Id": "henok-mulubrhan",
+    "Team Pcs Id": "xds-astana-team-2025",
+    "Rider": "MULUBRHAN Henok",
+    "Flag": "er"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 166,
+    "Rider Pcs Id": "ide-schelling",
+    "Team Pcs Id": "xds-astana-team-2025",
+    "Rider": "SCHELLING Ide",
+    "Flag": "nl"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 167,
+    "Rider Pcs Id": "sergio-higuita",
+    "Team Pcs Id": "xds-astana-team-2025",
+    "Rider": "HIGUITA Sergio",
+    "Flag": "co"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 171,
+    "Rider Pcs Id": "tim-torn-teutenberg",
+    "Team Pcs Id": "lidl-trek-2025",
+    "Rider": "TEUTENBERG Tim Torn",
+    "Flag": "de"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 172,
+    "Rider Pcs Id": "juan-pedro-lopez",
+    "Team Pcs Id": "lidl-trek-2025",
+    "Rider": "LÓPEZ Juan Pedro",
+    "Flag": "es"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 173,
+    "Rider Pcs Id": "bauke-mollema",
+    "Team Pcs Id": "lidl-trek-2025",
+    "Rider": "MOLLEMA Bauke",
+    "Flag": "nl"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 174,
+    "Rider Pcs Id": "jacopo-mosca",
+    "Team Pcs Id": "lidl-trek-2025",
+    "Rider": "MOSCA Jacopo",
+    "Flag": "it"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 175,
+    "Rider Pcs Id": "albert-withen-philipsen",
+    "Team Pcs Id": "lidl-trek-2025",
+    "Rider": "WITHEN PHILIPSEN Albert",
+    "Flag": "dk"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 176,
+    "Rider Pcs Id": "patrick-konrad",
+    "Team Pcs Id": "lidl-trek-2025",
+    "Rider": "KONRAD Patrick",
+    "Flag": "at"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 177,
+    "Rider Pcs Id": "andrea-bagioli",
+    "Team Pcs Id": "lidl-trek-2025",
+    "Rider": "BAGIOLI Andrea",
+    "Flag": "it"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 181,
+    "Rider Pcs Id": "lewis-askey",
+    "Team Pcs Id": "groupama-fdj-2025",
+    "Rider": "ASKEY Lewis",
+    "Flag": "gb"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 182,
+    "Rider Pcs Id": "sven-erik-bystrom",
+    "Team Pcs Id": "groupama-fdj-2025",
+    "Rider": "BYSTRØM Sven Erik",
+    "Flag": "no"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 183,
+    "Rider Pcs Id": "clement-davy",
+    "Team Pcs Id": "groupama-fdj-2025",
+    "Rider": "DAVY Clément",
+    "Flag": "fr"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 184,
+    "Rider Pcs Id": "eddy-le-huitouze",
+    "Team Pcs Id": "groupama-fdj-2025",
+    "Rider": "LE HUITOUZE Eddy",
+    "Flag": "fr"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 185,
+    "Rider Pcs Id": "quentin-pacher",
+    "Team Pcs Id": "groupama-fdj-2025",
+    "Rider": "PACHER Quentin",
+    "Flag": "fr"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 186,
+    "Rider Pcs Id": "remy-rochas",
+    "Team Pcs Id": "groupama-fdj-2025",
+    "Rider": "ROCHAS Rémy",
+    "Flag": "fr"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 187,
+    "Rider Pcs Id": "matthew-walls",
+    "Team Pcs Id": "groupama-fdj-2025",
+    "Rider": "WALLS Matthew",
+    "Flag": "gb"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 191,
+    "Rider Pcs Id": "damien-howson",
+    "Team Pcs Id": "australia-2025",
+    "Rider": "HOWSON Damien",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 192,
+    "Rider Pcs Id": "cameron-scott",
+    "Team Pcs Id": "australia-2025",
+    "Rider": "SCOTT Cameron",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 193,
+    "Rider Pcs Id": "zac-marriage",
+    "Team Pcs Id": "australia-2025",
+    "Rider": "MARRIAGE Zac",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 194,
+    "Rider Pcs Id": "fergus-browning",
+    "Team Pcs Id": "australia-2025",
+    "Rider": "BROWNING Fergus",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 195,
+    "Rider Pcs Id": "rudy-porter",
+    "Team Pcs Id": "australia-2025",
+    "Rider": "PORTER Rudy",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 196,
+    "Rider Pcs Id": "oliver-bleddyn",
+    "Team Pcs Id": "australia-2025",
+    "Rider": "BLEDDYN Oliver",
+    "Flag": "au"
+  },
+  {
+    "Race UID": "tour-down-under:2025",
+    "Bib": 197,
+    "Rider Pcs Id": "liam-walsh",
+    "Team Pcs Id": "australia-2025",
+    "Rider": "WALSH Liam",
+    "Flag": "au"
+  }
+]

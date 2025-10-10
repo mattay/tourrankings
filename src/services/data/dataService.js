@@ -39,6 +39,7 @@ class DataService {
     NOT_INITIALIZED: "Repository must be initialized before querying data",
     LOAD_MODELS_FAILED: "Failed to load data models",
     INITIALIZATION_FAILED: "Failed to initialize data service",
+    INVALID_INPUT: "Invalid input provided",
   };
   /**
    * Constructor for the DataService class.

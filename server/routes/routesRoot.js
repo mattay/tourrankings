@@ -63,6 +63,7 @@ router.get("/", (req, res, next) => {
 
       homePage.hasError = true;
       homePage.errorMessage = getErrorHTML("NO_DATA");
+      res.status(503);
     } else {
       homePage.races = races;
     }
@@ -80,7 +81,7 @@ router.get("/", (req, res, next) => {
         errorMessage: getErrorHTML("RENDER_ERROR"),
       };
 
-      res.render("pages/home", errorPage);
+      res.status(500).render("pages/home", errorPage);
     } catch (renderError) {
       // If even the error page fails to render, pass to Express error handler
       logError("Routes Root", getErrorText("CATASTROPHIC"), renderError);

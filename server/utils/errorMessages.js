@@ -49,7 +49,7 @@ export const ERROR_MESSAGES = {
   RENDER_ERROR: {
     html: `
       <div class="oops-message">
-        <h2>Well, this is embarrassing.../h2>
+        <h2>Well, this is embarrassing...</h2>
         <p>We just got chain ring marks all over this page. Total amateur hour.</p>
         <p>The data dropped its chain harder than trying to shift under load. We're sorting it out.</p>
         <p class="comeback">Refresh in a bit—we'll try not to cross-chain this time.</p>
@@ -145,7 +145,7 @@ export const ERROR_MESSAGES = {
   SCRAPING_FAILED: {
     html: `
       <div class="oops-message">
-        <h2>Data collection flatted out /h2>
+        <h2>Data collection flatted out </h2>
         <p>Our data scraper just pinch-flatted trying to gather the latest info. Must've hit a pothole in the API.</p>
         <p>We're patching it up now. At least we didn't forget to bring the pump this time.</p>
         <p class="comeback">Should be rolling again shortly. Thanks for your patience!</p>

@@ -169,6 +169,9 @@ class DataService {
       clearInterval(this._refreshTimer);
       this._refreshTimer = null;
     }
+
+    this.isInitialized = false;
+    this.lastRefreshTime = null;
   }
 
   /**

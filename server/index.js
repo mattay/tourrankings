@@ -106,7 +106,6 @@ async function startServer(app) {
  */
 async function initializeDataService() {
   try {
-    logOut("DataService", "Initializing");
     await dataService.initialize();
   } catch (error) {
     logError("DataService", "Failed to initialize data service", error);

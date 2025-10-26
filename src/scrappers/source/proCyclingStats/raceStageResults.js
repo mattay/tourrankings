@@ -326,7 +326,6 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
 
   // Fetch table data
   const tables = await page.evaluate(() => {
-    // 1. PAGE STRUCTURE SELECTORS - UPDATED
     const pageSelectors = {
       // Main results containers
       resultContainers: "#resultsCont .resTab",
@@ -403,6 +402,16 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
       return cellContent;
     }
 
+    /**
+     * Extracts structured data from a table DOM element, including standard and special cell types.
+     *
+     * Iterates through table rows, mapping cell content by column header.
+     * Returns special row objects if columns do not match headers.
+     *
+     * @param {HTMLTableElement} tableElement - Table DOM node to extract data from.
+     * @returns {Array<Object>} Array of objects mapping column names to cell content, or special row objects
+     * @throws {Error} If the table element is invalid or lacks required structure
+     */
     function extractTableData(tableElement) {
       const tableStructure = {
         // Standard table elements
@@ -444,29 +453,6 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
             row: index,
           };
         }
-
-        // for (
-        //   let columnIndex = 0;
-        //   columnIndex < cells.length;
-        //   columnIndex += 1
-        // ) {
-        //   const columnLabel = columns[columnIndex];
-        //   const cell = cells[columnIndex];
-        //   let cellContent = cell.innerText.trim();
-        //   const nestedA = cell.querySelector("a");
-        //   const nestedSpan = cell.querySelector("span");
-        //   const nestedDiv = cell.querySelector("div");
-        //   // if (nestedA !== null) {
-        //   //   cellContent = nestedA.innerText.trim();
-        //   // } else if (nestedSpan !== null) {
-        //   //   cellContent = nestedSpan.innerText.trim();
-        //   //   cellContent = nestedDiv.innerText.trim();
-        //   // } else {
-        //   //   cellContent = cell.innerText.trim();
-        //   // }
-        //   rowDetails[columnLabel] = cellContent;
-        // }
-
         // Process each cell
         for (
           let columnIndex = 0;

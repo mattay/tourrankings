@@ -410,7 +410,7 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
      *
      * @param {HTMLTableElement} tableElement - Table DOM node to extract data from.
      * @returns {Array<Object>} Array of objects mapping column names to cell content, or special row objects
-     * @throws {Error} If the table element is invalid or lacks required structure
+     * @note Returns special row objects (type: "nonResult" or "columnCount") when row structure doesn't match expected columns
      */
     function extractTableData(tableElement) {
       const tableStructure = {

@@ -453,6 +453,11 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
             row: index,
           };
         }
+        if (cells.length > columns.length) {
+          console.warn(
+            `Row ${index}: ${cells.length} cells exceed ${columns.length} columns, extra cells will be ignored`,
+          );
+        }
         // Process each cell
         for (
           let columnIndex = 0;

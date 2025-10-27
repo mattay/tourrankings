@@ -350,7 +350,11 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
      */
     function extractCellContent(cell) {
       // Skip cells that are clearly non-data (checkboxes, buttons, etc.)
-      if (cell.querySelector('input[type="checkbox"]')) {
+      if (
+        cell.querySelector(
+          'input[type="checkbox"], button, input[type="radio"]',
+        )
+      ) {
         return "";
       }
 

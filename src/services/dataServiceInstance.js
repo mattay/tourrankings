@@ -16,6 +16,25 @@ import DataService from "./data/dataService.js";
  * @typedef {import('./data/dataService').ClassificationTeamData} ClassificationTeamData
  */
 
+/**
+ * Singleton DataService instance.
+ *
+ * Module scope ensures only ONE instance per module load.
+ * On hot reload, old instance is garbage collected and new one is created.
+ *
+ * @type {DataService}
+ */
 const dataService = new DataService(config.dataService);
+
+// Clean up on process exit
+process.once("exit", () => dataService.dispose());
+process.once("SIGINT", () => {
+  dataService.dispose();
+  process.exit(0);
+});
+process.once("SIGTERM", () => {
+  dataService.dispose();
+  process.exit(0);
+});
 
 export default dataService;

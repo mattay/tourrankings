@@ -46,7 +46,7 @@ class DataService {
    * @constructor
    */
   constructor(options = {}) {
-    logOut("DataService", "Creating new instance");
+    logOut(this.constructor.name, "Creating new instance");
     // Default options
     this.options = {
       autoRefresh: false,

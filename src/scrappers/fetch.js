@@ -16,19 +16,18 @@ export async function fetchHtmlWithPuppeteer(page, url, options = {}) {
     timeout = 30000,
   } = options;
   try {
-    const res = await page.goto(url, { waitUntil, timeout });
-    if (res && res.status() >= 400) {
-      throw new Error(`HTTP ${res.status()} while navigating to ${url}`);
+    const response = await page.goto(url, { waitUntil, timeout });
+    if (response && response.status() >= 400) {
+      throw new Error(`HTTP ${response.status()} while navigating to ${url}`);
     }
     if (waitForSelector) {
       await page.waitForSelector(waitForSelector, { timeout });
     }
     return page.content();
   } catch (error) {
-    throw new Error(
-      `fetchHtmlWithPuppeteer failed for ${url}: ${error.message}`,
-      { cause: error },
-    );
+    throw new Error(`fetchHtmlWithPuppeteer failed for: ${error.message}`, {
+      cause: error,
+    });
   }
 }
 

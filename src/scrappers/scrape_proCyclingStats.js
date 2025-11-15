@@ -417,6 +417,9 @@ async function main() {
     // Page Setup
     const page = await browser.newPage();
     logOut("Page Setup", "Page created");
+
+    await page.setUserAgent(config.userAgent);
+
     await page.setRequestInterception(true);
     page.on("request", interceptRequests);
     logOut("Page Setup", "Request interception enabled");

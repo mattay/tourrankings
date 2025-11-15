@@ -46,6 +46,7 @@ class DataService {
    * @constructor
    */
   constructor(options = {}) {
+    logOut(this.constructor.name, "Creating new instance");
     // Default options
     this.options = {
       autoRefresh: false,
@@ -91,6 +92,7 @@ class DataService {
       );
       return;
     }
+    logOut(this.constructor.name, "Initializing");
 
     if (this.isInitialized && !forceRefresh) return;
 
@@ -161,10 +163,15 @@ class DataService {
    * @returns {void}
    */
   dispose() {
+    logOut(this.constructor.name, "Disposing");
+
     if (this._refreshTimer) {
       clearInterval(this._refreshTimer);
       this._refreshTimer = null;
     }
+
+    this.isInitialized = false;
+    this.lastRefreshTime = null;
   }
 
   /**
@@ -230,10 +237,10 @@ class DataService {
     if (!raceUID && !racePcsID) {
       throw new Error(this.DATA_SERVICE_ERROR.INVALID_INPUT);
     } else if (raceUID) {
-      logOut("DataService", `raceUID ${raceUID} -> ${year}`);
+      logOut(this.constructor.name, `raceUID ${raceUID} -> ${year}`);
       return this.races.raceUID(raceUID);
     } else if (racePcsID) {
-      logOut("DataService", `racePcsID ${racePcsID} -> ${year}`);
+      logOut(this.constructor.name, `racePcsID ${racePcsID} -> ${year}`);
       return this.races.racePcsID(racePcsID, year);
     }
   }

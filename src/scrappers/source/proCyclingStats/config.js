@@ -3,6 +3,7 @@
  *
  * @typedef {Object} Config
  * @property {Object} browser - Browser configuration options.
+ * @property {String} userAgent - User agent string.
  * @property {Object} domains - .
  * @property {Object} domains.whitelist - List of domains to allow.
  * @property {Object} domains.blacklist - List of domains to block.
@@ -36,6 +37,8 @@ export const config = {
       "--disable-features=TranslateUI,BlinkGenPropertyTrees",
     ],
   },
+  userAgent:
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
   domains: {
     whitelist: [
       "www.procyclingstats.com",

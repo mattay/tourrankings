@@ -41,20 +41,22 @@ export async function collectWorldTourRaces(page, races, year) {
 
   const tableRows = await scrapeRaces(page, url, filter.year);
   if (!tableRows || tableRows.length == 0) {
-    logError("Collect World Tour Races", url);
-    logError("Collect World Tour Races", `No races found for year ${year}`);
+    logError("Scrape PCS - Races", `No races found for year ${year}`);
+    logError("Scrape PCS - Races", url);
     return;
   }
+
+  logOut("Scrape PCS - Races", `Collected World Tour Races:`);
+  for (const row of tableRows) {
+    logOut(
+      "Scrape PCS - Races",
+      `  ${row.raceClass}\t${row.startDate} - ${row.endDate} \t${row.raceName}`,
+    );
+  }
   try {
-    for (const row of tableRows) {
-      logOut(
-        "Collect World Tour Races",
-        `${row.raceClass}\t${row.startDate} - ${row.endDate}\t${row.raceName}`,
-      );
-    }
     await races.update(tableRows);
   } catch (error) {
-    logError("Collect World Tour Races", "Failed to update races", error);
+    logError("Scrape PCS - Races", "Failed to update races", error);
   }
 }
 
@@ -175,7 +177,7 @@ export function scrapeRacesFromHtml(htmlContent, year) {
     const rawData = extractRawRaceData(tableRows, year);
     return processRaceRecords(rawData);
   } catch (exception) {
-    logError("Races scrapeRacesFromHtml", "Failed to parse HTML", exception);
+    logError("Scrape PCS - Races", "Failed to parse HTML", exception);
     return [];
   }
 }
@@ -214,7 +216,8 @@ export async function scrapeRaces(page, url, year) {
     const htmlContent = await fetchHtmlWithPuppeteer(page, url);
     return scrapeRacesFromHtml(htmlContent, year);
   } catch (exception) {
-    logError("Races scrapeRaces", url, exception);
+    logError("Scrape PCS - Races", "Failed to scrape races ");
+    logError("Scrape PCS - Races", url, exception);
 
     return null;
   }

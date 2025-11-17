@@ -2,6 +2,7 @@ import { generateId } from "../../../utils/idGenerator.js";
 import { formatDate } from "../../../utils/string.js";
 import { logError } from "../../../utils/logging.js";
 import { config } from "./config";
+// import fs from "fs";
 
 /**
  * @typedef {import('puppeteer-core').Page} Page - Puppeteer
@@ -62,29 +63,43 @@ function cleanRecord(record) {
  */
 export async function scrapeRaceStages(page, race, year) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/route/stages`;
+  const selectorTable = ".page-content table";
 
   try {
-    await page.goto(url, { waitUntil: "networkidle2" }).catch((exception) => {
-      logError("scrapeStages", `Navigating to ${url}`, exception);
-      throw exception;
-    });
+    await page
+      .goto(url, { waitUntil: "domcontentloaded" })
+      .catch((exception) => {
+        logError("Scrape PCS - Stages", `Navigating to ${url}`, exception);
+        throw exception;
+      });
+
+    // console.log(config);
+
+    // Debug: see what's actually there
+    // const html = await page.content();
+    // console.log("Page HTML length:", html.length);
+    // console.log("Contains '.page-content':", html.includes("page-content"));
+    // fs.writeFileSync("debug-page.html", html);
+    // await Bun.write("output.txt", data);
 
     await page
-      .waitForSelector(".page-content table", {
+      .waitForSelector(selectorTable, {
         timeout: config.timeout,
       })
       .catch((exception) => {
         logError(
-          "scrapeStages",
+          "Scrape PCS - Stages",
           `Waiting for selector '.page-content table' On page ${url}`,
           exception,
         );
         throw exception;
       });
 
+    // process.exit();
+
     // Extract data from the specified selector
     const data = await page.$$eval(
-      ".page-content table",
+      selectorTable,
       (tables, race, year, url) => {
         const stages = Array.from(
           tables[0].querySelectorAll("tbody tr:not(.sum)"),
@@ -121,7 +136,7 @@ export async function scrapeRaceStages(page, race, year) {
 
     return data.map((record) => cleanRecord(record));
   } catch (exception) {
-    logError("scrapeStages", url, exception);
+    logError("Scrape PCS - Stage", url, exception);
     throw exception;
   }
 }

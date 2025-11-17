@@ -1,4 +1,6 @@
-import puppeteer from "puppeteer-core";
+// import puppeteer from "puppeteer-core";
+import puppeteer from "puppeteer-extra";
+import StealthPlugin from "puppeteer-extra-plugin-stealth";
 
 // Data Models
 import {
@@ -84,26 +86,43 @@ async function collectRace(page, racePcsID, year) {
   const riders = [];
 
   try {
-    logOut("CollectRace", `${racePcsID}, ${year}`);
+    logOut("Scrape PSC - Race Stages", `${year} ${racePcsID}`);
     // Race stages
     const stagesInRace = await scrapeRaceStages(page, racePcsID, year).catch(
       (exception) => {
-        logError("CollectRace", `Failed to collect stages`, exception);
+        logError(
+          "Scrape PSC - Race Stages",
+          `Failed to collect stages`,
+          exception,
+        );
       },
     );
     if (stagesInRace) {
       stages.push(...stagesInRace);
     } else {
-      logError("CollectRace", "No stages found");
+      logError("Scrape PSC - Race Stages", "No stages found");
     }
+  } catch (exception) {
+    logError(
+      "Scrape PSC - Race Stages",
+      "Failed to collect race details",
+      exception,
+    );
+  }
 
+  try {
     // Race start list - Teams and Riders
+    logOut("Scrape PSC - Race Startlist", `${year} ${racePcsID}`);
     const raceStartlist = await scrapeRaceStartList(
       page,
       racePcsID,
       year,
     ).catch((exception) => {
-      logError("CollectRace", `Failed to collect startlist`, exception);
+      logError(
+        "Scrape PSC - Race Startlist",
+        `Failed to collect startlist`,
+        exception,
+      );
     });
     if (raceStartlist) {
       for (let team of raceStartlist) {
@@ -122,10 +141,14 @@ async function collectRace(page, racePcsID, year) {
         }
       }
     } else {
-      logError("CollectRace", "No startlist found");
+      logError("Scrape PSC - Race Startlist", "No startlist found");
     }
   } catch (exception) {
-    logError("CollectRace", "Failed to collect race details", exception);
+    logError(
+      "Scrape PSC - Race Startlist",
+      "Failed to collect race details",
+      exception,
+    );
   }
 
   return {
@@ -189,7 +212,7 @@ function stagesWithoutResults(races, raceStages, raceStageResults) {
  */
 async function collectSeasonRaces(page, races, raceSeason) {
   logOut(
-    "collectSeasonRaces",
+    "collect SeasonRaces",
     `Collecting races for the ${raceSeason} season.`,
   );
   try {
@@ -229,13 +252,13 @@ async function collectPastRaceDetails(
   ]).filter((race) => race.stages.length === 0);
 
   for (const race of pastRacesWithoutStages) {
-    logOut("collectPastRaces", `${race.raceName}`);
+    // logOut("Scrape PCS", `Collect past race: ${race.year} ${race.raceName}`);
     try {
       const raceDetails = await collectRace(page, race.racePcsID, race.year);
       await updateRace(raceDetails, raceStages, raceRiders, riders, teams);
     } catch (error) {
       logError(
-        "collectPastRaces",
+        "Scrape PCS",
         `Failed to collect race details for ${race.name}`,
         error,
       );
@@ -303,15 +326,34 @@ async function updateRaces(page, races, raceStages, raceRiders, riders, teams) {
   const today = new Date();
   const raceSeason = today.getFullYear();
 
-  await collectSeasonRaces(page, races, raceSeason);
-  await collectPastRaceDetails(
-    page,
-    races,
-    raceStages,
-    raceRiders,
-    riders,
-    teams,
-  );
+  logOut("Main", `Collecting races for the ${raceSeason} season.`);
+  if (process.env.FEATURE_DISABLED_RACES !== "true") {
+    try {
+      await collectWorldTourRaces(page, races, raceSeason);
+    } catch (error) {
+      logError(
+        "Main",
+        `Failed to collect races for the ${raceSeason} season.`,
+        error,
+      );
+    }
+  } else {
+    logOut("Main", "[FEATURE DISABLED] Races");
+  }
+
+  if (process.env.FEATURE_DISABLED_RIDERS !== "true") {
+    await collectPastRaceDetails(
+      page,
+      races,
+      raceStages,
+      raceRiders,
+      riders,
+      teams,
+    );
+    logOut("Main", "Race information collection completed");
+  } else {
+    logOut("Main", "[FEATURE DISABLED] Riders");
+  }
 }
 
 /**
@@ -337,6 +379,7 @@ async function updateStageResults(
   raceStageYouth,
   raceStageTeam,
 ) {
+  logOut("Stage Results", "Starting stage results collection");
   const stagesRequireResults = stagesWithoutResults(
     races,
     raceStages,
@@ -401,6 +444,8 @@ async function updateStageResults(
   await raceStageMountain.update(raceResults.mountain);
   await raceStageYouth.update(raceResults.youth);
   await raceStageTeam.update(raceResults.teams);
+
+  logOut("Stage Results", "Stage results collection completed");
 }
 
 /**
@@ -410,19 +455,21 @@ async function main() {
   // Browser Setup
   let browser;
   try {
-    logOut("Browser", "Starting browser");
+    puppeteer.use(StealthPlugin());
     browser = await puppeteer.launch(config.browser);
-    logOut("Browser", "Browser started");
+    if (!browser) {
+      throw new Error("Failed to launch browser");
+    }
+    logOut("Browser", "Started");
 
     // Page Setup
     const page = await browser.newPage();
-    logOut("Page Setup", "Page created");
-
-    await page.setUserAgent(config.userAgent);
+    await page.setUserAgent({ userAgent: config.userAgent });
+    logOut("Page", "Created");
 
     await page.setRequestInterception(true);
     page.on("request", interceptRequests);
-    logOut("Page Setup", "Request interception enabled");
+    logOut("Page", "Request interception enabled");
 
     // Data Models
     // TODO utilse dataService
@@ -440,7 +487,7 @@ async function main() {
 
     // Load data
     try {
-      logOut("Data Loading", "Starting data loading");
+      logOut("Main", "Loading data - Started");
       await races.read();
       await raceStages.read();
       await raceStageResults.read();
@@ -452,40 +499,43 @@ async function main() {
       await raceStageMountain.read();
       await raceStageYouth.read();
       await raceStageTeam.read();
-      logOut("Data Loading", "Data loading completed");
+      logOut("Main", "Loading data - Completed");
     } catch (error) {
-      logError("Data Loading", "Loading data", error);
+      logError("Main", "Loading data - Failed", error);
       throw error;
     }
-
-    try {
-      logOut("Race Information", "Starting race information collection");
-      await updateRaces(page, races, raceStages, raceRiders, riders, teams);
-      logOut("Race Information", "Race information collection completed");
-    } catch (error) {
-      logError("Race Information", "Collecting race information", error);
+    if (process.env.FEATURE_DISABLED_RACES !== "true") {
+      try {
+        await updateRaces(page, races, raceStages, raceRiders, riders, teams);
+      } catch (error) {
+        logError("Main", "Collecting race information - Failed", error);
+      }
+    } else {
+      logOut("Main", "[FEATURE DISABLED] Update races", "warn");
     }
 
-    try {
-      logOut("Stage Results", "Starting stage results collection");
-      await updateStageResults(
-        page,
-        races,
-        raceStages,
-        raceStageResults,
-        raceStageGeneral,
-        raceStagePoints,
-        raceStageMountain,
-        raceStageYouth,
-        raceStageTeam,
-      );
-      logOut("Stage Results", "Stage results collection completed");
-    } catch (error) {
-      logError("Stage Results", "Failed to collect race information", error);
+    if (process.env.FEATURE_DISABLED_RESULTS !== "true") {
+      try {
+        await updateStageResults(
+          page,
+          races,
+          raceStages,
+          raceStageResults,
+          raceStageGeneral,
+          raceStagePoints,
+          raceStageMountain,
+          raceStageYouth,
+          raceStageTeam,
+        );
+      } catch (error) {
+        logError("Main", "Collect race stage results - Failed", error);
+      }
+    } else {
+      logOut("Main", "[FEATURE DISABLED] Update results", "warn");
     }
   } catch (error) {
     // Catch-all for any errors not handled above
-    logError("Main", "Fatal error in main", error);
+    logError("Main", "Fatal error", error);
 
     // if (error instanceof Error) {
     // if (err instanceof puppeteer.errors.TimeoutError) {
@@ -493,7 +543,7 @@ async function main() {
   } finally {
     if (browser) {
       await browser.close();
-      logOut("Browser", "Browser closed");
+      logOut("Browser", "Closed");
     }
   }
 }

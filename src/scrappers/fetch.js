@@ -1,3 +1,5 @@
+import { config } from "./source/proCyclingStats";
+
 /**
  * @typedef {import('puppeteer-core').Page} Page - Puppeteer
  */
@@ -13,7 +15,7 @@ export async function fetchHtmlWithPuppeteer(page, url, options = {}) {
   const {
     waitUntil = "networkidle2",
     waitForSelector,
-    timeout = 30000,
+    timeout = config.timeout,
   } = options;
   try {
     const response = await page.goto(url, { waitUntil, timeout });

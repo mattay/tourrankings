@@ -30,17 +30,18 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
-    libglib2.0-0 \
-    libnss3 \
-    libxss1 \
-    libgconf-2-4 \
-    libxrandr2 \
     libasound2 \
-    libpangocairo-1.0-0 \
     libatk1.0-0 \
     libcairo-gobject2 \
-    libgtk-3-0 \
+    libgbm1 \
+    libgconf-2-4 \
     libgdk-pixbuf2.0-0 \
+    libglib2.0-0 \
+    libgtk-3-0 \
+    libnss3 \
+    libpangocairo-1.0-0 \
+    libxrandr2 \
+    libxss1 \
     && rm -rf /var/lib/apt/lists/*  \
     && apt-get clean
 
@@ -67,6 +68,7 @@ ENV NODE_ENV=production
 ENV NODE_OPTIONS="--max-old-space-size=256"
 ENV PORT=8080
 ENV DATA_DIR=/tourRanking/data/csv
+ENV PUPPETEER_HEADLESS="true"
 
 RUN mkdir -p /tourRanking/data/csv && \
     chown -R bun:bun /tourRanking/data && \

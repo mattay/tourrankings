@@ -25,13 +25,17 @@ export function interceptRequests(request) {
       shouldBlock = true;
     }
     // Check 2: Domain blacklist
-    else if (config.domains.blacklist.some((d) => hostname.includes(d))) {
+    else if (
+      config.domains.blacklist.some(
+        (d) => hostname === d || hostname.endsWith("." + d),
+      )
+    ) {
       shouldBlock = true;
     }
     // Check 3: Whitelist (if exists)
     else if (config.domains.whitelist && config.domains.whitelist.length > 0) {
-      const isWhitelisted = config.domains.whitelist.some((d) =>
-        hostname.includes(d),
+      const isWhitelisted = config.domains.whitelist.some(
+        (d) => hostname === d || hostname.endsWith("." + d),
       );
       if (!isWhitelisted) {
         shouldBlock = true;

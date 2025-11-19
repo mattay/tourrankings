@@ -62,20 +62,23 @@ function cleanRecord(record) {
  */
 export async function scrapeRaceStages(page, race, year) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/route/stages`;
+  const selectorTable = ".page-content table";
 
   try {
-    await page.goto(url, { waitUntil: "networkidle2" }).catch((exception) => {
-      logError("scrapeStages", `Navigating to ${url}`, exception);
-      throw exception;
-    });
+    await page
+      .goto(url, { waitUntil: "domcontentloaded" })
+      .catch((exception) => {
+        logError("Scrape PCS - Stages", `Navigating to ${url}`, exception);
+        throw exception;
+      });
 
     await page
-      .waitForSelector(".page-content table", {
+      .waitForSelector(selectorTable, {
         timeout: config.timeout,
       })
       .catch((exception) => {
         logError(
-          "scrapeStages",
+          "Scrape PCS - Stages",
           `Waiting for selector '.page-content table' On page ${url}`,
           exception,
         );
@@ -84,7 +87,7 @@ export async function scrapeRaceStages(page, race, year) {
 
     // Extract data from the specified selector
     const data = await page.$$eval(
-      ".page-content table",
+      selectorTable,
       (tables, race, year, url) => {
         const stages = Array.from(
           tables[0].querySelectorAll("tbody tr:not(.sum)"),
@@ -121,7 +124,7 @@ export async function scrapeRaceStages(page, race, year) {
 
     return data.map((record) => cleanRecord(record));
   } catch (exception) {
-    logError("scrapeStages", url, exception);
+    logError("Scrape PCS - Stages", url, exception);
     throw exception;
   }
 }

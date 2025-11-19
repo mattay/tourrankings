@@ -13,11 +13,11 @@
  * @property {number} timeout - Timeout in milliseconds.
  */
 
-if (!Object.hasOwn(process.env, "PUPPETEER_EXECUTABLE_PATH")) {
+if (!process.env.PUPPETEER_EXECUTABLE_PATH) {
   console.error("PUPPETEER_EXECUTABLE_PATH environment variable is not set.");
   process.exit(1);
 }
-if (!Object.hasOwn(process.env, "PUPPETEER_HEADLESS")) {
+if (!process.env.PUPPETEER_HEADLESS) {
   console.error("PUPPETEER_HEADLESS environment variable is not set.");
   process.exit(1);
 }
@@ -26,7 +26,12 @@ if (!Object.hasOwn(process.env, "PUPPETEER_HEADLESS")) {
 export const config = {
   browser: {
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
-    headless: process.env.PUPPETEER_HEADLESS || "new",
+    headless:
+      process.env.PUPPETEER_HEADLESS === "false"
+        ? false
+        : process.env.PUPPETEER_HEADLESS === "true"
+          ? true
+          : process.env.PUPPETEER_HEADLESS || "new",
     defaultViewport: { width: 1024, height: 768 }, // Set explicit small viewport
     args: [
       // Required for most hosting environments

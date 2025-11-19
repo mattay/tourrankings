@@ -2,7 +2,6 @@ import { generateId } from "../../../utils/idGenerator.js";
 import { formatDate } from "../../../utils/string.js";
 import { logError } from "../../../utils/logging.js";
 import { config } from "./config";
-// import fs from "fs";
 
 /**
  * @typedef {import('puppeteer-core').Page} Page - Puppeteer
@@ -73,15 +72,6 @@ export async function scrapeRaceStages(page, race, year) {
         throw exception;
       });
 
-    // console.log(config);
-
-    // Debug: see what's actually there
-    // const html = await page.content();
-    // console.log("Page HTML length:", html.length);
-    // console.log("Contains '.page-content':", html.includes("page-content"));
-    // fs.writeFileSync("debug-page.html", html);
-    // await Bun.write("output.txt", data);
-
     await page
       .waitForSelector(selectorTable, {
         timeout: config.timeout,
@@ -94,8 +84,6 @@ export async function scrapeRaceStages(page, race, year) {
         );
         throw exception;
       });
-
-    // process.exit();
 
     // Extract data from the specified selector
     const data = await page.$$eval(

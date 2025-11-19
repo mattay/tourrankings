@@ -13,27 +13,40 @@
  * @property {number} timeout - Timeout in milliseconds.
  */
 
+if (!process.env.PUPPETEER_EXECUTABLE_PATH) {
+  console.error("PUPPETEER_EXECUTABLE_PATH environment variable is not set.");
+  process.exit(1);
+}
+if (!process.env.PUPPETEER_HEADLESS) {
+  console.error("PUPPETEER_HEADLESS environment variable is not set.");
+  process.exit(1);
+}
+
 /** @type {Config} */
 export const config = {
   browser: {
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
-    headless: "new",
+    headless:
+      process.env.PUPPETEER_HEADLESS === "false"
+        ? false
+        : process.env.PUPPETEER_HEADLESS === "true"
+          ? true
+          : process.env.PUPPETEER_HEADLESS || "new",
     defaultViewport: { width: 1024, height: 768 }, // Set explicit small viewport
     args: [
+      // Required for most hosting environments
       "--no-sandbox",
       "--disable-setuid-sandbox",
+      // Memory/performance (safe for chrome-headless-shell)
       "--disable-dev-shm-usage",
       "--disable-gpu",
-      "--disable-accelerated-2d-canvas",
-      "--no-first-run",
-      "--no-default-browser-check",
-      "--no-zygote",
-      "--single-process", // Critical for memory reduction
-      "--memory-pressure-off",
       "--disable-background-networking",
       "--disable-background-timer-throttling",
       "--disable-renderer-backgrounding",
       "--disable-backgrounding-occluded-windows",
+      "--disable-accelerated-2d-canvas",
+      "--no-first-run",
+      "--no-default-browser-check",
       "--disable-features=TranslateUI,BlinkGenPropertyTrees",
     ],
   },
@@ -42,6 +55,7 @@ export const config = {
   domains: {
     whitelist: [
       "www.procyclingstats.com",
+      "cloudflare.com",
       "ajax.googleapis.com",
       "code.jquery.com",
     ],
@@ -55,18 +69,10 @@ export const config = {
     ],
   },
   resourceTypes: {
-    blacklist: [
-      "image",
-      "media",
-      "font",
-      "stylesheet", // Only block if styling isn't needed for scraping
-      "websocket",
-      "manifest",
-      "other",
-    ],
+    blacklist: ["image", "media", "font", "websocket", "manifest", "other"],
   },
   wait: 420,
-  timeout: 1200,
+  timeout: 12000,
 };
 
 export default config;

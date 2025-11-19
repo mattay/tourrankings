@@ -68,7 +68,7 @@ ENV NODE_ENV=production
 ENV NODE_OPTIONS="--max-old-space-size=256"
 ENV PORT=8080
 ENV DATA_DIR=/tourRanking/data/csv
-ENV PUPPETEER_HEADLESS="new"
+ENV PUPPETEER_HEADLESS="true"
 
 RUN mkdir -p /tourRanking/data/csv && \
     chown -R bun:bun /tourRanking/data && \

@@ -136,7 +136,7 @@ export async function scrapeRaceStages(page, race, year) {
 
     return data.map((record) => cleanRecord(record));
   } catch (exception) {
-    logError("Scrape PCS - Stage", url, exception);
+    logError("Scrape PCS - Stages", url, exception);
     throw exception;
   }
 }

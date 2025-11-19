@@ -41,8 +41,7 @@ export async function collectWorldTourRaces(page, races, year) {
 
   const tableRows = await scrapeRaces(page, url, filter.year);
   if (!tableRows || tableRows.length == 0) {
-    logError("Scrape PCS - Races", `No races found for year ${year}`);
-    logError("Scrape PCS - Races", url);
+    logError("Scrape PCS - Races", `No races found for year ${year}`, { url });
     return;
   }
 
@@ -216,8 +215,9 @@ export async function scrapeRaces(page, url, year) {
     const htmlContent = await fetchHtmlWithPuppeteer(page, url);
     return scrapeRacesFromHtml(htmlContent, year);
   } catch (exception) {
-    logError("Scrape PCS - Races", "Failed to scrape races ");
-    logError("Scrape PCS - Races", url, exception);
+    logError("Scrape PCS - Races", "Failed to scrape races ", exception, {
+      url,
+    });
 
     return null;
   }

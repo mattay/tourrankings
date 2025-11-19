@@ -46,7 +46,11 @@ export function interceptRequests(request) {
     }
   } catch (error) {
     // If there's any error parsing URL, allow the request to avoid breaking navigation
-    logError("interceptRequests", error);
+    logError(
+      "interceptRequests",
+      "Failed to handle intercepted request",
+      error,
+    );
     if (!request.isInterceptResolutionHandled()) {
       request.continue();
     }

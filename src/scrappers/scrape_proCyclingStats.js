@@ -86,12 +86,12 @@ async function collectRace(page, racePcsID, year) {
   const riders = [];
 
   try {
-    logOut("Scrape PSC - Race Stages", `${year} ${racePcsID}`);
+    logOut("Scrape PCS - Race Stages", `${year} ${racePcsID}`);
     // Race stages
     const stagesInRace = await scrapeRaceStages(page, racePcsID, year).catch(
       (exception) => {
         logError(
-          "Scrape PSC - Race Stages",
+          "Scrape PCS - Race Stages",
           `Failed to collect stages`,
           exception,
         );
@@ -100,11 +100,11 @@ async function collectRace(page, racePcsID, year) {
     if (stagesInRace) {
       stages.push(...stagesInRace);
     } else {
-      logError("Scrape PSC - Race Stages", "No stages found");
+      logError("Scrape PCS - Race Stages", "No stages found");
     }
   } catch (exception) {
     logError(
-      "Scrape PSC - Race Stages",
+      "Scrape PCS - Race Stages",
       "Failed to collect race details",
       exception,
     );
@@ -112,14 +112,14 @@ async function collectRace(page, racePcsID, year) {
 
   try {
     // Race start list - Teams and Riders
-    logOut("Scrape PSC - Race Startlist", `${year} ${racePcsID}`);
+    logOut("Scrape PCS - Race Startlist", `${year} ${racePcsID}`);
     const raceStartlist = await scrapeRaceStartList(
       page,
       racePcsID,
       year,
     ).catch((exception) => {
       logError(
-        "Scrape PSC - Race Startlist",
+        "Scrape PCS - Race Startlist",
         `Failed to collect startlist`,
         exception,
       );
@@ -141,11 +141,11 @@ async function collectRace(page, racePcsID, year) {
         }
       }
     } else {
-      logError("Scrape PSC - Race Startlist", "No startlist found");
+      logError("Scrape PCS - Race Startlist", "No startlist found");
     }
   } catch (exception) {
     logError(
-      "Scrape PSC - Race Startlist",
+      "Scrape PCS - Race Startlist",
       "Failed to collect race details",
       exception,
     );
@@ -211,15 +211,12 @@ function stagesWithoutResults(races, raceStages, raceStageResults) {
  * @param {number} raceSeason - The season for which to collect races.
  */
 async function collectSeasonRaces(page, races, raceSeason) {
-  logOut(
-    "collect SeasonRaces",
-    `Collecting races for the ${raceSeason} season.`,
-  );
+  logOut("Main", `Collecting races for the ${raceSeason} season.`);
   try {
     await collectWorldTourRaces(page, races, raceSeason);
   } catch (error) {
     logError(
-      "collectSeasonRaces",
+      "Main",
       `Failed to collect races for the ${raceSeason} season.`,
       error,
     );
@@ -379,7 +376,7 @@ async function updateStageResults(
   raceStageYouth,
   raceStageTeam,
 ) {
-  logOut("Stage Results", "Starting stage results collection");
+  logOut("Main", "Starting stage results collection");
   const stagesRequireResults = stagesWithoutResults(
     races,
     raceStages,
@@ -397,10 +394,7 @@ async function updateStageResults(
 
   for (const stage of stagesRequireResults) {
     const [race, year, stageNo] = stage.split(":");
-    logOut(
-      "Update Stage Results",
-      `Scraping -> Stage Results, ${race}, ${year}, ${stage}`,
-    );
+    logOut("Main", `Scrape Stage Results: ${race}, ${year}, ${stage}`);
     try {
       const stageResults = await scrapeRaceStageResults(
         page,
@@ -424,16 +418,16 @@ async function updateStageResults(
             break;
           default:
             logOut(
-              "Update Stage Results",
-              `Classification not yet recorded ${ranking}`,
+              "Main",
+              `Scrape Stage Results: Classification not yet recorded ${ranking}`,
             );
             break;
         }
       }
     } catch (error) {
       logError(
-        "Update Stage Results",
-        `Failed to collect stage results for ${stage}`,
+        "Main",
+        `Scrape Stage Results Failed to collect results for ${stage}`,
         error,
       );
     }
@@ -445,7 +439,7 @@ async function updateStageResults(
   await raceStageYouth.update(raceResults.youth);
   await raceStageTeam.update(raceResults.teams);
 
-  logOut("Stage Results", "Stage results collection completed");
+  logOut("Main", "Scrape Stage results collection completed");
 }
 
 /**

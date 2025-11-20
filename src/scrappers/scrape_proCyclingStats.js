@@ -530,7 +530,7 @@ async function main() {
   } catch (error) {
     // Catch-all for any errors not handled above
     logError("Main", "Fatal error", error);
-    process.exit(1);
+    throw error;
 
     // if (error instanceof Error) {
     // if (err instanceof puppeteer.errors.TimeoutError) {
@@ -543,4 +543,8 @@ async function main() {
   }
 }
 
-await main();
+try {
+  await main();
+} catch {
+  process.exit(1);
+}

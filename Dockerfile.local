@@ -1,0 +1,75 @@
+# Dockerfile.dev - Local development environment
+# Used by: docker-compose.local.yml
+# Purpose: Provides runtime environment; source code mounted via volumes
+
+FROM oven/bun:1
+
+WORKDIR /tourRanking
+
+# ============================================
+# System Dependencies (for Chrome)
+# ============================================
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    libasound2 \
+    libatk1.0-0 \
+    libcairo-gobject2 \
+    libgbm1 \
+    libgconf-2-4 \
+    libgdk-pixbuf2.0-0 \
+    libglib2.0-0 \
+    libgtk-3-0 \
+    libnss3 \
+    libpangocairo-1.0-0 \
+    libxrandr2 \
+    libxss1 \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# ============================================
+# Chrome Headless Shell
+# ============================================
+ARG CHROME_VERSION=142
+RUN bunx @puppeteer/browsers install chrome-headless-shell@${CHROME_VERSION}
+
+# Find Chrome path once and create entrypoint script
+RUN CHROME_PATH=$(find /tourRanking -type f -name "chrome-headless-shell" 2>/dev/null | head -n 1) \
+    && printf '#!/bin/sh\nexport PUPPETEER_EXECUTABLE_PATH=%s\nexec "$@"\n' "$CHROME_PATH" > /entrypoint.sh \
+    && chmod +x /entrypoint.sh \
+    && echo "Chrome installed at: $CHROME_PATH"
+
+# ============================================
+# Supercronic (cron for containers)
+# ============================================
+ARG SUPERCRONIC_VERSION=v0.2.34
+ARG SUPERCRONIC=supercronic-linux-amd64
+ARG SUPERCRONIC_SHA1SUM=e8631edc1775000d119b70fd40339a7238eece14
+RUN curl -fsSLO "https://github.com/aptible/supercronic/releases/download/${SUPERCRONIC_VERSION}/${SUPERCRONIC}" \
+    && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
+    && chmod +x ${SUPERCRONIC} \
+    && mv ${SUPERCRONIC} /usr/local/bin/supercronic
+
+# ============================================
+# Dependencies
+# ============================================
+COPY package.json bun.lock ./
+RUN bun install
+
+# Store Chrome executable path
+RUN echo "export PUPPETEER_EXECUTABLE_PATH=$(bunx @puppeteer/browsers resolve chrome-headless-shell@${CHROME_VERSION})" > /etc/profile.d/chrome.sh
+
+# ============================================
+# Environment
+# ============================================
+ENV NODE_ENV=development \
+    PORT=8080 \
+    DATA_DIR=/tourRanking/data/csv \
+    DATA_AUTO_REFRESH=TRUE \
+    PUPPETEER_HEADLESS=true
+
+EXPOSE 8080
+
+# Entrypoint sets Chrome path, then runs command
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["bun", "--hot", "server/index.js"]

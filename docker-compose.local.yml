@@ -31,13 +31,14 @@ services:
       # Preserve container's node_modules
       - /tourRanking/node_modules
     environment:
+      # These override/supplement .env.local
       NODE_ENV: development
       PORT: 8080
       DATA_DIR: /tourRanking/data/csv
       LOG_LEVEL: debug
       PUPPETEER_HEADLESS: "true"
-      # Unset Mac Chrome path - container uses path from entrypoint
-      PUPPETEER_EXECUTABLE_PATH:
+      # Set Chrome path for container (overrides Mac path from .env.local)
+      PUPPETEER_EXECUTABLE_PATH: /tourRanking/chrome-headless-shell/linux-142/chrome-headless-shell-linux64/chrome-headless-shell
     healthcheck:
       test:
         [
@@ -54,6 +55,8 @@ services:
   # Optional: Run cron scheduler alongside app
   # Activate with: docker compose -f docker-compose.local.yml --profile cron up
   cron:
+    env_file:
+      - .env.local
     build:
       context: .
       dockerfile: Dockerfile.local
@@ -73,6 +76,8 @@ services:
       DATA_DIR: /tourRanking/data/csv
       LOG_LEVEL: debug
       PUPPETEER_HEADLESS: "true"
+      # Set Chrome path for container
+      PUPPETEER_EXECUTABLE_PATH: /tourRanking/chrome-headless-shell/linux-142/chrome-headless-shell-linux64/chrome-headless-shell
     command: ["supercronic", "-passthrough-logs", "/tourRanking/crontab"]
     depends_on:
       - app

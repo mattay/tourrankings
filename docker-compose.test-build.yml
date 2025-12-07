@@ -1,0 +1,69 @@
+# docker-compose.local-build.yml - Test production builds locally
+#
+# Usage:
+#   Build & start:      docker compose -f docker-compose.local-build.yml up --build
+#   Clean rebuild:      docker compose -f docker-compose.local-build.yml build --no-cache
+#   Run scraper once:   docker compose -f docker-compose.local-build.yml exec app sh -c '. /chrome-path.sh && bun scrape'
+#   Stop:               docker compose -f docker-compose.local-build.yml down
+#
+# Purpose: Validate production Dockerfile works before deploying to Fly.io
+#          Code is baked into image - changes require rebuild
+
+services:
+  app:
+    env_file:
+      - .env.local
+    build:
+      context: .
+      dockerfile: Dockerfile # Uses PRODUCTION Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      # Only mount data directory - code is baked into image
+      - ./data:/tourRanking/data
+    environment:
+      NODE_ENV: production
+      NODE_OPTIONS: "--max-old-space-size=512"
+      PORT: 8080
+      DATA_DIR: /tourRanking/data/csv
+      LOG_LEVEL: info
+      PUPPETEER_HEADLESS: "true"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "bun",
+          "-e",
+          "fetch('http://localhost:8080/health').then(r=>r.ok||process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Test cron with production build
+  # Activate with: docker compose -f docker-compose.local-build.yml --profile cron up --build
+  cron:
+    env_file:
+      - .env.local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    profiles:
+      - cron
+    volumes:
+      - ./data:/tourRanking/data
+    environment:
+      NODE_ENV: production
+      NODE_OPTIONS: "--max-old-space-size=512"
+      DATA_DIR: /tourRanking/data/csv
+      LOG_LEVEL: info
+      PUPPETEER_HEADLESS: "true"
+    command:
+      [
+        "sh",
+        "-c",
+        ". /chrome-path.sh && supercronic -passthrough-logs /tourRanking/crontab",
+      ]
+    depends_on:
+      - app

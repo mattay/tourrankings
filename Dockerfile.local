@@ -17,8 +17,7 @@ RUN apt-get update \
     libatk1.0-0 \
     libcairo-gobject2 \
     libgbm1 \
-    libgconf-2-4 \
-    libgdk-pixbuf2.0-0 \
+    libgdk-pixbuf-xlib-2.0-0 \
     libglib2.0-0 \
     libgtk-3-0 \
     libnss3 \

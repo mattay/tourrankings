@@ -1,11 +1,12 @@
-# fly.dev.toml - Development environment
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+# fly.dev.toml - Development environment on Fly.io
+# Deploy: fly deploy --config fly.dev.toml
+# Purpose: Cloud-based testing environment with production-like infrastructure
 
 app = 'tourrankings-dev'
 primary_region = 'syd'
 
 [build]
-dockerfile = "Dockerfile.dev"
+dockerfile = "Dockerfile"  # Uses production Dockerfile
 ignorefile = ".dockerignore"
 
 [[vm]]
@@ -15,22 +16,23 @@ cpus = 1
 
 [env]
 NODE_ENV = "development"
+NODE_OPTIONS = "--max-old-space-size=512"
 LOG_LEVEL = "debug"
-DATA_AUTO_REFRESH = true
-DATA_AUTO_REFRESH_INTERVAL = 1800000
+DATA_AUTO_REFRESH = "true"
+DATA_AUTO_REFRESH_INTERVAL = "900000"  # 15 min - faster feedback in dev
 
 [mounts]
 source = "dev_data_volume"
 destination = "/tourRanking/data"
 
 [processes]
-app = "sh -c 'supercronic -passthrough-logs /tourRanking/crontab & exec bun start'"
+webserver = "sh -c 'supercronic -passthrough-logs /tourRanking/crontab & exec bun start'"
 
 [http_service]
-processes = ["app"]
 internal_port = 8080
 force_https = true
-auto_stop_machines = 'suspend' # Faster wake-up than 'stop'
+auto_stop_machines = 'suspend'
 auto_start_machines = true
 min_machines_running = 0
 max_machines_running = 1
+processes = ["webserver"]

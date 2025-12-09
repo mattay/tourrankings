@@ -61,7 +61,7 @@ ENV NODE_ENV=development \
     PORT=8080 \
     DATA_DIR=/tourRanking/data/csv \
     DATA_AUTO_REFRESH=TRUE \
-    PUPPETEER_HEADLESS=true
+    PUPPETEER_HEADLESS=TRUE
 
 EXPOSE 8080
 

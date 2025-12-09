@@ -10,14 +10,15 @@ WORKDIR /tourRanking
 # Chrome Headless Shell
 # ============================================
 ARG CHROME_VERSION=142
-RUN bunx @puppeteer/browsers install chrome-headless-shell@${CHROME_VERSION} \
-    && CHROME_PATH=$(find /tourRanking -type f -name "chrome-headless-shell" 2>/dev/null | head -n 1) \
+RUN bunx @puppeteer/browsers install chrome-headless-shell@${CHROME_VERSION}
+
+RUN CHROME_PATH=$(find /tourRanking -type f -name "chrome-headless-shell" 2>/dev/null | head -n 1) \
     && echo "export PUPPETEER_EXECUTABLE_PATH=$CHROME_PATH" > /tourRanking/chrome-path.sh \
     && chmod +x /tourRanking/chrome-path.sh \
     && echo "Chrome installed at: $CHROME_PATH"
 
 # ============================================
-# Supercronic
+# Supercronic (cron for containers)
 # ============================================
 ARG SUPERCRONIC_VERSION=v0.2.34
 ARG SUPERCRONIC_SHA1SUM=e8631edc1775000d119b70fd40339a7238eece14
@@ -81,7 +82,7 @@ ENV NODE_ENV=production \
     PORT=8080 \
     DATA_DIR=/tourRanking/data/csv \
     DATA_AUTO_REFRESH=TRUE \
-    PUPPETEER_HEADLESS=true
+    PUPPETEER_HEADLESS=TRUE
 
 # ============================================
 # Security

@@ -54,7 +54,8 @@ class ServiceGoogleSheets {
    * @returns {Promise<void>}
    */
   async initialize() {
-    logOut(this.constructor.name, "initializing...");
+    logOut(this.constructor.name, "Initializing");
+
     try {
       // Use multiple authentication methods in priority order
       const authConfig = {

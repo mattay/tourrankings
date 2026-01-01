@@ -40,9 +40,6 @@ export function logError(domain, message, error = null, data) {
   );
   if (error) {
     console.error(
-      `${timestamp} ${domain.padEnd(PADDINGDOMAIN)} [ERROR NAME] ${error.name}`,
-    );
-    console.error(
       `${timestamp} ${domain.padEnd(PADDINGDOMAIN)} [ERROR MESSAGE] ${error.message}`,
     );
   }

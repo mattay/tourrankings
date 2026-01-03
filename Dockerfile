@@ -13,6 +13,7 @@ ARG CHROME_VERSION=142
 RUN bunx @puppeteer/browsers install chrome-headless-shell@${CHROME_VERSION}
 
 RUN CHROME_PATH=$(find /tourRanking -type f -name "chrome-headless-shell" 2>/dev/null | head -n 1) \
+    && if [ -z "$CHROME_PATH" ]; then echo "ERROR: Chrome not found"; exit 1; fi \
     && echo "export PUPPETEER_EXECUTABLE_PATH=$CHROME_PATH" > /tourRanking/chrome-path.sh \
     && chmod +x /tourRanking/chrome-path.sh \
     && echo "Chrome installed at: $CHROME_PATH"

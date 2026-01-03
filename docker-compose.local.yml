@@ -76,8 +76,8 @@ services:
       DATA_DIR: /tourRanking/data/csv
       LOG_LEVEL: debug
       PUPPETEER_HEADLESS: "true"
-      # Set Chrome path for container
-      PUPPETEER_EXECUTABLE_PATH: /tourRanking/chrome-headless-shell/linux-142/chrome-headless-shell-linux64/chrome-headless-shell
+       LOG_LEVEL: debug
+       PUPPETEER_HEADLESS: "true"
     command: ["supercronic", "-passthrough-logs", "/tourRanking/crontab"]
     depends_on:
       - app

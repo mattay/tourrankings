@@ -34,6 +34,7 @@ RUN bunx @puppeteer/browsers install chrome-headless-shell@${CHROME_VERSION}
 
 # Find Chrome path and create script to export it
 RUN CHROME_PATH=$(find /tourRanking -type f -name "chrome-headless-shell" 2>/dev/null | head -n 1) \
+    && if [ -z "$CHROME_PATH" ]; then echo "ERROR: Chrome not found"; exit 1; fi \
     && echo "export PUPPETEER_EXECUTABLE_PATH=$CHROME_PATH" > /chrome-path.sh \
     && chmod +x /chrome-path.sh \
     && echo "Chrome installed at: $CHROME_PATH"

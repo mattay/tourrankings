@@ -413,7 +413,7 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
      * Returns special row objects if columns do not match headers.
      *
      * @param {HTMLTableElement} tableElement - Table DOM node to extract data from.
-     * @returns {Array<Object>} Array of objects mapping column names to cell content, or special row objects
+     * @returns {Array<Array<Object>, Array<string>>} Array of objects mapping column names to cell content, or special row objects
      * @note Returns special row objects (type: "nonResult" or "columnCount") when row structure doesn't match expected columns
      */
     function extractTableData(tableElement) {
@@ -442,6 +442,7 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
       return rows.map((row, index) => {
         const cells = Array.from(row.querySelectorAll(tableStructure.cells));
         const rowDetails = {};
+        const warnings = [];
 
         if (cells.length < columns.length) {
           if (cells.length == 1) {
@@ -458,7 +459,7 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
           };
         }
         if (cells.length > columns.length) {
-          console.warn(
+          warnings.push(
             `Row ${index}: ${cells.length} cells exceed ${columns.length} columns, extra cells will be ignored`,
           );
         }
@@ -475,7 +476,7 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
           rowDetails[columnLabel] = cellContent;
         }
 
-        return rowDetails;
+        return [rowDetails, warnings];
       });
     }
 
@@ -506,10 +507,16 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
           pair < headers.length && pair < tables.length;
           pair += 1
         ) {
+          const [standings, warnings] = extractTableData(tables[pair]);
           pairs.push({
             label: headers[pair].innerText,
-            standings: extractTableData(tables[pair]),
+            standings,
           });
+          if (warnings && warnings.length > 0) {
+            warnings.forEach((warning) => {
+              logOut("Race Stage Results", warning, "warn");
+            });
+          }
         }
         results[index]["today"] = pairs;
       }

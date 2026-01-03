@@ -30,7 +30,7 @@ export function logOut(domain, message, logLevel = "log", data) {
  *
  * @param {string} domain - Category or source used to label the log entry.
  * @param {string} message - The error message to log.
- * @param {Error|null} [error] - Optional Error whose `name` and `message` will be logged.
+ * @param {Error|null} [error] - Optional Error whose `message` will be logged.
  * @param {any} [data] - Optional additional payload to log as a debug value.
  */
 export function logError(domain, message, error = null, data) {

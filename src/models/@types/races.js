@@ -1,7 +1,7 @@
 /**
  * @typedef {Object} RaceModel
  * @property {string} raceUID - The unique identifier of the race.
- * @property {string} year - The year of the race.
+ * @property {number} year - The year of the race.
  * @property {string} startDate - The start date of the race.
  * @property {string} endDate - The end date of the race.
  * @property {string} raceClass - The class of the race.

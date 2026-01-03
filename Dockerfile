@@ -73,7 +73,6 @@ RUN apt-get update \
 COPY --from=builder /tourRanking/supercronic-linux-amd64 /usr/local/bin/supercronic
 COPY --from=builder /tourRanking/chrome-path.sh /chrome-path.sh
 COPY --from=builder /tourRanking /tourRanking
-COPY crontab crontab
 
 # ============================================
 # Environment

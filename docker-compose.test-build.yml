@@ -1,10 +1,10 @@
 # docker-compose.local-build.yml - Test production builds locally
 #
 # Usage:
-#   Build & start:      docker compose -f docker-compose.local-build.yml up --build
-#   Clean rebuild:      docker compose -f docker-compose.local-build.yml build --no-cache
-#   Run scraper once:   docker compose -f docker-compose.local-build.yml exec app sh -c '. /chrome-path.sh && bun scrape'
-#   Stop:               docker compose -f docker-compose.local-build.yml down
+#   Build & start:      docker compose -f docker-compose.test-build.yml up --build
+#   Clean rebuild:      docker compose -f docker-compose.test-build.yml build --no-cache
+#   Run scraper once:   docker compose -f docker-compose.test-build.yml exec app sh -c '. /chrome-path.sh && bun scrape'
+#   Stop:               docker compose -f docker-compose.test-build.yml down
 #
 # Purpose: Validate production Dockerfile works before deploying to Fly.io
 #          Code is baked into image - changes require rebuild

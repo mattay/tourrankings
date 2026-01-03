@@ -37,8 +37,6 @@ services:
       DATA_DIR: /tourRanking/data/csv
       LOG_LEVEL: debug
       PUPPETEER_HEADLESS: "true"
-      LOG_LEVEL: debug
-      PUPPETEER_HEADLESS: "true"
     healthcheck:
       test:
         [
@@ -76,8 +74,6 @@ services:
       DATA_DIR: /tourRanking/data/csv
       LOG_LEVEL: debug
       PUPPETEER_HEADLESS: "true"
-       LOG_LEVEL: debug
-       PUPPETEER_HEADLESS: "true"
     command: ["supercronic", "-passthrough-logs", "/tourRanking/crontab"]
     depends_on:
       - app

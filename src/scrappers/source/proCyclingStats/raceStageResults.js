@@ -413,7 +413,7 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
      * Returns special row objects if columns do not match headers.
      *
      * @param {HTMLTableElement} tableElement - Table DOM node to extract data from.
-     * @returns {Array<Array<Object>, Array<string>>} Array of objects mapping column names to cell content, or special row objects
+     * @returns {Array<[Object, string[]]>} Array of tuples, each containing a row object mapping column names to cell content (or special row objects) and an array of warnings for that row
      * @note Returns special row objects (type: "nonResult" or "columnCount") when row structure doesn't match expected columns
      */
     function extractTableData(tableElement) {

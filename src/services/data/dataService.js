@@ -1,3 +1,4 @@
+import e from "node_modules/@types/express";
 import {
   Races,
   RaceStages,
@@ -121,12 +122,24 @@ class DataService {
         !this._refreshTimer &&
         typeof window === "undefined"
       ) {
-        this._refreshTimer = setInterval(() => {
-          // Ensure unhandled rejections don't escalate
-          this.refreshData().catch((err) =>
-            logError(this.constructor.name, err?.message || String(err)),
-          );
-        }, this.options.refreshInterval);
+        const scheduleNextRefresh = (delay = this._baseInterval) => {
+          this._refreshTimer = setTimeout(async () => {
+            try {
+              await this.refreshData();
+              scheduleNextRefresh(this._baseInterval);
+            } catch (err) {
+              const backoffDelay = Math.min(
+                this._baseInterval * Math.pow(2, this._failureCount),
+                this._baseInterval * 8,
+              );
+              logError(this.constructor.name, err?.message || String(err), err);
+              scheduleNextRefresh(backoffDelay);
+            }
+            scheduleNextRefresh(this._baseInterval);
+          }, delay);
+          this._refreshTimer.unref?.();
+        };
+        scheduleNextRefresh();
 
         // Do not keep process alive solely for the timer (Node.js)
         this._refreshTimer.unref?.();

@@ -134,7 +134,6 @@ class DataService {
               logError(this.constructor.name, err?.message || String(err), err);
               scheduleNextRefresh(backoffDelay);
             }
-            scheduleNextRefresh(this._baseInterval);
           }, delay);
           this._refreshTimer.unref?.();
         };

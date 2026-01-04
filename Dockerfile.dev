@@ -3,16 +3,6 @@ FROM oven/bun:1
 
 WORKDIR /tourRanking
 
-# Copy package files and install dependencies
-COPY package.json bun.lock ./
-RUN bun install
-
-# https://developer.chrome.com/blog/chrome-for-testing
-# Install Chrome for Testing with headless shell (lighter than full Chrome)
-# Use chrome-headless-shell for lower memory usage
-RUN bunx @puppeteer/browsers install chrome-headless-shell@stable && \
-    echo "PUPPETEER_EXECUTABLE_PATH=$(find . -type f -name chrome-headless-shell | head -n 1)" >> .env
-
 # Minimal libs for Chrome headless shell (fewer dependencies = less memory)
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -41,6 +31,15 @@ RUN curl -fsSLO "https://github.com/aptible/supercronic/releases/download/${SUPE
     && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic \
     && apt-get purge -y --auto-remove curl
 
+# https://developer.chrome.com/blog/chrome-for-testing
+# Install Chrome for Testing with headless shell (lighter than full Chrome)
+# Use chrome-headless-shell for lower memory usage
+RUN bunx @puppeteer/browsers install chrome-headless-shell@stable && \
+    echo "PUPPETEER_EXECUTABLE_PATH=$(find . -type f -name chrome-headless-shell | head -n 1)" >> .env
+
+# Copy package files and install dependencies
+COPY package.json bun.lock ./
+RUN bun install
 
 # after deps are cached, bring in the rest
 COPY . .

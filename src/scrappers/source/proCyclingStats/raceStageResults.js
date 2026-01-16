@@ -471,8 +471,15 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
         ) {
           const columnLabel = columns[columnIndex];
           const cell = cells[columnIndex];
-          let cellContent = extractCellContent(cell);
-
+          let cellContent = "";
+          try {
+            cellContent = extractCellContent(cell);
+          } catch (error) {
+            console.warn(
+              `Failed to extract cell content at column ${columnIndex}:`,
+              error,
+            );
+          }
           rowDetails[columnLabel] = cellContent;
         }
 

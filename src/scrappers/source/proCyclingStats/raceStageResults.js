@@ -514,22 +514,32 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
           pair < headers.length && pair < tables.length;
           pair += 1
         ) {
-          const [standings, warnings] = extractTableData(tables[pair]);
+          const tableData = extractTableData(tables[pair]);
+          const standings = tableData.map(([row, _]) => row);
+          const warnings = tableData.flatMap(([_, warns]) => warns);
           pairs.push({
             label: headers[pair].innerText,
             standings,
+            warnings,
           });
-          if (warnings && warnings.length > 0) {
-            warnings.forEach((warning) => {
-              logOut("Race Stage Results", warning, "warn");
-            });
-          }
         }
         results[index]["today"] = pairs;
       }
     }
 
     return results;
+  });
+
+  tables.forEach((result, index) => {
+    if (result.today) {
+      result.today.forEach((pair) => {
+        if (pair.warnings && pair.warnings.length > 0) {
+          pair.warnings.forEach((warning) => {
+            logOut("Race Stage Results", warning, "warn");
+          });
+        }
+      });
+    }
   });
 
   return cleanUpStages(tables, stageUID, stage);

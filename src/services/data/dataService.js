@@ -200,7 +200,7 @@ class DataService {
         await this.initialize(true);
       }
       this._failureCount = 0; // Reset on success
-      logOut("DataService", "Data refreshed");
+      logOut(this.constructor.name, "Data refreshed");
     } catch (err) {
       this._failureCount++;
       const backoffDelay = Math.min(

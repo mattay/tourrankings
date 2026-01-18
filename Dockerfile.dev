@@ -3,6 +3,9 @@ FROM oven/bun:1
 
 WORKDIR /tourRanking
 
+# ============================================
+# Runtime Dependencies
+# ============================================
 # Minimal libs for Chrome headless shell (fewer dependencies = less memory)
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -21,6 +24,9 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
+# ============================================
+# Supercronic (cron for containers)
+# ============================================
 # Latest releases available at https://github.com/aptible/supercronic/releases
 ARG SUPERCRONIC_VERSION=v0.2.34
 ARG SUPERCRONIC=supercronic-linux-amd64
@@ -29,36 +35,66 @@ RUN curl -fsSLO "https://github.com/aptible/supercronic/releases/download/${SUPE
     && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
     && install -m 0755 "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
     && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic \
-    && apt-get purge -y --auto-remove curl
+    && apt-get purge -y --auto-remove curl \
+    && rm -rf /var/lib/apt/lists/*
 
-# https://developer.chrome.com/blog/chrome-for-testing
-# Install Chrome for Testing with headless shell (lighter than full Chrome)
-# Use chrome-headless-shell for lower memory usage
-RUN bunx @puppeteer/browsers install chrome-headless-shell@stable && \
-    echo "PUPPETEER_EXECUTABLE_PATH=$(find . -type f -name chrome-headless-shell | head -n 1)" >> .env
-
+# ============================================
+# Dependencies
+# ============================================
 # Copy package files and install dependencies
 COPY package.json bun.lock ./
 RUN bun install
 
-# after deps are cached, bring in the rest
+# ============================================
+# Chrome Headless Shell
+# ============================================
+# https://developer.chrome.com/blog/chrome-for-testing
+# Install Chrome for Testing with headless shell (lighter than full Chrome)
+# Use chrome-headless-shell for lower memory usage
+
+ARG CHROME_VERSION=142
+RUN bunx @puppeteer/browsers install chrome-headless-shell@${CHROME_VERSION}
+
+# Create chrome path script (same pattern as production)
+RUN CHROME_PATH=$(find /tourRanking -type f -name "chrome-headless-shell" 2>/dev/null | head -n 1) \
+    && if [ -z "$CHROME_PATH" ]; then echo "ERROR: Chrome not found"; exit 1; fi \
+    && echo "export PUPPETEER_EXECUTABLE_PATH=$CHROME_PATH" > /chrome-path.sh \
+    && chmod +x /chrome-path.sh \
+    && echo "Chrome installed at: $CHROME_PATH"
+
+# ============================================
+# Application Code
+# ============================================
 COPY . .
 
-# Expose the port
-EXPOSE 8080
+# ============================================
+# Environment
+# ============================================
+ENV NODE_ENV=development \
+    NODE_OPTIONS="--max-old-space-size=256" \
+    PORT=8080 \
+    DATA_DIR=/tourRanking/data/csv \
+    PUPPETEER_HEADLESS="true"
 
-# Set environment variables
-ENV NODE_ENV=development
-ENV NODE_OPTIONS="--max-old-space-size=256"
-ENV PORT=8080
-ENV DATA_DIR=/tourRanking/data/csv
-ENV PUPPETEER_HEADLESS="true"
-
+# ============================================
+# Setup
+# ============================================
 RUN mkdir -p /tourRanking/data/csv && \
     chown -R bun:bun /tourRanking/data && \
     chmod -R 755 /tourRanking/data
 
 RUN bun run build
 
-# Start with hot reload
+EXPOSE 8080
+
+# ============================================
+# Health Check
+# ============================================
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+    CMD bun -e 'fetch("http://localhost:8080/health").then(r=>r.ok||process.exit(1))'
+
+# ============================================
+# Startup (same pattern as production)
+# ============================================
+ENTRYPOINT ["/bin/sh", "-c", ". /chrome-path.sh && exec \"$@\"", "--"]
 CMD ["bun", "--hot", "server/index.js"]

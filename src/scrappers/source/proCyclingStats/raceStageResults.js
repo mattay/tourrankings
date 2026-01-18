@@ -413,7 +413,7 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
      * Returns special row objects if columns do not match headers.
      *
      * @param {HTMLTableElement} tableElement - Table DOM node to extract data from.
-     * @returns {Array<[Object, string[]]>} Array of tuples, each containing a row object mapping column names to cell content (or special row objects) and an array of warnings for that row
+     * @returns {Array<[Object, string[]]>} Array of tuples, each containing a row object (mapping column names to cell content, or special row objects with 'type' property) and an array of warnings for that row
      * @note Returns special row objects (type: "nonResult" or "columnCount") when row structure doesn't match expected columns
      */
     function extractTableData(tableElement) {
@@ -446,17 +446,23 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
 
         if (cells.length < columns.length) {
           if (cells.length == 1) {
-            return {
-              type: "nonResult",
-              value: cells[0].innerText,
-              row: index,
-            };
+            return [
+              {
+                type: "nonResult",
+                value: cells[0].innerText,
+                row: index,
+              },
+              [],
+            ];
           }
-          return {
-            type: "columnCount",
-            value: cells.length,
-            row: index,
-          };
+          return [
+            {
+              type: "columnCount",
+              value: cells.length,
+              row: index,
+            },
+            [],
+          ];
         }
         if (cells.length > columns.length) {
           warnings.push(

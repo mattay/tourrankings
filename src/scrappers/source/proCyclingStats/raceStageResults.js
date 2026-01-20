@@ -537,6 +537,14 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
   });
 
   tables.forEach((result, index) => {
+    if (result.general) {
+      const tableData = result.general;
+      result.general = tableData.map(([row]) => row);
+      const warnings = tableData.flatMap(([_, warns]) => warns);
+      warnings.forEach((warning) => {
+        logOut("Race Stage Results", warning, "warn");
+      });
+    }
     if (result.today) {
       result.today.forEach((pair) => {
         if (pair.warnings && pair.warnings.length > 0) {

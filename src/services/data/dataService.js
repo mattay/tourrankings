@@ -128,7 +128,7 @@ class DataService {
               scheduleNextRefresh(this._baseInterval);
             } catch (err) {
               const backoffDelay = Math.min(
-                this._baseInterval * Math.pow(2, this._failureCount),
+                this._baseInterval * Math.pow(2, this._failureCount - 1),
                 this._baseInterval * 8,
               );
               logError(this.constructor.name, err?.message || String(err), err);

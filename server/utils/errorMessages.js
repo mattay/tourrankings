@@ -145,7 +145,7 @@ export const ERROR_MESSAGES = {
   SCRAPING_FAILED: {
     html: `
       <div class="oops-message">
-        <h2>Data collection flatted out </h2>
+        <h2>Data collection flatted out</h2>
         <p>Our data scraper just pinch-flatted trying to gather the latest info. Must've hit a pothole in the API.</p>
         <p>We're patching it up now. At least we didn't forget to bring the pump this time.</p>
         <p class="comeback">Should be rolling again shortly. Thanks for your patience!</p>

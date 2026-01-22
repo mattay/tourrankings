@@ -9,7 +9,7 @@
     "local": "docker compose -f docker-compose.local.yml up",
     "local:down": "docker compose -f docker-compose.local.yml down",
     "local:build": "docker compose -f docker-compose.local.yml up --build",
-    "local:clean": "docker compose -f docker-compose.local.yml up --build --no-cache",
+    "local:clean": "docker compose -f docker-compose.local.yml build --no-cache",
     "local:scrape": "docker compose -f docker-compose.local.yml exec app sh -c '. /chrome-path.sh && bun scrape'",
     "local:shell": "docker compose -f docker-compose.local.yml exec app sh",
     "test:build": "docker compose -f docker-compose.test-build.yml up --build",

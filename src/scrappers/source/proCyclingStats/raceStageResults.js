@@ -413,7 +413,7 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
      * Returns special row objects if columns do not match headers.
      *
      * @param {HTMLTableElement} tableElement - Table DOM node to extract data from.
-     * @returns {Array<Object>} Array of objects mapping column names to cell content, or special row objects
+     * @returns {Array<[Object, string[]]>} Array of tuples, each containing a row object (mapping column names to cell content, or special row objects with 'type' property) and an array of warnings for that row
      * @note Returns special row objects (type: "nonResult" or "columnCount") when row structure doesn't match expected columns
      */
     function extractTableData(tableElement) {
@@ -442,23 +442,30 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
       return rows.map((row, index) => {
         const cells = Array.from(row.querySelectorAll(tableStructure.cells));
         const rowDetails = {};
+        const warnings = [];
 
         if (cells.length < columns.length) {
           if (cells.length == 1) {
-            return {
-              type: "nonResult",
-              value: cells[0].innerText,
-              row: index,
-            };
+            return [
+              {
+                type: "nonResult",
+                value: cells[0].innerText,
+                row: index,
+              },
+              [],
+            ];
           }
-          return {
-            type: "columnCount",
-            value: cells.length,
-            row: index,
-          };
+          return [
+            {
+              type: "columnCount",
+              value: cells.length,
+              row: index,
+            },
+            [],
+          ];
         }
         if (cells.length > columns.length) {
-          console.warn(
+          warnings.push(
             `Row ${index}: ${cells.length} cells exceed ${columns.length} columns, extra cells will be ignored`,
           );
         }
@@ -470,12 +477,19 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
         ) {
           const columnLabel = columns[columnIndex];
           const cell = cells[columnIndex];
-          let cellContent = extractCellContent(cell);
-
+          let cellContent = "";
+          try {
+            cellContent = extractCellContent(cell);
+          } catch (error) {
+            console.warn(
+              `Failed to extract cell content at column ${columnIndex}:`,
+              error,
+            );
+          }
           rowDetails[columnLabel] = cellContent;
         }
 
-        return rowDetails;
+        return [rowDetails, warnings];
       });
     }
 
@@ -506,9 +520,13 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
           pair < headers.length && pair < tables.length;
           pair += 1
         ) {
+          const tableData = extractTableData(tables[pair]);
+          const standings = tableData.map(([row, _]) => row);
+          const warnings = tableData.flatMap(([_, warns]) => warns);
           pairs.push({
             label: headers[pair].innerText,
-            standings: extractTableData(tables[pair]),
+            standings,
+            warnings,
           });
         }
         results[index]["today"] = pairs;
@@ -516,6 +534,26 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
     }
 
     return results;
+  });
+
+  tables.forEach((result, index) => {
+    if (result.general) {
+      const tableData = result.general;
+      result.general = tableData.map(([row]) => row);
+      const warnings = tableData.flatMap(([_, warns]) => warns);
+      warnings.forEach((warning) => {
+        logOut("Race Stage Results", warning, "warn");
+      });
+    }
+    if (result.today) {
+      result.today.forEach((pair) => {
+        if (pair.warnings && pair.warnings.length > 0) {
+          pair.warnings.forEach((warning) => {
+            logOut("Race Stage Results", warning, "warn");
+          });
+        }
+      });
+    }
   });
 
   return cleanUpStages(tables, stageUID, stage);

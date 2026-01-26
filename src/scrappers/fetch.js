@@ -40,7 +40,7 @@ export async function fetchHtmlWithPuppeteer(page, url, options = {}) {
  * @returns {Promise<string>} The HTML content of the page
  */
 export async function fetchHtmlWithFetch(url, options = {}) {
-  const { timeout = 15000, headers = {} } = options;
+  const { timeout = config.timeout, headers = {} } = options;
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
 

@@ -159,7 +159,13 @@ class DataService {
           this.DATA_SERVICE_ERROR.LOAD_MODELS_FAILED,
         );
         throw new Error(this.DATA_SERVICE_ERROR.INITIALIZATION_FAILED, {
-          cause: "DATA_SERVICE_ERROR.INITIALIZATION_FAILED",
+          cause:
+            failures.length === 1
+              ? failures[0].reason
+              : new AggregateError(
+                  failures.map((f) => f.reason),
+                  "Multiple models failed to load",
+                ),
         });
       }
 

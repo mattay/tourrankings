@@ -150,7 +150,7 @@ export function createStageComponent({
   const progressStages = (data) => {
     let stagesStart = data.length;
     let stagesViewing = 0;
-    let stagesTotal = data.length;
+    let stagesTotal = d3.max(data, (d) => d.stage);
 
     for (let i = 0; i < data.length; i++) {
       const stage = data[i];

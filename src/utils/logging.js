@@ -25,7 +25,7 @@ export function logOut(domain, message, logLevel = "log", data) {
 /**
  * Log an error record with a timestamp and padded domain.
  *
- * If an `Error` is provided, its `name` and `message` are logged on separate lines.
+ * If an `Error` is provided, its `message` is logged on a separate line.
  * If `data` is provided (not `undefined`), it is logged on a separate "[DEBUG VALUE]" line.
  *
  * @param {string} domain - Category or source used to label the log entry.

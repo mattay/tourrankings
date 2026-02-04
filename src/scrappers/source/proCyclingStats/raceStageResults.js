@@ -326,7 +326,6 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
 
   // Fetch table data
   const tables = await page.evaluate(() => {
-    // 1. PAGE STRUCTURE SELECTORS - UPDATED
     const pageSelectors = {
       // Main results containers
       resultContainers: "#resultsCont .resTab",
@@ -344,6 +343,79 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
       pageSelectors.resultContainers,
     );
 
+    /**
+     * Extracts content from a table cell with specialized handling for different cell types
+     * @param {HTMLTableCellElement} cell - The table cell element
+     * @returns {string} The extracted cell content
+     */
+    function extractCellContent(cell) {
+      // Skip cells that are clearly non-data (checkboxes, buttons, etc.)
+      if (
+        cell.querySelector(
+          'input[type="checkbox"], button, input[type="radio"]',
+        )
+      ) {
+        return "";
+      }
+
+      // Handle time cells with hidden spans
+      if (cell.classList.contains("time")) {
+        const hiddenSpan = cell.querySelector("span.hide");
+        if (hiddenSpan) {
+          return hiddenSpan.innerText.trim();
+        }
+      }
+
+      // Handle specialty cells with specific structure
+      if (cell.classList.contains("specialty")) {
+        const specialtySpan = cell.querySelector("span.fs10");
+        if (specialtySpan) {
+          return specialtySpan.innerText.trim();
+        }
+      }
+
+      // Handle rider name cells - extract only the main name, ignore team info
+      if (cell.classList.contains("ridername")) {
+        const nameLink = cell.querySelector("a");
+        if (nameLink) {
+          return nameLink.innerText.trim();
+        }
+      }
+
+      // Standard cell content extraction with cleanup
+      let cellContent = cell.innerText.trim();
+
+      // Clean up multi-line content and unwanted text
+      if (cellContent.includes("\n")) {
+        // Split by newlines and take only the first non-empty line
+        const lines = cellContent
+          .split("\n")
+          .map((line) => line.trim())
+          .filter(
+            (line) => line.length > 0 && !line.match(/^(fav_gc|favorite)$/i),
+          );
+        cellContent = lines[0] || "";
+      }
+
+      // Remove common unwanted text patterns
+      cellContent = cellContent
+        .replace(/\b(fav_gc|favorite)\b/gi, "") // Remove fav_gc and favorite text
+        .replace(/\s+/g, " ") // Replace multiple spaces with single space
+        .trim();
+
+      return cellContent;
+    }
+
+    /**
+     * Extracts structured data from a table DOM element, including standard and special cell types.
+     *
+     * Iterates through table rows, mapping cell content by column header.
+     * Returns special row objects if columns do not match headers.
+     *
+     * @param {HTMLTableElement} tableElement - Table DOM node to extract data from.
+     * @returns {Array<[Object, string[]]>} Array of tuples, each containing a row object (mapping column names to cell content, or special row objects with 'type' property) and an array of warnings for that row
+     * @note Returns special row objects (type: "nonResult" or "columnCount") when row structure doesn't match expected columns
+     */
     function extractTableData(tableElement) {
       const tableStructure = {
         // Standard table elements
@@ -370,41 +442,54 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
       return rows.map((row, index) => {
         const cells = Array.from(row.querySelectorAll(tableStructure.cells));
         const rowDetails = {};
+        const warnings = [];
 
         if (cells.length < columns.length) {
           if (cells.length == 1) {
-            return {
-              type: "nonResult",
-              value: cells[0].innerText,
-              row: index,
-            };
+            return [
+              {
+                type: "nonResult",
+                value: cells[0].innerText,
+                row: index,
+              },
+              [],
+            ];
           }
-          return {
-            type: "columnCount",
-            value: cells.length,
-            row: index,
-          };
+          return [
+            {
+              type: "columnCount",
+              value: cells.length,
+              row: index,
+            },
+            [],
+          ];
         }
-
+        if (cells.length > columns.length) {
+          warnings.push(
+            `Row ${index}: ${cells.length} cells exceed ${columns.length} columns, extra cells will be ignored`,
+          );
+        }
+        // Process each cell
         for (
           let columnIndex = 0;
-          columnIndex < cells.length;
+          columnIndex < Math.min(cells.length, columns.length);
           columnIndex += 1
         ) {
           const columnLabel = columns[columnIndex];
           const cell = cells[columnIndex];
-          let cellContent = cell.innerText.trim();
-          // const nestedSpan = cell.querySelector("span");
-          // const nestedDiv = cell.querySelector("div");
-          // if (cell.classList.contains("time") && nestedSpan !== null) {
-          //   cellContent = nestedDiv.innerText.trim();
-          // } else {
-          //   cellContent = cell.innerText.trim();
-          // }
+          let cellContent = "";
+          try {
+            cellContent = extractCellContent(cell);
+          } catch (error) {
+            console.warn(
+              `Failed to extract cell content at column ${columnIndex}:`,
+              error,
+            );
+          }
           rowDetails[columnLabel] = cellContent;
         }
 
-        return rowDetails;
+        return [rowDetails, warnings];
       });
     }
 
@@ -435,9 +520,13 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
           pair < headers.length && pair < tables.length;
           pair += 1
         ) {
+          const tableData = extractTableData(tables[pair]);
+          const standings = tableData.map(([row, _]) => row);
+          const warnings = tableData.flatMap(([_, warns]) => warns);
           pairs.push({
             label: headers[pair].innerText,
-            standings: extractTableData(tables[pair]),
+            standings,
+            warnings,
           });
         }
         results[index]["today"] = pairs;
@@ -445,6 +534,26 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
     }
 
     return results;
+  });
+
+  tables.forEach((result, index) => {
+    if (result.general) {
+      const tableData = result.general;
+      result.general = tableData.map(([row]) => row);
+      const warnings = tableData.flatMap(([_, warns]) => warns);
+      warnings.forEach((warning) => {
+        logOut("Race Stage Results", warning, "warn");
+      });
+    }
+    if (result.today) {
+      result.today.forEach((pair) => {
+        if (pair.warnings && pair.warnings.length > 0) {
+          pair.warnings.forEach((warning) => {
+            logOut("Race Stage Results", warning, "warn");
+          });
+        }
+      });
+    }
   });
 
   return cleanUpStages(tables, stageUID, stage);

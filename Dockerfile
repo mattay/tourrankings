@@ -1,76 +1,104 @@
+# Dockerfile - Production build
+# Used by: docker-compose.local-build.yml, fly.dev.toml, fly.prod.toml
+# Purpose: Optimized, secure production deployment
+
 FROM oven/bun:1 as builder
 
 WORKDIR /tourRanking
 
-# Copy package files
-COPY package.json bun.lock ./
+# ============================================
+# Chrome Headless Shell
+# ============================================
+ARG CHROME_VERSION=142
+RUN bunx @puppeteer/browsers install chrome-headless-shell@${CHROME_VERSION}
 
-# Install dependencies
+RUN CHROME_PATH=$(find /tourRanking -type f -name "chrome-headless-shell" 2>/dev/null | head -n 1) \
+    && if [ -z "$CHROME_PATH" ]; then echo "ERROR: Chrome not found"; exit 1; fi \
+    && echo "export PUPPETEER_EXECUTABLE_PATH=$CHROME_PATH" > /tourRanking/chrome-path.sh \
+    && chmod +x /tourRanking/chrome-path.sh \
+    && echo "Chrome installed at: $CHROME_PATH"
+
+# ============================================
+# Supercronic (cron for containers)
+# ============================================
+ARG SUPERCRONIC_VERSION=v0.2.34
+ARG SUPERCRONIC_SHA1SUM=e8631edc1775000d119b70fd40339a7238eece14
+RUN apt-get update && apt-get install -y curl \
+    && curl -fsSLO "https://github.com/aptible/supercronic/releases/download/${SUPERCRONIC_VERSION}/supercronic-linux-amd64" \
+    && echo "${SUPERCRONIC_SHA1SUM}  supercronic-linux-amd64" | sha1sum -c - \
+    && chmod +x supercronic-linux-amd64
+
+# ============================================
+# Dependencies (production only)
+# ============================================
+COPY package.json bun.lock ./
 RUN bun install --production
 
-# https://developer.chrome.com/blog/chrome-for-testing
-# Install Chrome for Testing with headless shell (lighter than full Chrome)
-# Use chrome-headless-shell for lower memory usage
-RUN bunx @puppeteer/browsers install chrome-headless-shell@stable && \
-    echo "PUPPETEER_EXECUTABLE_PATH=$(find . -type f -name chrome-headless-shell | head -n 1)" >> .env
-
-# Copy application code
+# ============================================
+# Application Code & Build
+# ============================================
 COPY . .
-
-# Run build step
 RUN bun run build
 
-# Production stage
+# ============================================
+# Production Stage
+# ============================================
 FROM oven/bun:1-slim
 
 WORKDIR /tourRanking
 
-# Minimal libs for Chrome headless shell (fewer dependencies = less memory)
+# ============================================
+# Runtime Dependencies (minimal)
+# ============================================
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     ca-certificates \
-    curl \
-    libglib2.0-0 \
-    libnss3 \
-    libxss1 \
-    libgconf-2-4 \
-    libxrandr2 \
     libasound2 \
-    libpangocairo-1.0-0 \
     libatk1.0-0 \
     libcairo-gobject2 \
+    libgbm1 \
+    libglib2.0-0 \
     libgtk-3-0 \
-    libgdk-pixbuf2.0-0 \
-    && rm -rf /var/lib/apt/lists/*  \
+    libnss3 \
+    libpangocairo-1.0-0 \
+    libxrandr2 \
+    libxss1 \
+    && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
-
-# Install Supercronic
-ARG SUPERCRONIC_VERSION=v0.2.34
-ARG SUPERCRONIC=supercronic-linux-amd64
-ARG SUPERCRONIC_SHA1SUM=e8631edc1775000d119b70fd40339a7238eece14
-RUN curl -fsSLO "https://github.com/aptible/supercronic/releases/download/${SUPERCRONIC_VERSION}/${SUPERCRONIC}" \
-    && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
-    && install -m 0755 "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
-    && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic \
-    && apt-get purge -y --auto-remove curl
-
-# Copy from builder stage
+# ============================================
+# Copy from Builder
+# ============================================
+COPY --from=builder /tourRanking/supercronic-linux-amd64 /usr/local/bin/supercronic
+COPY --from=builder /tourRanking/chrome-path.sh /chrome-path.sh
 COPY --from=builder /tourRanking /tourRanking
-COPY crontab crontab
 
-# Expose the port
+# ============================================
+# Environment
+# ============================================
+ENV NODE_ENV=production \
+    NODE_OPTIONS="--max-old-space-size=512" \
+    PORT=8080 \
+    DATA_DIR=/tourRanking/data/csv \
+    DATA_AUTO_REFRESH=TRUE \
+    PUPPETEER_HEADLESS=TRUE
+
+# ============================================
+# Security
+# ============================================
+RUN chown -R bun:bun /tourRanking
+USER bun
+
 EXPOSE 8080
 
-# Set environment variables
-ENV NODE_ENV=production
-ENV NODE_OPTIONS="--max-old-space-size=256"
-ENV PORT=8080
-ENV DATA_DIR=/tourRanking/data/csv
+# ============================================
+# Health Check
+# ============================================
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD bun -e 'fetch("http://localhost:8080/health").then(r=>r.ok||process.exit(1))'
 
-RUN mkdir -p /tourRanking/data/csv && \
-    chown -R bun:bun /tourRanking/data && \
-    chmod -R 755 /tourRanking/data
-
-# Start the application
-CMD ["sh", "-c", "bun start"]
+# ============================================
+# Startup
+# ============================================
+ENTRYPOINT ["/bin/sh", "-c", ". /chrome-path.sh && exec \"$@\"", "--"]
+CMD ["bun", "start"]

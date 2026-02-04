@@ -1,9 +1,10 @@
-import { Page } from "puppeteer-core";
 import { generateId } from "../../../utils/idGenerator.js";
 import { formatDate } from "../../../utils/string.js";
 import { logError } from "../../../utils/logging.js";
+import { config } from "./config";
 
 /**
+ * @typedef {import('puppeteer-core').Page} Page - Puppeteer
  * @typedef {import('./@types').ScrapedRaceStage} ScrapedRaceStage
  *
  * @typedef {Object} RawStageRecord - Raw stage record from the ProCyclingStats website.
@@ -34,7 +35,7 @@ function cleanRecord(record) {
   } else {
     const matchStage = record.stage.match(regexStage);
     if (!matchStage) {
-      console.log(record.stage);
+      logError("Clean Record", `Invalid stage format: ${record.stage}`);
     }
     stageNumber = Number(matchStage?.groups.stageNumber) || null;
     stageType = matchStage?.groups.stageType || null;
@@ -57,29 +58,36 @@ function cleanRecord(record) {
  * @param {Page} page - The Puppeteer page object.
  * @param {string} race - The race name.
  * @param {number} year - The year of the race.
- * @returns {Promise<Array<ScrapedRaceStage>} An array of stage data.
+ * @returns {Promise<Array<ScrapedRaceStage>>} An array of stage data.
  */
 export async function scrapeRaceStages(page, race, year) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/route/stages`;
+  const selectorTable = ".page-content table";
+
   try {
-    await page.goto(url, { waitUntil: "networkidle2" }).catch((exception) => {
-      logError("scrapeStages", "Navigation failed");
-      logError("scrapeStages", exception.name);
-      logError("scrapeStages", exception.message);
-    });
+    await page
+      .goto(url, { waitUntil: "domcontentloaded" })
+      .catch((exception) => {
+        logError("Scrape PCS - Stages", `Navigating to ${url}`, exception);
+        throw exception;
+      });
 
     await page
-      .waitForSelector(".page-content", {
-        timeout: 1200,
+      .waitForSelector(selectorTable, {
+        timeout: config.timeout,
       })
       .catch((exception) => {
-        logError("scrapeStages", "page-content", exception);
+        logError(
+          "Scrape PCS - Stages",
+          `Waiting for selector '.page-content table' On page ${url}`,
+          exception,
+        );
         throw exception;
       });
 
     // Extract data from the specified selector
     const data = await page.$$eval(
-      ".page-content table",
+      selectorTable,
       (tables, race, year, url) => {
         const stages = Array.from(
           tables[0].querySelectorAll("tbody tr:not(.sum)"),
@@ -116,7 +124,7 @@ export async function scrapeRaceStages(page, race, year) {
 
     return data.map((record) => cleanRecord(record));
   } catch (exception) {
-    logError("scrapeStages", url, exception);
+    logError("Scrape PCS - Stages", url, exception);
     throw exception;
   }
 }

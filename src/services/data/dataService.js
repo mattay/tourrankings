@@ -36,23 +36,31 @@ import { logError, logOut } from "../../utils/logging";
  */
 class DataService {
   DATA_SERVICE_ERROR = {
-    NOT_INITIALIZED: "Repository must be initialized before querying data",
+    NOT_INITIALIZED: "DataService must be initialized before querying data",
     LOAD_MODELS_FAILED: "Failed to load data models",
     INITIALIZATION_FAILED: "Failed to initialize data service",
+    INVALID_INPUT: "Invalid input provided",
   };
   /**
    * Constructor for the DataService class.
    * @constructor
    */
   constructor(options = {}) {
-    logOut("DataService", "Starting...");
-
+    logOut(this.constructor.name, "Creating new instance");
     // Default options
     this.options = {
       autoRefresh: false,
       refreshInterval: 3600000, // 1 hour in ms
       ...options,
     };
+
+    // State
+    this._failureCount = 0;
+    this._baseInterval = options.refreshInterval || 3600000;
+    this._initializing = false;
+    this._refreshTimer = null;
+    this.lastRefreshTime = null;
+    this.isInitialized = false;
 
     // Initialize models
     this.races = new Races();
@@ -66,11 +74,6 @@ class DataService {
     this.classificationPoints = new ClassificationPoints();
     this.classificationTeam = new ClassificationTeam();
     this.classificationYouth = new ClassificationYouth();
-
-    // State
-    this.isInitialized = false;
-    this.lastRefreshTime = null;
-    this._refreshTimer = null;
   }
 
   /**
@@ -82,51 +85,94 @@ class DataService {
    * @throws {Error} If initialization fails.
    */
   async initialize(forceRefresh = false) {
+    if (this._initializing) {
+      logOut(
+        this.constructor.name,
+        "Initialization already in progress, skipping",
+      );
+      return;
+    }
+    logOut(this.constructor.name, "Initializing");
+
     if (this.isInitialized && !forceRefresh) return;
 
-    // Load all data models concurrently
-    const loaded = await Promise.allSettled([
-      this.races.read(),
-      this.stages.read(),
-      this.stageResults.read(),
-      this.teams.read(),
-      this.riders.read(),
-      this.raceRiders.read(),
-      this.classificationGeneral.read(),
-      this.classificationMountain.read(),
-      this.classificationPoints.read(),
-      this.classificationTeam.read(),
-      this.classificationYouth.read(),
-    ]);
+    this._initializing = true;
 
-    this.isInitialized = true;
-    this.lastRefreshTime = new Date();
+    try {
+      // ... existing initialization code ...
+      // Load all data models concurrently
+      const loaded = await Promise.allSettled([
+        this.races.read(),
+        this.stages.read(),
+        this.stageResults.read(),
+        this.teams.read(),
+        this.riders.read(),
+        this.raceRiders.read(),
+        this.classificationGeneral.read(),
+        this.classificationMountain.read(),
+        this.classificationPoints.read(),
+        this.classificationTeam.read(),
+        this.classificationYouth.read(),
+      ]);
 
-    loaded.forEach((result, i) => {
-      if (result.status === "rejected") {
-        this.isInitialized = false;
-        logError(this.constructor.name, result.reason.message);
+      // Set up auto refresh if enabled
+      if (
+        this.options.autoRefresh &&
+        !this._refreshTimer &&
+        typeof window === "undefined"
+      ) {
+        const scheduleNextRefresh = (delay = this._baseInterval) => {
+          this._refreshTimer = setTimeout(async () => {
+            try {
+              await this.refreshData();
+              scheduleNextRefresh(this._baseInterval);
+            } catch (err) {
+              const backoffDelay = Math.min(
+                this._baseInterval * Math.pow(2, this._failureCount - 1),
+                this._baseInterval * 8,
+              );
+              logError(this.constructor.name, err?.message || String(err), err);
+              scheduleNextRefresh(backoffDelay);
+            }
+          }, delay);
+          this._refreshTimer.unref?.();
+        };
+        scheduleNextRefresh();
+
+        // Do not keep process alive solely for the timer (Node.js)
+        this._refreshTimer.unref?.();
       }
-    });
 
-    if (!this.isInitialized) {
-      logError(
-        this.constructor.name,
-        this.DATA_SERVICE_ERROR.LOAD_MODELS_FAILED,
-      );
-      throw new Error(this.DATA_SERVICE_ERROR.INITIALIZATION_FAILED);
-    }
+      // Determine success and log all failures
+      const failures = loaded.filter((r) => r.status === "rejected");
+      if (failures.length) {
+        failures.forEach((r) =>
+          logError(
+            this.constructor.name,
+            r.reason?.message || String(r.reason),
+          ),
+        );
+        this.isInitialized = false;
+        this.lastRefreshTime = null;
+        logError(
+          this.constructor.name,
+          this.DATA_SERVICE_ERROR.LOAD_MODELS_FAILED,
+        );
+        throw new Error(this.DATA_SERVICE_ERROR.INITIALIZATION_FAILED, {
+          cause:
+            failures.length === 1
+              ? failures[0].reason
+              : new AggregateError(
+                  failures.map((f) => f.reason),
+                  "Multiple models failed to load",
+                ),
+        });
+      }
 
-    // Set up auto refresh if enabled
-    if (
-      this.options.autoRefresh &&
-      !this._refreshTimer &&
-      typeof window === "undefined"
-    ) {
-      // Only set up auto-refresh on server, not in browser
-      this._refreshTimer = setInterval(() => {
-        this.refreshData();
-      }, this.options.refreshInterval);
+      this.isInitialized = true;
+      this.lastRefreshTime = new Date();
+    } finally {
+      this._initializing = false;
     }
   }
 
@@ -136,10 +182,15 @@ class DataService {
    * @returns {void}
    */
   dispose() {
+    logOut(this.constructor.name, "Disposing");
+
     if (this._refreshTimer) {
       clearInterval(this._refreshTimer);
       this._refreshTimer = null;
     }
+
+    this.isInitialized = false;
+    this.lastRefreshTime = null;
   }
 
   /**
@@ -148,12 +199,26 @@ class DataService {
    * @returns {Promise<void>}
    */
   async refreshData() {
-    if (!this.isInitialized) {
-      return this.initialize();
+    try {
+      if (!this.isInitialized) {
+        await this.initialize();
+      } else {
+        await this.initialize(true);
+      }
+      this._failureCount = 0; // Reset on success
+      logOut(this.constructor.name, "Data refreshed");
+    } catch (err) {
+      this._failureCount++;
+      const backoffDelay = Math.min(
+        this._baseInterval * Math.pow(2, this._failureCount - 1),
+        this._baseInterval * 8, // Max 8x backoff
+      );
+      logError(
+        this.constructor.name,
+        `Refresh failed (attempt ${this._failureCount}), next retry in ${backoffDelay}ms`,
+      );
+      throw err; // Re-throw for the interval callback to log
     }
-
-    await this.initialize(true);
-    logOut("DataService", "Data refreshed");
   }
 
   /**
@@ -191,10 +256,10 @@ class DataService {
     if (!raceUID && !racePcsID) {
       throw new Error(this.DATA_SERVICE_ERROR.INVALID_INPUT);
     } else if (raceUID) {
-      logOut("DataService", `raceUID ${raceUID} -> ${year}`);
+      logOut(this.constructor.name, `raceUID ${raceUID} -> ${year}`);
       return this.races.raceUID(raceUID);
     } else if (racePcsID) {
-      logOut("DataService", `racePcsID ${racePcsID} -> ${year}`);
+      logOut(this.constructor.name, `racePcsID ${racePcsID} -> ${year}`);
       return this.races.racePcsID(racePcsID, year);
     }
   }

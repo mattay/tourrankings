@@ -28,9 +28,6 @@ async function setupServer(app) {
     // Apply all middleware (logging, parsing, security, error handling, etc.)
     setupMiddleware(app);
 
-    // Data service instance
-    await dataService.initialize();
-
     // Templating
     app.set("view engine", "ejs");
     app.set("views", join(__dirname, "views"));
@@ -103,12 +100,26 @@ async function startServer(app) {
 }
 
 /**
+ * Initializes the data service
+ *
+ * @returns {Promise<void>}
+ */
+async function initializeDataService() {
+  try {
+    await dataService.initialize();
+  } catch (error) {
+    logError("DataService", "Failed to initialize data service", error);
+  }
+}
+
+/**
  * Initialize and start the server
  */
 async function initializeServer() {
   try {
     await setupServer(app);
     await setupRoutes(app);
+    await initializeDataService();
     await startServer(app);
 
     // Handle unhandled promise rejections globally

@@ -2,7 +2,7 @@
  * Health check controller for monitoring application status
  */
 // import dataService from "../../src/services/dataServiceInstance.js";
-import { logOut } from "../../src/utils/logging.js";
+import { logError } from "../../src/utils/logging.js";
 
 /**
  * Basic health check endpoint
@@ -22,7 +22,7 @@ export function getHealth(req, res) {
     // Quick response for basic health check
     res.status(200).json(healthStatus);
   } catch (error) {
-    logOut("Health", "Health check failed", error);
+    logError("Health", "Health check failed", error);
     res.status(503).json({
       status: "unhealthy",
       timestamp: new Date().toISOString(),

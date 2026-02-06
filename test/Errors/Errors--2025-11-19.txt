@@ -1,0 +1,326 @@
+2025-11-19 11:58:36.941 Main                             Race information collection completed
+2025-11-19 11:58:36.942 Main                             Starting stage results collection
+2025-11-19 11:58:36.945 Main                             Scrape Stage Results: tour-down-under, 2025, tour-down-under:2025:1
+2025-11-19 11:58:38.650 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:58:38.652 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:58:38.653 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:58:38.654 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:58:38.654 Main                             Scrape Stage Results: tour-down-under, 2025, tour-down-under:2025:2
+2025-11-19 11:58:40.388 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:58:40.390 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:58:40.391 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:58:40.392 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:58:40.392 Main                             Scrape Stage Results: tour-down-under, 2025, tour-down-under:2025:3
+2025-11-19 11:58:42.082 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:58:42.083 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:58:42.085 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:58:42.085 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:58:42.086 Main                             Scrape Stage Results: tour-down-under, 2025, tour-down-under:2025:4
+2025-11-19 11:58:43.816 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:58:43.817 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:58:43.817 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:58:43.817 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:58:43.818 Main                             Scrape Stage Results: tour-down-under, 2025, tour-down-under:2025:5
+2025-11-19 11:58:45.523 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:58:45.523 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:58:45.524 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:58:45.524 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:58:45.525 Main                             Scrape Stage Results: tour-down-under, 2025, tour-down-under:2025:6
+2025-11-19 11:58:48.101 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:58:48.104 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:58:48.104 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:58:48.106 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:58:48.106 Main                             Scrape Stage Results: uae-tour, 2025, uae-tour:2025:1
+2025-11-19 11:58:49.832 Race Stage Results               [ERROR] Label for Sprint points does not match: Sprint (111.8 km)
+2025-11-19 11:58:49.838 Race Stage Results               [ERROR] Label for KOM points does not match: Youth day classification
+2025-11-19 11:58:49.841 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:58:49.849 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:58:49.849 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:58:49.849 Main                             Scrape Stage Results: uae-tour, 2025, uae-tour:2025:2
+2025-11-19 11:58:51.551 Race Stage Results               [ERROR] Label for KOM points does not match: Youth day classification
+2025-11-19 11:58:51.557 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:58:51.559 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:58:51.560 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:58:51.560 Main                             Scrape Stage Results: uae-tour, 2025, uae-tour:2025:3
+2025-11-19 11:58:53.286 Race Stage Results               [ERROR] Label for Sprint points does not match: Sprint (145.6 km)
+2025-11-19 11:58:53.294 Race Stage Results               [ERROR] Label for KOM points does not match: Youth day classification
+2025-11-19 11:58:53.296 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:58:53.297 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:58:53.301 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:58:53.302 Main                             Scrape Stage Results: uae-tour, 2025, uae-tour:2025:4
+2025-11-19 11:58:54.707 Race Stage Results               [ERROR] Label for Sprint points does not match: Sprint (149.3 km)
+2025-11-19 11:58:54.709 Race Stage Results               [ERROR] Label for KOM points does not match: Youth day classification
+2025-11-19 11:58:54.710 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:58:54.711 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:58:54.711 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:58:54.712 Main                             Scrape Stage Results: uae-tour, 2025, uae-tour:2025:5
+2025-11-19 11:58:56.296 Race Stage Results               [ERROR] Label for KOM points does not match: Youth day classification
+2025-11-19 11:58:56.306 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:58:56.309 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:58:56.313 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:58:56.313 Main                             Scrape Stage Results: uae-tour, 2025, uae-tour:2025:6
+2025-11-19 11:58:58.004 Race Stage Results               [ERROR] Label for KOM points does not match: Youth day classification
+2025-11-19 11:58:58.007 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:58:58.007 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:58:58.008 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:58:58.008 Main                             Scrape Stage Results: uae-tour, 2025, uae-tour:2025:7
+2025-11-19 11:58:59.737 Race Stage Results               [ERROR] Label for KOM points does not match: Youth day classification
+2025-11-19 11:58:59.739 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:58:59.739 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:58:59.740 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:58:59.740 Main                             Scrape Stage Results: paris-nice, 2025, paris-nice:2025:1
+2025-11-19 11:59:01.440 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:01.441 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:01.441 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:01.442 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:01.442 Main                             Scrape Stage Results: paris-nice, 2025, paris-nice:2025:2
+2025-11-19 11:59:03.175 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:03.176 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:03.176 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:03.177 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:03.181 Main                             Scrape Stage Results: paris-nice, 2025, paris-nice:2025:3
+2025-11-19 11:59:04.758 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:04.758 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:04.759 Main                             Scrape Stage Results: paris-nice, 2025, paris-nice:2025:4
+2025-11-19 11:59:06.218 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:06.221 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:06.222 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:06.223 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:06.223 Main                             Scrape Stage Results: paris-nice, 2025, paris-nice:2025:5
+2025-11-19 11:59:07.804 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:07.805 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:07.805 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:07.806 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:07.806 Main                             Scrape Stage Results: paris-nice, 2025, paris-nice:2025:6
+2025-11-19 11:59:09.569 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:09.569 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:09.570 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:09.570 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:09.570 Main                             Scrape Stage Results: paris-nice, 2025, paris-nice:2025:7
+2025-11-19 11:59:11.298 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:11.301 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:11.302 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:11.302 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:11.302 Main                             Scrape Stage Results: paris-nice, 2025, paris-nice:2025:8
+2025-11-19 11:59:12.780 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:12.781 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:12.781 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:12.781 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:12.782 Main                             Scrape Stage Results: tirreno-adriatico, 2025, tirreno-adriatico:2025:1
+2025-11-19 11:59:14.509 Race Stage Results               [ERROR] Label for KOM points does not match: Youth day classification
+2025-11-19 11:59:14.511 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:14.512 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:14.512 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:14.512 Main                             Scrape Stage Results: tirreno-adriatico, 2025, tirreno-adriatico:2025:2
+2025-11-19 11:59:16.080 Race Stage Results               [ERROR] Label for KOM points does not match: KOM Sprint | Canneto (129.3 km)
+2025-11-19 11:59:16.087 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:16.088 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:16.088 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:16.088 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:16.088 Main                             Scrape Stage Results: tirreno-adriatico, 2025, tirreno-adriatico:2025:3
+2025-11-19 11:59:17.819 Race Stage Results               [ERROR] Label for KOM points does not match: KOM Sprint | Passo del Lume Spento (75.3 km)
+2025-11-19 11:59:17.819 Race Stage Results               [ERROR] Label for KOM points does not match: KOM Sprint | La Foce (112.5 km)
+2025-11-19 11:59:17.820 Race Stage Results               [ERROR] Label for KOM points does not match: KOM Sprint (S) Valico di Colfiorito (234.9 km)
+2025-11-19 11:59:17.826 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:17.827 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:17.827 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:17.827 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:17.828 Main                             Scrape Stage Results: tirreno-adriatico, 2025, tirreno-adriatico:2025:4
+2025-11-19 11:59:19.292 Race Stage Results               [ERROR] Label for KOM points does not match: KOM Sprint | Forca della Civita (13.8 km)
+2025-11-19 11:59:19.293 Race Stage Results               [ERROR] Label for KOM points does not match: KOM Sprint | Valico La Crocetta (104.3 km)
+2025-11-19 11:59:19.296 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:19.297 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:19.297 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:19.298 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:19.298 Main                             Scrape Stage Results: tirreno-adriatico, 2025, tirreno-adriatico:2025:5
+2025-11-19 11:59:21.105 Race Stage Results               [ERROR] Label for KOM points does not match: KOM Sprint | Santa Marciana (128.1 km)
+2025-11-19 11:59:21.106 Race Stage Results               [ERROR] Label for KOM points does not match: KOM Sprint | Salita di Barbanti (178.4 km)
+2025-11-19 11:59:21.106 Race Stage Results               [ERROR] Label for KOM points does not match: KOM Sprint | Monterolo (197.5 km)
+2025-11-19 11:59:21.108 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:21.109 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:21.109 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:21.110 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:21.110 Main                             Scrape Stage Results: tirreno-adriatico, 2025, tirreno-adriatico:2025:6
+2025-11-19 11:59:22.793 Race Stage Results               [ERROR] Label for KOM points does not match: KOM Sprint | Crispiero (108.7 km)
+2025-11-19 11:59:22.794 Race Stage Results               [ERROR] Label for KOM points does not match: KOM Sprint (S) Frontignano (162.6 km)
+2025-11-19 11:59:22.796 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:22.797 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:22.797 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:22.798 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:22.798 Main                             Scrape Stage Results: tirreno-adriatico, 2025, tirreno-adriatico:2025:7
+2025-11-19 11:59:24.501 Race Stage Results               [ERROR] Label for KOM points does not match: KOM Sprint | Ripatransone (57 km)
+2025-11-19 11:59:24.504 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:24.504 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:24.504 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:24.505 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:24.505 Main                             Scrape Stage Results: volta-a-catalunya, 2025, volta-a-catalunya:2025:1
+2025-11-19 11:59:25.996 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:25.996 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:25.997 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:25.997 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:25.998 Main                             Scrape Stage Results: volta-a-catalunya, 2025, volta-a-catalunya:2025:2
+2025-11-19 11:59:27.746 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:27.749 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:27.749 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:27.750 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:27.750 Main                             Scrape Stage Results: volta-a-catalunya, 2025, volta-a-catalunya:2025:3
+2025-11-19 11:59:29.489 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:29.494 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:29.494 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:29.494 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:29.495 Main                             Scrape Stage Results: volta-a-catalunya, 2025, volta-a-catalunya:2025:4
+2025-11-19 11:59:31.209 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:31.210 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:31.210 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:31.210 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:31.211 Main                             Scrape Stage Results: volta-a-catalunya, 2025, volta-a-catalunya:2025:5
+2025-11-19 11:59:32.935 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:32.937 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:32.938 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:32.938 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:32.939 Main                             Scrape Stage Results: volta-a-catalunya, 2025, volta-a-catalunya:2025:6
+2025-11-19 11:59:34.647 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:34.648 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:34.648 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:34.649 Main                             Scrape Stage Results: volta-a-catalunya, 2025, volta-a-catalunya:2025:7
+2025-11-19 11:59:36.382 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:36.385 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:36.385 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:36.386 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:36.386 Main                             Scrape Stage Results: itzulia-basque-country, 2025, itzulia-basque-country:2025:1
+2025-11-19 11:59:37.835 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:37.835 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:37.836 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:37.836 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:37.836 Main                             Scrape Stage Results: itzulia-basque-country, 2025, itzulia-basque-country:2025:2
+2025-11-19 11:59:39.565 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:39.570 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:39.570 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:39.574 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:39.574 Main                             Scrape Stage Results: itzulia-basque-country, 2025, itzulia-basque-country:2025:3
+2025-11-19 11:59:41.129 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:41.134 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:41.134 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:41.135 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:41.135 Main                             Scrape Stage Results: itzulia-basque-country, 2025, itzulia-basque-country:2025:4
+2025-11-19 11:59:42.900 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:42.901 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:42.902 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:42.902 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:42.902 Main                             Scrape Stage Results: itzulia-basque-country, 2025, itzulia-basque-country:2025:5
+2025-11-19 11:59:44.537 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:44.538 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:44.538 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:44.539 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:44.539 Main                             Scrape Stage Results: itzulia-basque-country, 2025, itzulia-basque-country:2025:6
+2025-11-19 11:59:46.238 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:46.238 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:46.239 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:46.239 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:46.240 Main                             Scrape Stage Results: tour-de-romandie, 2025, tour-de-romandie:2025:0
+2025-11-19 11:59:47.929 Race Stage Results               [ERROR] Label for Sprint points does not match: Combativity sprint | Saint-Imier (3.44 km)
+2025-11-19 11:59:47.931 Race Stage Results               [ERROR] Label for KOM points does not match: Youth day classification
+2025-11-19 11:59:47.933 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:47.933 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:47.934 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:47.934 Main                             Scrape Stage Results: tour-de-romandie, 2025, tour-de-romandie:2025:1
+2025-11-19 11:59:49.667 Race Stage Results               [ERROR] Label for Sprint points does not match: Combativity sprint | Burg (169.2 km)
+2025-11-19 11:59:49.673 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:49.678 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:49.679 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:49.679 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:49.679 Main                             Scrape Stage Results: tour-de-romandie, 2025, tour-de-romandie:2025:2
+2025-11-19 11:59:51.390 Race Stage Results               [ERROR] Label for Sprint points does not match: Combativity sprint | St-Blaise (133 km)
+2025-11-19 11:59:51.393 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:51.394 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:51.394 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:51.395 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:51.395 Main                             Scrape Stage Results: tour-de-romandie, 2025, tour-de-romandie:2025:3
+2025-11-19 11:59:52.991 Race Stage Results               [ERROR] Label for Sprint points does not match: Combativity sprint | Montricher (158.1 km)
+2025-11-19 11:59:52.994 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:52.994 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:52.995 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:52.995 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:52.995 Main                             Scrape Stage Results: tour-de-romandie, 2025, tour-de-romandie:2025:4
+2025-11-19 11:59:54.719 Race Stage Results               [ERROR] Label for Sprint points does not match: Combativity sprint | Arvillard (109.6 km)
+2025-11-19 11:59:54.725 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:54.730 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:54.730 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:54.730 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:54.731 Main                             Scrape Stage Results: tour-de-romandie, 2025, tour-de-romandie:2025:5
+2025-11-19 11:59:56.427 Race Stage Results               [ERROR] Label for Sprint points does not match: Combativity sprint | Intermediate Timing Point (11.9 km)
+2025-11-19 11:59:56.431 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:56.431 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:56.432 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:56.433 Main                             Scrape Stage Results: giro-d-italia, 2025, giro-d-italia:2025:1
+2025-11-19 11:59:58.002 Race Stage Results               [ERROR] Label for Sprint points does not match: Red Bull KM Sprint | Sauk (112 km)
+2025-11-19 11:59:58.005 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:58.005 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:58.005 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:58.005 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:58.006 Main                             Scrape Stage Results: giro-d-italia, 2025, giro-d-italia:2025:2
+2025-11-19 11:59:59.877 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 11:59:59.882 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 11:59:59.882 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 11:59:59.883 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 11:59:59.883 Main                             Scrape Stage Results: giro-d-italia, 2025, giro-d-italia:2025:3
+2025-11-19 12:00:01.662 Race Stage Results               [ERROR] Label for Sprint points does not match: Red Bull KM Sprint | Himarë (88.2 km)
+2025-11-19 12:00:01.671 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 12:00:01.671 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 12:00:01.675 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 12:00:01.675 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 12:00:01.675 Main                             Scrape Stage Results: giro-d-italia, 2025, giro-d-italia:2025:4
+2025-11-19 12:00:04.163 Race Stage Results               [ERROR] Label for Sprint points does not match: Red Bull KM Sprint | Ostuni (84.2 km)
+2025-11-19 12:00:04.171 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 12:00:04.171 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 12:00:04.171 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 12:00:04.172 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 12:00:04.172 Main                             Scrape Stage Results: giro-d-italia, 2025, giro-d-italia:2025:5
+2025-11-19 12:00:06.540 Race Stage Results               [ERROR] Label for Sprint points does not match: Red Bull KM Sprint | Bernalda (100.4 km)
+2025-11-19 12:00:06.544 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 12:00:06.545 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 12:00:06.545 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 12:00:06.546 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 12:00:06.546 Main                             Scrape Stage Results: giro-d-italia, 2025, giro-d-italia:2025:6
+2025-11-19 12:00:08.088 Race Stage Results               [ERROR] Label for Sprint points does not match: Red Bull KM Sprint | Brusciano (174.6 km)
+2025-11-19 12:00:08.094 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 12:00:08.095 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 12:00:08.095 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 12:00:08.095 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 12:00:08.096 Main                             Scrape Stage Results: giro-d-italia, 2025, giro-d-italia:2025:7
+2025-11-19 12:00:10.210 Race Stage Results               [ERROR] Label for Sprint points does not match: Red Bull KM Sprint | Tagliacozzo (155.2 km)
+2025-11-19 12:00:10.216 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 12:00:10.216 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 12:00:10.217 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 12:00:10.217 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 12:00:10.218 Main                             Scrape Stage Results: giro-d-italia, 2025, giro-d-italia:2025:8
+2025-11-19 12:00:24.944 Race Stage Results               [ERROR] Label for Sprint points does not match: Red Bull KM Sprint | Castel Santa Maria (177.4 km)
+2025-11-19 12:00:25.426 Main                             Scrape Stage Results: Classification not yet recorded points-location
+2025-11-19 12:00:25.663 Main                             Scrape Stage Results: Classification not yet recorded kom-location
+2025-11-19 12:00:25.744 Main                             Scrape Stage Results: Classification not yet recorded youth-day-classification
+2025-11-19 12:00:25.745 Main                             Scrape Stage Results: Classification not yet recorded teams-day-classification
+2025-11-19 12:00:25.745 Main                             Scrape Stage Results: giro-d-italia, 2025, giro-d-italia:2025:9
+2025-11-19 12:00:56.065 Race Stage Results               [ERROR] Failed to Navigate to 'https://www.procyclingstats.com/race/giro-d-italia/2025/stage-9'
+2025-11-19 12:00:56.065 Race Stage Results               [ERROR NAME] TimeoutError
+2025-11-19 12:00:56.065 Race Stage Results               [ERROR MESSAGE] Navigation timeout of 30000 ms exceeded
+2025-11-19 12:00:56.224 Main                             Scrape Stage Results: giro-d-italia, 2025, giro-d-italia:2025:10
+2025-11-19 12:01:26.787 Race Stage Results               [ERROR] Failed to Navigate to 'https://www.procyclingstats.com/race/giro-d-italia/2025/stage-10'
+2025-11-19 12:01:26.787 Race Stage Results               [ERROR NAME] TimeoutError
+2025-11-19 12:01:26.787 Race Stage Results               [ERROR MESSAGE] Navigation timeout of 30000 ms exceeded
+2025-11-19 12:01:27.586 Main                             Scrape Stage Results: giro-d-italia, 2025, giro-d-italia:2025:11
+2025-11-19 12:01:59.803 Race Stage Results               [ERROR] Failed to Navigate to 'https://www.procyclingstats.com/race/giro-d-italia/2025/stage-11'
+2025-11-19 12:01:59.803 Race Stage Results               [ERROR NAME] TimeoutError
+2025-11-19 12:01:59.803 Race Stage Results               [ERROR MESSAGE] Navigation timeout of 30000 ms exceeded
+2025-11-19 12:02:04.554 Main                             Scrape Stage Results: giro-d-italia, 2025, giro-d-italia:2025:12
+2025-11-19 12:02:35.343 Race Stage Results               [ERROR] Failed to Navigate to 'https://www.procyclingstats.com/race/giro-d-italia/2025/stage-12'
+2025-11-19 12:02:35.343 Race Stage Results               [ERROR NAME] TimeoutError
+2025-11-19 12:02:35.343 Race Stage Results               [ERROR MESSAGE] Navigation timeout of 30000 ms exceeded
+2025-11-19 12:02:37.742 Main                             Scrape Stage Results: giro-d-italia, 2025, giro-d-italia:2025:13
+2025-11-19 12:03:08.324 Race Stage Results               [ERROR] Failed to Navigate to 'https://www.procyclingstats.com/race/giro-d-italia/2025/stage-13'
+2025-11-19 12:03:08.324 Race Stage Results               [ERROR NAME] TimeoutError
+2025-11-19 12:03:08.324 Race Stage Results               [ERROR MESSAGE] Navigation timeout of 30000 ms exceeded
+2025-11-19 12:03:10.465 Main                             Scrape Stage Results: giro-d-italia, 2025, giro-d-italia:2025:14
+2025-11-19 12:03:41.902 Race Stage Results               [ERROR] Failed to Navigate to 'https://www.procyclingstats.com/race/giro-d-italia/2025/stage-14'
+2025-11-19 12:03:41.902 Race Stage Results               [ERROR NAME] TimeoutError
+2025-11-19 12:03:41.902 Race Stage Results               [ERROR MESSAGE] Navigation timeout of 30000 ms exceeded
+2025-11-19 12:03:44.489 Main                             Scrape Stage Results: giro-d-italia, 2025, giro-d-italia:2025:15

@@ -1,0 +1,15 @@
+(tour-down-under:2025),(tour-down-under:2025:\d+),(\d+),(\d{4}/\d{2}/\d{2}),(\d+),(.*),(p\d),(.*),(.*),(\d+.?\d),(\d+),(https:.+)
+{
+"Race UID": "$1",
+"Stage UID": "$2",
+"Year": $3,
+"Date": "$4",
+"Stage": $5,
+"Stage Type": "$6",
+"Parcours Type": "$7",
+"Departure": "$8",
+"Arrival": "$9",
+"Distance": $10,
+"Vertical Meters": $11,
+"Stage Pcs Url": "$12"
+},

@@ -34,7 +34,7 @@ docker compose -f docker-compose.local.yml up
 
 **Stopping**:
 ```bash
-docker compose -f docker-compose.dev.yml down
+docker compose -f docker-compose.local.yml down
 ```
 
 ## 2. Local Build Testing
@@ -141,7 +141,7 @@ git push origin v{cycle}.{patch}
 ## Troubleshooting
 
 ### Hot Reload Not Working (Local Dev)
-- Ensure you're using `docker-compose.dev.yml`
+- Ensure you're using `docker-compose.local.yml`
 - Check that volumes are mounted correctly
 - Verify files are being saved in your editor
 

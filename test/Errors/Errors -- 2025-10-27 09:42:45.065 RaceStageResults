@@ -1,0 +1,36 @@
+2025-10-27 09:42:45.065 RaceStageResults                 [ERROR] Invalid Entries
+2025-10-27 09:42:45.066 RaceStageResults                 [ERROR] Expected Keys: stageUID, bib
+┌────┬───────────┬──────────────────────────────────────────────────────────────────────────┬─────┬──────────────────────────┬───────┐
+│    │ type      │ value                                                                    │ row │ stageUID                 │ stage │
+├────┼───────────┼──────────────────────────────────────────────────────────────────────────┼─────┼──────────────────────────┼───────┤
+│  0 │ nonResult │ Danny van Poppel relegated from 8th to 118th for endagering other riders │ 7   │ tour-down-under:2025:2   │ 2     │
+│  1 │ nonResult │ Laurence Pithie relegated from 4th to 72nd                               │ 3   │ tour-down-under:2025:4   │ 4     │
+│  2 │ nonResult │ Jasper Philipsen relegated from 2nd to 52nd                              │ 1   │ uae-tour:2025:1          │ 1     │
+│  3 │ nonResult │ Danny van Poppel relegated from 8th to 25th                              │ 7   │ uae-tour:2025:6          │ 6     │
+│  4 │ nonResult │ Hugo Page relegated from 3rd to 136th                                    │ 2   │ paris-nice:2025:2        │ 2     │
+│  5 │           │                                                                          │     │ paris-nice:2025:3        │ 3     │
+│  6 │           │                                                                          │     │ paris-nice:2025:3        │ 3     │
+│  7 │           │                                                                          │     │ paris-nice:2025:3        │ 3     │
+│  8 │           │                                                                          │     │ paris-nice:2025:3        │ 3     │
+│  9 │           │                                                                          │     │ paris-nice:2025:3        │ 3     │
+│ 10 │           │                                                                          │     │ paris-nice:2025:3        │ 3     │
+│ 11 │           │                                                                          │     │ paris-nice:2025:3        │ 3     │
+│ 12 │ nonResult │ Corbin Strong relegated from 3rd to 26th for deviation from line         │ 2   │ volta-a-catalunya:2025:6 │ 6     │
+│ 13 │ nonResult │ Martin Marcellusi relegated from 8th to 85th for irregular sprint        │ 7   │ giro-d-italia:2025:3     │ 3     │
+│ 14 │ nonResult │ Max Kanter relegated from 5th to 103rd for 2.12.007-5.1                  │ 4   │ giro-d-italia:2025:4     │ 4     │
+│ 15 │ nonResult │ Matteo Moschetti relegated from 8th to 176th for Irregular sprint        │ 7   │ giro-d-italia:2025:6     │ 6     │
+│ 16 │ nonResult │ Paul Penhoët relegated from 5th to 116th for Irregular sprint            │ 4   │ dauphine:2025:2          │ 2     │
+│ 17 │ nonResult │ Danny van Poppel relegated from 8th to 36th                              │ 7   │ tour-de-france:2025:3    │ 3     │
+│ 18 │ nonResult │ Matthew Brennan relegated from 24th to 139th                             │ 23  │ tour-de-pologne:2025:1   │ 1     │
+│ 19 │ nonResult │ Milan Fretin relegated from 3rd to 81st                                  │ 2   │ renewi-tour:2025:2       │ 2     │
+│ 20 │           │                                                                          │     │ vuelta-a-espana:2025:5   │ 5     │
+│ 21 │           │                                                                          │     │ vuelta-a-espana:2025:5   │ 5     │
+│ 22 │           │                                                                          │     │ vuelta-a-espana:2025:5   │ 5     │
+│ 23 │           │                                                                          │     │ vuelta-a-espana:2025:5   │ 5     │
+│ 24 │           │                                                                          │     │ vuelta-a-espana:2025:5   │ 5     │
+│ 25 │           │                                                                          │     │ vuelta-a-espana:2025:5   │ 5     │
+│ 26 │           │                                                                          │     │ vuelta-a-espana:2025:5   │ 5     │
+│ 27 │           │                                                                          │     │ vuelta-a-espana:2025:5   │ 5     │
+│ 28 │ nonResult │ Elia Viviani relegated from 2nd to 105th                                 │ 1   │ vuelta-a-espana:2025:8   │ 8     │
+│ 29 │ nonResult │ Bryan Coquard relegated from 6th to 106th                                │ 6   │ vuelta-a-espana:2025:8   │ 8     │
+└────┴───────────┴──────────────────────────────────────────────────────────────────────────┴─────┴──────────────────────────┴───────┘

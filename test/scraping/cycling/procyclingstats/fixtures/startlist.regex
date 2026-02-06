@@ -1,0 +1,2 @@
+(tour-down-under:\d{4}),(\d+),((\w+-)+\w+),((\w+-)+\d{4}),(.*),(\w\w)
+{"Race UID": "$1","Bib": $2,"Rider Pcs Id": "$3","Team Pcs Id": "$5","Rider": "$7","Flag": "$8"},

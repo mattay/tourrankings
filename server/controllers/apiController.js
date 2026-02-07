@@ -1,5 +1,5 @@
-import { raceContent } from "./raceController.js";
-import { logOut } from "@utils/logging.js";
+import { raceContent } from "./raceController";
+import { logOut } from "@utils/logging";
 
 /**
  * Get race data as JSON

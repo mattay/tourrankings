@@ -1,4 +1,4 @@
-import config from "@server/config.js";
+import config from "@server/config";
 
 // ANSI color codes for terminal output
 /**

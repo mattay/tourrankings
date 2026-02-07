@@ -1,12 +1,12 @@
 // State Management
 import store from "./state/storeInstance";
 import { setupSelectors } from "./state/selectors";
-import { fetchRaceData } from "./api/index.js";
+import { fetchRaceData } from "./api/index";
 // Utils
 import { getRaceInfoFromUrlPath } from "./state/browser/location";
 import { parseRaceContent } from "./domain/cycling/parse";
 // Components
-import { Race } from "./components/race/race.js";
+import { Race } from "./components/race/race";
 import { updatePageHeadings } from "./components/page/title";
 import {
   setupClassificationTabs,

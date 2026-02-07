@@ -68,4 +68,4 @@ EXPOSE 8080
 
 # Entrypoint sources Chrome path before running any command
 ENTRYPOINT ["/bin/sh", "-c", ". /chrome-path.sh && exec \"$@\"", "--"]
-CMD ["bun", "--hot", "server/index.js"]
+CMD ["bun", "--hot", "src/server/index.js"]

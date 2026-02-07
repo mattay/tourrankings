@@ -97,4 +97,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
 # Startup (same pattern as production)
 # ============================================
 ENTRYPOINT ["/bin/sh", "-c", ". /chrome-path.sh && exec \"$@\"", "--"]
-CMD ["bun", "--hot", "server/index.js"]
+CMD ["bun", "--hot", "src/server/index.js"]

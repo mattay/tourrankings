@@ -1,5 +1,5 @@
 import { google } from "googleapis";
-import { logError, logOut } from "../../utils/logging";
+import { logError, logOut } from "@utils/logging";
 
 /**
  * Configuration for Google Sheets integration

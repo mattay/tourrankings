@@ -1,5 +1,5 @@
 import { parseRider } from "./riders";
-import { toMap } from "../../../../../utils/map";
+import { toMap } from "@utils/map";
 
 /**
  * Process and prepare race data for visualization

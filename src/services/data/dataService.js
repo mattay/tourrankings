@@ -11,7 +11,7 @@ import {
   ClassificationTeam,
   ClassificationYouth,
 } from "../../models";
-import { logError, logOut } from "../../utils/logging";
+import { logError, logOut } from "@utils/logging";
 
 /**
  * Classes

@@ -1,6 +1,6 @@
-import { generateId } from "../../../utils/idGenerator";
-import { formatDate } from "../../../utils/string";
-import { logError } from "../../../utils/logging";
+import { generateId } from "@utils/idGenerator";
+import { formatDate } from "@utils/string";
+import { logError } from "@utils/logging";
 import { config } from "./config";
 
 /**

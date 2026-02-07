@@ -1,4 +1,4 @@
-import { logError } from "../../utils/logging";
+import { logError } from "@utils/logging";
 import CSVdataModel from "../dataModel_csv";
 
 /** @typedef {import('../@types/races').RaceStageModel} RaceStageModel*/

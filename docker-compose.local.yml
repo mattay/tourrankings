@@ -20,7 +20,7 @@ services:
     volumes:
       # Source code - changes reflect immediately
       - ./src:/tourRanking/src
-      - ./server:/tourRanking/src/server
+      - ./src/server:/tourRanking/src/server
       - ./public:/tourRanking/public
       - ./scripts:/tourRanking/scripts
       - ./data:/tourRanking/data

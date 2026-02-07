@@ -1,5 +1,5 @@
-import { logError } from "../../src/utils/logging";
-import { googleSheetsService } from "../../src/services/google/googleSheetsService";
+import { logError } from "@utils/logging";
+import { googleSheetsService } from "@services/google/googleSheetsService";
 
 /**
  * @typedef {Object} FeedbackData

@@ -1,4 +1,4 @@
-import { logOut } from "../../utils/logging";
+import { logOut } from "@utils/logging";
 import CSVdataModel from "../dataModel_csv";
 
 /**

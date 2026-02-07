@@ -1,5 +1,5 @@
 /**
- * @typedef {import("../../../../server/controllers/raceController").RaceContent} RaceContent
+ * @typedef {import("@server/controllers/raceController").RaceContent} RaceContent
  */
 
 export {};

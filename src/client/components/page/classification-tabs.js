@@ -1,8 +1,8 @@
-import { actionSelectClassification } from "src/client/state/actions";
+import { actionSelectClassification } from "@client/state/actions";
 import {
   CLASSIFICATION_TYPES,
   isValidClassificationType,
-} from "src/core/cycling/classification/classification";
+} from "@cycling/classification/classification";
 
 const CLASSIFICATION_ELEMENT_CLASS = {
   CONTAINER: ".tabs-container",
@@ -36,7 +36,7 @@ export function setupClassificationTabs() {
 
 /**
  * Updates the active tab visual state
- * @param {import('../../state/store/@types/store').State} state
+ * @param {import('@client/state/store/@types/store').State} state
  * @returns {void}
  */
 export function updateClassificationTabs(state) {

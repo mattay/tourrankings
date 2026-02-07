@@ -4,8 +4,8 @@ import { fileURLToPath } from "url";
 import config from "./config";
 import setupMiddleware from "./middleware";
 import { routesAPI, routesRace, routesRoot } from "./routes";
-import { logError, logOut } from "../src/utils/logging";
-import dataService from "../src/services/dataServiceInstance";
+import { logError, logOut } from "@utils/logging";
+import dataService from "@services/dataServiceInstance";
 
 // Absolute path to the current file (ESM equivalent of __filename).
 const __filename = fileURLToPath(import.meta.url);

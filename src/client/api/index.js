@@ -1,2 +1,2 @@
-export * from "./apiRace.js";
-export * from "./apiFeedback.js";
+export * from "./apiRace";
+export * from "./apiFeedback";

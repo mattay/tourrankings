@@ -1,8 +1,8 @@
 import {
   isValidClassificationType,
   validateClassification,
-} from "src/core/cycling/classification/classification";
-import store from "../storeInstance";
+} from "@cycling/classification/classification";
+import store from "@client/state/storeInstance";
 
 /**
  * Action to change the current classification/ranking type.

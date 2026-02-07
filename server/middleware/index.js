@@ -2,7 +2,7 @@ import express from "express";
 import compression from "compression";
 import setupSecurityMiddleware from "./security";
 import errorHandler from "./errorHandler";
-import { logOut } from "../../src/utils/logging";
+import { logOut } from "@utils/logging";
 
 /**
  * Configures and applies all middleware to the provided Express app.

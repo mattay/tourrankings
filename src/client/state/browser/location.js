@@ -7,9 +7,9 @@
  * @property {?string} classification - The classification type, or null if not present in the URL.
  */
 
-import { validateClassification } from "src/core/cycling/classification/classification";
-import { validateStage } from "src/core/cycling/stage/stage";
-import { validateYear } from "src/utils/date";
+import { validateClassification } from "@cycling/classification/classification";
+import { validateStage } from "@cycling/stage/stage";
+import { validateYear } from "@utils/date";
 
 /**
  * Extracts race information from the current URL path.

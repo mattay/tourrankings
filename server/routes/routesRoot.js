@@ -1,7 +1,7 @@
 import express from "express";
-import { seasonRaces } from "../controllers/raceController";
-import { logError } from "../../src/utils/logging";
-import { getErrorHTML, getErrorText } from "../utils/errorMessages";
+import { seasonRaces } from "@server/controllers/raceController";
+import { logError } from "@utils/logging";
+import { getErrorHTML, getErrorText } from "@server/utils/errorMessages";
 
 const router = express.Router();
 
@@ -90,5 +90,4 @@ router.get("/", (req, res, next) => {
   }
 });
 
-// export default router;
 export { router as routesRoot };

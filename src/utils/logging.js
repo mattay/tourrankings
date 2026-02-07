@@ -1,4 +1,4 @@
-import { isoDateTime } from "./date.js";
+import { isoDateTime } from "./date";
 
 const PADDINGDOMAIN = 32;
 

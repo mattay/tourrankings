@@ -1,5 +1,5 @@
-import { logError } from "../../../utils/logging";
-import { urlSections } from "../../../utils/url";
+import { logError } from "@utils/logging";
+import { urlSections } from "@utils/url";
 import { config } from "./config";
 
 /**

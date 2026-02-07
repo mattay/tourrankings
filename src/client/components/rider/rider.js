@@ -1,6 +1,6 @@
 /** <reference types="d3" /> */
 
-/** @typedef {import('../../state/selectors/@types/rider').FilteredStageRider} RiderDatum */
+/** @typedef {import('@client/state/selectors/@types/rider').FilteredStageRider} RiderDatum */
 
 /**
  * Options for creating the rider component.

@@ -1,16 +1,16 @@
 import express from "express";
-import { raceContent } from "../controllers/raceController";
-import { logError } from "../../src/utils/logging";
+import { raceContent } from "@server/controllers/raceController";
+import { logError } from "@utils/logging";
 import {
   CLASSIFICATION_TYPES,
   CLASSIFICATION_UI_OPTIONS,
   isValidClassificationType,
   validateClassification,
-} from "src/core/cycling/classification/classification";
-import { validateYear } from "src/utils/date";
-import { validateStage } from "src/core/cycling/stage/stage";
+} from "@cycling/classification/classification";
+import { validateYear } from "@utils/date";
+import { validateStage } from "@cycling/stage/stage";
 
-/** @type {import('../controllers/raceController').RaceContent} RaceContent */
+/** @type {import('@server/controllers/raceController').RaceContent} RaceContent */
 
 /** @type {import('express').Router} */
 const router = express.Router();

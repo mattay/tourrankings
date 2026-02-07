@@ -1,5 +1,5 @@
-import config from "../config.js";
-import logger from "../utils/logger.js";
+import config from "@server/config";
+import logger from "@server/utils/logger";
 
 /**
  * Central error handling middleware for Express.

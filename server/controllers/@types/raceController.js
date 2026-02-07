@@ -1,15 +1,15 @@
 /**
  * Data Models
- * @typedef {import("../../../src/services/dataServiceInstance").RaceData} RaceData
- * @typedef {import("../../../src/services/dataServiceInstance").RaceStageData} RaceStageData
- * @typedef {import("../../../src/services/dataServiceInstance").RaceRiderData} RaceRiderData
- * @typedef {import("../../../src/services/dataServiceInstance").TeamData} TeamData
- * @typedef {import("../../../src/services/dataServiceInstance").RaceStageRiderResultData} RaceStageResultData
- * @typedef {import("../../../src/services/dataServiceInstance").ClassificationPointsData} ClassificationPoints
- * @typedef {import("../../../src/services/dataServiceInstance").ClassificationMountainData} ClassificationMountain
- * @typedef {import("../../../src/services/dataServiceInstance").ClassificationGeneralData} ClassificationGeneral
- * @typedef {import("../../../src/services/dataServiceInstance").ClassificationYouthData} ClassificationYouth
- * @typedef {import("../../../src/services/dataServiceInstance").ClassificationTeamData} ClassificationTeam
+ * @typedef {import("@services/dataServiceInstance").RaceData} RaceData
+ * @typedef {import("@services/dataServiceInstance").RaceStageData} RaceStageData
+ * @typedef {import("@services/dataServiceInstance").RaceRiderData} RaceRiderData
+ * @typedef {import("@services/dataServiceInstance").TeamData} TeamData
+ * @typedef {import("@services/dataServiceInstance").RaceStageRiderResultData} RaceStageResultData
+ * @typedef {import("@services/dataServiceInstance").ClassificationPointsData} ClassificationPoints
+ * @typedef {import("@services/dataServiceInstance").ClassificationMountainData} ClassificationMountain
+ * @typedef {import("@services/dataServiceInstance").ClassificationGeneralData} ClassificationGeneral
+ * @typedef {import("@services/dataServiceInstance").ClassificationYouthData} ClassificationYouth
+ * @typedef {import("@services/dataServiceInstance").ClassificationTeamData} ClassificationTeam
 
  */
 

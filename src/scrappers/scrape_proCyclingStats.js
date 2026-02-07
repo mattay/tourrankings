@@ -17,8 +17,8 @@ import {
   ClassificationTeam,
 } from "../models";
 // Utils
-import { generateId } from "../utils/idGenerator";
-import { logError, logOut } from "../utils/logging";
+import { generateId } from "@utils/idGenerator";
+import { logError, logOut } from "@utils/logging";
 // Scrape
 import {
   config,

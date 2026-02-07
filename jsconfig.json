@@ -7,7 +7,12 @@
     "module": "esnext",
     "baseUrl": ".",
     "paths": {
-      "*": ["*"]
+      "*": ["*"],
+      "@client/*": ["src/client/*"],
+      "@cycling/*": ["src/core/cycling/*"],
+      "@services/*": ["src/services/*"],
+      "@server/*": ["server/*"],
+      "@utils/*": ["src/utils/*"]
     },
     "strict": false,
     "noEmit": true,
@@ -16,6 +21,6 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   },
-  "include": ["src/**/*", "server/**/*"],
+  "include": ["src/**/*", "server/**/*", "test/**/*"],
   "exclude": ["node_modules", "dist"]
 }

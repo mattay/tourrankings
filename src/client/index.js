@@ -16,7 +16,7 @@ import {
 import { updateUrl } from "./state/browser/history";
 import { validateClassification } from "src/core/cycling/classification/classification";
 import { validateStage } from "src/core/cycling/stage/stage";
-import { validateYear } from "src/utils/date";
+import { validateYear } from "@utils/date";
 
 /**
  * Main application class for the Tour Ranking app.

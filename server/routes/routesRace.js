@@ -7,7 +7,7 @@ import {
   isValidClassificationType,
   validateClassification,
 } from "src/core/cycling/classification/classification";
-import { validateYear } from "src/utils/date";
+import { validateYear } from "@utils/date";
 import { validateStage } from "src/core/cycling/stage/stage";
 
 /** @type {import('../controllers/raceController').RaceContent} RaceContent */

@@ -1,4 +1,4 @@
-import { logError } from "src/utils/logging";
+import { logError } from "@utils/logging";
 import config from "./config";
 
 /**

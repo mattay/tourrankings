@@ -1,7 +1,7 @@
 import helmet from "helmet";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
-import config from "../config";
+import config from "@server/config";
 
 /**
  * Configures and applies security-related middleware to the provided Express app.

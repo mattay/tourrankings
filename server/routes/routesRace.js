@@ -1,5 +1,5 @@
 import express from "express";
-import { raceContent } from "../controllers/raceController";
+import { raceContent } from "@server/controllers/raceController";
 import { logError } from "@utils/logging";
 import {
   CLASSIFICATION_TYPES,

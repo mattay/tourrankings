@@ -1,7 +1,7 @@
 import express from "express";
-import { seasonRaces } from "../controllers/raceController";
+import { seasonRaces } from "@server/controllers/raceController";
 import { logError } from "@utils/logging";
-import { getErrorHTML, getErrorText } from "../utils/errorMessages";
+import { getErrorHTML, getErrorText } from "@server/utils/errorMessages";
 
 const router = express.Router();
 

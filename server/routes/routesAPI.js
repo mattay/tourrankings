@@ -1,5 +1,5 @@
 import express from "express";
-import { getRaceData } from "../controllers/apiController";
+import { getRaceData } from "@server/controllers/apiController";
 import {
   getFeedbackStatus,
   submitFeedback,

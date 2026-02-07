@@ -1,5 +1,5 @@
 /**
- * @typedef {import("../../../src/services/dataServiceInstance").RaceData} RaceData
+ * @typedef {import("@services/dataServiceInstance").RaceData} RaceData
  *
  * @typedef {Object} TemporalSeasonRaces
  * @property {RaceData[]} current - Races currently ongoing.

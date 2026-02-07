@@ -1,7 +1,7 @@
 /**
  * @typedef {import("@services/dataServiceInstance").RaceData} RaceData
  * @typedef {import("@services/dataServiceInstance").RaceStageData} RaceStageData
- * @typedef {import("@services/dataServiceInstances").RaceStageRiderResultData} RaceStageRiderResultData
+ * @typedef {import("@services/dataServiceInstance").RaceStageRiderResultData} RaceStageRiderResultData
  *
  * @typedef {RaceData} Race
  * @typedef {RaceStageData & {raced: boolean}} RaceStage

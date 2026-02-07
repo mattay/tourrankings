@@ -1,7 +1,7 @@
 import {
   isValidClassificationType,
   validateClassification,
-} from "src/core/cycling/classification/classification";
+} from "@cycling/classification/classification";
 import store from "../storeInstance";
 
 /**

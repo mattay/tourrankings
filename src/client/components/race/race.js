@@ -2,7 +2,7 @@
 
 // State Managment
 import store from "@client/state/storeInstance";
-import { actionSelectStage } from "../../state/actions";
+import { actionSelectStage } from "@client/state/actions";
 // Components
 import { createStageComponent } from "../stage/stage";
 import { createRiderComponent } from "../rider/rider";

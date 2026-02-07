@@ -1,6 +1,6 @@
 import { SelectionClassificationNotDefinedError } from "../../../errors/selector";
 import { stateCheckSelected } from "@client/state/store/stateCheck";
-import { CLASSIFICATION_TYPES } from "../../../../../core/cycling/classification/classification";
+import { CLASSIFICATION_TYPES } from "@cycling/classification/classification";
 
 /**
  * @typedef {import('@client/state/store/@types/store').State} State

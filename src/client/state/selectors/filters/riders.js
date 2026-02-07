@@ -1,7 +1,7 @@
 import {
   isValidClassificationType,
   CLASSIFICATION_TYPES,
-} from "src/core/cycling/classification/classification";
+} from "@cycling/classification/classification";
 import {
   riderCompetingIn,
   selectedClassifications,

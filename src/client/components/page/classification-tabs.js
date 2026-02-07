@@ -2,7 +2,7 @@ import { actionSelectClassification } from "@client/state/actions";
 import {
   CLASSIFICATION_TYPES,
   isValidClassificationType,
-} from "src/core/cycling/classification/classification";
+} from "@cycling/classification/classification";
 
 const CLASSIFICATION_ELEMENT_CLASS = {
   CONTAINER: ".tabs-container",

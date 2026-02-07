@@ -6,7 +6,7 @@ import {
   CLASSIFICATION_UI_OPTIONS,
   isValidClassificationType,
   validateClassification,
-} from "src/core/cycling/classification/classification";
+} from "@cycling/classification/classification";
 import { validateYear } from "@utils/date";
 import { validateStage } from "@cycling/stage/stage";
 

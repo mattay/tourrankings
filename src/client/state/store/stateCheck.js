@@ -1,4 +1,4 @@
-import { isValidClassificationType } from "../../../core/cycling/classification/classification";
+import { isValidClassificationType } from "@cycling/classification/classification";
 import {
   StateNotInitializedError,
   StatePropertyNotDefinedError,

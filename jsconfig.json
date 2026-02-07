@@ -11,7 +11,7 @@
       "@client/*": ["src/client/*"],
       "@cycling/*": ["src/core/cycling/*"],
       "@services/*": ["src/services/*"],
-      "@server/*": ["src/server/*"],
+      "@server/*": ["server/*"],
       "@utils/*": ["src/utils/*"]
     },
     "strict": false,

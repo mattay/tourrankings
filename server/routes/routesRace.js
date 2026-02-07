@@ -10,7 +10,7 @@ import {
 import { validateYear } from "@utils/date";
 import { validateStage } from "@cycling/stage/stage";
 
-/** @type {import('../controllers/raceController').RaceContent} RaceContent */
+/** @type {import('@server/controllers/raceController').RaceContent} RaceContent */
 
 /** @type {import('express').Router} */
 const router = express.Router();

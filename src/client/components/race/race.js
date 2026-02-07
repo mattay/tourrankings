@@ -14,13 +14,13 @@ import { createRankingComponent } from "../ranking/ranking";
  */
 
 /**
- * @typedef {CustomEvent<import('../../api/@types').RaceContent>} RaceContent
+ * @typedef {CustomEvent<import('@client/api/@types').RaceContent>} RaceContent
  */
 
-/** @typedef {import('../../state/selectors/@types/stage').FilteredStage} FilteredStage */
-/** @typedef {import('../../state/selectors/@types/result').FilteredStageResult} FilteredStageResult */
+/** @typedef {import('@client/state/selectors/@types/stage').FilteredStage} FilteredStage */
+/** @typedef {import('@client/state/selectors/@types/result').FilteredStageResult} FilteredStageResult */
 
-/** @typedef {import('../../state/selectors/filters/rankingLabels').RankingLabel} RankingLabel */
+/** @typedef {import('@client/state/selectors/filters/rankingLabels').RankingLabel} RankingLabel */
 
 /**
  * @typedef {Object} Margin

@@ -1,5 +1,5 @@
 // State Management
-import store from "./state/storeInstance";
+import store from "@client/state/storeInstance";
 import { setupSelectors } from "./state/selectors";
 import { fetchRaceData } from "./api/index";
 // Utils

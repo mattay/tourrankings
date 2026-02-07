@@ -1,10 +1,7 @@
+import { CLASSIFICATION_TYPES } from "@cycling/classification/classification";
 import {
-  isValidClassificationType,
-  CLASSIFICATION_TYPES,
-} from "@cycling/classification/classification";
-import {
-  riderCompetingIn,
-  selectedClassifications,
+  isCompetingIn,
+  selectedClassificationsRankings,
 } from "./utils/classifications";
 import { stateCheckSelected } from "@client/state/store/stateCheck";
 
@@ -40,7 +37,7 @@ export function riders(state) {
 
   const ridersWithStageRanking = [];
   const abandoned = [];
-  const classificationsRankings = selectedClassifications(state);
+  const classificationsRankings = selectedClassificationsRankings(state);
 
   // Rider bib number is used to index the rider in the Array
   for (const [bib, rider] of state.sportData.riders) {
@@ -49,7 +46,7 @@ export function riders(state) {
     const riderClassifications = classificationsRankings[bib];
 
     // Check if rider is competing in the current classification
-    if (!riderCompetingIn(riderClassifications)) {
+    if (!isCompetingIn(riderClassifications)) {
       continue;
     }
 

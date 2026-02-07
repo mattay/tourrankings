@@ -2,7 +2,7 @@ import {
   isValidClassificationType,
   validateClassification,
 } from "@cycling/classification/classification";
-import store from "../storeInstance";
+import store from "@client/state/storeInstance";
 
 /**
  * Action to change the current classification/ranking type.

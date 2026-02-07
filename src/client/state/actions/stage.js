@@ -1,8 +1,8 @@
 import { validateStage } from "@cycling/stage/stage";
-import store from "../storeInstance";
+import store from "@client/state/storeInstance";
 
 /**
- * @typedef {import('../../models/@types/stage').RaceStageData} RaceStageData
+ * @typedef {import('../../../models/@types/races').RaceStageModel} RaceStageData
  */
 
 /**

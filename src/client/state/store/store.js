@@ -6,7 +6,7 @@ import {
   StoreSelectorError,
   StoreSelectorExecutionError,
   StoreSelectorRegistrationError,
-} from "../errors/store";
+} from "@client/state/errors/store";
 
 /**
  * Simple state management for the application.

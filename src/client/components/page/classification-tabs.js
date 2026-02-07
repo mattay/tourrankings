@@ -36,7 +36,7 @@ export function setupClassificationTabs() {
 
 /**
  * Updates the active tab visual state
- * @param {import('../../state/store/@types/store').State} state
+ * @param {import('@client/state/store/@types/store').State} state
  * @returns {void}
  */
 export function updateClassificationTabs(state) {

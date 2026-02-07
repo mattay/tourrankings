@@ -4,7 +4,7 @@ import {
   StatePropertyNotDefinedError,
   StatePropertyNotSetError,
   StatePropertyValueNotValidError,
-} from "../errors/state";
+} from "@client/state/errors/state";
 
 /**
  * @typedef {import('./@types/store').State} State

@@ -20,7 +20,7 @@ function updateTextSmooth(element, newText) {
 
 /**
  * Updates breadcrumb navigation
- * @param {import('../../state/store/@types/store').State} state
+ * @param {import('@client/state/store/@types/store').State} state
  * @returns {void}
  */
 export function updatePageHeadings(state) {

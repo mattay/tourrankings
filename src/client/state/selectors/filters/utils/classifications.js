@@ -1,4 +1,4 @@
-import { SelectionClassificationNotDefinedError } from "../../../errors/selector";
+import { SelectionClassificationNotDefinedError } from "@client/state/errors/selector";
 import { stateCheckSelected } from "@client/state/store/stateCheck";
 import { CLASSIFICATION_TYPES } from "@cycling/classification/classification";
 

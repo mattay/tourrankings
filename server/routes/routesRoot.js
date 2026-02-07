@@ -90,5 +90,4 @@ router.get("/", (req, res, next) => {
   }
 });
 
-// export default router;
 export { router as routesRoot };

@@ -1,4 +1,4 @@
-import dataService from "../../src/services/dataServiceInstance.js";
+import dataService from "@services/dataServiceInstance.js";
 import { logError, logOut } from "@utils/logging.js";
 import { sortByDate } from "../utils/sorts.js";
 

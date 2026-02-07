@@ -1,4 +1,4 @@
-import { actionSelectClassification } from "src/client/state/actions";
+import { actionSelectClassification } from "@client/state/actions";
 import {
   CLASSIFICATION_TYPES,
   isValidClassificationType,

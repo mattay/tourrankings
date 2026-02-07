@@ -21,6 +21,6 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   },
-  "include": ["src/**/*", "server/**/*"],
+  "include": ["src/**/*", "server/**/*", "test/**/*"],
   "exclude": ["node_modules", "dist"]
 }

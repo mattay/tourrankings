@@ -1,5 +1,5 @@
 /**
- * @typedef {import('../../store/@types/store').State} State
+ * @typedef {import('@client/state/store/@types/store').State} State
  * @typedef {import('../@types/stage').FilteredStage } FilteredStage
  */
 

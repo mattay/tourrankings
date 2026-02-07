@@ -1,9 +1,9 @@
 import { SelectionClassificationNotDefinedError } from "../../../errors/selector";
-import { stateCheckSelected } from "../../../store/stateCheck";
+import { stateCheckSelected } from "@client/state/store/stateCheck";
 import { CLASSIFICATION_TYPES } from "../../../../../core/cycling/classification/classification";
 
 /**
- * @typedef {import('../../../store/@types/store').State} State
+ * @typedef {import('@client/state/store/@types/store').State} State
  * @typedef {import('../../@types/result').FilteredStageResult} FilteredStageResult
  * @typedef {import('../../@types/classifications').FilteredClassifications} FilteredClassifications
  */

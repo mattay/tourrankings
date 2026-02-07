@@ -1,6 +1,6 @@
 import { ERROR_CODES, formatMessage } from ".";
 /**
- * @typedef {import('../store/@types/store').State} State
+ * @typedef {import('@client/state/store/@types/store').State} State
  */
 
 /**

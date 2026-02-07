@@ -1,12 +1,12 @@
 import { isTeamClassification } from "@cycling/classification/classification";
-import { stateCheckSelected } from "../../store/stateCheck";
+import { stateCheckSelected } from "@client/state/store/stateCheck";
 import {
   isCompetingIn,
   selectedClassificationsRankings,
 } from "./utils/classifications";
 
 /**
- * @typedef {import('../../store/@types/store').State} State
+ * @typedef {import('@client/state/store/@types/store').State} State
  * @typedef {import('../@types/result').FilteredStageResult} FilteredStageResult
  * @typedef {import('../@types/classifications').FilteredClassifications} FilteredClassifications
  */

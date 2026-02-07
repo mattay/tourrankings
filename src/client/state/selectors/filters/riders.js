@@ -6,10 +6,10 @@ import {
   riderCompetingIn,
   selectedClassifications,
 } from "./utils/classifications";
-import { stateCheckSelected } from "../../store/stateCheck";
+import { stateCheckSelected } from "@client/state/store/stateCheck";
 
 /**
- * @typedef {import('../../store/@types/store').State} State
+ * @typedef {import('@client/state/store/@types/store').State} State
  * @typedef {import('./../@types/rider').FilteredStageRider} FilteredStageRider
  */
 

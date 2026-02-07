@@ -1,6 +1,6 @@
 import { describe, it, expect } from "bun:test";
-import { toCamelCase, toTitleCase } from "../../src/utils/string.js";
-import { stringToSeconds } from "../../src/utils/time.js";
+import { toCamelCase, toTitleCase } from "@utils/string.js";
+import { stringToSeconds } from "@utils/time.js";
 
 describe("String utilities", () => {
   it("should convert string to camelCase", () => {

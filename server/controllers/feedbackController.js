@@ -1,4 +1,4 @@
-import { logError } from "../../src/utils/logging";
+import { logError } from "@utils/logging";
 import { googleSheetsService } from "../../src/services/google/googleSheetsService";
 
 /**

@@ -1,6 +1,6 @@
 import express from "express";
 import { raceContent } from "../controllers/raceController";
-import { logError } from "../../src/utils/logging";
+import { logError } from "@utils/logging";
 import {
   CLASSIFICATION_TYPES,
   CLASSIFICATION_UI_OPTIONS,

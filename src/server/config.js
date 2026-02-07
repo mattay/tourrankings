@@ -42,9 +42,9 @@ const config = {
   // Path configuration
   paths: {
     root: join(__dirname, ""),
-    public: join(__dirname, "../public"),
+    public: join(__dirname, "../../public"),
     data: {
-      public: join(__dirname, "../public/data/csv"),
+      public: join(__dirname, "../../public/data/csv"),
     },
   },
 

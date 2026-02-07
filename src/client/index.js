@@ -14,8 +14,8 @@ import {
 } from "./components/page/classification-tabs";
 //
 import { updateUrl } from "./state/browser/history";
-import { validateClassification } from "src/core/cycling/classification/classification";
-import { validateStage } from "src/core/cycling/stage/stage";
+import { validateClassification } from "@cycling/classification/classification";
+import { validateStage } from "@cycling/stage/stage";
 import { validateYear } from "@utils/date";
 
 /**

@@ -9,7 +9,7 @@
     "paths": {
       "*": ["*"],
       "@client/*": ["src/client/*"],
-      // "@server/*": ["src/server/*"],
+      "@cycling/*": ["src/core/cycling/*"],
       "@services/*": ["src/services/*"],
       "@utils/*": ["src/utils/*"]
     },

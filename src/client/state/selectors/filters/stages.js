@@ -3,7 +3,7 @@
  * @typedef {import('../@types/stage').FilteredStage } FilteredStage
  */
 
-import { validateStage } from "src/core/cycling/stage/stage";
+import { validateStage } from "@cycling/stage/stage";
 
 /**
  *

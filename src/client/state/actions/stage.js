@@ -1,4 +1,4 @@
-import { validateStage } from "src/core/cycling/stage/stage";
+import { validateStage } from "@cycling/stage/stage";
 import store from "../storeInstance";
 
 /**

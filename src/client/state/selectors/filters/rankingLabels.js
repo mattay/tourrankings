@@ -1,4 +1,4 @@
-import { isTeamClassification } from "src/core/cycling/classification/classification";
+import { isTeamClassification } from "@cycling/classification/classification";
 import { stateCheckSelected } from "../../store/stateCheck";
 import {
   isCompetingIn,

@@ -8,7 +8,7 @@ import {
   validateClassification,
 } from "src/core/cycling/classification/classification";
 import { validateYear } from "@utils/date";
-import { validateStage } from "src/core/cycling/stage/stage";
+import { validateStage } from "@cycling/stage/stage";
 
 /** @type {import('../controllers/raceController').RaceContent} RaceContent */
 

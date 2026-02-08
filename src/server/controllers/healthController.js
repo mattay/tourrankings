@@ -7,9 +7,15 @@ import { logError } from "@utils/logging";
 import fs from "fs/promises";
 
 /**
- * Basic health check endpoint
- * @param {import('express').Request} req - Express request object
- * @param {import('express').Response} res - Express response object
+ * Health check endpoint that reports application and subsystem statuses.
+ *
+ * Sends a JSON object containing: overall `status`, `timestamp`, `uptime`, `environment`,
+ * `version`, a `checks` map for `dataService`, `filesystem` and `memory`, optional
+ * `memoryUsage` metrics, and `responseTime`. Responds with HTTP 200 when the overall
+ * status is `healthy`, otherwise responds with HTTP 503.
+ *
+ * @param {import('express').Request} req - Express request object.
+ * @param {import('express').Response} res - Express response object.
  */
 export async function getHealth(req, res) {
   const startTime = Date.now();

@@ -9,12 +9,9 @@ describe("Health Routes", () => {
   });
 
   describe("Route Configuration", () => {
-    it("should have a health routes module that exists", () => {
-      // Note: The current routesHealth.js file has a syntax error (line 20: "races:,")
-      // and appears to contain root route content instead of health route content.
-      // This test verifies that health routes can be properly configured.
-      expect(true).toBe(true);
-    });
+    it.todo(
+      "should import routesHealth and verify it exports a valid Express router",
+    );
 
     it("should be able to create a health router with proper structure", () => {
       // Test creating a properly structured health router
@@ -29,7 +26,7 @@ describe("Health Routes", () => {
     it("should be able to mount health controller on a route", async () => {
       // Import the health controller directly
       const { getHealth } = await import(
-        "../../../server/controllers/healthController.js"
+        "@server/controllers/healthController"
       );
 
       // Create a test router with the health endpoint
@@ -44,7 +41,7 @@ describe("Health Routes", () => {
 
     it("should handle GET requests to health endpoint", async () => {
       const { getHealth } = await import(
-        "../../../server/controllers/healthController.js"
+        "@server/controllers/healthController"
       );
 
       const router = express.Router();
@@ -80,7 +77,7 @@ describe("Health Routes", () => {
 
     it("should properly wire up health routes with express router", async () => {
       const { getHealth } = await import(
-        "../../../server/controllers/healthController.js"
+        "@server/controllers/healthController"
       );
 
       const router = express.Router();
@@ -111,66 +108,9 @@ describe("Health Routes", () => {
       expect(routes.length).toBeGreaterThan(0);
     });
 
-    it("should allow multiple health check endpoints", async () => {
-      const { getHealth } = await import(
-        "../../../server/controllers/healthController.js"
-      );
-
-      const router = express.Router();
-      router.get("/", getHealth); // Basic health check
-      router.get("/liveness", getHealth); // Kubernetes liveness probe
-      router.get("/readiness", getHealth); // Kubernetes readiness probe
-
-      app.use("/health", router);
-
-      // Verify all routes can be called
-      const mockReq = {};
-      const createMockRes = () => ({
-        statusCode: null,
-        jsonData: null,
-        status: function (code) {
-          this.statusCode = code;
-          return this;
-        },
-        json: function (data) {
-          this.jsonData = data;
-          return this;
-        },
-      });
-
-      const res1 = createMockRes();
-      getHealth(mockReq, res1);
-      expect(res1.statusCode).toBe(200);
-
-      const res2 = createMockRes();
-      getHealth(mockReq, res2);
-      expect(res2.statusCode).toBe(200);
-
-      const res3 = createMockRes();
-      getHealth(mockReq, res3);
-      expect(res3.statusCode).toBe(200);
-    });
-
-    it("should handle errors in route configuration gracefully", async () => {
-      // Test that we can create a router even if something goes wrong
-      const router = express.Router();
-
-      try {
-        // This should not throw
-        router.get("/health", (req, res) => {
-          res.status(200).json({ status: "ok" });
-        });
-        app.use(router);
-        expect(true).toBe(true);
-      } catch (error) {
-        // Should not reach here
-        expect(error).toBeUndefined();
-      }
-    });
-
     it("should support middleware chain on health routes", async () => {
       const { getHealth } = await import(
-        "../../../server/controllers/healthController.js"
+        "@server/controllers/healthController"
       );
 
       const router = express.Router();
@@ -216,7 +156,7 @@ describe("Health Routes", () => {
   describe("Route Method Verification", () => {
     it("should only accept GET requests for health endpoint", async () => {
       const { getHealth } = await import(
-        "../../../server/controllers/healthController.js"
+        "@server/controllers/healthController"
       );
 
       const router = express.Router();
@@ -234,36 +174,6 @@ describe("Health Routes", () => {
       );
       expect(getRoutes.length).toBeGreaterThan(0);
     });
-
-    it("should respond to HEAD requests like GET", async () => {
-      const { getHealth } = await import(
-        "../../../server/controllers/healthController.js"
-      );
-
-      const router = express.Router();
-      router.get("/health", getHealth); // Express automatically handles HEAD for GET routes
-
-      app.use(router);
-
-      const req = {
-        method: "HEAD",
-        path: "/health",
-      };
-
-      const res = {
-        statusCode: null,
-        status: function (code) {
-          this.statusCode = code;
-          return this;
-        },
-        json: function () {
-          return this;
-        },
-      };
-
-      getHealth(req, res);
-      expect(res.statusCode).toBe(200);
-    });
   });
 
   describe("Edge Cases and Error Handling", () => {
@@ -276,7 +186,7 @@ describe("Health Routes", () => {
 
     it("should support path parameters if needed", async () => {
       const { getHealth } = await import(
-        "../../../server/controllers/healthController.js"
+        "@server/controllers/healthController"
       );
 
       const router = express.Router();
@@ -304,9 +214,9 @@ describe("Health Routes", () => {
       expect(res.statusCode).toBe(200);
     });
 
-    it("should handle concurrent requests properly", async () => {
+    it("should handle multiple sequential requests without state leakage", async () => {
       const { getHealth } = await import(
-        "../../../server/controllers/healthController.js"
+        "@server/controllers/healthController"
       );
 
       const createMockRes = () => ({
@@ -341,7 +251,7 @@ describe("Health Routes", () => {
   describe("Response Format Validation", () => {
     it("should return JSON response from health route", async () => {
       const { getHealth } = await import(
-        "../../../server/controllers/healthController.js"
+        "@server/controllers/healthController"
       );
 
       const req = {};
@@ -366,7 +276,7 @@ describe("Health Routes", () => {
 
     it("should include standard health check fields", async () => {
       const { getHealth } = await import(
-        "../../../server/controllers/healthController.js"
+        "@server/controllers/healthController"
       );
 
       const req = {};

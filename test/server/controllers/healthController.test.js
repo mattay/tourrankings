@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, jest, mock } from "bun:test";
-import { getHealth } from "../../../server/controllers/healthController.js";
+import { getHealth } from "@server/controllers/healthController";
 
 // Mock the logging module to prevent console errors in tests
-mock.module("../../../src/utils/logging.js", () => ({
+mock.module("@utils/logging", () => ({
   logOut: jest.fn(),
   logError: jest.fn(),
 }));
@@ -58,29 +58,33 @@ describe("Health Controller", () => {
 
     it("should include environment from NODE_ENV", () => {
       const originalEnv = process.env.NODE_ENV;
-      process.env.NODE_ENV = "production";
+      try {
+        process.env.NODE_ENV = "production";
 
-      getHealth(req, res);
+        getHealth(req, res);
 
-      const response = jsonMock.mock.calls[0][0];
-      expect(response.environment).toBe("production");
-
-      // Restore original value
-      process.env.NODE_ENV = originalEnv;
+        const response = jsonMock.mock.calls[0][0];
+        expect(response.environment).toBe("production");
+      } finally {
+        // Restore original value
+        process.env.NODE_ENV = originalEnv;
+      }
     });
 
     it("should default to 'development' when NODE_ENV is not set", () => {
       const originalEnv = process.env.NODE_ENV;
-      delete process.env.NODE_ENV;
+      try {
+        delete process.env.NODE_ENV;
 
-      getHealth(req, res);
+        getHealth(req, res);
 
-      const response = jsonMock.mock.calls[0][0];
-      expect(response.environment).toBe("development");
-
-      // Restore original value
-      if (originalEnv !== undefined) {
-        process.env.NODE_ENV = originalEnv;
+        const response = jsonMock.mock.calls[0][0];
+        expect(response.environment).toBe("development");
+      } finally {
+        // Restore original value
+        if (originalEnv !== undefined) {
+          process.env.NODE_ENV = originalEnv;
+        }
       }
     });
 
@@ -128,11 +132,6 @@ describe("Health Controller", () => {
     });
 
     it("should handle errors and return 503 status with unhealthy status", () => {
-      // Spy on console.error to verify error is caught
-      const originalError = console.error;
-      const errorSpy = jest.fn();
-      console.error = errorSpy;
-
       // Mock process.uptime to throw an error
       const originalUptime = process.uptime;
       process.uptime = () => {
@@ -149,7 +148,6 @@ describe("Health Controller", () => {
 
       // Restore
       process.uptime = originalUptime;
-      console.error = originalError;
     });
 
     it("should return error details when health check fails", () => {
@@ -213,16 +211,6 @@ describe("Health Controller", () => {
         beforeCall.getTime(),
       );
       expect(responseTime.getTime()).toBeLessThanOrEqual(afterCall.getTime());
-    });
-
-    it("should handle empty request object", () => {
-      const emptyReq = {};
-
-      getHealth(emptyReq, res);
-
-      expect(statusMock).toHaveBeenCalledWith(200);
-      const response = jsonMock.mock.calls[0][0];
-      expect(response.status).toBe("healthy");
     });
 
     it("should handle request with headers", () => {

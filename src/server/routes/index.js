@@ -1,6 +1,7 @@
 export { routesAPI } from "./routesAPI";
 export { routesRoot } from "./routesRoot";
 export { routesRace } from "./routesRace";
+export { routesHealth } from "./routesHealth";
 // export { routesViews } from "./routesViews";
 
 // If you need a default export as well:

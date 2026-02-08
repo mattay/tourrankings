@@ -2,7 +2,7 @@ import express from "express";
 import config from "./config";
 import setupMiddleware from "@server/middleware";
 import { htmlProcessorMiddleware } from "@server/middleware/htmlProcessor";
-import { routesAPI, routesRace, routesRoot } from "@server/routes";
+import { routesAPI, routesRace, routesRoot, routesHealth } from "@server/routes";
 import dataService from "@services/dataServiceInstance";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
@@ -64,6 +64,8 @@ async function setupRoutes(app) {
         },
       }),
     );
+
+    app.use("/health", routesHealth);
 
     // Mount API routes under /api
     app.use("/api", routesAPI);

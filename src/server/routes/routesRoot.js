@@ -105,7 +105,7 @@ router.get("/season/:year?", (req, res, next) => {
   /** @type {HomePageContent} */
   const page = {
     title: "Tour Rankings",
-    description: `Season ${year || "Unknown"}`,
+    description: `Season ${year}`,
     keywords: "tour, ranking, web application",
     season: year,
     races: null,

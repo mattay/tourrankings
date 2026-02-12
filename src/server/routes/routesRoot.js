@@ -2,7 +2,7 @@ import express from "express";
 import { seasonRaces } from "@server/controllers/raceController";
 import { logError } from "@utils/logging";
 import { getErrorHTML, getErrorText } from "@server/utils/errorMessages";
-import { validateYear } from "src/utils/date";
+import { validateYear } from "@utils/date";
 
 const router = express.Router();
 

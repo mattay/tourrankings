@@ -252,6 +252,7 @@ async function collectPastRaceDetails(
   riders,
   teams,
 ) {
+  logOut("Main", `Collecting past races details.`);
   const today = new Date();
   const pastRacesWithoutStages = stagesInRaces(raceStages, [
     ...races.past(),
@@ -259,7 +260,7 @@ async function collectPastRaceDetails(
   ]).filter((race) => race.stages.length === 0);
 
   for (const race of pastRacesWithoutStages) {
-    // logOut("Scrape PCS", `Collect past race: ${race.year} ${race.raceName}`);
+    logOut("Main", `Collect past race: ${race.year} ${race.raceName}`);
     try {
       const raceDetails = await collectRace(page, race.racePcsID, race.year);
       await updateRace(raceDetails, raceStages, raceRiders, riders, teams);
@@ -270,6 +271,7 @@ async function collectPastRaceDetails(
         error,
       );
     }
+    logOut("Main", "Race information collection completed");
   }
 }
 
@@ -409,6 +411,11 @@ async function updateStageResults(
         Number(year),
         Number(stageNo),
       );
+      if (!stageResults) {
+        logOut("Main", `Scrape Stage Results: No results found for ${stage}`);
+        return;
+      }
+
       // Collect Results for bulk update
       for (let ranking in stageResults) {
         switch (ranking) {

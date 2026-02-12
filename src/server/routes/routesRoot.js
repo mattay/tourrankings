@@ -26,6 +26,52 @@ const router = express.Router();
  */
 
 /**
+ * Renders the home page with race data.
+ *
+ * @param {express.Response} res - The Express response object
+ * @param {Function} next - The Express next middleware function
+ * @param {HomePageContent} page - The page content object
+ */
+function renderSeasonPage(res, next, page) {
+  try {
+    const races = seasonRaces(page.season);
+    const hasRaceData =
+      races &&
+      (races.current?.length > 0 ||
+        races.upcoming?.length > 0 ||
+        races.previous?.length > 0 ||
+        races.future?.length > 0);
+
+    if (!hasRaceData) {
+      logError(
+        "Routes Root",
+        getErrorText("NO_DATA"),
+        new Error("seasonRaces() returned empty data"),
+      );
+      page.hasError = true;
+      page.errorMessage = getErrorHTML("NO_DATA");
+      res.status(503);
+    } else {
+      page.races = races;
+    }
+
+    res.render("pages/home", page);
+  } catch (error) {
+    logError("Routes Root", getErrorText("RENDER_ERROR"), error);
+    try {
+      res.status(500).render("pages/home", {
+        ...page,
+        hasError: true,
+        errorMessage: getErrorHTML("RENDER_ERROR"),
+      });
+    } catch (renderError) {
+      logError("Routes Root", getErrorText("CATASTROPHIC"), renderError);
+      next(error);
+    }
+  }
+}
+
+/**
  * Root route handler.
  * Serves the main HTML file for the root URL.
  *
@@ -45,52 +91,7 @@ router.get("/", (req, res, next) => {
     hasError: false,
   };
 
-  try {
-    const races = seasonRaces();
-
-    // Check if races data is available and has any content
-    const hasRaceData =
-      races &&
-      (races.current?.length > 0 ||
-        races.upcoming?.length > 0 ||
-        races.previous?.length > 0 ||
-        races.future?.length > 0);
-
-    // Check if races data is available and valid
-    if (!hasRaceData) {
-      logError(
-        "Routes Root",
-        getErrorText("NO_DATA"),
-        new Error("seasonRaces() returned empty data"),
-      );
-
-      page.hasError = true;
-      page.errorMessage = getErrorHTML("NO_DATA");
-      res.status(503);
-    } else {
-      page.races = races;
-    }
-
-    res.render("pages/home", page);
-  } catch (error) {
-    logError("Routes Root", getErrorText("RENDER_ERROR"), error);
-
-    // Instead of passing to error handler, render a graceful error state
-    try {
-      /** @type {HomePageContent} */
-      const errorPage = {
-        ...page,
-        hasError: true,
-        errorMessage: getErrorHTML("RENDER_ERROR"),
-      };
-
-      res.status(500).render("pages/home", errorPage);
-    } catch (renderError) {
-      // If even the error page fails to render, pass to Express error handler
-      logError("Routes Root", getErrorText("CATASTROPHIC"), renderError);
-      next(error);
-    }
-  }
+  renderSeasonPage(res, next, page);
 });
 
 /**
@@ -112,50 +113,7 @@ router.get("/season/:year?", (req, res, next) => {
     hasError: false,
   };
 
-  try {
-    const races = seasonRaces(year);
-
-    // Check if races data is available and has any content
-    const hasRaceData =
-      races &&
-      (races.current?.length > 0 ||
-        races.upcoming?.length > 0 ||
-        races.previous?.length > 0 ||
-        races.future?.length > 0);
-
-    if (!hasRaceData) {
-      logError(
-        "Routes Root",
-        getErrorText("NO_DATA"),
-        new Error("seasonRaces() returned empty data"),
-      );
-      page.hasError = true;
-      page.errorMessage = getErrorHTML("NO_DATA");
-      res.status(503);
-    } else {
-      page.races = races;
-    }
-
-    res.render("pages/home", page);
-  } catch (error) {
-    logError("Routes Root", getErrorText("RENDER_ERROR"), error);
-
-    // Instead of passing to error handler, render a graceful error state
-    try {
-      /** @type {HomePageContent} */
-      const errorPage = {
-        ...page,
-        hasError: true,
-        errorMessage: getErrorHTML("RENDER_ERROR"),
-      };
-
-      res.status(500).render("pages/home", errorPage);
-    } catch (renderError) {
-      // If even the error page fails to render, pass to Express error handler
-      logError("Routes Root", getErrorText("CATASTROPHIC"), renderError);
-      next(error);
-    }
-  }
+  renderSeasonPage(res, next, page);
 });
 
 export { router as routesRoot };

@@ -14,7 +14,7 @@
   <% } %>
 
   <% if (races.previous.length) { %>
-    <%  if (!races.future.length && !races.upcoming.length && !races.current.length) { %>
+    <%  if (season && !races.future.length && !races.upcoming.length && !races.current.length) { %>
         <%- include('../molecules/races--grouped', {
           title: season,
           races: races.previous

@@ -5,6 +5,13 @@
  * @returns {number} - The total number of seconds.
  */
 export function stringToSeconds(time) {
+  // Check for decimal format MM.SS (e.g. "4.16")
+  if (time.includes(".")) {
+    const [minutes, seconds] = time.split(".").map(Number);
+    return minutes * 60 + seconds;
+  }
+
+  // Assume format HH:MM:SS
   return time
     .split(":")
     .map(Number)

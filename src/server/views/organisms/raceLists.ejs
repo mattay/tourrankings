@@ -14,10 +14,17 @@
   <% } %>
 
   <% if (races.previous.length) { %>
-    <%- include('../molecules/races--grouped', {
-      title: 'Previous Races',
-      races: races.previous
-    })%>
+    <%  if (season && !races.future.length && !races.upcoming.length && !races.current.length) { %>
+        <%- include('../molecules/races--grouped', {
+          title: season,
+          races: races.previous
+        })%>
+    <% } else { %>
+        <%- include('../molecules/races--grouped', {
+            title: 'Previous Races',
+            races: races.previous
+        }) %>
+    <% }%>
   <% } %>
 
   <% if (races.future.length) { %>
@@ -26,4 +33,5 @@
       races: races.future
     })%>
   <% } %>
+
 </div>

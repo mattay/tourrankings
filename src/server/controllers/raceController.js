@@ -10,11 +10,16 @@ import { sortByDate } from "@server/utils/sorts.js";
 
 /**
  * Groups season races by their temporal status relative to today.
+ * @param {number} [season=null] - The season to fetch races for. Defaults to the current season.
  * @returns {TemporalSeasonRaces} An object with races grouped as current, upcoming, previous, and future.
  */
-export function seasonRaces() {
+export function seasonRaces(season = null) {
   const today = new Date();
-  const season = today.getFullYear();
+  const currentSeason = today.getFullYear();
+
+  if (!season || isNaN(season)) {
+    season = currentSeason;
+  }
 
   // Fetch races for the current season
   const races = dataService.seasonRaces(season);
@@ -45,7 +50,8 @@ export function seasonRaces() {
 
   // Sort each group by start date
   Object.keys(grouped).forEach((group) => {
-    const order = group === "previous" ? "desc" : "asc";
+    const order =
+      group === "previous" && season === currentSeason ? "desc" : "asc";
     grouped[group] = sortByDate(grouped[group], "startDate", order);
   });
 

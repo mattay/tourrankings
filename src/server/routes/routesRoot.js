@@ -19,7 +19,7 @@ const router = express.Router();
  * @property {string} title - The title of the page
  * @property {string} description - The description of the page
  * @property {string} keywords - The keywords for the page
- * @property {number} season - The number of seasons
+ * `@property` {number|null} season - The season year, or null for the current view
  * @property {RacesData|null} races - Race data organized by status or null if unavailable
  * @property {boolean} hasError - Whether an error state should be displayed
  * @property {string} [errorMessage] - Optional user-friendly error message

@@ -32,6 +32,7 @@ async function setupServer(app) {
     // Templating
     app.set("view engine", "ejs");
     app.set("views", join(__dirname, "views"));
+    app.set("view cache", process.env.NODE_ENV === "production");
 
     // Apply HTML processor middleware
     app.use(htmlProcessorMiddleware);

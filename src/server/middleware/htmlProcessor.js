@@ -30,7 +30,7 @@ const beautifyOptions = {
 
 /**
  * Minify options for HTML output (production)
- * @type {import('html-minifier').Options}
+ * @type {import('html-minifier-next').MinifierOptions}
  */
 const minifyOptions = {
   collapseWhitespace: true,
@@ -46,9 +46,9 @@ const minifyOptions = {
 /**
  * Process HTML output - beautifies in development, minifies in production
  * @param {string} html - Raw HTML string
- * @returns {string} Processed HTML
+ * @returns {Promise<string>} Processed HTML
  */
-function processHTML(html) {
+async function processHTML(html) {
   if (shouldBeautify) {
     return beautifyHTML(html, beautifyOptions);
   }
@@ -66,9 +66,9 @@ function processHTML(html) {
  * @param {import('express').Request} req
  * @param {import('express').Response} res
  * @param {import('express').NextFunction} next
- * @returns {void}
+ * @returns {Promise<void>}
  */
-export function htmlProcessorMiddleware(req, res, next) {
+export async function htmlProcessorMiddleware(req, res, next) {
   // Skip middleware entirely if no processing is needed
   if (!shouldBeautify && !shouldMinify) {
     return next();
@@ -90,13 +90,13 @@ export function htmlProcessorMiddleware(req, res, next) {
       options = {};
     }
 
-    originalRender.call(this, view, options, (err, html) => {
+    originalRender.call(this, view, options, async (err, html) => {
       if (err) {
         return callback ? callback(err) : next(err);
       }
 
       try {
-        const processed = processHTML(html);
+        const processed = await processHTML(html);
         callback ? callback(null, processed) : res.send(processed);
       } catch (processingError) {
         // If processing fails, send original HTML

@@ -46,7 +46,7 @@ function renderSeasonPage(res, next, page) {
       logError(
         "Routes Root",
         getErrorText("NO_DATA"),
-        new Error("seasonRaces(${year}) returned empty data"),
+        new Error(`seasonRaces(${page.season}) returned empty data`),
       );
       page.hasError = true;
       page.errorMessage = getErrorHTML("NO_DATA");

@@ -88,24 +88,28 @@ function racePageContent(
  * @param {import('express').NextFunction} next - Express next function.
  * @returns {void}
  */
-router.get("/:racePcsID/:year?/:stage?/:classification?", (req, res, next) => {
-  const { racePcsID } = req.params;
-  const year = validateYear(req.params.year);
-  const stage = validateStage(req.params.stage);
-  const classification = validateClassification(req.params.classification);
-  const pageContent = racePageContent(racePcsID, year, stage, classification);
+// router.get("/:racePcsID/:year?/:stage?/:classification?", (req, res, next) => {
+router.get(
+  "/:racePcsID{/:year}{/:stage}{/:classification}",
+  (req, res, next) => {
+    const { racePcsID } = req.params;
+    const year = validateYear(req.params.year);
+    const stage = validateStage(req.params.stage);
+    const classification = validateClassification(req.params.classification);
+    const pageContent = racePageContent(racePcsID, year, stage, classification);
 
-  if (!pageContent.race) {
-    // TODO: Implement error handling for missing race data
-    return res.status(404).send("Race not found");
-  }
+    if (!pageContent.race) {
+      // TODO: Implement error handling for missing race data
+      return res.status(404).send("Race not found");
+    }
 
-  try {
-    res.render("pages/race", pageContent);
-  } catch (error) {
-    logError("Routes Race", "Unable to render /", error);
-    next(error); // Passes error to Express error handler
-  }
-});
+    try {
+      res.render("pages/race", pageContent);
+    } catch (error) {
+      logError("Routes Race", "Unable to render /", error);
+      next(error); // Passes error to Express error handler
+    }
+  },
+);
 
 export { router as routesRace };

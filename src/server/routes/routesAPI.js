@@ -9,7 +9,7 @@ import {
 const router = express.Router();
 
 // Get race data
-router.get("/race/:racePcsID/:year?", getRaceData);
+router.get("/race/:racePcsID/{:year}", getRaceData);
 
 // Get stage results
 // router.get("/race/results/:raceUID/:stageNumber", getStageResults);

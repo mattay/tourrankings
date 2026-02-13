@@ -1,11 +1,12 @@
 import express from "express";
+import config from "./config";
+import setupMiddleware from "@server/middleware";
+import { htmlProcessorMiddleware } from "@server/middleware/htmlProcessor";
+import { routesAPI, routesRace, routesRoot } from "@server/routes";
+import dataService from "@services/dataServiceInstance";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
-import config from "./config";
-import setupMiddleware from "./middleware";
-import { routesAPI, routesRace, routesRoot } from "./routes";
 import { logError, logOut } from "@utils/logging";
-import dataService from "@services/dataServiceInstance";
 
 // Absolute path to the current file (ESM equivalent of __filename).
 const __filename = fileURLToPath(import.meta.url);
@@ -31,6 +32,9 @@ async function setupServer(app) {
     // Templating
     app.set("view engine", "ejs");
     app.set("views", join(__dirname, "views"));
+
+    // Apply HTML processor middleware
+    app.use(htmlProcessorMiddleware);
   } catch (error) {
     logError("Server", "Failed to configure server", error);
     process.exit(1);

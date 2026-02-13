@@ -50,6 +50,12 @@ export function htmlProcessorMiddleware(req, res, next) {
    * @returns {void}
    */
   res.render = function (view, options, callback) {
+    // Handle Express's overloaded signature: render(view, callback)
+    if (typeof options === 'function') {
+      callback = options;
+      options = {};
+    }
+
     originalRender.call(this, view, options, (err, html) => {
       if (err) {
         return callback ? callback(err) : next(err);

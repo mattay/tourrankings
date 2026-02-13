@@ -1,9 +1,14 @@
 import beautify from "js-beautify";
+import { minify } from "html-minifier";
 
 /**
  * @type {typeof beautify.html}
  */
 const beautifyHTML = beautify.html;
+
+// Environment-based processing flags
+const shouldBeautify = process.env.NODE_ENV === "development";
+const shouldMinify = process.env.NODE_ENV === "production";
 
 /**
  * Beautify options for HTML output
@@ -24,12 +29,36 @@ const beautifyOptions = {
 };
 
 /**
+ * Minify options for HTML output (production)
+ * `@type` {import('html-minifier').Options}
+ */
+const minifyOptions = {
+  collapseWhitespace: true,
+  removeComments: true,
+  removeRedundantAttributes: true,
+  removeScriptTypeAttributes: true,
+  removeStyleLinkTypeAttributes: true,
+  useShortDoctype: true,
+  minifyCSS: true,
+  minifyJS: true,
+};
+
+/**
  * Process HTML output - currently only beautifies
  * @param {string} html - Raw HTML string
  * @returns {string} Processed HTML
  */
 function processHTML(html) {
-  return beautifyHTML(html, beautifyOptions);
+  if (shouldBeautify) {
+    return beautifyHTML(html, beautifyOptions);
+  }
+
+  if (shouldMinify) {
+    return minify(html, minifyOptions);
+  }
+
+  // No processing (e.g., test environment)
+  return html;
 }
 
 /**
@@ -40,6 +69,11 @@ function processHTML(html) {
  * @returns {void}
  */
 export function htmlProcessorMiddleware(req, res, next) {
+  // Skip middleware entirely if no processing is needed
+  if (!shouldBeautify && !shouldMinify) {
+    return next();
+  }
+
   const originalRender = res.render;
 
   /**
@@ -51,7 +85,7 @@ export function htmlProcessorMiddleware(req, res, next) {
    */
   res.render = function (view, options, callback) {
     // Handle Express's overloaded signature: render(view, callback)
-    if (typeof options === 'function') {
+    if (typeof options === "function") {
       callback = options;
       options = {};
     }

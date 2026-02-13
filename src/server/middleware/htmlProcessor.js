@@ -1,5 +1,5 @@
 import beautify from "js-beautify";
-import { minify } from "html-minifier";
+import { minify } from "html-minifier-next";
 
 /**
  * @type {typeof beautify.html}
@@ -30,7 +30,7 @@ const beautifyOptions = {
 
 /**
  * Minify options for HTML output (production)
- * `@type` {import('html-minifier').Options}
+ * @type {import('html-minifier').Options}
  */
 const minifyOptions = {
   collapseWhitespace: true,
@@ -44,7 +44,7 @@ const minifyOptions = {
 };
 
 /**
- * Process HTML output - currently only beautifies
+ * Process HTML output - beautifies in development, minifies in production
  * @param {string} html - Raw HTML string
  * @returns {string} Processed HTML
  */
@@ -54,7 +54,7 @@ function processHTML(html) {
   }
 
   if (shouldMinify) {
-    return minify(html, minifyOptions);
+    return await minify(html, minifyOptions);
   }
 
   // No processing (e.g., test environment)

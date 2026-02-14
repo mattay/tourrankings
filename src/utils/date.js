@@ -67,7 +67,9 @@ export function isoDateTime(date, timeZone) {
     rawTime = new Intl.DateTimeFormat("en", timeOptions).format(date);
   } catch (e) {
     if (timeZone && e instanceof RangeError) {
-      throw new RangeError(`isoDateTime: invalid timeZone "${timeZone}"`);
+      throw new RangeError(`isoDateTime: invalid timeZone "${timeZone}"`, {
+        cause: e,
+      });
     }
     throw e;
   }

@@ -28,6 +28,7 @@ import {
   scrapeRaceStages,
   scrapeRaceStageResults,
 } from "./source/proCyclingStats";
+import { getSeason } from "./season";
 
 /**
  * @typedef {import('puppeteer-core').Page} Page - Puppeteer
@@ -190,7 +191,7 @@ function stagesInRaces(raceStages, races) {
  */
 function stagesWithoutResults(races, raceStages, raceStageResults) {
   const today = new Date();
-  const raceSeason = today.getFullYear();
+  const raceSeason = getSeason();
 
   const races_past = races.past(raceSeason);
   const races_inProgress = races.inProgress(today);
@@ -332,8 +333,7 @@ async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
  * await updateRaces(page, races, raceStages, raceRiders, riders, teams);
  */
 async function updateRaces(page, races, raceStages, raceRiders, riders, teams) {
-  const today = new Date();
-  const raceSeason = today.getFullYear();
+  const raceSeason = getSeason();
 
   if (!!process.env.FEATURE_DISABLED_RACES !== true) {
     logOut("Main", `Collecting races for the ${raceSeason} season.`);
@@ -403,7 +403,7 @@ async function updateStageResults(
 
   for (const stage of stagesRequireResults) {
     const [race, year, stageNo] = stage.split(":");
-    logOut("Main", `Scrape Stage Results: ${race}, ${year}, ${stage}`);
+    logOut("Main", `Scrape Stage Results: ${year} ${race} Stage ${stageNo}`);
     try {
       const stageResults = await scrapeRaceStageResults(
         page,

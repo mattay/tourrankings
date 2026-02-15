@@ -48,7 +48,7 @@ import { getSeason } from "./season";
  */
 
 /**
- * @typedef {RaceData & { raceStages: Array<RaceStageData>, raceTeams: Array<TeamData>, raceRiders: Array<RiderData> }} RaceWithStages
+ * @typedef {RaceData & { stages: Array<RaceStageData>, teams: Array<TeamData>, riders: Array<RiderData> }} RaceWithStages
  */
 
 /**
@@ -176,10 +176,15 @@ async function collectRace(page, racePcsID, year) {
  * @returns {Array<RaceWithStages>} - Array of RaceWithStages objects
  */
 function stagesInRaces(raceStages, races) {
+  /** @type {Array<RaceWithStages>} */
+  const raceWithStages = [];
   for (const race of races) {
-    race.stages = raceStages.stagesInRace(race.raceUID);
+    raceWithStages.push({
+      ...race,
+      stages: raceStages.stagesInRace(race.raceUID),
+    });
   }
-  return races;
+  return raceWithStages;
 }
 
 /**
@@ -402,15 +407,15 @@ async function updateStageResults(
   };
 
   for (const stage of stagesRequireResults) {
+    const stageDetails = raceStages.getStage(stage);
     const [race, year, stageNo] = stage.split(":");
-    logOut("Main", `Scrape Stage Results: ${year} ${race} Stage ${stageNo}`);
+
+    logOut(
+      "Main",
+      `Scrape Stage Results: ${stageDetails.year} ${race} Stage ${stageDetails.stage}`,
+    );
     try {
-      const stageResults = await scrapeRaceStageResults(
-        page,
-        race,
-        Number(year),
-        Number(stageNo),
-      );
+      const stageResults = await scrapeRaceStageResults(race, stageDetails);
       if (!stageResults) {
         logOut("Main", `Scrape Stage Results: No results found for ${stage}`);
         return;

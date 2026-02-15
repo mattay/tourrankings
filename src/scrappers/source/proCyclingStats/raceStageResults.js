@@ -6,6 +6,8 @@ import { logError, logOut } from "@utils/logging";
 import { fetchHtmlWithFetch } from "src/scrappers/fetch";
 import { htmlDOM } from "src/scrappers/domParser";
 
+/** @typedef {import('@models/@types/races').RaceStageModel} StageDetails */
+
 const DOMSELECTORS = {
   // Classification tabs
   classificationTabs: ".page-content ul.resultTabs li",
@@ -62,129 +64,136 @@ function tableHeaders(column) {
 function cleanUpStageTable(table, additionalValues) {
   const drop = ["h2h", "specialty", "age"];
 
-  return table
-    .sort((a, b) => {
-      return parseInt(a.rnk) - parseInt(b.rnk);
-    })
-    .map((row, index, rankings) => {
-      row = renameKeys(row, tableHeaders);
+  return (
+    table
+      .sort((a, b) => {
+        return parseInt(a.rnk) - parseInt(b.rnk);
+      })
+      // .map((row, index, rankings) => {
+      .reduce((cleaned, row, index) => {
+        row = renameKeys(row, tableHeaders);
 
-      // if (index <= 3) {
-      //   console.log("cleanUpStageTable [PRE]", index, row);
-      // }
+        if (Object.hasOwn(row, "rank")) {
+          let value = row["rank"];
 
-      if (Object.hasOwn(row, "rank")) {
-        let value = row["rank"];
-
-        if (isNaN(value)) {
-          row["status"] = value;
-          row["rank"] = "";
-          // DNF = Did not finish
-          // DNS = Did not start
-          // OTL = Outside time limit
-          // DF = Did finish, no result
-          // NR = No result
-        }
-      }
-
-      // ▼▲
-      if (Object.hasOwn(row, "change")) {
-        // row["Change"] = row["▼▲"];
-        // delete row["▼▲"];
-
-        let value = row["change"];
-        if (value.startsWith("▲")) {
-          row["change"] = value.slice(1);
-        } else if (value.startsWith("▼")) {
-          row["change"] = -value.slice(1);
-        }
-      }
-
-      // Strip team from rider
-      if (Object.hasOwn(row, "rider") && Object.hasOwn(row, "team")) {
-        row["rider"] = row["rider"].replace(row["team"], "").trim();
-      }
-
-      // Record actual time
-      if (Object.hasOwn(row, "time")) {
-        // console.log("cleanUpStageTable [TIME]", row["time"]);
-
-        if (index == 0) {
-          // First position
-          // console.log(index, row);
-          // console.log(index + 1, rankings[index + 1]);
-          //
-          row["time"] = formatSeconds(stringToSeconds(row["time"]));
-          row["delta"] = "0:00";
-        } else {
-          const firstPosition = rankings[0];
-          const previousPosition = rankings[index - 1];
-
-          if (row["time"] == "-") {
-            // Rider Abandoned
-            row["time"] = null;
-          } else if (row["time"] == ",,") {
-            // Same time a previous
-            // console.log(
-            //   "cleanUpStageTable [TIME]",
-            //   index - 1,
-            //   row["time"],
-            //   previousPosition["time"],
-            // );
-            row["delta"] = previousPosition["delta"];
-          } else {
-            row["delta"] = row["time"];
+          if (isNaN(value)) {
+            row["status"] = value;
+            row["rank"] = "";
+            // DNF = Did not finish
+            // DNS = Did not start
+            // OTL = Outside time limit
+            // DF = Did finish, no result
+            // NR = No result
           }
-
-          //FIX ?? These may a conflict here referencing the previous position which is not updated
-
-          row["time"] = formatSeconds(
-            addTime(firstPosition["time"], row["delta"]),
-          );
+        } else {
+          logError("PCS Stage Results", "No rank in row", null, row);
         }
-      }
 
-      // Drop not needed
-      for (const column of drop) {
-        if (Object.hasOwn(row, column)) {
-          delete row[column];
+        // ▼▲
+        if (Object.hasOwn(row, "change")) {
+          let value = row["change"];
+          if (value.startsWith("▲")) {
+            row["change"] = value.slice(1);
+          } else if (value.startsWith("▼")) {
+            row["change"] = -value.slice(1);
+          }
         }
-      }
 
-      // Drop Team
-      if (Object.hasOwn(row, "bib") && Object.hasOwn(row, "team")) {
-        delete row["team"];
-      }
+        // Strip team from rider
+        if (Object.hasOwn(row, "rider") && Object.hasOwn(row, "team")) {
+          row["rider"] = row["rider"].replace(row["team"], "").trim();
+        }
 
-      // Format values
-      for (let key of Object.keys(row)) {
-        let value = row[key];
-        switch (key) {
-          case "stage":
-          case "rank":
-          case "previous rtage ranking":
-          case "gc":
-          case "bib":
-          case "uci":
-          case "points":
-          case "today":
-          case "change":
-          case "position":
-            // String to Int
-            if (value != "-" && value != "") {
-              value = parseInt(value, 10);
-            } else if (value == "-") {
-              value = "";
+        // Record actual time
+        if (Object.hasOwn(row, "time")) {
+          let time, delta;
+
+          if (index == 0) {
+            if (row["rank"] !== "1") {
+              logError(
+                "PCS Stage Result",
+                "First position should have rank 1",
+                null,
+                row,
+              );
             }
-            break;
-          default:
-            break;
-        }
-        row[key] = value;
-      }
+            time = stringToSeconds(row["time"]);
+            delta = 0;
+          } else {
+            const firstPosition = cleaned[0];
+            const previousPosition = cleaned[index - 1];
 
-      return renameKeys({ ...row, ...additionalValues }, toCamelCase);
-    });
+            if (row["time"] == ",,") {
+              // Same time a previous
+              delta = stringToSeconds(previousPosition["delta"]);
+            } else {
+              delta = stringToSeconds(row["time"]);
+            }
+
+            if (row["time"] == "-" || row["time"] == "") {
+              // Rider Abandoned
+              time = null;
+            } else {
+              time = stringToSeconds(firstPosition["time"]) + delta;
+            }
+          }
+          // Update time and delta
+          row["time"] = time;
+          row["delta"] = delta;
+        }
+
+        // Drop not needed
+        for (const column of drop) {
+          if (Object.hasOwn(row, column)) {
+            delete row[column];
+          }
+        }
+
+        // Drop Team
+        if (Object.hasOwn(row, "bib") && Object.hasOwn(row, "team")) {
+          delete row["team"];
+        }
+
+        // Format values
+        for (let key of Object.keys(row)) {
+          let value = row[key];
+          switch (key) {
+            case "stage":
+            case "rank":
+            case "previous rtage ranking":
+            case "gc":
+            case "bib":
+            case "uci":
+            case "points":
+            case "today":
+            case "change":
+            case "position":
+              // String to Int
+              if (value != "-" && value != "") {
+                value = parseInt(value, 10);
+              } else if (value == "-") {
+                value = "";
+              }
+              break;
+            case "time":
+            case "delta":
+              // Int to Time string
+              if (value > 0) {
+                value = formatSeconds(value);
+              } else {
+                value = "";
+              }
+              break;
+            default:
+              break;
+          }
+          row[key] = value;
+        }
+
+        cleaned.push(renameKeys({ ...row, ...additionalValues }, toCamelCase));
+        return cleaned;
+      }, [])
+  );
 }
 
 /**
@@ -205,7 +214,7 @@ function sprint(label) {
   const matchSprintLabel = label.match(regexSprintLabel);
   if (label != "Points at finish" && !matchSprintLabel) {
     logError(
-      "Race Stage Results",
+      "PCS Stage Results",
       `Label for Sprint points does not match: ${label}`,
     );
   } else if (matchSprintLabel) {
@@ -235,7 +244,7 @@ function climb(label) {
   const matchKomLabel = label.match(regexKomLabel);
   if (!matchKomLabel) {
     logError(
-      "Race Stage Results",
+      "PCS Stage Results",
       `Label for KOM points does not match: ${label}`,
     );
   } else {
@@ -250,18 +259,17 @@ function climb(label) {
 /**
  *
  * @param {Array<Object>} tables - The tables for the race.
- * @param {string} stageUID - The ID of the stage.
- * @param {number} stage - The number of the stage.
+ * @param {StageDetails} stageDetails - The details of the stage.
  * @returns {Object} The cleaned up stage rankings.
  */
-function cleanUpStages(tables, stageUID, stage) {
+function cleanUpStages(tables, stageDetails) {
   const stageRankings = {};
 
   for (const [classification, rankings] of Object.entries(tables)) {
     if (Object.hasOwn(rankings, "general")) {
       stageRankings[classification] = cleanUpStageTable(rankings["general"], {
-        stageUID,
-        stage,
+        stageUID: stageDetails.stageUID,
+        stage: stageDetails.stage,
       });
     }
 
@@ -338,9 +346,10 @@ function columnHeader(htmlDOM, selector) {
  * Extracts the content of a table cell.
  *
  * @param {Element} cell - The HTML DOM element representing the table cell.
+ * @param {StageDetails} stageDetails - The details of the stage.
  * @returns {string} The content of the table cell.
  */
-function extractTableCellContent(cell) {
+function extractTableCellContent(cell, stageDetails) {
   // Skip cells that are clearly non-data (checkboxes, buttons, etc.)
   if (
     cell.querySelector('input[type="checkbox"], button, input[type="radio"]')
@@ -350,31 +359,19 @@ function extractTableCellContent(cell) {
 
   // Handle time cells with hidden spans
   if (cell.classList.contains("time")) {
-    // console.log("Time cell content:", cell.innerHTML);
-    let defaultTime = cell.querySelector("font");
-    let time = defaultTime?.textContent || "";
+    // Always remove hidden spans first
+    cell.querySelectorAll("span.hide").forEach((span) => span.remove());
 
-    if (defaultTime && defaultTime.classList.length > 0) {
-      // const subSeconds = time;
-      time = cell.childNodes[0]?.textContent || "";
-    } else if (defaultTime) {
-      time = defaultTime.textContent;
-      // console.log("[<font/>]\t", cell.innerHTML);
-      // console.log("[<font/>]\t", time);
-    } else if (!defaultTime) {
-      time = cell.childNodes[0]?.textContent || "";
-      // console.log("[No <font/>]\t", cell.innerHTML);
-      // console.log("[No <font/>]\t", time);
+    const font = cell.querySelector("font");
+    let time;
+
+    // Special case: font ONLY contains commas (,,) return exactly that
+    if (font && /^,+$/.test(font.textContent.trim())) {
+      time = font.textContent.trim();
     } else {
-      console.log("[Else>]\t", cell.innerHTML);
-      time = defaultTime.textContent;
+      // All other cases: get COMPLETE visible time from cell
+      time = cell.textContent.trim();
     }
-
-    // const hiddenSpan = cell.querySelector("span.hide");
-    // cell.remove();
-    // if (hiddenSpan) {
-    //   return hiddenSpan.textContent;
-    // }
 
     return time;
   }
@@ -420,15 +417,15 @@ function extractTableCellContent(cell) {
 /**
  * Extracts the classification table from the HTML DOM.
  * @param {Element} htmlDOM - The HTML DOM element containing the classification table.
+ * @param {StageDetails} stageDetails - The details of the stage.
  * @returns {Array} An array of classification table data.
  */
-function extractClassificationTable(htmlDOM) {
+function extractClassificationTable(htmlDOM, stageDetails) {
   const columns = columnHeader(htmlDOM, DOMSELECTORS.table.headers);
 
   const rows = Array.from(
     htmlDOM.querySelectorAll(DOMSELECTORS.table.rows),
   ).map((row, index) => {
-    // console.log(`Processing row ${index}`);
     const cells = Array.from(row.querySelectorAll(DOMSELECTORS.table.cells));
     const rowDetails = {};
 
@@ -443,8 +440,8 @@ function extractClassificationTable(htmlDOM) {
     }
     if (cells.length < columns.length) {
       logOut(
-        "Race Stage Results",
-        `Row ${index}: ${cells.length} cells fall short of ${columns.length} columns`,
+        "PCS Stage Results",
+        `Row ${index}: ${cells.length} cells fall short of expected ${columns.length} columns`,
         "warn",
       );
       return [
@@ -458,8 +455,8 @@ function extractClassificationTable(htmlDOM) {
     }
     if (cells.length > columns.length) {
       logOut(
-        "Race Stage Results",
-        `Row ${index}: ${cells.length} cells exceed ${columns.length} columns, extra cells will be ignored`,
+        "PCS Stage Results",
+        `Row ${index}: ${cells.length} cells exceeds expected ${columns.length} columns, extra cells will be ignored`,
         "warn",
       );
     }
@@ -472,7 +469,7 @@ function extractClassificationTable(htmlDOM) {
     ) {
       const columnLabel = columns[columnIndex];
       const cell = cells[columnIndex];
-      const cellContent = extractTableCellContent(cell);
+      const cellContent = extractTableCellContent(cell, stageDetails);
 
       rowDetails[columnLabel] = cellContent;
     }
@@ -487,12 +484,14 @@ function extractClassificationTable(htmlDOM) {
  *
  * @param {Document} htmlDOM - The HTML DOM element containing the table.
  * @param {Array} classificationsList - An array of classification names.
+ * @param {StageDetails} stageDetails - Details about the stage.
  * @param {string} selector - The CSS selector for the table element.
  * @returns {Object} An object containing classification results.
  */
 function classificationResults(
   htmlDOM,
   classificationsList,
+  stageDetails,
   selector = DOMSELECTORS.classificationResult,
 ) {
   const classificationStageResults = {};
@@ -514,8 +513,21 @@ function classificationResults(
     // );
 
     if (generalTable) {
-      classificationStageResults[classification]["general"] =
-        extractClassificationTable(generalTable);
+      switch (stageDetails.stageType) {
+        case "TTT":
+          logOut(
+            "PCS Stage Results",
+            `Classification ${classification} for stage type [TTT] not implemented`,
+            "warn",
+          );
+          break;
+        case "ITT":
+        case "prologue":
+        default:
+          classificationStageResults[classification]["general"] =
+            extractClassificationTable(generalTable, stageDetails);
+          break;
+      }
     }
 
     // TODO: Implement extraction of today classification results
@@ -534,7 +546,7 @@ function classificationResults(
  * @param {string} selector - CSS selector for classification tabs
  * @returns {Array<string>} - Array of classification titles
  */
-function classificationsTabs(
+function getClassificationsFromTabs(
   htmlDOM,
   selector = DOMSELECTORS.classificationTabs,
 ) {
@@ -546,40 +558,36 @@ function classificationsTabs(
       },
     );
   } catch (exception) {
-    logError("Scrape PCS - Stage Results", "Failed to parse HTML", exception);
+    logError("PCS Stage Results", "Failed to parse HTML", exception);
     return [];
   }
 }
 
 /**
- *
- * @param {import('puppeteer-core').Page} page - Page object from Puppeteer
+ * Scrape race stage results from ProCyclingStats
  * @param {string} race - Race name
- * @param {number} year - Year of the race
- * @param {number} stage - Stage number
+ * @param {StageDetails} stageDetails - Stage details
  */
-export async function scrapeRaceStageResults(page, race, year, stage) {
-  const urlStage = stage === 0 ? "prologue" : `stage-${stage}`;
-  const url = `https://www.procyclingstats.com/race/${race}/${year}/${urlStage}`;
-  const raceId = generateId.race(race, year);
-  const stageUID = generateId.stage(raceId, stage);
+export async function scrapeRaceStageResults(race, stageDetails) {
+  const urlStage =
+    stageDetails.stage === 0 ? "prologue" : `stage-${stageDetails.stage}`;
+  const url = `https://www.procyclingstats.com/race/${race}/${stageDetails.year}/${urlStage}`;
 
   try {
     const htmlContent = await fetchHtmlWithFetch(url);
     const pageDOM = htmlDOM(htmlContent);
 
     // Collect Tabs Listed -> Make no assumptions about tab structure
-    const classificationList = classificationsTabs(pageDOM);
-    // logOut("Race Stage Results", `Tabs: ${classificationList}`);
+    const classificationList = getClassificationsFromTabs(pageDOM);
     const stageClassificationResults = classificationResults(
       pageDOM,
       classificationList,
+      stageDetails,
     );
-    // logOut("Race Stage Results", `Results: ${stageClassificationResults}`);
-    // console.table(stageClassificationResults["STAGE"]["general"]);
-    return cleanUpStages(stageClassificationResults, stageUID, stage);
+
+    return cleanUpStages(stageClassificationResults, stageDetails);
   } catch (exception) {
-    logError("Race Stage Results", `Failed to Navigate to '${url}'`, exception);
+    logError("PCS Stage Results", `Failed to Navigate to '${url}'`, exception);
     return null;
   }
 }

@@ -10,8 +10,9 @@
       "*": ["*"],
       "@client/*": ["src/client/*"],
       "@cycling/*": ["src/core/cycling/*"],
-      "@services/*": ["src/services/*"],
+      "@models/*": ["src/models/*"],
       "@server/*": ["src/server/*"],
+      "@services/*": ["src/services/*"],
       "@utils/*": ["src/utils/*"]
     },
     "strict": false,

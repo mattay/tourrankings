@@ -18,7 +18,7 @@ export const YEAR_MIN = 1900;
  * // result -> "2025-09-01"
  */
 function dateTimeFormatter(date, options, separator = "-") {
-  function format(option) {
+  function format(/** @type {Intl.DateTimeFormatOptions} */ option) {
     let formatter = new Intl.DateTimeFormat("en", option);
     return formatter.format(date);
   }
@@ -46,11 +46,13 @@ export function isoDateTime(date, timeZone) {
     throw new TypeError("isoDateTime: invalid Date");
   }
   const maybeTZ = timeZone ? { timeZone } : {};
+  /** @type {Intl.DateTimeFormatOptions[]} */
   const dayOptions = [
     { year: "numeric", ...maybeTZ },
     { month: "2-digit", ...maybeTZ },
     { day: "2-digit", ...maybeTZ },
   ];
+  /** @type {Intl.DateTimeFormatOptions} */
   const timeOptions = {
     hour: "2-digit",
     minute: "2-digit",

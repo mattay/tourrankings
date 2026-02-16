@@ -87,7 +87,7 @@ async function collectRace(page, racePcsID, year) {
   /** @type {Array<ScrapedRaceRider>} */
   const riders = [];
 
-  if (!!process.env.FEATURE_DISABLED_STAGES !== true) {
+  if (!process.env.FEATURE_DISABLED_STAGES) {
     try {
       logOut("Scrape PCS - Race Stages", `${year} ${racePcsID}`);
       // Race stages
@@ -116,7 +116,7 @@ async function collectRace(page, racePcsID, year) {
     logOut("Main", "[FEATURE DISABLED] Stages", "warn");
   }
 
-  if (!!process.env.FEATURE_DISABLED_STARTLIST !== true) {
+  if (!process.env.FEATURE_DISABLED_STARTLIST) {
     try {
       // Race start list - Teams and Riders
       logOut("Scrape PCS - Race Startlist", `${year} ${racePcsID}`);
@@ -340,7 +340,7 @@ async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
 async function updateRaces(page, races, raceStages, raceRiders, riders, teams) {
   const raceSeason = getSeason();
 
-  if (!!process.env.FEATURE_DISABLED_RACES !== true) {
+  if (!process.env.FEATURE_DISABLED_RACES) {
     logOut("Main", `Collecting races for the ${raceSeason} season.`);
     try {
       await collectWorldTourRaces(page, races, raceSeason);
@@ -460,7 +460,7 @@ async function updateStageResults(
     }
   }
 
-  if (!!process.env.FEATURE_DISABLED_RESULTS_UPDATE !== true) {
+  if (!process.env.FEATURE_DISABLED_RESULTS_UPDATE) {
     await raceStageResults.update(raceResults.stage);
     await raceStageGeneral.update(raceResults.gc);
     await raceStagePoints.update(raceResults.points);
@@ -537,7 +537,7 @@ async function main() {
       logError("Main", "Collecting race information - Failed", error);
     }
 
-    if (!!process.env.FEATURE_DISABLED_RESULTS !== true) {
+    if (!process.env.FEATURE_DISABLED_RESULTS) {
       try {
         await updateStageResults(
           page,

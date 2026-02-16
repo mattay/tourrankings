@@ -3,8 +3,8 @@ import { renameKeys } from "@utils/object";
 import { toCamelCase } from "@utils/string";
 import { addTime, formatSeconds, stringToSeconds } from "@utils/time";
 import { logError, logOut } from "@utils/logging";
-import { fetchHtmlWithFetch } from "src/scrappers/fetch";
-import { htmlDOM } from "src/scrappers/domParser";
+import { fetchHtmlWithFetch } from "@scrappers/fetch";
+import { htmlDOM } from "@scrappers/domParser";
 
 /** @typedef {import('@models/@types/races').RaceStageModel} StageDetails */
 
@@ -93,9 +93,9 @@ function cleanUpStageTable(table, additionalValues) {
         if (Object.hasOwn(row, "change")) {
           let value = row["change"];
           if (value.startsWith("▲")) {
-            row["change"] = value.slice(1);
+            row["change"] = parseInt(value.slice(1), 10);
           } else if (value.startsWith("▼")) {
-            row["change"] = -value.slice(1);
+            row["change"] = -parseInt(value.slice(1), 10);
           }
         }
 

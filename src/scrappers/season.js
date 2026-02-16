@@ -1,4 +1,5 @@
-import { validateYear } from "src/utils/date";
+import { validateYear } from "@utils/date";
+import { logOut } from "@utils/logging";
 
 export function getSeason() {
   const today = new Date();
@@ -8,6 +9,6 @@ export function getSeason() {
     raceSeason = validateYear(process.env.SEASON, raceSeason);
   }
 
-  console.log(`Current season: ${raceSeason}`);
+  logOut("Season", `${raceSeason}`, "info");
   return raceSeason;
 }

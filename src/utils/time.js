@@ -17,7 +17,7 @@ export function stringToSeconds(timeStr) {
 
   let h, m, s, ms;
 
-  if (match[2] !== undefined) {
+  if (match.groups?.minutes !== undefined) {
     // Road Stage: HH:MM:SS
     [h, m, s, ms] = [
       match.groups?.hours || 0,

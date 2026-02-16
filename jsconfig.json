@@ -11,6 +11,7 @@
       "@client/*": ["src/client/*"],
       "@cycling/*": ["src/core/cycling/*"],
       "@models/*": ["src/models/*"],
+      "@scrappers/*": ["src/scrappers/*"],
       "@server/*": ["src/server/*"],
       "@services/*": ["src/services/*"],
       "@utils/*": ["src/utils/*"]

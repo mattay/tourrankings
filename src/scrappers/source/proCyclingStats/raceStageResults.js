@@ -552,9 +552,19 @@ function getClassificationsFromTabs(
 ) {
   try {
     return Array.from(htmlDOM.querySelectorAll(selector)).map(
-      (classification) => {
-        const title = classification.querySelector("a").textContent;
-        return title.toLowerCase() || "";
+      (classification, index) => {
+        const anchor = classification.querySelector("a");
+        if (!anchor) {
+          logError(
+            "PCS Stage Results",
+            `Missing <a> element in classification tab at index ${index}`,
+            null,
+            classification.outerHTML,
+          );
+          return ""; // Return empty string to preserve array length
+        }
+
+        return anchor.textContent.toLowerCase() || "";
       },
     );
   } catch (exception) {

@@ -1,6 +1,6 @@
-/**  */
+/** Regex pattern for cycling time formats: Road (HH:MM:SS.cs) and Time Trial (MM.SS,cs) */
 const patternCyclingTime =
-  /^(?:(?:(?<hours>\d{1,2}):)?(?<minutes>\d{1,2}):(?<seconds>\d{2})(?:.(?<milliseconds>\d{2}))?|(?<ttMinutes>\d{1,3})\.(?<ttSeconds>\d{2}),(?<ttMilliseconds>\d{1,2}))$/;
+  /^(?:(?:(?<hours>\d{1,2}):)?(?<minutes>\d{1,2}):(?<seconds>\d{2})(?:\.(?<milliseconds>\d{2}))?|(?<ttMinutes>\d{1,3})\.(?<ttSeconds>\d{2}),(?<ttMilliseconds>\d{1,2}))$/;
 
 /**
  * Converts a time string formatted as HH:MM:SS into total seconds.
@@ -9,6 +9,8 @@ const patternCyclingTime =
  * @returns {number} - The total number of seconds.
  */
 export function stringToSeconds(timeStr) {
+  if (typeof timeStr !== "string") return 0;
+
   const match = timeStr.match(patternCyclingTime);
 
   if (!match) return 0;

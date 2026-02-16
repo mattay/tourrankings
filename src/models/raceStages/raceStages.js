@@ -53,7 +53,11 @@ export class RaceStages extends CSVdataModel {
    * @returns {RaceStageModel|null} - The stage with the specified UID.
    */
   getStage(stageUID) {
-    return this.rows.find((row) => row.stageUID == stageUID);
+    if (!stageUID) {
+      logError(this.constructor.name, "getStage expects stageUID");
+      return null;
+    }
+    return this.rows.find((row) => row.stageUID === stageUID) ?? null;
   }
 
   /**

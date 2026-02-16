@@ -160,7 +160,7 @@ function cleanUpStageTable(table, additionalValues) {
           switch (key) {
             case "stage":
             case "rank":
-            case "previous rtage ranking":
+            case "previous stage ranking":
             case "gc":
             case "bib":
             case "uci":

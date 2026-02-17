@@ -5,7 +5,12 @@ import { addTime, formatSeconds, stringToSeconds } from "@utils/time";
 import { logError, logOut } from "@utils/logging";
 import { fetchHtmlWithFetch } from "@scrappers/fetch";
 import { htmlDOM } from "@scrappers/domParser";
-import { extractNotice } from "./helpers/helperRaceStageResults";
+import {
+  dropColumns,
+  extractNotice,
+  formatRow,
+  sortByRanking,
+} from "./helpers/helperRaceStageResults";
 
 /** @typedef {import('@models/@types/races').RaceStageModel} StageDetails */
 
@@ -58,141 +63,94 @@ function tableHeaders(column) {
 function cleanUpStageTable(table, additionalValues) {
   const drop = ["h2h", "specialty", "age"];
 
-  return (
-    table
-      .sort((a, b) => {
-        const aRnk = parseInt(a.rnk);
-        const bRnk = parseInt(b.rnk);
-        if (isNaN(aRnk) && isNaN(bRnk)) return 0;
-        if (isNaN(aRnk)) return 1;
-        if (isNaN(bRnk)) return -1;
-        return aRnk - bRnk;
-      })
-      // .map((row, index, rankings) => {
-      .reduce((cleaned, row, index) => {
-        row = renameKeys(row, tableHeaders);
+  const sorted = table.sort(sortByRanking);
 
-        if (Object.hasOwn(row, "rank")) {
-          let value = row["rank"];
+  const cleaned = sorted.reduce((cleaned, row, index) => {
+    row = renameKeys(row, tableHeaders);
 
-          if (isNaN(value)) {
-            row["status"] = value;
-            row["rank"] = "";
-            // DNF = Did not finish
-            // DNS = Did not start
-            // OTL = Outside time limit
-            // DF = Did finish, no result
-            // NR = No result
-          }
+    if (Object.hasOwn(row, "rank")) {
+      let value = row["rank"];
+
+      if (isNaN(value)) {
+        row["status"] = value;
+        row["rank"] = "";
+        // DNF = Did not finish
+        // DNS = Did not start
+        // OTL = Outside time limit
+        // DF = Did finish, no result
+        // NR = No result
+      }
+    } else {
+      logError("PCS Stage Results", "No rank in row", null, row);
+    }
+
+    // ▼▲ - Convert to integers
+    if (Object.hasOwn(row, "change")) {
+      let value = row["change"];
+      if (value.startsWith("▲")) {
+        row["change"] = parseInt(value.slice(1), 10);
+      } else if (value.startsWith("▼")) {
+        row["change"] = -parseInt(value.slice(1), 10);
+      }
+    }
+
+    // Strip team from rider
+    if (Object.hasOwn(row, "rider") && Object.hasOwn(row, "team")) {
+      row["rider"] = row["rider"].replace(row["team"], "").trim();
+    }
+
+    // Record actual time
+    if (Object.hasOwn(row, "time")) {
+      let time, delta;
+
+      if (index == 0) {
+        if (row["rank"] !== "1") {
+          logError(
+            "PCS Stage Result",
+            "First position should have rank 1",
+            null,
+            row,
+          );
+        }
+        time = stringToSeconds(row["time"]);
+        delta = 0;
+      } else {
+        const firstPosition = cleaned[0];
+        const previousPosition = cleaned[index - 1];
+
+        if (row["time"] == ",,") {
+          // Same time as previous
+          delta = stringToSeconds(previousPosition["delta"]);
         } else {
-          logError("PCS Stage Results", "No rank in row", null, row);
+          delta = stringToSeconds(row["time"]);
         }
 
-        // ▼▲
-        if (Object.hasOwn(row, "change")) {
-          let value = row["change"];
-          if (value.startsWith("▲")) {
-            row["change"] = parseInt(value.slice(1), 10);
-          } else if (value.startsWith("▼")) {
-            row["change"] = -parseInt(value.slice(1), 10);
-          }
+        if (row["time"] == "-" || row["time"] == "") {
+          // Rider Abandoned
+          time = null;
+        } else {
+          time = stringToSeconds(firstPosition["time"]) + delta;
         }
+      }
+      // Update time and delta
+      row["time"] = time;
+      row["delta"] = delta;
+    }
 
-        // Strip team from rider
-        if (Object.hasOwn(row, "rider") && Object.hasOwn(row, "team")) {
-          row["rider"] = row["rider"].replace(row["team"], "").trim();
-        }
+    // Drop Team if rider is recorded
+    if (Object.hasOwn(row, "bib") && Object.hasOwn(row, "team")) {
+      drop.push("team");
+    }
+    // Drop not needed
+    row = dropColumns(row, drop);
 
-        // Record actual time
-        if (Object.hasOwn(row, "time")) {
-          let time, delta;
+    cleaned.push(renameKeys({ ...row, ...additionalValues }, toCamelCase));
+    return cleaned;
+  }, []);
 
-          if (index == 0) {
-            if (row["rank"] !== "1") {
-              logError(
-                "PCS Stage Result",
-                "First position should have rank 1",
-                null,
-                row,
-              );
-            }
-            time = stringToSeconds(row["time"]);
-            delta = 0;
-          } else {
-            const firstPosition = cleaned[0];
-            const previousPosition = cleaned[index - 1];
+  const formatted = cleaned.map(formatRow);
 
-            if (row["time"] == ",,") {
-              // Same time as previous
-              delta = stringToSeconds(previousPosition["delta"]);
-            } else {
-              delta = stringToSeconds(row["time"]);
-            }
-
-            if (row["time"] == "-" || row["time"] == "") {
-              // Rider Abandoned
-              time = null;
-            } else {
-              time = stringToSeconds(firstPosition["time"]) + delta;
-            }
-          }
-          // Update time and delta
-          row["time"] = time;
-          row["delta"] = delta;
-        }
-
-        // Drop not needed
-        for (const column of drop) {
-          if (Object.hasOwn(row, column)) {
-            delete row[column];
-          }
-        }
-
-        // Drop Team
-        if (Object.hasOwn(row, "bib") && Object.hasOwn(row, "team")) {
-          delete row["team"];
-        }
-
-        // Format values
-        for (let key of Object.keys(row)) {
-          let value = row[key];
-          switch (key) {
-            case "stage":
-            case "rank":
-            case "previous stage ranking":
-            case "gc":
-            case "bib":
-            case "uci":
-            case "points":
-            case "today":
-            case "change":
-            case "position":
-              // String to Int
-              if (value != "-" && value != "") {
-                value = parseInt(value, 10);
-              } else if (value == "-") {
-                value = "";
-              }
-              break;
-            case "time":
-            case "delta":
-              // Int to Time string
-              if (value > 0) {
-                value = formatSeconds(value);
-              } else {
-                value = "";
-              }
-              break;
-            default:
-              break;
-          }
-          row[key] = value;
-        }
-
-        cleaned.push(renameKeys({ ...row, ...additionalValues }, toCamelCase));
-        return cleaned;
-      }, [])
-  );
+  return formatted;
 }
 
 /**

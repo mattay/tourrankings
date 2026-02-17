@@ -60,7 +60,12 @@ function cleanUpStageTable(table, additionalValues) {
   return (
     table
       .sort((a, b) => {
-        return parseInt(a.rnk) - parseInt(b.rnk);
+        const aRnk = parseInt(a.rnk);
+        const bRnk = parseInt(b.rnk);
+        if (isNaN(aRnk) && isNaN(bRnk)) return 0;
+        if (isNaN(aRnk)) return 1;
+        if (isNaN(bRnk)) return -1;
+        return aRnk - bRnk;
       })
       // .map((row, index, rankings) => {
       .reduce((cleaned, row, index) => {

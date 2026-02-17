@@ -28,7 +28,7 @@ export function extractNotice(cell) {
     if (relegation) {
       return {
         type: "relegation",
-        rider: relegation.groups.rider,
+        ridername: relegation.groups.rider,
         from: parseInt(relegation.groups.from),
         to: parseInt(relegation.groups.to),
         reason: relegation.groups.reason || "",

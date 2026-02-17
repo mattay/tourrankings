@@ -5,6 +5,7 @@ import { addTime, formatSeconds, stringToSeconds } from "@utils/time";
 import { logError, logOut } from "@utils/logging";
 import { fetchHtmlWithFetch } from "@scrappers/fetch";
 import { htmlDOM } from "@scrappers/domParser";
+import { extractNotice } from "./helpers/helperRaceStageResults";
 
 /** @typedef {import('@models/@types/races').RaceStageModel} StageDetails */
 
@@ -423,59 +424,80 @@ function extractTableCellContent(cell, stageDetails) {
 function extractClassificationTable(htmlDOM, stageDetails) {
   const columns = columnHeader(htmlDOM, DOMSELECTORS.table.headers);
 
-  const rows = Array.from(
-    htmlDOM.querySelectorAll(DOMSELECTORS.table.rows),
-  ).map((row, index) => {
-    const cells = Array.from(row.querySelectorAll(DOMSELECTORS.table.cells));
-    const rowDetails = {};
+  const rows = [];
+  const notices = [];
 
-    if (cells.length == 1) {
-      return [
-        {
-          type: "nonResult",
-          value: cells[0].textContent,
+  Array.from(htmlDOM.querySelectorAll(DOMSELECTORS.table.rows)).forEach(
+    (row, index) => {
+      const cells = Array.from(row.querySelectorAll(DOMSELECTORS.table.cells));
+      const rowDetails = {};
+
+      if (cells.length == 1) {
+        notices.push({
           row: index,
-        },
-      ];
-    }
-    if (cells.length < columns.length) {
-      logOut(
-        "PCS Stage Results",
-        `Row ${index}: ${cells.length} cells fall short of expected ${columns.length} columns`,
-        "warn",
-      );
-      return [
-        {
-          type: "columnCount",
-          value: cells.length,
-          row: index,
-        },
-        [],
-      ];
-    }
-    if (cells.length > columns.length) {
-      logOut(
-        "PCS Stage Results",
-        `Row ${index}: ${cells.length} cells exceeds expected ${columns.length} columns, extra cells will be ignored`,
-        "warn",
-      );
-    }
+          ...extractNotice(cells[0]),
+        });
+        return;
+      } else if (cells.length < columns.length) {
+        logOut(
+          "PCS Stage Results",
+          `Row ${index}: ${cells.length} cells fall short of expected ${columns.length} columns`,
+          "warn",
+        );
+        return;
+      } else if (cells.length > columns.length) {
+        logOut(
+          "PCS Stage Results",
+          `Row ${index}: ${cells.length} cells exceeds expected ${columns.length} columns, extra cells will be ignored`,
+          "warn",
+        );
+      }
 
-    // Process each cell
-    for (
-      let columnIndex = 0;
-      columnIndex < Math.min(cells.length, columns.length);
-      columnIndex += 1
-    ) {
-      const columnLabel = columns[columnIndex];
-      const cell = cells[columnIndex];
-      const cellContent = extractTableCellContent(cell, stageDetails);
+      // Process each cell
+      for (
+        let columnIndex = 0;
+        columnIndex < Math.min(cells.length, columns.length);
+        columnIndex += 1
+      ) {
+        const columnLabel = columns[columnIndex];
+        const cell = cells[columnIndex];
+        const cellContent = extractTableCellContent(cell, stageDetails);
 
-      rowDetails[columnLabel] = cellContent;
+        rowDetails[columnLabel] = cellContent;
+      }
+
+      rows.push(rowDetails);
+    },
+  );
+
+  notices.forEach((notice) => {
+    switch (notice.type) {
+      case "relegation":
+        logOut(
+          "PCS Stage Results",
+          `Row ${notice.row}, Rider ${notice.ridername} relegated from ${notice.from} to ${notice.to} ${notice.reason ? `for ${notice.reason}` : ""}`,
+          "warn",
+        );
+        // TO FIX: Rider name is captured as LastName FirstName
+        const riderIndex = rows.findIndex(
+          (row) => row.ridername === notice.ridername,
+        );
+        if (riderIndex !== -1) {
+          // TODO append to rider result
+          console.log(rows[riderIndex]);
+        }
+        break;
+
+      default:
+        logOut(
+          "PCS Stage Results",
+          `Row ${notice.row}: ${notice.type} is not a valid notice type`,
+          "error",
+        );
+        break;
     }
-
-    return rowDetails;
   });
+
   return rows;
 }
 
@@ -502,6 +524,14 @@ function classificationResults(
 
   for (let i = 0; i < classificationResultsSelection.length; i++) {
     const classification = classificationsList[i];
+    if (!classification) {
+      logOut(
+        "PCS Stage Results",
+        `No classification tab for result container at index ${i}`,
+        "warn",
+      );
+      continue;
+    }
     classificationStageResults[classification] = {};
 
     const generalTable = classificationResultsSelection[i].querySelector(

@@ -13,7 +13,6 @@ const DOMSELECTORS = {
   classificationTabs: ".page-content ul.resultTabs li",
   // Main results containers
   classificationResult: "#resultsCont .resTab",
-  tabs: "a.selectResultTab",
   // Tab system within each result container
   generalTab: ".general",
   todayTab: ".today",
@@ -23,12 +22,6 @@ const DOMSELECTORS = {
     headers: "thead th", // Column headers
     rows: "tbody tr", // Data rows
     cells: "td", // Individual cells (both header and data)
-    // Special cell types with custom handling
-    timeCells: {
-      selector: 'cell.classList.contains("time")',
-      nestedSpan: "span", // Time display element
-      nestedDiv: "div", // Actual time value
-    },
   },
 };
 

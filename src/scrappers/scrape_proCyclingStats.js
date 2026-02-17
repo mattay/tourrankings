@@ -266,7 +266,7 @@ async function collectPastRaceDetails(
     } catch (error) {
       logError(
         "Scrape PCS",
-        `Failed to collect race details for ${race.name}`,
+        `Failed to collect race details for ${race.raceName}`,
         error,
       );
     }

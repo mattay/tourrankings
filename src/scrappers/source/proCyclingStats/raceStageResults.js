@@ -1,7 +1,7 @@
 import { generateId } from "@utils/idGenerator";
 import { renameKeys } from "@utils/object";
 import { toCamelCase } from "@utils/string";
-import { addTime, formatSeconds, stringToSeconds } from "@utils/time";
+import { stringToSeconds } from "@utils/time";
 import { logError, logOut } from "@utils/logging";
 import { fetchHtmlWithFetch } from "@scrappers/fetch";
 import { htmlDOM } from "@scrappers/domParser";
@@ -44,7 +44,6 @@ function tableHeaders(column) {
     "▼▲": "change",
     "": "bonis",
     prev: "previous stage ranking",
-    "#": "rank",
     bib: "bib",
     teamnamelink: "team",
     teamline: "team",
@@ -120,7 +119,7 @@ function cleanUpStageTable(table, additionalValues) {
 
         if (row["time"] == ",,") {
           // Same time as previous
-          delta = stringToSeconds(previousPosition["delta"]);
+          delta = previousPosition["delta"];
         } else {
           delta = stringToSeconds(row["time"]);
         }
@@ -129,7 +128,7 @@ function cleanUpStageTable(table, additionalValues) {
           // Rider Abandoned
           time = null;
         } else {
-          time = stringToSeconds(firstPosition["time"]) + delta;
+          time = firstPosition["time"] + delta;
         }
       }
       // Update time and delta
@@ -433,32 +432,28 @@ function extractClassificationTable(htmlDOM, stageDetails) {
   );
 
   notices.forEach((notice) => {
-    switch (notice.type) {
-      case "relegation":
-        logOut(
-          "PCS Stage Results",
-          `Row ${notice.row}, Rider ${notice.ridername} relegated from ${notice.from} to ${notice.to} ${notice.reason ? `for ${notice.reason}` : ""}`,
-          "warn",
-        );
-        // TO FIX: Rider name is captured as LastName FirstName
-        const riderIndex = rows.findIndex(
-          (row) => row.ridername === notice.riderName,
-        );
-        if (riderIndex !== -1) {
-          // TODO append to rider result
-          console.log(rows[riderIndex]);
-        }
-        break;
+    if (notice.type === "relegation") {
+      logOut(
+        "PCS Stage Results",
+        `Row ${notice.row}, Rider ${notice.riderName} relegated from ${notice.from} to ${notice.to} ${notice.reason ? `for ${notice.reason}` : ""}`,
+        "warn",
+      );
+      // TO FIX: Rider name is captured as LastName FirstName
+      const riderIndex = rows.findIndex(
+        (row) => row.ridername === notice.riderName,
+      );
+      if (riderIndex !== -1) {
+        // TODO append to rider result
+        console.log(rows[riderIndex]);
+      }
 
-      default:
-        logOut(
-          "PCS Stage Results",
-          `Row ${notice.row}: ${notice.type} is not a valid notice type`,
-          "error",
-        );
-        break;
+    } else {
+      logOut(
+        "PCS Stage Results",
+        `Row ${notice.row}: ${notice.type} is not a valid notice type`,
+        "error",
+      );
     }
-  });
 
   return rows;
 }
@@ -509,8 +504,8 @@ function classificationResults(
             "warn",
           );
           break;
-        case "ITT":
-        case "prologue":
+        case "ITT": // falls through
+        case "prologue": // falls through
         default:
           classificationStageResults[classification]["general"] =
             extractClassificationTable(generalTable, stageDetails);
@@ -562,7 +557,7 @@ function getClassificationsFromTabs(
     );
   } catch (exception) {
     logError("PCS Stage Results", "Failed to parse HTML", exception);
-    return [];
+    throw exception;
   }
 }
 
@@ -590,7 +585,7 @@ export async function scrapeRaceStageResults(race, stageDetails) {
 
     return cleanUpStages(stageClassificationResults, stageDetails);
   } catch (exception) {
-    logError("PCS Stage Results", `Failed to proccess '${url}'`, exception);
-    return null;
+    logError("PCS Stage Results", `Failed to process '${url}'`, exception);
+    throw exception;
   }
 }

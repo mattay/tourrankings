@@ -20,7 +20,7 @@ function createNoticeCell(html, selector) {
 
 const testCasesExtractNotice = [
   {
-    html: `<td colspan="13" style="text-align: left; font-size: 10px; color: #999; ">Jasper Philipsen relegated from 2nd to 52nd </td>`,
+    html: `<td>Jasper Philipsen relegated from 2nd to 52nd </td>`,
     selector: "td",
     expected: {
       type: "relegation",
@@ -31,7 +31,7 @@ const testCasesExtractNotice = [
     },
   },
   {
-    html: `<td colspan="13" style="text-align: left; font-size: 10px; color: #999; ">Martin Marcellusi relegated from 8th to 85th  for irregular sprint</td>`,
+    html: `<td>Martin Marcellusi relegated from 8th to 85th  for irregular sprint</td>`,
     selector: "td",
     expected: {
       type: "relegation",

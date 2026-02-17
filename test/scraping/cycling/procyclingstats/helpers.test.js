@@ -24,7 +24,7 @@ const testCasesExtractNotice = [
     selector: "td",
     expected: {
       type: "relegation",
-      rider: "Jasper Philipsen",
+      riderName: "Jasper Philipsen",
       from: 2,
       to: 52,
       reason: "",
@@ -35,7 +35,7 @@ const testCasesExtractNotice = [
     selector: "td",
     expected: {
       type: "relegation",
-      rider: "Martin Marcellusi",
+      riderName: "Martin Marcellusi",
       from: 8,
       to: 85,
       reason: "irregular sprint",

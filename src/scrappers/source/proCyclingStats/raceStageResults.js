@@ -480,7 +480,7 @@ function extractClassificationTable(htmlDOM, stageDetails) {
         );
         // TO FIX: Rider name is captured as LastName FirstName
         const riderIndex = rows.findIndex(
-          (row) => row.ridername === notice.ridername,
+          (row) => row.ridername === notice.riderName,
         );
         if (riderIndex !== -1) {
           // TODO append to rider result

@@ -117,7 +117,7 @@ function cleanUpStageTable(table, additionalValues) {
             const previousPosition = cleaned[index - 1];
 
             if (row["time"] == ",,") {
-              // Same time a previous
+              // Same time as previous
               delta = stringToSeconds(previousPosition["delta"]);
             } else {
               delta = stringToSeconds(row["time"]);
@@ -353,7 +353,9 @@ function extractTableCellContent(cell, stageDetails) {
   // Handle time cells with hidden spans
   if (cell.classList.contains("time")) {
     // Always remove hidden spans first
-    cell.querySelectorAll("span.hide").forEach((span) => span.remove());
+    cell.querySelectorAll("span.hide").forEach((span) => {
+      span.remove();
+    });
 
     const font = cell.querySelector("font");
     let time;
@@ -500,10 +502,6 @@ function classificationResults(
     const generalTable = classificationResultsSelection[i].querySelector(
       DOMSELECTORS.generalTab,
     );
-    // TODO: Implement extraction of general classification results
-    // const todayTables = classificationResultsSelection[i].querySelector(
-    //   DOMSELECTORS.todayTab,
-    // );
 
     if (generalTable) {
       switch (stageDetails.stageType) {
@@ -523,6 +521,11 @@ function classificationResults(
       }
     }
 
+    // TODO: Implement extraction of general classification results
+    // const todayTables = classificationResultsSelection[i].querySelector(
+    //   DOMSELECTORS.todayTab,
+    // );
+    //
     // TODO: Implement extraction of today classification results
     // if (todayTables) {
     //   classificationResults[classification]["today"] =
@@ -590,7 +593,7 @@ export async function scrapeRaceStageResults(race, stageDetails) {
 
     return cleanUpStages(stageClassificationResults, stageDetails);
   } catch (exception) {
-    logError("PCS Stage Results", `Failed to Navigate to '${url}'`, exception);
+    logError("PCS Stage Results", `Failed to proccess '${url}'`, exception);
     return null;
   }
 }

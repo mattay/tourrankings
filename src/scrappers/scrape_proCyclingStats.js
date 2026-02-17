@@ -369,7 +369,6 @@ async function updateRaces(page, races, raceStages, raceRiders, riders, teams) {
 
 /**
  * Update stages logic here
- * @prop {Page} page - The Puppeteer page object
  * @param {Races} races - The Races object
  * @param {RaceStages} raceStages - The RaceStages object
  * @param {RaceStageResults} raceStageResults - The RaceStageResults object
@@ -380,7 +379,6 @@ async function updateRaces(page, races, raceStages, raceRiders, riders, teams) {
  * @param {ClassificationTeam} raceStageTeam -
  */
 async function updateStageResults(
-  page,
   races,
   raceStages,
   raceStageResults,
@@ -540,7 +538,6 @@ async function main() {
     if (!process.env.FEATURE_DISABLED_RESULTS) {
       try {
         await updateStageResults(
-          page,
           races,
           raceStages,
           raceStageResults,
@@ -560,10 +557,6 @@ async function main() {
     // Catch-all for any errors not handled above
     logError("Main", "Fatal error", error);
     throw error;
-
-    // if (error instanceof Error) {
-    // if (err instanceof puppeteer.errors.TimeoutError) {
-    // logError("PUPPETEER_EXECUTABLE_PATH", Bun.env.PUPPETEER_EXECUTABLE_PATH);
   } finally {
     if (browser) {
       await browser.close();

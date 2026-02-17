@@ -91,15 +91,8 @@ async function collectRace(page, racePcsID, year) {
     try {
       logOut("Scrape PCS - Race Stages", `${year} ${racePcsID}`);
       // Race stages
-      const stagesInRace = await scrapeRaceStages(page, racePcsID, year).catch(
-        (exception) => {
-          logError(
-            "Scrape PCS - Race Stages",
-            `Failed to collect stages`,
-            exception,
-          );
-        },
-      );
+      const stagesInRace = await scrapeRaceStages(page, racePcsID, year);
+
       if (stagesInRace) {
         stages.push(...stagesInRace);
       } else {
@@ -212,7 +205,7 @@ function stagesWithoutResults(races, raceStages, raceStageResults) {
       const stageDate = new Date(stage.date);
       return (
         stageDate <= today &&
-        raceStageResults.getStageRankings(stage.stageUID ?? []).length === 0
+        raceStageResults.getStageRankings(stage.stageUID).length === 0
       );
     })
     .map((stage) => stage.stageUID);

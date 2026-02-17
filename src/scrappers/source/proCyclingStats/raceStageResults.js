@@ -266,10 +266,14 @@ function cleanUpStages(tables, stageDetails) {
 
   for (const [classification, rankings] of Object.entries(tables)) {
     if (Object.hasOwn(rankings, "general")) {
-      stageRankings[classification] = cleanUpStageTable(rankings["general"], {
+      const additionalValues = {
         stageUID: stageDetails.stageUID,
         stage: stageDetails.stage,
-      });
+      };
+      stageRankings[classification] = cleanUpStageTable(
+        rankings["general"],
+        additionalValues,
+      );
     }
 
     // TODO

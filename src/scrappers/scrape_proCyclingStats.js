@@ -110,47 +110,39 @@ async function collectRace(page, racePcsID, year) {
   }
 
   if (!process.env.FEATURE_DISABLED_STARTLIST) {
-    try {
-      // Race start list - Teams and Riders
-      logOut("Scrape PCS - Race Startlist", `${year} ${racePcsID}`);
-      const raceStartlist = await scrapeRaceStartList(
-        page,
-        racePcsID,
-        year,
-      ).catch((exception) => {
-        logError(
-          "Scrape PCS - Race Startlist",
-          `Failed to collect startlist`,
-          exception,
-        );
-      });
-
-      // Add race and team to rider
-      if (raceStartlist) {
-        for (let team of raceStartlist) {
-          // Add year
-          teams.push({
-            year,
-            ...team,
-          });
-          // Add race and team to rider
-          for (let rider of team.riders) {
-            riders.push({
-              raceUID: generateId.race(racePcsID, year),
-              teamPcsId: team.teamPcsId,
-              ...rider,
-            });
-          }
-        }
-      } else {
-        logError("Scrape PCS - Race Startlist", "No startlist found");
-      }
-    } catch (exception) {
+    // Race start list - Teams and Riders
+    logOut("Scrape PCS - Race Startlist", `${year} ${racePcsID}`);
+    const raceStartlist = await scrapeRaceStartList(
+      page,
+      racePcsID,
+      year,
+    ).catch((exception) => {
       logError(
         "Scrape PCS - Race Startlist",
-        "Failed to collect race details",
+        `Failed to collect startlist`,
         exception,
       );
+    });
+
+    // Add race and team to rider
+    if (raceStartlist) {
+      for (let team of raceStartlist) {
+        // Add year
+        teams.push({
+          year,
+          ...team,
+        });
+        // Add race and team to rider
+        for (let rider of team.riders) {
+          riders.push({
+            raceUID: generateId.race(racePcsID, year),
+            teamPcsId: team.teamPcsId,
+            ...rider,
+          });
+        }
+      }
+    } else {
+      logError("Scrape PCS - Race Startlist", "No startlist found");
     }
   } else {
     logOut("Main", "[FEATURE DISABLED] Startlist", "warn");

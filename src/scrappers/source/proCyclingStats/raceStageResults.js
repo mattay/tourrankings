@@ -425,6 +425,15 @@ function classificationResults(
   stageDetails,
   selector = DOMSELECTORS.classificationResult,
 ) {
+  if (!["prologue", "ITT", "TTT", ""].includes(stageDetails.stageType)) {
+    logOut(
+      "PCS Stage Results",
+      `Unexpected stage type [${stageDetails.stageType}]`,
+      "warn",
+    );
+    return {};
+  }
+
   const classificationStageResults = {};
 
   const classificationResultsSelection = Array.from(
@@ -448,20 +457,25 @@ function classificationResults(
     );
 
     if (generalTable) {
-      switch (stageDetails.stageType) {
-        case "TTT":
-          logOut(
-            "PCS Stage Results",
-            `Classification ${classification} for stage type [TTT] not implemented`,
-            "warn",
-          );
-          break;
-        case "ITT": // falls through
-        case "prologue": // falls through
-        default:
-          classificationStageResults[classification]["general"] =
-            extractClassificationTable(generalTable, stageDetails);
-          break;
+      if (stageDetails.stageType === "TTT") {
+        logOut(
+          "PCS Stage Results",
+          `Classification ${classification} for stage type [TTT] not implemented`,
+          "warn",
+        );
+      } else if (
+        stageDetails.stageType === "" ||
+        stageDetails.stageType === "ITT" ||
+        stageDetails.stageType === "prologue"
+      ) {
+        classificationStageResults[classification]["general"] =
+          extractClassificationTable(generalTable, stageDetails);
+      } else {
+        logOut(
+          "PCS Stage Results",
+          `Unexpected stage type [${stageDetails.stageType}]`,
+          "warn",
+        );
       }
     }
 

@@ -236,7 +236,7 @@ function cleanUpStages(tables, stageDetails) {
       );
     }
 
-    // TODO: Proccess tables in "today tabs" to capture intermediate results
+    // TODO: Process tables in "today tabs" to capture intermediate results
   }
 
   return stageRankings;
@@ -399,6 +399,12 @@ function extractClassificationTable(htmlDOM, stageDetails) {
         // TODO append to rider result
         // logOut("PCS Stage Results", rows[riderIndex]);
       }
+    } else if (notice.type === "unknown") {
+      logOut(
+        "PCS Stage Results",
+        `Row ${notice.row}: unrecognised notice — ${notice.content}`,
+        "debug",
+      );
     } else {
       logOut(
         "PCS Stage Results",

@@ -87,7 +87,7 @@ export function formatRow(row) {
     switch (key) {
       case "stage":
       case "rank":
-      case "previous stage ranking":
+      case "previousStageRanking":
       case "gc":
       case "bib":
       case "uci":

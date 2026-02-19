@@ -49,6 +49,18 @@ export class RaceStages extends CSVdataModel {
   }
 
   /**
+   * @param {string} stageUID - The unique identifier for the stage.
+   * @returns {RaceStageModel|null} - The stage with the specified UID.
+   */
+  getStage(stageUID) {
+    if (!stageUID) {
+      logError(this.constructor.name, "getStage expects stageUID");
+      return null;
+    }
+    return this.rows.find((row) => row.stageUID === stageUID) ?? null;
+  }
+
+  /**
    * @param {RaceStageModel[]} stages - The array of stages to filter.
    * @returns {Generator<RaceStageModel>} - A generator of past stages.
    */

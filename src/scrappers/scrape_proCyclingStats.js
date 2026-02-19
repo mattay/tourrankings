@@ -28,6 +28,7 @@ import {
   scrapeRaceStages,
   scrapeRaceStageResults,
 } from "./source/proCyclingStats";
+import { getSeason } from "./season";
 
 /**
  * @typedef {import('puppeteer-core').Page} Page - Puppeteer
@@ -47,7 +48,8 @@ import {
  */
 
 /**
- * @typedef {RaceData & { raceStages: Array<RaceStageData>, raceTeams: Array<TeamData>, raceRiders: Array<RiderData> }} RaceWithStages
+ * @typedef {RaceData & { stages: Array<RaceStageData> }} RaceWithStagesList
+ * @typedef {RaceData & { stages: Array<RaceStageData>, teams: Array<TeamData>, riders: Array<RiderData> }} RaceWithStages
  */
 
 /**
@@ -85,32 +87,29 @@ async function collectRace(page, racePcsID, year) {
   /** @type {Array<ScrapedRaceRider>} */
   const riders = [];
 
-  try {
-    logOut("Scrape PCS - Race Stages", `${year} ${racePcsID}`);
-    // Race stages
-    const stagesInRace = await scrapeRaceStages(page, racePcsID, year).catch(
-      (exception) => {
-        logError(
-          "Scrape PCS - Race Stages",
-          `Failed to collect stages`,
-          exception,
-        );
-      },
-    );
-    if (stagesInRace) {
-      stages.push(...stagesInRace);
-    } else {
-      logError("Scrape PCS - Race Stages", "No stages found");
+  if (!process.env.FEATURE_DISABLED_STAGES) {
+    try {
+      logOut("Scrape PCS - Race Stages", `${year} ${racePcsID}`);
+      // Race stages
+      const stagesInRace = await scrapeRaceStages(page, racePcsID, year);
+
+      if (stagesInRace) {
+        stages.push(...stagesInRace);
+      } else {
+        logError("Scrape PCS - Race Stages", "No stages found");
+      }
+    } catch (exception) {
+      logError(
+        "Scrape PCS - Race Stages",
+        "Failed to collect race details",
+        exception,
+      );
     }
-  } catch (exception) {
-    logError(
-      "Scrape PCS - Race Stages",
-      "Failed to collect race details",
-      exception,
-    );
+  } else {
+    logOut("Main", "[FEATURE DISABLED] Stages", "warn");
   }
 
-  try {
+  if (!process.env.FEATURE_DISABLED_STARTLIST) {
     // Race start list - Teams and Riders
     logOut("Scrape PCS - Race Startlist", `${year} ${racePcsID}`);
     const raceStartlist = await scrapeRaceStartList(
@@ -124,6 +123,8 @@ async function collectRace(page, racePcsID, year) {
         exception,
       );
     });
+
+    // Add race and team to rider
     if (raceStartlist) {
       for (let team of raceStartlist) {
         // Add year
@@ -143,12 +144,8 @@ async function collectRace(page, racePcsID, year) {
     } else {
       logError("Scrape PCS - Race Startlist", "No startlist found");
     }
-  } catch (exception) {
-    logError(
-      "Scrape PCS - Race Startlist",
-      "Failed to collect race details",
-      exception,
-    );
+  } else {
+    logOut("Main", "[FEATURE DISABLED] Startlist", "warn");
   }
 
   return {
@@ -159,16 +156,20 @@ async function collectRace(page, racePcsID, year) {
 }
 
 /**
- *
  * @param {RaceStages} raceStages - The RaceStages object
  * @param {Array<RaceData>} races - The array of race IDs
- * @returns {Array<RaceWithStages>} - Array of RaceWithStages objects
+ * @returns {Array<RaceWithStagesList>} - Array of RaceWithStages objects
  */
 function stagesInRaces(raceStages, races) {
+  /** @type {Array<RaceWithStagesList>} */
+  const raceWithStages = [];
   for (const race of races) {
-    race.stages = raceStages.stagesInRace(race.raceUID);
+    raceWithStages.push({
+      ...race,
+      stages: raceStages.stagesInRace(race.raceUID),
+    });
   }
-  return races;
+  return raceWithStages;
 }
 
 /**
@@ -180,7 +181,7 @@ function stagesInRaces(raceStages, races) {
  */
 function stagesWithoutResults(races, raceStages, raceStageResults) {
   const today = new Date();
-  const raceSeason = today.getFullYear();
+  const raceSeason = getSeason();
 
   const races_past = races.past(raceSeason);
   const races_inProgress = races.inProgress(today);
@@ -196,7 +197,7 @@ function stagesWithoutResults(races, raceStages, raceStageResults) {
       const stageDate = new Date(stage.date);
       return (
         stageDate <= today &&
-        raceStageResults.getStageRankings(stage.stageUID ?? []).length === 0
+        raceStageResults.getStageRankings(stage.stageUID).length === 0
       );
     })
     .map((stage) => stage.stageUID);
@@ -242,6 +243,7 @@ async function collectPastRaceDetails(
   riders,
   teams,
 ) {
+  logOut("Main", `Collecting past races details.`);
   const today = new Date();
   const pastRacesWithoutStages = stagesInRaces(raceStages, [
     ...races.past(),
@@ -249,17 +251,18 @@ async function collectPastRaceDetails(
   ]).filter((race) => race.stages.length === 0);
 
   for (const race of pastRacesWithoutStages) {
-    // logOut("Scrape PCS", `Collect past race: ${race.year} ${race.raceName}`);
+    logOut("Main", `Collect past race: ${race.year} ${race.raceName}`);
     try {
       const raceDetails = await collectRace(page, race.racePcsID, race.year);
       await updateRace(raceDetails, raceStages, raceRiders, riders, teams);
     } catch (error) {
       logError(
         "Scrape PCS",
-        `Failed to collect race details for ${race.name}`,
+        `Failed to collect race details for ${race.raceName}`,
         error,
       );
     }
+    logOut("Main", "Race information collection completed");
   }
 }
 
@@ -320,11 +323,10 @@ async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
  * await updateRaces(page, races, raceStages, raceRiders, riders, teams);
  */
 async function updateRaces(page, races, raceStages, raceRiders, riders, teams) {
-  const today = new Date();
-  const raceSeason = today.getFullYear();
+  const raceSeason = getSeason();
 
-  logOut("Main", `Collecting races for the ${raceSeason} season.`);
-  if (process.env.FEATURE_DISABLED_RACES !== "true") {
+  if (!process.env.FEATURE_DISABLED_RACES) {
+    logOut("Main", `Collecting races for the ${raceSeason} season.`);
     try {
       await collectWorldTourRaces(page, races, raceSeason);
     } catch (error) {
@@ -338,24 +340,20 @@ async function updateRaces(page, races, raceStages, raceRiders, riders, teams) {
     logOut("Main", "[FEATURE DISABLED] Races");
   }
 
-  if (process.env.FEATURE_DISABLED_RIDERS !== "true") {
-    await collectPastRaceDetails(
-      page,
-      races,
-      raceStages,
-      raceRiders,
-      riders,
-      teams,
-    );
-    logOut("Main", "Race information collection completed");
-  } else {
-    logOut("Main", "[FEATURE DISABLED] Riders");
-  }
+  await collectPastRaceDetails(
+    page,
+    races,
+    raceStages,
+    raceRiders,
+    riders,
+    teams,
+  );
+
+  logOut("Main", `[TODO] Collecting future races details.`);
 }
 
 /**
  * Update stages logic here
- * @prop {Page} page - The Puppeteer page object
  * @param {Races} races - The Races object
  * @param {RaceStages} raceStages - The RaceStages object
  * @param {RaceStageResults} raceStageResults - The RaceStageResults object
@@ -366,7 +364,6 @@ async function updateRaces(page, races, raceStages, raceRiders, riders, teams) {
  * @param {ClassificationTeam} raceStageTeam -
  */
 async function updateStageResults(
-  page,
   races,
   raceStages,
   raceStageResults,
@@ -393,15 +390,28 @@ async function updateStageResults(
   };
 
   for (const stage of stagesRequireResults) {
-    const [race, year, stageNo] = stage.split(":");
-    logOut("Main", `Scrape Stage Results: ${race}, ${year}, ${stage}`);
-    try {
-      const stageResults = await scrapeRaceStageResults(
-        page,
-        race,
-        Number(year),
-        Number(stageNo),
+    const stageDetails = raceStages.getStage(stage);
+    if (!stageDetails) {
+      logOut(
+        "Main",
+        `Scrape Stage Results: Stage details not found for ${stage}`,
+        "warn",
       );
+      continue;
+    }
+    const [race] = stage.split(":");
+
+    logOut(
+      "Main",
+      `Scrape Stage Results: ${stageDetails.year} ${race} Stage ${stageDetails.stage}`,
+    );
+    try {
+      const stageResults = await scrapeRaceStageResults(race, stageDetails);
+      if (!stageResults) {
+        logOut("Main", `Scrape Stage Results: No results found for ${stage}`);
+        continue;
+      }
+
       // Collect Results for bulk update
       for (let ranking in stageResults) {
         switch (ranking) {
@@ -432,12 +442,17 @@ async function updateStageResults(
       );
     }
   }
-  await raceStageResults.update(raceResults.stage);
-  await raceStageGeneral.update(raceResults.gc);
-  await raceStagePoints.update(raceResults.points);
-  await raceStageMountain.update(raceResults.mountain);
-  await raceStageYouth.update(raceResults.youth);
-  await raceStageTeam.update(raceResults.teams);
+
+  if (!process.env.FEATURE_DISABLED_RESULTS_UPDATE) {
+    await raceStageResults.update(raceResults.stage);
+    await raceStageGeneral.update(raceResults.gc);
+    await raceStagePoints.update(raceResults.points);
+    await raceStageMountain.update(raceResults.mountain);
+    await raceStageYouth.update(raceResults.youth);
+    await raceStageTeam.update(raceResults.teams);
+  } else {
+    logOut("Main", "[FEATURE DISABLED] _RESULTS_UPDATE", "warn");
+  }
 
   logOut("Main", "Scrape Stage results collection completed");
 }
@@ -498,20 +513,16 @@ async function main() {
       logError("Main", "Loading data - Failed", error);
       throw error;
     }
-    if (process.env.FEATURE_DISABLED_RACES !== "true") {
-      try {
-        await updateRaces(page, races, raceStages, raceRiders, riders, teams);
-      } catch (error) {
-        logError("Main", "Collecting race information - Failed", error);
-      }
-    } else {
-      logOut("Main", "[FEATURE DISABLED] Update races", "warn");
+
+    try {
+      await updateRaces(page, races, raceStages, raceRiders, riders, teams);
+    } catch (error) {
+      logError("Main", "Collecting race information - Failed", error);
     }
 
-    if (process.env.FEATURE_DISABLED_RESULTS !== "true") {
+    if (!process.env.FEATURE_DISABLED_RESULTS) {
       try {
         await updateStageResults(
-          page,
           races,
           raceStages,
           raceStageResults,
@@ -531,10 +542,6 @@ async function main() {
     // Catch-all for any errors not handled above
     logError("Main", "Fatal error", error);
     throw error;
-
-    // if (error instanceof Error) {
-    // if (err instanceof puppeteer.errors.TimeoutError) {
-    // logError("PUPPETEER_EXECUTABLE_PATH", Bun.env.PUPPETEER_EXECUTABLE_PATH);
   } finally {
     if (browser) {
       await browser.close();

@@ -13,7 +13,7 @@ function createNoticeCell(html, selector) {
   const cell = fragment.querySelector(selector);
 
   // Add null check to prevent crashes
-  if (!cell) throw new Error(`No element found`);
+  if (!cell) throw new Error(`No element found for selector "${selector}"`);
 
   return cell;
 }
@@ -39,6 +39,22 @@ const testCasesExtractNotice = [
       from: 8,
       to: 85,
       reason: "irregular sprint",
+    },
+  },
+  {
+    html: `<td><span>some child element</span></td>`,
+    selector: "td",
+    expected: {
+      type: "unknown",
+      content: `<td><span>some child element</span></td>`,
+    },
+  },
+  {
+    html: `<td>Some unrecognised notice text</td>`,
+    selector: "td",
+    expected: {
+      type: "unknown",
+      content: "Some unrecognised notice text",
     },
   },
 ];

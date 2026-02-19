@@ -1,7 +1,10 @@
 import { validateYear } from "@utils/date";
 import { logOut } from "@utils/logging";
 
+let _season;
+
 export function getSeason() {
+  if (_season !== undefined) return _season;
   const today = new Date();
   let raceSeason = today.getFullYear();
 
@@ -9,6 +12,6 @@ export function getSeason() {
     raceSeason = validateYear(process.env.SEASON, raceSeason);
   }
 
-  logOut("Season", `${raceSeason}`, "info");
+  _season = raceSeason;
   return raceSeason;
 }

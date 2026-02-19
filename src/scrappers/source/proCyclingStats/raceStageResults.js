@@ -234,56 +234,7 @@ function cleanUpStages(tables, stageDetails) {
       );
     }
 
-    // TODO
-    // if (
-    //   tab &&
-    //   Object.hasOwn(tables[index], "today") &&
-    //   tables[index]["today"] != null
-    // ) {
-    //   for (let i = 0; i < tables[index]["today"].length; i += 1) {
-    //     const ranking = tables[index]["today"][i];
-    //     let table = [];
-
-    //     switch (tab) {
-    //       case "points":
-    //         stageRankings[tab + "-location"] = cleanUpStageTable(
-    //           ranking.standings,
-    //           {
-    //             stageUID,
-    //             stage,
-    //             ...sprint(ranking.label),
-    //           },
-    //         );
-    //         break;
-
-    //       case "kom":
-    //         stageRankings[tab + "-location"] = cleanUpStageTable(
-    //           ranking.standings,
-    //           {
-    //             stageUID,
-    //             stage,
-    //             ...climb(ranking.label),
-    //           },
-    //         );
-    //         break;
-
-    //       case "youth":
-    //       case "teams":
-    //         stageRankings[tab + "-day-classification"] = cleanUpStageTable(
-    //           ranking.standings,
-    //           { stageUID, stage },
-    //         );
-    //         break;
-
-    //       default:
-    //         logOut("Clean Up Stages", `Ranking: ${ranking.label}`, "warn");
-
-    //         table = cleanUpStageTable(ranking.standings, { stageUID, stage });
-    //         stageRankings[tab + "-location"] = table;
-    //         break;
-    //     }
-    //   }
-    // }
+    // TODO: Proccess tables in "today tabs" to capture intermediate results
   }
 
   return stageRankings;

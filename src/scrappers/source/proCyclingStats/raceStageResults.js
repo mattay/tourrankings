@@ -120,12 +120,14 @@ function cleanUpStageTable(table, additionalValues) {
         if (row["time"] == ",,") {
           // Same time as previous
           delta = previousPosition["delta"];
+        } else if (row["time"] == "-" || row["time"] == "") {
+          // Rider Abandoned
+          delta = 0;
         } else {
           delta = stringToSeconds(row["time"]);
         }
 
         if (row["time"] == "-" || row["time"] == "") {
-          // Rider Abandoned
           time = null;
         } else {
           time = firstPosition["time"] + delta;

@@ -1,7 +1,7 @@
 import { generateId } from "@utils/idGenerator";
 import { formatDate } from "@utils/string";
 import { logError } from "@utils/logging";
-import { config } from "./config";
+import { config } from "@scrappers/html/config-puppeteer";
 
 /**
  * @typedef {import('puppeteer-core').Page} Page - Puppeteer

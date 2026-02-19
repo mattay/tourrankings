@@ -1,9 +1,9 @@
-import { htmlDOM } from "../../domParser";
-import { fetchHtmlWithPuppeteer } from "../../fetch";
 import { generateId } from "@utils/idGenerator";
 import { logError, logOut } from "@utils/logging";
 import { formatDate } from "@utils/string";
 import { buildUrl, urlSections } from "@utils/url";
+import { htmlDOM } from "@scrappers/html/domParser";
+import { fetchHtmlWithPuppeteer } from "@scrappers/html/fetch";
 
 /**
  * @typedef {import('puppeteer-core').Page} Page - Puppeteer

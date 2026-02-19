@@ -1,4 +1,4 @@
-import { config } from "./source/proCyclingStats";
+import { config } from "./config-puppeteer";
 
 /**
  * @typedef {import('puppeteer-core').Page} Page - Puppeteer
@@ -39,7 +39,7 @@ export async function fetchHtmlWithPuppeteer(page, url, options = {}) {
  * @param {{ timeout?: number, headers?: Record<string,string> }} [options] - Options for the fetch request
  * @returns {Promise<string>} The HTML content of the page
  */
-export async function fetchHtmlWithFetch(url, options = {}) {
+export async function fetchHtml(url, options = {}) {
   const { timeout = config.timeout, headers = {} } = options;
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
@@ -77,4 +77,43 @@ export async function fetchHtmlWithFetch(url, options = {}) {
   } finally {
     clearTimeout(id);
   }
+}
+
+/**
+ * Fetches HTML content with caching support
+ * This is the recommended function to use when migrating away from Puppeteer
+ *
+ * @param {string} url - The URL to fetch
+ * param {FetchOptions} [options] - Options for the fetch request
+ * returns {Promise<{html: string, fromCache: boolean, cacheKey: string}>} Result containing HTML and cache status
+ *
+ * @example
+ * // Fetch with caching enabled
+ * const result = await fetchHtmlWithCache(
+ *   'https://www.procyclingstats.com/race/tour-de-france/2024',
+ *   {
+ *     useCache: true,
+ *     cacheDir: '.cache/html',
+ *     maxAge: 24 * 60 * 60 * 1000 // 24 hours
+ *   }
+ * );
+ * console.log(`From cache: ${result.fromCache}`);
+ * console.log(result.html);
+ */
+export async function fetchHtmlWithCache(url, options = {}) {
+  const {
+    useCache = true,
+    cacheDir = process.env.HTML_CACHE_DIR,
+    // maxAge,
+    // ...fetchOptions
+  } = options;
+
+  // const cacheConfig = {
+  //   enabled: useCache,
+  //   cacheDir,
+  //   maxAge,
+  // };
+  console.log(useCache, cacheDir);
+
+  // return fetchWithCache(url, fetchHtml, cacheConfig, fetchOptions);
 }

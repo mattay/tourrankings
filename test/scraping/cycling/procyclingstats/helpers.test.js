@@ -1,4 +1,4 @@
-import { describe, it, test, expect } from "bun:test";
+import { describe, test, expect } from "bun:test";
 import { JSDOM } from "jsdom";
 import { extractNotice } from "@scrappers/source/proCyclingStats/helpers/helperRaceStageResults";
 

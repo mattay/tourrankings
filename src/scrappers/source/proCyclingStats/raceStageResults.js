@@ -60,7 +60,7 @@ function tableHeaders(column) {
  * @returns {Array<Object>} The cleaned up table.
  */
 function cleanUpStageTable(table, additionalValues) {
-  const drop = ["h2h", "specialty", "age"];
+  const columnsToDrop = ["h2h", "specialty", "age"];
 
   const sorted = table.sort(sortByRanking);
 
@@ -137,11 +137,12 @@ function cleanUpStageTable(table, additionalValues) {
     }
 
     // Drop Team if rider is recorded
+    const dropList = [...columnsToDrop];
     if (Object.hasOwn(row, "bib") && Object.hasOwn(row, "team")) {
-      drop.push("team");
+      dropList.push("team");
     }
     // Drop not needed
-    row = dropColumns(row, drop);
+    row = dropColumns(row, dropList);
 
     cleaned.push(renameKeys({ ...row, ...additionalValues }, toCamelCase));
     return cleaned;
@@ -444,9 +445,8 @@ function extractClassificationTable(htmlDOM, stageDetails) {
       );
       if (riderIndex !== -1) {
         // TODO append to rider result
-        console.log(rows[riderIndex]);
+        // logOut("PCS Stage Results", rows[riderIndex]);
       }
-
     } else {
       logOut(
         "PCS Stage Results",
@@ -454,7 +454,7 @@ function extractClassificationTable(htmlDOM, stageDetails) {
         "error",
       );
     }
-
+  });
   return rows;
 }
 

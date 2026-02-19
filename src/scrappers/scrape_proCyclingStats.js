@@ -407,7 +407,7 @@ async function updateStageResults(
       );
       continue;
     }
-    const [race, year, stageNo] = stage.split(":");
+    const [race] = stage.split(":");
 
     logOut(
       "Main",

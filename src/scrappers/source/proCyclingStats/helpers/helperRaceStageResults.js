@@ -1,4 +1,4 @@
-import { formatSeconds } from "src/utils/time";
+import { formatSeconds } from "@utils/time";
 
 /**
  * Matches a relegation notice

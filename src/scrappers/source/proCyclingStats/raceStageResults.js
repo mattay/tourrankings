@@ -260,10 +260,9 @@ function columnHeader(htmlDOM, selector) {
  * Extracts the content of a table cell.
  *
  * @param {Element} cell - The HTML DOM element representing the table cell.
- * @param {StageDetails} stageDetails - The details of the stage.
  * @returns {string} The content of the table cell.
  */
-function extractTableCellContent(cell, stageDetails) {
+function extractTableCellContent(cell) {
   // Skip cells that are clearly non-data (checkboxes, buttons, etc.)
   if (
     cell.querySelector('input[type="checkbox"], button, input[type="radio"]')
@@ -376,7 +375,7 @@ function extractClassificationTable(htmlDOM, stageDetails) {
       ) {
         const columnLabel = columns[columnIndex];
         const cell = cells[columnIndex];
-        const cellContent = extractTableCellContent(cell, stageDetails);
+        const cellContent = extractTableCellContent(cell);
 
         rowDetails[columnLabel] = cellContent;
       }

@@ -37,7 +37,7 @@ const EXPECTED_HEADERS = [
 ];
 
 const patternStage =
-  /^(?:Prolouge|Stage (?<stageNumber>\d+))?(?: \((?<stageType>.*)\))?$/;
+  /^(?:Prologue|Stage (?<stageNumber>\d+))?(?: \((?<stageType>.*)\))?$/;
 
 /**
  * Extracts column headers from the stages table.

@@ -328,7 +328,7 @@ async function updateRaces(page, races, raceStages, raceRiders, riders, teams) {
   if (!process.env.FEATURE_DISABLED_RACES) {
     logOut("Main", `Collecting races for the ${raceSeason} season.`);
     try {
-      await collectWorldTourRaces(page, races, raceSeason);
+      await collectWorldTourRaces(races, raceSeason);
     } catch (error) {
       logError(
         "Main",

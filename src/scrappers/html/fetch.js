@@ -1,7 +1,19 @@
-import { config } from "./config-puppeteer";
+import { generateCacheKey, readFromCache, writeToCache } from "./cache";
+import config from "./config-puppeteer";
 
 /**
  * @typedef {import('puppeteer-core').Page} Page - Puppeteer
+ */
+
+/**
+ * @typedef {Object} FetchOptions
+ * @property {number} [timeout] - Timeout in milliseconds for the fetch request
+ * @property {Record<string,string>} [headers] - Headers to include in the fetch request
+ */
+
+/**
+ * @typedef {Object} CacheOptions
+ * @property {String} [pattern] - URL pattern for cache key generation
  */
 
 /**
@@ -36,7 +48,7 @@ export async function fetchHtmlWithPuppeteer(page, url, options = {}) {
 /**
  * Fetches HTML content using native fetch (for SSR pages)
  * @param {string} url - The URL to fetch
- * @param {{ timeout?: number, headers?: Record<string,string> }} [options] - Options for the fetch request
+ * @param {FetchOptions} [options] - Options for the fetch request
  * @returns {Promise<string>} The HTML content of the page
  */
 export async function fetchHtml(url, options = {}) {
@@ -70,10 +82,9 @@ export async function fetchHtml(url, options = {}) {
         { cause: error },
       );
     }
-    throw new Error(
-      `fetchHtmlWithFetch failed for ${url}: ${error?.message ?? error}`,
-      { cause: error },
-    );
+    throw new Error(`fetchHtml failed for ${url}: ${error?.message ?? error}`, {
+      cause: error,
+    });
   } finally {
     clearTimeout(id);
   }
@@ -84,36 +95,34 @@ export async function fetchHtml(url, options = {}) {
  * This is the recommended function to use when migrating away from Puppeteer
  *
  * @param {string} url - The URL to fetch
- * param {FetchOptions} [options] - Options for the fetch request
- * returns {Promise<{html: string, fromCache: boolean, cacheKey: string}>} Result containing HTML and cache status
+ * @param {FetchOptions & CacheOptions} [options] - Options for fetch and caching
+ * @returns {Promise<{html: string, fromCache: boolean, cacheKey: string}>} Result containing HTML and cache status
  *
  * @example
  * // Fetch with caching enabled
  * const result = await fetchHtmlWithCache(
  *   'https://www.procyclingstats.com/race/tour-de-france/2024',
  *   {
- *     useCache: true,
- *     cacheDir: '.cache/html',
- *     maxAge: 24 * 60 * 60 * 1000 // 24 hours
+ *     pattern: 'pcs-race-tour-de-france-2024',
+ *     timeout: 10000
  *   }
  * );
- * console.log(`From cache: ${result.fromCache}`);
- * console.log(result.html);
  */
 export async function fetchHtmlWithCache(url, options = {}) {
-  const {
-    useCache = true,
-    cacheDir = process.env.HTML_CACHE_DIR,
-    // maxAge,
-    // ...fetchOptions
-  } = options;
+  const { pattern, ...fetchOptions } = options;
 
-  // const cacheConfig = {
-  //   enabled: useCache,
-  //   cacheDir,
-  //   maxAge,
-  // };
-  console.log(useCache, cacheDir);
+  const cacheKey = generateCacheKey(pattern ? pattern : url);
+  const cachedHtml = readFromCache(cacheKey);
 
-  // return fetchWithCache(url, fetchHtml, cacheConfig, fetchOptions);
+  if (cachedHtml) {
+    return { html: cachedHtml, fromCache: true, cacheKey };
+  }
+
+  const html = await fetchHtml(url, fetchOptions);
+
+  if (html) {
+    writeToCache(cacheKey, html);
+  }
+
+  return { html, fromCache: false, cacheKey };
 }

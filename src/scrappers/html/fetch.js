@@ -1,5 +1,5 @@
 import { generateCacheKey, readFromCache, writeToCache } from "./cache";
-import { config } from "./config-puppeteer";
+import config from "./config-puppeteer";
 
 /**
  * @typedef {import('puppeteer-core').Page} Page - Puppeteer

@@ -14,7 +14,6 @@ import config from "./config-puppeteer";
 /**
  * @typedef {Object} CacheOptions
  * @property {String} [pattern] - URL pattern for cache key generation
- * @property {number} [maxAge] - Maximum cache age in milliseconds
  */
 
 /**

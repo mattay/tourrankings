@@ -205,13 +205,13 @@ function processRaceRecords(
 /**
  * Scrapes race data from a cycling results page
  * @param {string} url - The URL to scrape
- * @param {string} pattern - The pattern to use for caching
+ * @param {string} cachePattern - The pattern to use for caching
  * @param {number} year - The year of the races being scraped
  * @returns {Promise<Array<RaceRecord>|null>} Array of cleaned race records or null if an error occurs
  */
-export async function scrapeRaces(url, pattern, year) {
+export async function scrapeRaces(url, cachePattern, year) {
   try {
-    const htmlContent = await fetchHtmlWithCache(url, { pattern });
+    const htmlContent = await fetchHtmlWithCache(url, { cachePattern });
     return scrapeRacesFromHtml(htmlContent.html, year);
   } catch (exception) {
     logError("Scrape PCS - Races", "Failed to scrape races ", exception, {

@@ -13,7 +13,7 @@ import {
 
 /** @typedef {import('@models/@types/races').RaceStageModel} StageDetails */
 
-const DOMSELECTORS = {
+const DOM_SELECTORS = {
   classificationTabs: ".page-content ul.resultTabs li",
   classificationResult: "#resultsCont .resTab",
   generalTab: ".general",
@@ -355,14 +355,14 @@ function extractTableCellContent(cell) {
  * @returns {Array} An array of classification table data.
  */
 function extractClassificationTable(htmlDOM, stageDetails) {
-  const columns = columnHeader(htmlDOM, DOMSELECTORS.table.headers);
+  const columns = columnHeader(htmlDOM, DOM_SELECTORS.table.headers);
 
   const rows = [];
   const notices = [];
 
-  Array.from(htmlDOM.querySelectorAll(DOMSELECTORS.table.rows)).forEach(
+  Array.from(htmlDOM.querySelectorAll(DOM_SELECTORS.table.rows)).forEach(
     (row, index) => {
-      const cells = Array.from(row.querySelectorAll(DOMSELECTORS.table.cells));
+      const cells = Array.from(row.querySelectorAll(DOM_SELECTORS.table.cells));
       const rowDetails = {};
 
       if (cells.length == 1) {
@@ -448,7 +448,7 @@ function classificationResults(
   htmlDOM,
   classificationsList,
   stageDetails,
-  selector = DOMSELECTORS.classificationResult,
+  selector = DOM_SELECTORS.classificationResult,
 ) {
   if (!["prologue", "ITT", "TTT", ""].includes(stageDetails.stageType)) {
     logOut(
@@ -478,7 +478,7 @@ function classificationResults(
     classificationStageResults[classification] = {};
 
     const generalTable = classificationResultsSelection[i].querySelector(
-      DOMSELECTORS.generalTab,
+      DOM_SELECTORS.generalTab,
     );
 
     if (generalTable) {
@@ -527,7 +527,7 @@ function classificationResults(
  */
 function getClassificationsFromTabs(
   htmlDOM,
-  selector = DOMSELECTORS.classificationTabs,
+  selector = DOM_SELECTORS.classificationTabs,
 ) {
   try {
     return Array.from(htmlDOM.querySelectorAll(selector)).map(

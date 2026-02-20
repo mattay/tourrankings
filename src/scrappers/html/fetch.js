@@ -1,3 +1,4 @@
+import { generateCacheKey, readFromCache, writeToCache } from "./cache";
 import { config } from "./config-puppeteer";
 
 /**
@@ -70,10 +71,9 @@ export async function fetchHtml(url, options = {}) {
         { cause: error },
       );
     }
-    throw new Error(
-      `fetchHtmlWithFetch failed for ${url}: ${error?.message ?? error}`,
-      { cause: error },
-    );
+    throw new Error(`fetchHtml failed for ${url}: ${error?.message ?? error}`, {
+      cause: error,
+    });
   } finally {
     clearTimeout(id);
   }
@@ -101,19 +101,21 @@ export async function fetchHtml(url, options = {}) {
  * console.log(result.html);
  */
 export async function fetchHtmlWithCache(url, options = {}) {
-  const {
-    useCache = true,
-    cacheDir = process.env.HTML_CACHE_DIR,
-    // maxAge,
-    // ...fetchOptions
-  } = options;
+  const { pattern, maxAge, ...fetchOptions } = options;
 
-  // const cacheConfig = {
-  //   enabled: useCache,
-  //   cacheDir,
-  //   maxAge,
-  // };
-  console.log(useCache, cacheDir);
+  const cacheKey = generateCacheKey(pattern ? pattern : url);
+  const cachedHtml = readFromCache(cacheKey, maxAge);
 
-  // return fetchWithCache(url, fetchHtml, cacheConfig, fetchOptions);
+  if (cachedHtml) {
+    return cachedHtml;
+  }
+
+  const html = await fetchHtml(url, fetchOptions);
+
+  // Write to cache if enabled
+  if (html) {
+    writeToCache(cacheKey, html);
+  }
+
+  return html;
 }

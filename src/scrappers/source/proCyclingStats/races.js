@@ -3,10 +3,9 @@ import { logError, logOut } from "@utils/logging";
 import { formatDate } from "@utils/string";
 import { buildUrl, urlSections } from "@utils/url";
 import { htmlDOM } from "@scrappers/html/domParser";
-import { fetchHtmlWithPuppeteer } from "@scrappers/html/fetch";
+import { fetchHtmlWithCache } from "@scrappers/html/fetch";
 
 /**
- * @typedef {import('puppeteer-core').Page} Page - Puppeteer
  * @typedef {import('../../../models/races/races').Races} Races
  */
 
@@ -24,11 +23,10 @@ import { fetchHtmlWithPuppeteer } from "@scrappers/html/fetch";
 
 /**
  * Collects World Tour races for a given year
- * @param {Page} page - The Puppeteer page object
  * @param {Races} races - The Races collection to update
  * @param {number} year - The year of the races to collect
  */
-export async function collectWorldTourRaces(page, races, year) {
+export async function collectWorldTourRaces(races, year) {
   const filter = {
     year: year,
     circuit: 1,
@@ -38,10 +36,11 @@ export async function collectWorldTourRaces(page, races, year) {
     s: "year-calendar",
   };
   const url = buildUrl("https://www.procyclingstats.com/races.php", filter);
+  const cachePattern = `pcs-races-${filter.year}-${filter.class}`;
 
-  const tableRows = await scrapeRaces(page, url, filter.year);
+  const tableRows = await scrapeRaces(url, cachePattern, filter.year);
   if (!tableRows || tableRows.length == 0) {
-    logError("Scrape PCS - Races", `No races found for year ${year}`, { url });
+    logError("Scrape PCS - Races", `No races found for year ${year} -> ${url}`);
     return;
   }
 
@@ -205,15 +204,15 @@ function processRaceRecords(
 
 /**
  * Scrapes race data from a cycling results page
- * @param {Page} page - The Puppeteer page object
  * @param {string} url - The URL to scrape
+ * @param {string} pattern - The pattern to use for caching
  * @param {number} year - The year of the races being scraped
  * @returns {Promise<Array<RaceRecord>|null>} Array of cleaned race records or null if an error occurs
  */
-export async function scrapeRaces(page, url, year) {
+export async function scrapeRaces(url, pattern, year) {
   try {
-    const htmlContent = await fetchHtmlWithPuppeteer(page, url);
-    return scrapeRacesFromHtml(htmlContent, year);
+    const htmlContent = await fetchHtmlWithCache(url, { pattern });
+    return scrapeRacesFromHtml(htmlContent.html, year);
   } catch (exception) {
     logError("Scrape PCS - Races", "Failed to scrape races ", exception, {
       url,

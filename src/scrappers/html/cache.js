@@ -1,16 +1,34 @@
 import { logError } from "@utils/logging";
+import { parseBool } from "@utils/sanity";
 import { createHash } from "crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
+import { html_beautify } from "js-beautify";
 import { join } from "path";
-import { parseBool } from "@utils/sanity";
 
 const CACHE_CONFIG = {
   enabled: parseBool(process.env.HTML_CACHE_ENABLED, true),
   baseDirectory: process.env.HTML_CACHE_DIR || "./data/html",
-  // maxAge: parseInt(process.env.HTML_CACHE_MAX_AGE, 10) || 86400000, // Default to 24 hours
+  beautify: process.env.HTML_CACHE_BEAUTIFY || false,
   removeScripts: parseBool(process.env.HTML_CACHE_REMOVE_SCRIPTS, true),
   removeStyles: parseBool(process.env.HTML_CACHE_REMOVE_STYLES, false),
   removeComments: parseBool(process.env.HTML_CACHE_REMOVE_COMMENTS, false),
+};
+
+/**
+ * Beautify options for HTML output
+ * @type {import('js-beautify').HTMLBeautifyOptions}
+ */
+const BEAUTIFY_OPTIONS = {
+  indent_size: 2,
+  indent_char: " ",
+  max_preserve_newlines: 0,
+  preserve_newlines: true,
+  indent_inner_html: true,
+  end_with_newline: true,
+  wrap_line_length: 0,
+  unformatted: ["code", "pre", "textarea"],
+  content_unformatted: ["pre", "textarea"],
+  indent_scripts: "keep",
 };
 
 /**
@@ -70,6 +88,44 @@ export function readFromCache(cacheKey) {
 }
 
 /**
+ * Cleans HTML by removing script tags and optionally other elements
+ *
+ * @param {string} html - The HTML content to clean
+ * @returns {string} Cleaned HTML content
+ */
+export function cleanHtml(html) {
+  let cleaned = html;
+
+  // Remove script tags (including inline scripts and external scripts)
+  if (CACHE_CONFIG.removeScripts) {
+    // Remove script tags with any attributes
+    cleaned = cleaned.replace(
+      /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>\n?/gi,
+      "",
+    );
+    // Remove any remaining self-closing script tags
+    cleaned = cleaned.replace(/<script[^>]*\/>/gi, "");
+  }
+
+  // Remove style tags (optional)
+  if (CACHE_CONFIG.removeStyles) {
+    cleaned = cleaned.replace(
+      /<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi,
+      "",
+    );
+  }
+
+  // Remove HTML comments (optional)
+  if (CACHE_CONFIG.removeComments) {
+    cleaned = cleaned.replace(/<!--[\s\S]*?-->/g, "");
+  }
+
+  return CACHE_CONFIG.beautify
+    ? html_beautify(cleaned, BEAUTIFY_OPTIONS)
+    : cleaned;
+}
+
+/**
  * Writes HTML content to cache
  *
  * @param {string} cacheKey - The cache key
@@ -93,7 +149,8 @@ export function writeToCache(cacheKey, html) {
   const filePath = getCacheFilePath(cacheKey);
 
   try {
-    writeFileSync(filePath, html, "utf-8");
+    const cleanedHtml = cleanHtml(html);
+    writeFileSync(filePath, cleanedHtml, "utf-8");
     return true;
   } catch (error) {
     logError("HTML Cache", `Failed to write cache file ${filePath}`, error);

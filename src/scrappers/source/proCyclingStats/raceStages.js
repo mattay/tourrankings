@@ -1,7 +1,7 @@
 import { generateId } from "@cycling/idGenerator";
 import { formatDate } from "@utils/string";
 import { logError } from "@utils/logging";
-import { fetchHtmlWithCache, htmlDOM } from "src/scrappers/html";
+import { fetchHtmlWithCache, htmlDOM } from "@scrappers/html";
 
 /**
  * @typedef {import('./@types').ScrapedRaceStage} ScrapedRaceStage
@@ -19,37 +19,123 @@ import { fetchHtmlWithCache, htmlDOM } from "src/scrappers/html";
  * @property {String} stagePcsUrl - The cleaned URL of the stage page
  */
 
+const DOM_SELECTORS = {
+  contentTables: ".page-content table",
+  stageTableColumns: "thead tr th",
+  stageTableRows: "tbody tr:not(.sum)",
+  stageTableCell: "td",
+};
+
+const EXPECTED_HEADERS = [
+  { labeled: "Date", key: "date", type: "string" },
+  { labeled: "", key: "parcoursType", type: "string" },
+  { labeled: "#", key: "stage", type: "string" },
+  { labeled: "Departure", key: "departure", type: "string" },
+  { labeled: "Arrival", key: "arrival", type: "string" },
+  { labeled: "Distance", key: "distance", type: "number" },
+  { labeled: "Vertical meters", key: "verticalMeters", type: "number" },
+];
+
+const patternStage =
+  /^(?:Prolouge|Stage (?<stageNumber>\d+))?(?: \((?<stageType>.*)\))?$/;
+
 /**
- * Cleans a record by extracting stage number and type, and generating IDs.
- * @param {RawStageRecord} record - The record to clean.
- * @returns {ScrapedRaceStage} The cleaned record.
+ * Extracts column headers from the stages table.
+ * @param {Element} stagesTable - The HTML element representing the stages table.
+ * @returns {string[]} An array of column headers.
  */
-function cleanRecord(record) {
-  const regexStage = /^(?<stageNumber>\d+)( \((?<stageType>.*)\))?$/;
-  let stageType = null;
-  let stageNumber = 0;
-
-  if (record.stage === "Prologue") {
-    stageType = record.stage.toLowerCase();
-  } else {
-    const matchStage = record.stage.match(regexStage);
-    if (!matchStage) {
-      logError("Clean Record", `Invalid stage format: ${record.stage}`);
+function columnHeader(stagesTable) {
+  return Array.from(
+    stagesTable.querySelectorAll(DOM_SELECTORS.stageTableColumns),
+  ).map((th, index) => {
+    const header = th.textContent.trim();
+    const expected = EXPECTED_HEADERS[index];
+    if (header !== expected.labeled) {
+      logError(
+        "Scrape PCS - Stages",
+        `Unexpected heading [${header}] @ index [${index}]`,
+      );
+      return header;
     }
-    stageNumber = Number(matchStage?.groups.stageNumber) || null;
-    stageType = matchStage?.groups.stageType || null;
-  }
-  const raceUID = generateId.race(record.raceUrlId, record.year);
-  const stageUID = generateId.stage(raceUID, stageNumber);
+    return expected.key;
+  });
+}
 
-  return {
-    ...record,
-    raceUID,
-    stageUID,
-    date: formatDate(record.year, record.date, "/"),
-    stage: stageNumber,
-    stageType,
-  };
+/**
+ * Parses the stages table and returns an array of stage details.
+ * @param {string} htmlContent - The HTML element representing the stages table.
+ * @param {number} year - The year of the race.
+ * @returns {Object[]} An array of stage details.
+ */
+function parseStages(htmlContent, year) {
+  const pageDOM = htmlDOM(htmlContent);
+
+  const htmlTableStages = Array.from(
+    pageDOM.querySelectorAll(DOM_SELECTORS.contentTables),
+  )[0]; // We want the first table
+
+  const columns = columnHeader(htmlTableStages);
+
+  const rows = Array.from(
+    htmlTableStages.querySelectorAll(DOM_SELECTORS.stageTableRows),
+  ).map((tr, rowCount) => {
+    let stageNumber = 0;
+    let stageType = null;
+    let matchStage;
+
+    const cells = Array.from(tr.querySelectorAll(DOM_SELECTORS.stageTableCell));
+
+    const stageDetails = cells.reduce((details, td, index) => {
+      const key = columns[index];
+      let value = td.textContent.trim();
+      switch (key) {
+        case "departure":
+        case "arrival":
+          details[key] = value;
+          break;
+        case "distance":
+        case "verticalMeters":
+          details[key] = Number(value) || null;
+          break;
+        case "date":
+          details[key] = formatDate(year, value, "/");
+          break;
+        case "parcoursType":
+          value = Array.from(td.querySelector("span").classList).find((cls) =>
+            /^p\d+$/.test(cls),
+          );
+          details[key] = value;
+          break;
+        case "stage":
+          value = td.querySelector("a").textContent.trim();
+          if (value === "Prologue") {
+            stageNumber = 0;
+            stageType = value;
+          } else {
+            matchStage = value.match(patternStage);
+            stageNumber = Number(matchStage?.groups.stageNumber);
+            stageType = matchStage?.groups?.stageType || null;
+            if (!matchStage) {
+              logError(
+                "Clean Record",
+                `Invalid stage format: ${value} -> ${patternStage}`,
+              );
+            }
+          }
+          details[key] = stageNumber;
+          details["stageType"] = stageType;
+          details["stagePcsUrl"] = td.querySelector("a").href;
+          break;
+        default:
+          console.log(index, key, td.innerHTML);
+          break;
+      }
+      return details;
+    }, {});
+    return stageDetails;
+  });
+
+  return rows;
 }
 
 /**
@@ -81,67 +167,22 @@ export function scrapeRaceStagesFromHtml(htmlContent) {
  */
 export async function scrapeRaceStages(race, year) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/route/stages`;
-  const selectorTable = ".page-content table";
+  const cachePattern = `${race}-${year}-stages`;
 
   try {
-    await page
-      .goto(url, { waitUntil: "domcontentloaded" })
-      .catch((exception) => {
-        logError("Scrape PCS - Stages", `Navigating to ${url}`, exception);
-        throw exception;
-      });
+    const htmlContent = await fetchHtmlWithCache(url, { cachePattern });
+    const stages = parseStages(htmlContent.html, year);
 
-    await page
-      .waitForSelector(selectorTable, {
-        timeout: config.timeout,
-      })
-      .catch((exception) => {
-        logError(
-          "Scrape PCS - Stages",
-          `Waiting for selector '.page-content table' On page ${url}`,
-          exception,
-        );
-        throw exception;
-      });
-
-    // Extract data from the specified selector
-    const data = await page.$$eval(
-      selectorTable,
-      (tables, race, year, url) => {
-        const stages = Array.from(
-          tables[0].querySelectorAll("tbody tr:not(.sum)"),
-        );
-        return stages.map((tr) => {
-          const tds = tr.querySelectorAll("td");
-          const dateText = tds[0].textContent.trim();
-
-          let profileSpan = tds[1].querySelector("span");
-          const parcoursType = profileSpan
-            ? Array.from(profileSpan.classList).find((cls) =>
-                /^p\d+$/.test(cls),
-              )
-            : null;
-
-          return {
-            year,
-            raceUrlId: race,
-            date: dateText,
-            stage: tds[2].textContent.trim().replace("Stage ", ""),
-            parcoursType,
-            departure: tds[3].textContent.trim(),
-            arrival: tds[4].textContent.trim(),
-            distance: tds[5].textContent.trim(),
-            verticalMeters: tds[6].textContent.trim(),
-            stagePcsUrl: url,
-          };
-        });
-      },
-      race,
-      year,
-      url,
-    );
-
-    return data.map((record) => cleanRecord(record));
+    return stages.map((stage) => {
+      const raceUID = generateId.race(race, year);
+      const stageUID = generateId.stage(raceUID, stage.stage);
+      return {
+        ...stage,
+        year,
+        raceUID,
+        stageUID,
+      };
+    });
   } catch (exception) {
     logError("Scrape PCS - Stages", url, exception);
     throw exception;

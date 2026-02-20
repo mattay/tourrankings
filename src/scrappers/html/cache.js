@@ -17,8 +17,6 @@ const CACHE_CONFIG = {
  * Configuration for HTML caching
  *
  * @typedef {Object} HtmlCacheConfig
- * @property {string} cacheDir - Directory where HTML files will be cached
- * @property {boolean} enabled - Whether caching is enabled
  * @property {number} [maxAge] - Maximum age of cached files in milliseconds (optional)
  */
 
@@ -32,7 +30,7 @@ export function generateCacheKey(url) {
   const hash = createHash("sha256").update(url).digest("hex");
   // Use first 16 chars of hash for readability, keep URL info for debugging
   const urlPart = url
-    .replace(/^https?:\/\/www./, "")
+    .replace(/^https?:\/\/www\./, "")
     // .replace(/(.com|.php)/g, "")
     .replace(/[^a-z0-9]/gi, "_")
     .substring(0, 50);
@@ -57,10 +55,9 @@ function getCacheFilePath(cacheKey) {
  * @returns {string|null} The cached HTML content, or null if not found/expired
  */
 export function readFromCache(cacheKey, maxAge) {
+  if (!CACHE_CONFIG.enabled) return null;
   const filePath = getCacheFilePath(cacheKey);
 
-  console.log(`Reading from cache: ${filePath}`);
-  //isCacheValid
   if (!existsSync(filePath)) {
     return null;
   }
@@ -81,22 +78,21 @@ export function readFromCache(cacheKey, maxAge) {
  * @returns {boolean} True if successfully written
  */
 export function writeToCache(cacheKey, html) {
+  if (!CACHE_CONFIG.enabled) return null;
   // Ensure cache directory exists
-  if (!existsSync(CACHE_CONFIG.baseDirectory)) {
-    try {
-      mkdirSync(CACHE_CONFIG.baseDirectory, { recursive: true });
-    } catch (error) {
-      logError(
-        "HTML Cache",
-        `Failed to create cache directory ${CACHE_CONFIG.baseDirectory}:`,
-        error,
-      );
-      return false;
-    }
+  try {
+    mkdirSync(CACHE_CONFIG.baseDirectory, { recursive: true });
+  } catch (error) {
+    logError(
+      "HTML Cache",
+      `Failed to create cache directory ${CACHE_CONFIG.baseDirectory}:`,
+      error,
+    );
+    return false;
   }
 
   const filePath = getCacheFilePath(cacheKey);
-  console.log(`Writing to cache: ${filePath}`);
+
   try {
     writeFileSync(filePath, html, "utf-8");
     return true;

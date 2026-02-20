@@ -6,6 +6,18 @@ import { config } from "./config-puppeteer";
  */
 
 /**
+ * @typedef {Object} FetchOptions
+ * @property {number} [timeout] - Timeout in milliseconds for the fetch request
+ * @property {Record<string,string>} [headers] - Headers to include in the fetch request
+ */
+
+/**
+ * @typedef {Object} CacheOptions
+ * @property {String} [pattern] - URL pattern for cache key generation
+ * @property {number} [maxAge] - Maximum cache age in milliseconds
+ */
+
+/**
  * Fetches HTML content from a URL using Puppeteer
  * @param {Page} page - The Puppeteer page object
  * @param {string} url - The URL to fetch
@@ -37,7 +49,7 @@ export async function fetchHtmlWithPuppeteer(page, url, options = {}) {
 /**
  * Fetches HTML content using native fetch (for SSR pages)
  * @param {string} url - The URL to fetch
- * @param {{ timeout?: number, headers?: Record<string,string> }} [options] - Options for the fetch request
+ * @param {FetchOptions} [options] - Options for the fetch request
  * @returns {Promise<string>} The HTML content of the page
  */
 export async function fetchHtml(url, options = {}) {
@@ -84,21 +96,19 @@ export async function fetchHtml(url, options = {}) {
  * This is the recommended function to use when migrating away from Puppeteer
  *
  * @param {string} url - The URL to fetch
- * param {FetchOptions} [options] - Options for the fetch request
- * returns {Promise<{html: string, fromCache: boolean, cacheKey: string}>} Result containing HTML and cache status
+ * @param {FetchOptions & CacheOptions} [options] - Options for fetch and caching
+ * @returns {Promise<string>} HTML content
  *
  * @example
  * // Fetch with caching enabled
  * const result = await fetchHtmlWithCache(
  *   'https://www.procyclingstats.com/race/tour-de-france/2024',
  *   {
- *     useCache: true,
- *     cacheDir: '.cache/html',
- *     maxAge: 24 * 60 * 60 * 1000 // 24 hours
+ *     pattern: pcs-race-tour-de-france-2024,
+ *     maxAge: 24 * 60 * 60 * 1000, // 24 hours
+ *     timeout: 10000
  *   }
  * );
- * console.log(`From cache: ${result.fromCache}`);
- * console.log(result.html);
  */
 export async function fetchHtmlWithCache(url, options = {}) {
   const { pattern, maxAge, ...fetchOptions } = options;
@@ -112,7 +122,6 @@ export async function fetchHtmlWithCache(url, options = {}) {
 
   const html = await fetchHtml(url, fetchOptions);
 
-  // Write to cache if enabled
   if (html) {
     writeToCache(cacheKey, html);
   }

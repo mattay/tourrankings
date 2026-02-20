@@ -506,7 +506,7 @@ function classificationResults(
 
     // TODO: Implement extraction of general classification results
     // const todayTables = classificationResultsSelection[i].querySelector(
-    //   DOMSELECTORS.todayTab,
+    //   DOM_SELECTORS.todayTab,
     // );
     //
     // TODO: Implement extraction of today classification results

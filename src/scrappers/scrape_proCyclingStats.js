@@ -208,14 +208,13 @@ function stagesWithoutResults(races, raceStages, raceStageResults) {
  * Collects races for the current season.
  *
  * @async
- * @param {Page} page - Puppeteer page instance for scraping.
  * @param {Races} races - The Races object.
  * @param {number} raceSeason - The season for which to collect races.
  */
-async function collectSeasonRaces(page, races, raceSeason) {
+async function collectSeasonRaces(races, raceSeason) {
   logOut("Main", `Collecting races for the ${raceSeason} season.`);
   try {
-    await collectWorldTourRaces(page, races, raceSeason);
+    await collectWorldTourRaces(races, raceSeason);
   } catch (error) {
     logError(
       "Main",

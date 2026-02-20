@@ -50,6 +50,13 @@ function columnHeader(stagesTable) {
   ).map((th, index) => {
     const header = th.textContent.trim();
     const expected = EXPECTED_HEADERS[index];
+    if (!expected) {
+      logError(
+        "Scrape PCS - Stages",
+        `Extra column at index [${index}]: "${header}"`,
+      );
+      return header;
+    }
     if (header !== expected.labeled) {
       logError(
         "Scrape PCS - Stages",
@@ -73,6 +80,11 @@ function parseStages(htmlContent, year) {
   const htmlTableStages = Array.from(
     pageDOM.querySelectorAll(DOM_SELECTORS.contentTables),
   )[0]; // We want the first table
+
+  if (!htmlTableStages) {
+    logError("Scrape PCS - Stages", "No stages table found in HTML");
+    return [];
+  }
 
   const columns = columnHeader(htmlTableStages);
 
@@ -101,9 +113,10 @@ function parseStages(htmlContent, year) {
           details[key] = formatDate(year, value, "/");
           break;
         case "parcoursType":
-          value = Array.from(td.querySelector("span").classList).find((cls) =>
-            /^p\d+$/.test(cls),
-          );
+          const span = td.querySelector("span");
+          value = span
+            ? Array.from(span.classList).find((cls) => /^p\d+$/.test(cls))
+            : null;
           details[key] = value;
           break;
         case "stage":
@@ -127,7 +140,10 @@ function parseStages(htmlContent, year) {
           details["stagePcsUrl"] = td.querySelector("a").href;
           break;
         default:
-          console.log(index, key, td.innerHTML);
+          logError(
+            "Scrape PCS - Stages",
+            `Unhandled column [${index}]: ${key}`,
+          );
           break;
       }
       return details;

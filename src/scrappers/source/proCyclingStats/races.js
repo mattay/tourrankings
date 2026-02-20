@@ -36,7 +36,7 @@ export async function collectWorldTourRaces(races, year) {
     s: "year-calendar",
   };
   const url = buildUrl("https://www.procyclingstats.com/races.php", filter);
-  const cachePattern = `pcs-races-${filter.year}-${filter.class}`;
+  const cachePattern = `pcs-races-${filter.year}-${filter.class.replace(/\./g, "_")}`;
 
   const tableRows = await scrapeRaces(url, cachePattern, filter.year);
   if (!tableRows || tableRows.length == 0) {

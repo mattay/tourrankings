@@ -144,7 +144,7 @@ export class Races extends CSVdataModel {
    * @param {string} raceID - The ID of the race.
    * @param {string} key [raceUID|racePcsID] - The key to identify the race.
    * @param {number} year - The year of the race.
-   * @returns {RaceData|null} - The race data object or null if not found.
+   * @returns {RaceModel|null} - The race data object or null if not found.
    */
   race(raceID, key = "raceUID", year) {
     for (const record of this.rows) {

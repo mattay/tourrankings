@@ -1,6 +1,6 @@
 import { logError } from "@utils/logging";
 import { urlSections } from "@utils/url";
-import { config } from "./config";
+import config from "@scrappers/html/config-puppeteer";
 
 /**
  * @typedef {import('puppeteer-core').Page} Page - Puppeteer

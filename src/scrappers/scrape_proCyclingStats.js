@@ -21,13 +21,13 @@ import { generateId } from "@utils/idGenerator";
 import { logError, logOut } from "@utils/logging";
 // Scrape
 import {
-  config,
   interceptRequests,
   collectWorldTourRaces,
   scrapeRaceStartList,
   scrapeRaceStages,
   scrapeRaceStageResults,
 } from "./source/proCyclingStats";
+import config from "@scrappers/html/config-puppeteer";
 import { getSeason } from "./season";
 
 /**

@@ -8,7 +8,7 @@ import { join } from "path";
 const CACHE_CONFIG = {
   enabled: parseBool(process.env.HTML_CACHE_ENABLED, true),
   baseDirectory: process.env.HTML_CACHE_DIR || "./data/html",
-  beautify: process.env.HTML_CACHE_BEAUTIFY || false,
+  beautify: parseBool(process.env.HTML_CACHE_BEAUTIFY, false),
   removeScripts: parseBool(process.env.HTML_CACHE_REMOVE_SCRIPTS, true),
   removeStyles: parseBool(process.env.HTML_CACHE_REMOVE_STYLES, false),
   removeComments: parseBool(process.env.HTML_CACHE_REMOVE_COMMENTS, false),
@@ -125,7 +125,7 @@ export function cleanHtml(html) {
  * @returns {boolean} True if successfully written
  */
 export function writeToCache(cacheKey, html) {
-  if (!CACHE_CONFIG.enabled) return null;
+  if (!CACHE_CONFIG.enabled) return false;
   // Ensure cache directory exists
   try {
     mkdirSync(CACHE_CONFIG.baseDirectory, { recursive: true });

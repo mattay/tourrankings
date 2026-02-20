@@ -29,6 +29,7 @@ import {
 } from "./source/proCyclingStats";
 import config from "@scrappers/html/config-puppeteer";
 import { getSeason } from "./season";
+import { parseBool } from "@utils/sanity";
 
 /**
  * @typedef {import('puppeteer-core').Page} Page - Puppeteer
@@ -87,7 +88,7 @@ async function collectRace(page, racePcsID, year) {
   /** @type {Array<ScrapedRaceRider>} */
   const riders = [];
 
-  if (!process.env.FEATURE_DISABLED_STAGES) {
+  if (!parseBool(process.env.FEATURE_DISABLED_STAGES, false)) {
     try {
       logOut("Scrape PCS - Race Stages", `${year} ${racePcsID}`);
       // Race stages
@@ -109,7 +110,7 @@ async function collectRace(page, racePcsID, year) {
     logOut("Main", "[FEATURE DISABLED] Stages", "warn");
   }
 
-  if (!process.env.FEATURE_DISABLED_STARTLIST) {
+  if (!parseBool(process.env.FEATURE_DISABLED_STARTLIST, false)) {
     // Race start list - Teams and Riders
     logOut("Scrape PCS - Race Startlist", `${year} ${racePcsID}`);
     const raceStartlist = await scrapeRaceStartList(

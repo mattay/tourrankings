@@ -124,6 +124,10 @@ export class Races extends CSVdataModel {
     });
   }
 
+  list() {
+    return this.rows;
+  }
+
   /**
    * Get all races in a given year.
    * @param {number} year - The year of the races.

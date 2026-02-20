@@ -1,10 +1,9 @@
 import { generateId } from "@cycling/idGenerator";
 import { formatDate } from "@utils/string";
 import { logError } from "@utils/logging";
-import { config } from "@scrappers/html/config-puppeteer";
+import { fetchHtmlWithCache, htmlDOM } from "src/scrappers/html";
 
 /**
- * @typedef {import('puppeteer-core').Page} Page - Puppeteer
  * @typedef {import('./@types').ScrapedRaceStage} ScrapedRaceStage
  *
  * @typedef {Object} RawStageRecord - Raw stage record from the ProCyclingStats website.
@@ -76,12 +75,11 @@ export function scrapeRaceStagesFromHtml(htmlContent) {
 
 /**
  * Scrapes stage data from the ProCyclingStats website.
- * @param {Page} page - The Puppeteer page object.
  * @param {string} race - The race name.
  * @param {number} year - The year of the race.
  * @returns {Promise<Array<ScrapedRaceStage>>} An array of stage data.
  */
-export async function scrapeRaceStages(page, race, year) {
+export async function scrapeRaceStages(race, year) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/route/stages`;
   const selectorTable = ".page-content table";
 

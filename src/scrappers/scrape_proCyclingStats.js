@@ -91,7 +91,7 @@ async function collectRace(page, racePcsID, year) {
     try {
       logOut("Scrape PCS - Race Stages", `${year} ${racePcsID}`);
       // Race stages
-      const stagesInRace = await scrapeRaceStages(page, racePcsID, year);
+      const stagesInRace = await scrapeRaceStages(racePcsID, year);
 
       if (stagesInRace) {
         stages.push(...stagesInRace);

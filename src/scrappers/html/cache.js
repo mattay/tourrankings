@@ -32,13 +32,6 @@ const BEAUTIFY_OPTIONS = {
 };
 
 /**
- * Configuration for HTML caching
- *
- * @typedef {Object} HtmlCacheConfig
- * @property {number} [maxAge] - Maximum age of cached files in milliseconds (optional)
- */
-
-/**
  * Generates a cache key from a URL
  *
  * @param {string} url - The URL to generate a cache key for
@@ -49,7 +42,6 @@ export function generateCacheKey(url) {
   // Use first 16 chars of hash for readability, keep URL info for debugging
   const urlPart = url
     .replace(/^https?:\/\/www\./, "")
-    // .replace(/(.com|.php)/g, "")
     .replace(/[^a-z0-9]/gi, "_")
     .substring(0, 50);
   return `${urlPart}_${hash.substring(0, 16)}`;
@@ -69,7 +61,7 @@ function getCacheFilePath(cacheKey) {
  * Reads HTML content from cache
  *
  * @param {string} cacheKey - The cache key
- * @returns {string|null} The cached HTML content, or null if not found/expired
+ * @returns {string|null} The cached HTML content, or null if not found
  */
 export function readFromCache(cacheKey) {
   if (!CACHE_CONFIG.enabled) return null;

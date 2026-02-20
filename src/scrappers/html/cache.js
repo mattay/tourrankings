@@ -51,10 +51,9 @@ function getCacheFilePath(cacheKey) {
  * Reads HTML content from cache
  *
  * @param {string} cacheKey - The cache key
- * @param {number} [maxAge] - Maximum age in milliseconds
  * @returns {string|null} The cached HTML content, or null if not found/expired
  */
-export function readFromCache(cacheKey, maxAge) {
+export function readFromCache(cacheKey) {
   if (!CACHE_CONFIG.enabled) return null;
   const filePath = getCacheFilePath(cacheKey);
 

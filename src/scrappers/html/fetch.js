@@ -97,27 +97,26 @@ export async function fetchHtml(url, options = {}) {
  *
  * @param {string} url - The URL to fetch
  * @param {FetchOptions & CacheOptions} [options] - Options for fetch and caching
- * @returns {Promise<string>} HTML content
+ * @returns {Promise<{html: string, fromCache: boolean, cacheKey: string}>} Result containing HTML and cache status
  *
  * @example
  * // Fetch with caching enabled
  * const result = await fetchHtmlWithCache(
  *   'https://www.procyclingstats.com/race/tour-de-france/2024',
  *   {
- *     pattern: pcs-race-tour-de-france-2024,
- *     maxAge: 24 * 60 * 60 * 1000, // 24 hours
+ *     pattern: 'pcs-race-tour-de-france-2024',
  *     timeout: 10000
  *   }
  * );
  */
 export async function fetchHtmlWithCache(url, options = {}) {
-  const { pattern, maxAge, ...fetchOptions } = options;
+  const { pattern, ...fetchOptions } = options;
 
   const cacheKey = generateCacheKey(pattern ? pattern : url);
-  const cachedHtml = readFromCache(cacheKey, maxAge);
+  const cachedHtml = readFromCache(cacheKey);
 
   if (cachedHtml) {
-    return cachedHtml;
+    return { html: cachedHtml, fromCache: true, cacheKey };
   }
 
   const html = await fetchHtml(url, fetchOptions);
@@ -126,5 +125,5 @@ export async function fetchHtmlWithCache(url, options = {}) {
     writeToCache(cacheKey, html);
   }
 
-  return html;
+  return { html, fromCache: false, cacheKey };
 }

@@ -13,7 +13,7 @@ import config from "./config-puppeteer";
 
 /**
  * @typedef {Object} CacheOptions
- * @property {String} [pattern] - URL pattern for cache key generation
+ * @property {String} [cachePattern] - URL pattern for cache key generation
  */
 
 /**
@@ -109,9 +109,9 @@ export async function fetchHtml(url, options = {}) {
  * );
  */
 export async function fetchHtmlWithCache(url, options = {}) {
-  const { pattern, ...fetchOptions } = options;
+  const { cachePattern, ...fetchOptions } = options;
 
-  const cacheKey = generateCacheKey(pattern ? pattern : url);
+  const cacheKey = generateCacheKey(cachePattern ? cachePattern : url);
   const cachedHtml = readFromCache(cacheKey);
 
   if (cachedHtml) {

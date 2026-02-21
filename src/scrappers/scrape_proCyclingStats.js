@@ -75,12 +75,11 @@ import { parseBool } from "@utils/sanity";
 
 /**
  *
- * @param {Page} page - Page object from Puppeteer
  * @param {string} racePcsID - ID of the race to scrape
  * @param {number} year - Year of the race to scrape
  * @returns {Promise<CollectedRaceData>} CollectedRaceData - Object containing stages, teams, and riders data
  */
-async function collectRace(page, racePcsID, year) {
+async function collectRace(racePcsID, year) {
   /** @type {Array<ScrapedRaceStage>} */
   const stages = [];
   /** @type {Array<ScrapedRaceTeam>} */
@@ -113,17 +112,15 @@ async function collectRace(page, racePcsID, year) {
   if (!parseBool(process.env.FEATURE_DISABLED_STARTLIST, false)) {
     // Race start list - Teams and Riders
     logOut("Scrape PCS - Race Startlist", `${year} ${racePcsID}`);
-    const raceStartlist = await scrapeRaceStartList(
-      page,
-      racePcsID,
-      year,
-    ).catch((exception) => {
-      logError(
-        "Scrape PCS - Race Startlist",
-        `Failed to collect startlist`,
-        exception,
-      );
-    });
+    const raceStartlist = await scrapeRaceStartList(racePcsID, year).catch(
+      (exception) => {
+        logError(
+          "Scrape PCS - Race Startlist",
+          `Failed to collect startlist`,
+          exception,
+        );
+      },
+    );
 
     // Add race and team to rider
     if (raceStartlist) {
@@ -228,7 +225,6 @@ async function collectSeasonRaces(races, raceSeason) {
  * Collects past races.
  *
  * @async
- * @param {Page} page - Puppeteer page instance for scraping.
  * @param {Races} races - The Races object.
  * @param {RaceStages} raceStages - The race stages.
  * @param {RaceRiders} raceRiders - The race riders.
@@ -236,7 +232,6 @@ async function collectSeasonRaces(races, raceSeason) {
  * @param {Teams} teams - The teams.
  */
 async function collectPastRaceDetails(
-  page,
   races,
   raceStages,
   raceRiders,
@@ -250,10 +245,12 @@ async function collectPastRaceDetails(
     ...races.inProgress(today),
   ]).filter((race) => race.stages.length === 0);
 
+  // console.table(races.list()) // TODO: -> We need all race data;
+
   for (const race of pastRacesWithoutStages) {
     logOut("Main", `Collect past race: ${race.year} ${race.raceName}`);
     try {
-      const raceDetails = await collectRace(page, race.racePcsID, race.year);
+      const raceDetails = await collectRace(race.racePcsID, race.year);
       await updateRace(raceDetails, raceStages, raceRiders, riders, teams);
     } catch (error) {
       logError(
@@ -310,7 +307,6 @@ async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
  * - For each past race with missing stages, fetches and updates detailed data.
  *
  * @async
- * @param {Page} page - Puppeteer page instance for scraping.
  * @param {Races} races - Races data manager.
  * @param {RaceStages} raceStages - RaceStages data manager.
  * @param {RaceRiders} raceRiders - RaceRiders data manager.
@@ -320,9 +316,9 @@ async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
  * @throws {Error} If scraping or updating fails.
  *
  * @example
- * await updateRaces(page, races, raceStages, raceRiders, riders, teams);
+ * await updateRaces( races, raceStages, raceRiders, riders, teams);
  */
-async function updateRaces(page, races, raceStages, raceRiders, riders, teams) {
+async function updateRaces(races, raceStages, raceRiders, riders, teams) {
   const raceSeason = getSeason();
 
   if (!process.env.FEATURE_DISABLED_RACES) {
@@ -340,14 +336,7 @@ async function updateRaces(page, races, raceStages, raceRiders, riders, teams) {
     logOut("Main", "[FEATURE DISABLED] Races");
   }
 
-  await collectPastRaceDetails(
-    page,
-    races,
-    raceStages,
-    raceRiders,
-    riders,
-    teams,
-  );
+  await collectPastRaceDetails(races, raceStages, raceRiders, riders, teams);
 
   logOut("Main", `[TODO] Collecting future races details.`);
 }
@@ -515,7 +504,7 @@ async function main() {
     }
 
     try {
-      await updateRaces(page, races, raceStages, raceRiders, riders, teams);
+      await updateRaces(races, raceStages, raceRiders, riders, teams);
     } catch (error) {
       logError("Main", "Collecting race information - Failed", error);
     }

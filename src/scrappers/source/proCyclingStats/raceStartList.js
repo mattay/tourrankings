@@ -1,9 +1,8 @@
 import { logError } from "@utils/logging";
 import { urlSections } from "@utils/url";
-import config from "@scrappers/html/config-puppeteer";
+import { fetchHtmlWithCache, htmlDOM } from "src/scrappers/html";
 
 /**
- * @typedef {import('puppeteer-core').Page} Page - Puppeteer
  * @typedef {import('./@types/index').ScrapedRaceStartListTeam} ScrapedRaceStartListTeam -
  *
  * @typedef {Object} RawStartListRider
@@ -18,6 +17,17 @@ import config from "@scrappers/html/config-puppeteer";
  * @property {string} jerseyImageUrl - The name of the team.
  * @property {Array<RawStartListRider>} riders - An array of riders.
  */
+
+const DOM_SELECTORS = {
+  contentTeamList: ".page-content ul.startlist_v4 > li",
+  jersey: ".shirtCont img",
+  team: ".ridersCont a.team",
+  teamRiders: ".ridersCont ul li",
+  directeurSportif: ".dsCont a",
+};
+
+const PATTERN_TEAM = /^(?<teamName>.*) \((?<teamClassification>.*)\)$/;
+const PATTERN_NAME = /^(?<surname>[\p{Lu} '’-]+)\s+(?<firstNames>.+)$/u;
 
 /**
  * Refines a startlist by extracting team information and adding team ID.
@@ -50,6 +60,105 @@ function refineStartlist(team) {
   return team;
 }
 
+/** */
+function parseTeamTitle(htmlElement) {
+  const teamName = htmlElement?.textContent || null;
+  const teamPcsUrl = htmlElement?.href || null;
+  const teamLinkSections = urlSections(teamPcsUrl, ["_team", "teamPcsId"]);
+  const matchTeam = teamName.match(PATTERN_TEAM);
+  if (!matchTeam) {
+    logError(
+      "Scrape PSC - Start List",
+      `Failed to parse team title: ${teamName}`,
+    );
+  }
+
+  const team = {
+    teamName: matchTeam?.groups?.teamName || null,
+    teamClassification: matchTeam?.groups?.teamClassification || null,
+    teamPcsId: teamLinkSections?.teamPcsId || null,
+  };
+
+  return team;
+}
+
+/** */
+function parseTeamRider(htmlElement) {
+  const rider = htmlElement.querySelector("a");
+  const matchName = rider.textContent.match(PATTERN_NAME);
+  if (!matchName) {
+    logError(
+      "Scrape PSC - Start List",
+      `Failed to parse rider name: ${htmlElement.textContent}`,
+    );
+  }
+
+  const teamRider = {
+    bib: Number(htmlElement.querySelector(".bib")?.textContent),
+    flag: htmlElement.querySelector(".flag")?.className.replace("flag ", ""),
+    // surname: matchName?.groups?.surname,
+    // firstNames: matchName?.groups?.firstNames,
+    ...matchName.groups,
+    riderPcsUrl: rider?.href,
+  };
+
+  return teamRider;
+}
+
+/** */
+function parseDirecteurSportif(htmlElement) {
+  const dsLinkSections = urlSections(htmlElement.href, ["_ds", "dsPcsId"]);
+  const matchDs = htmlElement.textContent.match(PATTERN_NAME);
+  if (!matchDs) {
+    logError(
+      "Scrape PSC - Start List",
+      `Failed to parse directeur sportif: ${htmlElement.textContent}`,
+    );
+  }
+
+  const directeurSportif = {
+    ...matchDs.groups,
+    // dsLastNames: ...matchDs?.groups?.dsLastNames || null,
+    // dsNames: matchDs?.groups?.dsNames || null,
+    dsPcsId: dsLinkSections?.dsPcsId || null,
+  };
+
+  return directeurSportif;
+}
+
+/**
+ * Parses the startlist of a race from ProcyclingStats.
+ * @param {string} htmlContent - The HTML content of the race startlist page.
+ * @returns {Array<Object>} An array of teams, each with their riders.
+ */
+function parseStartlist(htmlContent) {
+  const pageDOM = htmlDOM(htmlContent);
+
+  return Array.from(
+    pageDOM.querySelectorAll(DOM_SELECTORS.contentTeamList),
+  ).map((teamElement) => {
+    const team = parseTeamTitle(teamElement.querySelector(DOM_SELECTORS.team));
+
+    const jerseyImageElement = teamElement.querySelector(DOM_SELECTORS.jersey);
+    const jerseyImageUrl = jerseyImageElement ? jerseyImageElement.src : null;
+
+    const riders = Array.from(
+      teamElement.querySelectorAll(DOM_SELECTORS.teamRiders),
+    ).map((rider) => parseTeamRider(rider));
+
+    const directeurSportifs = Array.from(
+      teamElement.querySelectorAll(DOM_SELECTORS.directeurSportif),
+    ).map((ds) => parseDirecteurSportif(ds));
+
+    return {
+      ...team,
+      jerseyImageUrl,
+      riders,
+      directeurSportifs,
+    };
+  });
+}
+
 /**
  * Scrapes race data from HTML content (testable version)
  * @param {string} htmlContent - The HTML content to parse
@@ -63,7 +172,6 @@ export function scrapeRaceStartListFromHtml(htmlContent) {
 /**
  * Scrape the startlist of a race from ProcyclingStats.
  * @async
- * @param {Page} page - The Puppeteer page instance used for navigation and DOM extraction.
  * @param {string} race - The race identifier (e.g., 'tour-de-france').
  * @param {number} year - The year of the race (e.g., 2024).
  * @returns {Promise<Array<ScrapedRaceStartListTeam>>} Resolves to an array of teams, each with their riders.
@@ -71,60 +179,14 @@ export function scrapeRaceStartListFromHtml(htmlContent) {
  *
  * @see ScrapedRaceStartListTeam
  */
-export async function scrapeRaceStartList(page, race, year) {
+export async function scrapeRaceStartList(race, year) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/startlist`;
+  const cachePattern = `${race}-${year}-startlist`;
+
   try {
-    await page.goto(url, { waitUntil: "networkidle2" });
-    await page.waitForSelector(".page-content ul.startlist_v4 > li", {
-      timeout: config.timeout,
-    });
-
-    const teams = await page.evaluate(() => {
-      const teams = [];
-      const teamElements = document.querySelectorAll(
-        ".page-content ul.startlist_v4 > li",
-      );
-
-      teamElements.forEach((teamElement) => {
-        // Capture html content
-        const teamNameElement = teamElement.querySelector(
-          ".ridersCont > div > a.team",
-        );
-        const teamName = teamNameElement ? teamNameElement.innerText : null;
-        const teamPcsUrl = teamNameElement ? teamNameElement.href : null;
-
-        const jerseyImageElement = teamElement.querySelector(".shirtCont img");
-        const jerseyImageUrl = jerseyImageElement
-          ? jerseyImageElement.src
-          : null;
-
-        const riderElements = teamElement.querySelectorAll(".ridersCont ul li");
-        const riders = [];
-
-        riderElements.forEach((riderElement) => {
-          const bib = riderElement.querySelector(".bib")
-            ? riderElement.querySelector(".bib").innerText
-            : null;
-          const flag = riderElement.querySelector(".flag")
-            ? riderElement.querySelector(".flag").className.replace("flag ", "")
-            : null;
-          const rider = riderElement.querySelector("a")
-            ? riderElement.querySelector("a").innerText
-            : null;
-          const riderPcsUrl = riderElement.querySelector("a")
-            ? riderElement.querySelector("a").href
-            : null;
-
-          riders.push({ bib, rider, flag, riderPcsUrl });
-        });
-
-        teams.push({ teamName, teamPcsUrl, jerseyImageUrl, riders });
-      });
-
-      return teams;
-    });
-
-    return teams.map((team) => refineStartlist(team));
+    const htmlContent = await fetchHtmlWithCache(url, { cachePattern });
+    const startlist = parseStartlist(htmlContent.html);
+    return startlist;
   } catch (exception) {
     logError("scrapeRaceStartList", `Failed to scrape ${url}`, exception);
     throw exception;

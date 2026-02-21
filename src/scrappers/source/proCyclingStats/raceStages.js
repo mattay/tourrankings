@@ -36,7 +36,7 @@ const EXPECTED_HEADERS = [
   { labeled: "Vertical meters", key: "verticalMeters", type: "number" },
 ];
 
-const patternStage =
+const PATTERN_STAGE =
   /^(?:Prologue|Stage (?<stageNumber>\d+))?(?: \((?<stageType>.*)\))?$/;
 
 /**
@@ -125,13 +125,13 @@ function parseStages(htmlContent, year) {
             stageNumber = 0;
             stageType = value;
           } else {
-            matchStage = value.match(patternStage);
+            matchStage = value.match(PATTERN_STAGE);
             stageNumber = Number(matchStage?.groups.stageNumber);
             stageType = matchStage?.groups?.stageType || null;
             if (!matchStage) {
               logError(
                 "Clean Record",
-                `Invalid stage format: ${value} -> ${patternStage}`,
+                `Invalid stage format: ${value} -> ${PATTERN_STAGE}`,
               );
             }
           }

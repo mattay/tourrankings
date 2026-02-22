@@ -5,7 +5,7 @@ import {
 } from "@scrappers/source/proCyclingStats/helpers";
 
 describe("Splitting Names", () => {
-  it("Should slit Uppercase surnames and lowercase firstnames", () => {
+  it("Should split Uppercase surnames and lowercase firstnames", () => {
     expect(parseName("GROßSCHARTNER Felix")).toEqual({
       success: true,
       values: { surname: "GROßSCHARTNER", firstNames: "Felix" },
@@ -42,7 +42,7 @@ describe("Splitting Names", () => {
 });
 
 describe("Splitting Team Titles", () => {
-  it("Should slit team and classification", () => {
+  it("Should split team and classification", () => {
     expect(parseTeamName("Israel - Premier Tech (PRT)")).toEqual({
       success: true,
       values: { teamName: "Israel - Premier Tech", teamClassification: "PRT" },

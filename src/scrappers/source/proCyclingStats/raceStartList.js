@@ -35,7 +35,7 @@ const DOM_SELECTORS = {
 function parseTeamTitle(htmlElement) {
   const teamTitle = htmlElement?.textContent || null;
   const teamPcsUrl = htmlElement?.href || null;
-  const teamLinkSections = urlSections(teamPcsUrl, ["_team", "teamPcsId"]);
+  const linkSections = urlSections(teamPcsUrl, ["_team", "pcsId"]);
   const match = parseTeamName(teamTitle);
   if (!match.success) {
     logError(
@@ -46,9 +46,9 @@ function parseTeamTitle(htmlElement) {
 
   const { teamName, teamClassification } = match.values;
   const team = {
+    pcsId: linkSections?.pcsId || null,
     teamName,
     teamClassification,
-    teamPcsId: teamLinkSections?.teamPcsId || null,
   };
 
   return team;
@@ -61,6 +61,7 @@ function parseTeamTitle(htmlElement) {
  */
 function parseTeamRider(htmlElement) {
   const rider = htmlElement.querySelector("a");
+  const linkSections = urlSections(rider?.href, ["_team", "pcsId"]);
   const match = parseName(rider.textContent);
   if (!match.success) {
     logError(
@@ -71,11 +72,11 @@ function parseTeamRider(htmlElement) {
 
   const { surname, firstNames } = match.values;
   const teamRider = {
-    bib: Number(htmlElement.querySelector(".bib")?.textContent),
-    flag: htmlElement.querySelector(".flag")?.className.replace("flag ", ""),
+    pcsId: linkSections?.pcsId || null,
     surname,
     firstNames,
-    riderPcsUrl: rider?.href,
+    bib: Number(htmlElement.querySelector(".bib")?.textContent),
+    flag: htmlElement.querySelector(".flag")?.className.replace("flag ", ""),
   };
 
   return teamRider;
@@ -87,7 +88,7 @@ function parseTeamRider(htmlElement) {
  * @returns {Object} The parsed name or an error message.
  */
 function parseDirecteurSportif(htmlElement) {
-  const dsLinkSections = urlSections(htmlElement.href, ["_ds", "dsPcsId"]);
+  const linkSections = urlSections(htmlElement.href, ["_ds", "pcsId"]);
   const match = parseName(htmlElement.textContent);
   if (!match.success) {
     logError(
@@ -98,9 +99,9 @@ function parseDirecteurSportif(htmlElement) {
 
   const { surname, firstNames } = match.values;
   const directeurSportif = {
+    pcsId: linkSections?.pcsId || null,
     surname,
     firstNames,
-    dsPcsId: dsLinkSections?.dsPcsId || null,
   };
 
   return directeurSportif;

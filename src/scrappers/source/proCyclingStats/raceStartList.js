@@ -1,6 +1,7 @@
 import { logError } from "@utils/logging";
 import { urlSections } from "@utils/url";
 import { fetchHtmlWithCache, htmlDOM } from "src/scrappers/html";
+import { parseName, parseTeamName } from "./helpers";
 
 /**
  * @typedef {import('./@types/index').ScrapedRaceStartListTeam} ScrapedRaceStartListTeam -
@@ -26,100 +27,79 @@ const DOM_SELECTORS = {
   directeurSportif: ".dsCont a",
 };
 
-const PATTERN_TEAM = /^(?<teamName>.*) \((?<teamClassification>.*)\)$/;
-const PATTERN_NAME = /^(?<surname>[\p{Lu} '’-]+)\s+(?<firstNames>.+)$/u;
-
 /**
- * Refines a startlist by extracting team information and adding team ID.
- * @param {RawTeamStartList} team - The team to refine.
- * @returns {ScrapedRaceStartListTeam} The refined startlist with extracted team information.
+ * Parses a team's title from a string.
+ * @param {HTMLElement} htmlElement - The text containing the team's title.
+ * @returns {Object} The parsed team title or an error message.
  */
-function refineStartlist(team) {
-  const regexTeam = /^(?<teamName>.*) \((?<teamClassification>.*)\)$/;
-
-  const teamLinkSections = urlSections(team.teamPcsUrl, ["_team", "teamPcsId"]);
-  const matchTeam = team.teamName.match(regexTeam);
-
-  if (teamLinkSections) {
-    team.teamPcsId = teamLinkSections.teamPcsId;
-  }
-  if (matchTeam) {
-    team.teamName = matchTeam.groups.teamName || null;
-    team.teamClassification = matchTeam.groups.teamClassification || null;
-  }
-
-  team.riders = team.riders.map((rider) => {
-    const riderLinkSections = urlSections(rider.riderPcsUrl, [
-      "_rider",
-      "riderPcsId",
-    ]);
-    rider.riderPcsId = riderLinkSections.riderPcsId || null;
-    return rider;
-  });
-
-  return team;
-}
-
-/** */
 function parseTeamTitle(htmlElement) {
-  const teamName = htmlElement?.textContent || null;
+  const teamTitle = htmlElement?.textContent || null;
   const teamPcsUrl = htmlElement?.href || null;
   const teamLinkSections = urlSections(teamPcsUrl, ["_team", "teamPcsId"]);
-  const matchTeam = teamName.match(PATTERN_TEAM);
-  if (!matchTeam) {
+  const match = parseTeamName(teamTitle);
+  if (!match.success) {
     logError(
       "Scrape PSC - Start List",
-      `Failed to parse team title: ${teamName}`,
+      `Failed to parse team title: ${teamTitle}`,
     );
   }
 
+  const { teamName, teamClassification } = match.values;
   const team = {
-    teamName: matchTeam?.groups?.teamName || null,
-    teamClassification: matchTeam?.groups?.teamClassification || null,
+    teamName,
+    teamClassification,
     teamPcsId: teamLinkSections?.teamPcsId || null,
   };
 
   return team;
 }
 
-/** */
+/**
+ * Parses a rider's name from a string.
+ * @param {Element} htmlElement - The text containing the rider's name.
+ * @returns {Object} The parsed name or an error message.
+ */
 function parseTeamRider(htmlElement) {
   const rider = htmlElement.querySelector("a");
-  const matchName = rider.textContent.match(PATTERN_NAME);
-  if (!matchName) {
+  const match = parseName(rider.textContent);
+  if (!match.success) {
     logError(
       "Scrape PSC - Start List",
-      `Failed to parse rider name: ${htmlElement.textContent}`,
+      `Failed to parse rider name: ${rider.textContent}`,
     );
   }
 
+  const { surname, firstNames } = match.values;
   const teamRider = {
     bib: Number(htmlElement.querySelector(".bib")?.textContent),
     flag: htmlElement.querySelector(".flag")?.className.replace("flag ", ""),
-    // surname: matchName?.groups?.surname,
-    // firstNames: matchName?.groups?.firstNames,
-    ...matchName.groups,
+    surname,
+    firstNames,
     riderPcsUrl: rider?.href,
   };
 
   return teamRider;
 }
 
-/** */
+/**
+ * Parses a directeur sportif's name from a string.
+ * @param {Element} htmlElement - The text containing the directeur sportif's name.
+ * @returns {Object} The parsed name or an error message.
+ */
 function parseDirecteurSportif(htmlElement) {
   const dsLinkSections = urlSections(htmlElement.href, ["_ds", "dsPcsId"]);
-  const matchDs = htmlElement.textContent.match(PATTERN_NAME);
-  if (!matchDs) {
+  const match = parseName(htmlElement.textContent);
+  if (!match.success) {
     logError(
       "Scrape PSC - Start List",
       `Failed to parse directeur sportif: ${htmlElement.textContent}`,
     );
   }
 
+  const { surname, firstNames } = match.values;
   const directeurSportif = {
-    ...matchDs.groups,
-    // dsLastNames: ...matchDs?.groups?.dsLastNames || null,
-    // dsNames: matchDs?.groups?.dsNames || null,
+    surname,
+    firstNames,
     dsPcsId: dsLinkSections?.dsPcsId || null,
   };
 

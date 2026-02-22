@@ -291,7 +291,7 @@ async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
 async function updateRaces(races, raceStages, raceRiders, riders, teams) {
   const raceSeason = getSeason();
 
-  if (!process.env.FEATURE_DISABLED_RACES) {
+  if (!parseBool(process.env.FEATURE_DISABLED_RACES, false)) {
     logOut("Main", `Collecting races for the ${raceSeason} season.`);
     try {
       await collectWorldTourRaces(races, raceSeason);
@@ -402,7 +402,7 @@ async function updateStageResults(
     }
   }
 
-  if (!process.env.FEATURE_DISABLED_RESULTS_UPDATE) {
+  if (!parseBool(process.env.FEATURE_DISABLED_RESULTS_UPDATE, false)) {
     await raceStageResults.update(raceResults.stage);
     await raceStageGeneral.update(raceResults.gc);
     await raceStagePoints.update(raceResults.points);
@@ -461,7 +461,7 @@ async function main() {
       logError("Main", "Collecting race information - Failed", error);
     }
 
-    if (!process.env.FEATURE_DISABLED_RESULTS) {
+    if (!parseBool(process.env.FEATURE_DISABLED_RESULTS, false)) {
       try {
         await updateStageResults(
           races,

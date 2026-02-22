@@ -1,5 +1,5 @@
 /**
- * Utilities for generating stable IDs for races, stages and results.
+ * Utilities for generating stable IDs for races, stages.
  * @namespace generateId
  */
 export const generateId = {
@@ -24,7 +24,7 @@ export const generateId = {
    * @returns {string} Composite stage ID.
    */
   stage: (raceUID, stageNumber) => {
-    if (!raceUID || stageNumber == null)
+    if (!raceUID || stageNumber == null || stageNumber === "")
       throw new Error(
         `generateId.stage: invalid args (raceUID=${raceUID}, stageNumber=${stageNumber})`,
       );

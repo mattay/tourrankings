@@ -1,1 +1,1 @@
-export { parseName, parseTeamName } from "./helperStartList";
+export { parseName, parseTeamName } from "./parseNames";

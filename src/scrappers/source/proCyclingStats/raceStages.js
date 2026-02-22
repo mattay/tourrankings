@@ -1,4 +1,4 @@
-import { generateId } from "@utils/idGenerator";
+import { generateId } from "@cycling/idGenerator";
 import { formatDate } from "@utils/string";
 import { logError } from "@utils/logging";
 import { config } from "@scrappers/html/config-puppeteer";

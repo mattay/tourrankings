@@ -57,17 +57,6 @@ function refineStartlist(team) {
  */
 export function scrapeRaceStartListFromHtml(htmlContent) {
   // To be implemented -> see scrapeRacesFromHtml()
-  // try {
-  //   const page = htmlDOM(htmlContent);
-  //   const tableRows = Array.from(
-  //     page.querySelectorAll(".content table tbody tr"),
-  //   );
-  //   const rawData = extractRawRaceData(tableRows, year);
-  //   return processRaceRecords(rawData);
-  // } catch (exception) {
-  //   logError("Races scrapeRacesFromHtml", "Failed to parse HTML", exception);
-  //   return [];
-  // }
   return [];
 }
 

@@ -1,7 +1,3 @@
-// import puppeteer from "puppeteer-core";
-import puppeteer from "puppeteer-extra";
-import StealthPlugin from "puppeteer-extra-plugin-stealth";
-
 // Data Models
 import {
   Races,
@@ -27,13 +23,8 @@ import {
   scrapeRaceStages,
   scrapeRaceStageResults,
 } from "./source/proCyclingStats";
-import config from "@scrappers/html/config-puppeteer";
 import { getSeason } from "./season";
 import { parseBool } from "@utils/sanity";
-
-/**
- * @typedef {import('puppeteer-core').Page} Page - Puppeteer
- */
 
 /**
  * Models
@@ -450,25 +441,7 @@ async function updateStageResults(
  * Main function to orchestrate the scraping process
  */
 async function main() {
-  // Browser Setup
-  let browser;
   try {
-    puppeteer.use(StealthPlugin());
-    browser = await puppeteer.launch(config.browser);
-    if (!browser) {
-      throw new Error("Failed to launch browser");
-    }
-    logOut("Browser", "Started");
-
-    // Page Setup
-    const page = await browser.newPage();
-    await page.setUserAgent({ userAgent: config.userAgent });
-    logOut("Page", "Created");
-
-    await page.setRequestInterception(true);
-    page.on("request", interceptRequests);
-    logOut("Page", "Request interception enabled");
-
     // Data Models
     // TODO utilse dataService
     const races = new Races();
@@ -532,10 +505,6 @@ async function main() {
     logError("Main", "Fatal error", error);
     throw error;
   } finally {
-    if (browser) {
-      await browser.close();
-      logOut("Browser", "Closed");
-    }
   }
 }
 

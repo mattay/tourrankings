@@ -192,26 +192,6 @@ function stagesWithoutResults(races, raceStages, raceStageResults) {
 }
 
 /**
- * Collects races for the current season.
- *
- * @async
- * @param {Races} races - The Races object.
- * @param {number} raceSeason - The season for which to collect races.
- */
-async function collectSeasonRaces(races, raceSeason) {
-  logOut("Main", `Collecting races for the ${raceSeason} season.`);
-  try {
-    await collectWorldTourRaces(races, raceSeason);
-  } catch (error) {
-    logError(
-      "Main",
-      `Failed to collect races for the ${raceSeason} season.`,
-      error,
-    );
-  }
-}
-
-/**
  * Collects past races.
  *
  * @async
@@ -503,7 +483,6 @@ async function main() {
     // Catch-all for any errors not handled above
     logError("Main", "Fatal error", error);
     throw error;
-  } finally {
   }
 }
 

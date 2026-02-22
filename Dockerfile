@@ -2,7 +2,7 @@
 # Used by: docker-compose.local-build.yml, fly.dev.toml, fly.prod.toml
 # Purpose: Optimized, secure production deployment
 
-FROM oven/bun:1 as builder
+FROM oven/bun:1 AS builder
 
 WORKDIR /tourRanking
 

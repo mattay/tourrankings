@@ -10,10 +10,16 @@ export const generateId = {
    * @returns {string} Composite race ID.
    */
   race: (raceCode, year) => {
-    if (!raceCode || !year)
+    if (
+      !raceCode ||
+      !String(raceCode).trim() ||
+      !year ||
+      (typeof year === "string" && !year.trim())
+    )
       throw new Error(
         `generateId.race: invalid args (raceCode=${raceCode}, year=${year})`,
       );
+
     return `${raceCode}:${year}`;
   },
 
@@ -24,10 +30,16 @@ export const generateId = {
    * @returns {string} Composite stage ID.
    */
   stage: (raceUID, stageNumber) => {
-    if (!raceUID || stageNumber == null || stageNumber === "")
+    if (
+      !raceUID ||
+      !String(raceUID).trim() ||
+      stageNumber == null ||
+      stageNumber === ""
+    )
       throw new Error(
         `generateId.stage: invalid args (raceUID=${raceUID}, stageNumber=${stageNumber})`,
       );
+
     return `${raceUID}:${stageNumber}`;
   },
 };

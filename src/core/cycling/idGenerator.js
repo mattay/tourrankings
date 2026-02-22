@@ -9,21 +9,25 @@ export const generateId = {
    * @param {number|string} year - Race year.
    * @returns {string} Composite race ID.
    */
-  race: (raceCode, year) => `${raceCode}:${year}`,
+  race: (raceCode, year) => {
+    if (!raceCode || !year)
+      throw new Error(
+        `generateId.race: invalid args (raceCode=${raceCode}, year=${year})`,
+      );
+    return `${raceCode}:${year}`;
+  },
 
   /**
    * Generate a stage ID.
-   * @param {string|number} racePcsID - PCS race identifier.
+   * @param {string} raceUID - Composite race UID (as returned by generateId.race).
    * @param {number|string} stageNumber - Stage number.
    * @returns {string} Composite stage ID.
    */
-  stage: (racePcsID, stageNumber) => `${racePcsID}:${stageNumber}`,
-
-  /**
-   * Generate a result ID.
-   * @param {string} stageId - Stage identifier.
-   * @param {string|number} riderId - Rider identifier.
-   * @returns {string} Composite result ID.
-   */
-  result: (stageId, riderId) => `${stageId}:${riderId}`,
+  stage: (raceUID, stageNumber) => {
+    if (!raceUID || stageNumber == null)
+      throw new Error(
+        `generateId.stage: invalid args (raceUID=${raceUID}, stageNumber=${stageNumber})`,
+      );
+    return `${raceUID}:${stageNumber}`;
+  },
 };

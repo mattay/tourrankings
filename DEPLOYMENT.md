@@ -191,7 +191,6 @@ docker compose -f docker-compose.test.yml run app sh -c '. /chrome-path.sh && ec
 - `NODE_OPTIONS`: Memory allocation
 - `PORT`: Server port (8080)
 - `DATA_DIR`: CSV storage location
-- `PUPPETEER_HEADLESS`: Browser mode
 
 ## Cost Optimization
 

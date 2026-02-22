@@ -27,7 +27,6 @@ services:
       PORT: 8080
       DATA_DIR: /tourRanking/data/csv
       LOG_LEVEL: info
-      PUPPETEER_HEADLESS: "true"
     healthcheck:
       test:
         [
@@ -58,7 +57,6 @@ services:
       NODE_OPTIONS: "--max-old-space-size=512"
       DATA_DIR: /tourRanking/data/csv
       LOG_LEVEL: info
-      PUPPETEER_HEADLESS: "true"
     command:
       [
         "sh",

@@ -17,7 +17,6 @@ import { generateId } from "@cycling/idGenerator";
 import { logError, logOut } from "@utils/logging";
 // Scrape
 import {
-  interceptRequests,
   collectWorldTourRaces,
   scrapeRaceStartList,
   scrapeRaceStages,

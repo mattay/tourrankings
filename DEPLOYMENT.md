@@ -150,8 +150,6 @@ git push origin v{cycle}.{patch}
 # Test build locally first
 docker compose -f docker-compose.test.yml build --no-cache
 
-# Check Chrome installation
-docker compose -f docker-compose.test.yml run app sh -c '. /chrome-path.sh && echo $PUPPETEER_EXECUTABLE_PATH'
 ```
 
 ### Memory Issues

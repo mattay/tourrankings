@@ -30,6 +30,14 @@ describe("Splitting Names", () => {
       success: false,
       values: { surname: null, firstNames: null },
     });
+    expect(parseName(null)).toEqual({
+      success: false,
+      values: { surname: null, firstNames: null },
+    });
+    expect(parseName(undefined)).toEqual({
+      success: false,
+      values: { surname: null, firstNames: null },
+    });
   });
 });
 
@@ -55,6 +63,14 @@ describe("Splitting Team Titles", () => {
       values: { teamName: "Australia", teamClassification: "NAT" },
     });
     expect(parseTeamName("")).toEqual({
+      success: false,
+      values: { teamName: null, teamClassification: null },
+    });
+    expect(parseTeamName(null)).toEqual({
+      success: false,
+      values: { teamName: null, teamClassification: null },
+    });
+    expect(parseTeamName(undefined)).toEqual({
       success: false,
       values: { teamName: null, teamClassification: null },
     });

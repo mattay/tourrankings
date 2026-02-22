@@ -23,10 +23,10 @@ const PATTERN_NAME =
  * @returns {ParseTeamNameResult} An object containing the parsed team name and classification.
  */
 export function parseTeamName(teamName) {
-  const match = teamName.match(PATTERN_TEAM);
+  const match = teamName?.match(PATTERN_TEAM) || false;
 
   return {
-    success: !match ? false : true,
+    success: !!match,
     values: {
       teamName: match?.groups?.teamName || null,
       teamClassification: match?.groups?.teamClassification || null,
@@ -41,10 +41,10 @@ export function parseTeamName(teamName) {
  * @returns {ParseNameResult} An object containing the parsed surname and first names.
  */
 export function parseName(name) {
-  const match = name.match(PATTERN_NAME);
+  const match = name?.match(PATTERN_NAME) || false;
 
   return {
-    success: !match ? false : true,
+    success: !!match,
     values: {
       surname: match?.groups?.surname || null,
       firstNames: match?.groups?.firstNames || null,

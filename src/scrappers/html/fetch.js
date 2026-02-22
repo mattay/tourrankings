@@ -66,7 +66,7 @@ export async function fetchHtml(url, options = {}) {
  * const result = await fetchHtmlWithCache(
  *   'https://www.procyclingstats.com/race/tour-de-france/2024',
  *   {
- *     pattern: 'pcs-race-tour-de-france-2024',
+ *     cachePattern: 'pcs-race-tour-de-france-2024',
  *     timeout: 10000
  *   }
  * );

@@ -10,7 +10,7 @@ describe.each([
       "test/scraping/cycling/procyclingstats/fixtures/races-2025-2.UWT.json",
   },
 ])(`$filterYear $filterClass races`, (data) => {
-  let html, expectedResults;
+  let html, expectedResults, races;
 
   beforeAll(async () => {
     const input = Bun.file(data.input);
@@ -18,16 +18,15 @@ describe.each([
 
     html = await input.text();
     expectedResults = await output.json();
+    races = scrapeRacesFromHtml(html, data.filterYear);
   });
 
-  test("should return an array of world tour races", async () => {
-    const races = await scrapeRacesFromHtml(html, data.filterYear);
+  test("should return an array of world tour races", () => {
     expect(races).toBeInstanceOf(Array);
     expect(races.length).toBeGreaterThan(0);
   });
 
-  test("should match expected results", async () => {
-    const races = await scrapeRacesFromHtml(html, data.filterYear);
+  test("should match expected results", () => {
     expect(races).toEqual(expectedResults);
   });
 });

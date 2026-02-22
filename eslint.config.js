@@ -17,6 +17,7 @@ export default [
       globals: {
         ...globals.node, // Node.js globals (console, process, etc.)
         ...globals.browser, // Browser globals (window, document, etc.)
+        ...globals.bunBuiltin, // Bun runtime globals (Bun, fetch, etc.)
         d3: "readonly",
       },
     },

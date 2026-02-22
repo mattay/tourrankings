@@ -15,11 +15,11 @@
 
 if (!process.env.PUPPETEER_EXECUTABLE_PATH) {
   console.error("PUPPETEER_EXECUTABLE_PATH environment variable is not set.");
-  process.exit(1);
+  // process.exit(1);
 }
 if (!process.env.PUPPETEER_HEADLESS) {
   console.error("PUPPETEER_HEADLESS environment variable is not set.");
-  process.exit(1);
+  // process.exit(1);
 }
 
 /** @type {Config} */

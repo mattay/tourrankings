@@ -1,4 +1,4 @@
-import { generateId } from "@utils/idGenerator";
+import { generateId } from "@cycling/idGenerator";
 import { logError, logOut } from "@utils/logging";
 import { formatDate } from "@utils/string";
 import { buildUrl, urlSections } from "@utils/url";

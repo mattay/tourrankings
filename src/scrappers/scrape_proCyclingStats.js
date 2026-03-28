@@ -17,7 +17,7 @@ import {
   ClassificationTeam,
 } from "../models";
 // Utils
-import { generateId } from "@utils/idGenerator";
+import { generateId } from "@cycling/idGenerator";
 import { logError, logOut } from "@utils/logging";
 // Scrape
 import {

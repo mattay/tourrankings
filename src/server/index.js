@@ -6,7 +6,6 @@ import { routesAPI, routesRace, routesRoot, routesHealth } from "@server/routes"
 import dataService from "@services/dataServiceInstance";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
-import { routesAPI, routesRace, routesRoot, routesHealth } from "@server/routes";
 import { logError, logOut } from "@utils/logging";
 import { getAppVersion } from "@utils/version";
 

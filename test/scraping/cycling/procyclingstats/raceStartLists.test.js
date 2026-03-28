@@ -4,13 +4,14 @@ import { scrapeRaceStartListFromHtml } from "src/scrappers/source/proCyclingStat
 describe.each([
   {
     race: "Tour Down Under",
+    year: 2025,
     input:
       "test/scraping/cycling/procyclingstats/html/raceStartlist-2025-tour-down-under.html",
     output:
       "test/scraping/cycling/procyclingstats/fixtures/raceStartlist-2025-tour-down-under.json",
   },
-])(`$filterYear $filterClass races`, (data) => {
-  let html, expectedResults;
+])(`$race $year`, (data) => {
+  let html, expectedResults, startLists;
 
   beforeAll(async () => {
     const input = Bun.file(data.input);
@@ -18,16 +19,15 @@ describe.each([
 
     html = await input.text();
     expectedResults = await output.json();
+    startLists = scrapeRaceStartListFromHtml(html);
   });
 
-  test("should return an array of world tour races", async () => {
-    const startLists = await scrapeRaceStartListFromHtml(html);
+  test("Should return an array of teams", async () => {
     expect(startLists).toBeInstanceOf(Array);
     expect(startLists.length).toBeGreaterThan(0);
   });
 
-  test("should match expected results", async () => {
-    const startLists = await scrapeRaceStartListFromHtml(html);
+  test("Should match expected results", async () => {
     expect(startLists).toEqual(expectedResults);
   });
 });

@@ -1,10 +1,9 @@
-import { generateId } from "@utils/idGenerator";
 import { renameKeys } from "@utils/object";
 import { toCamelCase } from "@utils/string";
 import { stringToSeconds } from "@utils/time";
 import { logError, logOut } from "@utils/logging";
-import { fetchHtmlWithFetch } from "@scrappers/fetch";
-import { htmlDOM } from "@scrappers/domParser";
+import { fetchHtml } from "@scrappers/html/fetch";
+import { htmlDOM } from "@scrappers/html/domParser";
 import {
   dropColumns,
   extractNotice,
@@ -544,7 +543,7 @@ export async function scrapeRaceStageResults(race, stageDetails) {
   const url = `https://www.procyclingstats.com/race/${race}/${stageDetails.year}/${urlStage}`;
 
   try {
-    const htmlContent = await fetchHtmlWithFetch(url);
+    const htmlContent = await fetchHtml(url);
     const pageDOM = htmlDOM(htmlContent);
 
     // Collect Tabs Listed -> Make no assumptions about tab structure

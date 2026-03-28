@@ -1,5 +1,5 @@
 import { logError } from "@utils/logging";
-import config from "./config";
+import config from "@scrappers/html/config-puppeteer";
 
 /**
  * Enhanced request interceptor to block unnecessary resources and reduce bandwidth/memory usage

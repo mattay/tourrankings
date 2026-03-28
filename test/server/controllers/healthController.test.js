@@ -7,6 +7,15 @@ mock.module("@utils/logging", () => ({
   logError: jest.fn(),
 }));
 
+// Mock the dataService
+const mockDataService = {
+  isInitialized: true,
+};
+
+mock.module("@services/dataServiceInstance", () => ({
+  default: mockDataService,
+}));
+
 describe("Health Controller", () => {
   let req;
   let res;
@@ -26,8 +35,8 @@ describe("Health Controller", () => {
   });
 
   describe("getHealth", () => {
-    it("should return 200 status with healthy status", () => {
-      getHealth(req, res);
+    it("should return 200 status with healthy status", async () => {
+      await getHealth(req, res);
 
       expect(statusMock).toHaveBeenCalledWith(200);
       expect(jsonMock).toHaveBeenCalled();
@@ -36,8 +45,8 @@ describe("Health Controller", () => {
       expect(response.status).toBe("healthy");
     });
 
-    it("should include timestamp in ISO format", () => {
-      getHealth(req, res);
+    it("should include timestamp in ISO format", async () => {
+      await getHealth(req, res);
 
       const response = jsonMock.mock.calls[0][0];
       expect(response.timestamp).toBeDefined();
@@ -47,8 +56,8 @@ describe("Health Controller", () => {
       expect(timestamp.toISOString()).toBe(response.timestamp);
     });
 
-    it("should include process uptime", () => {
-      getHealth(req, res);
+    it("should include process uptime", async () => {
+      await getHealth(req, res);
 
       const response = jsonMock.mock.calls[0][0];
       expect(response.uptime).toBeDefined();
@@ -56,12 +65,12 @@ describe("Health Controller", () => {
       expect(response.uptime).toBeGreaterThanOrEqual(0);
     });
 
-    it("should include environment from NODE_ENV", () => {
+    it("should include environment from NODE_ENV", async () => {
       const originalEnv = process.env.NODE_ENV;
       try {
         process.env.NODE_ENV = "production";
 
-        getHealth(req, res);
+        await getHealth(req, res);
 
         const response = jsonMock.mock.calls[0][0];
         expect(response.environment).toBe("production");
@@ -71,12 +80,12 @@ describe("Health Controller", () => {
       }
     });
 
-    it("should default to 'development' when NODE_ENV is not set", () => {
+    it("should default to 'development' when NODE_ENV is not set", async () => {
       const originalEnv = process.env.NODE_ENV;
       try {
         delete process.env.NODE_ENV;
 
-        getHealth(req, res);
+        await getHealth(req, res);
 
         const response = jsonMock.mock.calls[0][0];
         expect(response.environment).toBe("development");
@@ -88,11 +97,11 @@ describe("Health Controller", () => {
       }
     });
 
-    it("should include version from npm_package_version", () => {
+    it("should include version from npm_package_version", async () => {
       const originalVersion = process.env.npm_package_version;
       process.env.npm_package_version = "1.2.3";
 
-      getHealth(req, res);
+      await getHealth(req, res);
 
       const response = jsonMock.mock.calls[0][0];
       expect(response.version).toBe("1.2.3");
@@ -105,11 +114,11 @@ describe("Health Controller", () => {
       }
     });
 
-    it("should default to 'unknown' version when npm_package_version is not set", () => {
+    it("should default to 'unknown' version when npm_package_version is not set", async () => {
       const originalVersion = process.env.npm_package_version;
       delete process.env.npm_package_version;
 
-      getHealth(req, res);
+      await getHealth(req, res);
 
       const response = jsonMock.mock.calls[0][0];
       expect(response.version).toBe("unknown");
@@ -120,8 +129,8 @@ describe("Health Controller", () => {
       }
     });
 
-    it("should return all required fields in health response", () => {
-      getHealth(req, res);
+    it("should return all required fields in health response", async () => {
+      await getHealth(req, res);
 
       const response = jsonMock.mock.calls[0][0];
       expect(response).toHaveProperty("status");
@@ -131,14 +140,14 @@ describe("Health Controller", () => {
       expect(response).toHaveProperty("version");
     });
 
-    it("should handle errors and return 503 status with unhealthy status", () => {
+    it("should handle errors and return 503 status with unhealthy status", async () => {
       // Mock process.uptime to throw an error
       const originalUptime = process.uptime;
       process.uptime = () => {
         throw new Error("Uptime check failed");
       };
 
-      getHealth(req, res);
+      await getHealth(req, res);
 
       // Should catch the error and return 503
       expect(statusMock).toHaveBeenCalledWith(503);
@@ -150,7 +159,7 @@ describe("Health Controller", () => {
       process.uptime = originalUptime;
     });
 
-    it("should return error details when health check fails", () => {
+    it("should return error details when health check fails", async () => {
       // Create a mock that fails on json call but succeeds on status
       const errorJsonMock = jest.fn();
       const errorRes = {
@@ -164,7 +173,7 @@ describe("Health Controller", () => {
         throw new Error("Uptime failed");
       };
 
-      getHealth(req, errorRes);
+      await getHealth(req, errorRes);
 
       expect(errorRes.status).toHaveBeenCalledWith(503);
       const response = errorJsonMock.mock.calls[0][0];
@@ -176,10 +185,10 @@ describe("Health Controller", () => {
       process.uptime = originalUptime;
     });
 
-    it("should handle different NODE_ENV values correctly", () => {
+    it("should handle different NODE_ENV values correctly", async () => {
       const environments = ["development", "production", "staging", "test"];
 
-      environments.forEach((env) => {
+      for (const env of environments) {
         const originalEnv = process.env.NODE_ENV;
         process.env.NODE_ENV = env;
 
@@ -188,20 +197,20 @@ describe("Health Controller", () => {
         statusMock = jest.fn(() => ({ json: jsonMock }));
         res.status = statusMock;
 
-        getHealth(req, res);
+        await getHealth(req, res);
 
         const response = jsonMock.mock.calls[0][0];
         expect(response.environment).toBe(env);
 
         // Restore
         process.env.NODE_ENV = originalEnv;
-      });
+      }
     });
 
-    it("should return timestamp that is recent", () => {
+    it("should return timestamp that is recent", async () => {
       const beforeCall = new Date();
 
-      getHealth(req, res);
+      await getHealth(req, res);
 
       const afterCall = new Date();
       const response = jsonMock.mock.calls[0][0];
@@ -213,21 +222,21 @@ describe("Health Controller", () => {
       expect(responseTime.getTime()).toBeLessThanOrEqual(afterCall.getTime());
     });
 
-    it("should handle request with headers", () => {
+    it("should handle request with headers", async () => {
       req.headers = {
         "user-agent": "test-agent",
         accept: "application/json",
       };
 
-      getHealth(req, res);
+      await getHealth(req, res);
 
       expect(statusMock).toHaveBeenCalledWith(200);
       const response = jsonMock.mock.calls[0][0];
       expect(response.status).toBe("healthy");
     });
 
-    it("should return consistent response structure on multiple calls", () => {
-      getHealth(req, res);
+    it("should return consistent response structure on multiple calls", async () => {
+      await getHealth(req, res);
       const firstResponse = jsonMock.mock.calls[0][0];
       const firstKeys = Object.keys(firstResponse).sort();
 
@@ -236,7 +245,7 @@ describe("Health Controller", () => {
       statusMock = jest.fn(() => ({ json: jsonMock }));
       res.status = statusMock;
 
-      getHealth(req, res);
+      await getHealth(req, res);
       const secondResponse = jsonMock.mock.calls[0][0];
       const secondKeys = Object.keys(secondResponse).sort();
 

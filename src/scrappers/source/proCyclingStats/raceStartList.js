@@ -1,6 +1,6 @@
 import { logError } from "@utils/logging";
 import { urlSections } from "@utils/url";
-import { fetchHtmlWithCache, htmlDOM } from "src/scrappers/html";
+import { fetchHtmlWithCache, htmlDOM } from "@scrappers/html";
 import { parseName, parseTeamName } from "./helpers";
 
 /**

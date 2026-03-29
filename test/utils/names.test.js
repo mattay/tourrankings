@@ -1,78 +1,131 @@
-import { describe, it, expect } from "bun:test";
+import { describe, test, expect } from "bun:test";
 import {
   parseName,
   parseTeamName,
 } from "@scrappers/source/proCyclingStats/helpers";
 
-describe("Splitting Names", () => {
-  it("Should split Uppercase surnames and lowercase firstnames", () => {
-    expect(parseName("GROßSCHARTNER Felix")).toEqual({
+const riderNames = [
+  {
+    input: "GROßSCHARTNER Felix",
+    output: {
       success: true,
       values: { surname: "GROßSCHARTNER", firstNames: "Felix" },
-    });
-    expect(parseName("GUIDI Fabrizio")).toEqual({
+    },
+  },
+  {
+    input: "GUIDI Fabrizio",
+    output: {
       success: true,
       values: { surname: "GUIDI", firstNames: "Fabrizio" },
-    });
-    expect(parseName("MCCARTY Jonathan Patrick")).toEqual({
+    },
+  },
+  {
+    input: "MCCARTY Jonathan Patrick",
+    output: {
       success: true,
       values: { surname: "MCCARTY", firstNames: "Jonathan Patrick" },
-    });
-    expect(parseName("VAN OUDENHOVE Gino")).toEqual({
+    },
+  },
+  {
+    input: "VAN OUDENHOVE Gino",
+    output: {
       success: true,
       values: { surname: "VAN OUDENHOVE", firstNames: "Gino" },
-    });
-    expect(parseName("GUILLÉ Nicolas")).toEqual({
+    },
+  },
+  {
+    input: "GUILLÉ Nicolas",
+    output: {
       success: true,
       values: { surname: "GUILLÉ", firstNames: "Nicolas" },
-    });
-    expect(parseName("")).toEqual({
+    },
+  },
+  {
+    input: "",
+    output: {
       success: false,
       values: { surname: null, firstNames: null },
-    });
-    expect(parseName(null)).toEqual({
+    },
+  },
+  {
+    input: null,
+    output: {
       success: false,
       values: { surname: null, firstNames: null },
-    });
-    expect(parseName(undefined)).toEqual({
+    },
+  },
+  {
+    input: undefined,
+    output: {
       success: false,
       values: { surname: null, firstNames: null },
-    });
-  });
-});
+    },
+  },
+];
 
-describe("Splitting Team Titles", () => {
-  it("Should split team and classification", () => {
-    expect(parseTeamName("Israel - Premier Tech (PRT)")).toEqual({
+const teamNames = [
+  {
+    input: "Israel - Premier Tech (PRT)",
+    output: {
       success: true,
       values: { teamName: "Israel - Premier Tech", teamClassification: "PRT" },
-    });
-    expect(parseTeamName("Arkéa - B&B Hotels (WT)")).toEqual({
+    },
+  },
+  {
+    input: "Arkéa - B&B Hotels (WT)",
+    output: {
       success: true,
       values: { teamName: "Arkéa - B&B Hotels", teamClassification: "WT" },
-    });
-    expect(parseTeamName("Team Visma | Lease a Bike (WT)")).toEqual({
+    },
+  },
+  {
+    input: "Team Visma | Lease a Bike (WT)",
+    output: {
       success: true,
       values: {
         teamName: "Team Visma | Lease a Bike",
         teamClassification: "WT",
       },
-    });
-    expect(parseTeamName("Australia (NAT)")).toEqual({
+    },
+  },
+  {
+    input: "Australia (NAT)",
+    output: {
       success: true,
       values: { teamName: "Australia", teamClassification: "NAT" },
-    });
-    expect(parseTeamName("")).toEqual({
+    },
+  },
+  {
+    input: "",
+    output: {
       success: false,
       values: { teamName: null, teamClassification: null },
-    });
-    expect(parseTeamName(null)).toEqual({
+    },
+  },
+  {
+    input: null,
+    output: {
       success: false,
       values: { teamName: null, teamClassification: null },
-    });
-    expect(parseTeamName(undefined)).toEqual({
+    },
+  },
+  {
+    input: undefined,
+    output: {
       success: false,
       values: { teamName: null, teamClassification: null },
-    });
+    },
+  },
+];
+
+describe("Split rider names", () => {
+  test.each(riderNames)("$input", ({ input, output }) => {
+    expect(parseName(input)).toEqual(output);
+  });
+});
+
+describe("Split team and classification", () => {
+  test.each(teamNames)("$input", ({ input, output }) => {
+    expect(parseTeamName(input)).toEqual(output);
   });
 });

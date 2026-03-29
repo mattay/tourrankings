@@ -8,7 +8,7 @@
  */
 
 /** @type {Config} */
-export const config = {
+export const CONFIG = {
   wait: 420,
   timeout: 12000,
   headers: {
@@ -17,4 +17,4 @@ export const config = {
   },
 };
 
-export default config;
+export default CONFIG;

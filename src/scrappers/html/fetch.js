@@ -1,5 +1,5 @@
 import { generateCacheKey, readFromCache, writeToCache } from "./cache";
-import config from "./config";
+import CONFIG from "./config";
 
 /**
  * @typedef {Object} FetchOptions
@@ -19,13 +19,13 @@ import config from "./config";
  * @returns {Promise<string>} The HTML content of the page
  */
 export async function fetchHtml(url, options = {}) {
-  const { timeout = config.timeout, headers = {} } = options;
+  const { timeout = CONFIG.timeout, headers = {} } = options;
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
 
   try {
     const response = await fetch(url, {
-      headers: { ...config.headers, ...headers },
+      headers: { ...CONFIG.headers, ...headers },
       signal: controller.signal,
     });
 

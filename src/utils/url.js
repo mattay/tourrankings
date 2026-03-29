@@ -25,10 +25,14 @@ export function buildUrl(baseUrl, params) {
  * @returns {Object|null} An object mapping each label to the corresponding section of the URL's pathname, or null if the number of labels does not match the number of sections.
  */
 export function urlSections(urlString, sectionLabels = []) {
-  if (!urlString || !sectionLabels) {
+  if (!urlString) {
+    logError("Url Sections", `Invalid urlString: ${urlString}`);
+    return null;
+  }
+  if (!sectionLabels) {
     logError(
       "Url Sections",
-      "Invalid input: urlString and sectionLabels are required",
+      "Invalid sectionLabels: sectionLabels is required",
     );
     return null;
   }

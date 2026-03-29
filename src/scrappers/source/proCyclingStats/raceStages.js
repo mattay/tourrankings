@@ -90,7 +90,7 @@ function parseStages(htmlContent, year) {
 
   const rows = Array.from(
     htmlTableStages.querySelectorAll(DOM_SELECTORS.stageTableRows),
-  ).map((tr, rowCount) => {
+  ).map((tr) => {
     let stageNumber = 0;
     let stageType = null;
     let matchStage;
@@ -105,13 +105,16 @@ function parseStages(htmlContent, year) {
         case "arrival":
           details[key] = value;
           break;
+
         case "distance":
         case "verticalMeters":
           details[key] = Number(value) || null;
           break;
+
         case "date":
           details[key] = formatDate(year, value, "/");
           break;
+
         case "parcoursType":
           const span = td.querySelector("span");
           value = span
@@ -119,26 +122,36 @@ function parseStages(htmlContent, year) {
             : null;
           details[key] = value;
           break;
+
         case "stage":
-          value = td.querySelector("a").textContent.trim();
+          const anchor = td.querySelector("a");
+          if (!anchor) {
+            logError("Scrape PCS - Stages", `No anchor found in stage cell`);
+            break;
+          }
+          value = anchor.textContent.trim();
           if (value === "Prologue") {
             stageNumber = 0;
             stageType = value;
           } else {
             matchStage = value.match(PATTERN_STAGE);
-            stageNumber = Number(matchStage?.groups.stageNumber);
-            stageType = matchStage?.groups?.stageType || null;
             if (!matchStage) {
               logError(
-                "Clean Record",
+                "Scrape PCS - Stages",
                 `Invalid stage format: ${value} -> ${PATTERN_STAGE}`,
               );
+              stageNumber = null;
+              stageType = null;
+            } else {
+              stageNumber = Number(matchStage.groups.stageNumber);
+              stageType = matchStage.groups?.stageType || null;
             }
           }
           details[key] = stageNumber;
           details["stageType"] = stageType;
-          details["stagePcsUrl"] = td.querySelector("a").href;
+          details["stagePcsUrl"] = anchor.href;
           break;
+
         default:
           logError(
             "Scrape PCS - Stages",

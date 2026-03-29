@@ -4,44 +4,50 @@ import { fetchHtmlWithCache, htmlDOM } from "@scrappers/html";
 import { parseName, parseTeamName } from "./helpers";
 
 /**
- * @typedef {import('./@types/index').ScrapedRaceStartListTeam} ScrapedRaceStartListTeam -
  *
  * @typedef {Object} RawStartListRider
+ * @property {string} pcsUrl - The ProcyclingStats URL of the rider.
  * @property {number} bib - The bib number of the rider.
  * @property {string} flag - The flag of the rider.
  * @property {string} rider - The name of the rider.
- * @property {string} riderPcsUrl - The ProcyclingStats URL of the rider.
  *
  * @typedef {Object} RawTeamStartList
- * @property {string} teamName - The name of the team.
- * @property {string} teamPcsUrl - The ProcyclingStats URL of the team.
+ * @property {string} pcsUrl - The ProcyclingStats URL of the team.
+ * @property {string} name - The name of the team.
  * @property {string} jerseyImageUrl - The name of the team.
  * @property {Array<RawStartListRider>} riders - An array of riders.
+ *
+ * @typedef {Object} RawTeamStaff
+ * @property {string} pcsUrl - The ProcyclingStats URL of the staff member.
+ * @property {string} name - The name of the staff member.
+ * @property {string} role - The role of the staff member.
  */
 
 /**
- * @typedef {Object} RawTeamStaff
- * @property {string} name - The name of the staff member.
- * @property {string} role - The role of the staff member.
- * @property {string} staffPcsUrl - The ProcyclingStats URL of the staff member.
+ * @typedef {Object} ParsedTeamName
+ * @property {string|null} pcsId - The ProcyclingStats ID of the team.
+ * @property {string|null} pcsUrl - The ProcyclingStats URL of the team.
+ * @property {string|null} name - The name of the team.
+ * @property {string|null} classification - The classification of the team.
  *
- * @typedef {Object} parsedTeamName
- * @property {string} pscId - The ProcyclingStats ID of the team.
- * @property {string} teamName - The name of the team.
- * @property {string} teamClassification - The classification of the team.
+ * @typedef {Object} ParsedRiderName
+ * @property {string|null} pcsId - The ProcyclingStats ID of the rider.
+ * @property {string|null} pcsUrl - The ProcyclingStats URL of the rider.
+ * @property {number|null} bib - The bib number of the rider.
+ * @property {string|null} surname - The surname of the rider.
+ * @property {string|null} firstNames - The first names of the rider.
+ * @property {string|null} flag - The flag of the rider.
  *
- * @typedef {Object} parsedRiderName
- * @property {string} pscId - The ProcyclingStats ID of the rider.
- * @property {string} surname - The surname of the rider.
- * @property {string} firstNames - The first names of the rider.
- * @property {string} bib - The bib number of the rider.
- * @property {string} flag - The flag of the rider.
- *
- * @typedef {Object} parsedStaffName
- * @property {string} pscId - The ProcyclingStats ID of the staff member.
- * @property {string} surname - The surname of the staff member.
- * @property {string} firstNames - The first name of the staff member.
- * @property {string} role - The role of the staff member.
+ * @typedef {Object} ParsedStaffName
+ * @property {string|null} pcsId - The ProcyclingStats ID of the staff member.
+ * @property {string|null} pcsUrl - The ProcyclingStats URL of the staff member.
+ * @property {string|null} surname - The surname of the staff member.
+ * @property {string|null} firstNames - The first name of the staff member.
+ * @property {string|null} role - The role of the staff member.
+ */
+
+/**
+ * @typedef {import('./@types/index').ScrapedRaceStartListTeam} ScrapedRaceStartListTeam
  */
 
 const DOM_SELECTORS = {
@@ -54,26 +60,32 @@ const DOM_SELECTORS = {
 
 /**
  * Parses a team's title from a string.
- * @param {HTMLElement} htmlElement - The text containing the team's title.
- * @returns {parsedTeamName} The parsed team title or an error message.
+ * @param {HTMLAnchorElement} htmlElement - The text containing the team's title.
+ * @returns {ParsedTeamName} The parsed team title or an error message.
  */
 function parseTeamTitle(htmlElement) {
-  const teamTitle = htmlElement?.textContent || null;
-  const teamPcsUrl = htmlElement?.href || null;
-  const linkSections = urlSections(teamPcsUrl, ["_team", "pcsId"]);
-  const match = parseTeamName(teamTitle);
-  if (!match.success) {
+  const element = htmlElement;
+  const title = element?.textContent || null;
+  const pcsUrl = element?.href || null;
+  const linkSections = urlSections(pcsUrl, ["_team", "pcsId"]);
+  if (!title || !pcsUrl || !linkSections) {
     logError(
-      "Scrape PSC - Start List",
-      `Failed to parse team title: ${teamTitle}`,
+      "Scrape PCS - Start List",
+      `Failed to parse team: ${element.outerHTML}`,
     );
+    return null;
+  }
+  const match = parseTeamName(title);
+  if (!match.success) {
+    logError("Scrape PCS - Start List", `Failed to parse team title: ${title}`);
   }
 
-  const { teamName, teamClassification } = match.values;
+  const { name, classification } = match.values;
   const team = {
     pcsId: linkSections?.pcsId || null,
-    teamName,
-    teamClassification,
+    name,
+    classification,
+    pcsUrl,
   };
 
   return team;
@@ -82,22 +94,29 @@ function parseTeamTitle(htmlElement) {
 /**
  * Parses a rider's name from a string.
  * @param {Element} htmlElement - The text containing the rider's name.
- * @returns {parsedRiderName} The parsed name or an error message.
+ * @returns {ParsedRiderName} The parsed name or an error message.
  */
 function parseTeamRider(htmlElement) {
-  const rider = htmlElement.querySelector("a");
-  const linkSections = urlSections(rider?.href, ["_team", "pcsId"]);
-  const match = parseName(rider.textContent);
-  if (!match.success) {
+  const element = /** @type {HTMLAnchorElement|null} */ (htmlElement.querySelector("a"));
+  const title = element?.textContent || null;
+  const pcsUrl = element?.href || null;
+  const linkSections = urlSections(pcsUrl, ["_rider", "pcsId"]);
+  if (!title || !pcsUrl || !linkSections) {
     logError(
-      "Scrape PSC - Start List",
-      `Failed to parse rider name: ${rider.textContent}`,
+      "Scrape PCS - Start List",
+      `Failed to parse team rider: ${element.outerHTML}`,
     );
+    return null;
+  }
+  const match = parseName(title);
+  if (!match.success) {
+    logError("Scrape PCS - Start List", `Failed to parse rider name: ${title}`);
   }
 
   const { surname, firstNames } = match.values;
   const teamRider = {
     pcsId: linkSections?.pcsId || null,
+    pcsUrl,
     surname,
     firstNames,
     bib: Number(htmlElement.querySelector(".bib")?.textContent) || null,
@@ -110,21 +129,32 @@ function parseTeamRider(htmlElement) {
 /**
  * Parses a directeur sportif's name from a string.
  * @param {Element} htmlElement - The text containing the directeur sportif's name.
- * @returns {Object} The parsed name or an error message.
+ * @returns {ParsedStaffName} The parsed name or an error message.
  */
 function parseDirecteurSportif(htmlElement) {
-  const linkSections = urlSections(htmlElement.href, ["_ds", "pcsId"]);
-  const match = parseName(htmlElement.textContent);
+  const element = /** @type {HTMLAnchorElement} */ (htmlElement);
+  const title = element?.textContent || null;
+  const pcsUrl = element?.href || null;
+  const linkSections = urlSections(pcsUrl, ["_ds", "pcsId"]);
+  if (!title || !pcsUrl || !linkSections) {
+    logError(
+      "Scrape PCS - Start List",
+      `Failed to parse directeur sportif: ${element.outerHTML}`,
+    );
+    return null;
+  }
+  const match = parseName(title);
   if (!match.success) {
     logError(
-      "Scrape PSC - Start List",
-      `Failed to parse directeur sportif: ${htmlElement.textContent}`,
+      "Scrape PCS - Start List",
+      `Failed to parse directeur sportif: ${title}`,
     );
   }
 
   const { surname, firstNames } = match.values;
   const directeurSportif = {
     pcsId: linkSections?.pcsId || null,
+    pcsUrl,
     surname,
     firstNames,
     role: "Directeur Sportif",
@@ -136,32 +166,46 @@ function parseDirecteurSportif(htmlElement) {
 /**
  * Parses the startlist of a race from ProcyclingStats.
  * @param {string} htmlContent - The HTML content of the race startlist page.
- * @returns {Array<Object>} An array of teams, each with their riders.
+ * @param {number} year - The year of the race.
+ * @returns {Array<ScrapedRaceStartListTeam>} An array of teams, each with their riders.
  */
-function parseStartlist(htmlContent) {
+function parseStartlist(htmlContent, year) {
   const pageDOM = htmlDOM(htmlContent);
 
   return Array.from(
     pageDOM.querySelectorAll(DOM_SELECTORS.contentTeamList),
   ).map((teamElement) => {
     const team = parseTeamTitle(teamElement.querySelector(DOM_SELECTORS.team));
+    if (!team) {
+      console.error("No Team");
+    }
 
-    const jerseyImageElement = teamElement.querySelector(DOM_SELECTORS.jersey);
+    const jerseyImageElement = /** @type {HTMLImageElement|null} */ (teamElement.querySelector(DOM_SELECTORS.jersey));
     const jerseyImageUrl = jerseyImageElement?.src || null;
+    if (!jerseyImageUrl) {
+      console.error("No jerseyImageUrl");
+    }
 
     const riders = Array.from(
       teamElement.querySelectorAll(DOM_SELECTORS.teamRiders),
-    ).map((rider) => parseTeamRider(rider));
+    ).map((rider) => ({ year, ...parseTeamRider(rider) }));
+    if (!riders) {
+      console.error("No riders");
+    }
 
     const directeurSportifs = Array.from(
       teamElement.querySelectorAll(DOM_SELECTORS.directeurSportif),
-    ).map((ds) => parseDirecteurSportif(ds));
+    ).map((ds) => ({ year, ...parseDirecteurSportif(ds) }));
+    if (!directeurSportifs) {
+      console.error("No directeurSportifs");
+    }
 
     return {
+      year,
       ...team,
       jerseyImageUrl,
       riders,
-      directeurSportifs,
+      staff: directeurSportifs,
     };
   });
 }
@@ -192,10 +236,10 @@ export async function scrapeRaceStartList(race, year) {
 
   try {
     const htmlContent = await fetchHtmlWithCache(url, { cachePattern });
-    const startlist = parseStartlist(htmlContent.html);
+    const startlist = parseStartlist(htmlContent.html, year);
     return startlist;
   } catch (exception) {
-    logError("scrapeRaceStartList", `Failed to scrape ${url}`, exception);
+    logError("Scrape PCS - Start List", `Failed to scrape ${url}`, exception);
     throw exception;
   }
 }

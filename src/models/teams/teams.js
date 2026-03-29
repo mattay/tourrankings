@@ -20,16 +20,16 @@ export class Teams extends CSVdataModel {
     const fieldTypes = {
       year: "number",
     };
-    super(`${process.env.DATA_DIR}/teams.csv`, ["teamPcsId"], fieldTypes);
+    super(`${process.env.DATA_DIR}/teams.csv`, ["Pcs Id"], fieldTypes);
     this.csvHeaders = [
       "Year",
-      "Team Pcs Id",
-      "Team Name",
+      "Pcs Id",
+      "Name",
       "Classification",
-      "Team Pcs Url",
+      "Pcs Url",
       "Jersey Image Pcs Url",
-      "Previous Team Pcs Id",
-      "Next Team Pcs Id",
+      "Previous Pcs Id",
+      "Next Pcs Id",
     ];
     this.sortOrder = [
       ["year", "asc"],
@@ -45,7 +45,7 @@ export class Teams extends CSVdataModel {
    * @returns {TeamModel|null} The team object if found, otherwise null.
    */
   teamById(teamId) {
-    return this.rows.find((team) => team.teamPcsId === teamId);
+    return this.rows.find((team) => team.pcsId === teamId);
   }
 
   teamsInRace(raceUID) {

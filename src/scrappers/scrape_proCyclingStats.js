@@ -215,7 +215,8 @@ async function collectPastRaceDetails(
     ...races.inProgress(today),
   ]).filter((race) => race.stages.length === 0);
 
-  // console.table(races.list()) // TODO: -> We need all race data;
+  // TODO: -> We need all race data, not just past events
+  // console.table(races.list())
 
   for (const race of pastRacesWithoutStages) {
     logOut("Main", `Collect past race: ${race.year} ${race.raceName}`);
@@ -250,11 +251,11 @@ async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
   await teams.update(
     raceDetails.teams.map((team) => ({
       year: team.year,
-      teamName: team.teamName,
-      teamPcsUrl: team.teamPcsUrl,
+      pcsId: team.pcsId,
+      pcsUrl: team.pcsUrl,
       jerseyImageUrl: team.jerseyImageUrl,
-      teamPcsId: team.teamPcsId,
-      teamClassification: team.teamClassification,
+      name: team.name,
+      classification: team.classification,
     })),
   );
   // Record riders in race
@@ -263,8 +264,9 @@ async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
   await riders.update(
     raceDetails.riders.map((raceRider) => {
       return {
-        riderPcsId: raceRider.riderPcsId,
-        riderName: raceRider.rider,
+        pcsId: raceRider.riderPcsId,
+        surname: raceRider.surname,
+        firstNames: raceRider.firstNames,
       };
     }),
   );

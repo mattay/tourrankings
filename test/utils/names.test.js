@@ -6,10 +6,24 @@ import {
 
 const riderNames = [
   {
-    input: "GROßSCHARTNER Felix",
+    input: undefined,
     output: {
-      success: true,
-      values: { surname: "GROßSCHARTNER", firstNames: "Felix" },
+      success: false,
+      values: { surname: null, firstNames: null },
+    },
+  },
+  {
+    input: null,
+    output: {
+      success: false,
+      values: { surname: null, firstNames: null },
+    },
+  },
+  {
+    input: "",
+    output: {
+      success: false,
+      values: { surname: null, firstNames: null },
     },
   },
   {
@@ -20,10 +34,52 @@ const riderNames = [
     },
   },
   {
+    input: "GUILLÉ Nicolas",
+    output: {
+      success: true,
+      values: { surname: "GUILLÉ", firstNames: "Nicolas" },
+    },
+  },
+  {
+    input: "GROßSCHARTNER Felix",
+    output: {
+      success: true,
+      values: { surname: "GROßSCHARTNER", firstNames: "Felix" },
+    },
+  },
+  {
     input: "MCCARTY Jonathan Patrick",
     output: {
       success: true,
       values: { surname: "MCCARTY", firstNames: "Jonathan Patrick" },
+    },
+  },
+  {
+    input: "O'CONNOR Ben",
+    output: {
+      success: true,
+      values: { surname: "O'CONNOR", firstNames: "Ben" },
+    },
+  },
+  {
+    input: "PARET-PEINTRE Valentin",
+    output: {
+      success: true,
+      values: { surname: "PARET-PEINTRE", firstNames: "Valentin" },
+    },
+  },
+  {
+    input: "ROGLIČ Primož",
+    output: {
+      success: true,
+      values: { surname: "ROGLIČ", firstNames: "Primož" },
+    },
+  },
+  {
+    input: "SKUJIŅŠ Toms",
+    output: {
+      success: true,
+      values: { surname: "SKUJIŅŠ", firstNames: "Toms" },
     },
   },
   {
@@ -34,86 +90,66 @@ const riderNames = [
     },
   },
   {
-    input: "GUILLÉ Nicolas",
+    input: "ØRN-KRISTOFF Felix",
     output: {
       success: true,
-      values: { surname: "GUILLÉ", firstNames: "Nicolas" },
-    },
-  },
-  {
-    input: "",
-    output: {
-      success: false,
-      values: { surname: null, firstNames: null },
-    },
-  },
-  {
-    input: null,
-    output: {
-      success: false,
-      values: { surname: null, firstNames: null },
-    },
-  },
-  {
-    input: undefined,
-    output: {
-      success: false,
-      values: { surname: null, firstNames: null },
+      values: { surname: "ØRN-KRISTOFF", firstNames: "Felix" },
     },
   },
 ];
 
 const teamNames = [
   {
-    input: "Israel - Premier Tech (PRT)",
-    output: {
-      success: true,
-      values: { teamName: "Israel - Premier Tech", teamClassification: "PRT" },
-    },
-  },
-  {
-    input: "Arkéa - B&B Hotels (WT)",
-    output: {
-      success: true,
-      values: { teamName: "Arkéa - B&B Hotels", teamClassification: "WT" },
-    },
-  },
-  {
-    input: "Team Visma | Lease a Bike (WT)",
-    output: {
-      success: true,
-      values: {
-        teamName: "Team Visma | Lease a Bike",
-        teamClassification: "WT",
-      },
-    },
-  },
-  {
-    input: "Australia (NAT)",
-    output: {
-      success: true,
-      values: { teamName: "Australia", teamClassification: "NAT" },
-    },
-  },
-  {
-    input: "",
+    input: undefined,
     output: {
       success: false,
-      values: { teamName: null, teamClassification: null },
+      values: { name: null, classification: null },
     },
   },
   {
     input: null,
     output: {
       success: false,
-      values: { teamName: null, teamClassification: null },
+      values: { name: null, classification: null },
     },
   },
   {
-    input: undefined,
+    input: "",
     output: {
       success: false,
-      values: { teamName: null, teamClassification: null },
+      values: { name: null, classification: null },
+    },
+  },
+  {
+    input: "Arkéa - B&B Hotels (WT)",
+    output: {
+      success: true,
+      values: { name: "Arkéa - B&B Hotels", classification: "WT" },
+    },
+  },
+  {
+    input: "Australia (NAT)",
+    output: {
+      success: true,
+      values: { name: "Australia", classification: "NAT" },
+    },
+  },
+  {
+    input: "Israel - Premier Tech (PRT)",
+    output: {
+      success: true,
+      values: { name: "Israel - Premier Tech", classification: "PRT" },
+    },
+  },
+
+  {
+    input: "Team Visma | Lease a Bike (WT)",
+    output: {
+      success: true,
+      values: {
+        name: "Team Visma | Lease a Bike",
+        classification: "WT",
+      },
     },
   },
 ];

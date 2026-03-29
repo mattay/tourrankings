@@ -19,6 +19,31 @@ import { parseName, parseTeamName } from "./helpers";
  * @property {Array<RawStartListRider>} riders - An array of riders.
  */
 
+/**
+ * @typedef {Object} RawTeamStaff
+ * @property {string} name - The name of the staff member.
+ * @property {string} role - The role of the staff member.
+ * @property {string} staffPcsUrl - The ProcyclingStats URL of the staff member.
+ *
+ * @typedef {Object} parsedTeamName
+ * @property {string} pscId - The ProcyclingStats ID of the team.
+ * @property {string} teamName - The name of the team.
+ * @property {string} teamClassification - The classification of the team.
+ *
+ * @typedef {Object} parsedRiderName
+ * @property {string} pscId - The ProcyclingStats ID of the rider.
+ * @property {string} surname - The surname of the rider.
+ * @property {string} firstNames - The first names of the rider.
+ * @property {string} bib - The bib number of the rider.
+ * @property {string} flag - The flag of the rider.
+ *
+ * @typedef {Object} parsedStaffName
+ * @property {string} pscId - The ProcyclingStats ID of the staff member.
+ * @property {string} surname - The surname of the staff member.
+ * @property {string} firstNames - The first name of the staff member.
+ * @property {string} role - The role of the staff member.
+ */
+
 const DOM_SELECTORS = {
   contentTeamList: ".page-content ul.startlist_v4 > li",
   jersey: ".shirtCont img",
@@ -30,7 +55,7 @@ const DOM_SELECTORS = {
 /**
  * Parses a team's title from a string.
  * @param {HTMLElement} htmlElement - The text containing the team's title.
- * @returns {Object} The parsed team title or an error message.
+ * @returns {parsedTeamName} The parsed team title or an error message.
  */
 function parseTeamTitle(htmlElement) {
   const teamTitle = htmlElement?.textContent || null;
@@ -57,7 +82,7 @@ function parseTeamTitle(htmlElement) {
 /**
  * Parses a rider's name from a string.
  * @param {Element} htmlElement - The text containing the rider's name.
- * @returns {Object} The parsed name or an error message.
+ * @returns {parsedRiderName} The parsed name or an error message.
  */
 function parseTeamRider(htmlElement) {
   const rider = htmlElement.querySelector("a");
@@ -102,6 +127,7 @@ function parseDirecteurSportif(htmlElement) {
     pcsId: linkSections?.pcsId || null,
     surname,
     firstNames,
+    role: "Directeur Sportif",
   };
 
   return directeurSportif;

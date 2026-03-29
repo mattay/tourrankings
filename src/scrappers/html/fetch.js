@@ -74,7 +74,7 @@ export async function fetchHtml(url, options = {}) {
 export async function fetchHtmlWithCache(url, options = {}) {
   const { cachePattern, ...fetchOptions } = options;
 
-  const cacheKey = generateCacheKey(cachePattern ? cachePattern : url);
+  const cacheKey = generateCacheKey(cachePattern || url);
   const cachedHtml = readFromCache(cacheKey);
 
   if (cachedHtml) {

@@ -100,7 +100,7 @@ function parseTeamRider(htmlElement) {
     pcsId: linkSections?.pcsId || null,
     surname,
     firstNames,
-    bib: Number(htmlElement.querySelector(".bib")?.textContent),
+    bib: Number(htmlElement.querySelector(".bib")?.textContent) || null,
     flag: htmlElement.querySelector(".flag")?.className.replace("flag ", ""),
   };
 
@@ -147,7 +147,7 @@ function parseStartlist(htmlContent) {
     const team = parseTeamTitle(teamElement.querySelector(DOM_SELECTORS.team));
 
     const jerseyImageElement = teamElement.querySelector(DOM_SELECTORS.jersey);
-    const jerseyImageUrl = jerseyImageElement ? jerseyImageElement.src : null;
+    const jerseyImageUrl = jerseyImageElement?.src || null;
 
     const riders = Array.from(
       teamElement.querySelectorAll(DOM_SELECTORS.teamRiders),

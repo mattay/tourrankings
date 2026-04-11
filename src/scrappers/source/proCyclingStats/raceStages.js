@@ -54,6 +54,27 @@ function cleanRecord(record) {
 }
 
 /**
+ * Scrapes race data from HTML content (testable version)
+ * @param {string} htmlContent - The HTML content to parse
+ * @returns {Array<ScrapedRaceStage>} Array of cleaned race records
+ */
+export function scrapeRaceStagesFromHtml(htmlContent) {
+  // To be implemented -> see scrapeRacesFromHtml()
+  // try {
+  //   const page = htmlDOM(htmlContent);
+  //   const tableRows = Array.from(
+  //     page.querySelectorAll(".content table tbody tr"),
+  //   );
+  //   const rawData = extractRawRaceData(tableRows, year);
+  //   return processRaceRecords(rawData);
+  // } catch (exception) {
+  //   logError("Races scrapeRacesFromHtml", "Failed to parse HTML", exception);
+  //   return [];
+  // }
+  return [];
+}
+
+/**
  * Scrapes stage data from the ProCyclingStats website.
  * @param {Page} page - The Puppeteer page object.
  * @param {string} race - The race name.

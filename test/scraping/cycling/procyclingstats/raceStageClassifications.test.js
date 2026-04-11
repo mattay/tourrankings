@@ -1,10 +1,12 @@
 import { expect, test, describe, beforeAll } from "bun:test";
-import { scrapeFromHtmlRacesResults,
+import {
+  scrapeFromHtmlRacesResults,
   scrapeFromHtmlRacesGeneralClassification,
   scrapeFromHtmlRacesMountainsClassification,
   scrapeFromHtmlRacesPointsClassification,
   scrapeFromHtmlRacesTeamsClassification,
-  scrapeFromHtmlRacesYouthClassification } from "src/scrappers/source/proCyclingStats/raceStageResults";
+  scrapeFromHtmlRacesYouthClassification,
+} from "src/scrappers/source/proCyclingStats/raceStageResults";
 
 describe.each([
   {
@@ -51,26 +53,32 @@ describe.each([
   });
 
   test("should match expected general classification", async () => {
-    const raceGeneralClassification = await scrapeFromHtmlRacesGeneralClassification(html, data.filterYear);
+    const raceGeneralClassification =
+      await scrapeFromHtmlRacesGeneralClassification(html, data.filterYear);
     expect(raceGeneralClassification).toEqual(expectedGeneral);
   });
 
   test("should match expected mountains classification", async () => {
-    const raceMountainsClassification = await scrapeFromHtmlRacesMountainsClassification(html, data.filterYear);
+    const raceMountainsClassification =
+      await scrapeFromHtmlRacesMountainsClassification(html, data.filterYear);
     expect(raceMountainsClassification).toEqual(expectedMountains);
   });
 
   test("should match expected points classification", async () => {
-    const racePointsClassification = await scrapeFromHtmlRacesPointsClassification(html, data.filterYear);
+    const racePointsClassification =
+      await scrapeFromHtmlRacesPointsClassification(html, data.filterYear);
     expect(racePointsClassification).toEqual(expectedPoints);
   });
 
   test("should match expected teams classification", async () => {
-    const raceTeamsClassification = await scrapeFromHtmlRacesTeamsClassification(html, data.filterYear);
+    const raceTeamsClassification =
+      await scrapeFromHtmlRacesTeamsClassification(html, data.filterYear);
     expect(raceTeamsClassification).toEqual(expectedTeams);
   });
 
   test("should match expected youth classification", async () => {
-    const raceYouthClassification = await scrapeFromHtmlRacesYouthClassification(html, data.filterYear);
+    const raceYouthClassification =
+      await scrapeFromHtmlRacesYouthClassification(html, data.filterYear);
     expect(raceYouthClassification).toEqual(expectedYouth);
   });
+});

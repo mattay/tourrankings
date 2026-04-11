@@ -16,7 +16,7 @@ describe.each([
 
   beforeAll(async () => {
     const input = Bun.file(data.input);
-    const output = Bun.file(data.output.results);
+    const output = Bun.file(data.output);
 
     html = await input.text();
     expectedResults = await output.json();

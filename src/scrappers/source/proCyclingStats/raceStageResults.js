@@ -25,6 +25,31 @@ const DOMSELECTORS = {
     cells: "td",
   },
 };
+
+export function scrapeFromHtmlRacesResults(htmlContent, year) {
+  return [];
+}
+
+export function scrapeFromHtmlRacesClassificationGeneral(htmlContent, year) {
+  return [];
+}
+
+export function scrapeFromHtmlRacesClassificationMountains(htmlContent, year) {
+  return [];
+}
+
+export function scrapeFromHtmlRacesClassificationPoints(htmlContent, year) {
+  return [];
+}
+
+export function scrapeFromHtmlRacesClassificationTeams(htmlContent, year) {
+  return [];
+}
+
+export function scrapeFromHtmlRacesClassificationYouth(htmlContent, year) {
+  return [];
+}
+
 /**
  * Renames the scraped column name
  * @param {string} column - the html column name

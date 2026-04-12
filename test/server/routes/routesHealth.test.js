@@ -24,10 +24,6 @@ describe("Health Routes", () => {
   });
 
   describe("Route Configuration", () => {
-    it.todo(
-      "should import routesHealth and verify it exports a valid Express router",
-    );
-
     it("should be able to create a health router with proper structure", () => {
       // Test creating a properly structured health router
       const router = express.Router();

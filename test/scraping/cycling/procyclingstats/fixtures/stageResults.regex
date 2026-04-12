@@ -1,0 +1,35 @@
+// Stage Results
+(tour-down-under:\d{4}:\d+),(\d+),(\d*),(\d*),(\+?\d+:\d+|),(\d+),(),(.*),(.*),(.*),(.*),(.*),(.*),(.*),(.*)
+[
+{"Stage UID":"$1","Stage":$2,"Rank":$3,"GC":$4,"Timelag":"$5","Bib":$6,"Specialty":"$7","Rider":"$8","Age":"$9","Team":"$10","UCI":"$11","Points":"$12","Bonis":"$13","Time":"$14","Delta":"$15"},
+]
+
+// General Classification
+(tour-down-under:\d{4}:\d+),(\d+),(\d*),(\d*),(\d*),(\d*),(\w+),(\w+ \w+),(\d+),(.*),(\d+),(\d+\″),(\d+:\d+:\d+″),(\d+:\d+)
+{"Stage UID":"$1","Stage":$2,"Rank":$3,"Previous Stage Ranking":$4,"Change":$5,"Bib":$6,"Specialty":"$7","Rider":"$8","Age":$9,"Team":"$10","UCI":$12,"Bonis":"$13","Time":"$14","Delta":"$15"},
+(tour-down-under:\d{4}:\d+),(\d+),(\d*),(\d*),(\d*),(\d*),(\w+),(\w+( \w+)+),(\d+),(.*),(\d*),(\d+\″)?,(NaN:NaN:NaN),(\d+:\d+)
+{"Stage UID":"$1","Stage":$2,"Rank":$3,"Previous Stage Ranking":$4,"Change":$5,"Bib":$6,"Specialty":"$7","Rider":"$8","Age":$10,"Team":"$11","UCI":$12,"Bonis":"$13","Time":"$14","Delta":"$15"},
+
+
+
+// Mountain Classification
+(tour-down-under:\d{4}:\d+),(\d+),(\d*),(\d*),(\d*),(\d*),(\w+),(.*),(\d+),(.*),(\d+),(\d+)
+{"Stage UID":"$1","Stage":$2,"Rank":$3,"Previous Stage Ranking":$4,"Change":$5,"Bib":$6,"Specialty":"$7","Rider":"$8","Age":$9,"Team":"$10","Points":$11,"Today":$12},
+tour-down-under:2025:1,1,1,,,194,Classic,BROWNING Fergus,21,Australia,21,21
+
+
+// Points Classification
+(tour-down-under:\d{4}:\d+),(\d+),(\d*),(\d*),(\d*),(\d*),(\w+),(.*),(\d+),(.*),(\d+),(\d+),(),(),()
+{"Stage UID":"$1","Stage":$2,"Rank":$3,"Previous Stage Ranking":$4,"Change":$5,"Bib":$6,"Specialty":"$7","Rider":"$8","Age":$9,"Team":"$10","Points":$11,"Today":$12,"Bonis":$13,"Time":"$14","Delta":"$15"},
+tour-down-under:2025:1,1,1,,,81,Sprint,WELSFORD Sam,29,Red Bull - BORA - hansgrohe,30,30,,,
+
+
+// Team Classification
+(tour-down-under:\d{4}:\d+),(\d+),(\d*),(\d*),(\d*),(.*),(\w+),(\d+:\d+:\d+),(\d+:\d+)
+{"Stage UID":"$1","Stage":$2,"Rank":$3,"Previous Stage Ranking":$4,"Change":$5,"Team":"$6","Class":"$7","Time":"$8","Delta":"$9"},
+tour-down-under:2025:1,1,1,,,Alpecin - Deceuninck,WT,10:19:54,0:00
+
+// Youth Classification
+(tour-down-under:\d{4}:\d+),(\d+),(\d*),(\d*),(\d*),(\d*),(\w+),(.*),(\d+),(.*)
+{"Stage UID":"$1","Stage":$2,"Rank":$3,"Previous Stage Ranking":$4,"Change":$5,"Bib":$6,"Specialty":"$7","Rider":"$8","Age":$9,"Team":"$10"},
+tour-down-under:2025:1,1,1,,,133,Sprint,BRENNAN Matthew,19,Team Visma | Lease a Bike

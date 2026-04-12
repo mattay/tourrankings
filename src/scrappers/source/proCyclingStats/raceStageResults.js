@@ -14,21 +14,41 @@ import {
 /** @typedef {import('@models/@types/races').RaceStageModel} StageDetails */
 
 const DOMSELECTORS = {
-  // Classification tabs
   classificationTabs: ".page-content ul.resultTabs li",
-  // Main results containers
   classificationResult: "#resultsCont .resTab",
-  // Tab system within each result container
   generalTab: ".general",
   todayTab: ".today",
 
   table: {
-    // Standard table elements
-    headers: "thead th", // Column headers
-    rows: "tbody tr", // Data rows
-    cells: "td", // Individual cells (both header and data)
+    headers: "thead th",
+    rows: "tbody tr",
+    cells: "td",
   },
 };
+
+export function scrapeFromHtmlRacesResults(htmlContent, year) {
+  return [];
+}
+
+export function scrapeFromHtmlRacesClassificationGeneral(htmlContent, year) {
+  return [];
+}
+
+export function scrapeFromHtmlRacesClassificationMountains(htmlContent, year) {
+  return [];
+}
+
+export function scrapeFromHtmlRacesClassificationPoints(htmlContent, year) {
+  return [];
+}
+
+export function scrapeFromHtmlRacesClassificationTeams(htmlContent, year) {
+  return [];
+}
+
+export function scrapeFromHtmlRacesClassificationYouth(htmlContent, year) {
+  return [];
+}
 
 /**
  * Renames the scraped column name

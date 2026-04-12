@@ -205,7 +205,7 @@ jobs:
         run: echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
       - name: Comment on PR after successful deployment
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const branchName = context.ref.replace('refs/heads/', '');
@@ -271,7 +271,7 @@ jobs:
     if: github.event_name == 'push' && github.ref_name == 'main'
     steps:
       - name: Archive completed cycle
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             console.log('Cycle completed and deployed to production');

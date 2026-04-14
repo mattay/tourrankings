@@ -1,11 +1,19 @@
-import { describe, it, expect, beforeEach } from "bun:test";
+import { describe, it, expect, beforeEach, afterEach } from "bun:test";
 import express from "express";
+import dataService from "@services/dataServiceInstance";
 
 describe("Health Routes", () => {
   let app;
+  let originalIsInitialized;
 
   beforeEach(() => {
     app = express();
+    originalIsInitialized = dataService.isInitialized;
+    dataService.isInitialized = true;
+  });
+
+  afterEach(() => {
+    dataService.isInitialized = originalIsInitialized;
   });
 
   describe("Route Configuration", () => {
@@ -68,7 +76,7 @@ describe("Health Routes", () => {
       };
 
       // Call the handler directly
-      getHealth(req, res);
+      await getHealth(req, res);
 
       expect(res.statusCode).toBe(200);
       expect(res.jsonData).toBeDefined();
@@ -148,7 +156,7 @@ describe("Health Routes", () => {
       expect(req.timestamp).toBeDefined();
 
       // Then call health check
-      getHealth(req, res);
+      await getHealth(req, res);
       expect(res.statusCode).toBe(200);
     });
   });
@@ -210,11 +218,11 @@ describe("Health Routes", () => {
         },
       };
 
-      getHealth(req, res);
+      await getHealth(req, res);
       expect(res.statusCode).toBe(200);
     });
 
-    it("should handle multiple sequential requests without state leakage", async () => {
+    it("should handle multiple concurrent requests without state leakage", async () => {
       const { getHealth } = await import(
         "@server/controllers/healthController"
       );
@@ -232,13 +240,15 @@ describe("Health Routes", () => {
         },
       });
 
-      // Simulate concurrent requests
-      const requests = Array.from({ length: 10 }, () => {
-        const req = {};
-        const res = createMockRes();
-        getHealth(req, res);
-        return res;
-      });
+      // Simulate concurrent requests using Promise.all
+      const requests = await Promise.all(
+        Array.from({ length: 10 }, async () => {
+          const req = {};
+          const res = createMockRes();
+          await getHealth(req, res);
+          return res;
+        }),
+      );
 
       // All should succeed
       requests.forEach((res) => {
@@ -268,7 +278,7 @@ describe("Health Routes", () => {
         },
       };
 
-      getHealth(req, res);
+      await getHealth(req, res);
 
       expect(res.jsonData).toBeDefined();
       expect(typeof res.jsonData).toBe("object");
@@ -293,7 +303,7 @@ describe("Health Routes", () => {
         },
       };
 
-      getHealth(req, res);
+      await getHealth(req, res);
 
       const data = res.jsonData;
       expect(data).toHaveProperty("status");

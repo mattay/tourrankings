@@ -36,7 +36,7 @@ export async function getHealth(req, res) {
 
     // Check data service
     try {
-      const isInitialized = dataService.isInitialized || true;
+      const isInitialized = dataService.isInitialized ?? false;
       healthStatus.checks.dataService = isInitialized ? "healthy" : "unhealthy";
     } catch (error) {
       healthStatus.checks.dataService = "unhealthy";

@@ -59,6 +59,7 @@ import foo from "../../../services/foo";
 
 Available aliases:
 - `@client/*` - src/client/*
+- `@cycling/*` - src/core/cycling/*
 - `@server/*` - src/server/*
 - `@services/*` - src/services/*
 - `@utils/*` - src/utils/*
@@ -70,7 +71,9 @@ This project uses ESM exclusively. Use named imports where possible:
 
 ```javascript
 // Good
-import { express, cors, helmet } from "express";
+import express from "express";
+import cors from "cors";
+import helmet from "helmet";
 import { logError, logOut } from "@utils/logging";
 
 // Avoid

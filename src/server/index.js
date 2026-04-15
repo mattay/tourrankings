@@ -2,7 +2,7 @@ import express from "express";
 import config from "./config";
 import setupMiddleware from "@server/middleware";
 import { htmlProcessorMiddleware } from "@server/middleware/htmlProcessor";
-import { routesAPI, routesRace, routesRoot } from "@server/routes";
+import { routesAPI, routesRace, routesRoot, routesHealth } from "@server/routes";
 import dataService from "@services/dataServiceInstance";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
@@ -43,10 +43,13 @@ async function setupServer(app) {
 }
 
 /**
- * Sets up all routes for the application
+ * Register application routes and static asset handling.
  *
- * @param {import('express').Application} app - Express application instance
- * @returns {Promise<void>}
+ * Serves static files with appropriate caching and headers, mounts the health endpoint at `/health`,
+ * the API under `/api`, race routes under `/race`, and the main view routes at `/`. Adds a 404
+ * handler that renders an error page for unmatched requests.
+ *
+ * @param {import('express').Application} app - The Express application instance to configure.
  */
 async function setupRoutes(app) {
   try {
@@ -64,6 +67,8 @@ async function setupRoutes(app) {
         },
       }),
     );
+
+    app.use("/health", routesHealth);
 
     // Mount API routes under /api
     app.use("/api", routesAPI);

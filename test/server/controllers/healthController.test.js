@@ -1,5 +1,6 @@
-import { describe, it, expect, beforeEach, jest, mock } from "bun:test";
+import { describe, it, expect, beforeEach, afterEach, jest, mock } from "bun:test";
 import { getHealth } from "@server/controllers/healthController";
+import dataService from "@services/dataServiceInstance";
 
 // Mock the logging module to prevent console errors in tests
 mock.module("@utils/logging", () => ({
@@ -7,22 +8,18 @@ mock.module("@utils/logging", () => ({
   logError: jest.fn(),
 }));
 
-// Mock the dataService
-const mockDataService = {
-  isInitialized: true,
-};
-
-mock.module("@services/dataServiceInstance", () => ({
-  default: mockDataService,
-}));
-
 describe("Health Controller", () => {
   let req;
   let res;
   let jsonMock;
   let statusMock;
+  let originalIsInitialized;
 
   beforeEach(() => {
+    // Store original and set default to healthy
+    originalIsInitialized = dataService.isInitialized;
+    dataService.isInitialized = true;
+    
     // Reset mocks before each test
     jsonMock = jest.fn();
     statusMock = jest.fn(() => ({ json: jsonMock }));
@@ -32,6 +29,11 @@ describe("Health Controller", () => {
       status: statusMock,
       json: jsonMock,
     };
+  });
+
+  afterEach(() => {
+    // Restore original isInitialized
+    dataService.isInitialized = originalIsInitialized;
   });
 
   describe("getHealth", () => {
@@ -250,6 +252,28 @@ describe("Health Controller", () => {
       const secondKeys = Object.keys(secondResponse).sort();
 
       expect(firstKeys).toEqual(secondKeys);
+    });
+
+    it("should return healthy when dataService is initialized", async () => {
+      dataService.isInitialized = true;
+
+      await getHealth(req, res);
+
+      const response = jsonMock.mock.calls[0][0];
+      expect(response.checks.dataService).toBe("healthy");
+      expect(response.status).toBe("healthy");
+      expect(statusMock).toHaveBeenCalledWith(200);
+    });
+
+    it("should return degraded when dataService is not initialized", async () => {
+      dataService.isInitialized = false;
+
+      await getHealth(req, res);
+
+      const response = jsonMock.mock.calls[0][0];
+      expect(response.checks.dataService).toBe("unhealthy");
+      expect(response.status).toBe("degraded");
+      expect(statusMock).toHaveBeenCalledWith(503);
     });
   });
 });

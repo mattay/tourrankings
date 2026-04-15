@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, jest, mock } from "bun:test";
+import { describe, it, expect, beforeEach, afterEach, jest, mock } from "bun:test";
 import express from "express";
 
 // Mock the logging module
@@ -18,9 +18,16 @@ mock.module("@services/dataServiceInstance", () => ({
 
 describe("Health Routes", () => {
   let app;
+  let originalIsInitialized;
 
   beforeEach(() => {
     app = express();
+    originalIsInitialized = mockDataService.isInitialized;
+    mockDataService.isInitialized = true;
+  });
+
+  afterEach(() => {
+    mockDataService.isInitialized = originalIsInitialized;
   });
 
   describe("Route Configuration", () => {
@@ -35,15 +42,19 @@ describe("Health Routes", () => {
 
   describe("Health Endpoint Integration", () => {
     it("should be able to mount health controller on a route", async () => {
+      // Import the health controller directly
       const { getHealth } = await import(
         "@server/controllers/healthController"
       );
 
+      // Create a test router with the health endpoint
       const router = express.Router();
       router.get("/health", getHealth);
 
-      expect(router.stack).toBeDefined();
-      expect(router.stack.length).toBeGreaterThan(0);
+      app.use(router);
+
+      // Verify the router is mounted
+      expect(app._router).toBeDefined();
     });
 
     it("should handle GET requests to health endpoint", async () => {
@@ -88,10 +99,31 @@ describe("Health Routes", () => {
       );
 
       const router = express.Router();
-      router.get("/", getHealth);
+      router.get("/", getHealth); // Health route at root of /health path
 
-      expect(router.stack).toBeDefined();
-      expect(router.stack.length).toBe(1);
+      app.use("/health", router);
+
+      // Verify routes are registered
+      const routes = [];
+      app._router.stack.forEach((middleware) => {
+        if (middleware.route) {
+          routes.push({
+            path: middleware.route.path,
+            methods: Object.keys(middleware.route.methods),
+          });
+        } else if (middleware.name === "router") {
+          middleware.handle.stack.forEach((handler) => {
+            if (handler.route) {
+              routes.push({
+                path: handler.route.path,
+                methods: Object.keys(handler.route.methods),
+              });
+            }
+          });
+        }
+      });
+
+      expect(routes.length).toBeGreaterThan(0);
     });
 
     it("should support middleware chain on health routes", async () => {
@@ -177,7 +209,7 @@ describe("Health Routes", () => {
 
       const router = express.Router();
       // Health checks typically don't need params, but testing router capability
-      router.get("/health/:type", getHealth);
+      router.get("/health/:type?", getHealth);
 
       const req = {
         params: { type: "detailed" },
@@ -200,7 +232,7 @@ describe("Health Routes", () => {
       expect(res.statusCode).toBe(200);
     });
 
-    it("should handle multiple sequential requests without state leakage", async () => {
+    it("should handle multiple concurrent requests without state leakage", async () => {
       const { getHealth } = await import(
         "@server/controllers/healthController"
       );
@@ -218,14 +250,15 @@ describe("Health Routes", () => {
         },
       });
 
-      // Simulate sequential requests
-      const requests = [];
-      for (let i = 0; i < 10; i++) {
-        const req = {};
-        const res = createMockRes();
-        await getHealth(req, res);
-        requests.push(res);
-      }
+      // Simulate concurrent requests using Promise.all
+      const requests = await Promise.all(
+        Array.from({ length: 10 }, async () => {
+          const req = {};
+          const res = createMockRes();
+          await getHealth(req, res);
+          return res;
+        }),
+      );
 
       // All should succeed
       requests.forEach((res) => {

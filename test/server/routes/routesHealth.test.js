@@ -53,8 +53,13 @@ describe("Health Routes", () => {
 
       app.use(router);
 
-      // Verify the router is mounted
-      expect(app._router).toBeDefined();
+      // Verify the router is created and has the route
+      expect(router).toBeDefined();
+      const healthRoute = router.stack.find(
+        (layer) => layer.route && layer.route.path === "/health"
+      );
+      expect(healthRoute).toBeDefined();
+      expect(healthRoute.route.methods.get).toBe(true);
     });
 
     it("should handle GET requests to health endpoint", async () => {
@@ -103,27 +108,12 @@ describe("Health Routes", () => {
 
       app.use("/health", router);
 
-      // Verify routes are registered
-      const routes = [];
-      app._router.stack.forEach((middleware) => {
-        if (middleware.route) {
-          routes.push({
-            path: middleware.route.path,
-            methods: Object.keys(middleware.route.methods),
-          });
-        } else if (middleware.name === "router") {
-          middleware.handle.stack.forEach((handler) => {
-            if (handler.route) {
-              routes.push({
-                path: handler.route.path,
-                methods: Object.keys(handler.route.methods),
-              });
-            }
-          });
-        }
-      });
-
-      expect(routes.length).toBeGreaterThan(0);
+      // Verify the router has the health route registered
+      const healthLayer = router.stack.find(
+        (layer) => layer.route && layer.route.path === "/"
+      );
+      expect(healthLayer).toBeDefined();
+      expect(healthLayer.route.methods.get).toBe(true);
     });
 
     it("should support middleware chain on health routes", async () => {

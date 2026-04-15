@@ -3,6 +3,7 @@
  */
 
 import dataService from "@services/dataServiceInstance";
+import config from "@server/config";
 import { logError } from "@utils/logging";
 import fs from "fs/promises";
 
@@ -58,7 +59,8 @@ export async function getHealth(req, res) {
     try {
       const memUsage = process.memoryUsage();
       const memoryMB = Math.round(memUsage.heapUsed / 1024 / 1024);
-      healthStatus.checks.memory = memoryMB < 400 ? "healthy" : "warning";
+      const threshold = config.healthCheck.memoryWarningThresholdMB;
+      healthStatus.checks.memory = memoryMB < threshold ? "healthy" : "warning";
       healthStatus.memoryUsage = {
         heapUsed: `${memoryMB}MB`,
         heapTotal: `${Math.round(memUsage.heapTotal / 1024 / 1024)}MB`,
@@ -69,10 +71,10 @@ export async function getHealth(req, res) {
     }
 
     // Overall status
-    const allChecksHealthy = Object.values(healthStatus.checks).every(
-      (check) => check === "healthy",
+    const anyUnhealthy = Object.values(healthStatus.checks).some(
+      (check) => check === "unhealthy",
     );
-    if (!allChecksHealthy) {
+    if (anyUnhealthy) {
       healthStatus.status = "degraded";
     }
 

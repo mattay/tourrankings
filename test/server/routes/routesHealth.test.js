@@ -1,6 +1,20 @@
-import { describe, it, expect, beforeEach, afterEach } from "bun:test";
+import { describe, it, expect, beforeEach, afterEach, jest, mock } from "bun:test";
 import express from "express";
-import dataService from "@services/dataServiceInstance";
+
+// Mock the logging module
+mock.module("@utils/logging", () => ({
+  logOut: jest.fn(),
+  logError: jest.fn(),
+}));
+
+// Mock the dataService
+const mockDataService = {
+  isInitialized: true,
+};
+
+mock.module("@services/dataServiceInstance", () => ({
+  default: mockDataService,
+}));
 
 describe("Health Routes", () => {
   let app;
@@ -8,19 +22,15 @@ describe("Health Routes", () => {
 
   beforeEach(() => {
     app = express();
-    originalIsInitialized = dataService.isInitialized;
-    dataService.isInitialized = true;
+    originalIsInitialized = mockDataService.isInitialized;
+    mockDataService.isInitialized = true;
   });
 
   afterEach(() => {
-    dataService.isInitialized = originalIsInitialized;
+    mockDataService.isInitialized = originalIsInitialized;
   });
 
   describe("Route Configuration", () => {
-    it.todo(
-      "should import routesHealth and verify it exports a valid Express router",
-    );
-
     it("should be able to create a health router with proper structure", () => {
       // Test creating a properly structured health router
       const router = express.Router();

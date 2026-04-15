@@ -4,12 +4,13 @@ import { scrapeRaceStagesFromHtml } from "src/scrappers/source/proCyclingStats/r
 describe.each([
   {
     race: "Tour Down Under",
+    year: 2025,
     input:
       "test/scraping/cycling/procyclingstats/html/races-2025/raceStages-2025-tour-down-under.html",
     output:
       "test/scraping/cycling/procyclingstats/fixtures/raceStages-2025-tour-down-under.json",
   },
-])(`$race Stages`, (data) => {
+])(`$year - $race Stages`, (data) => {
   let html, expectedResults;
 
   beforeAll(async () => {

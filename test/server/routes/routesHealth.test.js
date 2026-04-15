@@ -19,15 +19,19 @@ mock.module("@services/dataServiceInstance", () => ({
 describe("Health Routes", () => {
   let app;
   let originalIsInitialized;
+  let originalDataDir;
 
   beforeEach(() => {
     app = express();
     originalIsInitialized = mockDataService.isInitialized;
+    originalDataDir = process.env.DATA_DIR;
     mockDataService.isInitialized = true;
+    process.env.DATA_DIR = process.cwd();
   });
 
   afterEach(() => {
     mockDataService.isInitialized = originalIsInitialized;
+    process.env.DATA_DIR = originalDataDir;
   });
 
   describe("Route Configuration", () => {

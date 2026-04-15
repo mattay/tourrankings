@@ -46,14 +46,17 @@ export async function getHealth(req, res) {
     }
 
     // Check filesystem access
-    try {
-      const dataDir = process.env.DATA_DIR || "./data";
-      // Simple test - try to access the directory
-      await fs.access(dataDir);
-      healthStatus.checks.filesystem = "healthy";
-    } catch (error) {
-      healthStatus.checks.filesystem = "unhealthy";
-      logError("Health", "Filesystem check failed", error);
+    const dataDir = process.env.DATA_DIR;
+    if (!dataDir) {
+      healthStatus.checks.filesystem = "unconfigured";
+    } else {
+      try {
+        await fs.access(dataDir);
+        healthStatus.checks.filesystem = "healthy";
+      } catch (error) {
+        healthStatus.checks.filesystem = "unhealthy";
+        logError("Health", "Filesystem check failed", error);
+      }
     }
 
     // Check memory usage
@@ -85,11 +88,12 @@ export async function getHealth(req, res) {
     const statusCode = healthStatus.status === "healthy" ? 200 : 503;
     res.status(statusCode).json(healthStatus);
   } catch (error) {
+    const safeErrorMessage = error?.message ?? String(error);
     logError("Health", "Health check failed", error);
     res.status(503).json({
       status: "unhealthy",
       timestamp: new Date().toISOString(),
-      error: error.message,
+      error: safeErrorMessage,
       responseTime: `${Date.now() - startTime}ms`,
     });
   }

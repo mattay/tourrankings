@@ -187,16 +187,18 @@ describe("Health Controller", () => {
         throw new Error("Uptime check failed");
       };
 
-      await getHealth(req, res);
+      try {
+        await getHealth(req, res);
 
-      // Should catch the error and return 503
-      expect(statusMock).toHaveBeenCalledWith(503);
-      const response = jsonMock.mock.calls[0][0];
-      expect(response.status).toBe("unhealthy");
-      expect(response.error).toBe("Uptime check failed");
-
-      // Restore
-      process.uptime = originalUptime;
+        // Should catch the error and return 503
+        expect(statusMock).toHaveBeenCalledWith(503);
+        const response = jsonMock.mock.calls[0][0];
+        expect(response.status).toBe("unhealthy");
+        expect(response.error).toBe("Uptime check failed");
+      } finally {
+        // Restore
+        process.uptime = originalUptime;
+      }
     });
 
     it("should return error details when health check fails", async () => {
@@ -213,16 +215,18 @@ describe("Health Controller", () => {
         throw new Error("Uptime failed");
       };
 
-      await getHealth(req, errorRes);
+      try {
+        await getHealth(req, errorRes);
 
-      expect(errorRes.status).toHaveBeenCalledWith(503);
-      const response = errorJsonMock.mock.calls[0][0];
-      expect(response.status).toBe("unhealthy");
-      expect(response.error).toBe("Uptime failed");
-      expect(response.timestamp).toBeDefined();
-
-      // Restore original function
-      process.uptime = originalUptime;
+        expect(errorRes.status).toHaveBeenCalledWith(503);
+        const response = errorJsonMock.mock.calls[0][0];
+        expect(response.status).toBe("unhealthy");
+        expect(response.error).toBe("Uptime failed");
+        expect(response.timestamp).toBeDefined();
+      } finally {
+        // Restore original function
+        process.uptime = originalUptime;
+      }
     });
 
     it("should handle different NODE_ENV values correctly", async () => {

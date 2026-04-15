@@ -9,15 +9,6 @@ mock.module("@utils/logging", () => ({
   logError: jest.fn(),
 }));
 
-// Mock the dataService
-const mockDataService = {
-  isInitialized: true,
-};
-
-mock.module("@services/dataServiceInstance", () => ({
-  default: mockDataService,
-}));
-
 describe("Health Controller", () => {
   let req;
   let res;

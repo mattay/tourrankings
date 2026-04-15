@@ -78,11 +78,6 @@ const config = {
     refreshInterval:
       parseInt(process.env.DATA_AUTO_REFRESH_INTERVAL, 10) || 3600000,
   },
-
-  healthCheck: {
-    memoryWarningThresholdMB:
-      parseInt(process.env.HEALTH_MEMORY_WARNING_THRESHOLD_MB, 10) || 400,
-  },
 };
 
 if (config.env === "development") {

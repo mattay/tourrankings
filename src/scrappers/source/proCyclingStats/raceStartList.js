@@ -104,7 +104,7 @@ function parseTeamRider(htmlElement) {
   if (!title || !pcsUrl || !linkSections) {
     logError(
       "Scrape PCS - Start List",
-      `Failed to parse team rider: ${element.outerHTML}`,
+      `Failed to parse team rider: ${htmlElement?.outerHTML}`,
     );
     return null;
   }
@@ -132,6 +132,13 @@ function parseTeamRider(htmlElement) {
  * @returns {ParsedStaffName} The parsed name or an error message.
  */
 function parseDirecteurSportif(htmlElement) {
+  if (!htmlElement) {
+    logError(
+      "Scrape PCS - Start List",
+      `Failed to parse directeur sportif: ${String(htmlElement)}`,
+    );
+    return null;
+  }
   const element = /** @type {HTMLAnchorElement} */ (htmlElement);
   const title = element?.textContent || null;
   const pcsUrl = element?.href || null;
@@ -139,7 +146,7 @@ function parseDirecteurSportif(htmlElement) {
   if (!title || !pcsUrl || !linkSections) {
     logError(
       "Scrape PCS - Start List",
-      `Failed to parse directeur sportif: ${element.outerHTML}`,
+      `Failed to parse directeur sportif: ${htmlElement?.outerHTML}`,
     );
     return null;
   }
@@ -175,8 +182,10 @@ function parseStartlist(htmlContent, year) {
   return Array.from(
     pageDOM.querySelectorAll(DOM_SELECTORS.contentTeamList),
   ).map((teamElement) => {
-    const team = parseTeamTitle(teamElement.querySelector(DOM_SELECTORS.team));
-    if (!team) {
+    const team =
+      parseTeamTitle(teamElement.querySelector(DOM_SELECTORS.team)) ||
+      { pcsId: null, name: null, classification: null, pcsUrl: null };
+    if (!team.name) {
       console.error("No Team");
     }
 
@@ -188,15 +197,21 @@ function parseStartlist(htmlContent, year) {
 
     const riders = Array.from(
       teamElement.querySelectorAll(DOM_SELECTORS.teamRiders),
-    ).map((rider) => ({ year, ...parseTeamRider(rider) }));
-    if (!riders) {
+    )
+      .map((rider) => parseTeamRider(rider))
+      .filter(Boolean)
+      .map((rider) => ({ year, ...rider }));
+    if (riders.length === 0) {
       console.error("No riders");
     }
 
     const directeurSportifs = Array.from(
       teamElement.querySelectorAll(DOM_SELECTORS.directeurSportif),
-    ).map((ds) => ({ year, ...parseDirecteurSportif(ds) }));
-    if (!directeurSportifs) {
+    )
+      .map((ds) => parseDirecteurSportif(ds))
+      .filter(Boolean)
+      .map((ds) => ({ year, ...ds }));
+    if (directeurSportifs.length === 0) {
       console.error("No directeurSportifs");
     }
 

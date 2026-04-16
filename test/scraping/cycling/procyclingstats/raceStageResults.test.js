@@ -11,7 +11,7 @@ describe.each([
     output:
       "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1.json",
   },
-])(`$race - $year - Stage $stage`, (data) => {
+])(`$year - $race Stages`, (data) => {
   let html, expectedResults;
 
   beforeAll(async () => {
@@ -22,7 +22,7 @@ describe.each([
     expectedResults = await output.json();
   });
 
-  test("should match expected stage results", async () => {
+  test("Should match expected stage results", async () => {
     const raceStageResults = await scrapeFromHtmlRacesResults(
       html,
       data.filterYear,

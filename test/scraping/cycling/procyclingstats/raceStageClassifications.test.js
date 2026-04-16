@@ -28,7 +28,7 @@ describe.each([
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1-classification-youth.json",
     },
   },
-])(`$race - $year - Stage $stage`, (data) => {
+])(`$year - $race Stages`, (data) => {
   let html,
     expectedGeneral,
     expectedMountains,
@@ -52,31 +52,31 @@ describe.each([
     expectedYouth = await outputYouth.json();
   });
 
-  test("should match expected general classification", async () => {
+  test("Should match expected general classification", async () => {
     const raceGeneralClassification =
       await scrapeFromHtmlRacesClassificationGeneral(html, data.year);
     expect(raceGeneralClassification).toEqual(expectedGeneral);
   });
 
-  test("should match expected mountains classification", async () => {
+  test("Should match expected mountains classification", async () => {
     const raceMountainsClassification =
       await scrapeFromHtmlRacesClassificationMountains(html, data.year);
     expect(raceMountainsClassification).toEqual(expectedMountains);
   });
 
-  test("should match expected points classification", async () => {
+  test("Should match expected points classification", async () => {
     const racePointsClassification =
       await scrapeFromHtmlRacesClassificationPoints(html, data.year);
     expect(racePointsClassification).toEqual(expectedPoints);
   });
 
-  test("should match expected teams classification", async () => {
+  test("Should match expected teams classification", async () => {
     const raceTeamsClassification =
       await scrapeFromHtmlRacesClassificationTeams(html, data.year);
     expect(raceTeamsClassification).toEqual(expectedTeams);
   });
 
-  test("should match expected youth classification", async () => {
+  test("Should match expected youth classification", async () => {
     const raceYouthClassification =
       await scrapeFromHtmlRacesClassificationYouth(html, data.year);
     expect(raceYouthClassification).toEqual(expectedYouth);

@@ -124,8 +124,12 @@ export class Races extends CSVdataModel {
     });
   }
 
+  /**
+   * Returns a shallow copy of all races.
+   * @returns {RaceModel[]} - A new array of race data objects (shallow copy).
+   */
   list() {
-    return this.rows;
+    return [...this.rows];
   }
 
   /**

@@ -26,13 +26,20 @@ export function buildUrl(baseUrl, params) {
  */
 export function urlSections(urlString, sectionLabels = []) {
   if (!urlString) {
-    logError("Url Sections", `Invalid urlString: ${urlString}`);
+    let safeUrl = "[REDACTED]";
+    try {
+      const url = new URL(urlString);
+      safeUrl = `${url.origin}${url.pathname}`;
+    } catch {
+      // Invalid URL format - already handled, use redacted
+    }
+    logError("Url Sections", `Invalid urlString: ${safeUrl}`);
     return null;
   }
-  if (!sectionLabels || sectionLabels.length === 0) {
+  if (!Array.isArray(sectionLabels) || sectionLabels.length === 0) {
     logError(
       "Url Sections",
-      "Invalid sectionLabels: sectionLabels is required",
+      "Invalid sectionLabels: sectionLabels must be an array",
     );
     return null;
   }

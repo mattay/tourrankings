@@ -32,8 +32,8 @@ export class Teams extends CSVdataModel {
       "Next Pcs Id",
     ];
     this.sortOrder = [
-      ["year", "asc"],
-      ["teamName", "asc"],
+      ["Year", "asc"],
+      ["Name", "asc"],
     ];
     this.validateConfig();
   }

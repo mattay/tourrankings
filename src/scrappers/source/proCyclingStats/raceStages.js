@@ -115,13 +115,14 @@ function parseStages(htmlContent, year) {
           details[key] = formatDate(year, value, "/");
           break;
 
-        case "parcoursType":
+        case "parcoursType": {
           const span = td.querySelector("span");
           value = span
             ? Array.from(span.classList).find((cls) => /^p\d+$/.test(cls))
             : null;
           details[key] = value;
           break;
+        }
 
         case "stage":
           const anchor = td.querySelector("a");

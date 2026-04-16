@@ -9,7 +9,7 @@ describe.each([
     output:
       "test/scraping/cycling/procyclingstats/fixtures/races-2025-2.UWT.json",
   },
-])(`$filterYear $filterClass races`, (data) => {
+])(`$year - $race Stages`, (data) => {
   let html, expectedResults, races;
 
   beforeAll(async () => {
@@ -21,12 +21,12 @@ describe.each([
     races = scrapeRacesFromHtml(html, data.filterYear);
   });
 
-  test("should return an array of world tour races", () => {
+  test("Should return an array of world tour races", () => {
     expect(races).toBeInstanceOf(Array);
     expect(races.length).toBeGreaterThan(0);
   });
 
-  test("should match expected results", () => {
+  test("Should match expected results", () => {
     expect(races).toEqual(expectedResults);
   });
 });

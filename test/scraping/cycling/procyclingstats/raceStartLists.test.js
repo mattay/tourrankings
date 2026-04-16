@@ -10,7 +10,7 @@ describe.each([
     output:
       "test/scraping/cycling/procyclingstats/fixtures/raceStartlist-2025-tour-down-under.json",
   },
-])(`$year - $race`, (data) => {
+])(`$year - $race Stages`, (data) => {
   let html, expectedResults, startLists;
 
   beforeAll(async () => {

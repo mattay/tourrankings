@@ -143,7 +143,9 @@ function parseStages(htmlContent, year) {
               stageNumber = null;
               stageType = null;
             } else {
-              stageNumber = Number(matchStage.groups.stageNumber);
+              stageNumber = matchStage.groups.stageNumber
+                ? Number(matchStage.groups.stageNumber)
+                : null;
               stageType = matchStage.groups?.stageType || null;
             }
           }

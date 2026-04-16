@@ -122,7 +122,7 @@ describe("Health Controller", () => {
       expect(response.version).toBe("1.0.0");
 
       readFileSpy.mockRestore();
-      if (originalAppVersion) process.env.APP_VERSION = originalAppVersion;
+      if (originalAppVersion !== undefined) process.env.APP_VERSION = originalAppVersion;
     });
 
     it("should return unknown when APP_VERSION unset and package.json read fails", async () => {
@@ -141,7 +141,7 @@ describe("Health Controller", () => {
       expect(response.version).toBe("unknown");
 
       readFileSpy.mockRestore();
-      if (originalAppVersion) process.env.APP_VERSION = originalAppVersion;
+      if (originalAppVersion !== undefined) process.env.APP_VERSION = originalAppVersion;
     });
 
     it("should return package version when APP_VERSION is empty string", async () => {

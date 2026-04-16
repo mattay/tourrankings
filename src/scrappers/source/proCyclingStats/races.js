@@ -212,6 +212,16 @@ function processRaceRecords(
 export async function scrapeRaces(url, cachePattern, year) {
   try {
     const htmlContent = await fetchHtmlWithCache(url, { cachePattern });
+    if (
+      !htmlContent ||
+      typeof htmlContent.html !== "string" ||
+      htmlContent.html === ""
+    ) {
+      logError("Scrape PCS - Races", "Empty or invalid HTML response", null, {
+        url,
+      });
+      return null;
+    }
     return scrapeRacesFromHtml(htmlContent.html, year);
   } catch (exception) {
     logError("Scrape PCS - Races", "Failed to scrape races ", exception, {

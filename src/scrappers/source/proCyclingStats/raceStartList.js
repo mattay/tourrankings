@@ -236,6 +236,19 @@ export async function scrapeRaceStartList(race, year) {
 
   try {
     const htmlContent = await fetchHtmlWithCache(url, { cachePattern });
+    if (
+      !htmlContent ||
+      typeof htmlContent.html !== "string" ||
+      htmlContent.html === ""
+    ) {
+      logError(
+        "Scrape PCS - Start List",
+        "Empty or invalid HTML response",
+        null,
+        { url },
+      );
+      return [];
+    }
     const startlist = parseStartlist(htmlContent.html, year);
     return startlist;
   } catch (exception) {

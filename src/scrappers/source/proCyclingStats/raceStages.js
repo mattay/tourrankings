@@ -200,6 +200,16 @@ export async function scrapeRaceStages(race, year) {
 
   try {
     const htmlContent = await fetchHtmlWithCache(url, { cachePattern });
+    if (
+      !htmlContent ||
+      typeof htmlContent.html !== "string" ||
+      htmlContent.html === ""
+    ) {
+      logError("Scrape PCS - Stages", "Empty or invalid HTML response", null, {
+        url,
+      });
+      return [];
+    }
     const stages = parseStages(htmlContent.html, year);
 
     return stages.map((stage) => {

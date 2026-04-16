@@ -30,11 +30,16 @@ describe("Health Controller", () => {
       status: statusMock,
       json: jsonMock,
     };
+
+    // Set DATA_DIR for filesystem check
+    process.env.DATA_DIR = process.cwd();
   });
 
   afterEach(() => {
     // Restore original isInitialized
     dataService.isInitialized = originalIsInitialized;
+    // Restore DATA_DIR
+    delete process.env.DATA_DIR;
   });
 
   describe("getHealth", () => {

@@ -46,13 +46,18 @@ export async function getHealth(req, res) {
     }
 
     // Check filesystem access
-    const dataDir = process.env.DATA_DIR || config.paths.data.public;
-    try {
-      await fs.access(dataDir);
-      healthStatus.checks.filesystem = "healthy";
-    } catch (error) {
+    const dataDir = process.env.DATA_DIR;
+    if (!dataDir) {
       healthStatus.checks.filesystem = "unhealthy";
-      logError("Health", "Filesystem check failed", error);
+      logError("Health", "DATA_DIR environment variable is not set");
+    } else {
+      try {
+        await fs.access(dataDir);
+        healthStatus.checks.filesystem = "healthy";
+      } catch (error) {
+        healthStatus.checks.filesystem = "unhealthy";
+        logError("Health", "Filesystem check failed", error);
+      }
     }
 
     // Check memory usage

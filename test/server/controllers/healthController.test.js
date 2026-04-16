@@ -15,10 +15,12 @@ describe("Health Controller", () => {
   let jsonMock;
   let statusMock;
   let originalIsInitialized;
+  let originalDataDir;
 
   beforeEach(() => {
     // Store original and set default to healthy
     originalIsInitialized = dataService.isInitialized;
+    originalDataDir = process.env.DATA_DIR;
     dataService.isInitialized = true;
 
     // Reset mocks before each test
@@ -39,7 +41,11 @@ describe("Health Controller", () => {
     // Restore original isInitialized
     dataService.isInitialized = originalIsInitialized;
     // Restore DATA_DIR
-    delete process.env.DATA_DIR;
+    if (originalDataDir !== undefined) {
+      process.env.DATA_DIR = originalDataDir;
+    } else {
+      delete process.env.DATA_DIR;
+    }
   });
 
   describe("getHealth", () => {

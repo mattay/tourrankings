@@ -20,6 +20,7 @@ NODE_OPTIONS = "--max-old-space-size=512"
 LOG_LEVEL = "info"
 DATA_AUTO_REFRESH = "true"
 DATA_AUTO_REFRESH_INTERVAL = "1800000"  # 30 min
+APP_VERSION = ""  # Injected by CI/CD during deployment
 
 [mounts]
 source = "data_volume"

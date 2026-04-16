@@ -2,15 +2,12 @@
 name: CI/CD Pipeline
 
 on:
-  # PR validation for all branches
   pull_request:
     branches: [main, "cycle-*", "cooldown-*"]
 
-  # Deploy on merge to cycle/cooldown/main
   push:
     branches: [main, "cycle-*", "cooldown-*"]
 
-  # Manual deployment trigger
   workflow_dispatch:
     inputs:
       environment:
@@ -23,7 +20,6 @@ on:
           - production
 
 jobs:
-  # VALIDATION JOBS
   lint-and-test:
     name: Lint & Test
     runs-on: ubuntu-latest
@@ -52,11 +48,9 @@ jobs:
       - name: Run tests
         run: bun test
 
-  # SECURITY & QUALITY (Enhanced for cooldown branches)
   security-scan:
     name: Security & Quality
     runs-on: ubuntu-latest
-    # Run security scan on all branches, but make it required for cooldown
     if: ${{ !cancelled() }}
     steps:
       - uses: actions/checkout@v6
@@ -80,22 +74,10 @@ jobs:
       - name: Security audit
         run: bun run audit
 
-      # Enhanced checks for cooldown branches
-      # - name: Enhanced quality checks for cooldown
-      #   if: startsWith(github.ref_name, 'cooldown-') || startsWith(github.head_ref, 'cooldown-')
-      #   run: |
-      #     echo "Running enhanced quality checks for cooldown branch..."
-      #     # Add any additional quality checks here
-      #     # bun run test:coverage
-      #     # bun run type-check
-      #     # bun run test:e2e
-
-  # DOCKER BUILD TEST
   docker-build:
     name: Docker Build Test
     runs-on: ubuntu-latest
     needs: [lint-and-test]
-    # Only test Docker builds for branches that will be deployed
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@v6
@@ -110,7 +92,6 @@ jobs:
             docker build -f Dockerfile.dev -t test-build-dev .
           fi
 
-  # DEPLOYMENT JOBS
   deploy-development:
     name: Deploy to Development
     runs-on: ubuntu-latest
@@ -132,13 +113,15 @@ jobs:
           echo "BRANCH_NAME=${GITHUB_REF_NAME}" >> "$GITHUB_ENV"
           echo "DEPLOYMENT_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> "$GITHUB_ENV"
           echo "COMMIT_SHA=${GITHUB_SHA:0:7}" >> "$GITHUB_ENV"
+          echo "APP_VERSION=$(node -p "require('./package.json').version")" >> "$GITHUB_ENV"
 
       - name: Deploy to development
         run: |
           flyctl deploy --config fly.dev.toml --remote-only \
             --env BRANCH_NAME=${{ env.BRANCH_NAME }} \
             --env DEPLOYMENT_TIME=${{ env.DEPLOYMENT_TIME }} \
-            --env COMMIT_SHA=${{ env.COMMIT_SHA }}
+            --env COMMIT_SHA=${{ env.COMMIT_SHA }} \
+            --env APP_VERSION=${{ env.APP_VERSION }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_DEPLOY_TOKEN }}
 
@@ -157,12 +140,48 @@ jobs:
       - uses: actions/checkout@v6
       - uses: superfly/flyctl-actions/setup-flyctl@master
 
+      - name: Set APP_VERSION
+        run: |
+          echo "APP_VERSION=$(node -p "require('./package.json').version")" >> "$GITHUB_ENV"
+
       - name: Deploy to production
-        run: flyctl deploy --config fly.prod.toml --remote-only
+        run: |
+          flyctl deploy --config fly.prod.toml --remote-only \
+            --env APP_VERSION=${{ env.APP_VERSION }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_DEPLOY_TOKEN }}
 
-  # POST-DEPLOYMENT NOTIFICATIONS
+  changelog:
+    name: Generate Changelog
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref_name == 'main'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Install git-cliff
+        run: |
+          cargo install git-cliff || (
+            curl -sL https://github.com/orhun/git-cliff/releases/download/v2.6.0/git-cliff-linux-x86_64.tar.gz | tar -xz -C /usr/local/bin
+          )
+
+      - name: Generate changelog
+        run: git-cliff --config .cligrc --output CHANGELOG.md
+
+      - name: Update version tag
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          git tag -f v$VERSION
+
+      - name: Commit and push changelog
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add CHANGELOG.md
+          git diff --staged --quiet || git commit -m "docs: update changelog for v${VERSION}"
+          git push origin main --tags -f
+
   notify-pr-deployments:
     name: Notify PR of Deployment
     runs-on: ubuntu-latest
@@ -175,7 +194,6 @@ jobs:
           script: |
             const branchName = context.ref.replace('refs/heads/', '');
 
-            // Find PRs with this branch as head
             const { data: allOpen } = await github.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -200,10 +218,12 @@ jobs:
               environment   = 'development';
             }
 
+            const version = process.env.APP_VERSION || 'unknown';
             const comment = `**Deployment Successful**
             Your branch \`${branchName}\` has been deployed to ${environment}:
             - **URL**: ${deploymentUrl}
             - **Environment**: ${environment}
+            - **Version**: ${version}
             - **Commit**: ${context.sha.substring(0, 7)}
             - **Deployed**: ${new Date().toISOString()}
 
@@ -224,8 +244,9 @@ jobs:
               await github.rest.issues.createComment({ owner: ..., repo: ..., issue_number: pr.number, body: comment });
             }
             console.log(`Commented on PR #${pr.number}: ${pr.title}`);
+        env:
+          APP_VERSION: ${{ needs.deploy-development.outputs.APP_VERSION || needs.deploy-production.outputs.APP_VERSION }}
 
-  # SHAPE UP AUTOMATION
   shape-up-automation:
     name: Shape Up Workflow
     runs-on: ubuntu-latest
@@ -235,9 +256,7 @@ jobs:
         uses: actions/github-script@v8
         with:
           script: |
-            // Create a completion comment or issue
             console.log('Cycle completed and deployed to production');
-            // Add any Shape Up specific automation here
 
       - name: Cycle completion notification
         run: |

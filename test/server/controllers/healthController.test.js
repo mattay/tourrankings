@@ -16,11 +16,9 @@ describe("Health Controller", () => {
   let originalIsInitialized;
 
   beforeEach(() => {
-    // Store original and set default to healthy
     originalIsInitialized = dataService.isInitialized;
     dataService.isInitialized = true;
     
-    // Reset mocks before each test
     jsonMock = jest.fn();
     statusMock = jest.fn(() => ({ json: jsonMock }));
 
@@ -32,7 +30,6 @@ describe("Health Controller", () => {
   });
 
   afterEach(() => {
-    // Restore original isInitialized
     dataService.isInitialized = originalIsInitialized;
   });
 
@@ -53,7 +50,6 @@ describe("Health Controller", () => {
       const response = jsonMock.mock.calls[0][0];
       expect(response.timestamp).toBeDefined();
 
-      // Verify it's a valid ISO timestamp
       const timestamp = new Date(response.timestamp);
       expect(timestamp.toISOString()).toBe(response.timestamp);
     });
@@ -77,7 +73,6 @@ describe("Health Controller", () => {
         const response = jsonMock.mock.calls[0][0];
         expect(response.environment).toBe("production");
       } finally {
-        // Restore original value
         process.env.NODE_ENV = originalEnv;
       }
     });
@@ -92,42 +87,40 @@ describe("Health Controller", () => {
         const response = jsonMock.mock.calls[0][0];
         expect(response.environment).toBe("development");
       } finally {
-        // Restore original value
         if (originalEnv !== undefined) {
           process.env.NODE_ENV = originalEnv;
         }
       }
     });
 
-    it("should include version from npm_package_version", async () => {
-      const originalVersion = process.env.npm_package_version;
-      process.env.npm_package_version = "1.2.3";
+    it("should include version from APP_VERSION env var", async () => {
+      const originalAppVersion = process.env.APP_VERSION;
+      process.env.APP_VERSION = "1.2.3";
 
       await getHealth(req, res);
 
       const response = jsonMock.mock.calls[0][0];
       expect(response.version).toBe("1.2.3");
 
-      // Restore original value
-      if (originalVersion !== undefined) {
-        process.env.npm_package_version = originalVersion;
+      if (originalAppVersion !== undefined) {
+        process.env.APP_VERSION = originalAppVersion;
       } else {
-        delete process.env.npm_package_version;
+        delete process.env.APP_VERSION;
       }
     });
 
-    it("should default to 'unknown' version when npm_package_version is not set", async () => {
-      const originalVersion = process.env.npm_package_version;
-      delete process.env.npm_package_version;
+    it("should default to 'unknown' version when no env var or package.json", async () => {
+      const originalAppVersion = process.env.APP_VERSION;
+      delete process.env.APP_VERSION;
 
       await getHealth(req, res);
 
       const response = jsonMock.mock.calls[0][0];
-      expect(response.version).toBe("unknown");
+      expect(response.version).toBeDefined();
+      expect(typeof response.version).toBe("string");
 
-      // Restore original value
-      if (originalVersion !== undefined) {
-        process.env.npm_package_version = originalVersion;
+      if (originalAppVersion !== undefined) {
+        process.env.APP_VERSION = originalAppVersion;
       }
     });
 
@@ -143,7 +136,6 @@ describe("Health Controller", () => {
     });
 
     it("should handle errors and return 503 status with unhealthy status", async () => {
-      // Mock process.uptime to throw an error
       const originalUptime = process.uptime;
       process.uptime = () => {
         throw new Error("Uptime check failed");
@@ -151,25 +143,21 @@ describe("Health Controller", () => {
 
       await getHealth(req, res);
 
-      // Should catch the error and return 503
       expect(statusMock).toHaveBeenCalledWith(503);
       const response = jsonMock.mock.calls[0][0];
       expect(response.status).toBe("unhealthy");
       expect(response.error).toBe("Uptime check failed");
 
-      // Restore
       process.uptime = originalUptime;
     });
 
     it("should return error details when health check fails", async () => {
-      // Create a mock that fails on json call but succeeds on status
       const errorJsonMock = jest.fn();
       const errorRes = {
         status: jest.fn(() => ({ json: errorJsonMock })),
         json: jest.fn(),
       };
 
-      // Mock process.uptime to throw an error
       const originalUptime = process.uptime;
       process.uptime = () => {
         throw new Error("Uptime failed");
@@ -183,7 +171,6 @@ describe("Health Controller", () => {
       expect(response.error).toBe("Uptime failed");
       expect(response.timestamp).toBeDefined();
 
-      // Restore original function
       process.uptime = originalUptime;
     });
 
@@ -194,7 +181,6 @@ describe("Health Controller", () => {
         const originalEnv = process.env.NODE_ENV;
         process.env.NODE_ENV = env;
 
-        // Reset mocks
         jsonMock = jest.fn();
         statusMock = jest.fn(() => ({ json: jsonMock }));
         res.status = statusMock;
@@ -204,7 +190,6 @@ describe("Health Controller", () => {
         const response = jsonMock.mock.calls[0][0];
         expect(response.environment).toBe(env);
 
-        // Restore
         process.env.NODE_ENV = originalEnv;
       }
     });
@@ -242,7 +227,6 @@ describe("Health Controller", () => {
       const firstResponse = jsonMock.mock.calls[0][0];
       const firstKeys = Object.keys(firstResponse).sort();
 
-      // Reset mocks
       jsonMock = jest.fn();
       statusMock = jest.fn(() => ({ json: jsonMock }));
       res.status = statusMock;

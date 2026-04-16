@@ -6,6 +6,25 @@ import dataService from "@services/dataServiceInstance";
 import config from "@server/config";
 import { logError } from "@utils/logging";
 import fs from "fs/promises";
+import fsSync from "fs";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+function getAppVersion() {
+  if (process.env.APP_VERSION) {
+    return process.env.APP_VERSION;
+  }
+  try {
+    const pkgPath = join(__dirname, "../../../../package.json");
+    const pkg = JSON.parse(fsSync.readFileSync(pkgPath, "utf8"));
+    return pkg.version || "unknown";
+  } catch {
+    return "unknown";
+  }
+}
 
 /**
  * Health check endpoint that reports application and subsystem statuses.
@@ -27,7 +46,7 @@ export async function getHealth(req, res) {
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
       environment: process.env.NODE_ENV || "development",
-      version: process.env.npm_package_version || "unknown",
+      version: getAppVersion(),
       checks: {
         dataService: "checking",
         filesystem: "checking",

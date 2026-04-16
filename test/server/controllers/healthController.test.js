@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, jest, mock } from "bun:test";
 import { getHealth } from "@server/controllers/healthController";
 import dataService from "@services/dataServiceInstance";
+import fsSync from "fs";
 
 // Mock the logging module to prevent console errors in tests
 mock.module("@utils/logging", () => ({
@@ -109,19 +110,38 @@ describe("Health Controller", () => {
       }
     });
 
-    it("should default to 'unknown' version when no env var or package.json", async () => {
+    it("should return package version when APP_VERSION unset and package.json readable", async () => {
       const originalAppVersion = process.env.APP_VERSION;
       delete process.env.APP_VERSION;
+
+      const readFileSpy = jest.spyOn(fsSync, "readFileSync").mockReturnValue('{"version":"1.0.0"}');
 
       await getHealth(req, res);
 
       const response = jsonMock.mock.calls[0][0];
-      expect(response.version).toBeDefined();
-      expect(typeof response.version).toBe("string");
+      expect(response.version).toBe("1.0.0");
 
-      if (originalAppVersion !== undefined) {
-        process.env.APP_VERSION = originalAppVersion;
-      }
+      readFileSpy.mockRestore();
+      if (originalAppVersion) process.env.APP_VERSION = originalAppVersion;
+    });
+
+    it("should return unknown when APP_VERSION unset and package.json read fails", async () => {
+      const originalAppVersion = process.env.APP_VERSION;
+      delete process.env.APP_VERSION;
+
+      const readFileSpy = jest
+        .spyOn(fsSync, "readFileSync")
+        .mockImplementation(() => {
+          throw new Error("ENOENT");
+        });
+
+      await getHealth(req, res);
+
+      const response = jsonMock.mock.calls[0][0];
+      expect(response.version).toBe("unknown");
+
+      readFileSpy.mockRestore();
+      if (originalAppVersion) process.env.APP_VERSION = originalAppVersion;
     });
 
     it("should return all required fields in health response", async () => {

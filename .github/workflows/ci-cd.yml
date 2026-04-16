@@ -176,10 +176,11 @@ jobs:
 
       - name: Commit and push changelog
         run: |
+          VERSION=$(node -p "require('./package.json').version")
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add CHANGELOG.md
-          git diff --staged --quiet || git commit -m "docs: update changelog for v${VERSION}"
+          git diff --staged --quiet || git commit -m "docs: update changelog for v${VERSION} [skip changelog]"
           git push origin main --tags -f
 
   notify-pr-deployments:
@@ -188,6 +189,11 @@ jobs:
     needs: [deploy-development, deploy-production]
     if: needs.deploy-development.result == 'success' || needs.deploy-production.result == 'success'
     steps:
+      - uses: actions/checkout@v6
+
+      - name: Get app version
+        run: echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+
       - name: Comment on PR after successful deployment
         uses: actions/github-script@v8
         with:
@@ -245,7 +251,7 @@ jobs:
             }
             console.log(`Commented on PR #${pr.number}: ${pr.title}`);
         env:
-          APP_VERSION: ${{ needs.deploy-development.outputs.APP_VERSION || needs.deploy-production.outputs.APP_VERSION }}
+          APP_VERSION: ${{ env.APP_VERSION }}
 
   shape-up-automation:
     name: Shape Up Workflow

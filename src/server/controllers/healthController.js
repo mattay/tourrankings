@@ -18,7 +18,7 @@ function getAppVersion() {
     return process.env.APP_VERSION;
   }
   try {
-    const pkgPath = join(__dirname, "../../../../package.json");
+    const pkgPath = join(__dirname, "../../../package.json");
     const pkg = JSON.parse(fsSync.readFileSync(pkgPath, "utf8"));
     return pkg.version || "unknown";
   } catch {

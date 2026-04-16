@@ -64,14 +64,13 @@ const DOM_SELECTORS = {
  * @returns {ParsedTeamName} The parsed team title or an error message.
  */
 function parseTeamTitle(htmlElement) {
-  const element = htmlElement;
-  const title = element?.textContent || null;
-  const pcsUrl = element?.href || null;
+  const title = htmlElement?.textContent || null;
+  const pcsUrl = htmlElement?.href || null;
   const linkSections = urlSections(pcsUrl, ["_team", "pcsId"]);
   if (!title || !pcsUrl || !linkSections) {
     logError(
       "Scrape PCS - Start List",
-      `Failed to parse team: ${element.outerHTML}`,
+      `Failed to parse team: ${htmlElement?.outerHTML}`,
     );
     return null;
   }
@@ -114,13 +113,16 @@ function parseTeamRider(htmlElement) {
   }
 
   const { surname, firstNames } = match.values;
+  const flagEl = htmlElement.querySelector(".flag");
+  const className =
+    typeof flagEl?.className === "string" ? flagEl.className : "";
   const teamRider = {
     pcsId: linkSections?.pcsId || null,
     pcsUrl,
     surname,
     firstNames,
     bib: Number(htmlElement.querySelector(".bib")?.textContent) || null,
-    flag: htmlElement.querySelector(".flag")?.className.replace("flag ", ""),
+    flag: className.replace("flag ", "").trim() || null,
   };
 
   return teamRider;

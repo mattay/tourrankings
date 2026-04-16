@@ -178,6 +178,8 @@ it("should include version from APP_VERSION env var", async () => {
       expect(response).toHaveProperty("uptime");
       expect(response).toHaveProperty("environment");
       expect(response).toHaveProperty("version");
+      expect(response).toHaveProperty("checks");
+      expect(response.checks).toHaveProperty("dataService");
     });
 
     it("should handle errors and return 503 status with unhealthy status", async () => {

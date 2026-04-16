@@ -59,7 +59,7 @@ export async function getHealth(req, res) {
     try {
       const memUsage = process.memoryUsage();
       const memoryMB = Math.round(memUsage.heapUsed / 1024 / 1024);
-      const threshold = config.healthCheck.memoryWarningThresholdMB;
+      const threshold = config.healthCheck?.memoryWarningThresholdMB ?? 400;
       healthStatus.checks.memory = memoryMB < threshold ? "healthy" : "warning";
       healthStatus.memoryUsage = {
         heapUsed: `${memoryMB}MB`,

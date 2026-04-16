@@ -31,14 +31,25 @@ describe("Health Routes", () => {
 
   afterEach(() => {
     mockDataService.isInitialized = originalIsInitialized;
-    process.env.DATA_DIR = originalDataDir;
+    if (originalDataDir === undefined || originalDataDir === null) {
+      delete process.env.DATA_DIR;
+    } else {
+      process.env.DATA_DIR = originalDataDir;
+    }
   });
 
   describe("Route Configuration", () => {
     // Focus on exported health router behavior
-    it("should export routesHealth", async () => {
+    it("should register GET / handler", async () => {
       const { routesHealth } = await import("@server/routes");
-      expect(routesHealth).toBeDefined();
+
+      // Find the route layer with path "/"
+      const healthRoute = routesHealth.stack.find(
+        (layer) => layer.route && layer.route.path === "/"
+      );
+
+      expect(healthRoute).toBeDefined();
+      expect(healthRoute.route.methods.get).toBe(true);
     });
   });
 

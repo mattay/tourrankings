@@ -125,7 +125,7 @@ it("should include version from APP_VERSION env var", async () => {
       const originalAppVersion = process.env.APP_VERSION;
       delete process.env.APP_VERSION;
 
-      const readFileSpy = jest.spyOn(fsSync, "readFileSync").mockReturnValue('{"version":"1.0.0"}');
+const readFileSpy = jest.spyOn(fsSync, "readFileSync").mockReturnValue('{"version":"1.0.0"}');
 
       await getHealth(req, res);
 

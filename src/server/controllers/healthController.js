@@ -4,33 +4,9 @@
 
 import dataService from "@services/dataServiceInstance";
 import config from "@server/config";
-import { logError, logOut } from "@utils/logging";
+import { logError } from "@utils/logging";
+import { getAppVersion } from "@utils/version";
 import fs from "fs/promises";
-import fsSync from "fs";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-function getAppVersion() {
-  const appVersion = process.env.APP_VERSION;
-  if (appVersion && appVersion.trim() !== "") {
-    return appVersion;
-  }
-  logOut(
-    "Config",
-    "APP_VERSION is empty or not set. Using fallback version.",
-    "warn",
-  );
-  try {
-    const pkgPath = join(__dirname, "../../../package.json");
-    const pkg = JSON.parse(fsSync.readFileSync(pkgPath, "utf8"));
-    return pkg.version || "unknown";
-  } catch {
-    return "unknown";
-  }
-}
 
 /**
  * Health check endpoint that reports application and subsystem statuses.

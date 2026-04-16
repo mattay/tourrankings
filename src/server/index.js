@@ -7,6 +7,7 @@ import dataService from "@services/dataServiceInstance";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import { logError, logOut } from "@utils/logging";
+import { getAppVersion } from "@utils/version";
 
 // Absolute path to the current file (ESM equivalent of __filename).
 const __filename = fileURLToPath(import.meta.url);
@@ -123,7 +124,7 @@ async function initializeDataService() {
 }
 
 function validateEnvironment() {
-  const appVersion = process.env.APP_VERSION;
+  const appVersion = getAppVersion();
   if (!appVersion || appVersion.trim() === "") {
     logOut(
       "Config",

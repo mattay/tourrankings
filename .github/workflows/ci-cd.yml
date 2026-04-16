@@ -162,17 +162,16 @@ jobs:
 
       - name: Install git-cliff
         run: |
-          cargo install git-cliff || (
-            curl -sL https://github.com/orhun/git-cliff/releases/download/v2.6.0/git-cliff-linux-x86_64.tar.gz | tar -xz -C /usr/local/bin
+          cargo install git-cliff@2.6.0 || (
+            curl -sLO https://github.com/orhun/git-cliff/releases/download/v2.6.0/git-cliff-linux-x86_64.tar.gz
+            curl -sLO https://github.com/orhun/git-cliff/releases/download/v2.6.0/git-cliff-linux-x86_64.tar.gz.sha512
+            echo "$(cat git-cliff-linux-x86_64.tar.gz.sha512 | cut -d' ' -f1)  git-cliff-linux-x86_64.tar.gz" | sha512sum -c -
+            tar -xzf git-cliff-linux-x86_64.tar.gz -C /usr/local/bin
+            rm -f git-cliff-linux-x86_64.tar.gz git-cliff-linux-x86_64.tar.gz.sha512
           )
 
       - name: Generate changelog
         run: git-cliff --config .cligrc --output CHANGELOG.md
-
-      - name: Update version tag
-        run: |
-          VERSION=$(node -p "require('./package.json').version")
-          git tag -f v$VERSION
 
       - name: Commit and push changelog
         run: |
@@ -181,8 +180,9 @@ jobs:
           git config user.email "actions@github.com"
           git add CHANGELOG.md
           git diff --staged --quiet || git commit -m "docs: update changelog for v${VERSION} [skip changelog]"
+          git tag -f v${VERSION}
           git push origin main
-          git push --force-with-lease origin --tags
+          git push --force-with-lease origin v${VERSION}
 
   notify-pr-deployments:
     name: Notify PR of Deployment

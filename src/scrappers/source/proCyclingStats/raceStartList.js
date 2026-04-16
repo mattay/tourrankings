@@ -224,7 +224,7 @@ function parseStartlist(htmlContent, year) {
       riders,
       staff: directeurSportifs,
     };
-  });
+  }).filter((team) => team.name !== null);
 }
 
 /**

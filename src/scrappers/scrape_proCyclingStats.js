@@ -264,7 +264,7 @@ async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
   await riders.update(
     raceDetails.riders.map((raceRider) => {
       return {
-        pcsId: raceRider.riderPcsId,
+        pcsId: raceRider.pcsId,
         surname: raceRider.surname,
         firstNames: raceRider.firstNames,
       };

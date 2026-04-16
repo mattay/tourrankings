@@ -122,11 +122,23 @@ async function initializeDataService() {
   }
 }
 
+function validateEnvironment() {
+  const appVersion = process.env.APP_VERSION;
+  if (!appVersion || appVersion.trim() === "") {
+    logOut(
+      "Config",
+      "APP_VERSION is empty or not set. Version-dependent features may not work correctly.",
+      "warn",
+    );
+  }
+}
+
 /**
  * Initialize and start the server
  */
 async function initializeServer() {
   try {
+    validateEnvironment();
     await setupServer(app);
     await setupRoutes(app);
     await initializeDataService();

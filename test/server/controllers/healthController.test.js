@@ -144,6 +144,25 @@ describe("Health Controller", () => {
       if (originalAppVersion) process.env.APP_VERSION = originalAppVersion;
     });
 
+    it("should return package version when APP_VERSION is empty string", async () => {
+      const originalAppVersion = process.env.APP_VERSION;
+      process.env.APP_VERSION = "";
+
+      const readFileSpy = jest.spyOn(fsSync, "readFileSync").mockReturnValue('{"version":"2.0.0"}');
+
+      await getHealth(req, res);
+
+      const response = jsonMock.mock.calls[0][0];
+      expect(response.version).toBe("2.0.0");
+
+      readFileSpy.mockRestore();
+      if (originalAppVersion !== undefined) {
+        process.env.APP_VERSION = originalAppVersion;
+      } else {
+        delete process.env.APP_VERSION;
+      }
+    });
+
     it("should return all required fields in health response", async () => {
       await getHealth(req, res);
 

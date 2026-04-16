@@ -181,7 +181,8 @@ jobs:
           git config user.email "actions@github.com"
           git add CHANGELOG.md
           git diff --staged --quiet || git commit -m "docs: update changelog for v${VERSION} [skip changelog]"
-          git push origin main --tags -f
+          git push origin main
+          git push --force-with-lease origin --tags
 
   notify-pr-deployments:
     name: Notify PR of Deployment

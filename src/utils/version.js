@@ -1,6 +1,7 @@
 import fsSync from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { logOut } from "@utils/logging";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -16,7 +17,6 @@ export function getAppVersion() {
     return appVersion;
   }
 
-  const { logOut } = require("@utils/logging");
   logOut(
     "Config",
     "APP_VERSION is empty or not set. Using fallback version.",

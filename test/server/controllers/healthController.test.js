@@ -17,9 +17,11 @@ describe("Health Controller", () => {
   let originalIsInitialized;
 
   beforeEach(() => {
+    // Store original and set default to healthy
     originalIsInitialized = dataService.isInitialized;
     dataService.isInitialized = true;
-    
+
+    // Reset mocks before each test
     jsonMock = jest.fn();
     statusMock = jest.fn(() => ({ json: jsonMock }));
 
@@ -31,6 +33,7 @@ describe("Health Controller", () => {
   });
 
   afterEach(() => {
+    // Restore original isInitialized
     dataService.isInitialized = originalIsInitialized;
   });
 
@@ -51,6 +54,7 @@ describe("Health Controller", () => {
       const response = jsonMock.mock.calls[0][0];
       expect(response.timestamp).toBeDefined();
 
+      // Verify it's a valid ISO timestamp
       const timestamp = new Date(response.timestamp);
       expect(timestamp.toISOString()).toBe(response.timestamp);
     });
@@ -74,6 +78,7 @@ describe("Health Controller", () => {
         const response = jsonMock.mock.calls[0][0];
         expect(response.environment).toBe("production");
       } finally {
+        // Restore original value
         process.env.NODE_ENV = originalEnv;
       }
     });
@@ -88,6 +93,7 @@ describe("Health Controller", () => {
         const response = jsonMock.mock.calls[0][0];
         expect(response.environment).toBe("development");
       } finally {
+        // Restore original value
         if (originalEnv !== undefined) {
           process.env.NODE_ENV = originalEnv;
         }
@@ -175,6 +181,7 @@ describe("Health Controller", () => {
     });
 
     it("should handle errors and return 503 status with unhealthy status", async () => {
+      // Mock process.uptime to throw an error
       const originalUptime = process.uptime;
       process.uptime = () => {
         throw new Error("Uptime check failed");
@@ -182,21 +189,25 @@ describe("Health Controller", () => {
 
       await getHealth(req, res);
 
+      // Should catch the error and return 503
       expect(statusMock).toHaveBeenCalledWith(503);
       const response = jsonMock.mock.calls[0][0];
       expect(response.status).toBe("unhealthy");
       expect(response.error).toBe("Uptime check failed");
 
+      // Restore
       process.uptime = originalUptime;
     });
 
     it("should return error details when health check fails", async () => {
+      // Create a mock that fails on json call but succeeds on status
       const errorJsonMock = jest.fn();
       const errorRes = {
         status: jest.fn(() => ({ json: errorJsonMock })),
         json: jest.fn(),
       };
 
+      // Mock process.uptime to throw an error
       const originalUptime = process.uptime;
       process.uptime = () => {
         throw new Error("Uptime failed");
@@ -210,6 +221,7 @@ describe("Health Controller", () => {
       expect(response.error).toBe("Uptime failed");
       expect(response.timestamp).toBeDefined();
 
+      // Restore original function
       process.uptime = originalUptime;
     });
 
@@ -220,6 +232,7 @@ describe("Health Controller", () => {
         const originalEnv = process.env.NODE_ENV;
         process.env.NODE_ENV = env;
 
+        // Reset mocks
         jsonMock = jest.fn();
         statusMock = jest.fn(() => ({ json: jsonMock }));
         res.status = statusMock;
@@ -229,6 +242,7 @@ describe("Health Controller", () => {
         const response = jsonMock.mock.calls[0][0];
         expect(response.environment).toBe(env);
 
+        // Restore
         process.env.NODE_ENV = originalEnv;
       }
     });
@@ -266,6 +280,7 @@ describe("Health Controller", () => {
       const firstResponse = jsonMock.mock.calls[0][0];
       const firstKeys = Object.keys(firstResponse).sort();
 
+      // Reset mocks
       jsonMock = jest.fn();
       statusMock = jest.fn(() => ({ json: jsonMock }));
       res.status = statusMock;

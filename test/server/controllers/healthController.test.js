@@ -100,7 +100,7 @@ describe("Health Controller", () => {
       }
     });
 
-    it("should include version from APP_VERSION env var", async () => {
+it("should include version from APP_VERSION env var", async () => {
       const originalAppVersion = process.env.APP_VERSION;
       process.env.APP_VERSION = "1.2.3";
 

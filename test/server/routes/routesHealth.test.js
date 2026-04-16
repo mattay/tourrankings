@@ -35,12 +35,10 @@ describe("Health Routes", () => {
   });
 
   describe("Route Configuration", () => {
-    it("should be able to create a health router with proper structure", () => {
-      // Test creating a properly structured health router
-      const router = express.Router();
-      expect(router).toBeDefined();
-      expect(typeof router.get).toBe("function");
-      expect(typeof router.post).toBe("function");
+    // Focus on exported health router behavior
+    it("should export routesHealth", async () => {
+      const { routesHealth } = await import("@server/routes");
+      expect(routesHealth).toBeDefined();
     });
   });
 

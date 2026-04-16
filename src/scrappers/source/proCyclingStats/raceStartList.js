@@ -113,16 +113,16 @@ function parseTeamRider(htmlElement) {
   }
 
   const { surname, firstNames } = match.values;
-  const flagEl = htmlElement.querySelector(".flag");
-  const className =
-    typeof flagEl?.className === "string" ? flagEl.className : "";
   const teamRider = {
     pcsId: linkSections?.pcsId || null,
     pcsUrl,
     surname,
     firstNames,
     bib: Number(htmlElement.querySelector(".bib")?.textContent) || null,
-    flag: className.replace("flag ", "").trim() || null,
+    flag:
+      htmlElement.querySelector(".flag")?.className
+        ?.replace("flag ", "")
+        .trim() || null,
   };
 
   return teamRider;

@@ -29,7 +29,7 @@ export function urlSections(urlString, sectionLabels = []) {
     logError("Url Sections", `Invalid urlString: ${urlString}`);
     return null;
   }
-  if (!sectionLabels) {
+  if (!sectionLabels || sectionLabels.length === 0) {
     logError(
       "Url Sections",
       "Invalid sectionLabels: sectionLabels is required",

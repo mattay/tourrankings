@@ -2,12 +2,15 @@
 name: CI/CD Pipeline
 
 on:
+  # PR validation for all branches
   pull_request:
     branches: [main, "cycle-*", "cooldown-*"]
 
+  # Deploy on merge to cycle/cooldown/main
   push:
     branches: [main, "cycle-*", "cooldown-*"]
 
+  # Manual deployment trigger
   workflow_dispatch:
     inputs:
       environment:
@@ -20,6 +23,7 @@ on:
           - production
 
 jobs:
+  # VALIDATION JOBS
   lint-and-test:
     name: Lint & Test
     runs-on: ubuntu-latest
@@ -48,9 +52,11 @@ jobs:
       - name: Run tests
         run: bun test
 
+  # SECURITY & QUALITY (Enhanced for cooldown branches)
   security-scan:
     name: Security & Quality
     runs-on: ubuntu-latest
+    # Run security scan on all branches, but make it required for cooldown
     if: ${{ !cancelled() }}
     steps:
       - uses: actions/checkout@v6
@@ -74,6 +80,7 @@ jobs:
       - name: Security audit
         run: bun run audit
 
+  # DOCKER BUILD TEST
   docker-build:
     name: Docker Build Test
     runs-on: ubuntu-latest
@@ -92,6 +99,7 @@ jobs:
             docker build -f Dockerfile.dev -t test-build-dev .
           fi
 
+  # DEPLOYMENT JOBS
   deploy-development:
     name: Deploy to Development
     runs-on: ubuntu-latest

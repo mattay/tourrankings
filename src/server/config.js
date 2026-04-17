@@ -80,8 +80,10 @@ const config = {
   },
 
   healthCheck: {
-    memoryWarningThresholdMB:
-      parseInt(process.env.HEALTH_MEMORY_WARNING_THRESHOLD_MB, 10) || 400,
+    memoryWarningThresholdMB: (() => {
+      const parsed = parseInt(process.env.HEALTH_MEMORY_WARNING_THRESHOLD_MB, 10);
+      return isNaN(parsed) ? 400 : parsed;
+    })(),
   },
 };
 

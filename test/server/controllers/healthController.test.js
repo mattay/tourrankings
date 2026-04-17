@@ -15,10 +15,12 @@ describe("Health Controller", () => {
   let jsonMock;
   let statusMock;
   let originalIsInitialized;
+  let originalDataDir;
 
   beforeEach(() => {
     // Store original and set default to healthy
     originalIsInitialized = dataService.isInitialized;
+    originalDataDir = process.env.DATA_DIR;
     dataService.isInitialized = true;
 
     // Reset mocks before each test
@@ -30,11 +32,20 @@ describe("Health Controller", () => {
       status: statusMock,
       json: jsonMock,
     };
+
+    // Set DATA_DIR for filesystem check
+    process.env.DATA_DIR = process.cwd();
   });
 
   afterEach(() => {
     // Restore original isInitialized
     dataService.isInitialized = originalIsInitialized;
+    // Restore DATA_DIR
+    if (originalDataDir !== undefined) {
+      process.env.DATA_DIR = originalDataDir;
+    } else {
+      delete process.env.DATA_DIR;
+    }
   });
 
   describe("getHealth", () => {
@@ -100,7 +111,7 @@ describe("Health Controller", () => {
       }
     });
 
-    it("should include version from APP_VERSION env var", async () => {
+it("should include version from APP_VERSION env var", async () => {
       const originalAppVersion = process.env.APP_VERSION;
       process.env.APP_VERSION = "1.2.3";
 
@@ -120,7 +131,7 @@ describe("Health Controller", () => {
       const originalAppVersion = process.env.APP_VERSION;
       delete process.env.APP_VERSION;
 
-      const readFileSpy = jest.spyOn(fsSync, "readFileSync").mockReturnValue('{"version":"1.0.0"}');
+const readFileSpy = jest.spyOn(fsSync, "readFileSync").mockReturnValue('{"version":"1.0.0"}');
 
       await getHealth(req, res);
 
@@ -178,6 +189,8 @@ describe("Health Controller", () => {
       expect(response).toHaveProperty("uptime");
       expect(response).toHaveProperty("environment");
       expect(response).toHaveProperty("version");
+      expect(response).toHaveProperty("checks");
+      expect(response.checks).toHaveProperty("dataService");
     });
 
     it("should handle errors and return 503 status with unhealthy status", async () => {
@@ -187,16 +200,18 @@ describe("Health Controller", () => {
         throw new Error("Uptime check failed");
       };
 
-      await getHealth(req, res);
+      try {
+        await getHealth(req, res);
 
-      // Should catch the error and return 503
-      expect(statusMock).toHaveBeenCalledWith(503);
-      const response = jsonMock.mock.calls[0][0];
-      expect(response.status).toBe("unhealthy");
-      expect(response.error).toBe("Uptime check failed");
-
-      // Restore
-      process.uptime = originalUptime;
+        // Should catch the error and return 503
+        expect(statusMock).toHaveBeenCalledWith(503);
+        const response = jsonMock.mock.calls[0][0];
+        expect(response.status).toBe("unhealthy");
+        expect(response.error).toBe("Uptime check failed");
+      } finally {
+        // Restore
+        process.uptime = originalUptime;
+      }
     });
 
     it("should return error details when health check fails", async () => {
@@ -213,16 +228,18 @@ describe("Health Controller", () => {
         throw new Error("Uptime failed");
       };
 
-      await getHealth(req, errorRes);
+      try {
+        await getHealth(req, errorRes);
 
-      expect(errorRes.status).toHaveBeenCalledWith(503);
-      const response = errorJsonMock.mock.calls[0][0];
-      expect(response.status).toBe("unhealthy");
-      expect(response.error).toBe("Uptime failed");
-      expect(response.timestamp).toBeDefined();
-
-      // Restore original function
-      process.uptime = originalUptime;
+        expect(errorRes.status).toHaveBeenCalledWith(503);
+        const response = errorJsonMock.mock.calls[0][0];
+        expect(response.status).toBe("unhealthy");
+        expect(response.error).toBe("Uptime failed");
+        expect(response.timestamp).toBeDefined();
+      } finally {
+        // Restore original function
+        process.uptime = originalUptime;
+      }
     });
 
     it("should handle different NODE_ENV values correctly", async () => {

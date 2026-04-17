@@ -9,7 +9,7 @@ describe.each([
     output:
       "test/scraping/cycling/procyclingstats/fixtures/races-2025-2.UWT.json",
   },
-])(`$year - $race Stages`, (data) => {
+])(`$filterYear $filterClass races`, (data) => {
   let html, expectedResults, races;
 
   beforeAll(async () => {

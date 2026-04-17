@@ -58,6 +58,7 @@ class DataService {
     this._failureCount = 0;
     this._baseInterval = options.refreshInterval || 3600000;
     this._initializing = false;
+    this._disposed = false;
     this._refreshTimer = null;
     this.lastRefreshTime = null;
     this.isInitialized = false;
@@ -171,6 +172,7 @@ class DataService {
 
       this.isInitialized = true;
       this.lastRefreshTime = new Date();
+      this._disposed = false;
     } finally {
       this._initializing = false;
     }
@@ -182,6 +184,9 @@ class DataService {
    * @returns {void}
    */
   dispose() {
+    if (this._disposed) return;
+    this._disposed = true;
+
     logOut(this.constructor.name, "Disposing");
 
     if (this._refreshTimer) {

@@ -1,4 +1,12 @@
-import { describe, it, expect, beforeEach, afterEach, jest, mock } from "bun:test";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  jest,
+  mock,
+} from "bun:test";
 import express from "express";
 
 // Mock the logging module
@@ -45,7 +53,7 @@ describe("Health Routes", () => {
 
       // Find the route layer with path "/"
       const healthRoute = routesHealth.stack.find(
-        (layer) => layer.route && layer.route.path === "/"
+        (layer) => layer.route && layer.route.path === "/",
       );
 
       expect(healthRoute).toBeDefined();
@@ -68,7 +76,7 @@ describe("Health Routes", () => {
       // Verify the router is created and has the route
       expect(router).toBeDefined();
       const healthRoute = router.stack.find(
-        (layer) => layer.route && layer.route.path === "/health"
+        (layer) => layer.route && layer.route.path === "/health",
       );
       expect(healthRoute).toBeDefined();
     });
@@ -121,7 +129,7 @@ describe("Health Routes", () => {
 
       // Verify the router has the health route registered
       const healthLayer = router.stack.find(
-        (layer) => layer.route && layer.route.path === "/"
+        (layer) => layer.route && layer.route.path === "/",
       );
       expect(healthLayer).toBeDefined();
     });
@@ -184,28 +192,29 @@ describe("Health Routes", () => {
         "@server/controllers/healthController"
       );
 
-      const createMockRes = () => /** @type {any} */ ({
-        statusCode: null,
-        jsonData: null,
-        status: function (code) {
-          this.statusCode = code;
-          return this;
-        },
-        json: function (data) {
-          this.jsonData = data;
-          return this;
-        },
-      });
+      const createMockRes = () =>
+        /** @type {any} */ ({
+          statusCode: null,
+          jsonData: null,
+          status: function (code) {
+            this.statusCode = code;
+            return this;
+          },
+          json: function (data) {
+            this.jsonData = data;
+            return this;
+          },
+        });
 
       // Simulate concurrent requests using Promise.all
-const requests = await Promise.all(
-          Array.from({ length: 10 }, async () => {
-            const req = /** @type {any} */ ({});
-            const res = createMockRes();
-            await getHealth(req, res);
-            return res;
-          }),
-        );
+      const requests = await Promise.all(
+        Array.from({ length: 10 }, async () => {
+          const req = /** @type {any} */ ({});
+          const res = createMockRes();
+          await getHealth(req, res);
+          return res;
+        }),
+      );
 
       // All should succeed
       requests.forEach((res) => {

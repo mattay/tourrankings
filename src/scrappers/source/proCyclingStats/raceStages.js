@@ -107,9 +107,11 @@ export function extractStagesFromHtml(htmlContent, year) {
           break;
 
         case "distance":
-        case "verticalMeters":
-          details[key] = Number(value) || null;
+        case "verticalMeters": {
+          const num = Number(value);
+          details[key] = Number.isNaN(num) ? null : num;
           break;
+        }
 
         case "date":
           details[key] = formatDate(year, value, "/");
@@ -124,7 +126,7 @@ export function extractStagesFromHtml(htmlContent, year) {
           break;
         }
 
-        case "stage":
+        case "stage": {
           const anchor = td.querySelector("a");
           if (!anchor) {
             logError("Scrape PCS - Stages", `No anchor found in stage cell`);
@@ -154,6 +156,7 @@ export function extractStagesFromHtml(htmlContent, year) {
           details["stageType"] = stageType;
           details["stagePcsUrl"] = anchor.href;
           break;
+        }
 
         default:
           logError(

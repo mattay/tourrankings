@@ -77,6 +77,7 @@ function parseTeamTitle(htmlElement) {
   const match = parseTeamName(title);
   if (!match.success) {
     logError("Scrape PCS - Start List", `Failed to parse team title: ${title}`);
+    return null;
   }
 
   const { name, classification } = match.values;
@@ -93,7 +94,7 @@ function parseTeamTitle(htmlElement) {
 /**
  * Parses a rider's name from a string.
  * @param {Element} htmlElement - The text containing the rider's name.
- * @returns {ParsedRiderName} The parsed name or an error message.
+ * @returns {ParsedRiderName|null} The parsed name or null on failure.
  */
 function parseTeamRider(htmlElement) {
   const element = /** @type {HTMLAnchorElement|null} */ (
@@ -112,6 +113,7 @@ function parseTeamRider(htmlElement) {
   const match = parseName(title);
   if (!match.success) {
     logError("Scrape PCS - Start List", `Failed to parse rider name: ${title}`);
+    return null;
   }
 
   const { surname, firstNames } = match.values;
@@ -134,7 +136,7 @@ function parseTeamRider(htmlElement) {
 /**
  * Parses a directeur sportif's name from a string.
  * @param {Element} htmlElement - The text containing the directeur sportif's name.
- * @returns {ParsedStaffName} The parsed name or an error message.
+ * @returns {ParsedStaffName|null} The parsed name or null on failure.
  */
 function parseDirecteurSportif(htmlElement) {
   if (!htmlElement) {
@@ -161,6 +163,7 @@ function parseDirecteurSportif(htmlElement) {
       "Scrape PCS - Start List",
       `Failed to parse directeur sportif: ${title}`,
     );
+    return null;
   }
 
   const { surname, firstNames } = match.values;

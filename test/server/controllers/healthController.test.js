@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, jest, mock } from "bun:test";
 import { getHealth } from "@server/controllers/healthController";
 import dataService from "@services/dataServiceInstance";
+import fsSync from "fs";
 
 // Mock the logging module to prevent console errors in tests
 mock.module("@utils/logging", () => ({
@@ -19,7 +20,7 @@ describe("Health Controller", () => {
     // Store original and set default to healthy
     originalIsInitialized = dataService.isInitialized;
     dataService.isInitialized = true;
-    
+
     // Reset mocks before each test
     jsonMock = jest.fn();
     statusMock = jest.fn(() => ({ json: jsonMock }));
@@ -99,35 +100,72 @@ describe("Health Controller", () => {
       }
     });
 
-    it("should include version from npm_package_version", async () => {
-      const originalVersion = process.env.npm_package_version;
-      process.env.npm_package_version = "1.2.3";
+    it("should include version from APP_VERSION env var", async () => {
+      const originalAppVersion = process.env.APP_VERSION;
+      process.env.APP_VERSION = "1.2.3";
 
       await getHealth(req, res);
 
       const response = jsonMock.mock.calls[0][0];
       expect(response.version).toBe("1.2.3");
 
-      // Restore original value
-      if (originalVersion !== undefined) {
-        process.env.npm_package_version = originalVersion;
+      if (originalAppVersion !== undefined) {
+        process.env.APP_VERSION = originalAppVersion;
       } else {
-        delete process.env.npm_package_version;
+        delete process.env.APP_VERSION;
       }
     });
 
-    it("should default to 'unknown' version when npm_package_version is not set", async () => {
-      const originalVersion = process.env.npm_package_version;
-      delete process.env.npm_package_version;
+    it("should return package version when APP_VERSION unset and package.json readable", async () => {
+      const originalAppVersion = process.env.APP_VERSION;
+      delete process.env.APP_VERSION;
+
+      const readFileSpy = jest.spyOn(fsSync, "readFileSync").mockReturnValue('{"version":"1.0.0"}');
+
+      await getHealth(req, res);
+
+      const response = jsonMock.mock.calls[0][0];
+      expect(response.version).toBe("1.0.0");
+
+      readFileSpy.mockRestore();
+      if (originalAppVersion !== undefined) process.env.APP_VERSION = originalAppVersion;
+    });
+
+    it("should return unknown when APP_VERSION unset and package.json read fails", async () => {
+      const originalAppVersion = process.env.APP_VERSION;
+      delete process.env.APP_VERSION;
+
+      const readFileSpy = jest
+        .spyOn(fsSync, "readFileSync")
+        .mockImplementation(() => {
+          throw new Error("ENOENT");
+        });
 
       await getHealth(req, res);
 
       const response = jsonMock.mock.calls[0][0];
       expect(response.version).toBe("unknown");
 
-      // Restore original value
-      if (originalVersion !== undefined) {
-        process.env.npm_package_version = originalVersion;
+      readFileSpy.mockRestore();
+      if (originalAppVersion !== undefined) process.env.APP_VERSION = originalAppVersion;
+    });
+
+    it("should return package version when APP_VERSION is empty string", async () => {
+      const originalAppVersion = process.env.APP_VERSION;
+      process.env.APP_VERSION = "";
+
+      const readFileSpy = jest.spyOn(fsSync, "readFileSync").mockReturnValue('{"version":"2.0.0"}');
+
+      await getHealth(req, res);
+
+      const response = jsonMock.mock.calls[0][0];
+      expect(response.version).toBe("2.0.0");
+
+      readFileSpy.mockRestore();
+      if (originalAppVersion !== undefined) {
+        process.env.APP_VERSION = originalAppVersion;
+      } else {
+        delete process.env.APP_VERSION;
       }
     });
 

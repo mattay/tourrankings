@@ -5,6 +5,7 @@
 import dataService from "@services/dataServiceInstance";
 import config from "@server/config";
 import { logError } from "@utils/logging";
+import { getAppVersion } from "@utils/version";
 import fs from "fs/promises";
 
 /**
@@ -27,7 +28,7 @@ export async function getHealth(req, res) {
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
       environment: process.env.NODE_ENV || "development",
-      version: process.env.npm_package_version || "unknown",
+      version: getAppVersion(),
       checks: {
         dataService: "checking",
         filesystem: "checking",

@@ -76,8 +76,8 @@ import cors from "cors";
 import helmet from "helmet";
 import { logError, logOut } from "@utils/logging";
 
-// Avoid
-const express = require("express");
+// NEVER use require() - it will fail at runtime in ESM
+const { logOut } = require("@utils/logging");  // BAD: throws in ESM
 ```
 
 ### Naming Conventions

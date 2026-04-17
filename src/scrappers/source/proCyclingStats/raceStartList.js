@@ -236,16 +236,6 @@ export function extractStartlistFromHtml(htmlContent, year) {
 }
 
 /**
- * Scrapes race data from HTML content (testable version)
- * @param {string} htmlContent - The HTML content to parse
- * @returns {Array<ScrapedRaceStartListTeam>} Array of cleaned race records
- */
-export function scrapeRaceStartListFromHtml(htmlContent) {
-  // To be implemented -> see scrapeRacesFromHtml()
-  return [];
-}
-
-/**
  * Scrape the startlist of a race from ProcyclingStats.
  * @async
  * @param {string} race - The race identifier (e.g., 'tour-de-france').

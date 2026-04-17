@@ -2,7 +2,7 @@ import { renameKeys } from "@utils/object";
 import { toCamelCase } from "@utils/string";
 import { stringToSeconds } from "@utils/time";
 import { logError, logOut } from "@utils/logging";
-import { fetchHtml } from "@scrappers/html/fetch";
+import { fetchHtml, fetchHtmlWithCache } from "@scrappers/html/fetch";
 import { htmlDOM } from "@scrappers/html/domParser";
 import {
   dropColumns,
@@ -240,7 +240,7 @@ function climb(label) {
  * @param {StageDetails} stageDetails - The details of the stage.
  * @returns {Object} The cleaned up stage rankings.
  */
-function cleanUpStages(tables, stageDetails) {
+export function cleanUpStages(tables, stageDetails) {
   const stageRankings = {};
 
   for (const [classification, rankings] of Object.entries(tables)) {
@@ -444,7 +444,7 @@ function extractClassificationTable(htmlDOM, stageDetails) {
  * @param {string} selector - The CSS selector for the table element.
  * @returns {Object} An object containing classification results.
  */
-function classificationResults(
+export function classificationResults(
   htmlDOM,
   classificationsList,
   stageDetails,
@@ -525,7 +525,7 @@ function classificationResults(
  * @param {string} selector - CSS selector for classification tabs
  * @returns {Array<string>} - Array of classification titles
  */
-function getClassificationsFromTabs(
+export function getClassificationsFromTabs(
   htmlDOM,
   selector = DOM_SELECTORS.classificationTabs,
 ) {
@@ -553,6 +553,29 @@ function getClassificationsFromTabs(
 }
 
 /**
+ *
+ * @param {string} htmlContent - HTML content of the page
+ * @param {StageDetails} stageDetails - Stage details
+ * @returns {StageResults} - Stage results
+ */
+export function extractStageClassificationResultsFromHTML(
+  htmlContent,
+  stageDetails,
+) {
+  const pageDOM = htmlDOM(htmlContent);
+
+  // Collect Tabs Listed -> Make no assumptions about tab structure
+  const classificationList = getClassificationsFromTabs(pageDOM);
+  const stageClassificationResults = classificationResults(
+    pageDOM,
+    classificationList,
+    stageDetails,
+  );
+
+  return cleanUpStages(stageClassificationResults, stageDetails);
+}
+
+/**
  * Scrape race stage results from ProCyclingStats
  * @param {string} race - Race name
  * @param {StageDetails} stageDetails - Stage details
@@ -561,20 +584,30 @@ export async function scrapeRaceStageResults(race, stageDetails) {
   const urlStage =
     stageDetails.stage === 0 ? "prologue" : `stage-${stageDetails.stage}`;
   const url = `https://www.procyclingstats.com/race/${race}/${stageDetails.year}/${urlStage}`;
+  const cachePattern = `${race}-${stageDetails.year}-${urlStage}`;
 
   try {
-    const htmlContent = await fetchHtml(url);
-    const pageDOM = htmlDOM(htmlContent);
+    const htmlContent = await fetchHtmlWithCache(url, {
+      cachePattern: `${race}/${stageDetails.year}/${urlStage}`,
+    });
+    if (
+      !htmlContent ||
+      typeof htmlContent.html !== "string" ||
+      htmlContent.html === ""
+    ) {
+      logError(
+        "Scrape PCS - Stage Results",
+        "Empty or invalid HTML response",
+        null,
+        { url },
+      );
+      return [];
+    }
 
-    // Collect Tabs Listed -> Make no assumptions about tab structure
-    const classificationList = getClassificationsFromTabs(pageDOM);
-    const stageClassificationResults = classificationResults(
-      pageDOM,
-      classificationList,
+    return extractStageClassificationResultsFromHTML(
+      htmlContent.html,
       stageDetails,
     );
-
-    return cleanUpStages(stageClassificationResults, stageDetails);
   } catch (exception) {
     logError("PCS Stage Results", `Failed to process '${url}'`, exception);
     throw exception;

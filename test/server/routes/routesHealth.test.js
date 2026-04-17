@@ -57,6 +57,8 @@ describe("Health Routes", () => {
       );
 
       expect(healthRoute).toBeDefined();
+      const routeMethods = /** @type {any} */ (healthRoute).route.methods;
+      expect(routeMethods.get).toBe(true);
     });
   });
 

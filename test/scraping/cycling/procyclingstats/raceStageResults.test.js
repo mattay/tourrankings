@@ -7,7 +7,7 @@ describe.each([
     year: 2025,
     stage: 1,
     input:
-      "test/scraping/cycling/procyclingstats/html/raceStageResults-tour-down-under-1.html",
+      "test/scraping/cycling/procyclingstats/html/raceStageResults-2025-tour-down-under-1.html",
     output:
       "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1.json",
   },

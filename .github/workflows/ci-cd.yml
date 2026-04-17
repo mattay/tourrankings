@@ -155,6 +155,8 @@ jobs:
     name: Generate Changelog
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref_name == 'main'
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v6
         with:
@@ -179,9 +181,9 @@ jobs:
           git config user.email "actions@github.com"
           git add CHANGELOG.md
           git diff --staged --quiet || git commit -m "docs: update changelog for v${VERSION} [skip changelog]"
-          git tag -f v${VERSION}
+          git rev-parse --verify --quiet refs/tags/v${VERSION} || git tag v${VERSION}
           git push origin main
-          git push --force-with-lease origin v${VERSION}
+          git push origin v${VERSION}
 
   notify-pr-deployments:
     name: Notify PR of Deployment

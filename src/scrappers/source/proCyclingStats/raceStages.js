@@ -74,7 +74,7 @@ function columnHeader(stagesTable) {
  * @param {number} year - The year of the race.
  * @returns {Object[]} An array of stage details.
  */
-function parseStages(htmlContent, year) {
+export function extractStagesFromHtml(htmlContent, year) {
   const pageDOM = htmlDOM(htmlContent);
 
   const htmlTableStages = Array.from(
@@ -213,7 +213,7 @@ export async function scrapeRaceStages(race, year) {
       });
       return [];
     }
-    const stages = parseStages(htmlContent.html, year);
+    const stages = extractStagesFromHtml(htmlContent.html, year);
 
     return stages.map((stage) => {
       const raceUID = generateId.race(race, year);

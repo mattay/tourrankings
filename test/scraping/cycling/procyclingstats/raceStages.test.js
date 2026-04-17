@@ -1,5 +1,5 @@
 import { expect, test, describe, beforeAll, afterAll } from "bun:test";
-import { scrapeRaceStagesFromHtml } from "src/scrappers/source/proCyclingStats/raceStages";
+import { extractStagesFromHtml } from "src/scrappers/source/proCyclingStats/raceStages";
 import { RaceStages } from "src/models/raceStages";
 
 const TEST_DATA_DIR = process.env.TEST_DATA_DIR || "./temp/tests/";
@@ -25,17 +25,17 @@ describe.each(STAGES_TEST_CASES)("Stages [$year $race] parse HTML", (data) => {
     expectedResults = await Bun.file(data.stages.json).json();
   });
 
-  // TODO(de-puppetter-races): Unimplemented - scrapeRaceStagesFromHtml() returns [] until JSDOM migration complete
+  // TODO(de-puppetter-races): Unimplemented - extractStagesFromHtml() returns [] until JSDOM migration complete
   // test("Should return an array of stages", async () => {
-  //   const stages = await scrapeRaceStagesFromHtml(html);
+  //   const stages = await extractStagesFromHtml(html);
   //   expect(stages).toBeInstanceOf(Array);
   //   expect(stages.length).toBeGreaterThan(0);
   // });
   test.todo("Should return an array of stages");
 
-  // TODO(de-puppetter-races): Unimplemented - scrapeRaceStagesFromHtml() returns [] until JSDOM migration complete
+  // TODO(de-puppetter-races): Unimplemented - extractStagesFromHtml() returns [] until JSDOM migration complete
   // test("Should match expected results", async () => {
-  //   const stages = await scrapeRaceStagesFromHtml(html);
+  //   const stages = await extractStagesFromHtml(html);
   //   expect(stages).toEqual(expectedResults);
   // });
   test.todo("Should match expected results");

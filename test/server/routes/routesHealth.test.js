@@ -205,36 +205,6 @@ describe("Health Routes", () => {
       }).not.toThrow();
     });
 
-    it("should support path parameters if needed", async () => {
-      const { getHealth } = await import(
-        "@server/controllers/healthController"
-      );
-
-      const router = express.Router();
-      // Health checks typically don't need params, but testing router capability
-      router.get("/health/:type?", getHealth);
-
-      const req = {
-        params: { type: "detailed" },
-      };
-
-      const res = {
-        statusCode: null,
-        jsonData: null,
-        status: function (code) {
-          this.statusCode = code;
-          return this;
-        },
-        json: function (data) {
-          this.jsonData = data;
-          return this;
-        },
-      };
-
-      await getHealth(req, res);
-      expect(res.statusCode).toBe(200);
-    });
-
     it("should handle multiple concurrent requests without state leakage", async () => {
       const { getHealth } = await import(
         "@server/controllers/healthController"

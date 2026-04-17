@@ -162,13 +162,12 @@ jobs:
 
       - name: Install git-cliff
         run: |
-          cargo install git-cliff@2.6.0 || (
-            curl -sLO https://github.com/orhun/git-cliff/releases/download/v2.6.0/git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz
-            curl -sLO https://github.com/orhun/git-cliff/releases/download/v2.6.0/git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz.sha512
-            echo "$(cat git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz.sha512 | cut -d' ' -f1)  git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz" | sha512sum -c -
-            tar -xzf git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz --strip-components=1 -C /usr/local/bin
-            rm -f git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz.sha512
-          )
+          curl -sLO https://github.com/orhun/git-cliff/releases/download/v2.6.0/git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz
+          curl -sLO https://github.com/orhun/git-cliff/releases/download/v2.6.0/git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz.sha512
+          echo "$(cat git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz.sha512 | cut -d' ' -f1)  git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz" | sha512sum -c -
+          sudo tar -xzf git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz --strip-components=1 -C /usr/local/bin
+          rm -f git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz.sha512
+          || cargo install git-cliff@2.6.0
 
       - name: Generate changelog
         run: git-cliff --config .cligrc --output CHANGELOG.md
@@ -246,7 +245,7 @@ jobs:
               per_page: 100
             });
 
-            const prev = existing.data.find(c => c.body.includes('**Deployment Successful**'));
+            const prev = existing.data.find(c => c.body?.includes('**Deployment Successful**'));
             if (prev) {
               await github.rest.issues.updateComment({ owner: context.repo.owner, repo: context.repo.repo, comment_id: prev.id, body: comment });
             } else {

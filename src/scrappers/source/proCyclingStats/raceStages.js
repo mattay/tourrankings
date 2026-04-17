@@ -130,6 +130,9 @@ export function extractStagesFromHtml(htmlContent, year) {
           const anchor = td.querySelector("a");
           if (!anchor) {
             logError("Scrape PCS - Stages", `No anchor found in stage cell`);
+            details["stage"] = null;
+            details["stageType"] = null;
+            details["stagePcsUrl"] = null;
             break;
           }
           value = anchor.textContent.trim();

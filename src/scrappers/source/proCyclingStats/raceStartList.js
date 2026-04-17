@@ -14,7 +14,7 @@ import { parseName, parseTeamName } from "./helpers";
  * @typedef {Object} RawTeamStartList
  * @property {string} pcsUrl - The ProcyclingStats URL of the team.
  * @property {string} name - The name of the team.
- * @property {string} jerseyImageUrl - The name of the team.
+ * @property {string} jerseyImageUrl - The URL of the jersey image.
  * @property {Array<RawStartListRider>} riders - An array of riders.
  *
  * @typedef {Object} RawTeamStaff

@@ -1,11 +1,5 @@
 import { expect, test, describe, beforeAll } from "bun:test";
 import {
-  scrapeFromHtmlRacesResults,
-  scrapeFromHtmlRacesClassificationGeneral,
-  scrapeFromHtmlRacesClassificationMountains,
-  scrapeFromHtmlRacesClassificationPoints,
-  scrapeFromHtmlRacesClassificationTeams,
-  scrapeFromHtmlRacesClassificationYouth,
   extractStageClassificationResultsFromHTML,
 } from "src/scrappers/source/proCyclingStats/raceStageResults";
 

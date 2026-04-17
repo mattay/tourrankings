@@ -1,6 +1,6 @@
 import { expect, test, describe, beforeAll, afterAll } from "bun:test";
 import { rm } from "fs/promises";
-import { scrapeRacesFromHtml } from "src/scrappers/source/proCyclingStats/races";
+import { extractRacesFromHtml } from "src/scrappers/source/proCyclingStats/races";
 import { Races } from "src/models/races";
 
 const TEST_DATA_DIR = process.env.TEST_DATA_DIR || "./temp/tests/";
@@ -26,7 +26,7 @@ describe.each(TEST_CASES_SEASON_RACES)(
     beforeAll(async () => {
       html = await Bun.file(data.html).text();
       expectedResults = await Bun.file(data.races.json).json();
-      races = scrapeRacesFromHtml(html, data.filterYear);
+      races = extractRacesFromHtml(html, data.filterYear);
     });
 
     test("Should return an array of world tour races", () => {
@@ -60,7 +60,7 @@ describe.each(TEST_CASES_SEASON_RACES)(
         await rm(TEST_DATA_DIR, { recursive: true, force: true });
       } catch (error) {
         console.error(
-          `Failed to cleanup test directory ${TEST_DATA_DIR}:`,
+          `Failed to cleanup test directory ${TEST_DATA_DIR}:",
           error,
         );
       }

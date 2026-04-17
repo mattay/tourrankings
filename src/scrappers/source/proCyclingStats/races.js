@@ -166,7 +166,7 @@ function cleanRaceRecord(
  * @param {number} year - The year of the races being scraped
  * @returns {Array<RaceRecord>} Array of cleaned race records
  */
-export function scrapeRacesFromHtml(htmlContent, year) {
+export function extractRacesFromHtml(htmlContent, year) {
   try {
     const page = htmlDOM(htmlContent);
     const tableRows = Array.from(
@@ -222,7 +222,7 @@ export async function scrapeRaces(url, cachePattern, year) {
       });
       return null;
     }
-    return scrapeRacesFromHtml(htmlContent.html, year);
+    return extractRacesFromHtml(htmlContent.html, year);
   } catch (exception) {
     logError("Scrape PCS - Races", "Failed to scrape races ", exception, {
       url,

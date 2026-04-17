@@ -96,7 +96,9 @@ function parseTeamTitle(htmlElement) {
  * @returns {ParsedRiderName} The parsed name or an error message.
  */
 function parseTeamRider(htmlElement) {
-  const element = /** @type {HTMLAnchorElement|null} */ (htmlElement.querySelector("a"));
+  const element = /** @type {HTMLAnchorElement|null} */ (
+    htmlElement.querySelector("a")
+  );
   const title = element?.textContent || null;
   const pcsUrl = element?.href || null;
   const linkSections = urlSections(pcsUrl, ["_rider", "pcsId"]);
@@ -120,8 +122,9 @@ function parseTeamRider(htmlElement) {
     firstNames,
     bib: Number(htmlElement.querySelector(".bib")?.textContent) || null,
     flag:
-      htmlElement.querySelector(".flag")?.className
-        ?.replace("flag ", "")
+      htmlElement
+        .querySelector(".flag")
+        ?.className?.replace("flag ", "")
         .trim() || null,
   };
 
@@ -178,53 +181,55 @@ function parseDirecteurSportif(htmlElement) {
  * @param {number} year - The year of the race.
  * @returns {Array<ScrapedRaceStartListTeam>} An array of teams, each with their riders.
  */
-function parseStartlist(htmlContent, year) {
+export function extractStartlistFromHtml(htmlContent, year) {
   const pageDOM = htmlDOM(htmlContent);
 
-  return Array.from(
-    pageDOM.querySelectorAll(DOM_SELECTORS.contentTeamList),
-  ).map((teamElement) => {
-    const team =
-      parseTeamTitle(teamElement.querySelector(DOM_SELECTORS.team)) ||
-      { pcsId: null, name: null, classification: null, pcsUrl: null };
-    if (!team.name) {
-      console.error("No Team");
-    }
+  return Array.from(pageDOM.querySelectorAll(DOM_SELECTORS.contentTeamList))
+    .map((teamElement) => {
+      const team = parseTeamTitle(
+        teamElement.querySelector(DOM_SELECTORS.team),
+      ) || { pcsId: null, name: null, classification: null, pcsUrl: null };
+      if (!team.name) {
+        console.error("No Team");
+      }
 
-    const jerseyImageElement = /** @type {HTMLImageElement|null} */ (teamElement.querySelector(DOM_SELECTORS.jersey));
-    const jerseyImageUrl = jerseyImageElement?.src || null;
-    if (!jerseyImageUrl) {
-      console.error("No jerseyImageUrl");
-    }
+      const jerseyImageElement = /** @type {HTMLImageElement|null} */ (
+        teamElement.querySelector(DOM_SELECTORS.jersey)
+      );
+      const jerseyImageUrl = jerseyImageElement?.src || null;
+      if (!jerseyImageUrl) {
+        console.error("No jerseyImageUrl");
+      }
 
-    const riders = Array.from(
-      teamElement.querySelectorAll(DOM_SELECTORS.teamRiders),
-    )
-      .map((rider) => parseTeamRider(rider))
-      .filter(Boolean)
-      .map((rider) => ({ year, ...rider }));
-    if (riders.length === 0) {
-      console.error("No riders");
-    }
+      const riders = Array.from(
+        teamElement.querySelectorAll(DOM_SELECTORS.teamRiders),
+      )
+        .map((rider) => parseTeamRider(rider))
+        .filter(Boolean)
+        .map((rider) => ({ year, ...rider }));
+      if (riders.length === 0) {
+        console.error("No riders");
+      }
 
-    const directeurSportifs = Array.from(
-      teamElement.querySelectorAll(DOM_SELECTORS.directeurSportif),
-    )
-      .map((ds) => parseDirecteurSportif(ds))
-      .filter(Boolean)
-      .map((ds) => ({ year, ...ds }));
-    if (directeurSportifs.length === 0) {
-      console.error("No directeurSportifs");
-    }
+      const directeurSportifs = Array.from(
+        teamElement.querySelectorAll(DOM_SELECTORS.directeurSportif),
+      )
+        .map((ds) => parseDirecteurSportif(ds))
+        .filter(Boolean)
+        .map((ds) => ({ year, ...ds }));
+      if (directeurSportifs.length === 0) {
+        console.error("No directeurSportifs");
+      }
 
-    return {
-      year,
-      ...team,
-      jerseyImageUrl,
-      riders,
-      staff: directeurSportifs,
-    };
-  }).filter((team) => team.name !== null);
+      return {
+        year,
+        ...team,
+        jerseyImageUrl,
+        riders,
+        staff: directeurSportifs,
+      };
+    })
+    .filter((team) => team.name !== null);
 }
 
 /**
@@ -266,7 +271,7 @@ export async function scrapeRaceStartList(race, year) {
       );
       return [];
     }
-    const startlist = parseStartlist(htmlContent.html, year);
+    const startlist = extractStartlistFromHtml(htmlContent.html, year);
     return startlist;
   } catch (exception) {
     logError("Scrape PCS - Start List", `Failed to scrape ${url}`, exception);

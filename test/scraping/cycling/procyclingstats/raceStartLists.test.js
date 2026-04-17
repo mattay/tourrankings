@@ -1,6 +1,6 @@
 import { expect, test, describe, beforeAll, afterAll } from "bun:test";
 import { rm } from "fs/promises";
-import { scrapeRaceStartListFromHtml } from "src/scrappers/source/proCyclingStats/raceStartList";
+import { extractStartlistFromHtml } from "src/scrappers/source/proCyclingStats/raceStartList";
 import { Teams } from "src/models/teams";
 import { Riders } from "src/models/riders";
 import { RaceRiders } from "src/models/raceRiders";
@@ -54,16 +54,16 @@ describe.each(STARTLIST_TEST_CASES)(
       expectedResults = await Bun.file(data.startlist.json).json();
     });
 
-    // TODO(de-puppetter-races): Unimplemented - scrapeRaceStartListFromHtml() returns [] until JSDOM migration complete
+    // TODO(de-puppetter-races): Unimplemented - extractStartlistFromHtml() returns [] until JSDOM migration complete
     test("Should return an array of teams", async () => {
-      const startLists = scrapeRaceStartListFromHtml(html);
+      const startLists = extractStartlistFromHtml(html);
       expect(startLists).toBeInstanceOf(Array);
       expect(startLists.length).toBeGreaterThan(0);
     });
 
-    // TODO(de-puppetter-races): Unimplemented - scrapeRaceStartListFromHtml() returns [] until JSDOM migration complete
+    // TODO(de-puppetter-races): Unimplemented - extractStartlistFromHtml() returns [] until JSDOM migration complete
     test("Should match expected results", async () => {
-      const startLists = scrapeRaceStartListFromHtml(html);
+      const startLists = extractStartlistFromHtml(html);
       expect(startLists).toEqual(expectedResults);
     });
   },

@@ -1,1122 +1,1718 @@
 [
   {
-    "raceUID": "tour-down-under:2025",
-    "bib": 1,
-    "riderPcsId": "stephen-williams",
-    "teamPcsId": "israel-premier-tech-2025",
-    "rider": "WILLIAMS Stephen",
-    "flag": "gb"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 2,
-    "riderPcsId": "george-bennett",
-    "teamPcsId": "israel-premier-tech-2025",
-    "rider": "BENNETT George",
-    "flag": "nz"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 3,
-    "riderPcsId": "simon-clarke",
-    "teamPcsId": "israel-premier-tech-2025",
-    "rider": "CLARKE Simon",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 4,
-    "riderPcsId": "pier-andre-cote",
-    "teamPcsId": "israel-premier-tech-2025",
-    "rider": "CÔTÉ Pier-André",
-    "flag": "ca"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 5,
-    "riderPcsId": "nick-schultz",
-    "teamPcsId": "israel-premier-tech-2025",
-    "rider": "SCHULTZ Nick",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 6,
-    "riderPcsId": "corbin-strong",
-    "teamPcsId": "israel-premier-tech-2025",
-    "rider": "STRONG Corbin",
-    "flag": "nz"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 7,
-    "riderPcsId": "michael-woods",
-    "teamPcsId": "israel-premier-tech-2025",
-    "rider": "WOODS Michael",
-    "flag": "ca"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 11,
-    "riderPcsId": "luke-plapp",
-    "teamPcsId": "team-jayco-alula-2025",
-    "rider": "PLAPP Luke",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 12,
-    "riderPcsId": "luke-durbridge",
-    "teamPcsId": "team-jayco-alula-2025",
-    "rider": "DURBRIDGE Luke",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 13,
-    "riderPcsId": "chris-harper",
-    "teamPcsId": "team-jayco-alula-2025",
-    "rider": "HARPER Chris",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 14,
-    "riderPcsId": "michael-hepburn",
-    "teamPcsId": "team-jayco-alula-2025",
-    "rider": "HEPBURN Michael",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 15,
-    "riderPcsId": "kelland-brien",
-    "teamPcsId": "team-jayco-alula-2025",
-    "rider": "O'BRIEN Kelland",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 16,
-    "riderPcsId": "mauro-schmid",
-    "teamPcsId": "team-jayco-alula-2025",
-    "rider": "SCHMID Mauro",
-    "flag": "ch"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 17,
-    "riderPcsId": "campbell-stewart",
-    "teamPcsId": "team-jayco-alula-2025",
-    "rider": "STEWART Campbell",
-    "flag": "nz"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 21,
-    "riderPcsId": "phil-bauhaus",
-    "teamPcsId": "bahrain-victorious-2025",
-    "rider": "BAUHAUS Phil",
-    "flag": "de"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 22,
-    "riderPcsId": "nikias-arndt",
-    "teamPcsId": "bahrain-victorious-2025",
-    "rider": "ARNDT Nikias",
-    "flag": "de"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 23,
-    "riderPcsId": "roman-ermakov",
-    "teamPcsId": "bahrain-victorious-2025",
-    "rider": "ERMAKOV Roman",
-    "flag": "ru"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 24,
-    "riderPcsId": "afonso-eulalio",
-    "teamPcsId": "bahrain-victorious-2025",
-    "rider": "EULÁLIO Afonso",
-    "flag": "pt"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 25,
-    "riderPcsId": "mathijs-paasschens",
-    "teamPcsId": "bahrain-victorious-2025",
-    "rider": "PAASSCHENS Mathijs",
-    "flag": "nl"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 26,
-    "riderPcsId": "daniel-skerl",
-    "teamPcsId": "bahrain-victorious-2025",
-    "rider": "SKERL Daniel",
-    "flag": "it"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 27,
-    "riderPcsId": "robert-stannard",
-    "teamPcsId": "bahrain-victorious-2025",
-    "rider": "STANNARD Robert",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 31,
-    "riderPcsId": "jay-vine",
-    "teamPcsId": "uae-team-emirates-xrg-2025",
-    "rider": "VINE Jay",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 32,
-    "riderPcsId": "rune-herregodts",
-    "teamPcsId": "uae-team-emirates-xrg-2025",
-    "rider": "HERREGODTS Rune",
-    "flag": "be"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 33,
-    "riderPcsId": "julius-johansen",
-    "teamPcsId": "uae-team-emirates-xrg-2025",
-    "rider": "JOHANSEN Julius",
-    "flag": "dk"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 34,
-    "riderPcsId": "jhonatan-narvaez",
-    "teamPcsId": "uae-team-emirates-xrg-2025",
-    "rider": "NARVÁEZ Jhonatan",
-    "flag": "ec"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 35,
-    "riderPcsId": "rui-oliveira",
-    "teamPcsId": "uae-team-emirates-xrg-2025",
-    "rider": "OLIVEIRA Rui",
-    "flag": "pt"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 36,
-    "riderPcsId": "marc-soler",
-    "teamPcsId": "uae-team-emirates-xrg-2025",
-    "rider": "SOLER Marc",
-    "flag": "es"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 37,
-    "riderPcsId": "pablo-torres-arias",
-    "teamPcsId": "uae-team-emirates-xrg-2025",
-    "rider": "TORRES Pablo",
-    "flag": "es"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 41,
-    "riderPcsId": "pascal-eenkhoorn",
-    "teamPcsId": "soudal-quick-step-2025",
-    "rider": "EENKHOORN Pascal",
-    "flag": "nl"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 42,
-    "riderPcsId": "pieter-serry",
-    "teamPcsId": "soudal-quick-step-2025",
-    "rider": "SERRY Pieter",
-    "flag": "be"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 43,
-    "riderPcsId": "andrea-raccagni-noviero",
-    "teamPcsId": "soudal-quick-step-2025",
-    "rider": "RACCAGNI NOVIERO Andrea",
-    "flag": "it"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 44,
-    "riderPcsId": "casper-pedersen",
-    "teamPcsId": "soudal-quick-step-2025",
-    "rider": "PEDERSEN Casper",
-    "flag": "dk"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 45,
-    "riderPcsId": "antoine-huby",
-    "teamPcsId": "soudal-quick-step-2025",
-    "rider": "HUBY Antoine",
-    "flag": "fr"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 46,
-    "riderPcsId": "james-knox",
-    "teamPcsId": "soudal-quick-step-2025",
-    "rider": "KNOX James",
-    "flag": "gb"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 47,
-    "riderPcsId": "junior-lecerf",
-    "teamPcsId": "soudal-quick-step-2025",
-    "rider": "LECERF Junior",
-    "flag": "be"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 51,
-    "riderPcsId": "paul-lapeira",
-    "teamPcsId": "decathlon-ag2r-la-mondiale-2025",
-    "rider": "LAPEIRA Paul",
-    "flag": "fr"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 52,
-    "riderPcsId": "geoffrey-bouchard",
-    "teamPcsId": "decathlon-ag2r-la-mondiale-2025",
-    "rider": "BOUCHARD Geoffrey",
-    "flag": "fr"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 53,
-    "riderPcsId": "dorian-godon",
-    "teamPcsId": "decathlon-ag2r-la-mondiale-2025",
-    "rider": "GODON Dorian",
-    "flag": "fr"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 54,
-    "riderPcsId": "noa-isidore",
-    "teamPcsId": "decathlon-ag2r-la-mondiale-2025",
-    "rider": "ISIDORE Noa",
-    "flag": "fr"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 55,
-    "riderPcsId": "jordan-labrosse",
-    "teamPcsId": "decathlon-ag2r-la-mondiale-2025",
-    "rider": "LABROSSE Jordan",
-    "flag": "fr"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 56,
-    "riderPcsId": "bastien-tronchon",
-    "teamPcsId": "decathlon-ag2r-la-mondiale-2025",
-    "rider": "TRONCHON Bastien",
-    "flag": "fr"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 57,
-    "riderPcsId": "andrea-vendrame",
-    "teamPcsId": "decathlon-ag2r-la-mondiale-2025",
-    "rider": "VENDRAME Andrea",
-    "flag": "it"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 61,
-    "riderPcsId": "francesco-busatto",
-    "teamPcsId": "intermarche-wanty-2025",
-    "rider": "BUSATTO Francesco",
-    "flag": "it"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 62,
-    "riderPcsId": "dries-de-pooter",
-    "teamPcsId": "intermarche-wanty-2025",
-    "rider": "DE POOTER Dries",
-    "flag": "be"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 63,
-    "riderPcsId": "arne-marit",
-    "teamPcsId": "intermarche-wanty-2025",
-    "rider": "MARIT Arne",
-    "flag": "be"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 64,
-    "riderPcsId": "tom-paquot",
-    "teamPcsId": "intermarche-wanty-2025",
-    "rider": "PAQUOT Tom",
-    "flag": "be"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 65,
-    "riderPcsId": "dion-smith",
-    "teamPcsId": "intermarche-wanty-2025",
-    "rider": "SMITH Dion",
-    "flag": "nz"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 66,
-    "riderPcsId": "taco-van-der-hoorn",
-    "teamPcsId": "intermarche-wanty-2025",
-    "rider": "VAN DER HOORN Taco",
-    "flag": "nl"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 67,
-    "riderPcsId": "georg-zimmermann",
-    "teamPcsId": "intermarche-wanty-2025",
-    "rider": "ZIMMERMANN Georg",
-    "flag": "de"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 71,
-    "riderPcsId": "lucas-hamilton",
-    "teamPcsId": "ineos-grenadiers-2025",
-    "rider": "HAMILTON Lucas",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 72,
-    "riderPcsId": "michal-kwiatkowski",
-    "teamPcsId": "ineos-grenadiers-2025",
-    "rider": "KWIATKOWSKI Michał",
-    "flag": "pl"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 73,
-    "riderPcsId": "magnus-sheffield",
-    "teamPcsId": "ineos-grenadiers-2025",
-    "rider": "SHEFFIELD Magnus",
-    "flag": "us"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 74,
-    "riderPcsId": "ben-swift",
-    "teamPcsId": "ineos-grenadiers-2025",
-    "rider": "SWIFT Ben",
-    "flag": "gb"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 75,
-    "riderPcsId": "connor-swift",
-    "teamPcsId": "ineos-grenadiers-2025",
-    "rider": "SWIFT Connor",
-    "flag": "gb"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 76,
-    "riderPcsId": "geraint-thomas",
-    "teamPcsId": "ineos-grenadiers-2025",
-    "rider": "THOMAS Geraint",
-    "flag": "gb"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 77,
-    "riderPcsId": "samuel-watson",
-    "teamPcsId": "ineos-grenadiers-2025",
-    "rider": "WATSON Samuel",
-    "flag": "gb"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 81,
-    "riderPcsId": "sam-welsford",
-    "teamPcsId": "red-bull-bora-hansgrohe-2025",
-    "rider": "WELSFORD Sam",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 82,
-    "riderPcsId": "finn-fisher-black",
-    "teamPcsId": "red-bull-bora-hansgrohe-2025",
-    "rider": "FISHER-BLACK Finn",
-    "flag": "nz"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 83,
-    "riderPcsId": "filip-maciejuk",
-    "teamPcsId": "red-bull-bora-hansgrohe-2025",
-    "rider": "MACIEJUK Filip",
-    "flag": "pl"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 84,
-    "riderPcsId": "ryan-mullen",
-    "teamPcsId": "red-bull-bora-hansgrohe-2025",
-    "rider": "MULLEN Ryan",
-    "flag": "ie"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 85,
-    "riderPcsId": "laurence-pithie",
-    "teamPcsId": "red-bull-bora-hansgrohe-2025",
-    "rider": "PITHIE Laurence",
-    "flag": "nz"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 86,
-    "riderPcsId": "danny-van-poppel",
-    "teamPcsId": "red-bull-bora-hansgrohe-2025",
-    "rider": "VAN POPPEL Danny",
-    "flag": "nl"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 87,
-    "riderPcsId": "ben-zwiehoff",
-    "teamPcsId": "red-bull-bora-hansgrohe-2025",
-    "rider": "ZWIEHOFF Ben",
-    "flag": "de"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 91,
-    "riderPcsId": "tobias-lund-andresen",
-    "teamPcsId": "team-picnic-postnl-2025",
-    "rider": "ANDRESEN Tobias Lund",
-    "flag": "dk"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 92,
-    "riderPcsId": "julius-van-den-berg",
-    "teamPcsId": "team-picnic-postnl-2025",
-    "rider": "VAN DEN BERG Julius",
-    "flag": "nl"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 93,
-    "riderPcsId": "patrick-eddy",
-    "teamPcsId": "team-picnic-postnl-2025",
-    "rider": "EDDY Patrick",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 94,
-    "riderPcsId": "alexander-edmondson",
-    "teamPcsId": "team-picnic-postnl-2025",
-    "rider": "EDMONDSON Alex",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 95,
-    "riderPcsId": "gijs-leemreize",
-    "teamPcsId": "team-picnic-postnl-2025",
-    "rider": "LEEMREIZE Gijs",
-    "flag": "nl"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 96,
-    "riderPcsId": "oscar-onley",
-    "teamPcsId": "team-picnic-postnl-2025",
-    "rider": "ONLEY Oscar",
-    "flag": "gb"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 97,
-    "riderPcsId": "bjoern-koerdt",
-    "teamPcsId": "team-picnic-postnl-2025",
-    "rider": "KOERDT Bjorn",
-    "flag": "gb"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 101,
-    "riderPcsId": "bryan-coquard",
-    "teamPcsId": "cofidis-2025",
-    "rider": "COQUARD Bryan",
-    "flag": "fr"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 102,
-    "riderPcsId": "jesus-herrada-lopez",
-    "teamPcsId": "cofidis-2025",
-    "rider": "HERRADA Jesús",
-    "flag": "es"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 103,
-    "riderPcsId": "ion-izagirre",
-    "teamPcsId": "cofidis-2025",
-    "rider": "IZAGIRRE Ion",
-    "flag": "es"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 104,
-    "riderPcsId": "nolann-mahoudo",
-    "teamPcsId": "cofidis-2025",
-    "rider": "MAHOUDO Nolann",
-    "flag": "fr"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 105,
-    "riderPcsId": "jan-maas",
-    "teamPcsId": "cofidis-2025",
-    "rider": "MAAS Jan",
-    "flag": "nl"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 106,
-    "riderPcsId": "paul-ourselin",
-    "teamPcsId": "cofidis-2025",
-    "rider": "OURSELIN Paul",
-    "flag": "fr"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 107,
-    "riderPcsId": "alexis-renard",
-    "teamPcsId": "cofidis-2025",
-    "rider": "RENARD Alexis",
-    "flag": "fr"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 111,
-    "riderPcsId": "cristian-rodriguez",
-    "teamPcsId": "arkea-b-b-hotels-2025",
-    "rider": "RODRÍGUEZ Cristián",
-    "flag": "es"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 112,
-    "riderPcsId": "giosue-epis",
-    "teamPcsId": "arkea-b-b-hotels-2025",
-    "rider": "EPIS Giosuè",
-    "flag": "it"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 113,
-    "riderPcsId": "donavan-grondin",
-    "teamPcsId": "arkea-b-b-hotels-2025",
-    "rider": "GRONDIN Donavan",
-    "flag": "fr"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 114,
-    "riderPcsId": "louis-rouland",
-    "teamPcsId": "arkea-b-b-hotels-2025",
-    "rider": "ROULAND Louis",
-    "flag": "fr"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 115,
-    "riderPcsId": "miles-scotson",
-    "teamPcsId": "arkea-b-b-hotels-2025",
-    "rider": "SCOTSON Miles",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 116,
-    "riderPcsId": "martin-tjotta",
-    "teamPcsId": "arkea-b-b-hotels-2025",
-    "rider": "TJØTTA Martin",
-    "flag": "no"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 117,
-    "riderPcsId": "alessandro-verre",
-    "teamPcsId": "arkea-b-b-hotels-2025",
-    "rider": "VERRE Alessandro",
-    "flag": "it"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 121,
-    "riderPcsId": "carlos-canal",
-    "teamPcsId": "movistar-team-2025",
-    "rider": "CANAL Carlos",
-    "flag": "es"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 122,
-    "riderPcsId": "manlio-moro",
-    "teamPcsId": "movistar-team-2025",
-    "rider": "MORO Manlio",
-    "flag": "it"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 123,
-    "riderPcsId": "gregor-muhlberger",
-    "teamPcsId": "movistar-team-2025",
-    "rider": "MÜHLBERGER Gregor",
-    "flag": "at"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 124,
-    "riderPcsId": "mathias-norsgaard",
-    "teamPcsId": "movistar-team-2025",
-    "rider": "NORSGAARD Mathias",
-    "flag": "dk"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 125,
-    "riderPcsId": "diego-pescador",
-    "teamPcsId": "movistar-team-2025",
-    "rider": "PESCADOR Diego",
-    "flag": "co"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 126,
-    "riderPcsId": "natnael-tesfatsion",
-    "teamPcsId": "movistar-team-2025",
-    "rider": "TESFATSION Natnael",
-    "flag": "er"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 127,
-    "riderPcsId": "javier-romo",
-    "teamPcsId": "movistar-team-2025",
-    "rider": "ROMO Javier",
-    "flag": "es"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 131,
-    "riderPcsId": "dylan-van-baarle",
-    "teamPcsId": "team-visma-lease-a-bike-2025",
-    "rider": "VAN BAARLE Dylan",
-    "flag": "nl"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 132,
-    "riderPcsId": "loe-van-belle",
-    "teamPcsId": "team-visma-lease-a-bike-2025",
-    "rider": "VAN BELLE Loe",
-    "flag": "nl"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 133,
-    "riderPcsId": "matthew-brennan",
-    "teamPcsId": "team-visma-lease-a-bike-2025",
-    "rider": "BRENNAN Matthew",
-    "flag": "gb"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 134,
-    "riderPcsId": "thomas-gloag",
-    "teamPcsId": "team-visma-lease-a-bike-2025",
-    "rider": "GLOAG Thomas",
-    "flag": "gb"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 135,
-    "riderPcsId": "tijmen-graat",
-    "teamPcsId": "team-visma-lease-a-bike-2025",
-    "rider": "GRAAT Tijmen",
-    "flag": "nl"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 136,
-    "riderPcsId": "menno-huising",
-    "teamPcsId": "team-visma-lease-a-bike-2025",
-    "rider": "HUISING Menno",
-    "flag": "nl"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 137,
-    "riderPcsId": "julien-vermote",
-    "teamPcsId": "team-visma-lease-a-bike-2025",
-    "rider": "VERMOTE Julien",
-    "flag": "be"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 141,
-    "riderPcsId": "johan-esteban-chaves",
-    "teamPcsId": "ef-education-easypost-2025",
-    "rider": "CHAVES Esteban",
-    "flag": "co"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 142,
-    "riderPcsId": "yuhi-todome",
-    "teamPcsId": "ef-education-easypost-2025",
-    "rider": "TODOME Yuhi",
-    "flag": "jp"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 143,
-    "riderPcsId": "lukas-nerurkar",
-    "teamPcsId": "ef-education-easypost-2025",
-    "rider": "NERURKAR Lukas",
-    "flag": "gb"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 144,
-    "riderPcsId": "jardi-christiaan-van-der-lee",
-    "teamPcsId": "ef-education-easypost-2025",
-    "rider": "VAN DER LEE Jardi Christiaan",
-    "flag": "nl"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 145,
-    "riderPcsId": "markel-beloki",
-    "teamPcsId": "ef-education-easypost-2025",
-    "rider": "BELOKI Markel",
-    "flag": "es"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 146,
-    "riderPcsId": "max-walker",
-    "teamPcsId": "ef-education-easypost-2025",
-    "rider": "WALKER Max",
-    "flag": "gb"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 147,
-    "riderPcsId": "alastair-mackellar",
-    "teamPcsId": "ef-education-easypost-2025",
-    "rider": "MACKELLAR Alastair",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 151,
-    "riderPcsId": "tobias-bayer",
-    "teamPcsId": "alpecin-deceuninck-2025",
-    "rider": "BAYER Tobias",
-    "flag": "at"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 152,
-    "riderPcsId": "lars-boven",
-    "teamPcsId": "alpecin-deceuninck-2025",
-    "rider": "BOVEN Lars",
-    "flag": "nl"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 153,
-    "riderPcsId": "ramses-debruyne",
-    "teamPcsId": "alpecin-deceuninck-2025",
-    "rider": "DEBRUYNE Ramses",
-    "flag": "be"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 154,
-    "riderPcsId": "simon-dehairs",
-    "teamPcsId": "alpecin-deceuninck-2025",
-    "rider": "DEHAIRS Simon",
-    "flag": "be"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 155,
-    "riderPcsId": "gal-glivar",
-    "teamPcsId": "alpecin-deceuninck-2025",
-    "rider": "GLIVAR Gal",
-    "flag": "si"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 156,
-    "riderPcsId": "henri-uhlig",
-    "teamPcsId": "alpecin-deceuninck-2025",
-    "rider": "UHLIG Henri",
-    "flag": "de"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 157,
-    "riderPcsId": "fabio-van-den-bossche",
-    "teamPcsId": "alpecin-deceuninck-2025",
-    "rider": "VAN DEN BOSSCHE Fabio",
-    "flag": "be"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 161,
-    "riderPcsId": "alberto-bettiol",
-    "teamPcsId": "xds-astana-team-2025",
-    "rider": "BETTIOL Alberto",
-    "flag": "it"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 162,
-    "riderPcsId": "nicola-conci",
-    "teamPcsId": "xds-astana-team-2025",
-    "rider": "CONCI Nicola",
-    "flag": "it"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 163,
-    "riderPcsId": "aaron-gate",
-    "teamPcsId": "xds-astana-team-2025",
-    "rider": "GATE Aaron",
-    "flag": "nz"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 164,
-    "riderPcsId": "harold-martin-lopez",
-    "teamPcsId": "xds-astana-team-2025",
-    "rider": "LÓPEZ Harold Martín",
-    "flag": "ec"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 165,
-    "riderPcsId": "henok-mulubrhan",
-    "teamPcsId": "xds-astana-team-2025",
-    "rider": "MULUBRHAN Henok",
-    "flag": "er"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 166,
-    "riderPcsId": "ide-schelling",
-    "teamPcsId": "xds-astana-team-2025",
-    "rider": "SCHELLING Ide",
-    "flag": "nl"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 167,
-    "riderPcsId": "sergio-higuita",
-    "teamPcsId": "xds-astana-team-2025",
-    "rider": "HIGUITA Sergio",
-    "flag": "co"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 171,
-    "riderPcsId": "tim-torn-teutenberg",
-    "teamPcsId": "lidl-trek-2025",
-    "rider": "TEUTENBERG Tim Torn",
-    "flag": "de"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 172,
-    "riderPcsId": "juan-pedro-lopez",
-    "teamPcsId": "lidl-trek-2025",
-    "rider": "LÓPEZ Juan Pedro",
-    "flag": "es"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 173,
-    "riderPcsId": "bauke-mollema",
-    "teamPcsId": "lidl-trek-2025",
-    "rider": "MOLLEMA Bauke",
-    "flag": "nl"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 174,
-    "riderPcsId": "jacopo-mosca",
-    "teamPcsId": "lidl-trek-2025",
-    "rider": "MOSCA Jacopo",
-    "flag": "it"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 175,
-    "riderPcsId": "albert-withen-philipsen",
-    "teamPcsId": "lidl-trek-2025",
-    "rider": "WITHEN PHILIPSEN Albert",
-    "flag": "dk"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 176,
-    "riderPcsId": "patrick-konrad",
-    "teamPcsId": "lidl-trek-2025",
-    "rider": "KONRAD Patrick",
-    "flag": "at"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 177,
-    "riderPcsId": "andrea-bagioli",
-    "teamPcsId": "lidl-trek-2025",
-    "rider": "BAGIOLI Andrea",
-    "flag": "it"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 181,
-    "riderPcsId": "lewis-askey",
-    "teamPcsId": "groupama-fdj-2025",
-    "rider": "ASKEY Lewis",
-    "flag": "gb"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 182,
-    "riderPcsId": "sven-erik-bystrom",
-    "teamPcsId": "groupama-fdj-2025",
-    "rider": "BYSTRØM Sven Erik",
-    "flag": "no"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 183,
-    "riderPcsId": "clement-davy",
-    "teamPcsId": "groupama-fdj-2025",
-    "rider": "DAVY Clément",
-    "flag": "fr"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 184,
-    "riderPcsId": "eddy-le-huitouze",
-    "teamPcsId": "groupama-fdj-2025",
-    "rider": "LE HUITOUZE Eddy",
-    "flag": "fr"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 185,
-    "riderPcsId": "quentin-pacher",
-    "teamPcsId": "groupama-fdj-2025",
-    "rider": "PACHER Quentin",
-    "flag": "fr"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 186,
-    "riderPcsId": "remy-rochas",
-    "teamPcsId": "groupama-fdj-2025",
-    "rider": "ROCHAS Rémy",
-    "flag": "fr"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 187,
-    "riderPcsId": "matthew-walls",
-    "teamPcsId": "groupama-fdj-2025",
-    "rider": "WALLS Matthew",
-    "flag": "gb"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 191,
-    "riderPcsId": "damien-howson",
-    "teamPcsId": "australia-2025",
-    "rider": "HOWSON Damien",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 192,
-    "riderPcsId": "cameron-scott",
-    "teamPcsId": "australia-2025",
-    "rider": "SCOTT Cameron",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 193,
-    "riderPcsId": "zac-marriage",
-    "teamPcsId": "australia-2025",
-    "rider": "MARRIAGE Zac",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 194,
-    "riderPcsId": "fergus-browning",
-    "teamPcsId": "australia-2025",
-    "rider": "BROWNING Fergus",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 195,
-    "riderPcsId": "rudy-porter",
-    "teamPcsId": "australia-2025",
-    "rider": "PORTER Rudy",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 196,
-    "riderPcsId": "oliver-bleddyn",
-    "teamPcsId": "australia-2025",
-    "rider": "BLEDDYN Oliver",
-    "flag": "au"
-  },
-  {
-    "raceUID": "tour-down-under:2025",
-    "bib": 197,
-    "riderPcsId": "liam-walsh",
-    "teamPcsId": "australia-2025",
-    "rider": "WALSH Liam",
-    "flag": "au"
+    "year": 2025,
+    "pcsId": "israel-premier-tech-2025",
+    "name": "Israel - Premier Tech",
+    "classification": "PRT",
+    "pcsUrl": "https://www.procyclingstats.com/team/israel-premier-tech-2025",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/israel-premier-tech-2025.png",
+    "riders": [
+      {
+        "year": 2025,
+        "pcsId": "stephen-williams",
+        "pcsUrl": "https://www.procyclingstats.com/rider/stephen-williams",
+        "surname": "WILLIAMS",
+        "firstNames": "Stephen",
+        "bib": 1,
+        "flag": "gb"
+      },
+      {
+        "year": 2025,
+        "pcsId": "george-bennett",
+        "pcsUrl": "https://www.procyclingstats.com/rider/george-bennett",
+        "surname": "BENNETT",
+        "firstNames": "George",
+        "bib": 2,
+        "flag": "nz"
+      },
+      {
+        "year": 2025,
+        "pcsId": "simon-clarke",
+        "pcsUrl": "https://www.procyclingstats.com/rider/simon-clarke",
+        "surname": "CLARKE",
+        "firstNames": "Simon",
+        "bib": 3,
+        "flag": "au"
+      },
+      {
+        "year": 2025,
+        "pcsId": "pier-andre-cote",
+        "pcsUrl": "https://www.procyclingstats.com/rider/pier-andre-cote",
+        "surname": "CÔTÉ",
+        "firstNames": "Pier-André",
+        "bib": 4,
+        "flag": "ca"
+      },
+      {
+        "year": 2025,
+        "pcsId": "nick-schultz",
+        "pcsUrl": "https://www.procyclingstats.com/rider/nick-schultz",
+        "surname": "SCHULTZ",
+        "firstNames": "Nick",
+        "bib": 5,
+        "flag": "au"
+      },
+      {
+        "year": 2025,
+        "pcsId": "corbin-strong",
+        "pcsUrl": "https://www.procyclingstats.com/rider/corbin-strong",
+        "surname": "STRONG",
+        "firstNames": "Corbin",
+        "bib": 6,
+        "flag": "nz"
+      },
+      {
+        "year": 2025,
+        "pcsId": "michael-woods",
+        "pcsUrl": "https://www.procyclingstats.com/rider/michael-woods",
+        "surname": "WOODS",
+        "firstNames": "Michael",
+        "bib": 7,
+        "flag": "ca"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2025,
+        "pcsId": "sam-bewley",
+        "pcsUrl": "https://www.procyclingstats.com/staff/sam-bewley",
+        "surname": "BEWLEY",
+        "firstNames": "Sam",
+        "role": "Directeur Sportif"
+      },
+      {
+        "year": 2025,
+        "pcsId": "daryl-impey",
+        "pcsUrl": "https://www.procyclingstats.com/staff/daryl-impey",
+        "surname": "IMPEY",
+        "firstNames": "Daryl",
+        "role": "Directeur Sportif"
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "pcsId": "team-jayco-alula-2025",
+    "name": "Team Jayco AlUla",
+    "classification": "WT",
+    "pcsUrl": "https://www.procyclingstats.com/team/team-jayco-alula-2025",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/team-jayco-alula-2025.png",
+    "riders": [
+      {
+        "year": 2025,
+        "pcsId": "luke-plapp",
+        "pcsUrl": "https://www.procyclingstats.com/rider/luke-plapp",
+        "surname": "PLAPP",
+        "firstNames": "Luke",
+        "bib": 11,
+        "flag": "au"
+      },
+      {
+        "year": 2025,
+        "pcsId": "luke-durbridge",
+        "pcsUrl": "https://www.procyclingstats.com/rider/luke-durbridge",
+        "surname": "DURBRIDGE",
+        "firstNames": "Luke",
+        "bib": 12,
+        "flag": "au"
+      },
+      {
+        "year": 2025,
+        "pcsId": "chris-harper",
+        "pcsUrl": "https://www.procyclingstats.com/rider/chris-harper",
+        "surname": "HARPER",
+        "firstNames": "Chris",
+        "bib": 13,
+        "flag": "au"
+      },
+      {
+        "year": 2025,
+        "pcsId": "michael-hepburn",
+        "pcsUrl": "https://www.procyclingstats.com/rider/michael-hepburn",
+        "surname": "HEPBURN",
+        "firstNames": "Michael",
+        "bib": 14,
+        "flag": "au"
+      },
+      {
+        "year": 2025,
+        "pcsId": "kelland-brien",
+        "pcsUrl": "https://www.procyclingstats.com/rider/kelland-brien",
+        "surname": "O'BRIEN",
+        "firstNames": "Kelland",
+        "bib": 15,
+        "flag": "au"
+      },
+      {
+        "year": 2025,
+        "pcsId": "mauro-schmid",
+        "pcsUrl": "https://www.procyclingstats.com/rider/mauro-schmid",
+        "surname": "SCHMID",
+        "firstNames": "Mauro",
+        "bib": 16,
+        "flag": "ch"
+      },
+      {
+        "year": 2025,
+        "pcsId": "campbell-stewart",
+        "pcsUrl": "https://www.procyclingstats.com/rider/campbell-stewart",
+        "surname": "STEWART",
+        "firstNames": "Campbell",
+        "bib": 17,
+        "flag": "nz"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2025,
+        "pcsId": "mathew-hayman",
+        "pcsUrl": "https://www.procyclingstats.com/staff/mathew-hayman",
+        "surname": "HAYMAN",
+        "firstNames": "Mathew",
+        "role": "Directeur Sportif"
+      },
+      {
+        "year": 2025,
+        "pcsId": "matthew-white",
+        "pcsUrl": "https://www.procyclingstats.com/staff/matthew-white",
+        "surname": "WHITE",
+        "firstNames": "Matthew",
+        "role": "Directeur Sportif"
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "pcsId": "bahrain-victorious-2025",
+    "name": "Bahrain - Victorious",
+    "classification": "WT",
+    "pcsUrl": "https://www.procyclingstats.com/team/bahrain-victorious-2025",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/bahrain-victorious-2025-n2.png",
+    "riders": [
+      {
+        "year": 2025,
+        "pcsId": "phil-bauhaus",
+        "pcsUrl": "https://www.procyclingstats.com/rider/phil-bauhaus",
+        "surname": "BAUHAUS",
+        "firstNames": "Phil",
+        "bib": 21,
+        "flag": "de"
+      },
+      {
+        "year": 2025,
+        "pcsId": "nikias-arndt",
+        "pcsUrl": "https://www.procyclingstats.com/rider/nikias-arndt",
+        "surname": "ARNDT",
+        "firstNames": "Nikias",
+        "bib": 22,
+        "flag": "de"
+      },
+      {
+        "year": 2025,
+        "pcsId": "roman-ermakov",
+        "pcsUrl": "https://www.procyclingstats.com/rider/roman-ermakov",
+        "surname": "ERMAKOV",
+        "firstNames": "Roman",
+        "bib": 23,
+        "flag": "ru"
+      },
+      {
+        "year": 2025,
+        "pcsId": "afonso-eulalio",
+        "pcsUrl": "https://www.procyclingstats.com/rider/afonso-eulalio",
+        "surname": "EULÁLIO",
+        "firstNames": "Afonso",
+        "bib": 24,
+        "flag": "pt"
+      },
+      {
+        "year": 2025,
+        "pcsId": "mathijs-paasschens",
+        "pcsUrl": "https://www.procyclingstats.com/rider/mathijs-paasschens",
+        "surname": "PAASSCHENS",
+        "firstNames": "Mathijs",
+        "bib": 25,
+        "flag": "nl"
+      },
+      {
+        "year": 2025,
+        "pcsId": "daniel-skerl",
+        "pcsUrl": "https://www.procyclingstats.com/rider/daniel-skerl",
+        "surname": "SKERL",
+        "firstNames": "Daniel",
+        "bib": 26,
+        "flag": "it"
+      },
+      {
+        "year": 2025,
+        "pcsId": "robert-stannard",
+        "pcsUrl": "https://www.procyclingstats.com/rider/robert-stannard",
+        "surname": "STANNARD",
+        "firstNames": "Robert",
+        "bib": 27,
+        "flag": "au"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2025,
+        "pcsId": "neil-stephens",
+        "pcsUrl": "https://www.procyclingstats.com/staff/neil-stephens",
+        "surname": "STEPHENS",
+        "firstNames": "Neil",
+        "role": "Directeur Sportif"
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "pcsId": "uae-team-emirates-xrg-2025",
+    "name": "UAE Team Emirates - XRG",
+    "classification": "WT",
+    "pcsUrl": "https://www.procyclingstats.com/team/uae-team-emirates-xrg-2025",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/uae-team-emirates-xrg-2025.png",
+    "riders": [
+      {
+        "year": 2025,
+        "pcsId": "jay-vine",
+        "pcsUrl": "https://www.procyclingstats.com/rider/jay-vine",
+        "surname": "VINE",
+        "firstNames": "Jay",
+        "bib": 31,
+        "flag": "au"
+      },
+      {
+        "year": 2025,
+        "pcsId": "rune-herregodts",
+        "pcsUrl": "https://www.procyclingstats.com/rider/rune-herregodts",
+        "surname": "HERREGODTS",
+        "firstNames": "Rune",
+        "bib": 32,
+        "flag": "be"
+      },
+      {
+        "year": 2025,
+        "pcsId": "julius-johansen",
+        "pcsUrl": "https://www.procyclingstats.com/rider/julius-johansen",
+        "surname": "JOHANSEN",
+        "firstNames": "Julius",
+        "bib": 33,
+        "flag": "dk"
+      },
+      {
+        "year": 2025,
+        "pcsId": "jhonatan-narvaez",
+        "pcsUrl": "https://www.procyclingstats.com/rider/jhonatan-narvaez",
+        "surname": "NARVÁEZ",
+        "firstNames": "Jhonatan",
+        "bib": 34,
+        "flag": "ec"
+      },
+      {
+        "year": 2025,
+        "pcsId": "rui-oliveira",
+        "pcsUrl": "https://www.procyclingstats.com/rider/rui-oliveira",
+        "surname": "OLIVEIRA",
+        "firstNames": "Rui",
+        "bib": 35,
+        "flag": "pt"
+      },
+      {
+        "year": 2025,
+        "pcsId": "marc-soler",
+        "pcsUrl": "https://www.procyclingstats.com/rider/marc-soler",
+        "surname": "SOLER",
+        "firstNames": "Marc",
+        "bib": 36,
+        "flag": "es"
+      },
+      {
+        "year": 2025,
+        "pcsId": "pablo-torres-arias",
+        "pcsUrl": "https://www.procyclingstats.com/rider/pablo-torres-arias",
+        "surname": "TORRES",
+        "firstNames": "Pablo",
+        "bib": 37,
+        "flag": "es"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2025,
+        "pcsId": "fabio-baldato",
+        "pcsUrl": "https://www.procyclingstats.com/staff/fabio-baldato",
+        "surname": "BALDATO",
+        "firstNames": "Fabio",
+        "role": "Directeur Sportif"
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "pcsId": "soudal-quick-step-2025",
+    "name": "Soudal Quick-Step",
+    "classification": "WT",
+    "pcsUrl": "https://www.procyclingstats.com/team/soudal-quick-step-2025",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/soudal-quick-step-2025.png",
+    "riders": [
+      {
+        "year": 2025,
+        "pcsId": "pascal-eenkhoorn",
+        "pcsUrl": "https://www.procyclingstats.com/rider/pascal-eenkhoorn",
+        "surname": "EENKHOORN",
+        "firstNames": "Pascal",
+        "bib": 41,
+        "flag": "nl"
+      },
+      {
+        "year": 2025,
+        "pcsId": "pieter-serry",
+        "pcsUrl": "https://www.procyclingstats.com/rider/pieter-serry",
+        "surname": "SERRY",
+        "firstNames": "Pieter",
+        "bib": 42,
+        "flag": "be"
+      },
+      {
+        "year": 2025,
+        "pcsId": "andrea-raccagni-noviero",
+        "pcsUrl": "https://www.procyclingstats.com/rider/andrea-raccagni-noviero",
+        "surname": "RACCAGNI NOVIERO",
+        "firstNames": "Andrea",
+        "bib": 43,
+        "flag": "it"
+      },
+      {
+        "year": 2025,
+        "pcsId": "casper-pedersen",
+        "pcsUrl": "https://www.procyclingstats.com/rider/casper-pedersen",
+        "surname": "PEDERSEN",
+        "firstNames": "Casper",
+        "bib": 44,
+        "flag": "dk"
+      },
+      {
+        "year": 2025,
+        "pcsId": "antoine-huby",
+        "pcsUrl": "https://www.procyclingstats.com/rider/antoine-huby",
+        "surname": "HUBY",
+        "firstNames": "Antoine",
+        "bib": 45,
+        "flag": "fr"
+      },
+      {
+        "year": 2025,
+        "pcsId": "james-knox",
+        "pcsUrl": "https://www.procyclingstats.com/rider/james-knox",
+        "surname": "KNOX",
+        "firstNames": "James",
+        "bib": 46,
+        "flag": "gb"
+      },
+      {
+        "year": 2025,
+        "pcsId": "junior-lecerf",
+        "pcsUrl": "https://www.procyclingstats.com/rider/junior-lecerf",
+        "surname": "LECERF",
+        "firstNames": "Junior",
+        "bib": 47,
+        "flag": "be"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2025,
+        "pcsId": "geert-van-bondt",
+        "pcsUrl": "https://www.procyclingstats.com/staff/geert-van-bondt",
+        "surname": "VAN BONDT",
+        "firstNames": "Geert",
+        "role": "Directeur Sportif"
+      },
+      {
+        "year": 2025,
+        "pcsId": "dries-devenyns",
+        "pcsUrl": "https://www.procyclingstats.com/staff/dries-devenyns",
+        "surname": "DEVENYNS",
+        "firstNames": "Dries",
+        "role": "Directeur Sportif"
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "pcsId": "decathlon-ag2r-la-mondiale-2025",
+    "name": "Decathlon AG2R La Mondiale Team",
+    "classification": "WT",
+    "pcsUrl": "https://www.procyclingstats.com/team/decathlon-ag2r-la-mondiale-2025",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/decathlon-ag2r-la-mondiale-2025.png",
+    "riders": [
+      {
+        "year": 2025,
+        "pcsId": "paul-lapeira",
+        "pcsUrl": "https://www.procyclingstats.com/rider/paul-lapeira",
+        "surname": "LAPEIRA",
+        "firstNames": "Paul",
+        "bib": 51,
+        "flag": "fr"
+      },
+      {
+        "year": 2025,
+        "pcsId": "geoffrey-bouchard",
+        "pcsUrl": "https://www.procyclingstats.com/rider/geoffrey-bouchard",
+        "surname": "BOUCHARD",
+        "firstNames": "Geoffrey",
+        "bib": 52,
+        "flag": "fr"
+      },
+      {
+        "year": 2025,
+        "pcsId": "dorian-godon",
+        "pcsUrl": "https://www.procyclingstats.com/rider/dorian-godon",
+        "surname": "GODON",
+        "firstNames": "Dorian",
+        "bib": 53,
+        "flag": "fr"
+      },
+      {
+        "year": 2025,
+        "pcsId": "noa-isidore",
+        "pcsUrl": "https://www.procyclingstats.com/rider/noa-isidore",
+        "surname": "ISIDORE",
+        "firstNames": "Noa",
+        "bib": 54,
+        "flag": "fr"
+      },
+      {
+        "year": 2025,
+        "pcsId": "jordan-labrosse",
+        "pcsUrl": "https://www.procyclingstats.com/rider/jordan-labrosse",
+        "surname": "LABROSSE",
+        "firstNames": "Jordan",
+        "bib": 55,
+        "flag": "fr"
+      },
+      {
+        "year": 2025,
+        "pcsId": "bastien-tronchon",
+        "pcsUrl": "https://www.procyclingstats.com/rider/bastien-tronchon",
+        "surname": "TRONCHON",
+        "firstNames": "Bastien",
+        "bib": 56,
+        "flag": "fr"
+      },
+      {
+        "year": 2025,
+        "pcsId": "andrea-vendrame",
+        "pcsUrl": "https://www.procyclingstats.com/rider/andrea-vendrame",
+        "surname": "VENDRAME",
+        "firstNames": "Andrea",
+        "bib": 57,
+        "flag": "it"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2025,
+        "pcsId": "nicolas-guille",
+        "pcsUrl": "https://www.procyclingstats.com/staff/nicolas-guille",
+        "surname": "GUILLÉ",
+        "firstNames": "Nicolas",
+        "role": "Directeur Sportif"
+      },
+      {
+        "year": 2025,
+        "pcsId": "cyril-dessel",
+        "pcsUrl": "https://www.procyclingstats.com/staff/cyril-dessel",
+        "surname": "DESSEL",
+        "firstNames": "Cyril",
+        "role": "Directeur Sportif"
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "pcsId": "intermarche-wanty-2025",
+    "name": "Intermarché - Wanty",
+    "classification": "WT",
+    "pcsUrl": "https://www.procyclingstats.com/team/intermarche-wanty-2025",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/intermarche-wanty-2025-n2.png",
+    "riders": [
+      {
+        "year": 2025,
+        "pcsId": "francesco-busatto",
+        "pcsUrl": "https://www.procyclingstats.com/rider/francesco-busatto",
+        "surname": "BUSATTO",
+        "firstNames": "Francesco",
+        "bib": 61,
+        "flag": "it"
+      },
+      {
+        "year": 2025,
+        "pcsId": "dries-de-pooter",
+        "pcsUrl": "https://www.procyclingstats.com/rider/dries-de-pooter",
+        "surname": "DE POOTER",
+        "firstNames": "Dries",
+        "bib": 62,
+        "flag": "be"
+      },
+      {
+        "year": 2025,
+        "pcsId": "arne-marit",
+        "pcsUrl": "https://www.procyclingstats.com/rider/arne-marit",
+        "surname": "MARIT",
+        "firstNames": "Arne",
+        "bib": 63,
+        "flag": "be"
+      },
+      {
+        "year": 2025,
+        "pcsId": "tom-paquot",
+        "pcsUrl": "https://www.procyclingstats.com/rider/tom-paquot",
+        "surname": "PAQUOT",
+        "firstNames": "Tom",
+        "bib": 64,
+        "flag": "be"
+      },
+      {
+        "year": 2025,
+        "pcsId": "dion-smith",
+        "pcsUrl": "https://www.procyclingstats.com/rider/dion-smith",
+        "surname": "SMITH",
+        "firstNames": "Dion",
+        "bib": 65,
+        "flag": "nz"
+      },
+      {
+        "year": 2025,
+        "pcsId": "taco-van-der-hoorn",
+        "pcsUrl": "https://www.procyclingstats.com/rider/taco-van-der-hoorn",
+        "surname": "VAN DER HOORN",
+        "firstNames": "Taco",
+        "bib": 66,
+        "flag": "nl"
+      },
+      {
+        "year": 2025,
+        "pcsId": "georg-zimmermann",
+        "pcsUrl": "https://www.procyclingstats.com/rider/georg-zimmermann",
+        "surname": "ZIMMERMANN",
+        "firstNames": "Georg",
+        "bib": 67,
+        "flag": "de"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2025,
+        "pcsId": "steven-de-neef",
+        "pcsUrl": "https://www.procyclingstats.com/staff/steven-de-neef",
+        "surname": "DE NEEF",
+        "firstNames": "Steven",
+        "role": "Directeur Sportif"
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "pcsId": "ineos-grenadiers-2025",
+    "name": "INEOS Grenadiers",
+    "classification": "WT",
+    "pcsUrl": "https://www.procyclingstats.com/team/ineos-grenadiers-2025",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/ineos-grenadiers-2025.png",
+    "riders": [
+      {
+        "year": 2025,
+        "pcsId": "lucas-hamilton",
+        "pcsUrl": "https://www.procyclingstats.com/rider/lucas-hamilton",
+        "surname": "HAMILTON",
+        "firstNames": "Lucas",
+        "bib": 71,
+        "flag": "au"
+      },
+      {
+        "year": 2025,
+        "pcsId": "michal-kwiatkowski",
+        "pcsUrl": "https://www.procyclingstats.com/rider/michal-kwiatkowski",
+        "surname": "KWIATKOWSKI",
+        "firstNames": "Michał",
+        "bib": 72,
+        "flag": "pl"
+      },
+      {
+        "year": 2025,
+        "pcsId": "magnus-sheffield",
+        "pcsUrl": "https://www.procyclingstats.com/rider/magnus-sheffield",
+        "surname": "SHEFFIELD",
+        "firstNames": "Magnus",
+        "bib": 73,
+        "flag": "us"
+      },
+      {
+        "year": 2025,
+        "pcsId": "ben-swift",
+        "pcsUrl": "https://www.procyclingstats.com/rider/ben-swift",
+        "surname": "SWIFT",
+        "firstNames": "Ben",
+        "bib": 74,
+        "flag": "gb"
+      },
+      {
+        "year": 2025,
+        "pcsId": "connor-swift",
+        "pcsUrl": "https://www.procyclingstats.com/rider/connor-swift",
+        "surname": "SWIFT",
+        "firstNames": "Connor",
+        "bib": 75,
+        "flag": "gb"
+      },
+      {
+        "year": 2025,
+        "pcsId": "geraint-thomas",
+        "pcsUrl": "https://www.procyclingstats.com/rider/geraint-thomas",
+        "surname": "THOMAS",
+        "firstNames": "Geraint",
+        "bib": 76,
+        "flag": "gb"
+      },
+      {
+        "year": 2025,
+        "pcsId": "samuel-watson",
+        "pcsUrl": "https://www.procyclingstats.com/rider/samuel-watson",
+        "surname": "WATSON",
+        "firstNames": "Samuel",
+        "bib": 77,
+        "flag": "gb"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2025,
+        "pcsId": "ian-stannard",
+        "pcsUrl": "https://www.procyclingstats.com/staff/ian-stannard",
+        "surname": "STANNARD",
+        "firstNames": "Ian",
+        "role": "Directeur Sportif"
+      },
+      {
+        "year": 2025,
+        "pcsId": "carsten-jeppesen",
+        "pcsUrl": "https://www.procyclingstats.com/staff/carsten-jeppesen",
+        "surname": "JEPPESEN",
+        "firstNames": "Carsten",
+        "role": "Directeur Sportif"
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "pcsId": "red-bull-bora-hansgrohe-2025",
+    "name": "Red Bull - BORA - hansgrohe",
+    "classification": "WT",
+    "pcsUrl": "https://www.procyclingstats.com/team/red-bull-bora-hansgrohe-2025",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/red-bull-bora-hansgrohe-2025.png",
+    "riders": [
+      {
+        "year": 2025,
+        "pcsId": "sam-welsford",
+        "pcsUrl": "https://www.procyclingstats.com/rider/sam-welsford",
+        "surname": "WELSFORD",
+        "firstNames": "Sam",
+        "bib": 81,
+        "flag": "au"
+      },
+      {
+        "year": 2025,
+        "pcsId": "finn-fisher-black",
+        "pcsUrl": "https://www.procyclingstats.com/rider/finn-fisher-black",
+        "surname": "FISHER-BLACK",
+        "firstNames": "Finn",
+        "bib": 82,
+        "flag": "nz"
+      },
+      {
+        "year": 2025,
+        "pcsId": "filip-maciejuk",
+        "pcsUrl": "https://www.procyclingstats.com/rider/filip-maciejuk",
+        "surname": "MACIEJUK",
+        "firstNames": "Filip",
+        "bib": 83,
+        "flag": "pl"
+      },
+      {
+        "year": 2025,
+        "pcsId": "ryan-mullen",
+        "pcsUrl": "https://www.procyclingstats.com/rider/ryan-mullen",
+        "surname": "MULLEN",
+        "firstNames": "Ryan",
+        "bib": 84,
+        "flag": "ie"
+      },
+      {
+        "year": 2025,
+        "pcsId": "laurence-pithie",
+        "pcsUrl": "https://www.procyclingstats.com/rider/laurence-pithie",
+        "surname": "PITHIE",
+        "firstNames": "Laurence",
+        "bib": 85,
+        "flag": "nz"
+      },
+      {
+        "year": 2025,
+        "pcsId": "danny-van-poppel",
+        "pcsUrl": "https://www.procyclingstats.com/rider/danny-van-poppel",
+        "surname": "VAN POPPEL",
+        "firstNames": "Danny",
+        "bib": 86,
+        "flag": "nl"
+      },
+      {
+        "year": 2025,
+        "pcsId": "ben-zwiehoff",
+        "pcsUrl": "https://www.procyclingstats.com/rider/ben-zwiehoff",
+        "surname": "ZWIEHOFF",
+        "firstNames": "Ben",
+        "bib": 87,
+        "flag": "de"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2025,
+        "pcsId": "bernhard-eisel",
+        "pcsUrl": "https://www.procyclingstats.com/staff/bernhard-eisel",
+        "surname": "EISEL",
+        "firstNames": "Bernhard",
+        "role": "Directeur Sportif"
+      },
+      {
+        "year": 2025,
+        "pcsId": "shane-archbold",
+        "pcsUrl": "https://www.procyclingstats.com/staff/shane-archbold",
+        "surname": "ARCHBOLD",
+        "firstNames": "Shane",
+        "role": "Directeur Sportif"
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "pcsId": "team-picnic-postnl-2025",
+    "name": "Team Picnic PostNL",
+    "classification": "WT",
+    "pcsUrl": "https://www.procyclingstats.com/team/team-picnic-postnl-2025",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/team-picnic-postnl-2025.png",
+    "riders": [
+      {
+        "year": 2025,
+        "pcsId": "tobias-lund-andresen",
+        "pcsUrl": "https://www.procyclingstats.com/rider/tobias-lund-andresen",
+        "surname": "ANDRESEN",
+        "firstNames": "Tobias Lund",
+        "bib": 91,
+        "flag": "dk"
+      },
+      {
+        "year": 2025,
+        "pcsId": "julius-van-den-berg",
+        "pcsUrl": "https://www.procyclingstats.com/rider/julius-van-den-berg",
+        "surname": "VAN DEN BERG",
+        "firstNames": "Julius",
+        "bib": 92,
+        "flag": "nl"
+      },
+      {
+        "year": 2025,
+        "pcsId": "patrick-eddy",
+        "pcsUrl": "https://www.procyclingstats.com/rider/patrick-eddy",
+        "surname": "EDDY",
+        "firstNames": "Patrick",
+        "bib": 93,
+        "flag": "au"
+      },
+      {
+        "year": 2025,
+        "pcsId": "alexander-edmondson",
+        "pcsUrl": "https://www.procyclingstats.com/rider/alexander-edmondson",
+        "surname": "EDMONDSON",
+        "firstNames": "Alex",
+        "bib": 94,
+        "flag": "au"
+      },
+      {
+        "year": 2025,
+        "pcsId": "gijs-leemreize",
+        "pcsUrl": "https://www.procyclingstats.com/rider/gijs-leemreize",
+        "surname": "LEEMREIZE",
+        "firstNames": "Gijs",
+        "bib": 95,
+        "flag": "nl"
+      },
+      {
+        "year": 2025,
+        "pcsId": "oscar-onley",
+        "pcsUrl": "https://www.procyclingstats.com/rider/oscar-onley",
+        "surname": "ONLEY",
+        "firstNames": "Oscar",
+        "bib": 96,
+        "flag": "gb"
+      },
+      {
+        "year": 2025,
+        "pcsId": "bjoern-koerdt",
+        "pcsUrl": "https://www.procyclingstats.com/rider/bjoern-koerdt",
+        "surname": "KOERDT",
+        "firstNames": "Bjorn",
+        "bib": 97,
+        "flag": "gb"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2025,
+        "pcsId": "matthew-winston",
+        "pcsUrl": "https://www.procyclingstats.com/staff/matthew-winston",
+        "surname": "WINSTON",
+        "firstNames": "Matthew",
+        "role": "Directeur Sportif"
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "pcsId": "cofidis-2025",
+    "name": "Cofidis",
+    "classification": "WT",
+    "pcsUrl": "https://www.procyclingstats.com/team/cofidis-2025",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/cofidis-2025-n4.png",
+    "riders": [
+      {
+        "year": 2025,
+        "pcsId": "bryan-coquard",
+        "pcsUrl": "https://www.procyclingstats.com/rider/bryan-coquard",
+        "surname": "COQUARD",
+        "firstNames": "Bryan",
+        "bib": 101,
+        "flag": "fr"
+      },
+      {
+        "year": 2025,
+        "pcsId": "jesus-herrada-lopez",
+        "pcsUrl": "https://www.procyclingstats.com/rider/jesus-herrada-lopez",
+        "surname": "HERRADA",
+        "firstNames": "Jesús",
+        "bib": 102,
+        "flag": "es"
+      },
+      {
+        "year": 2025,
+        "pcsId": "ion-izagirre",
+        "pcsUrl": "https://www.procyclingstats.com/rider/ion-izagirre",
+        "surname": "IZAGIRRE",
+        "firstNames": "Ion",
+        "bib": 103,
+        "flag": "es"
+      },
+      {
+        "year": 2025,
+        "pcsId": "nolann-mahoudo",
+        "pcsUrl": "https://www.procyclingstats.com/rider/nolann-mahoudo",
+        "surname": "MAHOUDO",
+        "firstNames": "Nolann",
+        "bib": 104,
+        "flag": "fr"
+      },
+      {
+        "year": 2025,
+        "pcsId": "jan-maas",
+        "pcsUrl": "https://www.procyclingstats.com/rider/jan-maas",
+        "surname": "MAAS",
+        "firstNames": "Jan",
+        "bib": 105,
+        "flag": "nl"
+      },
+      {
+        "year": 2025,
+        "pcsId": "paul-ourselin",
+        "pcsUrl": "https://www.procyclingstats.com/rider/paul-ourselin",
+        "surname": "OURSELIN",
+        "firstNames": "Paul",
+        "bib": 106,
+        "flag": "fr"
+      },
+      {
+        "year": 2025,
+        "pcsId": "alexis-renard",
+        "pcsUrl": "https://www.procyclingstats.com/rider/alexis-renard",
+        "surname": "RENARD",
+        "firstNames": "Alexis",
+        "bib": 107,
+        "flag": "fr"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2025,
+        "pcsId": "gorka-gerrikagoitia",
+        "pcsUrl": "https://www.procyclingstats.com/staff/gorka-gerrikagoitia",
+        "surname": "GERRIKAGOITIA",
+        "firstNames": "Gorka",
+        "role": "Directeur Sportif"
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "pcsId": "arkea-b-b-hotels-2025",
+    "name": "Arkéa - B&B Hotels",
+    "classification": "WT",
+    "pcsUrl": "https://www.procyclingstats.com/team/arkea-b-b-hotels-2025",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/arkea-b-b-hotels-2025.png",
+    "riders": [
+      {
+        "year": 2025,
+        "pcsId": "cristian-rodriguez",
+        "pcsUrl": "https://www.procyclingstats.com/rider/cristian-rodriguez",
+        "surname": "RODRÍGUEZ",
+        "firstNames": "Cristián",
+        "bib": 111,
+        "flag": "es"
+      },
+      {
+        "year": 2025,
+        "pcsId": "giosue-epis",
+        "pcsUrl": "https://www.procyclingstats.com/rider/giosue-epis",
+        "surname": "EPIS",
+        "firstNames": "Giosuè",
+        "bib": 112,
+        "flag": "it"
+      },
+      {
+        "year": 2025,
+        "pcsId": "donavan-grondin",
+        "pcsUrl": "https://www.procyclingstats.com/rider/donavan-grondin",
+        "surname": "GRONDIN",
+        "firstNames": "Donavan",
+        "bib": 113,
+        "flag": "fr"
+      },
+      {
+        "year": 2025,
+        "pcsId": "louis-rouland",
+        "pcsUrl": "https://www.procyclingstats.com/rider/louis-rouland",
+        "surname": "ROULAND",
+        "firstNames": "Louis",
+        "bib": 114,
+        "flag": "fr"
+      },
+      {
+        "year": 2025,
+        "pcsId": "miles-scotson",
+        "pcsUrl": "https://www.procyclingstats.com/rider/miles-scotson",
+        "surname": "SCOTSON",
+        "firstNames": "Miles",
+        "bib": 115,
+        "flag": "au"
+      },
+      {
+        "year": 2025,
+        "pcsId": "martin-tjotta",
+        "pcsUrl": "https://www.procyclingstats.com/rider/martin-tjotta",
+        "surname": "TJØTTA",
+        "firstNames": "Martin",
+        "bib": 116,
+        "flag": "no"
+      },
+      {
+        "year": 2025,
+        "pcsId": "alessandro-verre",
+        "pcsUrl": "https://www.procyclingstats.com/rider/alessandro-verre",
+        "surname": "VERRE",
+        "firstNames": "Alessandro",
+        "bib": 117,
+        "flag": "it"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2025,
+        "pcsId": "sebastien-hinault",
+        "pcsUrl": "https://www.procyclingstats.com/staff/sebastien-hinault",
+        "surname": "HINAULT",
+        "firstNames": "Sébastien",
+        "role": "Directeur Sportif"
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "pcsId": "movistar-team-2025",
+    "name": "Movistar Team",
+    "classification": "WT",
+    "pcsUrl": "https://www.procyclingstats.com/team/movistar-team-2025",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/movistar-team-2025.png",
+    "riders": [
+      {
+        "year": 2025,
+        "pcsId": "carlos-canal",
+        "pcsUrl": "https://www.procyclingstats.com/rider/carlos-canal",
+        "surname": "CANAL",
+        "firstNames": "Carlos",
+        "bib": 121,
+        "flag": "es"
+      },
+      {
+        "year": 2025,
+        "pcsId": "manlio-moro",
+        "pcsUrl": "https://www.procyclingstats.com/rider/manlio-moro",
+        "surname": "MORO",
+        "firstNames": "Manlio",
+        "bib": 122,
+        "flag": "it"
+      },
+      {
+        "year": 2025,
+        "pcsId": "gregor-muhlberger",
+        "pcsUrl": "https://www.procyclingstats.com/rider/gregor-muhlberger",
+        "surname": "MÜHLBERGER",
+        "firstNames": "Gregor",
+        "bib": 123,
+        "flag": "at"
+      },
+      {
+        "year": 2025,
+        "pcsId": "mathias-norsgaard",
+        "pcsUrl": "https://www.procyclingstats.com/rider/mathias-norsgaard",
+        "surname": "NORSGAARD",
+        "firstNames": "Mathias",
+        "bib": 124,
+        "flag": "dk"
+      },
+      {
+        "year": 2025,
+        "pcsId": "diego-pescador",
+        "pcsUrl": "https://www.procyclingstats.com/rider/diego-pescador",
+        "surname": "PESCADOR",
+        "firstNames": "Diego",
+        "bib": 125,
+        "flag": "co"
+      },
+      {
+        "year": 2025,
+        "pcsId": "natnael-tesfatsion",
+        "pcsUrl": "https://www.procyclingstats.com/rider/natnael-tesfatsion",
+        "surname": "TESFATSION",
+        "firstNames": "Natnael",
+        "bib": 126,
+        "flag": "er"
+      },
+      {
+        "year": 2025,
+        "pcsId": "javier-romo",
+        "pcsUrl": "https://www.procyclingstats.com/rider/javier-romo",
+        "surname": "ROMO",
+        "firstNames": "Javier",
+        "bib": 127,
+        "flag": "es"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2025,
+        "pcsId": "jurgen-roelandts",
+        "pcsUrl": "https://www.procyclingstats.com/staff/jurgen-roelandts",
+        "surname": "ROELANDTS",
+        "firstNames": "Jürgen",
+        "role": "Directeur Sportif"
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "pcsId": "team-visma-lease-a-bike-2025",
+    "name": "Team Visma | Lease a Bike",
+    "classification": "WT",
+    "pcsUrl": "https://www.procyclingstats.com/team/team-visma-lease-a-bike-2025",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/team-visma-lease-a-bike-2025.png",
+    "riders": [
+      {
+        "year": 2025,
+        "pcsId": "dylan-van-baarle",
+        "pcsUrl": "https://www.procyclingstats.com/rider/dylan-van-baarle",
+        "surname": "VAN BAARLE",
+        "firstNames": "Dylan",
+        "bib": 131,
+        "flag": "nl"
+      },
+      {
+        "year": 2025,
+        "pcsId": "loe-van-belle",
+        "pcsUrl": "https://www.procyclingstats.com/rider/loe-van-belle",
+        "surname": "VAN BELLE",
+        "firstNames": "Loe",
+        "bib": 132,
+        "flag": "nl"
+      },
+      {
+        "year": 2025,
+        "pcsId": "matthew-brennan",
+        "pcsUrl": "https://www.procyclingstats.com/rider/matthew-brennan",
+        "surname": "BRENNAN",
+        "firstNames": "Matthew",
+        "bib": 133,
+        "flag": "gb"
+      },
+      {
+        "year": 2025,
+        "pcsId": "thomas-gloag",
+        "pcsUrl": "https://www.procyclingstats.com/rider/thomas-gloag",
+        "surname": "GLOAG",
+        "firstNames": "Thomas",
+        "bib": 134,
+        "flag": "gb"
+      },
+      {
+        "year": 2025,
+        "pcsId": "tijmen-graat",
+        "pcsUrl": "https://www.procyclingstats.com/rider/tijmen-graat",
+        "surname": "GRAAT",
+        "firstNames": "Tijmen",
+        "bib": 135,
+        "flag": "nl"
+      },
+      {
+        "year": 2025,
+        "pcsId": "menno-huising",
+        "pcsUrl": "https://www.procyclingstats.com/rider/menno-huising",
+        "surname": "HUISING",
+        "firstNames": "Menno",
+        "bib": 136,
+        "flag": "nl"
+      },
+      {
+        "year": 2025,
+        "pcsId": "julien-vermote",
+        "pcsUrl": "https://www.procyclingstats.com/rider/julien-vermote",
+        "surname": "VERMOTE",
+        "firstNames": "Julien",
+        "bib": 137,
+        "flag": "be"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2025,
+        "pcsId": "addy-engels",
+        "pcsUrl": "https://www.procyclingstats.com/staff/addy-engels",
+        "surname": "ENGELS",
+        "firstNames": "Addy",
+        "role": "Directeur Sportif"
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "pcsId": "ef-education-easypost-2025",
+    "name": "EF Education - EasyPost",
+    "classification": "WT",
+    "pcsUrl": "https://www.procyclingstats.com/team/ef-education-easypost-2025",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/ef-education-easypost-2025.png",
+    "riders": [
+      {
+        "year": 2025,
+        "pcsId": "johan-esteban-chaves",
+        "pcsUrl": "https://www.procyclingstats.com/rider/johan-esteban-chaves",
+        "surname": "CHAVES",
+        "firstNames": "Esteban",
+        "bib": 141,
+        "flag": "co"
+      },
+      {
+        "year": 2025,
+        "pcsId": "yuhi-todome",
+        "pcsUrl": "https://www.procyclingstats.com/rider/yuhi-todome",
+        "surname": "TODOME",
+        "firstNames": "Yuhi",
+        "bib": 142,
+        "flag": "jp"
+      },
+      {
+        "year": 2025,
+        "pcsId": "lukas-nerurkar",
+        "pcsUrl": "https://www.procyclingstats.com/rider/lukas-nerurkar",
+        "surname": "NERURKAR",
+        "firstNames": "Lukas",
+        "bib": 143,
+        "flag": "gb"
+      },
+      {
+        "year": 2025,
+        "pcsId": "jardi-christiaan-van-der-lee",
+        "pcsUrl": "https://www.procyclingstats.com/rider/jardi-christiaan-van-der-lee",
+        "surname": "VAN DER LEE",
+        "firstNames": "Jardi Christiaan",
+        "bib": 144,
+        "flag": "nl"
+      },
+      {
+        "year": 2025,
+        "pcsId": "markel-beloki",
+        "pcsUrl": "https://www.procyclingstats.com/rider/markel-beloki",
+        "surname": "BELOKI",
+        "firstNames": "Markel",
+        "bib": 145,
+        "flag": "es"
+      },
+      {
+        "year": 2025,
+        "pcsId": "max-walker",
+        "pcsUrl": "https://www.procyclingstats.com/rider/max-walker",
+        "surname": "WALKER",
+        "firstNames": "Max",
+        "bib": 146,
+        "flag": "gb"
+      },
+      {
+        "year": 2025,
+        "pcsId": "alastair-mackellar",
+        "pcsUrl": "https://www.procyclingstats.com/rider/alastair-mackellar",
+        "surname": "MACKELLAR",
+        "firstNames": "Alastair",
+        "bib": 147,
+        "flag": "au"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2025,
+        "pcsId": "tom-southam",
+        "pcsUrl": "https://www.procyclingstats.com/staff/tom-southam",
+        "surname": "SOUTHAM",
+        "firstNames": "Tom",
+        "role": "Directeur Sportif"
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "pcsId": "alpecin-deceuninck-2025",
+    "name": "Alpecin - Deceuninck",
+    "classification": "WT",
+    "pcsUrl": "https://www.procyclingstats.com/team/alpecin-deceuninck-2025",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/alpecin-deceuninck-2025-n2.png",
+    "riders": [
+      {
+        "year": 2025,
+        "pcsId": "tobias-bayer",
+        "pcsUrl": "https://www.procyclingstats.com/rider/tobias-bayer",
+        "surname": "BAYER",
+        "firstNames": "Tobias",
+        "bib": 151,
+        "flag": "at"
+      },
+      {
+        "year": 2025,
+        "pcsId": "lars-boven",
+        "pcsUrl": "https://www.procyclingstats.com/rider/lars-boven",
+        "surname": "BOVEN",
+        "firstNames": "Lars",
+        "bib": 152,
+        "flag": "nl"
+      },
+      {
+        "year": 2025,
+        "pcsId": "ramses-debruyne",
+        "pcsUrl": "https://www.procyclingstats.com/rider/ramses-debruyne",
+        "surname": "DEBRUYNE",
+        "firstNames": "Ramses",
+        "bib": 153,
+        "flag": "be"
+      },
+      {
+        "year": 2025,
+        "pcsId": "simon-dehairs",
+        "pcsUrl": "https://www.procyclingstats.com/rider/simon-dehairs",
+        "surname": "DEHAIRS",
+        "firstNames": "Simon",
+        "bib": 154,
+        "flag": "be"
+      },
+      {
+        "year": 2025,
+        "pcsId": "gal-glivar",
+        "pcsUrl": "https://www.procyclingstats.com/rider/gal-glivar",
+        "surname": "GLIVAR",
+        "firstNames": "Gal",
+        "bib": 155,
+        "flag": "si"
+      },
+      {
+        "year": 2025,
+        "pcsId": "henri-uhlig",
+        "pcsUrl": "https://www.procyclingstats.com/rider/henri-uhlig",
+        "surname": "UHLIG",
+        "firstNames": "Henri",
+        "bib": 156,
+        "flag": "de"
+      },
+      {
+        "year": 2025,
+        "pcsId": "fabio-van-den-bossche",
+        "pcsUrl": "https://www.procyclingstats.com/rider/fabio-van-den-bossche",
+        "surname": "VAN DEN BOSSCHE",
+        "firstNames": "Fabio",
+        "bib": 157,
+        "flag": "be"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2025,
+        "pcsId": "gianni-meersman",
+        "pcsUrl": "https://www.procyclingstats.com/staff/gianni-meersman",
+        "surname": "MEERSMAN",
+        "firstNames": "Gianni",
+        "role": "Directeur Sportif"
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "pcsId": "xds-astana-team-2025",
+    "name": "XDS Astana Team",
+    "classification": "WT",
+    "pcsUrl": "https://www.procyclingstats.com/team/xds-astana-team-2025",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/xds-astana-team-2025.png",
+    "riders": [
+      {
+        "year": 2025,
+        "pcsId": "alberto-bettiol",
+        "pcsUrl": "https://www.procyclingstats.com/rider/alberto-bettiol",
+        "surname": "BETTIOL",
+        "firstNames": "Alberto",
+        "bib": 161,
+        "flag": "it"
+      },
+      {
+        "year": 2025,
+        "pcsId": "nicola-conci",
+        "pcsUrl": "https://www.procyclingstats.com/rider/nicola-conci",
+        "surname": "CONCI",
+        "firstNames": "Nicola",
+        "bib": 162,
+        "flag": "it"
+      },
+      {
+        "year": 2025,
+        "pcsId": "aaron-gate",
+        "pcsUrl": "https://www.procyclingstats.com/rider/aaron-gate",
+        "surname": "GATE",
+        "firstNames": "Aaron",
+        "bib": 163,
+        "flag": "nz"
+      },
+      {
+        "year": 2025,
+        "pcsId": "harold-martin-lopez",
+        "pcsUrl": "https://www.procyclingstats.com/rider/harold-martin-lopez",
+        "surname": "LÓPEZ",
+        "firstNames": "Harold Martín",
+        "bib": 164,
+        "flag": "ec"
+      },
+      {
+        "year": 2025,
+        "pcsId": "henok-mulubrhan",
+        "pcsUrl": "https://www.procyclingstats.com/rider/henok-mulubrhan",
+        "surname": "MULUBRHAN",
+        "firstNames": "Henok",
+        "bib": 165,
+        "flag": "er"
+      },
+      {
+        "year": 2025,
+        "pcsId": "ide-schelling",
+        "pcsUrl": "https://www.procyclingstats.com/rider/ide-schelling",
+        "surname": "SCHELLING",
+        "firstNames": "Ide",
+        "bib": 166,
+        "flag": "nl"
+      },
+      {
+        "year": 2025,
+        "pcsId": "sergio-higuita",
+        "pcsUrl": "https://www.procyclingstats.com/rider/sergio-higuita",
+        "surname": "HIGUITA",
+        "firstNames": "Sergio",
+        "bib": 167,
+        "flag": "co"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2025,
+        "pcsId": "mark-renshaw",
+        "pcsUrl": "https://www.procyclingstats.com/staff/mark-renshaw",
+        "surname": "RENSHAW",
+        "firstNames": "Mark",
+        "role": "Directeur Sportif"
+      },
+      {
+        "year": 2025,
+        "pcsId": "stefano-zanini",
+        "pcsUrl": "https://www.procyclingstats.com/staff/stefano-zanini",
+        "surname": "ZANINI",
+        "firstNames": "Stefano",
+        "role": "Directeur Sportif"
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "pcsId": "lidl-trek-2025",
+    "name": "Lidl - Trek",
+    "classification": "WT",
+    "pcsUrl": "https://www.procyclingstats.com/team/lidl-trek-2025",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/lidl-trek-2025.png",
+    "riders": [
+      {
+        "year": 2025,
+        "pcsId": "tim-torn-teutenberg",
+        "pcsUrl": "https://www.procyclingstats.com/rider/tim-torn-teutenberg",
+        "surname": "TEUTENBERG",
+        "firstNames": "Tim Torn",
+        "bib": 171,
+        "flag": "de"
+      },
+      {
+        "year": 2025,
+        "pcsId": "juan-pedro-lopez",
+        "pcsUrl": "https://www.procyclingstats.com/rider/juan-pedro-lopez",
+        "surname": "LÓPEZ",
+        "firstNames": "Juan Pedro",
+        "bib": 172,
+        "flag": "es"
+      },
+      {
+        "year": 2025,
+        "pcsId": "bauke-mollema",
+        "pcsUrl": "https://www.procyclingstats.com/rider/bauke-mollema",
+        "surname": "MOLLEMA",
+        "firstNames": "Bauke",
+        "bib": 173,
+        "flag": "nl"
+      },
+      {
+        "year": 2025,
+        "pcsId": "jacopo-mosca",
+        "pcsUrl": "https://www.procyclingstats.com/rider/jacopo-mosca",
+        "surname": "MOSCA",
+        "firstNames": "Jacopo",
+        "bib": 174,
+        "flag": "it"
+      },
+      {
+        "year": 2025,
+        "pcsId": "albert-withen-philipsen",
+        "pcsUrl": "https://www.procyclingstats.com/rider/albert-withen-philipsen",
+        "surname": "WITHEN PHILIPSEN",
+        "firstNames": "Albert",
+        "bib": 175,
+        "flag": "dk"
+      },
+      {
+        "year": 2025,
+        "pcsId": "patrick-konrad",
+        "pcsUrl": "https://www.procyclingstats.com/rider/patrick-konrad",
+        "surname": "KONRAD",
+        "firstNames": "Patrick",
+        "bib": 176,
+        "flag": "at"
+      },
+      {
+        "year": 2025,
+        "pcsId": "andrea-bagioli",
+        "pcsUrl": "https://www.procyclingstats.com/rider/andrea-bagioli",
+        "surname": "BAGIOLI",
+        "firstNames": "Andrea",
+        "bib": 177,
+        "flag": "it"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2025,
+        "pcsId": "kim-andersen",
+        "pcsUrl": "https://www.procyclingstats.com/staff/kim-andersen",
+        "surname": "ANDERSEN",
+        "firstNames": "Kim",
+        "role": "Directeur Sportif"
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "pcsId": "groupama-fdj-2025",
+    "name": "Groupama - FDJ",
+    "classification": "WT",
+    "pcsUrl": "https://www.procyclingstats.com/team/groupama-fdj-2025",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/groupama-fdj-2025.png",
+    "riders": [
+      {
+        "year": 2025,
+        "pcsId": "lewis-askey",
+        "pcsUrl": "https://www.procyclingstats.com/rider/lewis-askey",
+        "surname": "ASKEY",
+        "firstNames": "Lewis",
+        "bib": 181,
+        "flag": "gb"
+      },
+      {
+        "year": 2025,
+        "pcsId": "sven-erik-bystrom",
+        "pcsUrl": "https://www.procyclingstats.com/rider/sven-erik-bystrom",
+        "surname": "BYSTRØM",
+        "firstNames": "Sven Erik",
+        "bib": 182,
+        "flag": "no"
+      },
+      {
+        "year": 2025,
+        "pcsId": "clement-davy",
+        "pcsUrl": "https://www.procyclingstats.com/rider/clement-davy",
+        "surname": "DAVY",
+        "firstNames": "Clément",
+        "bib": 183,
+        "flag": "fr"
+      },
+      {
+        "year": 2025,
+        "pcsId": "eddy-le-huitouze",
+        "pcsUrl": "https://www.procyclingstats.com/rider/eddy-le-huitouze",
+        "surname": "LE HUITOUZE",
+        "firstNames": "Eddy",
+        "bib": 184,
+        "flag": "fr"
+      },
+      {
+        "year": 2025,
+        "pcsId": "quentin-pacher",
+        "pcsUrl": "https://www.procyclingstats.com/rider/quentin-pacher",
+        "surname": "PACHER",
+        "firstNames": "Quentin",
+        "bib": 185,
+        "flag": "fr"
+      },
+      {
+        "year": 2025,
+        "pcsId": "remy-rochas",
+        "pcsUrl": "https://www.procyclingstats.com/rider/remy-rochas",
+        "surname": "ROCHAS",
+        "firstNames": "Rémy",
+        "bib": 186,
+        "flag": "fr"
+      },
+      {
+        "year": 2025,
+        "pcsId": "matthew-walls",
+        "pcsUrl": "https://www.procyclingstats.com/rider/matthew-walls",
+        "surname": "WALLS",
+        "firstNames": "Matthew",
+        "bib": 187,
+        "flag": "gb"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2025,
+        "pcsId": "jussi-veikkanen",
+        "pcsUrl": "https://www.procyclingstats.com/staff/jussi-veikkanen",
+        "surname": "VEIKKANEN",
+        "firstNames": "Jussi",
+        "role": "Directeur Sportif"
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "pcsId": "australia-2025",
+    "name": "Australia",
+    "classification": "NAT",
+    "pcsUrl": "https://www.procyclingstats.com/team/australia-2025",
+    "jerseyImageUrl": null,
+    "riders": [
+      {
+        "year": 2025,
+        "pcsId": "damien-howson",
+        "pcsUrl": "https://www.procyclingstats.com/rider/damien-howson",
+        "surname": "HOWSON",
+        "firstNames": "Damien",
+        "bib": 191,
+        "flag": "au"
+      },
+      {
+        "year": 2025,
+        "pcsId": "cameron-scott",
+        "pcsUrl": "https://www.procyclingstats.com/rider/cameron-scott",
+        "surname": "SCOTT",
+        "firstNames": "Cameron",
+        "bib": 192,
+        "flag": "au"
+      },
+      {
+        "year": 2025,
+        "pcsId": "zac-marriage",
+        "pcsUrl": "https://www.procyclingstats.com/rider/zac-marriage",
+        "surname": "MARRIAGE",
+        "firstNames": "Zac",
+        "bib": 193,
+        "flag": "au"
+      },
+      {
+        "year": 2025,
+        "pcsId": "fergus-browning",
+        "pcsUrl": "https://www.procyclingstats.com/rider/fergus-browning",
+        "surname": "BROWNING",
+        "firstNames": "Fergus",
+        "bib": 194,
+        "flag": "au"
+      },
+      {
+        "year": 2025,
+        "pcsId": "rudy-porter",
+        "pcsUrl": "https://www.procyclingstats.com/rider/rudy-porter",
+        "surname": "PORTER",
+        "firstNames": "Rudy",
+        "bib": 195,
+        "flag": "au"
+      },
+      {
+        "year": 2025,
+        "pcsId": "oliver-bleddyn",
+        "pcsUrl": "https://www.procyclingstats.com/rider/oliver-bleddyn",
+        "surname": "BLEDDYN",
+        "firstNames": "Oliver",
+        "bib": 196,
+        "flag": "au"
+      },
+      {
+        "year": 2025,
+        "pcsId": "liam-walsh",
+        "pcsUrl": "https://www.procyclingstats.com/rider/liam-walsh",
+        "surname": "WALSH",
+        "firstNames": "Liam",
+        "bib": 197,
+        "flag": "au"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2025,
+        "pcsId": "martin-barras",
+        "pcsUrl": "https://www.procyclingstats.com/staff/martin-barras",
+        "surname": "BARRAS",
+        "firstNames": "Martin",
+        "role": "Directeur Sportif"
+      }
+    ]
   }
 ]

@@ -33,7 +33,7 @@ export class RaceRiders extends CSVdataModel {
       "Flag",
     ];
     this.sortOrder = [
-      ["raceId", "asc"],
+      ["raceUID", "asc"],
       ["bib", "asc"],
     ];
     this.validateConfig();

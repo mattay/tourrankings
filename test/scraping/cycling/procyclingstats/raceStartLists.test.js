@@ -13,22 +13,22 @@ const STARTLIST_TEST_CASES = [
     year: 2025,
     html: "test/scraping/cycling/procyclingstats/html/raceStartlist-2025-tour-down-under.html",
     startlist: {
-      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartlist-2025-tour-down-under.json",
+      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartList-2025-tour-down-under.json",
       csv: "test/scraping/cycling/procyclingstats/fixtures/raceStartList-2025-tour-down-under.csv",
     },
     teams: {
-      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartlist-2025-tour-down-under.json",
+      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartList-2025-tour-down-under.json",
       csv: "test/scraping/cycling/procyclingstats/fixtures/teams-2025-tour-down-under.csv",
     },
     riders: {
-      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartlist-2025-tour-down-under.json",
+      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartList-2025-tour-down-under.json",
       csv: "test/scraping/cycling/procyclingstats/fixtures/riders-2025-tour-down-under.csv",
     },
   },
 ];
 
 describe.each(STARTLIST_TEST_CASES)(
-  "HTML parse startlist [$year $race]",
+  "Startlist [$year $race] parse HTML",
   (data) => {
     let html, expectedResults;
 
@@ -53,7 +53,7 @@ describe.each(STARTLIST_TEST_CASES)(
 );
 
 describe.each(STARTLIST_TEST_CASES)(
-  "CSV save startlist [$year $race]",
+  "Startlist [$year $race] save CSV",
   (data) => {
     let startlistData, originalDataDir;
 

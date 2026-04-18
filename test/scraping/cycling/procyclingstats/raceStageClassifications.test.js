@@ -45,7 +45,7 @@ const CLASSIFICATIONS_TEST_CASES = [
 ];
 
 describe.each(CLASSIFICATIONS_TEST_CASES)(
-  "Parse HTML [$year $race $stage] races",
+  "Stage classifications [$year $race $stage] parse HTML ",
   (data) => {
     let html,
       expectedGeneral,
@@ -104,9 +104,9 @@ describe.each(CLASSIFICATIONS_TEST_CASES)(
 );
 
 describe.each(CLASSIFICATIONS_TEST_CASES)(
-  "CSV Output - $year - $race Classifications",
+  "Stage classifications [$year $race $stage] save CSV",
   (data) => {
-    let classificationData, originalDataDir;
+    let originalDataDir;
 
     // TODO(de-puppetter-races): Fixture files missing - classification JSON files need to be created from expected output
     beforeAll(async () => {

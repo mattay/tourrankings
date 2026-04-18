@@ -1,4 +1,5 @@
 import { expect, test, describe, beforeAll, afterAll } from "bun:test";
+import { rm } from "fs/promises";
 import { scrapeRacesFromHtml } from "src/scrappers/source/proCyclingStats/races";
 import { Races } from "src/models/races";
 
@@ -18,7 +19,7 @@ const TEST_CASES_SEASON_RACES = [
 ];
 
 describe.each(TEST_CASES_SEASON_RACES)(
-  "HTML parse season races [$filterYear $filterClass]",
+  "Season races [$filterYear $filterClass] parse HTML",
   (data) => {
     let html, expectedResults, races;
 
@@ -40,7 +41,7 @@ describe.each(TEST_CASES_SEASON_RACES)(
 );
 
 describe.each(TEST_CASES_SEASON_RACES)(
-  "CSV save season races [$filterYear $filterClass]",
+  "Season races [$filterYear $filterClass] save CSV",
   (data) => {
     let racesData, originalDataDir;
 
@@ -56,12 +57,13 @@ describe.each(TEST_CASES_SEASON_RACES)(
     afterAll(async () => {
       process.env.DATA_DIR = originalDataDir;
       try {
-        const dir = await Bun.open(TEST_DATA_DIR);
-        for (const file of await dir.values()) {
-          await file.delete();
-        }
-        await dir.delete();
-      } catch {}
+        await rm(TEST_DATA_DIR, { recursive: true, force: true });
+      } catch (error) {
+        console.error(
+          `Failed to cleanup test directory ${TEST_DATA_DIR}:`,
+          error,
+        );
+      }
     });
 
     test("Should write correct CSV headers", async () => {

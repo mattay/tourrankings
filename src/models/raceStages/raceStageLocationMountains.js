@@ -23,7 +23,7 @@ export class RaceStageLocationMountains extends CSVdataModel {
     };
     super(
       `${process.env.DATA_DIR}/raceStagesLocationMountains.csv`,
-      ["Location Id", "Stage UID"],
+      ["locationId", "stageUID"],
       fieldTypes,
     );
     this.csvHeaders = [
@@ -36,8 +36,8 @@ export class RaceStageLocationMountains extends CSVdataModel {
       "Distance",
     ];
     this.sortOrder = [
-      ["Race Id", "asc"],
-      ["Stage", "asc"],
+      ["raceId", "asc"],
+      ["stage", "asc"],
     ];
   }
 }

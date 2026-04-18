@@ -1,5 +1,7 @@
 import { expect, test, describe, beforeAll, afterAll } from "bun:test";
 import { rm } from "fs/promises";
+import { randomUUID } from "crypto";
+import { join } from "path";
 import {
   scrapeFromHtmlRacesClassificationGeneral,
   scrapeFromHtmlRacesClassificationMountains,
@@ -15,7 +17,9 @@ import { ClassificationYouth } from "src/models/raceStageClassifications/classif
 import { RaceStageLocationPoints } from "src/models/raceStages/raceStageLocationPoints";
 import { RaceStageLocationMountains } from "src/models/raceStages/raceStageLocationMountains";
 
-const TEST_DATA_DIR = process.env.TEST_DATA_DIR || "./temp/tests/";
+// Generate unique temp directory for this test suite to avoid conflicts
+const BASE_TEST_DIR = process.env.TEST_DATA_DIR || "./temp/tests";
+const TEST_DATA_DIR = join(BASE_TEST_DIR, `raceStageClassifications-${randomUUID()}`);
 
 // Shared test data for both HTML parsing and CSV output tests
 const CLASSIFICATIONS_TEST_CASES = [
@@ -160,7 +164,12 @@ describe.each(CLASSIFICATIONS_TEST_CASES)(
     });
 
     afterAll(async () => {
-      process.env.DATA_DIR = originalDataDir;
+      // Restore original DATA_DIR state properly
+      if (originalDataDir === undefined) {
+        delete process.env.DATA_DIR;
+      } else {
+        process.env.DATA_DIR = originalDataDir;
+      }
       try {
         await rm(TEST_DATA_DIR, { recursive: true, force: true });
       } catch (error) {

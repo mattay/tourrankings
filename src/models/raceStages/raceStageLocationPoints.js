@@ -36,8 +36,8 @@ export class RaceStageLocationPoints extends CSVdataModel {
       "Distance",
     ];
     this.sortOrder = [
-      ["stageUID", "asc"],
-      ["distance", "asc"],
+      ["Stage UID", "asc"],
+      ["Distance", "asc"],
     ];
   }
 }

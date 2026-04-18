@@ -1,5 +1,5 @@
 import { generateCacheKey, readFromCache, writeToCache } from "./cache";
-import CONFIG from "./config";
+import { CONFIG } from "./config";
 
 /**
  * @typedef {Object} FetchOptions

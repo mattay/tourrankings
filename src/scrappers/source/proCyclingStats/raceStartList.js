@@ -193,7 +193,11 @@ export function extractStartlistFromHtml(htmlContent, year) {
         teamElement.querySelector(DOM_SELECTORS.team),
       ) || { pcsId: null, name: null, classification: null, pcsUrl: null };
       if (!team.name) {
-        console.error("No Team");
+        logError("Scrape PCS - Start List", "Missing team name", null, {
+          team: team.name,
+          url: team.pcsUrl,
+          year,
+        });
       }
 
       const jerseyImageElement = /** @type {HTMLImageElement|null} */ (
@@ -201,7 +205,11 @@ export function extractStartlistFromHtml(htmlContent, year) {
       );
       const jerseyImageUrl = jerseyImageElement?.src || null;
       if (!jerseyImageUrl) {
-        console.error("No jerseyImageUrl");
+        logError("Scrape PCS - Start List", "Missing jersey image URL", null, {
+          team: team.name,
+          url: team.pcsUrl,
+          year,
+        });
       }
 
       const riders = Array.from(
@@ -211,7 +219,11 @@ export function extractStartlistFromHtml(htmlContent, year) {
         .filter(Boolean)
         .map((rider) => ({ year, ...rider }));
       if (riders.length === 0) {
-        console.error("No riders");
+        logError("Scrape PCS - Start List", "No riders found", null, {
+          team: team.name,
+          url: team.pcsUrl,
+          year,
+        });
       }
 
       const directeurSportifs = Array.from(
@@ -221,7 +233,11 @@ export function extractStartlistFromHtml(htmlContent, year) {
         .filter(Boolean)
         .map((ds) => ({ year, ...ds }));
       if (directeurSportifs.length === 0) {
-        console.error("No directeurSportifs");
+        logError("Scrape PCS - Start List", "No directeur sportif found", null, {
+          team: team.name,
+          url: team.pcsUrl,
+          year,
+        });
       }
 
       return {

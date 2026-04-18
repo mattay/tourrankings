@@ -27,7 +27,7 @@ export class RaceStageLocationMountains extends CSVdataModel {
       fieldTypes,
     );
     this.csvHeaders = [
-      "Location ID",
+      "Location Id",
       "Stage UID",
       "Year",
       "Stage",

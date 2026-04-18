@@ -1,4 +1,5 @@
 import { expect, test, describe, beforeAll, afterAll } from "bun:test";
+import { rm } from "fs/promises";
 import {
   scrapeFromHtmlRacesClassificationGeneral,
   scrapeFromHtmlRacesClassificationMountains,
@@ -11,6 +12,8 @@ import { ClassificationMountain } from "src/models/raceStageClassifications/clas
 import { ClassificationPoints } from "src/models/raceStageClassifications/classificationPoints";
 import { ClassificationTeam } from "src/models/raceStageClassifications/classificationTeam";
 import { ClassificationYouth } from "src/models/raceStageClassifications/classificationYouth";
+import { RaceStageLocationPoints } from "src/models/raceStages/raceStageLocationPoints";
+import { RaceStageLocationMountains } from "src/models/raceStages/raceStageLocationMountains";
 
 const TEST_DATA_DIR = process.env.TEST_DATA_DIR || "./temp/tests/";
 
@@ -22,24 +25,32 @@ const CLASSIFICATIONS_TEST_CASES = [
     stage: 1,
     html: "test/scraping/cycling/procyclingstats/html/raceStageResults-2025-tour-down-under-1.html",
     generalClassification: {
-      json: "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1-classification-general.json",
+      json: "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-classification-general-2025-tour-down-under-1.json",
       csv: "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-classification-general-2025-tour-down-under-1.csv",
     },
     mountainsClassification: {
-      json: "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1-classification-mountain.json",
+      json: "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-classification-mountain-2025-tour-down-under-1.json",
       csv: "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-classification-mountain-2025-tour-down-under-1.csv",
     },
     pointsClassification: {
-      json: "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1-classification-points.json",
+      json: "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-classification-points-2025-tour-down-under-1.json",
       csv: "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-classification-points-2025-tour-down-under-1.csv",
     },
     teamClassification: {
-      json: "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1-classification-teams.json",
+      json: "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-classification-teams-2025-tour-down-under-1.json",
       csv: "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-classification-teams-2025-tour-down-under-1.csv",
     },
     youngClassification: {
-      json: "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1-classification-youth.json",
+      json: "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-classification-youth-2025-tour-down-under-1.json",
       csv: "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-classification-youth-2025-tour-down-under-1.csv",
+    },
+    locationPoints: {
+      json: "test/scraping/cycling/procyclingstats/fixtures/raceStageLocationPoints-2025-tour-down-under.json",
+      csv: "test/scraping/cycling/procyclingstats/fixtures/raceStageLocationPoints-2025-tour-down-under.csv",
+    },
+    locationMountains: {
+      json: "test/scraping/cycling/procyclingstats/fixtures/raceStageLocationMountains-2025-tour-down-under.json",
+      csv: "test/scraping/cycling/procyclingstats/fixtures/raceStageLocationMountains-2025-tour-down-under.csv",
     },
   },
 ];
@@ -136,27 +147,28 @@ describe.each(CLASSIFICATIONS_TEST_CASES)(
       const youthData = await Bun.file(data.youngClassification.json).json();
       const youthClassification = new ClassificationYouth();
       await youthClassification.update(youthData);
+
+      const locationPointsData = await Bun.file(data.locationPoints.json).json();
+      const locationPoints = new RaceStageLocationPoints();
+      await locationPoints.update(locationPointsData);
+
+      const locationMountainsData = await Bun.file(
+        data.locationMountains.json,
+      ).json();
+      const locationMountains = new RaceStageLocationMountains();
+      await locationMountains.update(locationMountainsData);
     });
 
     afterAll(async () => {
       process.env.DATA_DIR = originalDataDir;
       try {
-        await Bun.file(
-          `${TEST_DATA_DIR}/raceStageClassificationGeneral.csv`,
-        ).delete();
-        await Bun.file(
-          `${TEST_DATA_DIR}/raceStageClassificationMountain.csv`,
-        ).delete();
-        await Bun.file(
-          `${TEST_DATA_DIR}/raceStageClassificationPoints.csv`,
-        ).delete();
-        await Bun.file(
-          `${TEST_DATA_DIR}/raceStageClassificationTeams.csv`,
-        ).delete();
-        await Bun.file(
-          `${TEST_DATA_DIR}/raceStageClassificationYouth.csv`,
-        ).delete();
-      } catch {}
+        await rm(TEST_DATA_DIR, { recursive: true, force: true });
+      } catch (error) {
+        console.error(
+          `Failed to cleanup test directory ${TEST_DATA_DIR}:`,
+          error,
+        );
+      }
     });
 
     test("General Classification - Should write correct CSV headers", async () => {
@@ -246,6 +258,42 @@ describe.each(CLASSIFICATIONS_TEST_CASES)(
         `${TEST_DATA_DIR}/raceStageClassificationYouth.csv`,
       ).text();
       const expected = await Bun.file(data.youngClassification.csv).text();
+      expect(actual).toBe(expected);
+    });
+
+    test("Location Points - Should write correct CSV headers", async () => {
+      const csvContent = await Bun.file(
+        `${TEST_DATA_DIR}/raceStageLocationPoints.csv`,
+      ).text();
+      const headers = csvContent.split("\n")[0];
+      expect(headers).toBe(
+        "Location ID,Stage UID,Year,Stage,Type,Location Name,Distance",
+      );
+    });
+
+    test("Location Points - Should match expected CSV content", async () => {
+      const actual = await Bun.file(
+        `${TEST_DATA_DIR}/raceStageLocationPoints.csv`,
+      ).text();
+      const expected = await Bun.file(data.locationPoints.csv).text();
+      expect(actual).toBe(expected);
+    });
+
+    test("Location Mountains - Should write correct CSV headers", async () => {
+      const csvContent = await Bun.file(
+        `${TEST_DATA_DIR}/raceStagesLocationMountains.csv`,
+      ).text();
+      const headers = csvContent.split("\n")[0];
+      expect(headers).toBe(
+        "Location Id,Stage UID,Year,Stage,Type,Location Name,Distance",
+      );
+    });
+
+    test("Location Mountains - Should match expected CSV content", async () => {
+      const actual = await Bun.file(
+        `${TEST_DATA_DIR}/raceStagesLocationMountains.csv`,
+      ).text();
+      const expected = await Bun.file(data.locationMountains.csv).text();
       expect(actual).toBe(expected);
     });
   },

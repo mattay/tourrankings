@@ -13,6 +13,50 @@ import {
 
 /** @typedef {import('@models/@types/races').RaceStageModel} StageDetails */
 
+/**
+ * @typedef {Object} StageResultEntry
+ * @property {number|string} rank - Ranking position
+ * @property {number} bib - Rider bib number
+ * @property {string} rider - Rider name
+ * @property {number|string} [uci] - UCI points (gc only)
+ * @property {string} [gcBonis] - Bonus seconds (gc only)
+ * @property {string} time - Finish time
+ * @property {string} timeWonlost - Time gained/lost
+ * @property {string} delta - Time gap
+ * @property {string} stageUID - Stage unique ID
+ * @property {number} stage - Stage number
+ */
+
+/**
+ * @typedef {Object} IntermediateResultEntry
+ * @property {number|string} rank - Ranking position
+ * @property {number} bib - Rider bib number
+ * @property {string} rider - Rider name
+ * @property {string} location - Sprint/climb location
+ * @property {string} distance - Distance into stage
+ * @property {string} category - Category (1-HC, 1, 2, 3) or "sprint"
+ * @property {string} points - Points earned
+ * @property {string} bonis - Bonus seconds
+ * @property {string} stageUID - Stage unique ID
+ * @property {number} stage - Stage number
+ */
+
+/**
+ * @typedef {Object} ClassificationResults
+ * @property {StageResultEntry[]} general - Main classification results
+ * @property {IntermediateResultEntry[]} [today] - Intermediate results (points, kom, youth, teams only)
+ */
+
+/**
+ * @typedef {Object} StageResults
+ * @property {ClassificationResults} [stage] - Stage results (general only)
+ * @property {ClassificationResults} [gc] - GC (general only)
+ * @property {ClassificationResults} [points] - Points classification
+ * @property {ClassificationResults} [kom] - Mountains/KOM classification
+ * @property {ClassificationResults} [youth] - Youth classification
+ * @property {ClassificationResults} [teams] - Teams classification
+ */
+
 const DOM_SELECTORS = {
   classificationTabs: ".page-content ul.resultTabs li",
   classificationResult: "#resultsCont .resTab",

@@ -54,7 +54,6 @@ export class RaceStageResults extends CSVdataModel {
     ];
     this.validateConfig();
   }
-}
 
   /**
    * Retrieves the stage results for a given stage ID.

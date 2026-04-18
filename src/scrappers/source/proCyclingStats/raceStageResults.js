@@ -88,6 +88,7 @@ function tableHeaders(column) {
     teamline: "team",
     ridername: "rider",
     gc_timelag: "timelag",
+    timeWonlost: "timeWonLost",
   };
 
   return rename[column] || column;

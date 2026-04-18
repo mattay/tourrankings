@@ -120,11 +120,5 @@ export function formatRow(row) {
     formattedCells[key] = value;
   }
 
-  // Rename timeWonlost to timeWonLost
-  if (formattedCells["timeWonlost"] !== undefined) {
-    formattedCells["timeWonLost"] = formattedCells["timeWonlost"];
-    delete formattedCells["timeWonlost"];
-  }
-
   return formattedCells;
 }

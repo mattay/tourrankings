@@ -6,10 +6,10 @@
     "uci": 10,
     "gcBonis": "10″",
     "time": "03:26:28",
+    "timeWonlost": "",
     "delta": "",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 2,
@@ -18,10 +18,10 @@
     "uci": "",
     "gcBonis": "6″",
     "time": "03:26:32",
+    "timeWonlost": "",
     "delta": "00:00:04",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 3,
@@ -30,10 +30,10 @@
     "uci": "",
     "gcBonis": "5″",
     "time": "03:26:33",
+    "timeWonlost": "",
     "delta": "00:00:05",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 4,
@@ -42,10 +42,10 @@
     "uci": "",
     "gcBonis": "4″",
     "time": "03:26:34",
+    "timeWonlost": "",
     "delta": "00:00:06",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 5,
@@ -54,10 +54,10 @@
     "uci": "",
     "gcBonis": "3″",
     "time": "03:26:35",
+    "timeWonlost": "",
     "delta": "00:00:07",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 6,
@@ -66,10 +66,10 @@
     "uci": "",
     "gcBonis": "3″",
     "time": "03:26:35",
+    "timeWonlost": "",
     "delta": "00:00:07",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 7,
@@ -78,10 +78,10 @@
     "uci": "",
     "gcBonis": "1″",
     "time": "03:26:37",
+    "timeWonlost": "",
     "delta": "00:00:09",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 8,
@@ -90,10 +90,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 9,
@@ -102,10 +102,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 10,
@@ -114,10 +114,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 11,
@@ -126,10 +126,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 12,
@@ -138,10 +138,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 13,
@@ -150,10 +150,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 14,
@@ -162,10 +162,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 15,
@@ -174,10 +174,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 16,
@@ -186,10 +186,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 17,
@@ -198,10 +198,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 18,
@@ -210,10 +210,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 19,
@@ -222,10 +222,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 20,
@@ -234,10 +234,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 21,
@@ -246,10 +246,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 22,
@@ -258,10 +258,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 23,
@@ -270,10 +270,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 24,
@@ -282,10 +282,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 25,
@@ -294,10 +294,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 26,
@@ -306,10 +306,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 27,
@@ -318,10 +318,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 28,
@@ -330,10 +330,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 29,
@@ -342,10 +342,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 30,
@@ -354,10 +354,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 31,
@@ -366,10 +366,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 32,
@@ -378,10 +378,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 33,
@@ -390,10 +390,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 34,
@@ -402,10 +402,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 35,
@@ -414,10 +414,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 36,
@@ -426,10 +426,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 37,
@@ -438,10 +438,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 38,
@@ -450,10 +450,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 39,
@@ -462,10 +462,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 40,
@@ -474,10 +474,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 41,
@@ -486,10 +486,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 42,
@@ -498,10 +498,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 43,
@@ -510,10 +510,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 44,
@@ -522,10 +522,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 45,
@@ -534,10 +534,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 46,
@@ -546,10 +546,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 47,
@@ -558,10 +558,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 48,
@@ -570,10 +570,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 49,
@@ -582,10 +582,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 50,
@@ -594,10 +594,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 51,
@@ -606,10 +606,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 52,
@@ -618,10 +618,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 53,
@@ -630,10 +630,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 54,
@@ -642,10 +642,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 55,
@@ -654,10 +654,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 56,
@@ -666,10 +666,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 57,
@@ -678,10 +678,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 58,
@@ -690,10 +690,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 59,
@@ -702,10 +702,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 60,
@@ -714,10 +714,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 61,
@@ -726,10 +726,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 62,
@@ -738,10 +738,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 63,
@@ -750,10 +750,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 64,
@@ -762,10 +762,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 65,
@@ -774,10 +774,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 66,
@@ -786,10 +786,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 67,
@@ -798,10 +798,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 68,
@@ -810,10 +810,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 69,
@@ -822,10 +822,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 70,
@@ -834,10 +834,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 71,
@@ -846,10 +846,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 72,
@@ -858,10 +858,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 73,
@@ -870,10 +870,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 74,
@@ -882,10 +882,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 75,
@@ -894,10 +894,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 76,
@@ -906,10 +906,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 77,
@@ -918,10 +918,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 78,
@@ -930,10 +930,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 79,
@@ -942,10 +942,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 80,
@@ -954,10 +954,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 81,
@@ -966,10 +966,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 82,
@@ -978,10 +978,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 83,
@@ -990,10 +990,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 84,
@@ -1002,10 +1002,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 85,
@@ -1014,10 +1014,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 86,
@@ -1026,10 +1026,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 87,
@@ -1038,10 +1038,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 88,
@@ -1050,10 +1050,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 89,
@@ -1062,10 +1062,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 90,
@@ -1074,10 +1074,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 91,
@@ -1086,10 +1086,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 92,
@@ -1098,10 +1098,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 93,
@@ -1110,10 +1110,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 94,
@@ -1122,10 +1122,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 95,
@@ -1134,10 +1134,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 96,
@@ -1146,10 +1146,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 97,
@@ -1158,10 +1158,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 98,
@@ -1170,10 +1170,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 99,
@@ -1182,10 +1182,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 100,
@@ -1194,10 +1194,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 101,
@@ -1206,10 +1206,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 102,
@@ -1218,10 +1218,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 103,
@@ -1230,10 +1230,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 104,
@@ -1242,10 +1242,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 105,
@@ -1254,10 +1254,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 106,
@@ -1266,10 +1266,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 107,
@@ -1278,10 +1278,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 108,
@@ -1290,10 +1290,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 109,
@@ -1302,10 +1302,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 110,
@@ -1314,10 +1314,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 111,
@@ -1326,10 +1326,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 112,
@@ -1338,10 +1338,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 113,
@@ -1350,10 +1350,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 114,
@@ -1362,10 +1362,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 115,
@@ -1374,10 +1374,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 116,
@@ -1386,10 +1386,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 117,
@@ -1398,10 +1398,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 118,
@@ -1410,10 +1410,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 119,
@@ -1422,10 +1422,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 120,
@@ -1434,10 +1434,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 121,
@@ -1446,10 +1446,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 122,
@@ -1458,10 +1458,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 123,
@@ -1470,10 +1470,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 124,
@@ -1482,10 +1482,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 125,
@@ -1494,10 +1494,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 126,
@@ -1506,10 +1506,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 127,
@@ -1518,10 +1518,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 128,
@@ -1530,10 +1530,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 129,
@@ -1542,10 +1542,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 130,
@@ -1554,10 +1554,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 131,
@@ -1566,10 +1566,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 132,
@@ -1578,10 +1578,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 133,
@@ -1590,10 +1590,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 134,
@@ -1602,10 +1602,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 135,
@@ -1614,10 +1614,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 136,
@@ -1626,10 +1626,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:26:38",
+    "timeWonlost": "",
     "delta": "00:00:10",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 137,
@@ -1638,10 +1638,10 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:29:12",
+    "timeWonlost": "",
     "delta": "00:02:44",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   },
   {
     "rank": 138,
@@ -1650,9 +1650,9 @@
     "uci": "",
     "gcBonis": "",
     "time": "03:30:03",
+    "timeWonlost": "",
     "delta": "00:03:35",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1,
-    "timeWonLost": ""
+    "stage": 1
   }
 ]

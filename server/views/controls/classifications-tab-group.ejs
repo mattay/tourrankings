@@ -1,0 +1,9 @@
+<div class="tabs-container">
+    <div class="tabs-list">
+        <% if (classifications) {
+            classifications.forEach(classification => { %>
+          <button class="tab<% if (classification?.active) { %> active<% } %>" data-classification="<%= classification.type %>"><%= classification.label %></button>
+        <% });
+        } %>
+    </div>
+</div>

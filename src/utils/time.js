@@ -25,6 +25,8 @@ export function stringToSeconds(time) {
  * @returns {string} - The formatted time string.
  */
 export function formatSeconds(number) {
+  if (isNaN(number)) return;
+
   const hours = Math.floor(number / 3600);
   const minutes = Math.floor((number % 3600) / 60);
   const seconds = number % 60;

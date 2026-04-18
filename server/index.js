@@ -35,8 +35,7 @@ async function setupServer(app) {
     app.set("view engine", "ejs");
     app.set("views", join(__dirname, "views"));
   } catch (error) {
-    logError("Server", "Failed to configure server");
-    logError("Server", error);
+    logError("Server", "Failed to configure server", error);
     process.exit(1);
   }
 }
@@ -49,6 +48,21 @@ async function setupServer(app) {
  */
 async function setupRoutes(app) {
   try {
+    // CRITICAL: Serve static files FIRST, before any route handlers
+    app.use(
+      express.static(config.paths.public, {
+        // Enable caching for better performance
+        maxAge: config.env === "production" ? "1d" : "1h",
+        setHeaders: (res, path) => {
+          if (path.endsWith(".css")) {
+            res.set("Content-Type", "text/css");
+            // Prevent FOUC by ensuring CSS loads before render
+            res.set("Cache-Control", "public, max-age=31536000");
+          }
+        },
+      }),
+    );
+
     // Mount API routes under /api
     app.use("/api", routesAPI);
 
@@ -58,8 +72,6 @@ async function setupRoutes(app) {
     // Mount view routes at the application level
     app.use("/", routesRoot);
 
-    // Serve static files from the public directory
-    app.use(express.static(config.paths.public));
     // Add 404 handler for undefined routes
     app.use((req, res) => {
       res.status(404).render("pages/error", {
@@ -68,8 +80,7 @@ async function setupRoutes(app) {
       });
     });
   } catch (error) {
-    logError("Server", "Failed to configure routes");
-    logError("Server", error);
+    logError("Server", "Failed to configure routes", error);
     process.exit(1);
   }
 }
@@ -86,8 +97,7 @@ async function startServer(app) {
       logOut("Server", `Running on port ${config.port} in ${config.env} mode`);
     });
   } catch (error) {
-    logError("Server", "Failed to start server");
-    logError("Server", error);
+    logError("Server", "Failed to start server", error);
     process.exit(1);
   }
 }

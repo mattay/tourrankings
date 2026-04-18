@@ -3,20 +3,36 @@ import store from "./state/storeInstance";
 import { setupSelectors } from "./state/selectors";
 import { fetchRaceData } from "./api/index.js";
 // Utils
-import { getRaceInfoFromUrlPath } from "./utils";
+import { getRaceInfoFromUrlPath } from "./state/browser/location";
 import { parseRaceContent } from "./utils/parse";
 // Components
 import { Race } from "./components/race/race.js";
+import { updatePageHeadings } from "./components/page/title";
+import {
+  setupClassificationTabs,
+  updateClassificationTabs,
+} from "./components/page/classification-tabs";
+import { updateUrl } from "./state/browser/history";
+import {
+  CLASSIFICATION_TYPES,
+  isValidClassificationType,
+} from "src/core/cycling/classification/classification";
 
 /**
  * Main application class for the Tour Ranking app.
  * Manages state, data fetching, and component initialization.
  */
 class tourRankingApp {
+  /**
+   * @type {Function} Unsubscribe function for the store subscription
+   */
+  #unsubscribe;
+
   constructor() {
     setupSelectors();
     this.race = new Race("race-rankings"); // Initialize components (SVG + D3)
     this.setupControls();
+    this.setupDOMSubscription(); // Subscribe to state changes for DOM updates
     this.init(); // Start the application
   }
 
@@ -24,17 +40,23 @@ class tourRankingApp {
    * Sets up UI controls for changing view and chart types.
    */
   setupControls() {
-    // Set up controls for changing view type
-    // document
-    //   .getElementById("btn-stage-results")
-    //   .addEventListener("click", () => {
-    //     changeViewType("stageResults");
-    //   });
-    // // Set up controls for changing chart type
-    // const chartTypeSelect = document.getElementById("chart-type-select");
-    // chartTypeSelect.addEventListener("change", (e) => {
-    //   changeChartType(e.target.value);
-    // });
+    setupClassificationTabs();
+  }
+
+  /**
+   * Sets up subscription to state changes for DOM modifications outside SVG
+   * @returns {void}
+   */
+  setupDOMSubscription() {
+    this.#unsubscribe = store.subscribe((state) => {
+      try {
+        updateUrl(state);
+        updatePageHeadings(state);
+        updateClassificationTabs(state);
+      } catch (error) {
+        console.error("Failed to update page headings:", error);
+      }
+    });
   }
 
   /**
@@ -43,13 +65,15 @@ class tourRankingApp {
   async init() {
     try {
       // Update state
-      const { raceID, year, stage, ranking } = getRaceInfoFromUrlPath();
+      const { raceID, year, stage, classification } = getRaceInfoFromUrlPath();
       store.setState({
         isLoading: true,
         currentRaceId: raceID,
         currentYear: year,
         currentStage: stage,
-        currentRanking: ranking || "results",
+        currentClassification: isValidClassificationType(classification)
+          ? classification
+          : CLASSIFICATION_TYPES.STAGE,
       });
 
       // Fetch data
@@ -65,6 +89,19 @@ class tourRankingApp {
     } catch (error) {
       console.error("Failed to initialize race app:", error);
       store.setState({ error: error.message, isLoading: false });
+    }
+  }
+
+  /**
+   * Clean up subscriptions when the app is destroyed
+   * @returns {void}
+   */
+  destroy() {
+    if (this.#unsubscribe) {
+      this.#unsubscribe();
+    }
+    if (this.race) {
+      this.race.destroy();
     }
   }
 }

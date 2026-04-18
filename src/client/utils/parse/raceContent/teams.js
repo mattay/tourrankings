@@ -1,6 +1,6 @@
 /**
- * @typedef {import('./teams.d').RawTeam} RawTeam
- * @typedef {import('./teams.d').Team} Team
+ * @typedef {import('./@types/teams').RawTeam} RawTeam
+ * @typedef {import('./@types/teams').Team} Team
  */
 
 /**

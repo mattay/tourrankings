@@ -3,9 +3,9 @@ import { logError, logOut } from "../../src/utils/logging.js";
 import { sortByDate } from "../utils/sorts.js";
 
 /**
- * @typedef {import('./raceController.d.js').TemporalSeasonRaces} TemporalSeasonRaces
- * @typedef {import('./raceController.d.js').RaceContent} RaceContent
- * @typedef {import('./raceController.d.js').RaceResults} RaceResults
+ * @typedef {import('./@types/raceController.js').TemporalSeasonRaces} TemporalSeasonRaces
+ * @typedef {import('./@types/raceController.js').RaceContent} RaceContent
+ * @typedef {import('./@types/raceController.js').RaceResults} RaceResults
  */
 
 /**
@@ -68,8 +68,6 @@ export function raceContent(racePcsID, year = null) {
   const today = new Date();
   year = year ? year : today.getFullYear();
 
-  logOut("raceContent", `Fetching race content for ${racePcsID} ${year}`);
-
   const raceContent /** @type {RaceContent} */ = {
     race: dataService.raceDetails({ racePcsID, year }),
     stages: [],
@@ -77,6 +75,13 @@ export function raceContent(racePcsID, year = null) {
     teams: {},
     riders: {},
     results: [],
+    classifications: {
+      general: [],
+      points: [],
+      mountain: [],
+      youth: [],
+      team: [],
+    },
   };
 
   if (!raceContent.race?.raceUID) {
@@ -100,6 +105,7 @@ export function raceContent(racePcsID, year = null) {
 
     stage.stage = Number(stage.stage);
     stage.raced = false;
+    stage.veiwing = false;
     if (new Date(stage.date) <= today) {
       stage.raced = true;
       // Looking for most recent stages to default to
@@ -135,28 +141,34 @@ export function raceContent(racePcsID, year = null) {
     };
   }
 
-  // TODO: Add race results and classification to race RaceContent
-  // We want to group the results by rider, ie the line
   // ---
-  // resutls: [rider : stageResult[]]
+  // results: [rider : stageResult[]]
   // classification: {type: rider[ stageClasifications[] ]}
   // ---
-  // Collect Stages
   // Results
   const rr = dataService.raceResults(raceUID);
   raceContent.results = groupStagesByRider(rr);
-
   // GC
+  const general = dataService.raceClassificationsGeneral(raceUID);
+  raceContent.classifications.general = groupStagesByRider(general);
   // Points
+  const points = dataService.raceClassificationsPoints(raceUID);
+  raceContent.classifications.points = groupStagesByRider(points);
   // Mountain
+  const mountain = dataService.raceClassificationsMountain(raceUID);
+  raceContent.classifications.mountain = groupStagesByRider(mountain);
   // Youth
+  const youth = dataService.raceClassificationsYouth(raceUID);
+  raceContent.classifications.youth = youth;
   // Team
+  const team = dataService.raceClassificationsTeams(raceUID);
+  raceContent.classifications.team = team;
 
   return raceContent;
 }
 
 /**
- * Regroup stage: rider resutls -> rider: stage results
+ * Regroup stage: rider results -> rider: stage results
  * @param {StagesRiderResults} raceResults
  * @returns {RidersStageResults}
  */

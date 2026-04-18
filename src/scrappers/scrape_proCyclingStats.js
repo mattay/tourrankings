@@ -173,7 +173,7 @@ function stagesWithoutResults(races, raceStages, raceStageResults) {
       const stageDate = new Date(stage.date);
       return (
         stageDate <= today &&
-        raceStageResults.getStageResults(stage.stageUID).length === 0
+        raceStageResults.getStageRankings(stage.stageUID ?? []).length === 0
       );
     })
     .map((stage) => stage.stageUID);
@@ -362,8 +362,8 @@ async function updateStageResults(
       const stageResults = await scrapeRaceStageResults(
         page,
         race,
-        year,
-        stageNo,
+        Number(year),
+        Number(stageNo),
       );
       // Collect Results for bulk update
       for (let ranking in stageResults) {

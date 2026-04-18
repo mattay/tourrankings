@@ -1,5 +1,5 @@
-import { logError } from "../../utils/logging.js";
-import CSVdataModel from "../dataModel_csv.js";
+import { logError } from "../../utils/logging";
+import CSVdataModel from "../dataModel_csv";
 
 /** @typedef {import('../@types/races').RaceStageModel} RaceStageModel*/
 
@@ -69,7 +69,7 @@ export class RaceStages extends CSVdataModel {
    */
   stagesInRace(raceUID) {
     if (!raceUID) {
-      logError("RaceStages", "raceUID is required for stagesInRace()");
+      logError(this.constructor.name, "raceUID is required for stagesInRace()");
       return null;
     }
     return this.rows.filter((row) => row.raceUID == raceUID);

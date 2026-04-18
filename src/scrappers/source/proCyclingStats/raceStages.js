@@ -73,7 +73,7 @@ export async function scrapeRaceStages(page, race, year) {
         timeout: 1200,
       })
       .catch((exception) => {
-        logError("scrapeStages page-content", exception);
+        logError("scrapeStages", "page-content", exception);
         throw exception;
       });
 
@@ -116,10 +116,7 @@ export async function scrapeRaceStages(page, race, year) {
 
     return data.map((record) => cleanRecord(record));
   } catch (exception) {
-    logError("scrapeStages", url);
-    logError("scrapeStages", exception.name);
-    logError("scrapeStages", exception.message);
-
+    logError("scrapeStages", url, exception);
     throw exception;
   }
 }

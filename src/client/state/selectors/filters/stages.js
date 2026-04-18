@@ -1,11 +1,12 @@
 /**
- * @typedef {import('../../store/store.d').State} State
+ * @typedef {import('../../store/@types/store').State} State
+ * @typedef {import('../@types/stage').FilteredStage } FilteredStage
  */
 
 /**
  *
  * @param {State} state -
- * @returns {Object}
+ * @returns {Array<FilteredStage>}
  */
 export function raceStages(state) {
   if (!state.raceData || !state.currentStage) return null;

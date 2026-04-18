@@ -13,7 +13,7 @@
  */
 
 /**
- * @typedef {import('./riders.d').Rider} Rider
+ * @typedef {import('./riders').Rider} Rider
  */
 
 /**

@@ -1,14 +1,6 @@
 /** <reference types="d3" /> */
 
-/**
- * @typedef {Object} RiderDatum
- * @property {number|string} bib - Unique rider bib number or identifier
- * @property {string} rider - Rider name or label
- * @property {boolean} [raced] - Optional flag if rider has raced
- * @property {boolean} [viewed] - Optional flag if rider has been viewed
- * @property {number} [positionX] - Optional X coordinate for layout
- * @property {number} [positionY] - Optional Y coordinate for layout
- */
+/** @typedef {import('../../state/selectors/@types/rider').FilteredStageRider} RiderDatum */
 
 /**
  * Options for creating the rider component.
@@ -52,7 +44,11 @@ export function createRiderComponent({
     riderEnter
       .attr("class", "rider")
       .style("opacity", 0)
-      .attr("transform", (d, i) => `translate(${xScale(stage)}, ${yScale(i)})`)
+      .attr(
+        "transform",
+        (d, i) =>
+          `translate(${xScale(d.lastStage) + offsets.text}, ${yScale(d.stageRankings.result)})`,
+      )
       .on("click", (event, d) => onRiderClick(d));
 
     riderEnter
@@ -73,14 +69,19 @@ export function createRiderComponent({
   const updateRidersGroup = (riderSelection) => {
     riderSelection
       .transition()
-      .delay((d, i) => 420 + i * 5)
+      .delay((d, i) => 420 + d.stageRankings.result * 5)
       .duration(transitionDuration)
       .ease(d3.easeQuadInOut)
-      // TODO: have data ordered by ranking for given stage
-      .attr("transform", (d, i) => `translate(${xScale(stage)}, ${yScale(i)})`)
+      .attr("transform", (d, i) => {
+        if (isNaN(d.stageRankings.result)) {
+          console.log(d);
+        }
+        return `translate(${xScale(d.lastStage) + offsets.text}, ${yScale(d.stageRankings.result)})`;
+      })
       .style("opacity", 1)
       .attr("class", (d) => {
         let classes = "rider";
+        if (d.abandoned) classes += " abandoned";
         return classes;
       });
 

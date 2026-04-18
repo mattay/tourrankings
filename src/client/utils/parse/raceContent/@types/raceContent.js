@@ -1,9 +1,9 @@
 /**
- * @typedef {import('./race.d').RawRace} RawRace
- * @typedef {import('./stage.d').RawStage} RawStage
- * @typedef {import('./teams.d').RawRaceTeams} RawRaceTeams
- * @typedef {import('./riders.d').RawRaceRiders} RawRaceRiders
- * @typedef {import('./results.d').RawRaceResults} RawRaceResults
+ * @typedef {import('./race').RawRace} RawRace
+ * @typedef {import('./stages').RawStage} RawStage
+ * @typedef {import('./teams').RawRaceTeams} RawRaceTeams
+ * @typedef {import('./riders').RawRaceRiders} RawRaceRiders
+ * @typedef {import('./results').RawRaceResults} RawRaceResults
  */
 
 /**
@@ -17,11 +17,11 @@
  */
 
 /**
- * @typedef {import('./race.d').Race} Race
- * @typedef {import('./stage.d').Stage} Stage
- * @typedef {import('./teams.d').RaceTeams} RaceTeams
- * @typedef {import('./riders.d').RaceRiders} RaceRiders
- * @typedef {import('./results.d').RaceResults} RaceResults
+ * @typedef {import('./race').Race} Race
+ * @typedef {import('./stages').Stage} Stage
+ * @typedef {import('./teams').RaceTeams} RaceTeams
+ * @typedef {import('./riders').RaceRiders} RaceRiders
+ * @typedef {import('./results').RaceResults} RaceResults
  */
 
 /**

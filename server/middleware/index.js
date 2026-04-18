@@ -26,10 +26,7 @@ export default function setupMiddleware(app) {
    * @param {import('express').NextFunction} next
    */
   app.use((req, res, next) => {
-    logOut(
-      "Middleware",
-      `[${new Date().toISOString()}] ${req.method} ${req.url}`,
-    );
+    logOut("Middleware", `${req.method} ${req.url}`);
     next();
   });
 
@@ -39,21 +36,24 @@ export default function setupMiddleware(app) {
 
   // Compress responses (gzip only; Brotli not supported in Bun as of 2025-03-17)
   // Uncomment below if/when Bun supports zlib.createBrotliCompress
-  /*
   app.use(
     compression({
       // Force gzip only, don't try to use Brotli
       level: 6, // compression level (1-9)
       strategy: 0, // compression strategy
       filter: (req, res) => {
-        // Only compress responses above a certain size
-        return req.headers["x-no-compression"]
-          ? false
-          : compression.filter(req, res);
+        // Don't compress if specifically requested not to
+        if (req.headers["x-no-compression"]) {
+          return false;
+        }
+        // Always compress CSS files for faster delivery
+        if (req.url.endsWith(".css")) {
+          return true;
+        }
+        return compression.filter(req, res);
       },
     }),
   );
-  */
 
   // Apply security middleware (custom)
   setupSecurityMiddleware(app);

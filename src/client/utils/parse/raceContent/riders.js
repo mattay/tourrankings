@@ -1,6 +1,6 @@
 /**
- * @typedef {import('./riders.d').RawRider} RawRider
- * @typedef {import('./riders.d').Rider} Rider
+ * @typedef {import('./@types/riders').RawRider} RawRider
+ * @typedef {import('./@types/riders').Rider} Rider
  */
 
 /**

@@ -1,8 +1,8 @@
 import path from "path";
 import fs from "fs";
 import csv from "csv-parser";
-import { toCamelCase } from "../utils/string.js";
-import { logError, logOut } from "../utils/logging.js";
+import { toCamelCase } from "../utils/string";
+import { logError, logOut } from "../utils/logging";
 import { dirname } from "path";
 
 /**
@@ -161,8 +161,11 @@ class CSVdataModel {
         //   "debug",
         // );
       } catch (error) {
-        logError(this.constructor.name, `Failed to write to ${this.filePath}`);
-        logError(this.constructor.name, error.message);
+        logError(
+          this.constructor.name,
+          `Failed to write to ${this.filePath}`,
+          error,
+        );
         reject(error);
       }
       resolve();
@@ -214,7 +217,10 @@ class CSVdataModel {
     const failed = [];
     // Check if results are valid
     updates.forEach((entry) => {
-      const indexed = this.indexOn.every((key) => Object.hasOwn(entry, key));
+      // const indexed = this.indexOn.every((key) => Object.hasOwn(entry, key));
+      const indexed = this.indexOn.every(
+        (key) => entry[key] != null && entry[key] !== "",
+      );
 
       if (indexed) {
         validated.push(entry);

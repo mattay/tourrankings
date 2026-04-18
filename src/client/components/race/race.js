@@ -1,11 +1,16 @@
 // import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 // State Managment
-import store from "src/client/state/storeInstance";
-import { actionSelectStage } from "src/client/state/actions";
+import store from "../../state/storeInstance";
+import { actionSelectStage } from "../../state/actions";
+import {
+  StoreSelectorError,
+  StoreSelectorExecutionError,
+} from "../../state/errors/store";
 // Components
 import { createStageComponent } from "../stage/stage";
 import { createRiderComponent } from "../rider/rider";
+import { createRankingComponent } from "../ranking/ranking";
 // Utils
 
 /**
@@ -15,9 +20,10 @@ import { createRiderComponent } from "../rider/rider";
 /**
  * @typedef {CustomEvent<import('../../api/@types').RaceContent>} RaceContent
  */
-/** @typedef {Array<import('../../utils/parse/raceContent/stage.d').Stage>} Stage */
-/** @typedef {Array<import('../../utils/parse/raceContent/riders.d').Rider>} Rider */
-/** @typedef {Array<import('../../utils/parse/raceContent/results.d').Results>} Results */
+
+/** @typedef {import('../../state/selectors/@types/stage').FilteredStage} FilteredStage */
+/** @typedef {import('../../state/selectors/@types/rider').FilteredStageRider} FilteredStageRider */
+/** @typedef {import('../../state/selectors/@types/result').FilteredStageResult} FilteredStageResult */
 
 /**
  * @typedef {Object} Margin
@@ -51,11 +57,13 @@ const DEFAULT_OPTIONS = {
  * Represents a race visualization, managing layout and rendering of stages and rankings.
  */
 export class Race {
-  /** @type {Array<Stage>} */
+  /** @type {Array<FilteredStage>} */
   dataStages = [];
-  /** @type {Array<Rider>} */ // Adjust path/type as needed
+
+  /** @type {Array<FilteredStageRider>} */ // Adjust path/type as needed
   dataRiders = [];
-  /** @type {Array<Ranking>} */ // Adjust path/type as needed
+
+  /** @type {Array<FilteredStageResult>} */ // Adjust path/type as needed
   dataRankings = [];
   /** @type {number | null} */ // Adjust as needed
   dataViewStage = null;
@@ -88,7 +96,7 @@ export class Race {
     this.coordinates = this.calculateCoordinates();
     this.offsets = {
       radius: 12,
-      text: 4,
+      text: 8,
     };
 
     this.initialize();
@@ -135,6 +143,15 @@ export class Race {
         `translate(${this.coordinates.rankings.left}, ${this.containerHeight(this.coordinates.stages)})`,
       );
 
+    // Rankings
+    this.containerRankings = this.svg
+      .append("g")
+      .attr("class", "ranking-container")
+      .attr(
+        "transform",
+        `translate(${this.coordinates.rankings.left}, ${this.containerHeight(this.coordinates.stages)})`,
+      );
+
     // Event Listeners
     window.addEventListener("resize", () => {
       this.resize();
@@ -148,9 +165,21 @@ export class Race {
    * @property {Array} dataRankings - Current rankings data.
    */
   updateData() {
-    this.dataStages = store.select("raceStages");
-    this.dataRiders = store.select("riders");
-    this.dataRankings = store.select("rankings");
+    try {
+      this.dataStages = store.select("raceStages", []);
+      this.dataRiders = store.select("riders", []);
+      this.dataRankings = store.select("rankings", []);
+    } catch (error) {
+      if (
+        error instanceof StoreSelectorError ||
+        error instanceof StoreSelectorExecutionError
+      ) {
+        throw error;
+      } else {
+        console.error("Unexpected error updating data:", error);
+        // TODO handle Unexpected Error - error;
+      }
+    }
   }
 
   /**
@@ -290,6 +319,18 @@ export class Race {
     });
 
     riderComponent(this.containerRiders, this.dataRiders);
+
+    const rankingComponent = createRankingComponent({
+      xScale: this.xScaleStages,
+      yScale: this.yScaleRiders,
+      offsets: this.offsets,
+      stage: this.dataViewStage,
+      onRiderClick: (rider) => {
+        console.log("Rider clicked:", rider); // Future Feature
+      },
+    });
+
+    rankingComponent(this.containerRankings, this.dataRankings);
   }
 
   /**

@@ -1,6 +1,6 @@
 /**
- * @typedef {import('./stage.d').RawStage} RawStage
- * @typedef {import('./stage.d').Stage} Stage
+ * @typedef {import('./@types/stages').RawStage} RawStage
+ * @typedef {import('./@types/stages').Stage} Stage
  */
 
 /**

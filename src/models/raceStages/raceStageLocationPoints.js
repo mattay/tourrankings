@@ -1,4 +1,4 @@
-import CSVdataModel from "../dataModel_csv.js";
+import CSVdataModel from "../dataModel_csv";
 
 /**
  * @typedef {import('../@types/races').RaceStageLocationPointModel} RaceStageLocationPointModel

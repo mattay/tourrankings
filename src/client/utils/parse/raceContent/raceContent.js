@@ -6,8 +6,8 @@ import { parseRider } from "./riders";
 
 /**
  * Process and prepare race data for visualization
- * @param {import('./raceContent.d').RawRaceContent } rawData - Raw data from API
- * @returns {import('./raceContent.d').RaceContent} Processed race data ready for D3 visualization.
+ * @param {import('./@types/raceContent').RawRaceContent } rawData - Raw data from API
+ * @returns {import('./@types/raceContent').RaceContent} Processed race data ready for D3 visualization.
  */
 export function parseRaceContent(rawData) {
   // Convert objects to Maps for better data handling

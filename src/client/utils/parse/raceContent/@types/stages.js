@@ -11,8 +11,9 @@
  * @property {string} arrival - The arrival location of the stage.
  * @property {number} distance - The distance of the stage in kilometers.
  * @property {number} verticalMeters - The vertical meters of the stage.
- * @property {string} stagePcsUrl -
- * @property {boolean} raced -
+ * @property {string} stagePcsUrl - The URL to the stage on procyclingstats.com.
+ * @property {boolean} raced - Indicates if the stage has been raced.
+ * @property {boolean} viewing - Indicates if the stage is available for viewing.
  */
 
 /**
@@ -34,8 +35,9 @@
  * @property {string} arrival - The arrival location of the stage.
  * @property {number} distance - The distance of the stage in kilometers.
  * @property {number} verticalMeters - The vertical meters of the stage.
- * @property {string} stagePcsUrl -
- * @property {boolean} raced -
+ * @property {string} stagePcsUrl - The URL to the stage on procyclingstats.com.
+ * @property {boolean} raced - Indicates if the stage has been raced.
+ * @property {boolean} viewing - Indicates if the stage is available for viewing.
  */
 
 /**

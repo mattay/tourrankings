@@ -1,15 +1,15 @@
-import { Page } from "puppeteer-core";
 import { generateId } from "../../../utils/idGenerator";
 import { renameKeys } from "../../../utils/object";
 import { toCamelCase } from "../../../utils/string";
 import { addTime, formatSeconds } from "../../../utils/time";
+import { logError, logOut } from "../../../utils/logging";
 
 /**
- * @param {Array<Object>} table - The table to clean up.
- * @param {Object} additionalValues - Additional values to add to each row.
- * @returns {Array<Object>} The cleaned up table.
+ * Renames the scraped column name
+ * @param {string} column - the html column name
+ * @returns {string} - the column name to be used when stored
  */
-function cleanUpStageTable(table, additionalValues) {
+function tableHeaders(column) {
   const rename = {
     Rnk: "Rank",
     Pnt: "Points",
@@ -17,19 +17,27 @@ function cleanUpStageTable(table, additionalValues) {
     "": "Bonis",
     Prev: "Previous Stage Ranking",
     "#": "Rank",
+    BIB: "Bib",
   };
+
+  return rename[column] || column;
+}
+
+/**
+ * @param {Array<Object>} table - The table to clean up.
+ * @param {Object} additionalValues - Additional values to add to each row.
+ * @returns {Array<Object>} The cleaned up table.
+ */
+function cleanUpStageTable(table, additionalValues) {
+  const drop = ["H2H", "Specialty", "Age"];
 
   return table
     .sort((a, b) => {
       return parseInt(a.Rnk) - parseInt(b.Rnk);
     })
     .map((row, index, rankings) => {
-      for (const key in rename) {
-        if (Object.hasOwn(row, key)) {
-          row[rename[key]] = row[key];
-          delete row[key];
-        }
-      }
+      row = renameKeys(row, tableHeaders);
+      // console.log(row);
 
       // ▼▲
       if (Object.hasOwn(row, "Change")) {
@@ -58,21 +66,32 @@ function cleanUpStageTable(table, additionalValues) {
           const firstPosition = rankings[0];
           const previousPosition = rankings[index - 1];
 
-          if (row["Time"] == ",,") {
+          if (row["Time"] == "-") {
+            // Rider Abandoned
+            row["Time"] = null;
+          } else if (row["Time"] == ",,") {
             // Same time a previous
             row["Delta"] = previousPosition["Delta"];
           } else {
             row["Delta"] = row["Time"];
           }
+
           row["Time"] = formatSeconds(
             addTime(firstPosition["Time"], row["Delta"]),
           );
         }
       }
 
-      // Not needed.
-      if (Object.hasOwn(row, "H2H")) {
-        delete row["H2H"];
+      // Drop not needed
+      for (const column of drop) {
+        if (Object.hasOwn(row, column)) {
+          delete row[column];
+        }
+      }
+
+      // Drop Team
+      if (Object.hasOwn(row, "Bib") && Object.hasOwn(row, "Team")) {
+        delete row["Team"];
       }
 
       // Format values
@@ -83,7 +102,8 @@ function cleanUpStageTable(table, additionalValues) {
           case "Rank":
           case "Previous Stage Ranking":
           case "GC":
-          case "BIB":
+          case "Bib":
+          case "UCI":
           case "Age":
           case "Points":
           case "Today":
@@ -187,7 +207,7 @@ function cleanUpStages(tables, stageUID, stage) {
     const tab = resultsIndex[index].tab || null;
 
     // Accumulated times and points rankings
-    if (tab && tables[index].hasOwnProperty("general")) {
+    if (tab && Object.hasOwn(tables[index], "general")) {
       const general = cleanUpStageTable(tables[index]["general"], {
         stageUID,
         stage,
@@ -204,7 +224,7 @@ function cleanUpStages(tables, stageUID, stage) {
 
     if (
       tab &&
-      tables[index].hasOwnProperty("today") &&
+      Object.hasOwn(tables[index], "today") &&
       tables[index]["today"].length > 0
     ) {
       for (let i = 0; i < tables[index]["today"].length; i += 1) {
@@ -262,10 +282,10 @@ function cleanUpStages(tables, stageUID, stage) {
 
 /**
  *
- * @param {Page} page - Page object from Puppeteer
+ * @param {import('puppeteer-core').Page} page - Page object from Puppeteer
  * @param {string} race - Race name
- * @param {number|string} year - Year of the race
- * @param {number|string} stage - Stage number
+ * @param {number} year - Year of the race
+ * @param {number} stage - Stage number
  */
 export async function scrapeRaceStageResults(page, race, year, stage) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/stage-${stage}`;
@@ -283,9 +303,10 @@ export async function scrapeRaceStageResults(page, race, year, stage) {
         timeout: 1200,
       })
       .catch((exception) => {
-        console.error(
-          exception.name,
+        logError(
+          "scrapeRaceStageResults",
           `Exception in scrapeStage waiting for  selector '.page-content' on '${url}'`,
+          exception,
         );
         return null;
       });

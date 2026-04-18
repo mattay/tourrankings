@@ -123,8 +123,8 @@ export async function scrapeRaces(page, url, year) {
       .map((record) => cleanRecord(record))
       .filter((record) => record !== null);
   } catch (exception) {
-    logError("Races cleanRecord", url);
-    logError("Races cleanRecord", exception);
+    logError("Races cleanRecord", url, exception);
+
     return null;
   }
 }

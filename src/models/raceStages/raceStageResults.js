@@ -1,4 +1,5 @@
-import CSVdataModel from "../dataModel_csv.js";
+import { logError } from "../../utils/logging";
+import CSVdataModel from "../dataModel_csv";
 
 /**
  * @typedef {import('../@types/races').RaceStageResultModel} RaceStageResultModel
@@ -58,9 +59,9 @@ export class RaceStageResults extends CSVdataModel {
    * @param {string} stageUID - The ID of the stage.
    * @returns {RaceStageResultModel[]|null} - A promise that resolves to an array of stage results.
    */
-  getStageResults(stageUID) {
+  getStageRankings(stageUID) {
     if (!stageUID) {
-      console.error("stageId is required for getStageResults()");
+      logError(this.constructor.name, "getStageRankings expects stageUID");
       return null;
     }
 

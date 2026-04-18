@@ -27,9 +27,9 @@ async function buildClient() {
     } else {
       console.warn("Build completed but no output files were generated.");
     }
-  } catch (err) {
-    console.error("Build failed:", err);
-    process.exit(1);
+  } catch (error) {
+    console.error("Build failed:", error);
+    throw error;
   }
 }
 

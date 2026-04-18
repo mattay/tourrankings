@@ -21,7 +21,7 @@ import {
  * @property {number|string} [uci] - UCI points (gc only)
  * @property {string} [gcBonis] - Bonus seconds (gc only)
  * @property {string} time - Finish time
- * @property {string} timeWonlost - Time gained/lost
+ * @property {string} timeWonLost - Time gained/lost
  * @property {string} delta - Time gap
  * @property {string} stageUID - Stage unique ID
  * @property {number} stage - Stage number

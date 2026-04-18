@@ -70,32 +70,22 @@ describe.each([
   });
 
   test("Should match expected general classification", async () => {
-    // const raceGeneralClassification =
-    //   await scrapeFromHtmlRacesClassificationGeneral(html, data.year);
     expect(stageClassificationResults.gc).toEqual(expectedGeneral);
   });
 
   test("Should match expected mountains classification", async () => {
-    // const raceMountainsClassification =
-    // await scrapeFromHtmlRacesClassificationMountains(html, data.year);
     expect(stageClassificationResults.kom).toEqual(expectedMountains);
   });
 
   test("Should match expected points classification", async () => {
-    // const racePointsClassification =
-    //   await scrapeFromHtmlRacesClassificationPoints(html, data.year);
     expect(stageClassificationResults.points).toEqual(expectedPoints);
   });
 
   test("Should match expected teams classification", async () => {
-    // const raceTeamsClassification =
-    // await scrapeFromHtmlRacesClassificationTeams(html, data.year);
     expect(stageClassificationResults.teams).toEqual(expectedTeams);
   });
 
   test("Should match expected youth classification", async () => {
-    // const raceYouthClassification =
-    // await scrapeFromHtmlRacesClassificationYouth(html, data.year);
     expect(stageClassificationResults.youth).toEqual(expectedYouth);
   });
 });

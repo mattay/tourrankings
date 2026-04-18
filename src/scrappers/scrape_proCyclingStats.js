@@ -126,7 +126,7 @@ async function collectRace(racePcsID, year) {
         for (let rider of team.riders) {
           riders.push({
             raceUID: generateId.race(racePcsID, year),
-            teamPcsId: team.teamPcsId,
+            teamPcsId: team.pcsId,
             ...rider,
           });
         }

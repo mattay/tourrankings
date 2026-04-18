@@ -2,7 +2,7 @@ import { renameKeys } from "@utils/object";
 import { toCamelCase } from "@utils/string";
 import { stringToSeconds } from "@utils/time";
 import { logError, logOut } from "@utils/logging";
-import { fetchHtml, fetchHtmlWithCache } from "@scrappers/html/fetch";
+import { fetchHtmlWithCache } from "@scrappers/html/fetch";
 import { htmlDOM } from "@scrappers/html/domParser";
 import {
   dropColumns,
@@ -563,9 +563,7 @@ export async function scrapeRaceStageResults(race, stageDetails) {
   const cachePattern = `${race}-${stageDetails.year}-${urlStage}`;
 
   try {
-    const htmlContent = await fetchHtmlWithCache(url, {
-      cachePattern: `${race}/${stageDetails.year}/${urlStage}`,
-    });
+    const htmlContent = await fetchHtmlWithCache(url, { cachePattern });
     if (
       !htmlContent ||
       typeof htmlContent.html !== "string" ||

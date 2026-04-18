@@ -600,6 +600,8 @@ export function extractStageClassificationResultsFromHTML(
  * Scrape race stage results from ProCyclingStats
  * @param {string} race - Race name
  * @param {StageDetails} stageDetails - Stage details
+ * @returns {Promise<StageResults|null>} Stage results or null on empty/invalid HTML
+ * @throws {Error} Throws if network or parsing fails
  */
 export async function scrapeRaceStageResults(race, stageDetails) {
   const urlStage =
@@ -609,18 +611,15 @@ export async function scrapeRaceStageResults(race, stageDetails) {
 
   try {
     const htmlContent = await fetchHtmlWithCache(url, { cachePattern });
-    if (
-      !htmlContent ||
-      typeof htmlContent.html !== "string" ||
-      htmlContent.html === ""
-    ) {
+    if (!htmlContent?.html || htmlContent.html === "") {
       logError(
         "Scrape PCS - Stage Results",
         "Empty or invalid HTML response",
         null,
         { url },
       );
-      return [];
+
+      return null;
     }
 
     return extractStageClassificationResultsFromHTML(

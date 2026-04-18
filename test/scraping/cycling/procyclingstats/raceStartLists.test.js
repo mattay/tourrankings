@@ -74,12 +74,19 @@ describe.each(STARTLIST_TEST_CASES)(
     });
 
     afterAll(async () => {
-      process.env.DATA_DIR = originalDataDir;
+      // Restore original DATA_DIR state properly
+      if (originalDataDir === undefined) {
+        delete process.env.DATA_DIR;
+      } else {
+        process.env.DATA_DIR = originalDataDir;
+      }
       try {
         await Bun.file(`${TEST_DATA_DIR}/teams.csv`).delete();
         await Bun.file(`${TEST_DATA_DIR}/riders.csv`).delete();
         await Bun.file(`${TEST_DATA_DIR}/raceRiders.csv`).delete();
-      } catch {}
+      } catch (error) {
+        console.error(`Failed to delete test CSV files:`, error);
+      }
     });
 
     test("Teams - Should write correct CSV headers", async () => {

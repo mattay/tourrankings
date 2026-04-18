@@ -54,10 +54,17 @@ describe.each(STAGES_TEST_CASES)("Stages [$year $race] save CSV", (data) => {
   });
 
   afterAll(async () => {
-    process.env.DATA_DIR = originalDataDir;
+    // Restore original DATA_DIR state properly
+    if (originalDataDir === undefined) {
+      delete process.env.DATA_DIR;
+    } else {
+      process.env.DATA_DIR = originalDataDir;
+    }
     try {
       await Bun.file(`${TEST_DATA_DIR}/raceStages.csv`).delete();
-    } catch {}
+    } catch (error) {
+      console.error(`Failed to delete ${TEST_DATA_DIR}/raceStages.csv:`, error);
+    }
   });
 
   test("Should write correct CSV headers", async () => {

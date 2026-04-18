@@ -83,7 +83,7 @@ async function collectRace(racePcsID, year) {
       // Race stages
       const stagesInRace = await scrapeRaceStages(racePcsID, year);
 
-      if (stagesInRace) {
+      if (Array.isArray(stagesInRace) && stagesInRace.length > 0) {
         stages.push(...stagesInRace);
       } else {
         logError("Scrape PCS - Race Stages", "No stages found");
@@ -102,18 +102,20 @@ async function collectRace(racePcsID, year) {
   if (!parseBool(process.env.FEATURE_DISABLED_STARTLIST, false)) {
     // Race start list - Teams and Riders
     logOut("Scrape PCS - Race Startlist", `${year} ${racePcsID}`);
-    const raceStartlist = await scrapeRaceStartList(racePcsID, year).catch(
-      (exception) => {
-        logError(
-          "Scrape PCS - Race Startlist",
-          `Failed to collect startlist`,
-          exception,
-        );
-      },
-    );
+    let raceStartlist;
+    try {
+      raceStartlist = await scrapeRaceStartList(racePcsID, year);
+    } catch (exception) {
+      logError(
+        "Scrape PCS - Race Startlist",
+        "Failed to collect startlist",
+        exception,
+      );
+      throw exception;
+    }
 
-    // Add race and team to rider
-    if (raceStartlist) {
+    if (Array.isArray(raceStartlist) && raceStartlist.length > 0) {
+      // Add race and team to rider
       for (let team of raceStartlist) {
         // Add year
         teams.push({

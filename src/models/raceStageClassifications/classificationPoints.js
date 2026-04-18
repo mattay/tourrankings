@@ -53,6 +53,7 @@ export class ClassificationPoints extends CSVdataModel {
       ["stageUID", "asc"],
       ["rank", "asc"],
     ];
+    this.validateConfig();
   }
 
   /**

@@ -39,5 +39,6 @@ export class RaceStageLocationMountains extends CSVdataModel {
       ["raceId", "asc"],
       ["stage", "asc"],
     ];
+    this.validateConfig();
   }
 }

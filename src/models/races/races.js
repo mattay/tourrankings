@@ -34,6 +34,7 @@ export class Races extends CSVdataModel {
       "Race Pcs ID",
       "Race Pcs Url",
     ];
+    this.validateConfig();
   }
 
   /**

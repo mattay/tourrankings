@@ -36,6 +36,7 @@ export class RaceRiders extends CSVdataModel {
       ["raceId", "asc"],
       ["bib", "asc"],
     ];
+    this.validateConfig();
   }
 
   /**

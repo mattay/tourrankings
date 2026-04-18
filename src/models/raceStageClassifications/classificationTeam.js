@@ -44,6 +44,7 @@ export class ClassificationTeam extends CSVdataModel {
       ["stageUID", "asc"],
       ["rank", "asc"],
     ];
+    this.validateConfig();
   }
 
   /**

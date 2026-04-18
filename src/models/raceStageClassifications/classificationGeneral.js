@@ -51,6 +51,7 @@ export class ClassificationGeneral extends CSVdataModel {
       ["stageUID", "asc"],
       ["rank", "asc"],
     ];
+    this.validateConfig();
   }
 
   /**

@@ -46,6 +46,7 @@ export class ClassificationYouth extends CSVdataModel {
       ["stageUID", "asc"],
       ["rank", "asc"],
     ];
+    this.validateConfig();
   }
 
   /**

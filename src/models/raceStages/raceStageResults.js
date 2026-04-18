@@ -49,10 +49,12 @@ export class RaceStageResults extends CSVdataModel {
       "Delta",
     ];
     this.sortOrder = [
-      ["Stage UID", "asc"],
-      ["Rank", "asc"],
+      ["stageUID", "asc"],
+      ["rank", "asc"],
     ];
+    this.validateConfig();
   }
+}
 
   /**
    * Retrieves the stage results for a given stage ID.

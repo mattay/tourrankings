@@ -50,6 +50,7 @@ export class ClassificationMountain extends CSVdataModel {
       ["stageUID", "asc"],
       ["rank", "asc"],
     ];
+    this.validateConfig();
   }
 
   /**

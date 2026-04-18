@@ -46,6 +46,7 @@ export class RaceStages extends CSVdataModel {
       ["raceUID", "asc"],
       ["stageUID", "asc"],
     ];
+    this.validateConfig();
   }
 
   /**

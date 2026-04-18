@@ -35,6 +35,7 @@ export class Teams extends CSVdataModel {
       ["year", "asc"],
       ["teamName", "asc"],
     ];
+    this.validateConfig();
   }
 
   /**

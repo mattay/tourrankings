@@ -200,7 +200,7 @@ export async function scrapeRaceStages(race, year) {
     }
     const stages = extractStagesFromHtml(htmlContent.html, year);
 
-    return stages.map((stage) => {
+    return stages.filter((stage) => stage.stage != null).map((stage) => {
       const raceUID = generateId.race(race, year);
       const stageUID = generateId.stage(raceUID, stage.stage);
       return {

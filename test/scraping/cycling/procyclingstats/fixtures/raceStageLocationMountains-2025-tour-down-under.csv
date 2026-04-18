@@ -1,3 +1,4 @@
 Location Id,Stage UID,Year,Stage,Type,Location Name,Distance
-tdumt001,tour-down-under:2025:1,2025,1,HC,Kangaroo Creek Reservoir,350
-tdumt002,tour-down-under:2025:1,2025,1,1,Berry Hill Climb,250
+tour-down-under:2025:1:kom:1,tour-down-under:2025:1,2025,1,2,Kangaroo Creek Reservoir,11.3
+tour-down-under:2025:1:kom:2,tour-down-under:2025:1,2025,1,2,Berry Hill Climb,77.9
+tour-down-under:2025:1:kom:3,tour-down-under:2025:1,2025,1,2,Berry Hill Climb,121.1

@@ -1,7 +1,7 @@
 import { logError } from "@utils/logging";
 import { urlSections } from "@utils/url";
 import { fetchHtmlWithCache, htmlDOM } from "@scrappers/html";
-import { parseName, parseTeamName } from "./helpers";
+import { parseName, parseTeamName } from "@scrappers/source/proCyclingStats/helpers";
 
 /**
  *
@@ -270,7 +270,7 @@ export async function scrapeRaceStartList(race, year) {
     if (
       !htmlContent ||
       typeof htmlContent.html !== "string" ||
-      htmlContent.html === ""
+      htmlContent.html.trim() === ""
     ) {
       logError(
         "Scrape PCS - Start List",

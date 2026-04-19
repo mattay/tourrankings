@@ -27,7 +27,7 @@ export class RaceRiders extends CSVdataModel {
     this.csvHeaders = [
       "Race UID",
       "Bib",
-      "Rider Pcs Id",
+      "Pcs Id",
       "Team Pcs Id",
       "Rider",
       "Flag",

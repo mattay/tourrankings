@@ -1,0 +1,74 @@
+[
+  {
+    "rank": 1,
+    "bib": 194,
+    "rider": "Browning Fergus",
+    "pnt2": "21",
+    "deltaPnt": "21",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 2,
+    "bib": 193,
+    "rider": "Marriage Zac",
+    "pnt2": "15",
+    "deltaPnt": "15",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 3,
+    "bib": 56,
+    "rider": "Tronchon Bastien",
+    "pnt2": "3",
+    "deltaPnt": "3",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 4,
+    "bib": 82,
+    "rider": "Fisher-Black Finn",
+    "pnt2": "3",
+    "deltaPnt": "3",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 5,
+    "bib": 36,
+    "rider": "Soler Marc",
+    "pnt2": "3",
+    "deltaPnt": "3",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 6,
+    "bib": 116,
+    "rider": "Tjøtta Martin",
+    "pnt2": "1",
+    "deltaPnt": "1",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 7,
+    "bib": 106,
+    "rider": "Ourselin Paul",
+    "pnt2": "1",
+    "deltaPnt": "1",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 8,
+    "bib": 87,
+    "rider": "Zwiehoff Ben",
+    "pnt2": "1",
+    "deltaPnt": "1",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  }
+]

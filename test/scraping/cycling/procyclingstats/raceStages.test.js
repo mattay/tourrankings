@@ -1,8 +1,20 @@
 import { expect, test, describe, beforeAll, afterAll } from "bun:test";
-import { scrapeRaceStagesFromHtml } from "src/scrappers/source/proCyclingStats/raceStages";
+import { extractStagesFromHtml } from "src/scrappers/source/proCyclingStats/raceStages";
 import { RaceStages } from "src/models/raceStages";
 
 const TEST_DATA_DIR = process.env.TEST_DATA_DIR || "./temp/tests/";
+
+/**
+ * Convert a string to a URL-friendly slug
+ * @param {string} str - The string to slugify
+ * @returns {string} The slugified string
+ */
+function slug(str) {
+  return str
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "");
+}
 
 // Shared test data for both HTML parsing and CSV output tests
 const STAGES_TEST_CASES = [
@@ -25,20 +37,16 @@ describe.each(STAGES_TEST_CASES)("Stages [$year $race] parse HTML", (data) => {
     expectedResults = await Bun.file(data.stages.json).json();
   });
 
-  // TODO(de-puppetter-races): Unimplemented - scrapeRaceStagesFromHtml() returns [] until JSDOM migration complete
-  // test("Should return an array of stages", async () => {
-  //   const stages = await scrapeRaceStagesFromHtml(html);
-  //   expect(stages).toBeInstanceOf(Array);
-  //   expect(stages.length).toBeGreaterThan(0);
-  // });
-  test.todo("Should return an array of stages");
+  test("Should return an array of stages", async () => {
+    const stages = await extractStagesFromHtml(html, data.year, slug(data.race));
+    expect(stages).toBeInstanceOf(Array);
+    expect(stages.length).toBeGreaterThan(0);
+  });
 
-  // TODO(de-puppetter-races): Unimplemented - scrapeRaceStagesFromHtml() returns [] until JSDOM migration complete
-  // test("Should match expected results", async () => {
-  //   const stages = await scrapeRaceStagesFromHtml(html);
-  //   expect(stages).toEqual(expectedResults);
-  // });
-  test.todo("Should match expected results");
+  test("Should match expected results", async () => {
+    const stages = await extractStagesFromHtml(html, data.year, slug(data.race));
+    expect(stages).toEqual(expectedResults);
+  });
 });
 
 describe.each(STAGES_TEST_CASES)("Stages [$year $race] save CSV", (data) => {

@@ -1,7 +1,3 @@
-// import puppeteer from "puppeteer-core";
-import puppeteer from "puppeteer-extra";
-import StealthPlugin from "puppeteer-extra-plugin-stealth";
-
 // Data Models
 import {
   Races,
@@ -21,18 +17,13 @@ import { generateId } from "@cycling/idGenerator";
 import { logError, logOut } from "@utils/logging";
 // Scrape
 import {
-  interceptRequests,
   collectWorldTourRaces,
   scrapeRaceStartList,
   scrapeRaceStages,
   scrapeRaceStageResults,
 } from "./source/proCyclingStats";
-import config from "@scrappers/html/config-puppeteer";
 import { getSeason } from "./season";
-
-/**
- * @typedef {import('puppeteer-core').Page} Page - Puppeteer
- */
+import { parseBool } from "@utils/sanity";
 
 /**
  * Models
@@ -74,12 +65,11 @@ import { getSeason } from "./season";
 
 /**
  *
- * @param {Page} page - Page object from Puppeteer
  * @param {string} racePcsID - ID of the race to scrape
  * @param {number} year - Year of the race to scrape
  * @returns {Promise<CollectedRaceData>} CollectedRaceData - Object containing stages, teams, and riders data
  */
-async function collectRace(page, racePcsID, year) {
+async function collectRace(racePcsID, year) {
   /** @type {Array<ScrapedRaceStage>} */
   const stages = [];
   /** @type {Array<ScrapedRaceTeam>} */
@@ -87,13 +77,13 @@ async function collectRace(page, racePcsID, year) {
   /** @type {Array<ScrapedRaceRider>} */
   const riders = [];
 
-  if (!process.env.FEATURE_DISABLED_STAGES) {
+  if (!parseBool(process.env.FEATURE_DISABLED_STAGES, false)) {
     try {
       logOut("Scrape PCS - Race Stages", `${year} ${racePcsID}`);
       // Race stages
-      const stagesInRace = await scrapeRaceStages(page, racePcsID, year);
+      const stagesInRace = await scrapeRaceStages(racePcsID, year);
 
-      if (stagesInRace) {
+      if (Array.isArray(stagesInRace) && stagesInRace.length > 0) {
         stages.push(...stagesInRace);
       } else {
         logError("Scrape PCS - Race Stages", "No stages found");
@@ -109,35 +99,43 @@ async function collectRace(page, racePcsID, year) {
     logOut("Main", "[FEATURE DISABLED] Stages", "warn");
   }
 
-  if (!process.env.FEATURE_DISABLED_STARTLIST) {
+  if (!parseBool(process.env.FEATURE_DISABLED_STARTLIST, false)) {
     // Race start list - Teams and Riders
     logOut("Scrape PCS - Race Startlist", `${year} ${racePcsID}`);
-    const raceStartlist = await scrapeRaceStartList(
-      page,
-      racePcsID,
-      year,
-    ).catch((exception) => {
+    let raceStartlist;
+    try {
+      raceStartlist = await scrapeRaceStartList(racePcsID, year);
+    } catch (exception) {
       logError(
         "Scrape PCS - Race Startlist",
-        `Failed to collect startlist`,
+        "Failed to collect startlist",
         exception,
       );
-    });
+      throw exception;
+    }
 
-    // Add race and team to rider
-    if (raceStartlist) {
+    if (Array.isArray(raceStartlist) && raceStartlist.length > 0) {
+      const raceUID = generateId.race(racePcsID, year);
+      // Add race and team to rider
       for (let team of raceStartlist) {
         // Add year
         teams.push({
           year,
           ...team,
         });
-        // Add race and team to rider
+        // Add race and team to rider (transform to match RaceRiders/Riders CSV schemas)
         for (let rider of team.riders) {
           riders.push({
-            raceUID: generateId.race(racePcsID, year),
-            teamPcsId: team.teamPcsId,
-            ...rider,
+            raceUID,
+            pcsId: rider.pcsId,
+            teamPcsId: team.pcsId,
+            bib: rider.bib,
+            rider: `${rider.surname} ${rider.firstNames}`,
+            flag: rider.flag,
+            surname: rider.surname,
+            firstNames: rider.firstNames,
+            dateOfBirth: rider.dateOfBirth || "",
+            nationality: rider.nationality || "",
           });
         }
       }
@@ -204,31 +202,9 @@ function stagesWithoutResults(races, raceStages, raceStageResults) {
 }
 
 /**
- * Collects races for the current season.
- *
- * @async
- * @param {Page} page - Puppeteer page instance for scraping.
- * @param {Races} races - The Races object.
- * @param {number} raceSeason - The season for which to collect races.
- */
-async function collectSeasonRaces(page, races, raceSeason) {
-  logOut("Main", `Collecting races for the ${raceSeason} season.`);
-  try {
-    await collectWorldTourRaces(page, races, raceSeason);
-  } catch (error) {
-    logError(
-      "Main",
-      `Failed to collect races for the ${raceSeason} season.`,
-      error,
-    );
-  }
-}
-
-/**
  * Collects past races.
  *
  * @async
- * @param {Page} page - Puppeteer page instance for scraping.
  * @param {Races} races - The Races object.
  * @param {RaceStages} raceStages - The race stages.
  * @param {RaceRiders} raceRiders - The race riders.
@@ -236,7 +212,6 @@ async function collectSeasonRaces(page, races, raceSeason) {
  * @param {Teams} teams - The teams.
  */
 async function collectPastRaceDetails(
-  page,
   races,
   raceStages,
   raceRiders,
@@ -250,10 +225,13 @@ async function collectPastRaceDetails(
     ...races.inProgress(today),
   ]).filter((race) => race.stages.length === 0);
 
+  // TODO: -> We need all race data, not just past events
+  // console.table(races.list())
+
   for (const race of pastRacesWithoutStages) {
     logOut("Main", `Collect past race: ${race.year} ${race.raceName}`);
     try {
-      const raceDetails = await collectRace(page, race.racePcsID, race.year);
+      const raceDetails = await collectRace(race.racePcsID, race.year);
       await updateRace(raceDetails, raceStages, raceRiders, riders, teams);
     } catch (error) {
       logError(
@@ -283,11 +261,11 @@ async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
   await teams.update(
     raceDetails.teams.map((team) => ({
       year: team.year,
-      teamName: team.teamName,
-      teamPcsUrl: team.teamPcsUrl,
+      pcsId: team.pcsId,
+      pcsUrl: team.pcsUrl,
       jerseyImageUrl: team.jerseyImageUrl,
-      teamPcsId: team.teamPcsId,
-      teamClassification: team.teamClassification,
+      name: team.name,
+      classification: team.classification,
     })),
   );
   // Record riders in race
@@ -296,8 +274,9 @@ async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
   await riders.update(
     raceDetails.riders.map((raceRider) => {
       return {
-        riderPcsId: raceRider.riderPcsId,
-        riderName: raceRider.rider,
+        pcsId: raceRider.pcsId,
+        surname: raceRider.surname,
+        firstNames: raceRider.firstNames,
       };
     }),
   );
@@ -310,7 +289,6 @@ async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
  * - For each past race with missing stages, fetches and updates detailed data.
  *
  * @async
- * @param {Page} page - Puppeteer page instance for scraping.
  * @param {Races} races - Races data manager.
  * @param {RaceStages} raceStages - RaceStages data manager.
  * @param {RaceRiders} raceRiders - RaceRiders data manager.
@@ -320,15 +298,15 @@ async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
  * @throws {Error} If scraping or updating fails.
  *
  * @example
- * await updateRaces(page, races, raceStages, raceRiders, riders, teams);
+ * await updateRaces( races, raceStages, raceRiders, riders, teams);
  */
-async function updateRaces(page, races, raceStages, raceRiders, riders, teams) {
+async function updateRaces(races, raceStages, raceRiders, riders, teams) {
   const raceSeason = getSeason();
 
-  if (!process.env.FEATURE_DISABLED_RACES) {
+  if (!parseBool(process.env.FEATURE_DISABLED_RACES, false)) {
     logOut("Main", `Collecting races for the ${raceSeason} season.`);
     try {
-      await collectWorldTourRaces(page, races, raceSeason);
+      await collectWorldTourRaces(races, raceSeason);
     } catch (error) {
       logError(
         "Main",
@@ -340,14 +318,7 @@ async function updateRaces(page, races, raceStages, raceRiders, riders, teams) {
     logOut("Main", "[FEATURE DISABLED] Races");
   }
 
-  await collectPastRaceDetails(
-    page,
-    races,
-    raceStages,
-    raceRiders,
-    riders,
-    teams,
-  );
+  await collectPastRaceDetails(races, raceStages, raceRiders, riders, teams);
 
   logOut("Main", `[TODO] Collecting future races details.`);
 }
@@ -443,7 +414,7 @@ async function updateStageResults(
     }
   }
 
-  if (!process.env.FEATURE_DISABLED_RESULTS_UPDATE) {
+  if (!parseBool(process.env.FEATURE_DISABLED_RESULTS_UPDATE, false)) {
     await raceStageResults.update(raceResults.stage);
     await raceStageGeneral.update(raceResults.gc);
     await raceStagePoints.update(raceResults.points);
@@ -461,25 +432,7 @@ async function updateStageResults(
  * Main function to orchestrate the scraping process
  */
 async function main() {
-  // Browser Setup
-  let browser;
   try {
-    puppeteer.use(StealthPlugin());
-    browser = await puppeteer.launch(config.browser);
-    if (!browser) {
-      throw new Error("Failed to launch browser");
-    }
-    logOut("Browser", "Started");
-
-    // Page Setup
-    const page = await browser.newPage();
-    await page.setUserAgent({ userAgent: config.userAgent });
-    logOut("Page", "Created");
-
-    await page.setRequestInterception(true);
-    page.on("request", interceptRequests);
-    logOut("Page", "Request interception enabled");
-
     // Data Models
     // TODO utilse dataService
     const races = new Races();
@@ -515,12 +468,12 @@ async function main() {
     }
 
     try {
-      await updateRaces(page, races, raceStages, raceRiders, riders, teams);
+      await updateRaces(races, raceStages, raceRiders, riders, teams);
     } catch (error) {
       logError("Main", "Collecting race information - Failed", error);
     }
 
-    if (!process.env.FEATURE_DISABLED_RESULTS) {
+    if (!parseBool(process.env.FEATURE_DISABLED_RESULTS, false)) {
       try {
         await updateStageResults(
           races,
@@ -542,11 +495,6 @@ async function main() {
     // Catch-all for any errors not handled above
     logError("Main", "Fatal error", error);
     throw error;
-  } finally {
-    if (browser) {
-      await browser.close();
-      logOut("Browser", "Closed");
-    }
   }
 }
 

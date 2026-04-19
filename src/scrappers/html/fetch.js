@@ -1,9 +1,5 @@
 import { generateCacheKey, readFromCache, writeToCache } from "./cache";
-import config from "./config-puppeteer";
-
-/**
- * @typedef {import('puppeteer-core').Page} Page - Puppeteer
- */
+import { CONFIG } from "./config";
 
 /**
  * @typedef {Object} FetchOptions
@@ -13,37 +9,8 @@ import config from "./config-puppeteer";
 
 /**
  * @typedef {Object} CacheOptions
- * @property {String} [pattern] - URL pattern for cache key generation
+ * @property {String} [cachePattern] - URL pattern for cache key generation
  */
-
-/**
- * Fetches HTML content from a URL using Puppeteer
- * @param {Page} page - The Puppeteer page object
- * @param {string} url - The URL to fetch
- * @param {{ waitUntil?: 'load'|'domcontentloaded'|'networkidle0'|'networkidle2', waitForSelector?: string, timeout?: number }} [options] - Options for the fetch request
- * @returns {Promise<string>} The HTML content of the page
- */
-export async function fetchHtmlWithPuppeteer(page, url, options = {}) {
-  const {
-    waitUntil = "networkidle2",
-    waitForSelector,
-    timeout = config.timeout,
-  } = options;
-  try {
-    const response = await page.goto(url, { waitUntil, timeout });
-    if (response && response.status() >= 400) {
-      throw new Error(`HTTP ${response.status()} while navigating to ${url}`);
-    }
-    if (waitForSelector) {
-      await page.waitForSelector(waitForSelector, { timeout });
-    }
-    return page.content();
-  } catch (error) {
-    throw new Error(`fetchHtmlWithPuppeteer failed for: ${error.message}`, {
-      cause: error,
-    });
-  }
-}
 
 /**
  * Fetches HTML content using native fetch (for SSR pages)
@@ -52,17 +19,13 @@ export async function fetchHtmlWithPuppeteer(page, url, options = {}) {
  * @returns {Promise<string>} The HTML content of the page
  */
 export async function fetchHtml(url, options = {}) {
-  const { timeout = config.timeout, headers = {} } = options;
+  const { timeout = CONFIG.timeout, headers = {} } = options;
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
 
   try {
-    const defaultHeaders = {
-      Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-      "Accept-Language": "en-US,en;q=0.9",
-    };
     const response = await fetch(url, {
-      headers: { ...defaultHeaders, ...headers },
+      headers: { ...CONFIG.headers, ...headers },
       signal: controller.signal,
     });
 
@@ -103,15 +66,15 @@ export async function fetchHtml(url, options = {}) {
  * const result = await fetchHtmlWithCache(
  *   'https://www.procyclingstats.com/race/tour-de-france/2024',
  *   {
- *     pattern: 'pcs-race-tour-de-france-2024',
+ *     cachePattern: 'pcs-race-tour-de-france-2024',
  *     timeout: 10000
  *   }
  * );
  */
 export async function fetchHtmlWithCache(url, options = {}) {
-  const { pattern, ...fetchOptions } = options;
+  const { cachePattern, ...fetchOptions } = options;
 
-  const cacheKey = generateCacheKey(pattern ? pattern : url);
+  const cacheKey = generateCacheKey(cachePattern || url);
   const cachedHtml = readFromCache(cacheKey);
 
   if (cachedHtml) {

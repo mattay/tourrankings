@@ -17,14 +17,18 @@ export class Riders extends CSVdataModel {
 
   constructor() {
     const fieldTypes = {};
-    super(`${process.env.DATA_DIR}/riders.csv`, ["riderPcsId"], fieldTypes);
+    super(`${process.env.DATA_DIR}/riders.csv`, ["Pcs Id"], fieldTypes);
     this.csvHeaders = [
-      "Rider Pcs Id",
-      "Rider Name",
+      "Pcs Id",
+      "Surname",
+      "First Names",
       "Date Of Birth",
       "Nationality",
     ];
-    this.sortOrder = [["riderName", "asc"]];
+    this.sortOrder = [
+      ["surname", "asc"],
+      ["firstNames", "asc"],
+    ];
     this.validateConfig();
   }
 }

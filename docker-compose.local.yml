@@ -35,7 +35,6 @@ services:
       PORT: 8080
       DATA_DIR: /tourRanking/data/csv
       LOG_LEVEL: debug
-      PUPPETEER_HEADLESS: "true"
     healthcheck:
       test:
         [
@@ -72,7 +71,6 @@ services:
       NODE_ENV: development
       DATA_DIR: /tourRanking/data/csv
       LOG_LEVEL: debug
-      PUPPETEER_HEADLESS: "true"
     command: ["supercronic", "-passthrough-logs", "/tourRanking/crontab"]
     depends_on:
       - app

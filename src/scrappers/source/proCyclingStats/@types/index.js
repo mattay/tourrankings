@@ -28,27 +28,34 @@
 
 /**
  * Represents a rider in the race startlist.
- *
  * @typedef {Object} ScrapedRaceStartListRider - Represents a rider in the startlist.
  * @property {Number} year - The year of the race.
- * @property {Number} bib - The bib Number of the rider.
- * @property {String} rider - The name of the rider.
- * @property {String} flag - The flag of the rider's country.
- * @property {String} riderPcsId - The ID of the rider on ProcyclingStats.
- * @property {String} riderPcsUrl - The URL of the rider on ProcyclingStats.
- */
-
-/**
- * Represents a team in the race startlist, including team details and its riders.
+ * @property {String|null} pcsId - The ID of the rider on ProcyclingStats.
+ * @property {String|null} pcsUrl - The URL of the rider on ProcyclingStats.
+ * @property {Number|null} bib - The bib Number of the rider.
+ * @property {String|null} surname - The surname of the rider.
+ * @property {String|null} firstNames - The first names of the rider.
+ * @property {String|null} flag - The flag of the rider's country.
  *
+ * Represents a staff member in the race startlist.
+ * @typedef {Object} ScrapedRaceStartListStaff - Represents a staff member in the startlist.
+ * @property {Number} year - The year of the race.
+ * @property {String|null} pcsId - The ID of the staff member on ProcyclingStats.
+ * @property {String|null} pcsUrl - The URL of the staff member on ProcyclingStats.
+ * @property {String|null} surname - The surname of the staff member.
+ * @property {String|null} firstNames - The first names of the staff member.
+ * @property {String|null} role - The role of the staff member.
+ *
+ * Represents a team in the race startlist, including team details and its riders.
  * @typedef {Object} ScrapedRaceStartListTeam - Represents a team in the startlist.
  * @property {Number} year - The year of the race.
- * @property {String} teamName - The name of the team.
- * @property {String} teamPcsUrl - The URL of the team on ProcyclingStats.
- * @property {String} jerseyImageUrl - The URL of the team's jersey image.
- * @property {String} teamPcsId - The ID of the team on ProcyclingStats.
- * @property {String} teamClassification - The classification of the team.
+ * @property {String|null} pcsId - The ID of the team on ProcyclingStats.
+ * @property {String|null} pcsUrl - The URL of the team on ProcyclingStats.
+ * @property {String|null} jerseyImageUrl - The URL of the team's jersey image.
+ * @property {String|null} name - The name of the team.
+ * @property {String|null} classification - The classification of the team.
  * @property {ScrapedRaceStartListRider[]} riders - An array of riders in the team.
+ * @property {ScrapedRaceStartListStaff[]} staff - An array of staff members in the team.
  *
  * @see ScrapedRaceStartListRider
  */

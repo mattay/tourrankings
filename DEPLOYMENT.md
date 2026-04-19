@@ -150,8 +150,6 @@ git push origin v{cycle}.{patch}
 # Test build locally first
 docker compose -f docker-compose.test.yml build --no-cache
 
-# Check Chrome installation
-docker compose -f docker-compose.test.yml run app sh -c '. /chrome-path.sh && echo $PUPPETEER_EXECUTABLE_PATH'
 ```
 
 ### Memory Issues
@@ -191,7 +189,6 @@ docker compose -f docker-compose.test.yml run app sh -c '. /chrome-path.sh && ec
 - `NODE_OPTIONS`: Memory allocation
 - `PORT`: Server port (8080)
 - `DATA_DIR`: CSV storage location
-- `PUPPETEER_HEADLESS`: Browser mode
 
 ## Cost Optimization
 

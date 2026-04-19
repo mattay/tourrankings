@@ -2,7 +2,7 @@ import { renameKeys } from "@utils/object";
 import { toCamelCase } from "@utils/string";
 import { stringToSeconds } from "@utils/time";
 import { logError, logOut } from "@utils/logging";
-import { fetchHtml } from "@scrappers/html/fetch";
+import { fetchHtmlWithCache } from "@scrappers/html/fetch";
 import { htmlDOM } from "@scrappers/html/domParser";
 import {
   dropColumns,
@@ -13,7 +13,51 @@ import {
 
 /** @typedef {import('@models/@types/races').RaceStageModel} StageDetails */
 
-const DOMSELECTORS = {
+/**
+ * @typedef {Object} StageResultEntry
+ * @property {number|string} rank - Ranking position
+ * @property {number} bib - Rider bib number
+ * @property {string} rider - Rider name
+ * @property {number|string} [uci] - UCI points (gc only)
+ * @property {string} [gcBonis] - Bonus seconds (gc only)
+ * @property {string} time - Finish time
+ * @property {string} timeWonLost - Time gained/lost
+ * @property {string} delta - Time gap
+ * @property {string} stageUID - Stage unique ID
+ * @property {number} stage - Stage number
+ */
+
+/**
+ * @typedef {Object} IntermediateResultEntry
+ * @property {number|string} rank - Ranking position
+ * @property {number} bib - Rider bib number
+ * @property {string} rider - Rider name
+ * @property {string} location - Sprint/climb location
+ * @property {string} distance - Distance into stage
+ * @property {string} category - Category (1-HC, 1, 2, 3) or "sprint"
+ * @property {string} points - Points earned
+ * @property {string} bonis - Bonus seconds
+ * @property {string} stageUID - Stage unique ID
+ * @property {number} stage - Stage number
+ */
+
+/**
+ * @typedef {Object} ClassificationResults
+ * @property {StageResultEntry[]} general - Main classification results
+ * @property {IntermediateResultEntry[]} [today] - Intermediate results (points, kom, youth, teams only)
+ */
+
+/**
+ * @typedef {Object} StageResults
+ * @property {ClassificationResults} [stage] - Stage results (general only)
+ * @property {ClassificationResults} [gc] - GC (general only)
+ * @property {ClassificationResults} [points] - Points classification
+ * @property {ClassificationResults} [kom] - Mountains/KOM classification
+ * @property {ClassificationResults} [youth] - Youth classification
+ * @property {ClassificationResults} [teams] - Teams classification
+ */
+
+const DOM_SELECTORS = {
   classificationTabs: ".page-content ul.resultTabs li",
   classificationResult: "#resultsCont .resTab",
   generalTab: ".general",
@@ -25,30 +69,6 @@ const DOMSELECTORS = {
     cells: "td",
   },
 };
-
-export function scrapeFromHtmlRacesResults(htmlContent, year) {
-  return [];
-}
-
-export function scrapeFromHtmlRacesClassificationGeneral(htmlContent, year) {
-  return [];
-}
-
-export function scrapeFromHtmlRacesClassificationMountains(htmlContent, year) {
-  return [];
-}
-
-export function scrapeFromHtmlRacesClassificationPoints(htmlContent, year) {
-  return [];
-}
-
-export function scrapeFromHtmlRacesClassificationTeams(htmlContent, year) {
-  return [];
-}
-
-export function scrapeFromHtmlRacesClassificationYouth(htmlContent, year) {
-  return [];
-}
 
 /**
  * Renames the scraped column name
@@ -68,6 +88,7 @@ function tableHeaders(column) {
     teamline: "team",
     ridername: "rider",
     gc_timelag: "timelag",
+    timeWonlost: "timeWonLost",
   };
 
   return rename[column] || column;
@@ -240,7 +261,7 @@ function climb(label) {
  * @param {StageDetails} stageDetails - The details of the stage.
  * @returns {Object} The cleaned up stage rankings.
  */
-function cleanUpStages(tables, stageDetails) {
+export function cleanUpStages(tables, stageDetails) {
   const stageRankings = {};
 
   for (const [classification, rankings] of Object.entries(tables)) {
@@ -355,14 +376,14 @@ function extractTableCellContent(cell) {
  * @returns {Array} An array of classification table data.
  */
 function extractClassificationTable(htmlDOM, stageDetails) {
-  const columns = columnHeader(htmlDOM, DOMSELECTORS.table.headers);
+  const columns = columnHeader(htmlDOM, DOM_SELECTORS.table.headers);
 
   const rows = [];
   const notices = [];
 
-  Array.from(htmlDOM.querySelectorAll(DOMSELECTORS.table.rows)).forEach(
+  Array.from(htmlDOM.querySelectorAll(DOM_SELECTORS.table.rows)).forEach(
     (row, index) => {
-      const cells = Array.from(row.querySelectorAll(DOMSELECTORS.table.cells));
+      const cells = Array.from(row.querySelectorAll(DOM_SELECTORS.table.cells));
       const rowDetails = {};
 
       if (cells.length == 1) {
@@ -444,11 +465,11 @@ function extractClassificationTable(htmlDOM, stageDetails) {
  * @param {string} selector - The CSS selector for the table element.
  * @returns {Object} An object containing classification results.
  */
-function classificationResults(
+export function classificationResults(
   htmlDOM,
   classificationsList,
   stageDetails,
-  selector = DOMSELECTORS.classificationResult,
+  selector = DOM_SELECTORS.classificationResult,
 ) {
   if (!["prologue", "ITT", "TTT", ""].includes(stageDetails.stageType)) {
     logOut(
@@ -478,7 +499,7 @@ function classificationResults(
     classificationStageResults[classification] = {};
 
     const generalTable = classificationResultsSelection[i].querySelector(
-      DOMSELECTORS.generalTab,
+      DOM_SELECTORS.generalTab,
     );
 
     if (generalTable) {
@@ -506,7 +527,7 @@ function classificationResults(
 
     // TODO: Implement extraction of general classification results
     // const todayTables = classificationResultsSelection[i].querySelector(
-    //   DOMSELECTORS.todayTab,
+    //   DOM_SELECTORS.todayTab,
     // );
     //
     // TODO: Implement extraction of today classification results
@@ -525,9 +546,9 @@ function classificationResults(
  * @param {string} selector - CSS selector for classification tabs
  * @returns {Array<string>} - Array of classification titles
  */
-function getClassificationsFromTabs(
+export function getClassificationsFromTabs(
   htmlDOM,
-  selector = DOMSELECTORS.classificationTabs,
+  selector = DOM_SELECTORS.classificationTabs,
 ) {
   try {
     return Array.from(htmlDOM.querySelectorAll(selector)).map(
@@ -553,28 +574,58 @@ function getClassificationsFromTabs(
 }
 
 /**
+ *
+ * @param {string} htmlContent - HTML content of the page
+ * @param {StageDetails} stageDetails - Stage details
+ * @returns {StageResults} - Stage results
+ */
+export function extractStageClassificationResultsFromHTML(
+  htmlContent,
+  stageDetails,
+) {
+  const pageDOM = htmlDOM(htmlContent);
+
+  // Collect Tabs Listed -> Make no assumptions about tab structure
+  const classificationList = getClassificationsFromTabs(pageDOM);
+  const stageClassificationResults = classificationResults(
+    pageDOM,
+    classificationList,
+    stageDetails,
+  );
+
+  return cleanUpStages(stageClassificationResults, stageDetails);
+}
+
+/**
  * Scrape race stage results from ProCyclingStats
  * @param {string} race - Race name
  * @param {StageDetails} stageDetails - Stage details
+ * @returns {Promise<StageResults|null>} Stage results or null on empty/invalid HTML
+ * @throws {Error} Throws if network or parsing fails
  */
 export async function scrapeRaceStageResults(race, stageDetails) {
   const urlStage =
     stageDetails.stage === 0 ? "prologue" : `stage-${stageDetails.stage}`;
   const url = `https://www.procyclingstats.com/race/${race}/${stageDetails.year}/${urlStage}`;
+  const cachePattern = `${race}-${stageDetails.year}-${urlStage}`;
 
   try {
-    const htmlContent = await fetchHtml(url);
-    const pageDOM = htmlDOM(htmlContent);
+    const htmlContent = await fetchHtmlWithCache(url, { cachePattern });
+    if (!htmlContent?.html || htmlContent.html === "") {
+      logError(
+        "Scrape PCS - Stage Results",
+        "Empty or invalid HTML response",
+        null,
+        { url },
+      );
 
-    // Collect Tabs Listed -> Make no assumptions about tab structure
-    const classificationList = getClassificationsFromTabs(pageDOM);
-    const stageClassificationResults = classificationResults(
-      pageDOM,
-      classificationList,
+      return null;
+    }
+
+    return extractStageClassificationResultsFromHTML(
+      htmlContent.html,
       stageDetails,
     );
-
-    return cleanUpStages(stageClassificationResults, stageDetails);
   } catch (exception) {
     logError("PCS Stage Results", `Failed to process '${url}'`, exception);
     throw exception;

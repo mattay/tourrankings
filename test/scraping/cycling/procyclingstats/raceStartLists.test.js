@@ -1,9 +1,9 @@
 import { expect, test, describe, beforeAll, afterAll } from "bun:test";
 import { rm } from "fs/promises";
-import { extractStartlistFromHtml } from "src/scrappers/source/proCyclingStats/raceStartList";
-import { Teams } from "src/models/teams";
-import { Riders } from "src/models/riders";
-import { RaceRiders } from "src/models/raceRiders";
+import { extractStartlistFromHtml } from "@scrappers/source/proCyclingStats/raceStartList";
+import { Teams } from "@models/teams";
+import { Riders } from "@models/riders";
+import { RaceRiders } from "@models/raceRiders";
 
 const BASE_TEST_DIR = process.env.TEST_DATA_DIR || "./temp/tests";
 

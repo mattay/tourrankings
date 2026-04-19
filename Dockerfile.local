@@ -44,4 +44,4 @@ EXPOSE 8080
 # ============================================
 # Startup
 # ============================================
-CMD bun run build && bun --hot src/server/index.js
+CMD bun run build && exec bun --hot src/server/index.js

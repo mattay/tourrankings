@@ -24,7 +24,7 @@ const STARTLIST_TEST_CASES = [
   {
     race: "Tour Down Under",
     year: 2025,
-    html: "test/scraping/cycling/procyclingstats/html/raceStartlist-2025-tour-down-under.html",
+    html: "test/scraping/cycling/procyclingstats/html/raceStartList-2025-tour-down-under.html",
     startlist: {
       json: "test/scraping/cycling/procyclingstats/fixtures/raceStartList-2025-tour-down-under.json",
       csv: "test/scraping/cycling/procyclingstats/fixtures/raceStartList-2025-tour-down-under.csv",

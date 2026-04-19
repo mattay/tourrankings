@@ -217,6 +217,27 @@ GitHub Actions runs on PRs and pushes:
 3. **Docker Build** - Test production/dev builds
 4. **Deploy** - Fly.io (dev from cycle/cooldown branches, prod from main)
 
+## Known Issues & Technical Debt
+
+### CSV Header Acronym Handling
+
+The CSV data models use `toCamelCase()` to convert human-readable headers (e.g., "UCI", "GC") to property names. This creates inconsistencies with acronyms:
+
+- `toCamelCase("UCI")` returns `"uCI"` (mixed case)
+- Some models use `fieldTypes: { uci: "number" }` (lowercase)
+- This mismatch causes type conversion to fail silently
+
+**Current Workaround:**
+Match fieldTypes keys exactly to `toCamelCase()` output:
+```javascript
+// For "UCI" header
+fieldTypes: { uCI: "number" }  // Correct
+fieldTypes: { uci: "number" }  // Wrong - won't convert
+```
+
+**Future Solution:**
+See GitHub issue #341 for planned standardization to remove `toCamelCase()` and use camelCase headers directly.
+
 ## Development Tips
 
 ### For Solo Development

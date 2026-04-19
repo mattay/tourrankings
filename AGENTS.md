@@ -217,26 +217,58 @@ GitHub Actions runs on PRs and pushes:
 3. **Docker Build** - Test production/dev builds
 4. **Deploy** - Fly.io (dev from cycle/cooldown branches, prod from main)
 
-## Known Issues & Technical Debt
+## Creating Shape Up Issues
 
-### CSV Header Acronym Handling
+### Issue Types
 
-The CSV data models use `toCamelCase()` to convert human-readable headers (e.g., "UCI", "GC") to property names. This creates inconsistencies with acronyms:
+1. **Raw Idea** - Use when you have a concept but haven't shaped it yet
+   - Template: "💡 Raw Idea"
+   - Labels: `raw-idea`, `needs-shaping`
+   - Auto-moves to: Shaping Board → Raw Ideas
 
-- `toCamelCase("UCI")` returns `"uCI"` (mixed case)
-- Some models use `fieldTypes: { uci: "number" }` (lowercase)
-- This mismatch causes type conversion to fail silently
+2. **Pitch** - Use when work is shaped and ready for betting
+   - Template: "📋 Pitch"
+   - Labels: `pitch`, `needs-betting`
+   - Auto-moves to: Shaping Board → Ready for Betting
+   - Required fields:
+     - **Appetite:** Small Batch (1-2 weeks) or Big Batch (4-6 weeks)
+     - **Problem Statement:** What user problem does this solve?
+     - **Solution (Shaped):** High-level approach (not detailed specs)
+   - Optional fields:
+     - **Rabbit Holes:** What could go wrong or take too long?
+     - **No-Gos:** What are we explicitly NOT doing?
 
-**Current Workaround:**
-Match fieldTypes keys exactly to `toCamelCase()` output:
-```javascript
-// For "UCI" header
-fieldTypes: { uCI: "number" }  // Correct
-fieldTypes: { uci: "number" }  // Wrong - won't convert
+### Creating Issues via GitHub CLI
+
+```bash
+# Raw Idea
+gh issue create --label raw-idea --label needs-shaping --title "Idea: [title]" --body "[description]"
+
+# Pitch (using template)
+gh issue create --label pitch --label needs-betting --title "[title]" --body-file - <<'EOF'
+## Appetite
+Small Batch (1-2 weeks)
+
+## Problem Statement
+[Describe the problem]
+
+## Solution (Shaped)
+[Describe the solution]
+
+## Rabbit Holes
+- [Potential pitfalls]
+
+## No-Gos
+- [What's out of scope]
+EOF
 ```
 
-**Future Solution:**
-See GitHub issue #341 for planned standardization to remove `toCamelCase()` and use camelCase headers directly.
+### Workflow
+
+1. **Have an idea?** → Create Raw Idea issue → Gets shaped → Convert to Pitch
+2. **Work is shaped?** → Create Pitch directly → Betting → Development
+
+The Shaping Board project automatically organizes issues by label.
 
 ## Development Tips
 

@@ -37,6 +37,10 @@ const STARTLIST_TEST_CASES = [
       json: "test/scraping/cycling/procyclingstats/fixtures/raceStartList-2025-tour-down-under.json",
       csv: "test/scraping/cycling/procyclingstats/fixtures/riders-2025-tour-down-under.csv",
     },
+    raceRiders: {
+      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartList-2025-tour-down-under.json",
+      csv: "test/scraping/cycling/procyclingstats/fixtures/raceRiders-2025-tour-down-under.csv",
+    },
   },
 ];
 
@@ -157,7 +161,7 @@ describe.each(STARTLIST_TEST_CASES)(
 
       test("Should match expected CSV content", async () => {
         const actual = await Bun.file(`${namespacedTestDir}/raceRiders.csv`).text();
-        const expected = await Bun.file(data.startlist.csv).text();
+        const expected = await Bun.file(data.raceRiders.csv).text();
         expect(actual).toBe(expected);
       });
     });

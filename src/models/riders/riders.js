@@ -26,8 +26,8 @@ export class Riders extends CSVdataModel {
       "Nationality",
     ];
     this.sortOrder = [
-      ["Surname", "asc"],
-      ["First Names", "asc"],
+      ["surname", "asc"],
+      ["firstNames", "asc"],
     ];
     this.validateConfig();
   }

@@ -215,7 +215,7 @@ export async function scrapeRaces(url, cachePattern, year) {
     if (
       !htmlContent ||
       typeof htmlContent.html !== "string" ||
-      htmlContent.html === ""
+      htmlContent.html.trim() === ""
     ) {
       logError("Scrape PCS - Races", "Empty or invalid HTML response", null, {
         url,

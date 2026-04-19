@@ -111,9 +111,6 @@ export function formatRow(row) {
           value = "";
         }
         break;
-      case "timeWonlost":
-        // Skip - will be renamed after loop
-        break;
       default:
         break;
     }

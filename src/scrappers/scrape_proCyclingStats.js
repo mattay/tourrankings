@@ -115,6 +115,7 @@ async function collectRace(racePcsID, year) {
     }
 
     if (Array.isArray(raceStartlist) && raceStartlist.length > 0) {
+      const raceUID = generateId.race(racePcsID, year);
       // Add race and team to rider
       for (let team of raceStartlist) {
         // Add year
@@ -122,12 +123,19 @@ async function collectRace(racePcsID, year) {
           year,
           ...team,
         });
-        // Add race and team to rider
+        // Add race and team to rider (transform to match RaceRiders/Riders CSV schemas)
         for (let rider of team.riders) {
           riders.push({
-            raceUID: generateId.race(racePcsID, year),
+            raceUID,
+            pcsId: rider.pcsId,
             teamPcsId: team.pcsId,
-            ...rider,
+            bib: rider.bib,
+            rider: `${rider.surname} ${rider.firstNames}`,
+            flag: rider.flag,
+            surname: rider.surname,
+            firstNames: rider.firstNames,
+            dateOfBirth: rider.dateOfBirth || "",
+            nationality: rider.nationality || "",
           });
         }
       }

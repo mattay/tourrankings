@@ -77,7 +77,7 @@ const flattenRaceRiders = (startlistData, raceUID) =>
       team.riders?.map((rider) => ({
         raceUID: raceUID,
         bib: rider.bib,
-        riderPcsId: rider.pcsId,
+        pcsId: rider.pcsId,
         teamPcsId: team.pcsId,
         rider: `${rider.surname} ${rider.firstNames}`,
         flag: rider.flag,
@@ -200,7 +200,7 @@ describe.each(STARTLIST_TEST_CASES)(
         ).text();
         const headers = csvContent.split("\n")[0];
         expect(headers).toBe(
-          "Race UID,Bib,Rider Pcs Id,Team Pcs Id,Rider,Flag",
+          "Race UID,Bib,Pcs Id,Team Pcs Id,Rider,Flag",
         );
       });
 

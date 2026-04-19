@@ -1,5 +1,8 @@
 [
   {
+    "raceUID": "tour-down-under:2025",
+    "stageUID": "tour-down-under:2025:1",
+    "year": 2025,
     "date": "2025-01-21",
     "parcoursType": "p2",
     "stage": 1,
@@ -11,6 +14,9 @@
     "verticalMeters": 1595
   },
   {
+    "raceUID": "tour-down-under:2025",
+    "stageUID": "tour-down-under:2025:2",
+    "year": 2025,
     "date": "2025-01-22",
     "parcoursType": "p2",
     "stage": 2,
@@ -22,6 +28,9 @@
     "verticalMeters": 1253
   },
   {
+    "raceUID": "tour-down-under:2025",
+    "stageUID": "tour-down-under:2025:3",
+    "year": 2025,
     "date": "2025-01-23",
     "parcoursType": "p2",
     "stage": 3,
@@ -33,6 +42,9 @@
     "verticalMeters": 2648
   },
   {
+    "raceUID": "tour-down-under:2025",
+    "stageUID": "tour-down-under:2025:4",
+    "year": 2025,
     "date": "2025-01-24",
     "parcoursType": "p2",
     "stage": 4,
@@ -44,6 +56,9 @@
     "verticalMeters": 2027
   },
   {
+    "raceUID": "tour-down-under:2025",
+    "stageUID": "tour-down-under:2025:5",
+    "year": 2025,
     "date": "2025-01-25",
     "parcoursType": "p3",
     "stage": 5,
@@ -55,6 +70,9 @@
     "verticalMeters": 1764
   },
   {
+    "raceUID": "tour-down-under:2025",
+    "stageUID": "tour-down-under:2025:6",
+    "year": 2025,
     "date": "2025-01-26",
     "parcoursType": "p1",
     "stage": 6,

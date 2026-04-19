@@ -72,9 +72,10 @@ function columnHeader(stagesTable) {
  * Parses the stages table and returns an array of stage details.
  * @param {string} htmlContent - The HTML element representing the stages table.
  * @param {number} year - The year of the race.
- * @returns {Object[]} An array of stage details.
+ * @param {string} race - The race URL ID (slug format).
+ * @returns {Object[]} An array of stage details with computed raceUID, stageUID, and year.
  */
-export function extractStagesFromHtml(htmlContent, year) {
+export function extractStagesFromHtml(htmlContent, year, race) {
   const pageDOM = htmlDOM(htmlContent);
 
   const htmlTableStages = Array.from(
@@ -173,7 +174,16 @@ export function extractStagesFromHtml(htmlContent, year) {
     return stageDetails;
   });
 
-  return rows;
+  const computedRaceUID = generateId.race(race, year);
+
+  return rows
+    .filter((stage) => stage.stage != null)
+    .map((stage) => ({
+      ...stage,
+      year,
+      raceUID: computedRaceUID,
+      stageUID: generateId.stage(computedRaceUID, stage.stage),
+    }));
 }
 
 /**
@@ -198,19 +208,7 @@ export async function scrapeRaceStages(race, year) {
       });
       return [];
     }
-    const stages = extractStagesFromHtml(htmlContent.html, year);
-
-    const computedRaceUID = generateId.race(race, year);
-
-    return stages.filter((stage) => stage.stage != null).map((stage) => {
-      const stageUID = generateId.stage(computedRaceUID, stage.stage);
-      return {
-        ...stage,
-        year,
-        raceUID: computedRaceUID,
-        stageUID,
-      };
-    });
+    return extractStagesFromHtml(htmlContent.html, year, race);
   } catch (exception) {
     logError("Scrape PCS - Stages", url, exception);
     throw exception;

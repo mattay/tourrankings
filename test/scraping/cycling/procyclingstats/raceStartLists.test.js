@@ -44,6 +44,46 @@ const STARTLIST_TEST_CASES = [
   },
 ];
 
+// Helper to flatten teams from nested structure
+const flattenTeams = (startlistData) =>
+  startlistData.map((team) => ({
+    year: team.year,
+    pcsId: team.pcsId,
+    name: team.name,
+    classification: team.classification,
+    pcsUrl: team.pcsUrl,
+    jerseyImagePcsUrl: team.jerseyImageUrl,
+    previousPcsId: team.previousPcsId || "",
+    nextPcsId: team.nextPcsId || "",
+  }));
+
+// Helper to flatten riders from nested structure
+const flattenRiders = (startlistData) =>
+  startlistData.flatMap(
+    (team) =>
+      team.riders?.map((rider) => ({
+        pcsId: rider.pcsId,
+        surname: rider.surname,
+        firstNames: rider.firstNames,
+        dateOfBirth: rider.dateOfBirth || "",
+        nationality: rider.nationality || "",
+      })) || [],
+  );
+
+// Helper to flatten raceRiders from nested structure
+const flattenRaceRiders = (startlistData, raceUID) =>
+  startlistData.flatMap(
+    (team) =>
+      team.riders?.map((rider) => ({
+        raceUID: raceUID,
+        bib: rider.bib,
+        riderPcsId: rider.pcsId,
+        teamPcsId: team.pcsId,
+        rider: `${rider.surname} ${rider.firstNames}`,
+        flag: rider.flag,
+      })) || [],
+  );
+
 describe.each(STARTLIST_TEST_CASES)(
   "Startlist [$year $race] parse HTML",
   (data) => {
@@ -54,16 +94,14 @@ describe.each(STARTLIST_TEST_CASES)(
       expectedResults = await Bun.file(data.startlist.json).json();
     });
 
-    // TODO(de-puppetter-races): Unimplemented - extractStartlistFromHtml() returns [] until JSDOM migration complete
     test("Should return an array of teams", async () => {
-      const startLists = extractStartlistFromHtml(html);
+      const startLists = extractStartlistFromHtml(html, data.year);
       expect(startLists).toBeInstanceOf(Array);
       expect(startLists.length).toBeGreaterThan(0);
     });
 
-    // TODO(de-puppetter-races): Unimplemented - extractStartlistFromHtml() returns [] until JSDOM migration complete
     test("Should match expected results", async () => {
-      const startLists = extractStartlistFromHtml(html);
+      const startLists = extractStartlistFromHtml(html, data.year);
       expect(startLists).toEqual(expectedResults);
     });
   },
@@ -104,14 +142,16 @@ describe.each(STARTLIST_TEST_CASES)(
     describe("Teams", () => {
       beforeAll(async () => {
         const teams = new Teams();
-        await teams.update(startlistData);
+        await teams.update(flattenTeams(startlistData));
       });
 
       test("Should write correct CSV headers", async () => {
-        const csvContent = await Bun.file(`${namespacedTestDir}/teams.csv`).text();
+        const csvContent = await Bun.file(
+          `${namespacedTestDir}/teams.csv`,
+        ).text();
         const headers = csvContent.split("\n")[0];
         expect(headers).toBe(
-          "Year,Team Pcs Id,Team Name,Classification,Team Pcs Url,Jersey Image Pcs Url,Previous Team Pcs Id,Next Team Pcs Id",
+          "Year,Pcs Id,Name,Classification,Pcs Url,Jersey Image Pcs Url,Previous Pcs Id,Next Pcs Id",
         );
       });
 
@@ -125,14 +165,17 @@ describe.each(STARTLIST_TEST_CASES)(
     describe("Riders", () => {
       beforeAll(async () => {
         const riders = new Riders();
-        await riders.update(startlistData);
+        // Write to ${namespacedTestDir}/riders.csv
+        await riders.update(flattenRiders(startlistData));
       });
 
       test("Should write correct CSV headers", async () => {
-        const csvContent = await Bun.file(`${namespacedTestDir}/riders.csv`).text();
+        const csvContent = await Bun.file(
+          `${namespacedTestDir}/riders.csv`,
+        ).text();
         const headers = csvContent.split("\n")[0];
         expect(headers).toBe(
-          "Rider Pcs Id,Rider Name,Date Of Birth,Nationality",
+          "Pcs Id,Surname,First Names,Date Of Birth,Nationality",
         );
       });
 
@@ -146,7 +189,9 @@ describe.each(STARTLIST_TEST_CASES)(
     describe("RaceRiders", () => {
       beforeAll(async () => {
         const raceRiders = new RaceRiders();
-        await raceRiders.update(startlistData);
+        // Generate raceUID from race name and year (e.g., "tour-down-under:2025")
+        const raceUID = `${slug(data.race)}:${data.year}`;
+        await raceRiders.update(flattenRaceRiders(startlistData, raceUID));
       });
 
       test("Should write correct CSV headers", async () => {
@@ -160,7 +205,9 @@ describe.each(STARTLIST_TEST_CASES)(
       });
 
       test("Should match expected CSV content", async () => {
-        const actual = await Bun.file(`${namespacedTestDir}/raceRiders.csv`).text();
+        const actual = await Bun.file(
+          `${namespacedTestDir}/raceRiders.csv`,
+        ).text();
         const expected = await Bun.file(data.raceRiders.csv).text();
         expect(actual).toBe(expected);
       });

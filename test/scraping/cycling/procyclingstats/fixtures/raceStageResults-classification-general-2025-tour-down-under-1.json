@@ -28,7 +28,7 @@
     "team": "Team Visma | Lease a Bike",
     "uCI": null,
     "bonis": "6″",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:04"
   },
   {
@@ -44,7 +44,7 @@
     "team": "Australia",
     "uCI": null,
     "bonis": "5″",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:05"
   },
   {
@@ -60,7 +60,7 @@
     "team": "Groupama - FDJ",
     "uCI": null,
     "bonis": "4″",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:06"
   },
   {
@@ -76,7 +76,7 @@
     "team": "Decathlon AG2R La Mondiale Team",
     "uCI": null,
     "bonis": "3″",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:07"
   },
   {
@@ -92,7 +92,7 @@
     "team": "Australia",
     "uCI": null,
     "bonis": "3″",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:07"
   },
   {
@@ -108,7 +108,7 @@
     "team": "UAE Team Emirates - XRG",
     "uCI": null,
     "bonis": "1″",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:09"
   },
   {
@@ -124,7 +124,7 @@
     "team": "Lidl - Trek",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -140,7 +140,7 @@
     "team": "INEOS Grenadiers",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -156,7 +156,7 @@
     "team": "Alpecin - Deceuninck",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -172,7 +172,7 @@
     "team": "Israel - Premier Tech",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -188,7 +188,7 @@
     "team": "UAE Team Emirates - XRG",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -204,7 +204,7 @@
     "team": "Bahrain - Victorious",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -220,7 +220,7 @@
     "team": "Lidl - Trek",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -236,7 +236,7 @@
     "team": "Team Picnic PostNL",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -252,7 +252,7 @@
     "team": "Alpecin - Deceuninck",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -268,7 +268,7 @@
     "team": "XDS Astana Team",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -284,7 +284,7 @@
     "team": "Australia",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -300,7 +300,7 @@
     "team": "Intermarché - Wanty",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -316,7 +316,7 @@
     "team": "Cofidis",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -332,7 +332,7 @@
     "team": "Movistar Team",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -348,7 +348,7 @@
     "team": "Decathlon AG2R La Mondiale Team",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -364,7 +364,7 @@
     "team": "Red Bull - BORA - hansgrohe",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -380,7 +380,7 @@
     "team": "Soudal Quick-Step",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -396,7 +396,7 @@
     "team": "Movistar Team",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -412,7 +412,7 @@
     "team": "Team Jayco AlUla",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -428,7 +428,7 @@
     "team": "Israel - Premier Tech",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -444,7 +444,7 @@
     "team": "Alpecin - Deceuninck",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -460,7 +460,7 @@
     "team": "Arkéa - B&B Hotels",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -476,7 +476,7 @@
     "team": "Soudal Quick-Step",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -492,7 +492,7 @@
     "team": "Groupama - FDJ",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -508,7 +508,7 @@
     "team": "Decathlon AG2R La Mondiale Team",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -524,7 +524,7 @@
     "team": "Intermarché - Wanty",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -540,7 +540,7 @@
     "team": "EF Education - EasyPost",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -556,7 +556,7 @@
     "team": "EF Education - EasyPost",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -572,7 +572,7 @@
     "team": "Movistar Team",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -588,7 +588,7 @@
     "team": "INEOS Grenadiers",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -604,7 +604,7 @@
     "team": "Arkéa - B&B Hotels",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -620,7 +620,7 @@
     "team": "INEOS Grenadiers",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -636,7 +636,7 @@
     "team": "UAE Team Emirates - XRG",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -652,7 +652,7 @@
     "team": "UAE Team Emirates - XRG",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -668,7 +668,7 @@
     "team": "EF Education - EasyPost",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -684,7 +684,7 @@
     "team": "Lidl - Trek",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -700,7 +700,7 @@
     "team": "Lidl - Trek",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -716,7 +716,7 @@
     "team": "Team Jayco AlUla",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -732,7 +732,7 @@
     "team": "Israel - Premier Tech",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -748,7 +748,7 @@
     "team": "Movistar Team",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -764,7 +764,7 @@
     "team": "Lidl - Trek",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -780,7 +780,7 @@
     "team": "Groupama - FDJ",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -796,7 +796,7 @@
     "team": "INEOS Grenadiers",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -812,7 +812,7 @@
     "team": "Groupama - FDJ",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -828,7 +828,7 @@
     "team": "INEOS Grenadiers",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -844,7 +844,7 @@
     "team": "Australia",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -860,7 +860,7 @@
     "team": "Intermarché - Wanty",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -876,7 +876,7 @@
     "team": "INEOS Grenadiers",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -892,7 +892,7 @@
     "team": "Decathlon AG2R La Mondiale Team",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -908,7 +908,7 @@
     "team": "Israel - Premier Tech",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -924,7 +924,7 @@
     "team": "Team Visma | Lease a Bike",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -940,7 +940,7 @@
     "team": "Intermarché - Wanty",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -956,7 +956,7 @@
     "team": "Red Bull - BORA - hansgrohe",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -972,7 +972,7 @@
     "team": "Team Picnic PostNL",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -988,7 +988,7 @@
     "team": "Soudal Quick-Step",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1004,7 +1004,7 @@
     "team": "Cofidis",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1020,7 +1020,7 @@
     "team": "Cofidis",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1036,7 +1036,7 @@
     "team": "XDS Astana Team",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1052,7 +1052,7 @@
     "team": "XDS Astana Team",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1068,7 +1068,7 @@
     "team": "Team Visma | Lease a Bike",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1084,7 +1084,7 @@
     "team": "Arkéa - B&B Hotels",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1100,7 +1100,7 @@
     "team": "Cofidis",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1116,7 +1116,7 @@
     "team": "Groupama - FDJ",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1132,7 +1132,7 @@
     "team": "Team Visma | Lease a Bike",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1148,7 +1148,7 @@
     "team": "Alpecin - Deceuninck",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1164,7 +1164,7 @@
     "team": "Decathlon AG2R La Mondiale Team",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1180,7 +1180,7 @@
     "team": "Australia",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1196,7 +1196,7 @@
     "team": "Intermarché - Wanty",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1212,7 +1212,7 @@
     "team": "Israel - Premier Tech",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1228,7 +1228,7 @@
     "team": "Red Bull - BORA - hansgrohe",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1244,7 +1244,7 @@
     "team": "XDS Astana Team",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1260,7 +1260,7 @@
     "team": "Alpecin - Deceuninck",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1276,7 +1276,7 @@
     "team": "EF Education - EasyPost",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1292,7 +1292,7 @@
     "team": "Team Jayco AlUla",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1308,7 +1308,7 @@
     "team": "Team Picnic PostNL",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1324,7 +1324,7 @@
     "team": "Team Picnic PostNL",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1340,7 +1340,7 @@
     "team": "Soudal Quick-Step",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1356,7 +1356,7 @@
     "team": "Arkéa - B&B Hotels",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1372,7 +1372,7 @@
     "team": "Movistar Team",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1388,7 +1388,7 @@
     "team": "Alpecin - Deceuninck",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1404,7 +1404,7 @@
     "team": "Lidl - Trek",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1420,7 +1420,7 @@
     "team": "UAE Team Emirates - XRG",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1436,7 +1436,7 @@
     "team": "Movistar Team",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1452,7 +1452,7 @@
     "team": "Team Jayco AlUla",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1468,7 +1468,7 @@
     "team": "Soudal Quick-Step",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1484,7 +1484,7 @@
     "team": "EF Education - EasyPost",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1500,7 +1500,7 @@
     "team": "Team Picnic PostNL",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1516,7 +1516,7 @@
     "team": "Bahrain - Victorious",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1532,7 +1532,7 @@
     "team": "XDS Astana Team",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1548,7 +1548,7 @@
     "team": "Israel - Premier Tech",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1564,7 +1564,7 @@
     "team": "EF Education - EasyPost",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1580,7 +1580,7 @@
     "team": "Bahrain - Victorious",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1596,7 +1596,7 @@
     "team": "Groupama - FDJ",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1612,7 +1612,7 @@
     "team": "Decathlon AG2R La Mondiale Team",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1628,7 +1628,7 @@
     "team": "Decathlon AG2R La Mondiale Team",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1644,7 +1644,7 @@
     "team": "Team Picnic PostNL",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1660,7 +1660,7 @@
     "team": "Lidl - Trek",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1676,7 +1676,7 @@
     "team": "Groupama - FDJ",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1692,7 +1692,7 @@
     "team": "Team Jayco AlUla",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1708,7 +1708,7 @@
     "team": "Team Visma | Lease a Bike",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1724,7 +1724,7 @@
     "team": "Israel - Premier Tech",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1740,7 +1740,7 @@
     "team": "Cofidis",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1756,7 +1756,7 @@
     "team": "Bahrain - Victorious",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1772,7 +1772,7 @@
     "team": "Team Picnic PostNL",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1788,7 +1788,7 @@
     "team": "Team Jayco AlUla",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1804,7 +1804,7 @@
     "team": "Red Bull - BORA - hansgrohe",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1820,7 +1820,7 @@
     "team": "Red Bull - BORA - hansgrohe",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1836,7 +1836,7 @@
     "team": "Cofidis",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1852,7 +1852,7 @@
     "team": "Red Bull - BORA - hansgrohe",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1868,7 +1868,7 @@
     "team": "Australia",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1884,7 +1884,7 @@
     "team": "Arkéa - B&B Hotels",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1900,7 +1900,7 @@
     "team": "UAE Team Emirates - XRG",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1916,7 +1916,7 @@
     "team": "UAE Team Emirates - XRG",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1932,7 +1932,7 @@
     "team": "Intermarché - Wanty",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1948,7 +1948,7 @@
     "team": "Arkéa - B&B Hotels",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1964,7 +1964,7 @@
     "team": "Soudal Quick-Step",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1980,7 +1980,7 @@
     "team": "Team Visma | Lease a Bike",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -1996,7 +1996,7 @@
     "team": "Cofidis",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -2012,7 +2012,7 @@
     "team": "Alpecin - Deceuninck",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -2028,7 +2028,7 @@
     "team": "Bahrain - Victorious",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -2044,7 +2044,7 @@
     "team": "XDS Astana Team",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -2060,7 +2060,7 @@
     "team": "Bahrain - Victorious",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -2076,7 +2076,7 @@
     "team": "Soudal Quick-Step",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -2092,7 +2092,7 @@
     "team": "XDS Astana Team",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -2108,7 +2108,7 @@
     "team": "Bahrain - Victorious",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -2124,7 +2124,7 @@
     "team": "EF Education - EasyPost",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -2140,7 +2140,7 @@
     "team": "Team Jayco AlUla",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -2156,7 +2156,7 @@
     "team": "Intermarché - Wanty",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -2172,7 +2172,7 @@
     "team": "Team Visma | Lease a Bike",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "0:10"
   },
   {
@@ -2188,7 +2188,7 @@
     "team": "Australia",
     "uCI": null,
     "bonis": "",
-    "time": "NaN:NaN:NaN",
+    "time": null,
     "delta": "2:44"
   }
 ]

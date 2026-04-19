@@ -123,44 +123,9 @@ describe.each(CLASSIFICATIONS_TEST_CASES)(
   (data) => {
     let originalDataDir;
 
-    // TODO(de-puppetter-races): Fixture files missing - classification JSON files need to be created from expected output
     beforeAll(async () => {
       originalDataDir = process.env.DATA_DIR;
       process.env.DATA_DIR = TEST_DATA_DIR;
-
-      const generalData = await Bun.file(
-        data.generalClassification.json,
-      ).json();
-      const generalClassification = new ClassificationGeneral();
-      await generalClassification.update(generalData);
-
-      const mountainsData = await Bun.file(
-        data.mountainsClassification.json,
-      ).json();
-      const mountainsClassification = new ClassificationMountain();
-      await mountainsClassification.update(mountainsData);
-
-      const pointsData = await Bun.file(data.pointsClassification.json).json();
-      const pointsClassification = new ClassificationPoints();
-      await pointsClassification.update(pointsData);
-
-      const teamsData = await Bun.file(data.teamClassification.json).json();
-      const teamsClassification = new ClassificationTeam();
-      await teamsClassification.update(teamsData);
-
-      const youthData = await Bun.file(data.youngClassification.json).json();
-      const youthClassification = new ClassificationYouth();
-      await youthClassification.update(youthData);
-
-      const locationPointsData = await Bun.file(data.locationPoints.json).json();
-      const locationPoints = new RaceStageLocationPoints();
-      await locationPoints.update(locationPointsData);
-
-      const locationMountainsData = await Bun.file(
-        data.locationMountains.json,
-      ).json();
-      const locationMountains = new RaceStageLocationMountains();
-      await locationMountains.update(locationMountainsData);
     });
 
     afterAll(async () => {
@@ -180,130 +145,192 @@ describe.each(CLASSIFICATIONS_TEST_CASES)(
       }
     });
 
-    test("General Classification - Should write correct CSV headers", async () => {
-      const csvContent = await Bun.file(
-        `${TEST_DATA_DIR}/raceStageClassificationGeneral.csv`,
-      ).text();
-      const headers = csvContent.split("\n")[0];
-      expect(headers).toBe(
-        "Stage UID,Stage,Rank,Previous Stage Ranking,Change,Bib,Specialty,Rider,Age,Team,UCI,Bonis,Time,Delta",
-      );
+    describe("General Classification", () => {
+      beforeAll(async () => {
+        const generalData = await Bun.file(
+          data.generalClassification.json,
+        ).json();
+        const generalClassification = new ClassificationGeneral();
+        await generalClassification.update(generalData);
+      });
+
+      test("Should write correct CSV headers", async () => {
+        const csvContent = await Bun.file(
+          `${TEST_DATA_DIR}/raceStageClassificationGeneral.csv`,
+        ).text();
+        const headers = csvContent.split("\n")[0];
+        expect(headers).toBe(
+          "Stage UID,Stage,Rank,Previous Stage Ranking,Change,Bib,Specialty,Rider,Age,Team,UCI,Bonis,Time,Delta",
+        );
+      });
+
+      test("Should match expected CSV content", async () => {
+        const actual = await Bun.file(
+          `${TEST_DATA_DIR}/raceStageClassificationGeneral.csv`,
+        ).text();
+        const expected = await Bun.file(data.generalClassification.csv).text();
+        expect(actual).toBe(expected);
+      });
     });
 
-    test("General Classification - Should match expected CSV content", async () => {
-      const actual = await Bun.file(
-        `${TEST_DATA_DIR}/raceStageClassificationGeneral.csv`,
-      ).text();
-      const expected = await Bun.file(data.generalClassification.csv).text();
-      expect(actual).toBe(expected);
+    describe("Points Classification", () => {
+      beforeAll(async () => {
+        const pointsData = await Bun.file(data.pointsClassification.json).json();
+        const pointsClassification = new ClassificationPoints();
+        await pointsClassification.update(pointsData);
+      });
+
+      test("Should write correct CSV headers", async () => {
+        const csvContent = await Bun.file(
+          `${TEST_DATA_DIR}/raceStageClassificationPoints.csv`,
+        ).text();
+        const headers = csvContent.split("\n")[0];
+        expect(headers).toBe(
+          "Stage UID,Stage,Rank,Previous Stage Ranking,Change,Bib,Specialty,Rider,Age,Team,Points,Today,Bonis,Time,Delta",
+        );
+      });
+
+      test("Should match expected CSV content", async () => {
+        const actual = await Bun.file(
+          `${TEST_DATA_DIR}/raceStageClassificationPoints.csv`,
+        ).text();
+        const expected = await Bun.file(data.pointsClassification.csv).text();
+        expect(actual).toBe(expected);
+      });
     });
 
-    test("Points Classification - Should write correct CSV headers", async () => {
-      const csvContent = await Bun.file(
-        `${TEST_DATA_DIR}/raceStageClassificationPoints.csv`,
-      ).text();
-      const headers = csvContent.split("\n")[0];
-      expect(headers).toBe(
-        "Stage UID,Stage,Rank,Previous Stage Ranking,Change,Bib,Specialty,Rider,Age,Team,Points,Today,Bonis,Time,Delta",
-      );
+    describe("Mountain Classification", () => {
+      beforeAll(async () => {
+        const mountainsData = await Bun.file(
+          data.mountainsClassification.json,
+        ).json();
+        const mountainsClassification = new ClassificationMountain();
+        await mountainsClassification.update(mountainsData);
+      });
+
+      test("Should write correct CSV headers", async () => {
+        const csvContent = await Bun.file(
+          `${TEST_DATA_DIR}/raceStageClassificationMountain.csv`,
+        ).text();
+        const headers = csvContent.split("\n")[0];
+        expect(headers).toBe(
+          "Stage UID,Stage,Rank,Previous Stage Ranking,Change,Bib,Specialty,Rider,Age,Team,Points,Today",
+        );
+      });
+
+      test("Should match expected CSV content", async () => {
+        const actual = await Bun.file(
+          `${TEST_DATA_DIR}/raceStageClassificationMountain.csv`,
+        ).text();
+        const expected = await Bun.file(data.mountainsClassification.csv).text();
+        expect(actual).toBe(expected);
+      });
     });
 
-    test("Points Classification - Should match expected CSV content", async () => {
-      const actual = await Bun.file(
-        `${TEST_DATA_DIR}/raceStageClassificationPoints.csv`,
-      ).text();
-      const expected = await Bun.file(data.pointsClassification.csv).text();
-      expect(actual).toBe(expected);
+    describe("Teams Classification", () => {
+      beforeAll(async () => {
+        const teamsData = await Bun.file(data.teamClassification.json).json();
+        const teamsClassification = new ClassificationTeam();
+        await teamsClassification.update(teamsData);
+      });
+
+      test("Should write correct CSV headers", async () => {
+        const csvContent = await Bun.file(
+          `${TEST_DATA_DIR}/raceStageClassificationTeams.csv`,
+        ).text();
+        const headers = csvContent.split("\n")[0];
+        expect(headers).toBe(
+          "Stage UID,Stage,Rank,Previous Stage Ranking,Change,Team,Class,Time,Delta",
+        );
+      });
+
+      test("Should match expected CSV content", async () => {
+        const actual = await Bun.file(
+          `${TEST_DATA_DIR}/raceStageClassificationTeams.csv`,
+        ).text();
+        const expected = await Bun.file(data.teamClassification.csv).text();
+        expect(actual).toBe(expected);
+      });
     });
 
-    test("Mountain Classification - Should write correct CSV headers", async () => {
-      const csvContent = await Bun.file(
-        `${TEST_DATA_DIR}/raceStageClassificationMountain.csv`,
-      ).text();
-      const headers = csvContent.split("\n")[0];
-      expect(headers).toBe(
-        "Stage UID,Stage,Rank,Previous Stage Ranking,Change,Bib,Specialty,Rider,Age,Team,Points,Today",
-      );
+    describe("Youth Classification", () => {
+      beforeAll(async () => {
+        const youthData = await Bun.file(data.youngClassification.json).json();
+        const youthClassification = new ClassificationYouth();
+        await youthClassification.update(youthData);
+      });
+
+      test("Should write correct CSV headers", async () => {
+        const csvContent = await Bun.file(
+          `${TEST_DATA_DIR}/raceStageClassificationYouth.csv`,
+        ).text();
+        const headers = csvContent.split("\n")[0];
+        expect(headers).toBe(
+          "Stage UID,Stage,Rank,Previous Stage Ranking,Change,Bib,Specialty,Rider,Age,Team",
+        );
+      });
+
+      test("Should match expected CSV content", async () => {
+        const actual = await Bun.file(
+          `${TEST_DATA_DIR}/raceStageClassificationYouth.csv`,
+        ).text();
+        const expected = await Bun.file(data.youngClassification.csv).text();
+        expect(actual).toBe(expected);
+      });
     });
 
-    test("Mountain Classification - Should match expected CSV content", async () => {
-      const actual = await Bun.file(
-        `${TEST_DATA_DIR}/raceStageClassificationMountain.csv`,
-      ).text();
-      const expected = await Bun.file(data.mountainsClassification.csv).text();
-      expect(actual).toBe(expected);
+    describe("Location Points", () => {
+      beforeAll(async () => {
+        const locationPointsData = await Bun.file(data.locationPoints.json).json();
+        const locationPoints = new RaceStageLocationPoints();
+        await locationPoints.update(locationPointsData);
+      });
+
+      test("Should write correct CSV headers", async () => {
+        const csvContent = await Bun.file(
+          `${TEST_DATA_DIR}/raceStageLocationPoints.csv`,
+        ).text();
+        const headers = csvContent.split("\n")[0];
+        expect(headers).toBe(
+          "Location ID,Stage UID,Year,Stage,Type,Location Name,Distance",
+        );
+      });
+
+      test("Should match expected CSV content", async () => {
+        const actual = await Bun.file(
+          `${TEST_DATA_DIR}/raceStageLocationPoints.csv`,
+        ).text();
+        const expected = await Bun.file(data.locationPoints.csv).text();
+        expect(actual).toBe(expected);
+      });
     });
 
-    test("Teams Classification - Should write correct CSV headers", async () => {
-      const csvContent = await Bun.file(
-        `${TEST_DATA_DIR}/raceStageClassificationTeams.csv`,
-      ).text();
-      const headers = csvContent.split("\n")[0];
-      expect(headers).toBe(
-        "Stage UID,Stage,Rank,Previous Stage Ranking,Change,Team,Class,Time,Delta",
-      );
-    });
+    describe("Location Mountains", () => {
+      beforeAll(async () => {
+        const locationMountainsData = await Bun.file(
+          data.locationMountains.json,
+        ).json();
+        const locationMountains = new RaceStageLocationMountains();
+        await locationMountains.update(locationMountainsData);
+      });
 
-    test("Teams Classification - Should match expected CSV content", async () => {
-      const actual = await Bun.file(
-        `${TEST_DATA_DIR}/raceStageClassificationTeams.csv`,
-      ).text();
-      const expected = await Bun.file(data.teamClassification.csv).text();
-      expect(actual).toBe(expected);
-    });
+      test("Should write correct CSV headers", async () => {
+        const csvContent = await Bun.file(
+          `${TEST_DATA_DIR}/raceStagesLocationMountains.csv`,
+        ).text();
+        const headers = csvContent.split("\n")[0];
+        expect(headers).toBe(
+          "Location Id,Stage UID,Year,Stage,Type,Location Name,Distance",
+        );
+      });
 
-    test("Youth Classification - Should write correct CSV headers", async () => {
-      const csvContent = await Bun.file(
-        `${TEST_DATA_DIR}/raceStageClassificationYouth.csv`,
-      ).text();
-      const headers = csvContent.split("\n")[0];
-      expect(headers).toBe(
-        "Stage UID,Stage,Rank,Previous Stage Ranking,Change,Bib,Specialty,Rider,Age,Team",
-      );
-    });
-
-    test("Youth Classification - Should match expected CSV content", async () => {
-      const actual = await Bun.file(
-        `${TEST_DATA_DIR}/raceStageClassificationYouth.csv`,
-      ).text();
-      const expected = await Bun.file(data.youngClassification.csv).text();
-      expect(actual).toBe(expected);
-    });
-
-    test("Location Points - Should write correct CSV headers", async () => {
-      const csvContent = await Bun.file(
-        `${TEST_DATA_DIR}/raceStageLocationPoints.csv`,
-      ).text();
-      const headers = csvContent.split("\n")[0];
-      expect(headers).toBe(
-        "Location ID,Stage UID,Year,Stage,Type,Location Name,Distance",
-      );
-    });
-
-    test("Location Points - Should match expected CSV content", async () => {
-      const actual = await Bun.file(
-        `${TEST_DATA_DIR}/raceStageLocationPoints.csv`,
-      ).text();
-      const expected = await Bun.file(data.locationPoints.csv).text();
-      expect(actual).toBe(expected);
-    });
-
-    test("Location Mountains - Should write correct CSV headers", async () => {
-      const csvContent = await Bun.file(
-        `${TEST_DATA_DIR}/raceStagesLocationMountains.csv`,
-      ).text();
-      const headers = csvContent.split("\n")[0];
-      expect(headers).toBe(
-        "Location Id,Stage UID,Year,Stage,Type,Location Name,Distance",
-      );
-    });
-
-    test("Location Mountains - Should match expected CSV content", async () => {
-      const actual = await Bun.file(
-        `${TEST_DATA_DIR}/raceStagesLocationMountains.csv`,
-      ).text();
-      const expected = await Bun.file(data.locationMountains.csv).text();
-      expect(actual).toBe(expected);
+      test("Should match expected CSV content", async () => {
+        const actual = await Bun.file(
+          `${TEST_DATA_DIR}/raceStagesLocationMountains.csv`,
+        ).text();
+        const expected = await Bun.file(data.locationMountains.csv).text();
+        expect(actual).toBe(expected);
+      });
     });
   },
 );

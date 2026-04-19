@@ -60,17 +60,7 @@ describe.each(STARTLIST_TEST_CASES)(
     beforeAll(async () => {
       originalDataDir = process.env.DATA_DIR;
       process.env.DATA_DIR = TEST_DATA_DIR;
-
       startlistData = await Bun.file(data.startlist.json).json();
-
-      const teams = new Teams();
-      await teams.update(startlistData);
-
-      const riders = new Riders();
-      await riders.update(startlistData);
-
-      const raceRiders = new RaceRiders();
-      await raceRiders.update(startlistData);
     });
 
     afterAll(async () => {
@@ -89,44 +79,69 @@ describe.each(STARTLIST_TEST_CASES)(
       }
     });
 
-    test("Teams - Should write correct CSV headers", async () => {
-      const csvContent = await Bun.file(`${TEST_DATA_DIR}/teams.csv`).text();
-      const headers = csvContent.split("\n")[0];
-      expect(headers).toBe(
-        "Year,Team Pcs Id,Team Name,Classification,Team Pcs Url,Jersey Image Pcs Url,Previous Team Pcs Id,Next Team Pcs Id",
-      );
+    describe("Teams", () => {
+      beforeAll(async () => {
+        const teams = new Teams();
+        await teams.update(startlistData);
+      });
+
+      test("Should write correct CSV headers", async () => {
+        const csvContent = await Bun.file(`${TEST_DATA_DIR}/teams.csv`).text();
+        const headers = csvContent.split("\n")[0];
+        expect(headers).toBe(
+          "Year,Team Pcs Id,Team Name,Classification,Team Pcs Url,Jersey Image Pcs Url,Previous Team Pcs Id,Next Team Pcs Id",
+        );
+      });
+
+      test("Should match expected CSV content", async () => {
+        const actual = await Bun.file(`${TEST_DATA_DIR}/teams.csv`).text();
+        const expected = await Bun.file(data.teams.csv).text();
+        expect(actual).toBe(expected);
+      });
     });
 
-    test("Teams - Should match expected CSV content", async () => {
-      const actual = await Bun.file(`${TEST_DATA_DIR}/teams.csv`).text();
-      const expected = await Bun.file(data.teams.csv).text();
-      expect(actual).toBe(expected);
+    describe("Riders", () => {
+      beforeAll(async () => {
+        const riders = new Riders();
+        await riders.update(startlistData);
+      });
+
+      test("Should write correct CSV headers", async () => {
+        const csvContent = await Bun.file(`${TEST_DATA_DIR}/riders.csv`).text();
+        const headers = csvContent.split("\n")[0];
+        expect(headers).toBe(
+          "Rider Pcs Id,Rider Name,Date Of Birth,Nationality",
+        );
+      });
+
+      test("Should match expected CSV content", async () => {
+        const actual = await Bun.file(`${TEST_DATA_DIR}/riders.csv`).text();
+        const expected = await Bun.file(data.riders.csv).text();
+        expect(actual).toBe(expected);
+      });
     });
 
-    test("Riders - Should write correct CSV headers", async () => {
-      const csvContent = await Bun.file(`${TEST_DATA_DIR}/riders.csv`).text();
-      const headers = csvContent.split("\n")[0];
-      expect(headers).toBe("Rider Pcs Id,Rider Name,Date Of Birth,Nationality");
-    });
+    describe("RaceRiders", () => {
+      beforeAll(async () => {
+        const raceRiders = new RaceRiders();
+        await raceRiders.update(startlistData);
+      });
 
-    test("Riders - Should match expected CSV content", async () => {
-      const actual = await Bun.file(`${TEST_DATA_DIR}/riders.csv`).text();
-      const expected = await Bun.file(data.riders.csv).text();
-      expect(actual).toBe(expected);
-    });
+      test("Should write correct CSV headers", async () => {
+        const csvContent = await Bun.file(
+          `${TEST_DATA_DIR}/raceRiders.csv`,
+        ).text();
+        const headers = csvContent.split("\n")[0];
+        expect(headers).toBe(
+          "Race UID,Bib,Rider Pcs Id,Team Pcs Id,Rider,Flag",
+        );
+      });
 
-    test("RaceRiders - Should write correct CSV headers", async () => {
-      const csvContent = await Bun.file(
-        `${TEST_DATA_DIR}/raceRiders.csv`,
-      ).text();
-      const headers = csvContent.split("\n")[0];
-      expect(headers).toBe("Race UID,Bib,Rider Pcs Id,Team Pcs Id,Rider,Flag");
-    });
-
-    test("RaceRiders - Should match expected CSV content", async () => {
-      const actual = await Bun.file(`${TEST_DATA_DIR}/raceRiders.csv`).text();
-      const expected = await Bun.file(data.startlist.csv).text();
-      expect(actual).toBe(expected);
+      test("Should match expected CSV content", async () => {
+        const actual = await Bun.file(`${TEST_DATA_DIR}/raceRiders.csv`).text();
+        const expected = await Bun.file(data.startlist.csv).text();
+        expect(actual).toBe(expected);
+      });
     });
   },
 );

@@ -26,7 +26,7 @@ export class ClassificationTeam extends CSVdataModel {
     };
     super(
       `${process.env.DATA_DIR}/raceStageClassificationTeams.csv`,
-      ["Stage UID", "Team"],
+      ["stageUID", "team"],
       fieldTypes,
     );
     this.csvHeaders = [
@@ -41,9 +41,10 @@ export class ClassificationTeam extends CSVdataModel {
       "Delta",
     ];
     this.sortOrder = [
-      ["Stage UID", "asc"],
-      ["Rank", "asc"],
+      ["stageUID", "asc"],
+      ["rank", "asc"],
     ];
+    this.validateConfig();
   }
 
   /**

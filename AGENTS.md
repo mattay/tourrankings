@@ -217,6 +217,59 @@ GitHub Actions runs on PRs and pushes:
 3. **Docker Build** - Test production/dev builds
 4. **Deploy** - Fly.io (dev from cycle/cooldown branches, prod from main)
 
+## Creating Shape Up Issues
+
+### Issue Types
+
+1. **Raw Idea** - Use when you have a concept but haven't shaped it yet
+   - Template: "💡 Raw Idea"
+   - Labels: `raw-idea`, `needs-shaping`
+   - Auto-moves to: Shaping Board → Raw Ideas
+
+2. **Pitch** - Use when work is shaped and ready for betting
+   - Template: "📋 Pitch"
+   - Labels: `pitch`, `needs-betting`
+   - Auto-moves to: Shaping Board → Ready for Betting
+   - Required fields:
+     - **Appetite:** Small Batch (1-2 weeks) or Big Batch (4-6 weeks)
+     - **Problem Statement:** What user problem does this solve?
+     - **Solution (Shaped):** High-level approach (not detailed specs)
+   - Optional fields:
+     - **Rabbit Holes:** What could go wrong or take too long?
+     - **No-Gos:** What are we explicitly NOT doing?
+
+### Creating Issues via GitHub CLI
+
+```bash
+# Raw Idea
+gh issue create --label raw-idea --label needs-shaping --title "Idea: [title]" --body "[description]"
+
+# Pitch (using template)
+gh issue create --label pitch --label needs-betting --title "[title]" --body-file - <<'EOF'
+## Appetite
+Small Batch (1-2 weeks)
+
+## Problem Statement
+[Describe the problem]
+
+## Solution (Shaped)
+[Describe the solution]
+
+## Rabbit Holes
+- [Potential pitfalls]
+
+## No-Gos
+- [What's out of scope]
+EOF
+```
+
+### Workflow
+
+1. **Have an idea?** → Create Raw Idea issue → Gets shaped → Convert to Pitch
+2. **Work is shaped?** → Create Pitch directly → Betting → Development
+
+The Shaping Board project automatically organizes issues by label.
+
 ## Development Tips
 
 ### For Solo Development

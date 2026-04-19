@@ -21,7 +21,7 @@ export class RaceRiders extends CSVdataModel {
     };
     super(
       `${process.env.DATA_DIR}/raceRiders.csv`,
-      ["Race UID", "Bib"],
+      ["raceUID", "bib"],
       fieldTypes,
     );
     this.csvHeaders = [
@@ -33,9 +33,10 @@ export class RaceRiders extends CSVdataModel {
       "Flag",
     ];
     this.sortOrder = [
-      ["Race Id", "asc"],
-      ["Bib", "asc"],
+      ["raceUID", "asc"],
+      ["bib", "asc"],
     ];
+    this.validateConfig();
   }
 
   /**

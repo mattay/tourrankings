@@ -1,0 +1,29 @@
+[
+  {
+    "locationID": "tour-down-under:2025:1:sprint:1",
+    "stageUID": "tour-down-under:2025:1",
+    "year": 2025,
+    "stage": 1,
+    "type": "sprint",
+    "locationName": "Williamstown",
+    "distance": 40.9
+  },
+  {
+    "locationID": "tour-down-under:2025:1:sprint:2",
+    "stageUID": "tour-down-under:2025:1",
+    "year": 2025,
+    "stage": 1,
+    "type": "sprint",
+    "locationName": "Birdwood",
+    "distance": 100.5
+  },
+  {
+    "locationID": "tour-down-under:2025:1:sprint:3",
+    "stageUID": "tour-down-under:2025:1",
+    "year": 2025,
+    "stage": 1,
+    "type": "sprint",
+    "locationName": "Gumeracha",
+    "distance": 150.7
+  }
+]

@@ -24,7 +24,7 @@ export class ClassificationGeneral extends CSVdataModel {
       change: "number",
       bib: "number",
       age: "number",
-      uci: "number",
+      uCI: "number", // Matches toCamelCase("UCI") - see issue #341 for future standardization
     };
     super(
       `${process.env.DATA_DIR}/raceStageClassificationGeneral.csv`,

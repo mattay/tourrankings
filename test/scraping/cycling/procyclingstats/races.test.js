@@ -60,7 +60,7 @@ describe.each(TEST_CASES_SEASON_RACES)(
         await rm(TEST_DATA_DIR, { recursive: true, force: true });
       } catch (error) {
         console.error(
-          `Failed to cleanup test directory ${TEST_DATA_DIR}:",
+          `Failed to cleanup test directory ${TEST_DATA_DIR}:`,
           error,
         );
       }

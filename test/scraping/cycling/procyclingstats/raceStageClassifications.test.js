@@ -1,7 +1,5 @@
 import { expect, test, describe, beforeAll } from "bun:test";
-import {
-  extractStageClassificationResultsFromHTML,
-} from "src/scrappers/source/proCyclingStats/raceStageResults";
+import { extractStageClassificationResultsFromHTML } from "src/scrappers/source/proCyclingStats/raceStageResults";
 
 describe.each([
   {

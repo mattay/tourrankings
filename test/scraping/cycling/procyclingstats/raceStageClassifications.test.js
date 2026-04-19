@@ -123,7 +123,7 @@ describe.each(CLASSIFICATIONS_TEST_CASES)(
   (data) => {
     let originalDataDir;
 
-    beforeAll(async () => {
+    beforeAll(() => {
       originalDataDir = process.env.DATA_DIR;
       process.env.DATA_DIR = TEST_DATA_DIR;
     });

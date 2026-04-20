@@ -351,15 +351,6 @@ async function updateStageResults(
     raceStageResults,
   );
 
-  const raceResults = {
-    stage: [],
-    gc: [],
-    points: [],
-    mountain: [],
-    youth: [],
-    teams: [],
-  };
-
   for (const stage of stagesRequireResults) {
     const stageDetails = raceStages.getStage(stage);
     if (!stageDetails) {
@@ -376,26 +367,45 @@ async function updateStageResults(
       "Main",
       `Scrape Stage Results: ${stageDetails.year} ${race} Stage ${stageDetails.stage}`,
     );
+
+    let stageResults;
     try {
-      const stageResults = await scrapeRaceStageResults(race, stageDetails);
+      stageResults = await scrapeRaceStageResults(race, stageDetails);
       if (!stageResults) {
         logOut("Main", `Scrape Stage Results: No results found for ${stage}`);
         continue;
       }
+    } catch (error) {
+      logError(
+        "Main",
+        `Scrape Stage Results Failed to collect results for ${stage}`,
+        error,
+      );
+      continue;
+    }
 
-      // Collect Results for bulk update
+    // Write results immediately after each stage (streaming approach)
+    if (!parseBool(process.env.FEATURE_DISABLED_RESULTS_UPDATE, false)) {
       for (let ranking in stageResults) {
         switch (ranking) {
           case "stage":
+            await raceStageResults.update(stageResults[ranking]);
+            break;
           case "gc":
+            await raceStageGeneral.update(stageResults[ranking]);
+            break;
           case "points":
+            await raceStagePoints.update(stageResults[ranking]);
+            break;
           case "youth":
+            await raceStageYouth.update(stageResults[ranking]);
+            break;
           case "teams":
-            raceResults[ranking].push(...stageResults[ranking]);
+            await raceStageTeam.update(stageResults[ranking]);
             break;
           case "kom":
           case "qom":
-            raceResults["mountain"].push(...stageResults[ranking]);
+            await raceStageMountain.update(stageResults[ranking]);
             break;
           default:
             logOut(
@@ -405,24 +415,9 @@ async function updateStageResults(
             break;
         }
       }
-    } catch (error) {
-      logError(
-        "Main",
-        `Scrape Stage Results Failed to collect results for ${stage}`,
-        error,
-      );
+    } else {
+      logOut("Main", "[FEATURE DISABLED] _RESULTS_UPDATE", "warn");
     }
-  }
-
-  if (!parseBool(process.env.FEATURE_DISABLED_RESULTS_UPDATE, false)) {
-    await raceStageResults.update(raceResults.stage);
-    await raceStageGeneral.update(raceResults.gc);
-    await raceStagePoints.update(raceResults.points);
-    await raceStageMountain.update(raceResults.mountain);
-    await raceStageYouth.update(raceResults.youth);
-    await raceStageTeam.update(raceResults.teams);
-  } else {
-    logOut("Main", "[FEATURE DISABLED] _RESULTS_UPDATE", "warn");
   }
 
   logOut("Main", "Scrape Stage results collection completed");

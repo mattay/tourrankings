@@ -55,7 +55,6 @@ export async function fetchHtml(url, options = {}) {
 
 /**
  * Fetches HTML content with caching support
- * This is the recommended function to use when migrating away from Puppeteer
  *
  * @param {string} url - The URL to fetch
  * @param {FetchOptions & CacheOptions} [options] - Options for fetch and caching

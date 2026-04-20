@@ -12,5 +12,10 @@ export function htmlDOM(htmlContent, { url } = {}) {
     throw new TypeError("htmlContent must be a string");
   }
   const dom = new JSDOM(htmlContent, url ? { url } : undefined);
-  return dom.window.document;
+  const document = dom.window.document;
+
+  // Attach cleanup method to release JSDOM memory
+  document._closeDom = () => dom.window.close();
+
+  return document;
 }

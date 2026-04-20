@@ -24,6 +24,9 @@ import {
 } from "./source/proCyclingStats";
 import { getSeason } from "./season";
 import { parseBool } from "@utils/sanity";
+import { logMemoryUsage } from "@utils/memory";
+
+const DEBUG_MEMORY = parseBool(process.env.DEBUG_MEMORY, false);
 
 /**
  * Models
@@ -345,6 +348,8 @@ async function updateStageResults(
   raceStageTeam,
 ) {
   logOut("Main", "Starting stage results collection");
+  if (DEBUG_MEMORY) logMemoryUsage("StageResults-Start");
+
   const stagesRequireResults = stagesWithoutResults(
     races,
     raceStages,
@@ -352,6 +357,8 @@ async function updateStageResults(
   );
 
   for (const stage of stagesRequireResults) {
+    if (DEBUG_MEMORY) logMemoryUsage(`Before-Stage-${stage}`);
+
     const stageDetails = raceStages.getStage(stage);
     if (!stageDetails) {
       logOut(
@@ -375,6 +382,7 @@ async function updateStageResults(
         logOut("Main", `Scrape Stage Results: No results found for ${stage}`);
         continue;
       }
+      if (DEBUG_MEMORY) logMemoryUsage(`After-JSDOM-Cleanup-${stage}`);
     } catch (error) {
       logError(
         "Main",
@@ -415,12 +423,14 @@ async function updateStageResults(
             break;
         }
       }
+      if (DEBUG_MEMORY) logMemoryUsage(`After-Write-${stage}`);
     } else {
       logOut("Main", "[FEATURE DISABLED] _RESULTS_UPDATE", "warn");
     }
   }
 
   logOut("Main", "Scrape Stage results collection completed");
+  if (DEBUG_MEMORY) logMemoryUsage("StageResults-End");
 }
 
 /**

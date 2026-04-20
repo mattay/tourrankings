@@ -42,7 +42,8 @@
     "helmet": "^8.1.0",
     "html-minifier-next": "^5.0.6",
     "js-beautify": "^1.15.4",
-    "jsdom": "^28.1.0"
+    "jsdom": "^28.1.0",
+    "node-html-parser": "^7.1.0"
   },
   "type": "module",
   "devDependencies": {

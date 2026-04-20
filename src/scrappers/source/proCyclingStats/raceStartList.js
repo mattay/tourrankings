@@ -126,7 +126,8 @@ function parseTeamRider(htmlElement) {
     flag:
       htmlElement
         .querySelector(".flag")
-        ?.className?.replace("flag ", "")
+        ?.classList?.toString()
+        ?.replace("flag ", "")
         .trim() || null,
   };
 
@@ -184,8 +185,8 @@ function parseDirecteurSportif(htmlElement) {
  * @param {number} year - The year of the race.
  * @returns {Array<ScrapedRaceStartListTeam>} An array of teams, each with their riders.
  */
-export function extractStartlistFromHtml(htmlContent, year) {
-  const pageDOM = htmlDOM(htmlContent);
+export function extractStartlistFromHtml(htmlContent, year, baseUrl) {
+  const pageDOM = htmlDOM(htmlContent, { url: baseUrl });
 
   return Array.from(pageDOM.querySelectorAll(DOM_SELECTORS.contentTeamList))
     .map((teamElement) => {
@@ -280,7 +281,7 @@ export async function scrapeRaceStartList(race, year) {
       );
       return [];
     }
-    const startlist = extractStartlistFromHtml(htmlContent.html, year);
+    const startlist = extractStartlistFromHtml(htmlContent.html, year, url);
     return startlist;
   } catch (exception) {
     logError("Scrape PCS - Start List", `Failed to scrape ${url}`, exception);

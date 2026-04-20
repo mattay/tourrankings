@@ -41,6 +41,7 @@ WORKDIR /tourRanking
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     ca-certificates \
+    procps \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 

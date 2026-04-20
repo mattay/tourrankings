@@ -564,7 +564,7 @@ export function getClassificationsFromTabs(
           return ""; // Return empty string to preserve array length
         }
 
-        return anchor.textContent.toLowerCase() || "";
+        return anchor.textContent.toLowerCase().trim() || "";
       },
     );
   } catch (exception) {

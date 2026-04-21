@@ -87,22 +87,21 @@ const flattenRaceRiders = (startlistData, raceUID) =>
 describe.each(STARTLIST_TEST_CASES)(
   "Startlist [$year $race] parse HTML",
   (data) => {
-    let html, expectedResults;
+    let html, expectedResults, url;
 
     beforeAll(async () => {
       html = await Bun.file(data.html).text();
       expectedResults = await Bun.file(data.startlist.json).json();
+      url = `https://www.procyclingstats.com/race/${slug(data.race)}/${data.year}/startlist`;
     });
 
     test("Should return an array of teams", async () => {
-      const url = `https://www.procyclingstats.com/race/${slug(data.race)}/${data.year}/startlist`;
       const startLists = extractStartlistFromHtml(html, data.year, url);
       expect(startLists).toBeInstanceOf(Array);
       expect(startLists.length).toBeGreaterThan(0);
     });
 
     test("Should match expected results", async () => {
-      const url = `https://www.procyclingstats.com/race/${slug(data.race)}/${data.year}/startlist`;
       const startLists = extractStartlistFromHtml(html, data.year, url);
       expect(startLists).toEqual(expectedResults);
     });

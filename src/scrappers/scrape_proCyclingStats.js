@@ -382,7 +382,7 @@ async function updateStageResults(
         logOut("Main", `Scrape Stage Results: No results found for ${stage}`);
         continue;
       }
-      if (DEBUG_MEMORY) logMemoryUsage(`After-JSDOM-Cleanup-${stage}`);
+      if (DEBUG_MEMORY) logMemoryUsage(`After-Scrape-${stage}`);
     } catch (error) {
       logError(
         "Main",

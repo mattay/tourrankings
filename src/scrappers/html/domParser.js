@@ -68,7 +68,7 @@ function wrapElement(element, baseUrl) {
 }
 
 /**
- * Wraps all elements in the DOM tree recursively.
+ * Wraps all elements in the DOM tree.
  *
  * @param {HTMLElement} root - The root element
  * @param {string} baseUrl - The base URL for resolving relative URLs
@@ -76,16 +76,7 @@ function wrapElement(element, baseUrl) {
 function wrapAllElementsRecursive(root, baseUrl) {
   wrapElement(root, baseUrl);
 
-  // Wrap all children recursively
-  if (root.childNodes) {
-    for (const child of root.childNodes) {
-      if (child.nodeType === 1) { // Element node
-        wrapAllElementsRecursive(child, baseUrl);
-      }
-    }
-  }
-
-  // Wrap all descendants that might be accessed
+  // Wrap all descendants using querySelectorAll
   if (root.querySelectorAll) {
     const allDescendants = root.querySelectorAll("*");
     for (const el of allDescendants) {
@@ -129,9 +120,14 @@ export function htmlDOM(htmlContent, { url } = {}) {
       // Resolve relative base href against the original page URL
       // This handles cases like <base href="/race.php"> which needs
       // to be resolved against https://example.com/page to become absolute
-      baseUrl = baseHref.match(/^https?:\/\//)
-        ? baseHref
-        : new URL(baseHref, url).href;
+      if (baseHref.match(/^https?:\/\//)) {
+        // Absolute URL - use as-is
+        baseUrl = baseHref;
+      } else if (url) {
+        // Relative URL and we have a base URL - resolve it
+        baseUrl = new URL(baseHref, url).href;
+      }
+      // If baseHref is relative but no url provided, keep original url as baseUrl
     }
   }
 

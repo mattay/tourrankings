@@ -23,9 +23,9 @@ describe.each([
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1-classification-teams.json",
       youngClassification:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1-classification-youth.json",
-      teamStageDay:
+      teamsStageDay:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1-classification-teams-stage-day.json",
-      youngStageDay:
+      youthStageDay:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1-classification-youth-stage-day.json",
       pointsStageDay:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1-classification-points-stage-day.json",
@@ -54,8 +54,8 @@ describe.each([
     const outputPoints = Bun.file(data.output.pointsClassification);
     const outputTeams = Bun.file(data.output.teamClassification);
     const outputYouth = Bun.file(data.output.youngClassification);
-    const outputTeamsStageDay = Bun.file(data.output.teamStageDay);
-    const outputYouthStageDay = Bun.file(data.output.youngStageDay);
+    const outputTeamsStageDay = Bun.file(data.output.teamsStageDay);
+    const outputYouthStageDay = Bun.file(data.output.youthStageDay);
     const outputPointsStageDay = Bun.file(data.output.pointsStageDay);
     const outputKomStageDay = Bun.file(data.output.komStageDay);
 

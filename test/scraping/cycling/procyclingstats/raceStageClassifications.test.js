@@ -27,6 +27,10 @@ describe.each([
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1-classification-teams-stage-day.json",
       youngStageDay:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1-classification-youth-stage-day.json",
+      pointsStageDay:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1-classification-points-stage-day.json",
+      komStageDay:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1-classification-kom-stage-day.json",
     },
   },
 ])(`$year - $race Stages`, (data) => {
@@ -38,7 +42,9 @@ describe.each([
     expectedTeams,
     expectedYouth,
     expectedTeamsStageDay,
-    expectedYouthStageDay;
+    expectedYouthStageDay,
+    expectedPointsStageDay,
+    expectedKomStageDay;
 
   beforeAll(async () => {
     const input = Bun.file(data.input);
@@ -50,6 +56,8 @@ describe.each([
     const outputYouth = Bun.file(data.output.youngClassification);
     const outputTeamsStageDay = Bun.file(data.output.teamStageDay);
     const outputYouthStageDay = Bun.file(data.output.youngStageDay);
+    const outputPointsStageDay = Bun.file(data.output.pointsStageDay);
+    const outputKomStageDay = Bun.file(data.output.komStageDay);
 
     const html = await input.text();
     const stageDetails = {
@@ -66,6 +74,8 @@ describe.each([
     expectedYouth = await outputYouth.json();
     expectedTeamsStageDay = await outputTeamsStageDay.json();
     expectedYouthStageDay = await outputYouthStageDay.json();
+    expectedPointsStageDay = await outputPointsStageDay.json();
+    expectedKomStageDay = await outputKomStageDay.json();
 
     stageClassificationResults = extractStageClassificationResultsFromHTML(
       html,
@@ -103,5 +113,13 @@ describe.each([
 
   test("Should match expected youth stage day (today) classification", async () => {
     expect(stageClassificationResults.youthStageDay).toEqual(expectedYouthStageDay);
+  });
+
+  test("Should match expected points stage day (today) classification", async () => {
+    expect(stageClassificationResults.pointsStageDay).toEqual(expectedPointsStageDay);
+  });
+
+  test("Should match expected KOM stage day (today) classification", async () => {
+    expect(stageClassificationResults.komStageDay).toEqual(expectedKomStageDay);
   });
 });

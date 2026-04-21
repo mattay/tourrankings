@@ -1,4 +1,4 @@
-import { logOut } from "./logging";
+import { logOut } from "@utils/logging";
 
 /**
  * Logs current heap usage for diagnostics.

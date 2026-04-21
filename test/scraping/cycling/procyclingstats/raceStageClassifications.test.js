@@ -23,6 +23,10 @@ describe.each([
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1-classification-teams.json",
       youngClassification:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1-classification-youth.json",
+      teamStageDay:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1-classification-teams-stage-day.json",
+      youngStageDay:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults-2025-tour-down-under-1-classification-youth-stage-day.json",
     },
   },
 ])(`$year - $race Stages`, (data) => {
@@ -32,7 +36,9 @@ describe.each([
     expectedMountains,
     expectedPoints,
     expectedTeams,
-    expectedYouth;
+    expectedYouth,
+    expectedTeamsStageDay,
+    expectedYouthStageDay;
 
   beforeAll(async () => {
     const input = Bun.file(data.input);
@@ -42,6 +48,8 @@ describe.each([
     const outputPoints = Bun.file(data.output.pointsClassification);
     const outputTeams = Bun.file(data.output.teamClassification);
     const outputYouth = Bun.file(data.output.youngClassification);
+    const outputTeamsStageDay = Bun.file(data.output.teamStageDay);
+    const outputYouthStageDay = Bun.file(data.output.youngStageDay);
 
     const html = await input.text();
     const stageDetails = {
@@ -56,6 +64,8 @@ describe.each([
     expectedPoints = await outputPoints.json();
     expectedTeams = await outputTeams.json();
     expectedYouth = await outputYouth.json();
+    expectedTeamsStageDay = await outputTeamsStageDay.json();
+    expectedYouthStageDay = await outputYouthStageDay.json();
 
     stageClassificationResults = extractStageClassificationResultsFromHTML(
       html,
@@ -85,5 +95,13 @@ describe.each([
 
   test("Should match expected youth classification", async () => {
     expect(stageClassificationResults.youth).toEqual(expectedYouth);
+  });
+
+  test("Should match expected teams stage day (today) classification", async () => {
+    expect(stageClassificationResults.teamsStageDay).toEqual(expectedTeamsStageDay);
+  });
+
+  test("Should match expected youth stage day (today) classification", async () => {
+    expect(stageClassificationResults.youthStageDay).toEqual(expectedYouthStageDay);
   });
 });

@@ -196,6 +196,82 @@ function cleanUpStageTable(table, additionalValues) {
 }
 
 /**
+ * Cleans up the stage day table (today tab) for youth and teams classifications.
+ * Unlike cleanUpStageTable, this does NOT calculate cumulative times - it keeps
+ * the raw time values from the HTML (e.g., "3:26:38" for leader, "0:00" for gaps).
+ *
+ * @param {Array<Object>} table - The table to clean up.
+ * @param {Object} additionalValues - Additional values to add to each row.
+ * @returns {Array<Object>} The cleaned up table.
+ */
+function cleanUpStageDayTable(table, additionalValues) {
+  const columnsToDrop = ["h2h"];
+
+  const sorted = table.sort(sortByRanking);
+
+  const cleaned = sorted.reduce((cleaned, row) => {
+    row = renameKeys(row, tableHeaders);
+
+    if (Object.hasOwn(row, "rank")) {
+      let value = row["rank"];
+
+      if (isNaN(value)) {
+        row["status"] = value;
+        row["rank"] = "";
+      }
+    } else {
+      logError("PCS Stage Results", "No rank in row", null, row);
+    }
+
+    // ▼▲ - Convert to integers
+    if (Object.hasOwn(row, "change")) {
+      let value = row["change"];
+      if (value.startsWith("▲")) {
+        row["change"] = parseInt(value.slice(1), 10);
+      } else if (value.startsWith("▼")) {
+        row["change"] = -parseInt(value.slice(1), 10);
+      }
+    }
+
+    // Strip team from rider
+    if (Object.hasOwn(row, "rider") && Object.hasOwn(row, "team")) {
+      row["rider"] = row["rider"].replace(row["team"], "").trim();
+    }
+
+    // For stage day data, keep raw time values without cumulative calculations
+    // The HTML provides times like "3:26:38" for leader and "0:00" for gaps
+    if (Object.hasOwn(row, "time")) {
+      // Keep the raw time string from HTML (don't convert to seconds)
+      // Handle special cases
+      if (row["time"] === ",,") {
+        row["time"] = "0:00";
+      } else if (row["time"] === "-" || row["time"] === "") {
+        row["time"] = "";
+      }
+    }
+
+    // Convert numeric fields to integers (same as formatRow)
+    const numericFields = ["stage", "rank", "bib", "age", "uci", "points", "today", "change", "position"];
+    for (const field of numericFields) {
+      if (Object.hasOwn(row, field) && row[field] !== "" && row[field] !== "-") {
+        const parsed = parseInt(row[field], 10);
+        if (!isNaN(parsed)) {
+          row[field] = parsed;
+        }
+      }
+    }
+
+    // Drop not needed columns
+    row = dropColumns(row, columnsToDrop);
+
+    cleaned.push(renameKeys({ ...row, ...additionalValues }, toCamelCase));
+    return cleaned;
+  }, []);
+
+  return cleaned;
+}
+
+/**
  *
  * @param {string} label - The label for the sprint.
  * @returns {{location: string, distance: string}} The parsed sprint label.
@@ -276,7 +352,19 @@ export function cleanUpStages(tables, stageDetails) {
       );
     }
 
-    // TODO: Process tables in "today tabs" to capture intermediate results
+    // Process tables in "today tabs" to capture stage day results for youth and teams
+    if (Object.hasOwn(rankings, "today")) {
+      const additionalValues = {
+        stageUID: stageDetails.stageUID,
+        stage: stageDetails.stage,
+      };
+      // Store today data in a separate key (e.g., youthStageDay, teamsStageDay)
+      const stageDayKey = `${classification}StageDay`;
+      stageRankings[stageDayKey] = cleanUpStageDayTable(
+        rankings["today"],
+        additionalValues,
+      );
+    }
   }
 
   return stageRankings;
@@ -525,16 +613,25 @@ export function classificationResults(
       }
     }
 
-    // TODO: Implement extraction of general classification results
-    // const todayTables = classificationResultsSelection[i].querySelector(
-    //   DOM_SELECTORS.todayTab,
-    // );
-    //
-    // TODO: Implement extraction of today classification results
-    // if (todayTables) {
-    //   classificationResults[classification]["today"] =
-    //     extractClassificationTable(todayTable);
-    // }
+    // Extract today tab data for intermediate stage results
+    const todayTables = classificationResultsSelection[i].querySelectorAll(
+      DOM_SELECTORS.todayTab,
+    );
+
+    if (todayTables.length > 0) {
+      // For youth and teams, there's only one table per today tab
+      // For points and kom, there are multiple tables (intermediate sprints/climbs)
+      const todayData = [];
+      todayTables.forEach((todayTable) => {
+        const tableData = extractClassificationTable(todayTable, stageDetails);
+        if (tableData.length > 0) {
+          todayData.push(...tableData);
+        }
+      });
+      if (todayData.length > 0) {
+        classificationStageResults[classification]["today"] = todayData;
+      }
+    }
   }
 
   return classificationStageResults;

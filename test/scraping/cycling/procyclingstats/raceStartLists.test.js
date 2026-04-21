@@ -95,13 +95,15 @@ describe.each(STARTLIST_TEST_CASES)(
     });
 
     test("Should return an array of teams", async () => {
-      const startLists = extractStartlistFromHtml(html, data.year, "https://www.procyclingstats.com/race/tour-down-under/2025/startlist");
+      const url = `https://www.procyclingstats.com/race/${slug(data.race)}/${data.year}/startlist`;
+      const startLists = extractStartlistFromHtml(html, data.year, url);
       expect(startLists).toBeInstanceOf(Array);
       expect(startLists.length).toBeGreaterThan(0);
     });
 
     test("Should match expected results", async () => {
-      const startLists = extractStartlistFromHtml(html, data.year, "https://www.procyclingstats.com/race/tour-down-under/2025/startlist");
+      const url = `https://www.procyclingstats.com/race/${slug(data.race)}/${data.year}/startlist`;
+      const startLists = extractStartlistFromHtml(html, data.year, url);
       expect(startLists).toEqual(expectedResults);
     });
   },

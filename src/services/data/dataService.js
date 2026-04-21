@@ -55,7 +55,7 @@ class DataService {
       refreshInterval: 3600000, // 1 hour in ms
       watchFiles: false,
       watchDebounceMs: 60000, // 1 minute default
-      dataDir: process.env.DATA_DIR || "./data/csv/",
+      dataDir: "./data/csv/",
       ...options,
     };
 

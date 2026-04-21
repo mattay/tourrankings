@@ -1,5 +1,5 @@
 import { describe, test, expect } from "bun:test";
-import { JSDOM } from "jsdom";
+import { parse } from "node-html-parser";
 import { extractNotice } from "@scrappers/source/proCyclingStats/helpers/helperRaceStageResults";
 
 /**
@@ -9,8 +9,8 @@ import { extractNotice } from "@scrappers/source/proCyclingStats/helpers/helperR
  * @returns {Element} The DOM element matching the given selector.
  */
 function createNoticeCell(html, selector) {
-  const fragment = JSDOM.fragment(html);
-  const cell = fragment.querySelector(selector);
+  const root = parse(html);
+  const cell = root.querySelector(selector);
 
   // Add null check to prevent crashes
   if (!cell) throw new Error(`No element found for selector "${selector}"`);

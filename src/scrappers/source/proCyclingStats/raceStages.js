@@ -121,7 +121,7 @@ export function extractStagesFromHtml(htmlContent, year, race) {
         case "parcoursType": {
           const span = td.querySelector("span");
           value = span
-            ? Array.from(span.classList).find((cls) => /^p\d+$/.test(cls))
+            ? Array.from(span.classList.values()).find((cls) => /^p\d+$/.test(cls))
             : null;
           details[key] = value;
           break;

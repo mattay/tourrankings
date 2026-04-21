@@ -24,6 +24,9 @@ import {
 } from "./source/proCyclingStats";
 import { getSeason } from "./season";
 import { parseBool } from "@utils/sanity";
+import { logMemoryUsage } from "@utils/memory";
+
+const DEBUG_MEMORY = parseBool(process.env.DEBUG_MEMORY, false);
 
 /**
  * Models
@@ -345,22 +348,17 @@ async function updateStageResults(
   raceStageTeam,
 ) {
   logOut("Main", "Starting stage results collection");
+  if (DEBUG_MEMORY) logMemoryUsage("StageResults-Start");
+
   const stagesRequireResults = stagesWithoutResults(
     races,
     raceStages,
     raceStageResults,
   );
 
-  const raceResults = {
-    stage: [],
-    gc: [],
-    points: [],
-    mountain: [],
-    youth: [],
-    teams: [],
-  };
-
   for (const stage of stagesRequireResults) {
+    if (DEBUG_MEMORY) logMemoryUsage(`Before-Stage-${stage}`);
+
     const stageDetails = raceStages.getStage(stage);
     if (!stageDetails) {
       logOut(
@@ -376,26 +374,48 @@ async function updateStageResults(
       "Main",
       `Scrape Stage Results: ${stageDetails.year} ${race} Stage ${stageDetails.stage}`,
     );
+
+    let stageResults;
     try {
-      const stageResults = await scrapeRaceStageResults(race, stageDetails);
+      stageResults = await scrapeRaceStageResults(race, stageDetails);
       if (!stageResults) {
         logOut("Main", `Scrape Stage Results: No results found for ${stage}`);
         continue;
       }
+      if (DEBUG_MEMORY) logMemoryUsage(`After-JSDOM-Cleanup-${stage}`);
+    } catch (error) {
+      logError(
+        "Main",
+        `Scrape Stage Results Failed to collect results for ${stage}`,
+        error,
+      );
+      continue;
+    }
 
-      // Collect Results for bulk update
+    // Write results immediately after each stage (streaming approach)
+    if (!parseBool(process.env.FEATURE_DISABLED_RESULTS_UPDATE, false)) {
+      // Phase 1: Write all classifications EXCEPT "stage" first
+      // This ensures atomic-like behavior - stage is only marked complete
+      // after all other classifications are successfully written
       for (let ranking in stageResults) {
+        if (ranking === "stage") continue; // Skip stage - will write last
+
         switch (ranking) {
-          case "stage":
           case "gc":
+            await raceStageGeneral.update(stageResults[ranking]);
+            break;
           case "points":
+            await raceStagePoints.update(stageResults[ranking]);
+            break;
           case "youth":
+            await raceStageYouth.update(stageResults[ranking]);
+            break;
           case "teams":
-            raceResults[ranking].push(...stageResults[ranking]);
+            await raceStageTeam.update(stageResults[ranking]);
             break;
           case "kom":
           case "qom":
-            raceResults["mountain"].push(...stageResults[ranking]);
+            await raceStageMountain.update(stageResults[ranking]);
             break;
           default:
             logOut(
@@ -405,27 +425,21 @@ async function updateStageResults(
             break;
         }
       }
-    } catch (error) {
-      logError(
-        "Main",
-        `Scrape Stage Results Failed to collect results for ${stage}`,
-        error,
-      );
+
+      // Phase 2: Only after all other classifications succeed, write "stage"
+      // This marks the stage as complete in the tracking system
+      if (stageResults["stage"]) {
+        await raceStageResults.update(stageResults["stage"]);
+      }
+
+      if (DEBUG_MEMORY) logMemoryUsage(`After-Write-${stage}`);
+    } else {
+      logOut("Main", "[FEATURE DISABLED] _RESULTS_UPDATE", "warn");
     }
   }
 
-  if (!parseBool(process.env.FEATURE_DISABLED_RESULTS_UPDATE, false)) {
-    await raceStageResults.update(raceResults.stage);
-    await raceStageGeneral.update(raceResults.gc);
-    await raceStagePoints.update(raceResults.points);
-    await raceStageMountain.update(raceResults.mountain);
-    await raceStageYouth.update(raceResults.youth);
-    await raceStageTeam.update(raceResults.teams);
-  } else {
-    logOut("Main", "[FEATURE DISABLED] _RESULTS_UPDATE", "warn");
-  }
-
   logOut("Main", "Scrape Stage results collection completed");
+  if (DEBUG_MEMORY) logMemoryUsage("StageResults-End");
 }
 
 /**

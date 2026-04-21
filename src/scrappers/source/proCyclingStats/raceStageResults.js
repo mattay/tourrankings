@@ -564,7 +564,7 @@ export function getClassificationsFromTabs(
           return ""; // Return empty string to preserve array length
         }
 
-        return anchor.textContent.toLowerCase() || "";
+        return anchor.textContent.toLowerCase().trim() || "";
       },
     );
   } catch (exception) {
@@ -593,7 +593,9 @@ export function extractStageClassificationResultsFromHTML(
     stageDetails,
   );
 
-  return cleanUpStages(stageClassificationResults, stageDetails);
+  const results = cleanUpStages(stageClassificationResults, stageDetails);
+
+  return results;
 }
 
 /**

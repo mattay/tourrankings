@@ -394,11 +394,13 @@ async function updateStageResults(
 
     // Write results immediately after each stage (streaming approach)
     if (!parseBool(process.env.FEATURE_DISABLED_RESULTS_UPDATE, false)) {
+      // Phase 1: Write all classifications EXCEPT "stage" first
+      // This ensures atomic-like behavior - stage is only marked complete
+      // after all other classifications are successfully written
       for (let ranking in stageResults) {
+        if (ranking === "stage") continue; // Skip stage - will write last
+
         switch (ranking) {
-          case "stage":
-            await raceStageResults.update(stageResults[ranking]);
-            break;
           case "gc":
             await raceStageGeneral.update(stageResults[ranking]);
             break;
@@ -423,6 +425,13 @@ async function updateStageResults(
             break;
         }
       }
+
+      // Phase 2: Only after all other classifications succeed, write "stage"
+      // This marks the stage as complete in the tracking system
+      if (stageResults["stage"]) {
+        await raceStageResults.update(stageResults["stage"]);
+      }
+
       if (DEBUG_MEMORY) logMemoryUsage(`After-Write-${stage}`);
     } else {
       logOut("Main", "[FEATURE DISABLED] _RESULTS_UPDATE", "warn");

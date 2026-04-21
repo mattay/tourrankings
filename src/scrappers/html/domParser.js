@@ -11,6 +11,8 @@ import { parse } from "node-html-parser";
 function getResolvedHref(element, baseUrl) {
   const rawHref = element.getAttribute("href");
   if (!rawHref) return null;
+  // If no baseUrl provided, return raw href (no resolution needed)
+  if (!baseUrl) return rawHref;
   try {
     return new URL(rawHref, baseUrl).href;
   } catch {
@@ -27,7 +29,9 @@ function getResolvedHref(element, baseUrl) {
  * @returns {HTMLElement} The wrapped element with additional getters
  */
 function wrapElement(element, baseUrl) {
-  if (!element || !baseUrl || element._isWrapped) return element;
+  // Only skip if element is missing or already wrapped
+  // baseUrl can be undefined - getters will return raw attributes in that case
+  if (!element || element._isWrapped) return element;
 
   // Mark as wrapped to avoid double-wrapping
   element._isWrapped = true;
@@ -47,6 +51,8 @@ function wrapElement(element, baseUrl) {
       get: () => {
         const rawSrc = element.getAttribute("src");
         if (!rawSrc) return null;
+        // If no baseUrl provided, return raw src (no resolution needed)
+        if (!baseUrl) return rawSrc;
         try {
           return new URL(rawSrc, baseUrl).href;
         } catch {
@@ -120,15 +126,19 @@ export function htmlDOM(htmlContent, { url } = {}) {
   if (baseTag) {
     const baseHref = baseTag.getAttribute("href");
     if (baseHref) {
-      baseUrl = baseHref;
+      // Resolve relative base href against the original page URL
+      // This handles cases like <base href="/race.php"> which needs
+      // to be resolved against https://example.com/page to become absolute
+      baseUrl = baseHref.match(/^https?:\/\//)
+        ? baseHref
+        : new URL(baseHref, url).href;
     }
   }
 
-  // Attach URL reference and wrap all elements for JSDOM compatibility
-  if (baseUrl) {
-    root._sourceUrl = baseUrl;
-    wrapAllElementsRecursive(root, baseUrl);
-  }
+  // Always attach URL reference and wrap all elements
+  // This ensures .href/.src getters are always available, even if baseUrl is undefined
+  root._sourceUrl = baseUrl;
+  wrapAllElementsRecursive(root, baseUrl);
 
   return root;
 }

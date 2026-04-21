@@ -595,9 +595,6 @@ export function extractStageClassificationResultsFromHTML(
 
   const results = cleanUpStages(stageClassificationResults, stageDetails);
 
-  // Explicitly release JSDOM memory to prevent accumulation
-  pageDOM._closeDom?.();
-
   return results;
 }
 

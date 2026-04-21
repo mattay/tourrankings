@@ -219,33 +219,98 @@ GitHub Actions runs on PRs and pushes:
 
 ## Creating Shape Up Issues
 
-### Issue Types
+> "A problem well stated is a problem half solved."  
+> — Charles F. Kettering
 
-1. **Raw Idea** - Use when you have a concept but haven't shaped it yet
-   - Template: "💡 Raw Idea"
-   - Labels: `raw-idea`, `needs-shaping`
-   - Auto-moves to: Shaping Board → Raw Ideas
+Shape Up distinguishes between **having an idea** and **shaping work**. Most failed bets fail not because of execution, but because the problem was never clearly understood. Resist the urge to jump straight to solutions.
 
-2. **Pitch** - Use when work is shaped and ready for betting
-   - Template: "📋 Pitch"
-   - Labels: `pitch`, `needs-betting`
-   - Auto-moves to: Shaping Board → Ready for Betting
-   - Required fields:
-     - **Appetite:** Small Batch (1-2 weeks) or Big Batch (4-6 weeks)
-     - **Problem Statement:** What user problem does this solve?
-     - **Solution (Shaped):** High-level approach (not detailed specs)
-   - Optional fields:
-     - **Rabbit Holes:** What could go wrong or take too long?
-     - **No-Gos:** What are we explicitly NOT doing?
+### Which Template to Use?
+
+| If you... | Use | Labels |
+|-----------|-----|--------|
+| Have a vague concept, feeling something is wrong, or see an opportunity but can't articulate it yet | 💡 Raw Idea | `raw-idea`, `needs-shaping` |
+| Can clearly state the problem AND have a shaped solution approach | 📋 Pitch | `pitch`, `needs-betting` |
+
+**Critical:** If you find yourself writing solution details in a Raw Idea, stop. You're shaping prematurely. Move those thoughts to a comment or separate doc, and focus the issue on defining the problem.
+
+### 1. 💡 Raw Idea Template
+
+**Use when:** You have a concept but haven't shaped it yet. The problem is fuzzy. You might not even be sure it's worth solving.
+
+**Goal:** Capture the concept so it can be shaped later. Don't try to solve it here.
+
+**Template:**
+```markdown
+## Current Situation
+[What is happening now? Be specific with examples.]
+
+## Pain Point / Opportunity
+[What feels wrong or what could be better? Avoid solutions.]
+
+## Context
+[Any background that might help when shaping: user feedback, data, constraints]
+```
+
+**Example:**
+```markdown
+## Current Situation
+When the scraper finishes updating race results, users don't see the new data 
+for up to 75 minutes (scraper runs every 45 min + server refreshes every 30 min).
+
+## Pain Point / Opportunity
+During live races, users are looking at stale stage results. The server should 
+reflect scraper updates much faster.
+
+## Context
+- Scraper writes CSV files after every stage
+- Server uses timer-based polling (30 min interval)
+- Both run in same container with shared volume
+```
+
+### 2. 📋 Pitch Template
+
+**Use when:** Work is shaped and ready for betting. You deeply understand the problem AND have a solution approach that fits an appetite.
+
+**Required Fields:**
+
+| Field | Purpose | Good Example | Bad Example |
+|-------|---------|--------------|-------------|
+| **Appetite** | Time box that forces scope decisions | "Small Batch (1-2 weeks) — can implement file watching with debounce" | "Medium" |
+| **Problem Statement** | The specific user pain. Should be undeniable. | "Users wait 75 min for fresh data during live races" | "We need better caching" |
+| **Solution (Shaped)** | High-level approach, not detailed specs | "Watch CSV directory, debounce 1 min, reset polling timer" | "Implement fs.watch with recursive option set to true..." |
+
+**Optional Fields:**
+- **Rabbit Holes:** What could go wrong or take unexpectedly long?
+- **No-Gos:** What are we explicitly NOT doing? (Scope boundaries)
+
+**Template:**
+```markdown
+## Appetite
+Small Batch (1-2 weeks) / Big Batch (4-6 weeks)
+
+## Problem Statement
+[One or two sentences that capture the user pain. Include evidence if available.]
+
+## Solution (Shaped)
+[High-level approach. Not implementation details.]
+
+## Rabbit Holes
+- [What could be harder than expected?]
+- [What don't we understand yet?]
+
+## No-Gos
+- [What are we NOT doing?]
+- [What's out of scope?]
+```
 
 ### Creating Issues via GitHub CLI
 
 ```bash
 # Raw Idea
-gh issue create --label raw-idea --label needs-shaping --title "Idea: [title]" --body "[description]"
+gh issue create --label raw-idea --label needs-shaping --title "💡 Idea: [title]" --body "[description]"
 
 # Pitch (using template)
-gh issue create --label pitch --label needs-betting --title "[title]" --body-file - <<'EOF'
+gh issue create --label pitch --label needs-betting --title "📋 Pitch: [title]" --body-file - <<'EOF'
 ## Appetite
 Small Batch (1-2 weeks)
 
@@ -263,12 +328,22 @@ Small Batch (1-2 weeks)
 EOF
 ```
 
-### Workflow
+### The Path from Idea to Built
 
-1. **Have an idea?** → Create Raw Idea issue → Gets shaped → Convert to Pitch
-2. **Work is shaped?** → Create Pitch directly → Betting → Development
+```
+💡 Raw Idea → [Shaping] → 📋 Pitch → [Betting] → 🔄 bet/ Branch → [Build] → ✅ Merged
+     ↑                           ↓
+[needs-shaping]           [needs-betting]
+     ↓                           ↓
+   Shaping Board            Ready for Betting
+```
 
-The Shaping Board project automatically organizes issues by label.
+**Key transitions:**
+1. **Raw Idea → Pitch:** You understand the problem deeply and have shaped a solution
+2. **Pitch → Betting:** Work is selected for the current cycle
+3. **Bet → Build:** Development begins on a `bet/` branch
+
+**Circuit Breaker:** If work exceeds appetite, convert bet to `circuit-breaker/` branch. Document what was learned.
 
 ## Development Tips
 

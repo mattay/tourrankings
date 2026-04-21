@@ -77,6 +77,9 @@ const config = {
       process.env.DATA_AUTO_REFRESH?.toLowerCase() === "true" || false,
     refreshInterval:
       parseInt(process.env.DATA_AUTO_REFRESH_INTERVAL, 10) || 3600000,
+    watchFiles: process.env.DATA_WATCH_FILES?.toLowerCase() === "true" || false,
+    watchDebounceMs: parseInt(process.env.DATA_WATCH_DEBOUNCE_MS, 10) || 60000,
+    dataDir: process.env.DATA_DIR || "./data/csv/",
   },
 
   healthCheck: {

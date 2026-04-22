@@ -196,16 +196,18 @@ function cleanUpStageTable(table, additionalValues) {
 }
 
 /**
- * Cleans up the stage day table (today tab) for youth and teams classifications.
- * Unlike cleanUpStageTable, this does NOT calculate cumulative times - it keeps
- * the raw time values from the HTML (e.g., "3:26:38" for leader, "0:00" for gaps).
+ * Cleans up the youth stage day table (today tab).
+ * Keeps only normalized fields: rank, time, timeWonlost.
+ * Drops redundant fields that exist in RaceRider.
  *
  * @param {Array<Object>} table - The table to clean up.
  * @param {Object} additionalValues - Additional values to add to each row.
  * @returns {Array<Object>} The cleaned up table.
  */
-function cleanUpStageDayTable(table, additionalValues) {
-  const columnsToDrop = ["h2h"];
+function cleanUpYouthStageDayTable(table, additionalValues) {
+  // Keep: rank, time, rider (links to RaceRider)
+  // Drop: specialty, age, team, bib, time_wonlost
+  const columnsToDrop = ["h2h", "specialty", "age", "team", "bib", "time_wonlost"];
 
   const sorted = table.sort(sortByRanking);
 
@@ -218,19 +220,11 @@ function cleanUpStageDayTable(table, additionalValues) {
       if (isNaN(value)) {
         row["status"] = value;
         row["rank"] = "";
+      } else {
+        row["rank"] = parseInt(value, 10);
       }
     } else {
       logError("PCS Stage Results", "No rank in row", null, row);
-    }
-
-    // ▼▲ - Convert to integers
-    if (Object.hasOwn(row, "change")) {
-      let value = row["change"];
-      if (value.startsWith("▲")) {
-        row["change"] = parseInt(value.slice(1), 10);
-      } else if (value.startsWith("▼")) {
-        row["change"] = -parseInt(value.slice(1), 10);
-      }
     }
 
     // Strip team from rider
@@ -238,11 +232,8 @@ function cleanUpStageDayTable(table, additionalValues) {
       row["rider"] = row["rider"].replace(row["team"], "").trim();
     }
 
-    // For stage day data, keep raw time values without cumulative calculations
-    // The HTML provides times like "3:26:38" for leader and "0:00" for gaps
+    // For stage day data, keep raw time values
     if (Object.hasOwn(row, "time")) {
-      // Keep the raw time string from HTML (don't convert to seconds)
-      // Handle special cases
       if (row["time"] === ",,") {
         row["time"] = "0:00";
       } else if (row["time"] === "-" || row["time"] === "") {
@@ -250,21 +241,66 @@ function cleanUpStageDayTable(table, additionalValues) {
       }
     }
 
-    // Convert numeric fields to integers (same as formatRow)
-    const numericFields = ["stage", "rank", "bib", "age", "uci", "points", "today", "change", "position"];
-    for (const field of numericFields) {
-      if (Object.hasOwn(row, field) && row[field] !== "" && row[field] !== "-") {
-        const parsed = parseInt(row[field], 10);
-        if (!isNaN(parsed)) {
-          row[field] = parsed;
-        }
+    // Rename to camelCase and add additional values first
+    const renamedRow = renameKeys({ ...row, ...additionalValues }, toCamelCase);
+    
+    // Drop not needed columns after camelCase conversion
+    const finalRow = dropColumns(renamedRow, columnsToDrop);
+
+    cleaned.push(finalRow);
+    return cleaned;
+  }, []);
+
+  return cleaned;
+}
+
+/**
+ * Cleans up the teams stage day table (today tab).
+ * Keeps only normalized fields: rank, team, classification, time, timeWonlost.
+ *
+ * @param {Array<Object>} table - The table to clean up.
+ * @param {Object} additionalValues - Additional values to add to each row.
+ * @returns {Array<Object>} The cleaned up table.
+ */
+function cleanUpTeamsStageDayTable(table, additionalValues) {
+  // Keep: rank, team, classification, time
+  // Drop: time_wonlost (not needed)
+  const columnsToDrop = ["h2h", "time_wonlost"];
+
+  const sorted = table.sort(sortByRanking);
+
+  const cleaned = sorted.reduce((cleaned, row) => {
+    row = renameKeys(row, tableHeaders);
+
+    if (Object.hasOwn(row, "rank")) {
+      let value = row["rank"];
+
+      if (isNaN(value)) {
+        row["status"] = value;
+        row["rank"] = "";
+      } else {
+        row["rank"] = parseInt(value, 10);
+      }
+    } else {
+      logError("PCS Stage Results", "No rank in row", null, row);
+    }
+
+    // For stage day data, keep raw time values
+    if (Object.hasOwn(row, "time")) {
+      if (row["time"] === ",,") {
+        row["time"] = "0:00";
+      } else if (row["time"] === "-" || row["time"] === "") {
+        row["time"] = "";
       }
     }
 
-    // Drop not needed columns
-    row = dropColumns(row, columnsToDrop);
+    // Rename to camelCase and add additional values first
+    const renamedRow = renameKeys({ ...row, ...additionalValues }, toCamelCase);
+    
+    // Drop not needed columns after camelCase conversion
+    const finalRow = dropColumns(renamedRow, columnsToDrop);
 
-    cleaned.push(renameKeys({ ...row, ...additionalValues }, toCamelCase));
+    cleaned.push(finalRow);
     return cleaned;
   }, []);
 
@@ -280,7 +316,9 @@ function cleanUpStageDayTable(table, additionalValues) {
  * @returns {Array<Object>} The cleaned up table.
  */
 function cleanUpPointsStageDayTable(table, additionalValues) {
-  const columnsToDrop = ["h2h"]; // Keep specialty and age for points data
+  // Keep only normalized fields: rank, points, bonis, today, locationUID
+  // Drop redundant fields that exist in other tables: specialty, age, team, locationName, distance, sprintType, bib
+  const columnsToDrop = ["h2h", "specialty", "age", "team", "locationName", "distance", "sprintType", "bib"];
 
   // Don't sort - keep data grouped by location as extracted from HTML
   const cleaned = table.reduce((cleaned, row) => {
@@ -370,7 +408,9 @@ function cleanUpPointsStageDayTable(table, additionalValues) {
  * @returns {Array<Object>} The cleaned up table.
  */
 function cleanUpKomStageDayTable(table, additionalValues) {
-  const columnsToDrop = ["h2h"]; // Keep specialty and age for KOM data
+  // Keep only normalized fields: rank, points, today, locationUID
+  // Drop redundant fields that exist in other tables: specialty, age, team, locationName, distance, category, bib
+  const columnsToDrop = ["h2h", "specialty", "age", "team", "locationName", "distance", "category", "bib"];
 
   // Don't sort - keep data grouped by location as extracted from HTML
   const cleaned = table.reduce((cleaned, row) => {
@@ -548,9 +588,13 @@ export function cleanUpStages(tables, stageDetails) {
           rankings["today"],
           additionalValues,
         );
-      } else {
-        // youth, teams
-        stageRankings[stageDayKey] = cleanUpStageDayTable(
+      } else if (classification === "youth") {
+        stageRankings[stageDayKey] = cleanUpYouthStageDayTable(
+          rankings["today"],
+          additionalValues,
+        );
+      } else if (classification === "teams") {
+        stageRankings[stageDayKey] = cleanUpTeamsStageDayTable(
           rankings["today"],
           additionalValues,
         );
@@ -814,6 +858,10 @@ export function classificationResults(
       // For points and kom, there are multiple tables (intermediate sprints/climbs)
       const todayData = [];
       
+      // Track sprint and KOM indices for locationUID generation
+      let sprintIndex = 1;
+      let komIndex = 1;
+      
       todayTabs.forEach((todayTab) => {
         // Get all tables within this today tab
         const tables = todayTab.querySelectorAll("table");
@@ -840,26 +888,27 @@ export function classificationResults(
               
               if (classification === "points" && h4Label) {
                 if (h4Label.includes("finish")) {
+                  // Points at finish - use locationUID pattern
                   locationInfo = {
-                    locationName: "Gumeracha",
-                    distance: 150.7,
+                    locationUID: `${stageDetails.stageUID}:sprint:${sprintIndex}`,
                     sprintType: "finish",
                   };
+                  sprintIndex++;
                 } else {
                   const sprintInfo = sprint(h4Label);
                   locationInfo = {
-                    locationName: sprintInfo.location,
-                    distance: parseFloat(sprintInfo.distance) || 0,
+                    locationUID: `${stageDetails.stageUID}:sprint:${sprintIndex}`,
                     sprintType: "intermediate",
                   };
+                  sprintIndex++;
                 }
               } else if (classification === "kom" && h4Label) {
                 const climbInfo = climb(h4Label);
                 locationInfo = {
-                  locationName: climbInfo.location,
-                  distance: parseFloat(climbInfo.distance) || 0,
+                  locationUID: `${stageDetails.stageUID}:kom:${komIndex}`,
                   category: climbInfo.category,
                 };
+                komIndex++;
               }
             }
             

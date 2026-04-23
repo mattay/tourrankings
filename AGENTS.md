@@ -222,18 +222,20 @@ GitHub Actions runs on PRs and pushes:
 > "A problem well stated is a problem half solved."  
 > — Charles F. Kettering
 
-Shape Up distinguishes between **having an idea** and **shaping work**. Most failed bets fail not because of execution, but because the problem was never clearly understood. Resist the urge to jump straight to solutions.
+In this project, "creating an issue" means creating a GitHub issue following the Shape Up methodology from Basecamp. Shape Up distinguishes between **having an idea** and **shaping work**. Most failed bets fail not because of execution, but because the problem was never clearly understood. Resist the urge to jump straight to solutions.
+
+**Reference:** [Basecamp's Shape Up](https://basecamp.com/shapeup) - A methodology for shipping work in 6-week cycles.
 
 ### Which Template to Use?
 
 | If you... | Use | Labels |
 |-----------|-----|--------|
-| Have a vague concept, feeling something is wrong, or see an opportunity but can't articulate it yet | 💡 Raw Idea | `raw-idea`, `needs-shaping` |
-| Can clearly state the problem AND have a shaped solution approach | 📋 Pitch | `pitch`, `needs-betting` |
+| Have a vague concept, feeling something is wrong, or see an opportunity but can't articulate it yet | Raw Idea | `raw-idea`, `needs-shaping` |
+| Can clearly state the problem AND have a shaped solution approach | Pitch | `pitch`, `needs-betting` |
 
 **Critical:** If you find yourself writing solution details in a Raw Idea, stop. You're shaping prematurely. Move those thoughts to a comment or separate doc, and focus the issue on defining the problem.
 
-### 1. 💡 Raw Idea Template
+### 1. Raw Idea Template
 
 **Use when:** You have a concept but haven't shaped it yet. The problem is fuzzy. You might not even be sure it's worth solving.
 
@@ -267,7 +269,7 @@ reflect scraper updates much faster.
 - Both run in same container with shared volume
 ```
 
-### 2. 📋 Pitch Template
+### 2. Pitch Template
 
 **Use when:** Work is shaped and ready for betting. You deeply understand the problem AND have a solution approach that fits an appetite.
 
@@ -307,10 +309,10 @@ Small Batch (1-2 weeks) / Big Batch (4-6 weeks)
 
 ```bash
 # Raw Idea
-gh issue create --label raw-idea --label needs-shaping --title "💡 Idea: [title]" --body "[description]"
+gh issue create --label raw-idea --label needs-shaping --title "Idea: [title]" --body "[description]"
 
 # Pitch (using template)
-gh issue create --label pitch --label needs-betting --title "📋 Pitch: [title]" --body-file - <<'EOF'
+gh issue create --label pitch --label needs-betting --title "Pitch: [title]" --body-file - <<'EOF'
 ## Appetite
 Small Batch (1-2 weeks)
 
@@ -330,8 +332,8 @@ EOF
 
 ### The Path from Idea to Built
 
-```
-💡 Raw Idea → [Shaping] → 📋 Pitch → [Betting] → 🔄 bet/ Branch → [Build] → ✅ Merged
+```text
+Raw Idea → [Shaping] → Pitch → [Betting] → bet/ Branch → [Build] → Merged
      ↑                           ↓
 [needs-shaping]           [needs-betting]
      ↓                           ↓

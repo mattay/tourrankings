@@ -187,6 +187,24 @@ Returns empty array instead of 500 error when no data exists.
 - **Cycle → Main**: Always merge commit, tag with `v{cycle}.0`
 - **Hotfixes**: Create bugfix/ branch, merge to main, then merge to current cycle
 
+### Git Best Practices
+
+**Never change the remote URL protocol.** The repository uses SSH (`git@github.com:...`) by default.
+
+If SSH authentication fails:
+1. Do NOT change the remote to HTTPS
+2. Fix the SSH key issue instead (e.g., load from password manager, run `ssh-add`)
+3. Check SSH connectivity: `ssh -T git@github.com`
+
+**Useful commands:**
+```bash
+# Check current remote
+git remote -v
+
+# Restore SSH if accidentally changed
+git remote set-url origin git@github.com:mattay/tourrankings.git
+```
+
 ## Project Structure
 
 ```

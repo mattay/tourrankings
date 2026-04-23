@@ -48,6 +48,26 @@
  */
 
 /**
+ * @typedef {Object} RaceStageLocationPointsResultModel
+ * @property {string} locationUID - Unique identifier for the location.
+ * @property {number} rank - Position at this location.
+ * @property {number} bib - Rider's bib number.
+ * @property {string} rider - Rider's name.
+ * @property {number} points - Points earned at this location.
+ * @property {string} bonis - Bonus seconds earned.
+ */
+
+/**
+ * @typedef {Object} RaceStageLocationMountainResultModel
+ * @property {string} locationUID - Unique identifier for the location.
+ * @property {number} rank - Position at this climb.
+ * @property {number} bib - Rider's bib number.
+ * @property {string} rider - Rider's name.
+ * @property {number} points - KOM points earned at this climb.
+ * @property {string} bonis - Bonus seconds earned.
+ */
+
+/**
  * @typedef {Object} RaceStageResultModel
  * @property {string} stageUID - The unique identifier for the stage RaceStageModel.stageUID.
  * @property {number} stage - The stage number.

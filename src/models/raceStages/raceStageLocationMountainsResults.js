@@ -1,4 +1,4 @@
-import CSVdataModel from "../dataModel_csv";
+import CSVdataModel from "@models/dataModel_csv";
 
 /**
  * @typedef {import('../@types/races').RaceStageLocationMountainResultModel} RaceStageLocationMountainResultModel
@@ -23,7 +23,7 @@ export class RaceStageLocationMountainsResults extends CSVdataModel {
       points: "number",
     };
     super(
-      `${process.env.DATA_DIR}/raceStagesLocationMountainsResults.csv`,
+      `${process.env.DATA_DIR}/raceStageLocationMountainsResults.csv`,
       ["locationUID", "bib"],
       fieldTypes,
     );

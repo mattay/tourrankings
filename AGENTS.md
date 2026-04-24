@@ -4,7 +4,7 @@ This file provides context and guidelines for agentic coding agents operating in
 
 ## Project Overview
 
-Tour Rankings is a cycling race data website with two distinct parts:
+Tour Rankings is a website to visulise classification rankings of multi-stage cycling races with two distinct parts:
 
 1. **Scraper** - Collects race data from ProCyclingStats and writes to CSV
 2. **Web App** - Express server + client-side JavaScript for visualization
@@ -89,7 +89,7 @@ const { logOut } = require("@utils/logging");  // BAD: throws in ESM
 
 ### JSDoc
 
-Add JSDoc comments for public APIs, especially in the server and services:
+Add JSDoc comments for all functions and type definitons
 
 ```javascript
 /**
@@ -193,38 +193,38 @@ Returns empty array instead of 500 error when no data exists.
 
 If SSH authentication fails:
 1. Do NOT change the remote to HTTPS
-2. Fix the SSH key issue instead (e.g., load from password manager, run `ssh-add`)
-3. Check SSH connectivity: `ssh -T git@github.com`
+2. Credentials may not have been approved. SSH key may be in a password manager.
 
-**Useful commands:**
-```bash
-# Check current remote
-git remote -v
-
-# Restore SSH if accidentally changed
-git remote set-url origin git@github.com:mattay/tourrankings.git
-```
 
 ## Project Structure
 
 ```
+data/           # Race data (csv, html, raw)
+public/         # Static assets
+scripts/        # Build & workflow scripts
 src/
-├── scrappers/          # Data collection
-│   ├── html/           # HTML fetching, parsing, caching
-│   └── source/         # Site-specific scrapers
-├── server/             # Express server
-│   ├── routes/        # API and view routes
-│   ├── middleware/    # Error handling, etc.
-│   └── config/
-├── services/           # Data loading from CSV
-├── client/            # Browser-side code
-│   ├── api/          # Client API calls
-│   ├── domain/       # Cycling-specific parsing
-│   └── styles/       # CSS
-test/
-├── scraping/          # Tests for scrapers
-└── utils/            # Utility function tests
+├── client/     # Browser JS (state, feedback)
+├── core/       # Cycling domain logic
+├── models/     # CSV-backed data models
+├── scrappers/  # ProCyclingStats scraper
+├── server/     # Express server (controllers, routes, views, middleware)
+├── services/   # Data services (CSV, Google Sheets)
+└── utils/      # Shared utilities
+test/           # Tests (Errors/, scraping/, server/, utils/)
 ```
+
+**Key entry points:**
+- `src/server/index.js` - Server boot
+- `src/client/index.js` - Client JS boot
+- `src/scrappers/scrape_proCyclingStats.js` - Scraper entry
+
+**Key services:**
+- `src/services/dataServiceInstance.js` - Data service singleton
+- `src/services/data/dataService.js` - CSV data loading
+
+**Key patterns:**
+- CSV-backed models in `src/models/`
+- EJS server-side templates in `src/server/views/`
 
 ## CI/CD
 
@@ -296,7 +296,7 @@ reflect scraper updates much faster.
 | Field | Purpose | Good Example | Bad Example |
 |-------|---------|--------------|-------------|
 | **Appetite** | Time box that forces scope decisions | "Small Batch (1-2 weeks) — can implement file watching with debounce" | "Medium" |
-| **Problem Statement** | The specific user pain. Should be undeniable. | "Users wait 75 min for fresh data during live races" | "We need better caching" |
+| **Problem Statement** | The specific user pain. it should be undeniable. | "Users wait 75 min for fresh data during live races" | "We need better caching" |
 | **Solution (Shaped)** | High-level approach, not detailed specs | "Watch CSV directory, debounce 1 min, reset polling timer" | "Implement fs.watch with recursive option set to true..." |
 
 **Optional Fields:**

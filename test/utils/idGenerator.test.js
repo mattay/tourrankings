@@ -125,6 +125,13 @@ describe("generateId.location", () => {
       shouldThrow: true,
     },
     {
+      description: "rejects non-numeric index",
+      stageUID: "tour-de-france:2024:1",
+      index: "abc",
+      locationType: "sprint",
+      shouldThrow: true,
+    },
+    {
       description: "rejects missing stageUID",
       stageUID: "",
       index: 1,

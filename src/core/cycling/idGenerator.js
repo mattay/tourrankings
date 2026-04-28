@@ -53,9 +53,7 @@ export const generateId = {
   location: (stageUID, index, locationType) => {
     // Validate stageUID
     if (!stageUID || !String(stageUID).trim()) {
-      throw new Error(
-        `generateId.location: invalid stageUID (${stageUID})`,
-      );
+      throw new Error(`generateId.location: invalid stageUID (${stageUID})`);
     }
 
     // Validate index is a positive integer

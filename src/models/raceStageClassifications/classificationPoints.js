@@ -1,5 +1,5 @@
 import { logError } from "@utils/logging";
-import CSVdataModel from "../dataModel_csv";
+import CSVdataModel from "@models/dataModel_csv";
 
 /**
  * @typedef {import('../@types/classifications').ClassificationPointModel} ClassificationPointModel

@@ -48,7 +48,7 @@
  */
 
 /**
- * @typedef {Object} RaceStageLocationPointsResultModel
+ * @typedef {Object} RaceStageLocationPointResultModel
  * @property {string} locationUID - Unique identifier for the location.
  * @property {number} rank - Position at this location.
  * @property {number} bib - Rider's bib number.

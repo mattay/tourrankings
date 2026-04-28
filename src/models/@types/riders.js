@@ -1,4 +1,5 @@
-/** @typedef {Object} RiderModel - Rider data object
+/**
+ * @typedef {Object} RiderModel - Rider data object
  * @property {string} riderId - Unique identifier for the rider
  * @property {string} surname - Surname of the rider
  * @property {string} firstNames - First names of the rider

@@ -1,7 +1,7 @@
 import CSVdataModel from "../dataModel_csv";
 
 /**
- * @typedef {import('../@types/races').RaceStageLocationMountainModel} RaceStageLocationMountainModel
+ * @typedef {import('@models/@types/races').RaceStageLocationMountainModel} RaceStageLocationMountainModel
  */
 
 /**
@@ -22,12 +22,12 @@ export class RaceStageLocationMountains extends CSVdataModel {
       distance: "number",
     };
     super(
-      `${process.env.DATA_DIR}/raceStagesLocationMountains.csv`,
-      ["locationId", "stageUID"],
+      `${process.env.DATA_DIR}/raceStageLocationMountains.csv`,
+      ["Location UID"],
       fieldTypes,
     );
     this.csvHeaders = [
-      "Location Id",
+      "Location UID",
       "Stage UID",
       "Year",
       "Stage",
@@ -36,8 +36,8 @@ export class RaceStageLocationMountains extends CSVdataModel {
       "Distance",
     ];
     this.sortOrder = [
-      ["stageUID", "asc"],
-      ["stage", "asc"],
+      ["locationUID", "asc"],
+      // ["stage", "asc"],
     ];
     this.validateConfig();
   }

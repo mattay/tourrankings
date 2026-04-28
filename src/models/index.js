@@ -5,6 +5,8 @@ export {
   RaceStageResults,
   RaceStageLocationPoints,
   RaceStageLocationMountains,
+  RaceStageLocationPointsResults,
+  RaceStageLocationMountainsResults,
 } from "./raceStages";
 export { Teams } from "./teams";
 export { Riders } from "./riders";

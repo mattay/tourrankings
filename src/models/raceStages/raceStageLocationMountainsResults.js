@@ -1,7 +1,7 @@
 import CSVdataModel from "@models/dataModel_csv";
 
 /**
- * @typedef {import('../@types/races').RaceStageLocationMountainResultModel} RaceStageLocationMountainResultModel
+ * @typedef {import('@models/@types/races').RaceStageLocationMountainResultModel} RaceStageLocationMountainResultModel
  */
 
 /**

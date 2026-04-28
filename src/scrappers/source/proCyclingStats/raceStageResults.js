@@ -973,7 +973,7 @@ export function classificationResults(
         }
 
         todayTables.forEach((table, htmlIndex) => {
-          let h4Label = h4Labels[htmlIndex].textContent || "";
+          let h4Label = h4Labels[htmlIndex]?.textContent || "";
           let locationIndex = htmlIndex + 1;
           let locationType = classification;
           let locationUID = generateId.location(

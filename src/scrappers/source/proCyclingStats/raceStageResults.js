@@ -229,7 +229,7 @@ function cleanUpLocationsTable(table, additionalValues) {
  * @param {Object} additionalValues - Additional values to add to each row.
  * @returns {Array<Object>} The cleaned up table.
  */
-function cleanUpYouthStageDayTable(table, additionalValues) {
+function cleanUpYouthLocationContestTable(table, additionalValues) {
   // Keep: rank, time, rider (links to RaceRider)
   // Drop: specialty, age, team, bib, timeWonLost
   const columnsToDrop = [
@@ -294,7 +294,7 @@ function cleanUpYouthStageDayTable(table, additionalValues) {
  * @param {Object} additionalValues - Additional values to add to each row.
  * @returns {Array<Object>} The cleaned up table.
  */
-function cleanUpTeamsStageDayTable(table, additionalValues) {
+function cleanUpTeamsLocationContestTable(table, additionalValues) {
   // Keep: rank, team, classification, time
   // Drop: timeWonlost (not needed)
   const columnsToDrop = ["h2h", "timeWonlost"];
@@ -347,7 +347,7 @@ function cleanUpTeamsStageDayTable(table, additionalValues) {
  * @param {Object} additionalValues - Additional values to add to each row.
  * @returns {Array<Object>} The cleaned up table.
  */
-function cleanUpPointsStageDayTable(table, additionalValues) {
+function cleanUpPointsLocationContestTable(table, additionalValues) {
   // Keep only normalized fields: rank, points, bonis, today, locationUID
   // Drop redundant fields that exist in other tables: specialty, age, team, locationName, distance, sprintType, bib
   const columnsToDrop = [
@@ -468,7 +468,7 @@ function cleanUpPointsStageDayTable(table, additionalValues) {
  * @param {Object} additionalValues - Additional values to add to each row.
  * @returns {Array<Object>} The cleaned up table.
  */
-function cleanUpMountainStageDayTable(table, additionalValues) {
+function cleanUpMountainLocationContestTable(table, additionalValues) {
   // Keep only normalized fields: rank, points, today, locationUID
   // Drop redundant fields that exist in other tables: specialty, age, team, locationName, distance, category, bib
   const columnsToDrop = [
@@ -676,25 +676,25 @@ export function cleanUpStages(tables, stageDetails) {
       // Use appropriate cleanup based on classification type
       if (classification === "points") {
         stageRankings[`${classification}LocationContest`] =
-          cleanUpPointsStageDayTable(
+          cleanUpPointsLocationContestTable(
             rankings["today"]["results"],
             additionalValues,
           );
       } else if (classification === "kom" || classification === "qom") {
         stageRankings[`${classification}LocationContest`] =
-          cleanUpMountainStageDayTable(
+          cleanUpMountainLocationContestTable(
             rankings["today"]["results"],
             additionalValues,
           );
       } else if (classification === "youth") {
         stageRankings[`${classification}LocationContest`] =
-          cleanUpYouthStageDayTable(
+          cleanUpYouthLocationContestTable(
             rankings["today"]["results"],
             additionalValues,
           );
       } else if (classification === "teams") {
         stageRankings[`${classification}LocationContest`] =
-          cleanUpTeamsStageDayTable(
+          cleanUpTeamsLocationContestTable(
             rankings["today"]["results"],
             additionalValues,
           );
@@ -973,7 +973,7 @@ export function classificationResults(
         }
 
         todayTables.forEach((table, htmlIndex) => {
-          let h4Label = h4Labels[htmlIndex]?.textContent || "";
+          let h4Label = h4Labels[htmlIndex].textContent || "";
           let locationIndex = htmlIndex + 1;
           let locationType = classification;
           let locationUID = generateId.location(

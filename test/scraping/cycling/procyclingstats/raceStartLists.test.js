@@ -24,22 +24,22 @@ const STARTLIST_TEST_CASES = [
   {
     race: "Tour Down Under",
     year: 2025,
-    html: "test/scraping/cycling/procyclingstats/html/raceStartList-2025-tour-down-under.html",
+    html: "test/scraping/cycling/procyclingstats/html/race-startlist-2025/raceStartList-2025-tour-down-under.html",
     startlist: {
-      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartList-2025-tour-down-under.json",
-      csv: "test/scraping/cycling/procyclingstats/fixtures/raceStartList-2025-tour-down-under.csv",
+      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartlist/2025/raceStartList-2025-tour-down-under.json",
+      csv: "test/scraping/cycling/procyclingstats/fixtures/raceStartlist/2025/raceStartList-2025-tour-down-under.csv",
     },
     teams: {
-      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartList-2025-tour-down-under.json",
-      csv: "test/scraping/cycling/procyclingstats/fixtures/teams-2025-tour-down-under.csv",
+      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartlist/2025/raceStartList-2025-tour-down-under.json",
+      csv: "test/scraping/cycling/procyclingstats/fixtures/raceStartlist/2025/teams-2025-tour-down-under.csv",
     },
     riders: {
-      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartList-2025-tour-down-under.json",
-      csv: "test/scraping/cycling/procyclingstats/fixtures/riders-2025-tour-down-under.csv",
+      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartlist/2025/raceStartList-2025-tour-down-under.json",
+      csv: "test/scraping/cycling/procyclingstats/fixtures/raceRiders/2025/riders-2025-tour-down-under.csv",
     },
     raceRiders: {
-      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartList-2025-tour-down-under.json",
-      csv: "test/scraping/cycling/procyclingstats/fixtures/raceRiders-2025-tour-down-under.csv",
+      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartlist/2025/raceStartList-2025-tour-down-under.json",
+      csv: "test/scraping/cycling/procyclingstats/fixtures/raceRiders/2025/raceRiders-2025-tour-down-under.csv",
     },
   },
 ];

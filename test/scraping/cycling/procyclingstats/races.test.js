@@ -12,8 +12,8 @@ const TEST_CASES_SEASON_RACES = [
     filterClass: "2.UWT",
     html: "test/scraping/cycling/procyclingstats/html/races-2025-2.UWT.html",
     races: {
-      json: "test/scraping/cycling/procyclingstats/fixtures/races-2025-2.UWT.json",
-      csv: "test/scraping/cycling/procyclingstats/fixtures/races-2025-2.UWT.csv",
+      json: "test/scraping/cycling/procyclingstats/fixtures/races-2025/2025/races-2025-2.UWT.json",
+      csv: "test/scraping/cycling/procyclingstats/fixtures/races-2025/2025/races-2025-2.UWT.csv",
     },
   },
 ];

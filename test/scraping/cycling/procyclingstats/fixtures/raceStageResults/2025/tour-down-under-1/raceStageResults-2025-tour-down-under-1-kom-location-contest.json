@@ -1,0 +1,110 @@
+[
+  {
+    "rank": 1,
+    "rider": "Browning Fergus",
+    "points": 7,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:kom:1",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 2,
+    "rider": "Marriage Zac",
+    "points": 5,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:kom:1",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 3,
+    "rider": "Tronchon Bastien",
+    "points": 3,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:kom:1",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 4,
+    "rider": "Tjøtta Martin",
+    "points": 1,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:kom:1",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 1,
+    "rider": "Browning Fergus",
+    "points": 7,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:kom:2",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 2,
+    "rider": "Marriage Zac",
+    "points": 5,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:kom:2",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 3,
+    "rider": "Fisher-Black Finn",
+    "points": 3,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:kom:2",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 4,
+    "rider": "Zwiehoff Ben",
+    "points": 1,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:kom:2",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 1,
+    "rider": "Browning Fergus",
+    "points": 7,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:kom:3",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 2,
+    "rider": "Marriage Zac",
+    "points": 5,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:kom:3",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 3,
+    "rider": "Soler Marc",
+    "points": 3,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:kom:3",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 4,
+    "rider": "Ourselin Paul",
+    "points": 1,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:kom:3",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  }
+]

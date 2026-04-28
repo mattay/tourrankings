@@ -23,8 +23,8 @@ const STAGES_TEST_CASES = [
     year: 2025,
     html: "test/scraping/cycling/procyclingstats/html/races-2025/raceStages-2025-tour-down-under.html",
     stages: {
-      json: "test/scraping/cycling/procyclingstats/fixtures/raceStages-2025-tour-down-under.json",
-      csv: "test/scraping/cycling/procyclingstats/fixtures/raceStages-2025-tour-down-under.csv",
+      json: "test/scraping/cycling/procyclingstats/fixtures/raceStages/2025/raceStages-2025-tour-down-under.json",
+      csv: "test/scraping/cycling/procyclingstats/fixtures/raceStages/2025/raceStages-2025-tour-down-under.csv",
     },
   },
 ];

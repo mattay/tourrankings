@@ -1,5 +1,4 @@
 import { validateYear } from "@utils/date";
-import { logOut } from "@utils/logging";
 
 let _season;
 

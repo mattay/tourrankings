@@ -452,8 +452,10 @@ async function updateStageResults(models) {
               stageResults[ranking],
             );
             break;
-          // case "youthLocations":
-          // case "teamsLocations":
+          case "youthLocationContest":
+          case "teamsLocationContest":
+            // Ignore for now
+            break;
           default:
             logOut(
               "Main",
@@ -468,18 +470,6 @@ async function updateStageResults(models) {
       if (stageResults["stage"]) {
         await models.raceStageResults.update(stageResults["stage"]);
       }
-
-      // Write location-specific results (intermediate sprints and climbs)
-      // if (stageResults["points"]?.today) {
-      //   await models.raceStageLocationPoints.update(
-      //     stageResults["points"].today,
-      //   );
-      // }
-      // if (stageResults["kom"]?.today) {
-      //   await models.raceStageLocationMountains.update(
-      //     stageResults["kom"].today,
-      //   );
-      // }
 
       if (DEBUG_MEMORY) logMemoryUsage(`After-Write-${stage}`);
     } else {

@@ -910,7 +910,7 @@ export function classificationResults(
   );
 
   for (let i = 0; i < classificationResultsSelection.length; i++) {
-    const classification = classificationsList[i];
+    let classification = classificationsList[i];
     if (!classification) {
       logOut(
         "PCS Stage Results",
@@ -959,8 +959,8 @@ export function classificationResults(
       classificationStageResults[classification]["today"] = {};
       // For youth and teams, there's only one table per today tab
       // For points and kom, there are multiple tables (intermediate sprints/climbs)
-      const todayLocationResults = [];
-      const todayLocations = [];
+      const todayTabLocationResults = [];
+      const todayTabLocations = [];
 
       todayTabs.forEach((todayTab) => {
         // Get all tables within this today tab
@@ -991,53 +991,55 @@ export function classificationResults(
             allocatedPoints: [],
             allocatedBoni: [],
           };
+
+          // Determine correct locationType and generate locationUID
+          if (classification === "mountains") {
+            locationInfo = {
+              ...locationInfo,
+              ...climbLocation(h4Label),
+            };
+          }
+          if (classification === "points") {
+            locationInfo = {
+              ...locationInfo,
+              ...sprintLocation(h4Label),
+            };
+          }
+
           const tableData = extractClassificationTable(table, stageDetails);
 
-          if (tableData.length > 0) {
-            // Track sprint and KOM indices for locationUID generation
-            if (classification === "points") {
-              locationInfo = { ...locationInfo, ...sprintLocation(h4Label) };
-            } else if (classification === "kom") {
-              locationInfo = { ...locationInfo, ...climbLocation(h4Label) };
-            }
+          for (let i = 0; i < tableData.length; i++) {
+            const contestent = tableData[i];
 
-            for (let i = 0; i < tableData.length; i++) {
-              const contestent = tableData[i];
-              if (classification === "points" || classification === "kom") {
-                contestent.locationUID = locationUID;
-                let rankIndex = parseInt(contestent?.rnk) - 1;
-                let points = contestent?.pnt;
-                let boni = contestent?.result_boni;
-                if (points)
-                  locationInfo.allocatedPoints[rankIndex] = parseInt(points);
-                if (boni) locationInfo.allocatedBoni[rankIndex] = boni;
-              }
+            // Collect location allocated points and bonis
+            if (classification === "points" || classification === "mountains") {
+              contestent.locationUID = locationUID;
+              let rankIndex = parseInt(contestent?.rnk) - 1;
+              let points = contestent?.pnt;
+              let boni = contestent?.result_boni;
+              if (points)
+                locationInfo.allocatedPoints[rankIndex] = parseInt(points);
+              if (boni) locationInfo.allocatedBoni[rankIndex] = boni;
             }
-
-            if (classification === "points" || classification === "kom") {
-              todayLocations.push(locationInfo);
-            }
-
-            // Add location info to each row
-            const tableDataWithLocation = tableData.map((row) => ({
-              locationUID,
-              ...row,
-            }));
-            todayLocationResults.push(...tableDataWithLocation);
+            todayTabLocationResults.push(contestent);
+          }
+          // Wait for all allocated points and bonis at location
+          if (classification === "points" || classification === "mountains") {
+            todayTabLocations.push(locationInfo);
           }
         });
       });
 
-      if (todayLocations.length > 0) {
+      if (todayTabLocations.length > 0) {
         // console.table(todayLocations);
         classificationStageResults[classification]["today"]["locations"] =
-          todayLocations;
+          todayTabLocations;
       }
 
-      if (todayLocationResults.length > 0) {
+      if (todayTabLocationResults.length > 0) {
         // console.table(todayLocationResults);
         classificationStageResults[classification]["today"]["results"] =
-          todayLocationResults;
+          todayTabLocationResults;
       }
     }
   }

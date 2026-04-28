@@ -31,9 +31,9 @@ export class RaceStageLocationPointsResults extends CSVdataModel {
       "Location UID",
       "Rank",
       "Bib",
-      "Rider",
       "Points",
       "Bonis",
+      "Today",
     ];
     this.sortOrder = [
       ["locationUID", "asc"],

@@ -118,7 +118,7 @@ describe("generateId.location", () => {
       expected: "tour-de-france:2024:1:sprint:10",
     },
     {
-      description: "index 0 for first location",
+      description: "rejects index 0",
       stageUID: "giro-d-italia:2025:1",
       index: 0,
       locationType: "sprint",

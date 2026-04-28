@@ -25,7 +25,7 @@ export class ClassificationPoints extends CSVdataModel {
       bib: "number",
       age: "number",
       points: "number",
-      //today: "number",
+      today: "number",
     };
     super(
       `${process.env.DATA_DIR}/raceStageClassificationPoints.csv`,

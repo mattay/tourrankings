@@ -23,14 +23,10 @@ describe.each([
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-teams.json",
       youngClassification:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-youth.json",
-      teamsStageDay:
-        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-teams-stage-day.json",
-      youthStageDay:
-        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-youth-stage-day.json",
-      pointsStageDay:
-        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-points-stage-day.json",
-      komStageDay:
-        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-kom-stage-day.json",
+      // teamsStageDay:
+      //   "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-teams-stage-day.json",
+      // youthStageDay:
+      //   "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-youth-stage-day.json",
       pointsLocations:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-points-locations.json",
       pointsLocationContest:
@@ -49,10 +45,8 @@ describe.each([
     expectedPoints,
     expectedTeams,
     expectedYouth,
-    expectedTeamsStageDay,
-    expectedYouthStageDay,
-    expectedPointsStageDay,
-    expectedKomStageDay,
+    // expectedTeamsStageDay,
+    // expectedYouthStageDay,
     expectedPointsLocations,
     expectedPointsLocationContest,
     expectedMountainsLocations,
@@ -66,10 +60,8 @@ describe.each([
     const outputPoints = Bun.file(data.output.pointsClassification);
     const outputTeams = Bun.file(data.output.teamClassification);
     const outputYouth = Bun.file(data.output.youngClassification);
-    const outputTeamsStageDay = Bun.file(data.output.teamsStageDay);
-    const outputYouthStageDay = Bun.file(data.output.youthStageDay);
-    const outputPointsStageDay = Bun.file(data.output.pointsStageDay);
-    const outputKomStageDay = Bun.file(data.output.komStageDay);
+    // const outputTeamsStageDay = Bun.file(data.output.teamsStageDay);
+    // const outputYouthStageDay = Bun.file(data.output.youthStageDay);
     const outputPointsLocations = Bun.file(data.output.pointsLocations);
     const outputPointsLocationContest = Bun.file(
       data.output.pointsLocationContest,
@@ -92,14 +84,13 @@ describe.each([
     expectedPoints = await outputPoints.json();
     expectedTeams = await outputTeams.json();
     expectedYouth = await outputYouth.json();
-    expectedTeamsStageDay = await outputTeamsStageDay.json();
-    expectedYouthStageDay = await outputYouthStageDay.json();
-    expectedPointsStageDay = await outputPointsStageDay.json();
-    expectedKomStageDay = await outputKomStageDay.json();
+    // expectedTeamsStageDay = await outputTeamsStageDay.json();
+    // expectedYouthStageDay = await outputYouthStageDay.json();
     expectedPointsLocations = await outputPointsLocations.json();
     expectedMountainsLocations = await outputMountainsLocations.json();
     expectedPointsLocationContest = await outputPointsLocationContest.json();
-    expectedKomLocationContest = await outputKomLocationContest.json();
+    expectedMountainsLocationContest =
+      await outputMountainsLocationContest.json();
 
     stageClassificationResults = extractStageClassificationResultsFromHTML(
       html,
@@ -131,28 +122,16 @@ describe.each([
     expect(stageClassificationResults.youth).toEqual(expectedYouth);
   });
 
-  // test("Should match expected teams stage day (today) classification", async () => {
-  //   expect(stageClassificationResults.teamsStageDay).toEqual(
+  // test("Should match expected teams location contest", async () => {
+  //   expect(stageClassificationResults.teamsLocationContest).toEqual(
   //     expectedTeamsStageDay,
   //   );
   // });
 
-  // test("Should match expected youth stage day (today) classification", async () => {
-  //   expect(stageClassificationResults.youthStageDay).toEqual(
+  // test("Should match expected youth location contest", async () => {
+  //   expect(stageClassificationResults.youthLocationContest).toEqual(
   //     expectedYouthStageDay,
   //   );
-  // });
-
-  // TODO: Fix stage day tests (fixture structure changed)
-  // test("Should match expected points stage day (today) classification", async () => {
-  //   expect(stageClassificationResults.pointsStageDay).toEqual(
-  //     expectedPointsStageDay,
-  //   );
-  // });
-
-  // TODO: Fix stage day tests (fixture structure changed)
-  // test("Should match expected KOM stage day (today) classification", async () => {
-  //   expect(stageClassificationResults.komStageDay).toEqual(expectedKomStageDay);
   // });
 
   test("Should match expected points locations", async () => {
@@ -161,21 +140,21 @@ describe.each([
     );
   });
 
-  // TODO: Fix kom locations test
-  // test("Should match expected kom locations", async () => {
-  //   expect(stageClassificationResults.komLocations).toEqual(expectedKomLocations);
-  // });
+  test("Should match expected points location contest", async () => {
+    expect(stageClassificationResults.pointsLocationContest).toEqual(
+      expectedPointsLocationContest,
+    );
+  });
 
-  // TODO: Fix location contest tests (needs bib field)
-  // test("Should match expected points location contest", async () => {
-  //   expect(stageClassificationResults.pointsLocationContest).toEqual(
-  //     expectedPointsLocationContest,
-  //   );
-  // });
+  test("Should match expected mountains locations", async () => {
+    expect(stageClassificationResults.mountainsLocations).toEqual(
+      expectedMountainsLocations,
+    );
+  });
 
-  // test("Should match expected kom location contest", async () => {
-  //   expect(stageClassificationResults.komLocationContest).toEqual(
-  //     expectedKomLocationContest,
-  //   );
-  // });
+  test("Should match expected mountains location contest", async () => {
+    expect(stageClassificationResults.mountainsLocationContest).toEqual(
+      expectedMountainsLocationContest,
+    );
+  });
 });

@@ -70,13 +70,7 @@ export const generateId = {
       );
     }
 
-    // Validate locationType against allowed values
-    const ALLOWED_LOCATION_TYPES = new Set(["sprint", "mountain"]);
-    if (
-      !locationType ||
-      !String(locationType).trim() ||
-      !ALLOWED_LOCATION_TYPES.has(locationType)
-    ) {
+    if (!locationType || !String(locationType).trim()) {
       throw new Error(
         `generateId.location: invalid locationType (${locationType}) - must be one of: ${Array.from(ALLOWED_LOCATION_TYPES).join(", ")}`,
       );

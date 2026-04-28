@@ -91,38 +91,38 @@ describe("generateId.location", () => {
   const testCases = [
     {
       description: "valid sprint location",
-      stageUID: "tour-de-france:2024:stage-1",
+      stageUID: "tour-de-france:2024:1",
       index: 1,
       locationType: "sprint",
-      expected: "tour-de-france:2024:stage-1:sprint:1",
+      expected: "tour-de-france:2024:1:sprint:1",
     },
     {
       description: "valid mountain location",
-      stageUID: "tour-de-france:2024:stage-1",
+      stageUID: "tour-de-france:2024:1",
       index: 1,
       locationType: "mountain",
-      expected: "tour-de-france:2024:stage-1:mountain:1",
-    },
-    {
-      description: "index 0 for first location",
-      stageUID: "giro-d-italia:2025:stage-1",
-      index: 0,
-      locationType: "sprint",
-      expected: "giro-d-italia:2025:stage-1:sprint:0",
+      expected: "tour-de-france:2024:1:mountain:1",
     },
     {
       description: "string index",
-      stageUID: "tour-de-france:2024:stage-1",
+      stageUID: "tour-de-france:2024:1",
       index: "3",
       locationType: "mountain",
-      expected: "tour-de-france:2024:stage-1:mountain:3",
+      expected: "tour-de-france:2024:1:mountain:3",
     },
     {
       description: "multi-digit index",
-      stageUID: "tour-de-france:2024:stage-1",
+      stageUID: "tour-de-france:2024:1",
       index: 10,
       locationType: "sprint",
-      expected: "tour-de-france:2024:stage-1:sprint:10",
+      expected: "tour-de-france:2024:1:sprint:10",
+    },
+    {
+      description: "index 0 for first location",
+      stageUID: "giro-d-italia:2025:1",
+      index: 0,
+      locationType: "sprint",
+      shouldThrow: true,
     },
     {
       description: "rejects missing stageUID",
@@ -133,28 +133,28 @@ describe("generateId.location", () => {
     },
     {
       description: "rejects missing index",
-      stageUID: "tour-de-france:2024:stage-1",
+      stageUID: "tour-de-france:2024:1",
       index: null,
       locationType: "sprint",
       shouldThrow: true,
     },
     {
       description: "rejects empty string index",
-      stageUID: "tour-de-france:2024:stage-1",
+      stageUID: "tour-de-france:2024:1",
       index: "",
       locationType: "sprint",
       shouldThrow: true,
     },
     {
       description: "rejects missing locationType",
-      stageUID: "tour-de-france:2024:stage-1",
+      stageUID: "tour-de-france:2024:1",
       index: 1,
       locationType: "",
       shouldThrow: true,
     },
     {
       description: "rejects missing locationType null",
-      stageUID: "tour-de-france:2024:stage-1",
+      stageUID: "tour-de-france:2024:1",
       index: 1,
       locationType: null,
       shouldThrow: true,
@@ -165,9 +165,13 @@ describe("generateId.location", () => {
     "handles $description",
     ({ stageUID, index, locationType, expected, shouldThrow }) => {
       if (shouldThrow) {
-        expect(() => generateId.location(stageUID, index, locationType)).toThrow();
+        expect(() =>
+          generateId.location(stageUID, index, locationType),
+        ).toThrow();
       } else {
-        expect(generateId.location(stageUID, index, locationType)).toBe(expected);
+        expect(generateId.location(stageUID, index, locationType)).toBe(
+          expected,
+        );
       }
     },
   );

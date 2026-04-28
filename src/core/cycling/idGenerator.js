@@ -42,4 +42,28 @@ export const generateId = {
 
     return `${raceUID}:${stageNumber}`;
   },
+
+  /**
+   * Generate a location ID for intermediate locations (sprints, climbs).
+   * @param {string} stageUID - Composite stage UID.
+   * @param {number|string} index - Location index ( 1, 2, ...).
+   * @param {string} locationType - Location type: "sprint" | "mountain".
+   * @returns {string} Composite location ID.
+   */
+  location: (stageUID, index, locationType) => {
+    if (
+      !stageUID ||
+      !String(stageUID).trim() ||
+      index == null ||
+      index === "" ||
+      Number(index) < 1 ||
+      !locationType ||
+      !String(locationType).trim()
+    )
+      throw new Error(
+        `generateId.location: invalid args (stageUID=${stageUID}, index=${index}, locationType=${locationType})`,
+      );
+
+    return `${stageUID}:${locationType}:${index}`;
+  },
 };

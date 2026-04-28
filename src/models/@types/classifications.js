@@ -47,10 +47,10 @@
  * @property {string} delta - The time difference between the rider and the leader.
  */
 
-/** @typedef {Object} ClassificationMountainModel
+/** @typedef {Object} ClassificationMountainsModel
  * @property {string} stageUID - The unique identifier for the stage.
  * @property {number} stage
- * @property {number} rank - The rank of the rider in the mountain classification.
+ * @property {number} rank - The rank of the rider in the mountains classification.
  * @property {number} previousStageRanking - The rank of the rider in the previous stage.
  * @property {number} change - The change in rank from the previous stage.
  * @property {number} bib - The unique identifier for the rider.

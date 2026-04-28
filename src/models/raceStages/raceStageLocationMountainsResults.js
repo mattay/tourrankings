@@ -8,7 +8,7 @@ import CSVdataModel from "@models/dataModel_csv";
  * Class for managing race stage location mountains results loaded from a CSV file.
  *
  * Extends {@link CSVdataModel} to provide specialized handling for KOM point results
- * at intermediate mountain locations within race stages.
+ * at intermediate mountains locations within race stages.
  *
  * @extends CSVdataModel
  */

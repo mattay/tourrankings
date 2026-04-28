@@ -97,18 +97,18 @@ describe("generateId.location", () => {
       expected: "tour-de-france:2024:1:sprint:1",
     },
     {
-      description: "valid mountain location",
+      description: "valid mountains location",
       stageUID: "tour-de-france:2024:1",
       index: 1,
-      locationType: "mountain",
-      expected: "tour-de-france:2024:1:mountain:1",
+      locationType: "mountains",
+      expected: "tour-de-france:2024:1:mountains:1",
     },
     {
       description: "string index",
       stageUID: "tour-de-france:2024:1",
       index: "3",
-      locationType: "mountain",
-      expected: "tour-de-france:2024:1:mountain:3",
+      locationType: "mountains",
+      expected: "tour-de-france:2024:1:mountains:3",
     },
     {
       description: "multi-digit index",

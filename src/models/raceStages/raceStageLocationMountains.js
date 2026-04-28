@@ -5,9 +5,9 @@ import CSVdataModel from "@models/dataModel_csv";
  */
 
 /**
- * Class for managing mountain location data within race stages, loaded from a CSV file.
+ * Class for managing mountains location data within race stages, loaded from a CSV file.
  *
- * Extends {@link CSVdataModel} to provide specialized handling for mountain location records in race stages.
+ * Extends {@link CSVdataModel} to provide specialized handling for mountains location records in race stages.
  *
  * @extends CSVdataModel
  */

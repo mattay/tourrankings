@@ -28,7 +28,7 @@ export const CALCULATION_TYPES = Object.freeze({
  * @property {string} STAGE - Stage classification.
  * @property {string} GENERAL - General classification (GC).
  * @property {string} POINTS - Points classification (sprint).
- * @property {string} MOUNTAIN - Mountain classification (climber).
+ * @property {string} MOUNTAINS - Mountain classification (climber).
  * @property {string} YOUTH - Youth classification (young rider).
  * @property {string} TEAM - Team classification.
  *
@@ -41,7 +41,7 @@ export const CLASSIFICATION_TYPES = Object.freeze({
   STAGE: "stage",
   GENERAL: "general",
   POINTS: "points",
-  MOUNTAIN: "mountain",
+  MOUNTAINS: "mountains",
   YOUTH: "youth",
   TEAM: "team",
 });
@@ -73,8 +73,8 @@ export const CLASSIFICATION_CONFIG = Object.freeze({
       "Points collected at designated locations during and/or at end of stages",
     teamBased: false,
   },
-  [CLASSIFICATION_TYPES.MOUNTAIN]: {
-    label: "Mountain",
+  [CLASSIFICATION_TYPES.MOUNTAINS]: {
+    label: "Mountains",
     calculationType: CALCULATION_TYPES.ACCUMULATED_POINTS,
     description:
       "Points collected at mountain/climb locations, may include bonifications for time-based classifications",
@@ -202,7 +202,7 @@ export function isTeamClassification(classificationType) {
  * @returns {string[]} Array of classification types that use the specified calculation method.
  *
  * @example
- * getClassificationsByCalculationType("accumulated_points"); // ["points", "mountain"]
+ * getClassificationsByCalculationType("accumulated_points"); // ["points", "mountains"]
  * getClassificationsByCalculationType("accumulated_time"); // ["general", "youth"]
  */
 export function getClassificationsByCalculationType(calculationType) {

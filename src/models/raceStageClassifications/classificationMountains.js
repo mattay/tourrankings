@@ -2,18 +2,18 @@ import { logError } from "@utils/logging";
 import CSVdataModel from "@models/dataModel_csv";
 
 /**
- * @typedef {import('../@types/classifications').ClassificationMountainModel} ClassificationMountainModel
+ * @typedef {import('../@types/classifications').ClassificationMountainsModel} ClassificationMountainsModel
  */
 
 /**
- * Class for managing mountain classification data for race stages, loaded from a CSV file.
+ * Class for managing mountains classification data for race stages, loaded from a CSV file.
  *
- * Extends {@link CSVdataModel} to provide specialized handling for mountain classification records.
+ * Extends {@link CSVdataModel} to provide specialized handling for mountains classification records.
  *
  * @extends CSVdataModel
  */
-export class ClassificationMountain extends CSVdataModel {
-  /** @type {ClassificationMountainModel[]} */
+export class ClassificationMountains extends CSVdataModel {
+  /** @type {ClassificationMountainsModel[]} */
   rows = [];
 
   constructor() {
@@ -25,7 +25,7 @@ export class ClassificationMountain extends CSVdataModel {
       bib: "number",
       age: "number",
       points: "number",
-      //today: "number",
+      today: "number",
     };
     super(
       `${process.env.DATA_DIR}/raceStageClassificationMountain.csv`,
@@ -56,7 +56,7 @@ export class ClassificationMountain extends CSVdataModel {
   /**
    * Retrieves the stage points for a given stage ID.
    * @param {string} stageUID - The ID of the stage.
-   * @returns {ClassificationMountainModel[]|null} - Returns an array of stage points.
+   * @returns {ClassificationMountainsModel[]|null} - Returns an array of stage points.
    */
   getStageRankings(stageUID) {
     if (!stageUID) {

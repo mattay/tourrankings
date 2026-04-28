@@ -47,7 +47,7 @@ export const generateId = {
    * Generate a location ID for intermediate locations (sprints, climbs).
    * @param {string} stageUID - Composite stage UID.
    * @param {number|string} index - Location index ( 1, 2, ...).
-   * @param {string} locationType - Location type: "sprint" | "mountain".
+   * @param {string} locationType - Location type: "sprint" | "mountains".
    * @returns {string} Composite location ID.
    */
   location: (stageUID, index, locationType) => {

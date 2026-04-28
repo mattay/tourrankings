@@ -24,7 +24,7 @@ import { join, dirname } from "path";
  * @typedef {import('../../models/@types/teams').TeamModel} TeamData
  * @typedef {import('../../models/@types/riders').RiderModel} RiderData
  * @typedef {import('../../models/@types/classifications').ClassificationPointModel} ClassificationPointsData
- * @typedef {import('../../models/@types/classifications').ClassificationMountainModel} ClassificationMountainData
+ * @typedef {import('../../models/@types/classifications').ClassificationMountainsModel} ClassificationMountainData
  * @typedef {import('../../models/@types/classifications').ClassificationGeneralModel} ClassificationGeneralData
  * @typedef {import('../../models/@types/classifications').ClassificationYouthModel} ClassificationYouthData
  * @typedef {import('../../models/@types/classifications').ClassificationTeamModel} ClassificationTeamData
@@ -530,25 +530,25 @@ class DataService {
   }
 
   /**
-   * Retrieves mountain classification results for all stages in a specific race.
+   * Retrieves mountains classification results for all stages in a specific race.
    *
    * @param {string} raceUID - The unique identifier of the race.
-   * @returns {Array<ClassificationMountainData[]>} Array of mountain classification results, indexed by stage number.
+   * @returns {Array<ClassificationMountainData[]>} Array of mountains classification results, indexed by stage number.
    * @throws {Error} If the service is not initialized.
    */
   raceClassificationsMountain(raceUID) {
     return this._getStageClassifications(
       raceUID,
       this.classificationMountain,
-      "mountain classification",
+      "mountains classification",
     );
   }
 
   /**
-   * Retrieves mountain classification results for all stages in a specific race.
+   * Retrieves team classification results for all stages in a specific race.
    *
    * @param {string} raceUID - The unique identifier of the race.
-   * @returns {Array<ClassificationTeamData[]>} Array of mountain classification results, indexed by stage number.
+   * @returns {Array<ClassificationTeamData[]>} Array of team classification results, indexed by stage number.
    * @throws {Error} If the service is not initialized.
    */
   raceClassificationsTeams(raceUID) {

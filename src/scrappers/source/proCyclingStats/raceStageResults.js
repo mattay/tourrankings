@@ -680,7 +680,7 @@ export function cleanUpStages(tables, stageDetails) {
             rankings["today"]["results"],
             additionalValues,
           );
-      } else if (classification === "kom" || classification === "qom") {
+      } else if (classification === "mountains") {
         stageRankings[`${classification}LocationContest`] =
           cleanUpMountainLocationContestTable(
             rankings["today"]["results"],
@@ -918,6 +918,9 @@ export function classificationResults(
         "warn",
       );
       continue;
+    }
+    if (classification === "kom" || classification === "qom") {
+      classification = "mountains";
     }
     classificationStageResults[classification] = {};
 

@@ -16,7 +16,7 @@ describe.each([
       generalClassification:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-general.json",
       mountainsClassification:
-        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-mountain.json",
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-mountains.json",
       pointsClassification:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-points.json",
       teamClassification:
@@ -33,12 +33,12 @@ describe.each([
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-kom-stage-day.json",
       pointsLocations:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-points-locations.json",
-      komLocations:
-        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-kom-locations.json",
       pointsLocationContest:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-points-location-contest.json",
-      komLocationContest:
-        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-kom-location-contest.json",
+      mountainsLocations:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-mountains-locations.json",
+      mountainsLocationContest:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-mountains-location-contest.json",
     },
   },
 ])(`$year - $race Stages`, (data) => {
@@ -54,9 +54,9 @@ describe.each([
     expectedPointsStageDay,
     expectedKomStageDay,
     expectedPointsLocations,
-    expectedKomLocations,
     expectedPointsLocationContest,
-    expectedKomLocationContest;
+    expectedMountainsLocations,
+    expectedMountainsLocationContest;
 
   beforeAll(async () => {
     const input = Bun.file(data.input);
@@ -71,9 +71,13 @@ describe.each([
     const outputPointsStageDay = Bun.file(data.output.pointsStageDay);
     const outputKomStageDay = Bun.file(data.output.komStageDay);
     const outputPointsLocations = Bun.file(data.output.pointsLocations);
-    const outputKomLocations = Bun.file(data.output.komLocations);
-    const outputPointsLocationContest = Bun.file(data.output.pointsLocationContest);
-    const outputKomLocationContest = Bun.file(data.output.komLocationContest);
+    const outputPointsLocationContest = Bun.file(
+      data.output.pointsLocationContest,
+    );
+    const outputMountainsLocations = Bun.file(data.output.mountainsLocations);
+    const outputMountainsLocationContest = Bun.file(
+      data.output.mountainsLocationContest,
+    );
 
     const html = await input.text();
     const stageDetails = {
@@ -93,7 +97,7 @@ describe.each([
     expectedPointsStageDay = await outputPointsStageDay.json();
     expectedKomStageDay = await outputKomStageDay.json();
     expectedPointsLocations = await outputPointsLocations.json();
-    expectedKomLocations = await outputKomLocations.json();
+    expectedMountainsLocations = await outputMountainsLocations.json();
     expectedPointsLocationContest = await outputPointsLocationContest.json();
     expectedKomLocationContest = await outputKomLocationContest.json();
 
@@ -112,7 +116,7 @@ describe.each([
   });
 
   test("Should match expected mountains classification", async () => {
-    expect(stageClassificationResults.kom).toEqual(expectedMountains);
+    expect(stageClassificationResults.mountains).toEqual(expectedMountains);
   });
 
   test("Should match expected points classification", async () => {

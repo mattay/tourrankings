@@ -42,7 +42,7 @@ const DEBUG_MEMORY = parseBool(process.env.DEBUG_MEMORY, false);
  * @typedef {import('../models/@types/classifications').ClassificationGeneralModel} ClassificationGeneralModel
  * @typedef {import('../models/@types/classifications').ClassificationYouthModel} ClassificationYouthData
  * @typedef {import('../models/@types/classifications').ClassificationPointModel} ClassificationPointData
- * @typedef {import('../models/@types/classifications').ClassificationMountainModel} ClassificationMountainData
+ * @typedef {import('../models/@types/classifications').ClassificationMountainsModel} ClassificationMountainData
  * @typedef {import('../models/@types/classifications').ClassificationTeamModel} ClassificationTeamData
  * @typedef {import('../models/@types/races').RaceStageLocationPointModel} RaceStageLocationPointsData
  * @typedef {import('../models/@types/races').RaceStageLocationMountainModel} RaceStageLocationMountainsData
@@ -431,15 +431,13 @@ async function updateStageResults(models) {
           case "teams":
             await models.raceStageTeam.update(stageResults[ranking]);
             break;
-          case "kom":
-          case "qom":
+          case "mountains":
             await models.raceStageMountain.update(stageResults[ranking]);
             break;
           case "pointsLocations":
             await models.raceStageLocationPoints.update(stageResults[ranking]);
             break;
-          case "komLocations":
-          case "qomLocations":
+          case "mountainLocations":
             await models.raceStageLocationMountains.update(
               stageResults[ranking],
             );
@@ -449,8 +447,7 @@ async function updateStageResults(models) {
               stageResults[ranking],
             );
             break;
-          case "komLocationContest":
-          case "qomLocationContest":
+          case "mountainLocationContest":
             await models.raceStageLocationMountainsResults.update(
               stageResults[ranking],
             );

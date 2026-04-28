@@ -196,6 +196,19 @@ function cleanUpStageTable(table, additionalValues) {
   return formatted;
 }
 
+/**
+ * Cleans up the locations table (intermediate sprints/climbs) from a stage results page.
+ * Sorts rows by locationIndex, renames keys via tableHeaders, merges additionalValues,
+ * then converts all keys to camelCase.
+ *
+ * @param {Array<Object>} table - Raw location rows, each containing a locationIndex field
+ *   used for sorting. Other keys are raw column names from the scraped HTML.
+ * @param {Object} additionalValues - Additional values (e.g., stageUID, stage) merged
+ *   into each row before key normalization.
+ * @returns {Array<Object>} Array of cleaned location rows sorted by locationIndex,
+ *   with keys renamed via tableHeaders then converted to camelCase.
+ *   Important fields include: locationIndex, location, distance, category, points, bonis.
+ */
 function cleanUpLocationsTable(table, additionalValues) {
   const sorted = table.sort((a, b) => a["locationIndex"] - b["locationIndex"]);
 

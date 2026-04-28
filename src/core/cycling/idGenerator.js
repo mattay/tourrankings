@@ -51,19 +51,40 @@ export const generateId = {
    * @returns {string} Composite location ID.
    */
   location: (stageUID, index, locationType) => {
+    // Validate stageUID
+    if (!stageUID || !String(stageUID).trim()) {
+      throw new Error(
+        `generateId.location: invalid stageUID (${stageUID})`,
+      );
+    }
+
+    // Validate index is a positive integer
+    const numIndex = Number(index);
     if (
-      !stageUID ||
-      !String(stageUID).trim() ||
       index == null ||
       index === "" ||
-      Number(index) < 1 ||
-      !locationType ||
-      !String(locationType).trim()
-    )
+      isNaN(numIndex) ||
+      !Number.isInteger(numIndex) ||
+      numIndex < 1
+    ) {
       throw new Error(
-        `generateId.location: invalid args (stageUID=${stageUID}, index=${index}, locationType=${locationType})`,
+        `generateId.location: invalid index (${index}) - must be a positive integer`,
       );
+    }
 
-    return `${stageUID}:${locationType}:${index}`;
+    // Validate locationType against allowed values
+    const ALLOWED_LOCATION_TYPES = new Set(["sprint", "mountain"]);
+    if (
+      !locationType ||
+      !String(locationType).trim() ||
+      !ALLOWED_LOCATION_TYPES.has(locationType)
+    ) {
+      throw new Error(
+        `generateId.location: invalid locationType (${locationType}) - must be one of: ${Array.from(ALLOWED_LOCATION_TYPES).join(", ")}`,
+      );
+    }
+
+    // Use normalized numeric index for consistent ID formatting
+    return `${stageUID}:${locationType}:${numIndex}`;
   },
 };

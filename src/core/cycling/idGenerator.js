@@ -2,6 +2,13 @@
  * Utilities for generating stable IDs for races, stages.
  * @namespace generateId
  */
+
+/**
+ * Allowed location types for intermediate locations.
+ * @type {Set<string>}
+ */
+const ALLOWED_LOCATION_TYPES = new Set(["sprint", "mountains", "points"]);
+
 export const generateId = {
   /**
    * Generate a race ID.
@@ -70,13 +77,15 @@ export const generateId = {
       );
     }
 
-    if (!locationType || !String(locationType).trim()) {
+    // Validate locationType is allowed
+    const normalizedType = String(locationType).trim().toLowerCase();
+    if (!normalizedType || !ALLOWED_LOCATION_TYPES.has(normalizedType)) {
       throw new Error(
         `generateId.location: invalid locationType (${locationType}) - must be one of: ${Array.from(ALLOWED_LOCATION_TYPES).join(", ")}`,
       );
     }
 
     // Use normalized numeric index for consistent ID formatting
-    return `${stageUID}:${locationType}:${numIndex}`;
+    return `${stageUID}:${normalizedType}:${numIndex}`;
   },
 };

@@ -590,7 +590,7 @@ export function sprintLocation(label) {
   const sprint = {
     location: label,
     distance: "",
-    sprintType: label.includes("Finish") ? "finish" : "intermediate",
+    sprintType: /finish/i.test(label) ? "finish" : "intermediate",
   };
 
   const matchSprintLabel = label.match(regexSprintLabel);
@@ -976,14 +976,14 @@ export function classificationResults(
         }
 
         todayTables.forEach((table, htmlIndex) => {
-          let h4Label = h4Labels[htmlIndex].textContent || "";
+          const h4Label = h4Labels[htmlIndex]?.textContent?.trim() ?? "";
           let locationIndex = htmlIndex + 1;
-          let locationType = classification;
-          let locationUID = generateId.location(
-            stageDetails.stageUID,
-            locationIndex,
-            locationType,
-          );
+          // Only generate locationType for valid types, skip for youth/teams
+          const validLocationTypes = ["points", "mountains"];
+          const locationType = validLocationTypes.includes(classification) ? classification : null;
+          const locationUID = locationType
+            ? generateId.location(stageDetails.stageUID, locationIndex, locationType)
+            : null;
           let locationInfo = {
             locationUID,
             locationIndex,

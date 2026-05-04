@@ -437,7 +437,7 @@ async function updateStageResults(models) {
           case "pointsLocations":
             await models.raceStageLocationPoints.update(stageResults[ranking]);
             break;
-          case "mountainLocations":
+          case "mountainsLocations":
             await models.raceStageLocationMountains.update(
               stageResults[ranking],
             );
@@ -447,7 +447,7 @@ async function updateStageResults(models) {
               stageResults[ranking],
             );
             break;
-          case "mountainLocationContest":
+          case "mountainsLocationContest":
             await models.raceStageLocationMountainsResults.update(
               stageResults[ranking],
             );

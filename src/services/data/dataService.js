@@ -19,15 +19,15 @@ import { join, dirname } from "path";
  * Classes
  * @typedef {import('../../models/@types/races').RaceModel} RaceData
  * @typedef {import('../../models/@types/races').RaceStageModel} RaceStageData
- * @typedef {import('../../models/@types/races').RaceStageResultModel} RaceStageResultData
- * @typedef {import('../../models/@types/races').RaceRiderModel} RaceRiderData
- * @typedef {import('../../models/@types/teams').TeamModel} TeamData
- * @typedef {import('../../models/@types/riders').RiderModel} RiderData
- * @typedef {import('../../models/@types/classifications').ClassificationPointModel} ClassificationPointsData
- * @typedef {import('../../models/@types/classifications').ClassificationMountainsModel} ClassificationMountainData
- * @typedef {import('../../models/@types/classifications').ClassificationGeneralModel} ClassificationGeneralData
- * @typedef {import('../../models/@types/classifications').ClassificationYouthModel} ClassificationYouthData
- * @typedef {import('../../models/@types/classifications').ClassificationTeamModel} ClassificationTeamData
+ * @typedef {import('@models/@types/races').RaceStageResultModel} RaceStageResultData
+ * @typedef {import('@models/@types/races').RaceRiderModel} RaceRiderData
+ * @typedef {import('@models/@types/teams').TeamModel} TeamData
+ * @typedef {import('@models/@types/riders').RiderModel} RiderData
+ * @typedef {import('@models/@types/classifications').ClassificationPointModel} ClassificationPointsData
+ * @typedef {import('@models/@types/classifications').ClassificationMountainsModel} ClassificationMountainData
+ * @typedef {import('@models/@types/classifications').ClassificationGeneralModel} ClassificationGeneralData
+ * @typedef {import('@models/@types/classifications').ClassificationYouthModel} ClassificationYouthData
+ * @typedef {import('@models/@types/classifications').ClassificationTeamModel} ClassificationTeamData
  */
 
 /**

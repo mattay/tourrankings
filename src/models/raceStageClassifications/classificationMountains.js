@@ -2,7 +2,7 @@ import { logError } from "@utils/logging";
 import CSVdataModel from "@models/dataModel_csv";
 
 /**
- * @typedef {import('../@types/classifications').ClassificationMountainsModel} ClassificationMountainsModel
+ * @typedef {import('@models/@types/classifications').ClassificationMountainsModel} ClassificationMountainsModel
  */
 
 /**

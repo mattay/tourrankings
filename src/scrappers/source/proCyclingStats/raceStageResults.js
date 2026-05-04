@@ -583,9 +583,15 @@ function cleanUpMountainLocationContestTable(table, additionalValues) {
  * @returns {{location: string, distance: string}} The parsed sprint label.
  */
 export function sprintLocation(label) {
-  // Sprint -> "Sprint | Dozza (108.1 km)""
-  const regexSprintLabel =
-    /^Sprint \| (?<location>.*) \((?<distance>\d+\.?\d+) km\)/;
+  // Define patterns to try in order
+  const sprintPatterns = [
+    // Pattern: "Sprint | Location (123.4 km)" - original pattern
+    /^Sprint \| (?<location>.*) \((?<distance>\d+\.?\d+) km\)/,
+    // Pattern: "Bonification Sprint | Location (123.4 km)" - with prefix
+    /^Bonification Sprint \| (?<location>.*) \((?<distance>\d+\.?\d+) km\)/,
+    // Pattern: "Sprint (123.4 km)" - no pipe pattern
+    /^Sprint \((?<distance>\d+\.?\d+) km\)/,
+  ];
 
   const sprint = {
     location: label,
@@ -593,16 +599,22 @@ export function sprintLocation(label) {
     sprintType: /finish/i.test(label) ? "finish" : "intermediate",
   };
 
-  const matchSprintLabel = label.match(regexSprintLabel);
-  if (label != "Points at finish" && !matchSprintLabel) {
+  // Try each pattern until one matches
+  for (const regex of sprintPatterns) {
+    const match = label.match(regex);
+    if (match) {
+      sprint.location = match.groups.location || label;
+      sprint.distance = match.groups.distance || "";
+      return sprint;
+    }
+  }
+
+  // No pattern matched - log error (except for Finish)
+  if (!sprint.distance && label !== "Points at finish") {
     logError(
       "PCS Stage Results",
       `Label for Sprint points does not match: ${label}`,
     );
-    // TODO -> add to tests
-  } else if (matchSprintLabel) {
-    sprint.location = matchSprintLabel.groups.location;
-    sprint.distance = matchSprintLabel.groups.distance;
   }
 
   return sprint;
@@ -622,6 +634,8 @@ export function climbLocation(label) {
     /^KOM Sprint \((?<category>[A-Z])\) (?<location>.*) \((?<distance>\d+(\.\d+)?) km\)/,
     // Pattern: "KOM Sprint | Location (123.4 km)" - no category, has pipe
     /^KOM Sprint \| (?<location>.*) \((?<distance>\d+(\.\d+)?) km\)/,
+    // Pattern: "KOM Sprint (3) Location 123.4 km)" - missing pipe, no paren before distance
+    /^KOM Sprint \((?<category>\d+|HC)\) (?<location>.*?) (?<distance>\d+(\.\d+)?) km\)/,
   ];
 
   const climb = {
@@ -631,26 +645,23 @@ export function climbLocation(label) {
     sprintType: label.includes("finish") ? "Finish" : "Intermediate",
   };
 
-  // Try each pattern in order
-  let matchKomLabel = null;
-  for (const pattern of komPatterns) {
-    const match = label.match(pattern);
+  // Try each pattern until one matches
+  for (const regex of komPatterns) {
+    const match = label.match(regex);
     if (match) {
-      matchKomLabel = match;
-      break;
+      climb.category = match.groups.category || "";
+      climb.location = match.groups.location || "";
+      climb.distance = match.groups.distance || "";
+      return climb;
     }
   }
-
-  if (!matchKomLabel) {
-    logError(
-      "PCS Stage Results",
-      `Label for KOM points does not match: ${label}`,
-    );
-  } else {
-    climb.category = matchKomLabel.groups.category;
-    climb.location = matchKomLabel.groups.location;
-    climb.distance = matchKomLabel.groups.distance;
   }
+
+  // No pattern matched - log error
+  logError(
+    "PCS Stage Results",
+    `Label for KOM points does not match: ${label}`,
+  );
 
   return climb;
 }

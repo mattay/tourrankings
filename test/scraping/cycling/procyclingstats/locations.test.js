@@ -152,7 +152,16 @@ describe("climbLocation", () => {
         sprintType: "Intermediate",
       },
     },
-
+    // KOM Sprint with no pipe (has category number and extra closing paren)
+    {
+      label: "KOM Sprint (3) Willunga 88.8 km)",
+      expected: {
+        category: "3",
+        location: "Willunga",
+        distance: "88.8",
+        sprintType: "Intermediate",
+      },
+    },
     // KOM Sprint with pipe but no category number
     {
       label: "KOM Sprint | Castelnuovo Val di Cecina (148.3 km)",

@@ -107,7 +107,7 @@ describe.each([
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-21/raceStageResults-2025-vuelta-a-espana-21-mountains-location-contest.json",
     },
   },
-],`$year - $race Stages`, (data) => {
+],`$year - $race Stages $stage`, (data) => {
   let stageClassificationResults,
     expectedResults,
     expectedGeneral,

@@ -152,6 +152,7 @@ describe("climbLocation", () => {
         sprintType: "Intermediate",
       },
     },
+<<<<<<< HEAD
     // KOM Sprint with no pipe (has category number and extra closing paren)
     {
       label: "KOM Sprint (3) Willunga 88.8 km)",

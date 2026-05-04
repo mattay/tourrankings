@@ -1,10 +1,6 @@
 import { describe, test, expect } from "bun:test";
 import { parse } from "node-html-parser";
 import { extractNotice } from "@scrappers/source/proCyclingStats/helpers/helperRaceStageResults";
-import {
-  sprintLocation,
-  climbLocation,
-} from "@scrappers/source/proCyclingStats/raceStageResults";
 
 /**
  * Creates a DOM element from the given HTML string and returns the element matching the given selector.
@@ -73,83 +69,6 @@ describe("extractNotice", () => {
     },
   );
 });
-
-describe("sprintLocation", () => {
-  const testCasesSprintLocation = [
-    {
-      label: "Sprint | Dozza (108.1 km)",
-      expected: {
-        location: "Dozza",
-        distance: "108.1",
-        sprintType: "intermediate",
-      },
-    },
-    {
-      label: "Sprint | Côte d'Amon (97.5 km)",
-      expected: {
-        location: "Côte d'Amon",
-        distance: "97.5",
-        sprintType: "intermediate",
-      },
-    },
-    {
-      label: "Finish",
-      expected: {
-        location: "Finish",
-        distance: "",
-        sprintType: "finish",
-      },
-    },
-  ];
-
-  test.each(testCasesSprintLocation)("parses $label", ({ label, expected }) => {
-    const result = sprintLocation(label);
-    expect(result).toEqual(expected);
-  });
+=======
 });
-
-describe("climbLocation", () => {
-  const testCasesClimbLocation = [
-    {
-      label: "KOM Sprint (3) Côte de San Luca (186.6 km)",
-      expected: {
-        category: "3",
-        location: "Côte de San Luca",
-        distance: "186.6",
-        sprintType: "Intermediate",
-      },
-    },
-    {
-      label: "KOM Sprint (HC) Col du Galibier (261.5 km)",
-      expected: {
-        category: "HC",
-        location: "Col du Galibier",
-        distance: "261.5",
-        sprintType: "Intermediate",
-      },
-    },
-    {
-      label: "KOM Sprint (1) Alpe d'Huez (180 km)",
-      expected: {
-        category: "1",
-        location: "Alpe d'Huez",
-        distance: "180",
-        sprintType: "Intermediate",
-      },
-    },
-    {
-      label: "KOM Sprint (2) Mont Ventoux (145 km)",
-      expected: {
-        category: "2",
-        location: "Mont Ventoux",
-        distance: "145",
-        sprintType: "Intermediate",
-      },
-    },
-  ];
-
-  test.each(testCasesClimbLocation)("parses $label", ({ label, expected }) => {
-    const result = climbLocation(label);
-    expect(result).toEqual(expected);
-  });
-});
+>>>>>>> a421dec (refactor: move location parsing tests to dedicated file)

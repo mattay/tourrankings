@@ -655,7 +655,6 @@ export function climbLocation(label) {
       return climb;
     }
   }
-  }
 
   // No pattern matched - log error
   logError(

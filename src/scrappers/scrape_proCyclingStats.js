@@ -1,3 +1,46 @@
+import { docopt } from "docopt";
+
+/**
+ * CLI Options for the scraper
+ * @type {string}
+ */
+const DOC = `
+Usage: scrape [options]
+
+Options:
+  -s, --season YEAR    Start scraping from YEAR (runs from YEAR to current year)
+  -h, --help           Show this help message
+`;
+
+/**
+ * Parse CLI arguments for the scraper
+ * @returns {Object} Parsed CLI arguments
+ */
+function parseCliArgs() {
+  const args = docopt(DOC);
+
+  // Get start season from CLI args
+  let startSeason = null;
+  if (args["--season"]) {
+    const year = parseInt(args["--season"], 10);
+    if (!isNaN(year) && year > 1900 && year < 2100) {
+      startSeason = year;
+    }
+  }
+
+  // Check for START_SEASON env var as alternative
+  if (!startSeason && process.env.START_SEASON) {
+    const year = parseInt(process.env.START_SEASON, 10);
+    if (!isNaN(year) && year > 1900 && year < 2100) {
+      startSeason = year;
+    }
+  }
+
+  return { startSeason };
+}
+
+const cliArgs = parseCliArgs();
+
 // Data Models
 import {
   Races,
@@ -198,9 +241,9 @@ function stagesInRaces(raceStages, races) {
  * @param {RaceStageResults} raceStageResults - The RaceStageResults object
  * @returns {Array<string>} - Array of RaceWithStages objects
  */
-function stagesWithoutResults(races, raceStages, raceStageResults) {
+function stagesWithoutResults(races, raceStages, raceStageResults, year) {
   const today = new Date();
-  const raceSeason = getSeason();
+  const raceSeason = year !== undefined ? year : getSeason();
 
   const races_past = races.past(raceSeason);
   const races_inProgress = races.inProgress(today);
@@ -318,8 +361,8 @@ async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
  * @example
  * await updateRaces({ races, raceStages, raceRiders, riders, teams });
  */
-async function updateRaces(models) {
-  const raceSeason = getSeason();
+async function updateRaces(models, year) {
+  const raceSeason = year !== undefined ? year : getSeason();
 
   if (!parseBool(process.env.FEATURE_DISABLED_RACES, false)) {
     logOut("Main", `Collecting races for the ${raceSeason} season.`);
@@ -364,7 +407,7 @@ async function updateRaces(models) {
  * @param {RaceStageLocationPointsResults} models.raceStageLocationPointsResults - The RaceStageLocationPointsResults object
  * @param {RaceStageLocationMountainsResults} models.raceStageLocationMountainsResults - The RaceStageLocationMountainsResults object
  */
-async function updateStageResults(models) {
+async function updateStageResults(models, year) {
   logOut("Main", "Starting stage results collection");
   if (DEBUG_MEMORY) logMemoryUsage("StageResults-Start");
 
@@ -372,6 +415,7 @@ async function updateStageResults(models) {
     models.races,
     models.raceStages,
     models.raceStageResults,
+    year,
   );
 
   for (const stage of stagesRequireResults) {
@@ -541,20 +585,41 @@ async function main() {
       throw error;
     }
 
-    try {
-      await updateRaces(models);
-    } catch (error) {
-      logError("Main", "Collecting race information - Failed", error);
+    // Determine years to process
+    const currentYear = new Date().getFullYear();
+    const startYear = cliArgs.startSeason || currentYear;
+    const years = [];
+
+    if (cliArgs.startSeason) {
+      // Range: from startYear to current year
+      for (let year = startYear; year <= currentYear; year++) {
+        years.push(year);
+      }
+      logOut("Main", `Processing years: ${startYear} to ${currentYear}`);
+    } else {
+      // Single year: just current year
+      years.push(currentYear);
     }
 
-    if (!parseBool(process.env.FEATURE_DISABLED_RESULTS, false)) {
+    // Process each year
+    for (const year of years) {
+      getSeason(year); // Set the year for this iteration
+
       try {
-        await updateStageResults(models);
+        await updateRaces(models, year);
       } catch (error) {
-        logError("Main", "Collect race stage results - Failed", error);
+        logError("Main", `Collecting race information - Failed for year ${year}`, error);
       }
-    } else {
-      logOut("Main", "[FEATURE DISABLED] Update results", "warn");
+
+      if (!parseBool(process.env.FEATURE_DISABLED_RESULTS, false)) {
+        try {
+          await updateStageResults(models, year);
+        } catch (error) {
+          logError("Main", `Collect race stage results - Failed for year ${year}`, error);
+        }
+      } else {
+        logOut("Main", "[FEATURE DISABLED] Update results", "warn");
+      }
     }
   } catch (error) {
     // Catch-all for any errors not handled above

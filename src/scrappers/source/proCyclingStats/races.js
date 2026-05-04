@@ -6,7 +6,7 @@ import { htmlDOM } from "@scrappers/html/domParser";
 import { fetchHtmlWithCache } from "@scrappers/html/fetch";
 
 /**
- * @typedef {import('../../../models/races/races').Races} Races
+ * @typedef {import('@models/races/races').Races} Races
  */
 
 /**

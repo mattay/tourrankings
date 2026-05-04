@@ -1,15 +1,16 @@
-import { renameKeys } from "@utils/object";
-import { toCamelCase } from "@utils/string";
-import { stringToSeconds } from "@utils/time";
-import { logError, logOut } from "@utils/logging";
 import { fetchHtmlWithCache } from "@scrappers/html/fetch";
 import { htmlDOM } from "@scrappers/html/domParser";
+import { generateId } from "@cycling/idGenerator";
 import {
   dropColumns,
   extractNotice,
   formatRow,
   sortByRanking,
 } from "./helpers/helperRaceStageResults";
+import { renameKeys } from "@utils/object";
+import { toCamelCase } from "@utils/string";
+import { stringToSeconds } from "@utils/time";
+import { logError, logOut } from "@utils/logging";
 
 /** @typedef {import('@models/@types/races').RaceStageModel} StageDetails */
 
@@ -88,7 +89,7 @@ function tableHeaders(column) {
     teamline: "team",
     ridername: "rider",
     gc_timelag: "timelag",
-    timeWonlost: "timeWonLost",
+    time_Wonlost: "timeWonLost",
   };
 
   return rename[column] || column;
@@ -196,11 +197,392 @@ function cleanUpStageTable(table, additionalValues) {
 }
 
 /**
+ * Cleans up the locations table (intermediate sprints/climbs) from a stage results page.
+ * Sorts rows by locationIndex, renames keys via tableHeaders, merges additionalValues,
+ * then converts all keys to camelCase.
+ *
+ * @param {Array<Object>} table - Raw location rows, each containing a locationIndex field
+ *   used for sorting. Other keys are raw column names from the scraped HTML.
+ * @param {Object} additionalValues - Additional values (e.g., stageUID, stage) merged
+ *   into each row before key normalization.
+ * @returns {Array<Object>} Array of cleaned location rows sorted by locationIndex,
+ *   with keys renamed via tableHeaders then converted to camelCase.
+ *   Important fields include: locationIndex, location, distance, category, points, bonis.
+ */
+function cleanUpLocationsTable(table, additionalValues) {
+  const sorted = table.sort((a, b) => a["locationIndex"] - b["locationIndex"]);
+
+  const cleaned = sorted.map((row) => {
+    row = renameKeys(row, tableHeaders);
+    return renameKeys({ ...row, ...additionalValues }, toCamelCase);
+  });
+
+  return cleaned;
+}
+
+/**
+ * Cleans up the youth stage day table (today tab).
+ * Keeps only normalized fields: rank, time, timeWonlost.
+ * Drops redundant fields that exist in RaceRider.
+ *
+ * @param {Array<Object>} table - The table to clean up.
+ * @param {Object} additionalValues - Additional values to add to each row.
+ * @returns {Array<Object>} The cleaned up table.
+ */
+function cleanUpYouthLocationContestTable(table, additionalValues) {
+  // Keep: rank, time, rider (links to RaceRider)
+  // Drop: specialty, age, team, bib, timeWonLost
+  const columnsToDrop = [
+    "h2h",
+    "specialty",
+    "age",
+    "team",
+    "bib",
+    "timeWonLost",
+  ];
+
+  const sorted = table.sort(sortByRanking);
+
+  const cleaned = sorted.reduce((cleaned, row) => {
+    row = renameKeys(row, tableHeaders);
+
+    if (Object.hasOwn(row, "rank")) {
+      let value = row["rank"];
+
+      if (isNaN(value)) {
+        row["status"] = value;
+        row["rank"] = "";
+      } else {
+        row["rank"] = parseInt(value, 10);
+      }
+    } else {
+      logError("PCS Stage Results", "No rank in row", null, row);
+    }
+
+    // Strip team from rider
+    if (Object.hasOwn(row, "rider") && Object.hasOwn(row, "team")) {
+      row["rider"] = row["rider"].replace(row["team"], "").trim();
+    }
+
+    // For stage day data, keep raw time values
+    if (Object.hasOwn(row, "time")) {
+      if (row["time"] === ",,") {
+        row["time"] = "0:00";
+      } else if (row["time"] === "-" || row["time"] === "") {
+        row["time"] = "";
+      }
+    }
+
+    // Rename to camelCase and add additional values first
+    const renamedRow = renameKeys({ ...row, ...additionalValues }, toCamelCase);
+
+    // Drop not needed columns after camelCase conversion
+    const finalRow = dropColumns(renamedRow, columnsToDrop);
+
+    cleaned.push(finalRow);
+    return cleaned;
+  }, []);
+
+  return cleaned;
+}
+
+/**
+ * Cleans up the teams stage day table (today tab).
+ * Keeps only normalized fields: rank, team, classification, time, timeWonlost.
+ *
+ * @param {Array<Object>} table - The table to clean up.
+ * @param {Object} additionalValues - Additional values to add to each row.
+ * @returns {Array<Object>} The cleaned up table.
+ */
+function cleanUpTeamsLocationContestTable(table, additionalValues) {
+  // Keep: rank, team, classification, time
+  // Drop: timeWonlost (not needed)
+  const columnsToDrop = ["h2h", "timeWonlost"];
+
+  const sorted = table.sort(sortByRanking);
+
+  const cleaned = sorted.reduce((cleaned, row) => {
+    row = renameKeys(row, tableHeaders);
+
+    if (Object.hasOwn(row, "rank")) {
+      let value = row["rank"];
+
+      if (isNaN(value)) {
+        row["status"] = value;
+        row["rank"] = "";
+      } else {
+        row["rank"] = parseInt(value, 10);
+      }
+    } else {
+      logError("PCS Stage Results", "No rank in row", null, row);
+    }
+
+    // For stage day data, keep raw time values
+    if (Object.hasOwn(row, "time")) {
+      if (row["time"] === ",,") {
+        row["time"] = "0:00";
+      } else if (row["time"] === "-" || row["time"] === "") {
+        row["time"] = "";
+      }
+    }
+
+    // Rename to camelCase and add additional values first
+    const renamedRow = renameKeys({ ...row, ...additionalValues }, toCamelCase);
+
+    // Drop not needed columns after camelCase conversion
+    const finalRow = dropColumns(renamedRow, columnsToDrop);
+
+    cleaned.push(finalRow);
+    return cleaned;
+  }, []);
+
+  return cleaned;
+}
+
+/**
+ * Cleans up the points stage day table (today tab) for points classification.
+ * Handles points, bonus seconds, and location data from intermediate sprints and finish.
+ *
+ * @param {Array<Object>} table - The table to clean up.
+ * @param {Object} additionalValues - Additional values to add to each row.
+ * @returns {Array<Object>} The cleaned up table.
+ */
+function cleanUpPointsLocationContestTable(table, additionalValues) {
+  // Keep only normalized fields: rank, points, bonis, today, locationUID
+  // Drop redundant fields that exist in other tables: specialty, age, team, locationName, distance, sprintType, bib
+  const columnsToDrop = [
+    "h2h",
+    "specialty",
+    "age",
+    "team",
+    "locationName",
+    "distance",
+    "sprintType",
+    "rider",
+  ];
+
+  // Don't sort - keep data grouped by location as extracted from HTML
+  const cleaned = table.reduce((cleaned, row) => {
+    row = renameKeys(row, tableHeaders);
+
+    // Additional column renaming specific to points stage day tables
+    // Check for original column names (before camelCase conversion)
+    if (Object.hasOwn(row, "pnt")) {
+      row["points"] = row["pnt"];
+      delete row["pnt"];
+    }
+    if (Object.hasOwn(row, "result_boni")) {
+      row["bonis"] = row["result_boni"];
+      delete row["result_boni"];
+    }
+    if (Object.hasOwn(row, "delta_pnt")) {
+      row["today"] = row["delta_pnt"];
+      delete row["delta_pnt"];
+    }
+
+    if (Object.hasOwn(row, "rank")) {
+      let value = row["rank"];
+
+      if (isNaN(value)) {
+        row["status"] = value;
+        row["rank"] = "";
+      }
+    } else {
+      logError("PCS Stage Results", "No rank in row", null, row);
+    }
+
+    // ▼▲ - Convert to integers
+    if (Object.hasOwn(row, "change")) {
+      let value = row["change"];
+      if (value.startsWith("▲")) {
+        row["change"] = parseInt(value.slice(1), 10);
+      } else if (value.startsWith("▼")) {
+        row["change"] = -parseInt(value.slice(1), 10);
+      }
+    }
+
+    // Strip team from rider
+    if (Object.hasOwn(row, "rider") && Object.hasOwn(row, "team")) {
+      row["rider"] = row["rider"].replace(row["team"], "").trim();
+    }
+
+    // Handle today (cumulative points) - empty becomes 0
+    if (
+      Object.hasOwn(row, "today") &&
+      (row["today"] === "" ||
+        row["today"] === null ||
+        row["today"] === undefined)
+    ) {
+      row["today"] = 0;
+    }
+
+    // Convert numeric fields to integers
+    const numericFields = [
+      "stage",
+      "rank",
+      "bib",
+      "age",
+      "points",
+      "today",
+      "change",
+      "position",
+    ];
+    for (const field of numericFields) {
+      if (
+        Object.hasOwn(row, field) &&
+        row[field] !== "" &&
+        row[field] !== "-" &&
+        row[field] !== null &&
+        row[field] !== undefined
+      ) {
+        const parsed = parseInt(row[field], 10);
+        if (!isNaN(parsed)) {
+          row[field] = parsed;
+        }
+      }
+    }
+
+    // Ensure distance is a number
+    if (Object.hasOwn(row, "distance") && typeof row["distance"] === "string") {
+      const parsed = parseFloat(row["distance"]);
+      if (!isNaN(parsed)) {
+        row["distance"] = parsed;
+      }
+    }
+
+    // Drop not needed columns
+    row = dropColumns(row, columnsToDrop);
+
+    cleaned.push(renameKeys({ ...row, ...additionalValues }, toCamelCase));
+    return cleaned;
+  }, []);
+
+  return cleaned;
+}
+
+/**
+ * Cleans up the KOM stage day table (today tab) for mountains classification.
+ * Handles KOM points and location data from climbs.
+ *
+ * @param {Array<Object>} table - The table to clean up.
+ * @param {Object} additionalValues - Additional values to add to each row.
+ * @returns {Array<Object>} The cleaned up table.
+ */
+function cleanUpMountainLocationContestTable(table, additionalValues) {
+  // Keep only normalized fields: rank, points, today, locationUID
+  // Drop redundant fields that exist in other tables: specialty, age, team, locationName, distance, category, bib
+  const columnsToDrop = [
+    "h2h",
+    "specialty",
+    "age",
+    "team",
+    "locationName",
+    "distance",
+    "category",
+    "rider",
+  ];
+
+  // Don't sort - keep data grouped by location as extracted from HTML
+  const cleaned = table.reduce((cleaned, row) => {
+    row = renameKeys(row, tableHeaders);
+
+    // Additional column renaming specific to KOM stage day tables
+    // Check for original column names (before camelCase conversion)
+    if (Object.hasOwn(row, "pnt")) {
+      row["points"] = row["pnt"];
+      delete row["pnt"];
+    }
+    if (Object.hasOwn(row, "delta_pnt")) {
+      row["today"] = row["delta_pnt"];
+      delete row["delta_pnt"];
+    }
+
+    if (Object.hasOwn(row, "rank")) {
+      let value = row["rank"];
+
+      if (isNaN(value)) {
+        row["status"] = value;
+        row["rank"] = "";
+      }
+    } else {
+      logError("PCS Stage Results", "No rank in row", null, row);
+    }
+
+    // ▼▲ - Convert to integers
+    if (Object.hasOwn(row, "change")) {
+      let value = row["change"];
+      if (value.startsWith("▲")) {
+        row["change"] = parseInt(value.slice(1), 10);
+      } else if (value.startsWith("▼")) {
+        row["change"] = -parseInt(value.slice(1), 10);
+      }
+    }
+
+    // Strip team from rider
+    if (Object.hasOwn(row, "rider") && Object.hasOwn(row, "team")) {
+      row["rider"] = row["rider"].replace(row["team"], "").trim();
+    }
+
+    // Handle today (cumulative KOM points) - empty becomes 0
+    if (
+      Object.hasOwn(row, "today") &&
+      (row["today"] === "" ||
+        row["today"] === null ||
+        row["today"] === undefined)
+    ) {
+      row["today"] = 0;
+    }
+
+    // Convert numeric fields to integers
+    const numericFields = [
+      "stage",
+      "rank",
+      "bib",
+      "age",
+      "points",
+      "today",
+      "change",
+      "position",
+    ];
+    for (const field of numericFields) {
+      if (
+        Object.hasOwn(row, field) &&
+        row[field] !== "" &&
+        row[field] !== "-" &&
+        row[field] !== null &&
+        row[field] !== undefined
+      ) {
+        const parsed = parseInt(row[field], 10);
+        if (!isNaN(parsed)) {
+          row[field] = parsed;
+        }
+      }
+    }
+
+    // Ensure distance is a number
+    if (Object.hasOwn(row, "distance") && typeof row["distance"] === "string") {
+      const parsed = parseFloat(row["distance"]);
+      if (!isNaN(parsed)) {
+        row["distance"] = parsed;
+      }
+    }
+
+    // Drop not needed columns
+    row = dropColumns(row, columnsToDrop);
+
+    cleaned.push(renameKeys({ ...row, ...additionalValues }, toCamelCase));
+    return cleaned;
+  }, []);
+
+  return cleaned;
+}
+
+/**
  *
  * @param {string} label - The label for the sprint.
  * @returns {{location: string, distance: string}} The parsed sprint label.
  */
-function sprint(label) {
+export function sprintLocation(label) {
   // Sprint -> "Sprint | Dozza (108.1 km)""
   const regexSprintLabel =
     /^Sprint \| (?<location>.*) \((?<distance>\d+\.?\d+) km\)/;
@@ -208,6 +590,7 @@ function sprint(label) {
   const sprint = {
     location: label,
     distance: "",
+    sprintType: /finish/i.test(label) ? "finish" : "intermediate",
   };
 
   const matchSprintLabel = label.match(regexSprintLabel);
@@ -216,6 +599,7 @@ function sprint(label) {
       "PCS Stage Results",
       `Label for Sprint points does not match: ${label}`,
     );
+    // TODO -> add to tests
   } else if (matchSprintLabel) {
     sprint.location = matchSprintLabel.groups.location;
     sprint.distance = matchSprintLabel.groups.distance;
@@ -229,7 +613,7 @@ function sprint(label) {
  * @param {string} label - The label for the climb.
  * @returns {{category: string, location: string, distance: string}} The parsed climb label.
  */
-function climb(label) {
+export function climbLocation(label) {
   // Stage Classification -> "KOM Sprint (3) Côte de San Luca (186.6 km)""
   const regexKomLabel =
     /^KOM Sprint \((?<category>(\d+|HC))\) (?<location>.*) \((?<distance>\d+(\.\d+)?) km\)/;
@@ -238,6 +622,7 @@ function climb(label) {
     category: "",
     location: "",
     distance: "",
+    sprintType: label.includes("finish") ? "Finish" : "Intermediate",
   };
 
   const matchKomLabel = label.match(regexKomLabel);
@@ -265,18 +650,56 @@ export function cleanUpStages(tables, stageDetails) {
   const stageRankings = {};
 
   for (const [classification, rankings] of Object.entries(tables)) {
+    const additionalValues = {
+      stageUID: stageDetails.stageUID,
+      stage: stageDetails.stage,
+    };
     if (Object.hasOwn(rankings, "general")) {
-      const additionalValues = {
-        stageUID: stageDetails.stageUID,
-        stage: stageDetails.stage,
-      };
       stageRankings[classification] = cleanUpStageTable(
         rankings["general"],
         additionalValues,
       );
     }
 
-    // TODO: Process tables in "today tabs" to capture intermediate results
+    // Process tables in "today tabs" to capture stage day results for youth and teams
+    if (Object.hasOwn(rankings, "today")) {
+      if (
+        Object.hasOwn(rankings["today"], "locations") &&
+        rankings["today"]["locations"].length !== 0
+      ) {
+        stageRankings[`${classification}Locations`] = cleanUpLocationsTable(
+          rankings["today"]["locations"],
+          additionalValues,
+        );
+      }
+
+      // Use appropriate cleanup based on classification type
+      if (classification === "points") {
+        stageRankings[`${classification}LocationContest`] =
+          cleanUpPointsLocationContestTable(
+            rankings["today"]["results"],
+            additionalValues,
+          );
+      } else if (classification === "mountains") {
+        stageRankings[`${classification}LocationContest`] =
+          cleanUpMountainLocationContestTable(
+            rankings["today"]["results"],
+            additionalValues,
+          );
+      } else if (classification === "youth") {
+        stageRankings[`${classification}LocationContest`] =
+          cleanUpYouthLocationContestTable(
+            rankings["today"]["results"],
+            additionalValues,
+          );
+      } else if (classification === "teams") {
+        stageRankings[`${classification}LocationContest`] =
+          cleanUpTeamsLocationContestTable(
+            rankings["today"]["results"],
+            additionalValues,
+          );
+      }
+    }
   }
 
   return stageRankings;
@@ -459,7 +882,7 @@ function extractClassificationTable(htmlDOM, stageDetails) {
 /**
  * Extracts classification results from a table element.
  *
- * @param {Document} htmlDOM - The HTML DOM element containing the table.
+ * @param {HTMLElement} htmlDOM - The HTML DOM element containing the table.
  * @param {Array} classificationsList - An array of classification names.
  * @param {StageDetails} stageDetails - Details about the stage.
  * @param {string} selector - The CSS selector for the table element.
@@ -487,7 +910,7 @@ export function classificationResults(
   );
 
   for (let i = 0; i < classificationResultsSelection.length; i++) {
-    const classification = classificationsList[i];
+    let classification = classificationsList[i];
     if (!classification) {
       logOut(
         "PCS Stage Results",
@@ -496,12 +919,15 @@ export function classificationResults(
       );
       continue;
     }
+    if (classification === "kom" || classification === "qom") {
+      classification = "mountains";
+    }
     classificationStageResults[classification] = {};
 
+    // General tab
     const generalTable = classificationResultsSelection[i].querySelector(
       DOM_SELECTORS.generalTab,
     );
-
     if (generalTable) {
       if (stageDetails.stageType === "TTT") {
         logOut(
@@ -525,16 +951,97 @@ export function classificationResults(
       }
     }
 
-    // TODO: Implement extraction of general classification results
-    // const todayTables = classificationResultsSelection[i].querySelector(
-    //   DOM_SELECTORS.todayTab,
-    // );
-    //
-    // TODO: Implement extraction of today classification results
-    // if (todayTables) {
-    //   classificationResults[classification]["today"] =
-    //     extractClassificationTable(todayTable);
-    // }
+    // Today tabs
+    const todayTabs = classificationResultsSelection[i].querySelectorAll(
+      DOM_SELECTORS.todayTab,
+    );
+    if (todayTabs.length > 0) {
+      classificationStageResults[classification]["today"] = {};
+      // For youth and teams, there's only one table per today tab
+      // For points and kom, there are multiple tables (intermediate sprints/climbs)
+      const todayTabLocationResults = [];
+      const todayTabLocations = [];
+
+      todayTabs.forEach((todayTab) => {
+        // Get all tables within this today tab
+        const todayTables = todayTab.querySelectorAll("table");
+        const h4Labels = todayTab.querySelectorAll("h4");
+
+        if (h4Labels.length !== todayTables.length) {
+          logOut(
+            "Scrape PCS - Stage Results",
+            `Mismatch: ${h4Labels.length} h4 labels vs ${todayTables.length} tables in today tab`,
+            "warn",
+          );
+        }
+
+        todayTables.forEach((table, htmlIndex) => {
+          const h4Label = h4Labels[htmlIndex]?.textContent?.trim() ?? "";
+          let locationIndex = htmlIndex + 1;
+          // Only generate locationType for valid types, skip for youth/teams
+          const validLocationTypes = ["points", "mountains"];
+          const locationType = validLocationTypes.includes(classification) ? classification : null;
+          const locationUID = locationType
+            ? generateId.location(stageDetails.stageUID, locationIndex, locationType)
+            : null;
+          let locationInfo = {
+            locationUID,
+            locationIndex,
+            locationType,
+            allocatedPoints: [],
+            allocatedBoni: [],
+          };
+
+          // Determine correct locationType and generate locationUID
+          if (classification === "mountains") {
+            locationInfo = {
+              ...locationInfo,
+              ...climbLocation(h4Label),
+            };
+          }
+          if (classification === "points") {
+            locationInfo = {
+              ...locationInfo,
+              ...sprintLocation(h4Label),
+            };
+          }
+
+          const tableData = extractClassificationTable(table, stageDetails);
+
+          for (let i = 0; i < tableData.length; i++) {
+            const contestent = tableData[i];
+
+            // Collect location allocated points and bonis
+            if (classification === "points" || classification === "mountains") {
+              contestent.locationUID = locationUID;
+              let rankIndex = parseInt(contestent?.rnk) - 1;
+              let points = contestent?.pnt;
+              let boni = contestent?.result_boni;
+              if (points)
+                locationInfo.allocatedPoints[rankIndex] = parseInt(points);
+              if (boni) locationInfo.allocatedBoni[rankIndex] = boni;
+            }
+            todayTabLocationResults.push(contestent);
+          }
+          // Wait for all allocated points and bonis at location
+          if (classification === "points" || classification === "mountains") {
+            todayTabLocations.push(locationInfo);
+          }
+        });
+      });
+
+      if (todayTabLocations.length > 0) {
+        // console.table(todayLocations);
+        classificationStageResults[classification]["today"]["locations"] =
+          todayTabLocations;
+      }
+
+      if (todayTabLocationResults.length > 0) {
+        // console.table(todayLocationResults);
+        classificationStageResults[classification]["today"]["results"] =
+          todayTabLocationResults;
+      }
+    }
   }
 
   return classificationStageResults;
@@ -542,7 +1049,7 @@ export function classificationResults(
 
 /**
  * Extract classification titles from the HTML DOM
- * @param {Document} htmlDOM - Document object from DOMParser
+ * @param {HTMLElement} htmlDOM - Document object from DOMParser
  * @param {string} selector - CSS selector for classification tabs
  * @returns {Array<string>} - Array of classification titles
  */

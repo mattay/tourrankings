@@ -1,0 +1,110 @@
+[
+  {
+    "rank": 1,
+    "bib": 194,
+    "points": 7,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:mountains:1",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 2,
+    "bib": 193,
+    "points": 5,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:mountains:1",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 3,
+    "bib": 56,
+    "points": 3,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:mountains:1",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 4,
+    "bib": 116,
+    "points": 1,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:mountains:1",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 1,
+    "bib": 194,
+    "points": 7,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:mountains:2",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 2,
+    "bib": 193,
+    "points": 5,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:mountains:2",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 3,
+    "bib": 82,
+    "points": 3,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:mountains:2",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 4,
+    "bib": 87,
+    "points": 1,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:mountains:2",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 1,
+    "bib": 194,
+    "points": 7,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:mountains:3",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 2,
+    "bib": 193,
+    "points": 5,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:mountains:3",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 3,
+    "bib": 36,
+    "points": 3,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:mountains:3",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 4,
+    "bib": 106,
+    "points": 1,
+    "today": 0,
+    "locationUID": "tour-down-under:2025:1:mountains:3",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  }
+]

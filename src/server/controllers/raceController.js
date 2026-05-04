@@ -84,7 +84,7 @@ export function raceContent(racePcsID, year = null) {
     classifications: {
       general: [],
       points: [],
-      mountain: [],
+      mountains: [],
       youth: [],
       team: {},
     },
@@ -161,8 +161,8 @@ export function raceContent(racePcsID, year = null) {
   const points = dataService.raceClassificationsPoints(raceUID);
   raceContent.classifications.points = groupStagesByRider(points);
   // Mountain
-  const mountain = dataService.raceClassificationsMountain(raceUID);
-  raceContent.classifications.mountain = groupStagesByRider(mountain);
+  const mountains = dataService.raceClassificationsMountain(raceUID);
+  raceContent.classifications.mountains = groupStagesByRider(mountains);
   // Youth
   const youth = dataService.raceClassificationsYouth(raceUID);
   raceContent.classifications.youth = groupStagesByRider(youth);

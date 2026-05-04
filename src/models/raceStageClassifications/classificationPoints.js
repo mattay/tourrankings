@@ -1,5 +1,5 @@
 import { logError } from "@utils/logging";
-import CSVdataModel from "../dataModel_csv";
+import CSVdataModel from "@models/dataModel_csv";
 
 /**
  * @typedef {import('../@types/classifications').ClassificationPointModel} ClassificationPointModel
@@ -25,7 +25,7 @@ export class ClassificationPoints extends CSVdataModel {
       bib: "number",
       age: "number",
       points: "number",
-      //today: "number",
+      today: "number",
     };
     super(
       `${process.env.DATA_DIR}/raceStageClassificationPoints.csv`,

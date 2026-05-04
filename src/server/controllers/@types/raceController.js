@@ -47,7 +47,7 @@
  * @property {ClassificationGeneral[][]} general - General classification results per stage.
  * @property {ClassificationYouth[][]} youth - Youth classification results per stage.
  * @property {ClassificationPoints[][]} points - Points classification results per stage.
- * @property {ClassificationMountain[][]} mountain - Mountain classification results per stage.
+ * @property {ClassificationMountains[][]} mountains - Mountains classification results per stage.
  * @property {Object.<string, (ClassificationTeam|null)[]>} team - Team classification results per stage.
  */
 

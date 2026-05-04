@@ -8,13 +8,19 @@ import {
   Riders,
   ClassificationGeneral,
   ClassificationPoints,
-  ClassificationMountain,
+  ClassificationMountains,
   ClassificationYouth,
   ClassificationTeam,
+  RaceStageLocationPoints,
+  RaceStageLocationMountains,
+  RaceStageLocationPointsResults,
+  RaceStageLocationMountainsResults,
 } from "../models";
 // Utils
 import { generateId } from "@cycling/idGenerator";
 import { logError, logOut } from "@utils/logging";
+import { parseBool } from "@utils/sanity";
+import { logMemoryUsage } from "@utils/memory";
 // Scrape
 import {
   collectWorldTourRaces,
@@ -23,8 +29,6 @@ import {
   scrapeRaceStageResults,
 } from "./source/proCyclingStats";
 import { getSeason } from "./season";
-import { parseBool } from "@utils/sanity";
-import { logMemoryUsage } from "@utils/memory";
 
 const DEBUG_MEMORY = parseBool(process.env.DEBUG_MEMORY, false);
 
@@ -34,11 +38,25 @@ const DEBUG_MEMORY = parseBool(process.env.DEBUG_MEMORY, false);
  * @typedef {import('../models/@types/races').RaceStageModel} RaceStageData
  * @typedef {import('../models/@types/teams').TeamModel} TeamData
  * @typedef {import('../models/@types/riders').RiderModel} RiderData
+ * @typedef {import('../models/@types/races').RaceStageResultModel} RaceStageResultsData
  * @typedef {import('../models/@types/classifications').ClassificationGeneralModel} ClassificationGeneralModel
  * @typedef {import('../models/@types/classifications').ClassificationYouthModel} ClassificationYouthData
  * @typedef {import('../models/@types/classifications').ClassificationPointModel} ClassificationPointData
- * @typedef {import('../models/@types/classifications').ClassificationMountainModel} ClassificationMountainData
+ * @typedef {import('../models/@types/classifications').ClassificationMountainsModel} ClassificationMountainData
  * @typedef {import('../models/@types/classifications').ClassificationTeamModel} ClassificationTeamData
+ * @typedef {import('../models/@types/races').RaceStageLocationPointModel} RaceStageLocationPointsData
+ * @typedef {import('../models/@types/races').RaceStageLocationMountainModel} RaceStageLocationMountainsData
+ * @typedef {import('../models/@types/races').RaceStageLocationPointResultModel} RaceStageLocationPointResultData
+ * @typedef {import('../models/@types/races').RaceStageLocationMountainResultModel} RaceStageLocationMountainResultData
+ */
+
+/**
+ * Scraped
+ * @typedef {import('./source/proCyclingStats/@types').ScrapedRace} ScrapedRace
+ * @typedef {import('./source/proCyclingStats/@types').ScrapedRaceStartListTeam} ScrapedRaceStartListTeam
+ * @typedef {import('./source/proCyclingStats/@types').ScrapedRaceStartListRider} ScrapedRaceStartListRider
+ * @typedef {import('./source/proCyclingStats/@types').ScrapedRaceStartListStaff} ScrapedRaceStartListStaff
+ * @typedef {import('./source/proCyclingStats/@types').ScrapedRaceStage} ScrapedRaceStage
  */
 
 /**
@@ -292,24 +310,21 @@ async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
  * - For each past race with missing stages, fetches and updates detailed data.
  *
  * @async
- * @param {Races} races - Races data manager.
- * @param {RaceStages} raceStages - RaceStages data manager.
- * @param {RaceRiders} raceRiders - RaceRiders data manager.
- * @param {Riders} riders - Riders data manager.
- * @param {Teams} teams - Teams data manager.
+ *
+ * @param {Object} models - Object containing Races, RaceStages, RaceRiders data manager.
  * @returns {Promise<void>} Resolves when all updates are complete.
  * @throws {Error} If scraping or updating fails.
  *
  * @example
- * await updateRaces( races, raceStages, raceRiders, riders, teams);
+ * await updateRaces({ races, raceStages, raceRiders, riders, teams });
  */
-async function updateRaces(races, raceStages, raceRiders, riders, teams) {
+async function updateRaces(models) {
   const raceSeason = getSeason();
 
   if (!parseBool(process.env.FEATURE_DISABLED_RACES, false)) {
     logOut("Main", `Collecting races for the ${raceSeason} season.`);
     try {
-      await collectWorldTourRaces(races, raceSeason);
+      await collectWorldTourRaces(models.races, raceSeason);
     } catch (error) {
       logError(
         "Main",
@@ -321,45 +336,48 @@ async function updateRaces(races, raceStages, raceRiders, riders, teams) {
     logOut("Main", "[FEATURE DISABLED] Races");
   }
 
-  await collectPastRaceDetails(races, raceStages, raceRiders, riders, teams);
+  await collectPastRaceDetails(
+    models.races,
+    models.raceStages,
+    models.raceRiders,
+    models.riders,
+    models.teams,
+  );
 
   logOut("Main", `[TODO] Collecting future races details.`);
 }
 
 /**
  * Update stages logic here
- * @param {Races} races - The Races object
- * @param {RaceStages} raceStages - The RaceStages object
- * @param {RaceStageResults} raceStageResults - The RaceStageResults object
- * @param {ClassificationGeneral} raceStageGeneral -
- * @param {ClassificationPoints} raceStagePoints -
- * @param {ClassificationMountain} raceStageMountain -
- * @param {ClassificationYouth} raceStageYouth -
- * @param {ClassificationTeam} raceStageTeam -
+ * @async
+ * @param {Object} models - The models object containing all the data models
+ * @param {Races} models.races - The Races object
+ * @param {RaceStages} models.raceStages - The RaceStages object
+ * @param {RaceStageResults} models.raceStageResults - The RaceStageResults object
+ * @param {ClassificationGeneral} models.raceStageGeneral - The ClassificationGeneral object
+ * @param {ClassificationPoints} models.raceStagePoints - The ClassificationPoints object
+ * @param {ClassificationMountain} models.raceStageMountain - The ClassificationMountain object
+ * @param {ClassificationYouth} models.raceStageYouth - The ClassificationYouth object
+ * @param {ClassificationTeam} models.raceStageTeam - The ClassificationTeam object
+ * @param {RaceStageLocationPoints} models.raceStageLocationPoints - The RaceStageLocationPoints object
+ * @param {RaceStageLocationMountains} models.raceStageLocationMountains - The RaceStageLocationMountains object
+ * @param {RaceStageLocationPointsResults} models.raceStageLocationPointsResults - The RaceStageLocationPointsResults object
+ * @param {RaceStageLocationMountainsResults} models.raceStageLocationMountainsResults - The RaceStageLocationMountainsResults object
  */
-async function updateStageResults(
-  races,
-  raceStages,
-  raceStageResults,
-  raceStageGeneral,
-  raceStagePoints,
-  raceStageMountain,
-  raceStageYouth,
-  raceStageTeam,
-) {
+async function updateStageResults(models) {
   logOut("Main", "Starting stage results collection");
   if (DEBUG_MEMORY) logMemoryUsage("StageResults-Start");
 
   const stagesRequireResults = stagesWithoutResults(
-    races,
-    raceStages,
-    raceStageResults,
+    models.races,
+    models.raceStages,
+    models.raceStageResults,
   );
 
   for (const stage of stagesRequireResults) {
     if (DEBUG_MEMORY) logMemoryUsage(`Before-Stage-${stage}`);
 
-    const stageDetails = raceStages.getStage(stage);
+    const stageDetails = models.raceStages.getStage(stage);
     if (!stageDetails) {
       logOut(
         "Main",
@@ -382,7 +400,7 @@ async function updateStageResults(
         logOut("Main", `Scrape Stage Results: No results found for ${stage}`);
         continue;
       }
-      if (DEBUG_MEMORY) logMemoryUsage(`After-JSDOM-Cleanup-${stage}`);
+      if (DEBUG_MEMORY) logMemoryUsage(`After-Scrape-${stage}`);
     } catch (error) {
       logError(
         "Main",
@@ -402,20 +420,41 @@ async function updateStageResults(
 
         switch (ranking) {
           case "gc":
-            await raceStageGeneral.update(stageResults[ranking]);
+            await models.raceStageGeneral.update(stageResults[ranking]);
             break;
           case "points":
-            await raceStagePoints.update(stageResults[ranking]);
+            await models.raceStagePoints.update(stageResults[ranking]);
             break;
           case "youth":
-            await raceStageYouth.update(stageResults[ranking]);
+            await models.raceStageYouth.update(stageResults[ranking]);
             break;
           case "teams":
-            await raceStageTeam.update(stageResults[ranking]);
+            await models.raceStageTeam.update(stageResults[ranking]);
             break;
-          case "kom":
-          case "qom":
-            await raceStageMountain.update(stageResults[ranking]);
+          case "mountains":
+            await models.raceStageMountain.update(stageResults[ranking]);
+            break;
+          case "pointsLocations":
+            await models.raceStageLocationPoints.update(stageResults[ranking]);
+            break;
+          case "mountainsLocations":
+            await models.raceStageLocationMountains.update(
+              stageResults[ranking],
+            );
+            break;
+          case "pointsLocationContest":
+            await models.raceStageLocationPointsResults.update(
+              stageResults[ranking],
+            );
+            break;
+          case "mountainsLocationContest":
+            await models.raceStageLocationMountainsResults.update(
+              stageResults[ranking],
+            );
+            break;
+          case "youthLocationContest":
+          case "teamsLocationContest":
+            // Ignore for now
             break;
           default:
             logOut(
@@ -429,7 +468,7 @@ async function updateStageResults(
       // Phase 2: Only after all other classifications succeed, write "stage"
       // This marks the stage as complete in the tracking system
       if (stageResults["stage"]) {
-        await raceStageResults.update(stageResults["stage"]);
+        await models.raceStageResults.update(stageResults["stage"]);
       }
 
       if (DEBUG_MEMORY) logMemoryUsage(`After-Write-${stage}`);
@@ -448,33 +487,54 @@ async function updateStageResults(
 async function main() {
   try {
     // Data Models
-    // TODO utilse dataService
-    const races = new Races();
-    const raceStages = new RaceStages();
-    const raceRiders = new RaceRiders();
-    const teams = new Teams();
-    const riders = new Riders();
-    const raceStageResults = new RaceStageResults();
-    const raceStageGeneral = new ClassificationGeneral();
-    const raceStagePoints = new ClassificationPoints();
-    const raceStageMountain = new ClassificationMountain();
-    const raceStageYouth = new ClassificationYouth();
-    const raceStageTeam = new ClassificationTeam();
-
+    // TODO -> utilse dataService
+    const models = {
+      races: new Races(),
+      raceStages: new RaceStages(),
+      raceRiders: new RaceRiders(),
+      teams: new Teams(),
+      riders: new Riders(),
+      raceStageResults: new RaceStageResults(),
+      raceStageGeneral: new ClassificationGeneral(),
+      raceStagePoints: new ClassificationPoints(),
+      raceStageMountain: new ClassificationMountains(),
+      raceStageYouth: new ClassificationYouth(),
+      raceStageTeam: new ClassificationTeam(),
+      raceStageLocationPoints: new RaceStageLocationPoints(),
+      raceStageLocationMountains: new RaceStageLocationMountains(),
+      raceStageLocationPointsResults: new RaceStageLocationPointsResults(),
+      raceStageLocationMountainsResults:
+        new RaceStageLocationMountainsResults(),
+    };
     // Load data
     try {
       logOut("Main", "Loading data - Started");
-      await races.read();
-      await raceStages.read();
-      await raceStageResults.read();
-      await raceRiders.read();
-      await teams.read();
-      await riders.read();
-      await raceStageGeneral.read();
-      await raceStagePoints.read();
-      await raceStageMountain.read();
-      await raceStageYouth.read();
-      await raceStageTeam.read();
+      const loaded = await Promise.allSettled([
+        models.races.read(),
+        models.raceStages.read(),
+        models.raceStageResults.read(),
+        models.raceRiders.read(),
+        models.teams.read(),
+        models.riders.read(),
+        models.raceStageGeneral.read(),
+        models.raceStagePoints.read(),
+        models.raceStageMountain.read(),
+        models.raceStageYouth.read(),
+        models.raceStageTeam.read(),
+        models.raceStageLocationPoints.read(),
+        models.raceStageLocationMountains.read(),
+        models.raceStageLocationPointsResults.read(),
+        models.raceStageLocationMountainsResults.read(),
+      ]);
+
+      const failures = loaded.filter((r) => r.status === "rejected");
+      if (failures.length) {
+        failures.forEach((r) =>
+          logError("Main", r.reason?.message || String(r.reason)),
+        );
+        throw new Error("Loading data - Failed");
+      }
+
       logOut("Main", "Loading data - Completed");
     } catch (error) {
       logError("Main", "Loading data - Failed", error);
@@ -482,23 +542,14 @@ async function main() {
     }
 
     try {
-      await updateRaces(races, raceStages, raceRiders, riders, teams);
+      await updateRaces(models);
     } catch (error) {
       logError("Main", "Collecting race information - Failed", error);
     }
 
     if (!parseBool(process.env.FEATURE_DISABLED_RESULTS, false)) {
       try {
-        await updateStageResults(
-          races,
-          raceStages,
-          raceStageResults,
-          raceStageGeneral,
-          raceStagePoints,
-          raceStageMountain,
-          raceStageYouth,
-          raceStageTeam,
-        );
+        await updateStageResults(models);
       } catch (error) {
         logError("Main", "Collect race stage results - Failed", error);
       }

@@ -24,22 +24,22 @@ const STARTLIST_TEST_CASES = [
   {
     race: "Tour Down Under",
     year: 2025,
-    html: "test/scraping/cycling/procyclingstats/html/raceStartList-2025-tour-down-under.html",
+    html: "test/scraping/cycling/procyclingstats/html/race-startlist-2025/raceStartList-2025-tour-down-under.html",
     startlist: {
-      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartList-2025-tour-down-under.json",
-      csv: "test/scraping/cycling/procyclingstats/fixtures/raceStartList-2025-tour-down-under.csv",
+      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartlist/2025/raceStartList-2025-tour-down-under.json",
+      csv: "test/scraping/cycling/procyclingstats/fixtures/raceStartlist/2025/raceStartList-2025-tour-down-under.csv",
     },
     teams: {
-      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartList-2025-tour-down-under.json",
-      csv: "test/scraping/cycling/procyclingstats/fixtures/teams-2025-tour-down-under.csv",
+      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartlist/2025/raceStartList-2025-tour-down-under.json",
+      csv: "test/scraping/cycling/procyclingstats/fixtures/raceStartlist/2025/teams-2025-tour-down-under.csv",
     },
     riders: {
-      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartList-2025-tour-down-under.json",
-      csv: "test/scraping/cycling/procyclingstats/fixtures/riders-2025-tour-down-under.csv",
+      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartlist/2025/raceStartList-2025-tour-down-under.json",
+      csv: "test/scraping/cycling/procyclingstats/fixtures/raceRiders/2025/riders-2025-tour-down-under.csv",
     },
     raceRiders: {
-      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartList-2025-tour-down-under.json",
-      csv: "test/scraping/cycling/procyclingstats/fixtures/raceRiders-2025-tour-down-under.csv",
+      json: "test/scraping/cycling/procyclingstats/fixtures/raceStartlist/2025/raceStartList-2025-tour-down-under.json",
+      csv: "test/scraping/cycling/procyclingstats/fixtures/raceRiders/2025/raceRiders-2025-tour-down-under.csv",
     },
   },
 ];
@@ -87,22 +87,21 @@ const flattenRaceRiders = (startlistData, raceUID) =>
 describe.each(STARTLIST_TEST_CASES)(
   "Startlist [$year $race] parse HTML",
   (data) => {
-    let html, expectedResults;
+    let html, expectedResults, url;
 
     beforeAll(async () => {
       html = await Bun.file(data.html).text();
       expectedResults = await Bun.file(data.startlist.json).json();
+      url = `https://www.procyclingstats.com/race/${slug(data.race)}/${data.year}/startlist`;
     });
 
     test("Should return an array of teams", async () => {
-      const url = `https://www.procyclingstats.com/race/${slug(data.race)}/${data.year}/startlist`;
       const startLists = extractStartlistFromHtml(html, data.year, url);
       expect(startLists).toBeInstanceOf(Array);
       expect(startLists.length).toBeGreaterThan(0);
     });
 
     test("Should match expected results", async () => {
-      const url = `https://www.procyclingstats.com/race/${slug(data.race)}/${data.year}/startlist`;
       const startLists = extractStartlistFromHtml(html, data.year, url);
       expect(startLists).toEqual(expectedResults);
     });

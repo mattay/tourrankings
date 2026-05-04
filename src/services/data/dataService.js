@@ -6,7 +6,7 @@ import {
   Riders,
   RaceRiders,
   ClassificationGeneral,
-  ClassificationMountain,
+  ClassificationMountains,
   ClassificationPoints,
   ClassificationTeam,
   ClassificationYouth,
@@ -19,15 +19,15 @@ import { join, dirname } from "path";
  * Classes
  * @typedef {import('../../models/@types/races').RaceModel} RaceData
  * @typedef {import('../../models/@types/races').RaceStageModel} RaceStageData
- * @typedef {import('../../models/@types/races').RaceStageResultModel} RaceStageResultData
- * @typedef {import('../../models/@types/races').RaceRiderModel} RaceRiderData
- * @typedef {import('../../models/@types/teams').TeamModel} TeamData
- * @typedef {import('../../models/@types/riders').RiderModel} RiderData
- * @typedef {import('../../models/@types/classifications').ClassificationPointModel} ClassificationPointsData
- * @typedef {import('../../models/@types/classifications').ClassificationMountainModel} ClassificationMountainData
- * @typedef {import('../../models/@types/classifications').ClassificationGeneralModel} ClassificationGeneralData
- * @typedef {import('../../models/@types/classifications').ClassificationYouthModel} ClassificationYouthData
- * @typedef {import('../../models/@types/classifications').ClassificationTeamModel} ClassificationTeamData
+ * @typedef {import('@models/@types/races').RaceStageResultModel} RaceStageResultData
+ * @typedef {import('@models/@types/races').RaceRiderModel} RaceRiderData
+ * @typedef {import('@models/@types/teams').TeamModel} TeamData
+ * @typedef {import('@models/@types/riders').RiderModel} RiderData
+ * @typedef {import('@models/@types/classifications').ClassificationPointModel} ClassificationPointsData
+ * @typedef {import('@models/@types/classifications').ClassificationMountainsModel} ClassificationMountainData
+ * @typedef {import('@models/@types/classifications').ClassificationGeneralModel} ClassificationGeneralData
+ * @typedef {import('@models/@types/classifications').ClassificationYouthModel} ClassificationYouthData
+ * @typedef {import('@models/@types/classifications').ClassificationTeamModel} ClassificationTeamData
  */
 
 /**
@@ -78,7 +78,7 @@ class DataService {
     this.riders = new Riders();
     this.raceRiders = new RaceRiders();
     this.classificationGeneral = new ClassificationGeneral();
-    this.classificationMountain = new ClassificationMountain();
+    this.classificationMountain = new ClassificationMountains();
     this.classificationPoints = new ClassificationPoints();
     this.classificationTeam = new ClassificationTeam();
     this.classificationYouth = new ClassificationYouth();
@@ -530,25 +530,25 @@ class DataService {
   }
 
   /**
-   * Retrieves mountain classification results for all stages in a specific race.
+   * Retrieves mountains classification results for all stages in a specific race.
    *
    * @param {string} raceUID - The unique identifier of the race.
-   * @returns {Array<ClassificationMountainData[]>} Array of mountain classification results, indexed by stage number.
+   * @returns {Array<ClassificationMountainData[]>} Array of mountains classification results, indexed by stage number.
    * @throws {Error} If the service is not initialized.
    */
   raceClassificationsMountain(raceUID) {
     return this._getStageClassifications(
       raceUID,
       this.classificationMountain,
-      "mountain classification",
+      "mountains classification",
     );
   }
 
   /**
-   * Retrieves mountain classification results for all stages in a specific race.
+   * Retrieves team classification results for all stages in a specific race.
    *
    * @param {string} raceUID - The unique identifier of the race.
-   * @returns {Array<ClassificationTeamData[]>} Array of mountain classification results, indexed by stage number.
+   * @returns {Array<ClassificationTeamData[]>} Array of team classification results, indexed by stage number.
    * @throws {Error} If the service is not initialized.
    */
   raceClassificationsTeams(raceUID) {

@@ -1,10 +1,16 @@
 import { logError } from "@utils/logging";
 import { urlSections } from "@utils/url";
 import { fetchHtmlWithCache, htmlDOM } from "@scrappers/html";
-import { parseName, parseTeamName } from "@scrappers/source/proCyclingStats/helpers";
+import {
+  parseName,
+  parseTeamName,
+} from "@scrappers/source/proCyclingStats/helpers";
 
 /**
- *
+ * @typedef {import('./@types/index').ScrapedRaceStartListTeam} ScrapedRaceStartListTeam
+ */
+
+/**
  * @typedef {Object} RawStartListRider
  * @property {string} pcsUrl - The ProcyclingStats URL of the rider.
  * @property {number} bib - The bib number of the rider.
@@ -44,10 +50,6 @@ import { parseName, parseTeamName } from "@scrappers/source/proCyclingStats/help
  * @property {string|null} surname - The surname of the staff member.
  * @property {string|null} firstNames - The first name of the staff member.
  * @property {string|null} role - The role of the staff member.
- */
-
-/**
- * @typedef {import('./@types/index').ScrapedRaceStartListTeam} ScrapedRaceStartListTeam
  */
 
 const DOM_SELECTORS = {
@@ -190,6 +192,7 @@ export function extractStartlistFromHtml(htmlContent, year, baseUrl) {
 
   return Array.from(pageDOM.querySelectorAll(DOM_SELECTORS.contentTeamList))
     .map((teamElement) => {
+      // Team Title
       const team = parseTeamTitle(
         teamElement.querySelector(DOM_SELECTORS.team),
       ) || { pcsId: null, name: null, classification: null, pcsUrl: null };
@@ -201,6 +204,7 @@ export function extractStartlistFromHtml(htmlContent, year, baseUrl) {
         });
       }
 
+      // Jersey Image
       const jerseyImageElement = /** @type {HTMLImageElement|null} */ (
         teamElement.querySelector(DOM_SELECTORS.jersey)
       );
@@ -213,6 +217,7 @@ export function extractStartlistFromHtml(htmlContent, year, baseUrl) {
         });
       }
 
+      // Riders
       const riders = Array.from(
         teamElement.querySelectorAll(DOM_SELECTORS.teamRiders),
       )
@@ -227,6 +232,7 @@ export function extractStartlistFromHtml(htmlContent, year, baseUrl) {
         });
       }
 
+      // Directeur Sportif
       const directeurSportifs = Array.from(
         teamElement.querySelectorAll(DOM_SELECTORS.directeurSportif),
       )
@@ -234,13 +240,19 @@ export function extractStartlistFromHtml(htmlContent, year, baseUrl) {
         .filter(Boolean)
         .map((ds) => ({ year, ...ds }));
       if (directeurSportifs.length === 0) {
-        logError("Scrape PCS - Start List", "No directeur sportif found", null, {
-          team: team.name,
-          url: team.pcsUrl,
-          year,
-        });
+        logError(
+          "Scrape PCS - Start List",
+          "No directeur sportif found",
+          null,
+          {
+            team: team.name,
+            url: team.pcsUrl,
+            year,
+          },
+        );
       }
 
+      // Return Team data
       return {
         year,
         ...team,

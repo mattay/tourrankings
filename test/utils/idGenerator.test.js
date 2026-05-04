@@ -90,11 +90,11 @@ describe("generateId.stage", () => {
 describe("generateId.location", () => {
   const testCases = [
     {
-      description: "valid sprint location",
+      description: "valid points location",
       stageUID: "tour-de-france:2024:1",
       index: 1,
-      locationType: "sprint",
-      expected: "tour-de-france:2024:1:sprint:1",
+      locationType: "points",
+      expected: "tour-de-france:2024:1:points:1",
     },
     {
       description: "valid mountains location",
@@ -114,8 +114,8 @@ describe("generateId.location", () => {
       description: "multi-digit index",
       stageUID: "tour-de-france:2024:1",
       index: 10,
-      locationType: "sprint",
-      expected: "tour-de-france:2024:1:sprint:10",
+      locationType: "points",
+      expected: "tour-de-france:2024:1:points:10",
     },
     {
       description: "rejects index 0",

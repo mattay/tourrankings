@@ -13,7 +13,7 @@ export { Riders } from "./riders";
 export { RaceRiders } from "./raceRiders";
 export {
   ClassificationGeneral,
-  ClassificationMountains as ClassificationMountain,
+  ClassificationMountains,
   ClassificationPoints,
   ClassificationTeam,
   ClassificationYouth,

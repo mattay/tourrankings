@@ -6,7 +6,7 @@ import {
   Riders,
   RaceRiders,
   ClassificationGeneral,
-  ClassificationMountain,
+  ClassificationMountains,
   ClassificationPoints,
   ClassificationTeam,
   ClassificationYouth,
@@ -78,7 +78,7 @@ class DataService {
     this.riders = new Riders();
     this.raceRiders = new RaceRiders();
     this.classificationGeneral = new ClassificationGeneral();
-    this.classificationMountain = new ClassificationMountain();
+    this.classificationMountain = new ClassificationMountains();
     this.classificationPoints = new ClassificationPoints();
     this.classificationTeam = new ClassificationTeam();
     this.classificationYouth = new ClassificationYouth();

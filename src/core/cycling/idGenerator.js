@@ -7,7 +7,7 @@
  * Allowed location types for intermediate locations.
  * @type {Set<string>}
  */
-const ALLOWED_LOCATION_TYPES = new Set(["sprint", "mountains", "points"]);
+const ALLOWED_LOCATION_TYPES = new Set(["mountains", "points"]);
 
 export const generateId = {
   /**
@@ -54,7 +54,7 @@ export const generateId = {
    * Generate a location ID for intermediate locations (sprints, climbs).
    * @param {string} stageUID - Composite stage UID.
    * @param {number|string} index - Location index ( 1, 2, ...).
-   * @param {string} locationType - Location type: "sprint" | "mountains".
+   * @param {string} locationType - Location type: "mountains" | "points".
    * @returns {string} Composite location ID.
    */
   location: (stageUID, index, locationType) => {

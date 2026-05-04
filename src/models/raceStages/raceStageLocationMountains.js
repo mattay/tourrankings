@@ -23,7 +23,7 @@ export class RaceStageLocationMountains extends CSVdataModel {
     };
     super(
       `${process.env.DATA_DIR}/raceStageLocationMountains.csv`,
-      ["Location UID"],
+      ["locationUID"],
       fieldTypes,
     );
     this.csvHeaders = [

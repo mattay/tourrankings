@@ -614,9 +614,15 @@ export function sprintLocation(label) {
  * @returns {{category: string, location: string, distance: string}} The parsed climb label.
  */
 export function climbLocation(label) {
-  // Stage Classification -> "KOM Sprint (3) Côte de San Luca (186.6 km)""
-  const regexKomLabel =
-    /^KOM Sprint \((?<category>(\d+|HC))\) (?<location>.*) \((?<distance>\d+(\.\d+)?) km\)/;
+  // Define patterns to try in order
+  const komPatterns = [
+    // Pattern: "KOM Sprint (3) Location (123.4 km)" - original, number category (1,2,3,HC)
+    /^KOM Sprint \((?<category>\d+|HC)\) (?<location>.*) \((?<distance>\d+(\.\d+)?) km\)/,
+    // Pattern: "KOM Sprint (S) Location (123.4 km)" - letter category (S, etc.)
+    /^KOM Sprint \((?<category>[A-Z])\) (?<location>.*) \((?<distance>\d+(\.\d+)?) km\)/,
+    // Pattern: "KOM Sprint | Location (123.4 km)" - no category, has pipe
+    /^KOM Sprint \| (?<location>.*) \((?<distance>\d+(\.\d+)?) km\)/,
+  ];
 
   const climb = {
     category: "",
@@ -625,7 +631,16 @@ export function climbLocation(label) {
     sprintType: label.includes("finish") ? "Finish" : "Intermediate",
   };
 
-  const matchKomLabel = label.match(regexKomLabel);
+  // Try each pattern in order
+  let matchKomLabel = null;
+  for (const pattern of komPatterns) {
+    const match = label.match(pattern);
+    if (match) {
+      matchKomLabel = match;
+      break;
+    }
+  }
+
   if (!matchKomLabel) {
     logError(
       "PCS Stage Results",

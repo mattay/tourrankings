@@ -9,7 +9,8 @@
     "locationUID": "tour-down-under:2025:1:points:1",
     "sprintType": "intermediate",
     "stage": 1,
-    "stageUID": "tour-down-under:2025:1"
+    "stageUID": "tour-down-under:2025:1",
+    "title": "Sprint"
   },
   {
     "allocatedBoni": ["3″", "2″", "1″"],
@@ -21,7 +22,8 @@
     "locationUID": "tour-down-under:2025:1:points:2",
     "sprintType": "intermediate",
     "stage": 1,
-    "stageUID": "tour-down-under:2025:1"
+    "stageUID": "tour-down-under:2025:1",
+    "title": "Sprint"
   },
   {
     "allocatedBoni": ["10″", "6″", "4″"],
@@ -33,6 +35,7 @@
     "locationUID": "tour-down-under:2025:1:points:3",
     "sprintType": "finish",
     "stage": 1,
-    "stageUID": "tour-down-under:2025:1"
+    "stageUID": "tour-down-under:2025:1",
+    "title": ""
   }
 ]

@@ -6,7 +6,7 @@ import {
   extractNotice,
   formatRow,
   sortByRanking,
-} from "./helpers/helperRaceStageResults";
+} from "@scrappers/source/proCyclingStats/helpers/helperRaceStageResults";
 import { renameKeys } from "@utils/object";
 import { toCamelCase } from "@utils/string";
 import { stringToSeconds } from "@utils/time";
@@ -583,26 +583,35 @@ function cleanUpMountainLocationContestTable(table, additionalValues) {
  * @returns {{location: string, distance: string}} The parsed sprint label.
  */
 export function sprintLocation(label) {
-  // Sprint -> "Sprint | Dozza (108.1 km)""
-  const regexSprintLabel =
-    /^Sprint \| (?<location>.*) \((?<distance>\d+\.?\d+) km\)/;
-
+  // Define patterns to try in order
+  const sprintPatterns = [
+    /^(?<title>Sprint|.+? Sprint) \| (?<location>.*) \((?<distance>\d+\.?\d+) km\)/i,
+    /^(?<title>Sprint|.+? Sprint) \((?<distance>\d+\.?\d+) km\)/i,
+  ];
   const sprint = {
     location: label,
     distance: "",
     sprintType: /finish/i.test(label) ? "finish" : "intermediate",
+    title: "",
   };
 
-  const matchSprintLabel = label.match(regexSprintLabel);
-  if (label != "Points at finish" && !matchSprintLabel) {
+  // Try each pattern until one matches
+  for (const regex of sprintPatterns) {
+    const match = label.match(regex);
+    if (match) {
+      sprint.location = match.groups.location || label;
+      sprint.distance = match.groups.distance || "";
+      sprint.title = match.groups.title || "";
+      return sprint;
+    }
+  }
+
+  // No pattern matched - log error (except for Finish)
+  if (!sprint.distance && /finish/i.test(label)) {
     logError(
       "PCS Stage Results",
       `Label for Sprint points does not match: ${label}`,
     );
-    // TODO -> add to tests
-  } else if (matchSprintLabel) {
-    sprint.location = matchSprintLabel.groups.location;
-    sprint.distance = matchSprintLabel.groups.distance;
   }
 
   return sprint;
@@ -614,9 +623,17 @@ export function sprintLocation(label) {
  * @returns {{category: string, location: string, distance: string}} The parsed climb label.
  */
 export function climbLocation(label) {
-  // Stage Classification -> "KOM Sprint (3) Côte de San Luca (186.6 km)""
-  const regexKomLabel =
-    /^KOM Sprint \((?<category>(\d+|HC))\) (?<location>.*) \((?<distance>\d+(\.\d+)?) km\)/;
+  // Define patterns to try in order
+  const komPatterns = [
+    // Pattern: "KOM Sprint (3) Location (123.4 km)" - original, number category (1,2,3,HC)
+    /^KOM Sprint \((?<category>\d+|HC)\) (?<location>.*) \((?<distance>\d+(\.\d+)?) km\)/,
+    // Pattern: "KOM Sprint (S) Location (123.4 km)" - letter category (S, etc.)
+    /^KOM Sprint \((?<category>[A-Z])\) (?<location>.*) \((?<distance>\d+(\.\d+)?) km\)/,
+    // Pattern: "KOM Sprint | Location (123.4 km)" - no category, has pipe
+    /^KOM Sprint \| (?<location>.*) \((?<distance>\d+(\.\d+)?) km\)/,
+    // Pattern: "KOM Sprint (3) Location 123.4 km)" - missing pipe, no paren before distance
+    /^KOM Sprint \((?<category>\d+|HC)\) (?<location>.*?) (?<distance>\d+(\.\d+)?) km\)/,
+  ];
 
   const climb = {
     category: "",
@@ -625,17 +642,22 @@ export function climbLocation(label) {
     sprintType: label.includes("finish") ? "Finish" : "Intermediate",
   };
 
-  const matchKomLabel = label.match(regexKomLabel);
-  if (!matchKomLabel) {
-    logError(
-      "PCS Stage Results",
-      `Label for KOM points does not match: ${label}`,
-    );
-  } else {
-    climb.category = matchKomLabel.groups.category;
-    climb.location = matchKomLabel.groups.location;
-    climb.distance = matchKomLabel.groups.distance;
+  // Try each pattern until one matches
+  for (const regex of komPatterns) {
+    const match = label.match(regex);
+    if (match) {
+      climb.category = match.groups.category || "";
+      climb.location = match.groups.location || "";
+      climb.distance = match.groups.distance || "";
+      return climb;
+    }
   }
+
+  // No pattern matched - log error
+  logError(
+    "PCS Stage Results",
+    `Label for KOM points does not match: ${label}`,
+  );
 
   return climb;
 }
@@ -980,9 +1002,15 @@ export function classificationResults(
           let locationIndex = htmlIndex + 1;
           // Only generate locationType for valid types, skip for youth/teams
           const validLocationTypes = ["points", "mountains"];
-          const locationType = validLocationTypes.includes(classification) ? classification : null;
+          const locationType = validLocationTypes.includes(classification)
+            ? classification
+            : null;
           const locationUID = locationType
-            ? generateId.location(stageDetails.stageUID, locationIndex, locationType)
+            ? generateId.location(
+                stageDetails.stageUID,
+                locationIndex,
+                locationType,
+              )
             : null;
           let locationInfo = {
             locationUID,

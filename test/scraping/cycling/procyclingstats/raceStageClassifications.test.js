@@ -37,7 +37,77 @@ describe.each([
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-mountains-location-contest.json",
     },
   },
-])(`$year - $race Stages`, (data) => {
+  {
+    race: "Vuelta a España",
+    year: 2025,
+    stage: 11,
+    stageUID: "vuelta-a-espana:2025:11",
+    stageType: "",
+    input:
+      "test/scraping/cycling/procyclingstats/html/race-stages-2025/raceStageResults-2025-vuelta-a-espana-11.html",
+    output: {
+      stageResults:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11.json",
+      generalClassification:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-classification-general.json",
+      mountainsClassification:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-classification-mountains.json",
+      pointsClassification:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-classification-points.json",
+      teamClassification:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-classification-teams.json",
+      youngClassification:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-classification-youth.json",
+      teamsLocationContest:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-classification-teams-stage-day.json",
+      youthLocationContest:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-classification-youth-stage-day.json",
+      pointsLocations:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-points-locations.json",
+      pointsLocationContest:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-points-location-contest.json",
+      mountainsLocations:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-mountains-locations.json",
+      mountainsLocationContest:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-mountains-location-contest.json",
+    },
+  },
+  {
+    race: "Vuelta a España",
+    year: 2025,
+    stage: 21,
+    stageUID: "vuelta-a-espana:2025:21",
+    stageType: "",
+    input:
+      "test/scraping/cycling/procyclingstats/html/race-stages-2025/raceStageResults-2025-vuelta-a-espana-21.html",
+    output: {
+      stageResults:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-21/raceStageResults-2025-vuelta-a-espana-21.json",
+      generalClassification:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-21/raceStageResults-2025-vuelta-a-espana-21-classification-general.json",
+      mountainsClassification:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-21/raceStageResults-2025-vuelta-a-espana-21-classification-mountains.json",
+      pointsClassification:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-21/raceStageResults-2025-vuelta-a-espana-21-classification-points.json",
+      teamClassification:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-21/raceStageResults-2025-vuelta-a-espana-21-classification-teams.json",
+      youngClassification:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-21/raceStageResults-2025-vuelta-a-espana-21-classification-youth.json",
+      teamsLocationContest:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-21/raceStageResults-2025-vuelta-a-espana-21-classification-teams-stage-day.json",
+      youthLocationContest:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-21/raceStageResults-2025-vuelta-a-espana-21-classification-youth-stage-day.json",
+      pointsLocations:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-21/raceStageResults-2025-vuelta-a-espana-21-points-locations.json",
+      pointsLocationContest:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-21/raceStageResults-2025-vuelta-a-espana-21-points-location-contest.json",
+      mountainsLocations:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-21/raceStageResults-2025-vuelta-a-espana-21-mountains-locations.json",
+      mountainsLocationContest:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-21/raceStageResults-2025-vuelta-a-espana-21-mountains-location-contest.json",
+    },
+  },
+],`$year - $race Stages $stage`, (data) => {
   let stageClassificationResults,
     expectedResults,
     expectedGeneral,

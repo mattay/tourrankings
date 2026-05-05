@@ -1,13 +1,33 @@
-import { describe, it, expect, beforeEach, afterEach, jest, mock } from "bun:test";
-import { getHealth } from "@server/controllers/healthController";
-import dataService from "@services/dataServiceInstance";
+import {
+  describe,
+  it,
+  expect,
+  beforeAll,
+  beforeEach,
+  afterEach,
+  jest,
+  mock,
+} from "bun:test";
 import fsSync from "fs";
 
-// Mock the logging module to prevent console errors in tests
+// Mock modules BEFORE any imports that depend on them
 mock.module("@utils/logging", () => ({
   logOut: jest.fn(),
   logError: jest.fn(),
 }));
+
+mock.module("@services/dataServiceInstance", () => ({
+  default: { isInitialized: true },
+}));
+
+// Dynamically import getHealth AFTER mocks are registered
+let getHealth;
+
+// Use beforeAll to import after mocks are set up
+beforeAll(async () => {
+  const module = await import("@server/controllers/healthController");
+  getHealth = module.getHealth;
+});
 
 describe("Health Controller", () => {
   let req;
@@ -16,9 +36,11 @@ describe("Health Controller", () => {
   let statusMock;
   let originalIsInitialized;
   let originalDataDir;
+  let dataService;
 
-  beforeEach(() => {
-    // Store original and set default to healthy
+  beforeEach(async () => {
+    // Get fresh reference to the mocked dataService
+    dataService = (await import("@services/dataServiceInstance")).default;
     originalIsInitialized = dataService.isInitialized;
     originalDataDir = process.env.DATA_DIR;
     dataService.isInitialized = true;
@@ -111,7 +133,7 @@ describe("Health Controller", () => {
       }
     });
 
-it("should include version from APP_VERSION env var", async () => {
+    it("should include version from APP_VERSION env var", async () => {
       const originalAppVersion = process.env.APP_VERSION;
       process.env.APP_VERSION = "1.2.3";
 
@@ -131,7 +153,9 @@ it("should include version from APP_VERSION env var", async () => {
       const originalAppVersion = process.env.APP_VERSION;
       delete process.env.APP_VERSION;
 
-const readFileSpy = jest.spyOn(fsSync, "readFileSync").mockReturnValue('{"version":"1.0.0"}');
+      const readFileSpy = jest
+        .spyOn(fsSync, "readFileSync")
+        .mockReturnValue('{"version":"1.0.0"}');
 
       await getHealth(req, res);
 
@@ -139,7 +163,8 @@ const readFileSpy = jest.spyOn(fsSync, "readFileSync").mockReturnValue('{"versio
       expect(response.version).toBe("1.0.0");
 
       readFileSpy.mockRestore();
-      if (originalAppVersion !== undefined) process.env.APP_VERSION = originalAppVersion;
+      if (originalAppVersion !== undefined)
+        process.env.APP_VERSION = originalAppVersion;
     });
 
     it("should return unknown when APP_VERSION unset and package.json read fails", async () => {
@@ -158,14 +183,17 @@ const readFileSpy = jest.spyOn(fsSync, "readFileSync").mockReturnValue('{"versio
       expect(response.version).toBe("unknown");
 
       readFileSpy.mockRestore();
-      if (originalAppVersion !== undefined) process.env.APP_VERSION = originalAppVersion;
+      if (originalAppVersion !== undefined)
+        process.env.APP_VERSION = originalAppVersion;
     });
 
     it("should return package version when APP_VERSION is empty string", async () => {
       const originalAppVersion = process.env.APP_VERSION;
       process.env.APP_VERSION = "";
 
-      const readFileSpy = jest.spyOn(fsSync, "readFileSync").mockReturnValue('{"version":"2.0.0"}');
+      const readFileSpy = jest
+        .spyOn(fsSync, "readFileSync")
+        .mockReturnValue('{"version":"2.0.0"}');
 
       await getHealth(req, res);
 

@@ -19,9 +19,9 @@
       <span id="race-year"><%=  race.year %></span>
     </h1>
       <h2 id="stage-title">
-        <span id="stage-label" class="smooth-text"> <% if (stage?.stageType == "prologue") { %>Prologue<% } else { %>Stage<% } %></span>
+        <span id="stage-label" class="smooth-text"> <% if (stage?.stageType?.toLowerCase() == "prologue") { %>Prologue<% } else { %>Stage<% } %></span>
           <span id="stage-number" class="smooth-text"> <% if (stage?.stage !== 0) { %><%= stage?.stage %><% } %></span>
-          <span id="stage-type" class="smooth-text"> <% if (stage?.stageType && stage?.stageType != "prologue") { %>(<%= stage?.stageType %>)<% } %>
+          <span id="stage-type" class="smooth-text"> <% if (stage?.stageType && stage?.stageType?.toLowerCase() != "prologue") { %>(<%= stage?.stageType %>)<% } %>
           </span>
           <span id="stage-name">
             <span id="stage-departure" class="smooth-text"><%= stage?.departure %></span> to <span id="stage-arrival" class="smooth-text"><%= stage?.arrival %></span>

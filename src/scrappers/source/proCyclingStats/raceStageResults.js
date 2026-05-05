@@ -585,18 +585,14 @@ function cleanUpMountainLocationContestTable(table, additionalValues) {
 export function sprintLocation(label) {
   // Define patterns to try in order
   const sprintPatterns = [
-    // Pattern: "Sprint | Location (123.4 km)" - original pattern
-    /^Sprint \| (?<location>.*) \((?<distance>\d+\.?\d+) km\)/,
-    // Pattern: "Bonification Sprint | Location (123.4 km)" - with prefix
-    /^Bonification Sprint \| (?<location>.*) \((?<distance>\d+\.?\d+) km\)/,
-    // Pattern: "Sprint (123.4 km)" - no pipe pattern
-    /^Sprint \((?<distance>\d+\.?\d+) km\)/,
+    /^(?<title>Sprint|.+? Sprint) \| (?<location>.*) \((?<distance>\d+\.?\d+) km\)/i,
+    /^(?<title>Sprint|.+? Sprint) \((?<distance>\d+\.?\d+) km\)/i,
   ];
-
   const sprint = {
     location: label,
     distance: "",
     sprintType: /finish/i.test(label) ? "finish" : "intermediate",
+    title: "",
   };
 
   // Try each pattern until one matches
@@ -605,6 +601,7 @@ export function sprintLocation(label) {
     if (match) {
       sprint.location = match.groups.location || label;
       sprint.distance = match.groups.distance || "";
+      sprint.title = match.groups.title || "";
       return sprint;
     }
   }

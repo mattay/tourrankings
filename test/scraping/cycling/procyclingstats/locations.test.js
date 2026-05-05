@@ -13,6 +13,7 @@ describe("sprintLocation", () => {
         location: "Dozza",
         distance: "108.1",
         sprintType: "intermediate",
+        title: "Sprint",
       },
     },
     {
@@ -21,6 +22,7 @@ describe("sprintLocation", () => {
         location: "Côte d'Amon",
         distance: "97.5",
         sprintType: "intermediate",
+        title: "Sprint",
       },
     },
     {
@@ -29,6 +31,7 @@ describe("sprintLocation", () => {
         location: "Finish",
         distance: "",
         sprintType: "finish",
+        title: "",
       },
     },
     // Sprint with no pipe
@@ -38,6 +41,7 @@ describe("sprintLocation", () => {
         location: "Sprint (91.9 km)",
         distance: "91.9",
         sprintType: "intermediate",
+        title: "Sprint",
       },
     },
     {
@@ -46,6 +50,7 @@ describe("sprintLocation", () => {
         location: "Sprint (158.5 km)",
         distance: "158.5",
         sprintType: "intermediate",
+        title: "Sprint",
       },
     },
     {
@@ -54,6 +59,7 @@ describe("sprintLocation", () => {
         location: "Sprint (134.6 km)",
         distance: "134.6",
         sprintType: "intermediate",
+        title: "Sprint",
       },
     },
     {
@@ -62,6 +68,7 @@ describe("sprintLocation", () => {
         location: "Sprint (53.6 km)",
         distance: "53.6",
         sprintType: "intermediate",
+        title: "Sprint",
       },
     },
     // Bonification Sprint patterns
@@ -71,6 +78,7 @@ describe("sprintLocation", () => {
         location: "Irurzun",
         distance: "124.8",
         sprintType: "intermediate",
+        title: "Bonification Sprint",
       },
     },
     {
@@ -79,6 +87,7 @@ describe("sprintLocation", () => {
         location: "Altube",
         distance: "93.3",
         sprintType: "intermediate",
+        title: "Bonification Sprint",
       },
     },
     {
@@ -87,6 +96,7 @@ describe("sprintLocation", () => {
         location: "Urrexola",
         distance: "154.3",
         sprintType: "intermediate",
+        title: "Bonification Sprint",
       },
     },
     {
@@ -95,6 +105,7 @@ describe("sprintLocation", () => {
         location: "Markina",
         distance: "122.4",
         sprintType: "intermediate",
+        title: "Bonification Sprint",
       },
     },
     {
@@ -103,6 +114,7 @@ describe("sprintLocation", () => {
         location: "Elgoibar",
         distance: "104",
         sprintType: "intermediate",
+        title: "Bonification Sprint",
       },
     },
   ];

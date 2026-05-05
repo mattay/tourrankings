@@ -6,7 +6,7 @@ import {
   extractNotice,
   formatRow,
   sortByRanking,
-} from "./helpers/helperRaceStageResults";
+} from "@scrappers/source/proCyclingStats/helpers/helperRaceStageResults";
 import { renameKeys } from "@utils/object";
 import { toCamelCase } from "@utils/string";
 import { stringToSeconds } from "@utils/time";

@@ -1,4 +1,5 @@
 import { logOut } from "@utils/logging";
+import { getDataDir } from "@utils/validation";
 import CSVdataModel from "@models/dataModel_csv";
 
 /**
@@ -23,7 +24,7 @@ export class Races extends CSVdataModel {
       // endDate: "date",
     };
 
-    super(`${process.env.DATA_DIR}/races.csv`, ["raceUID"], fieldTypes);
+    super(`${getDataDir()}/races.csv`, ["raceUID"], fieldTypes);
     this.csvHeaders = [
       "Race UID",
       "Year",

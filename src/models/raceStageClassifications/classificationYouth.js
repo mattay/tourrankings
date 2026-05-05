@@ -1,4 +1,5 @@
 import { logError } from "@utils/logging";
+import { getDataDir } from "@utils/validation";
 import CSVdataModel from "@models/dataModel_csv";
 
 /**
@@ -26,7 +27,7 @@ export class ClassificationYouth extends CSVdataModel {
       age: "number",
     };
     super(
-      `${process.env.DATA_DIR}/raceStageClassificationYouth.csv`,
+      `${getDataDir()}/raceStageClassificationYouth.csv`,
       ["stageUID", "bib"],
       fieldTypes,
     );

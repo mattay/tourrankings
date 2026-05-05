@@ -1,4 +1,5 @@
 import { logError } from "@utils/logging";
+import { getDataDir } from "@utils/validation";
 import CSVdataModel from "@models/dataModel_csv";
 
 /**
@@ -20,7 +21,7 @@ export class Teams extends CSVdataModel {
     const fieldTypes = {
       year: "number",
     };
-    super(`${process.env.DATA_DIR}/teams.csv`, ["Pcs Id"], fieldTypes);
+    super(`${getDataDir()}/teams.csv`, ["Pcs Id"], fieldTypes);
     this.csvHeaders = [
       "Year",
       "Pcs Id",

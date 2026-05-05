@@ -1,3 +1,4 @@
+import { getDataDir } from "@utils/validation";
 import CSVdataModel from "@models/dataModel_csv";
 
 /**
@@ -17,7 +18,7 @@ export class Riders extends CSVdataModel {
 
   constructor() {
     const fieldTypes = {};
-    super(`${process.env.DATA_DIR}/riders.csv`, ["Pcs Id"], fieldTypes);
+    super(`${getDataDir()}/riders.csv`, ["Pcs Id"], fieldTypes);
     this.csvHeaders = [
       "Pcs Id",
       "Surname",

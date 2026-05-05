@@ -610,7 +610,7 @@ export function sprintLocation(label) {
   }
 
   // No pattern matched - log error (except for Finish)
-  if (!sprint.distance && label !== "Points at finish") {
+  if (!sprint.distance && /finish/i.test(label)) {
     logError(
       "PCS Stage Results",
       `Label for Sprint points does not match: ${label}`,
@@ -1005,9 +1005,15 @@ export function classificationResults(
           let locationIndex = htmlIndex + 1;
           // Only generate locationType for valid types, skip for youth/teams
           const validLocationTypes = ["points", "mountains"];
-          const locationType = validLocationTypes.includes(classification) ? classification : null;
+          const locationType = validLocationTypes.includes(classification)
+            ? classification
+            : null;
           const locationUID = locationType
-            ? generateId.location(stageDetails.stageUID, locationIndex, locationType)
+            ? generateId.location(
+                stageDetails.stageUID,
+                locationIndex,
+                locationType,
+              )
             : null;
           let locationInfo = {
             locationUID,

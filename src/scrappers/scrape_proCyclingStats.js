@@ -266,7 +266,9 @@ function stagesWithoutResults(races, raceStages, raceStageResults, year) {
 }
 
 /**
- * Collects past races.
+ * Collects race details for all season races (past, in-progress, upcoming).
+ * For upcoming races, details are always re-fetched to handle pre-race changes.
+ * For past/in-progress races, only missing details are fetched.
  *
  * @async
  * @param {Races} races - The Races object.
@@ -275,25 +277,43 @@ function stagesWithoutResults(races, raceStages, raceStageResults, year) {
  * @param {Riders} riders - The riders.
  * @param {Teams} teams - The teams.
  */
-async function collectPastRaceDetails(
+async function collectRaceDetails(
   races,
   raceStages,
   raceRiders,
   riders,
   teams,
 ) {
-  logOut("Main", `Collecting past races details.`);
   const today = new Date();
-  const pastRacesWithoutStages = stagesInRaces(raceStages, [
-    ...races.past(),
+  const raceSeason = getSeason();
+
+  // Get all season races: past, in-progress, and upcoming
+  const allSeasonRaces = [
+    ...races.past(raceSeason),
     ...races.inProgress(today),
-  ]).filter((race) => race.stages.length === 0);
+    ...races.upcoming().filter((race) => race.year === raceSeason),
+  ];
 
-  // TODO: -> We need all race data, not just past events
-  // console.table(races.list())
+  // Enrich races with their stages
+  const racesWithStages = stagesInRaces(raceStages, allSeasonRaces);
 
-  for (const race of pastRacesWithoutStages) {
-    logOut("Main", `Collect past race: ${race.year} ${race.raceName}`);
+  for (const race of racesWithStages) {
+    const raceStartDate = new Date(race.startDate);
+    const isUpcoming = raceStartDate > today;
+
+    // For upcoming races: always update details (handles rider substitutions, route changes)
+    // For past/in-progress races: only fetch if no stages exist
+    const shouldCollect = isUpcoming || race.stages.length === 0;
+
+    if (!shouldCollect) {
+      continue;
+    }
+
+    const logPrefix = isUpcoming
+      ? "Updating upcoming race"
+      : "Collecting race details";
+    logOut("Main", `${logPrefix}: ${race.year} ${race.raceName}`);
+
     try {
       const raceDetails = await collectRace(race.racePcsID, race.year);
       await updateRace(raceDetails, raceStages, raceRiders, riders, teams);
@@ -304,8 +324,9 @@ async function collectPastRaceDetails(
         error,
       );
     }
-    logOut("Main", "Race information collection completed");
   }
+
+  logOut("Main", "Race information collection completed");
 }
 
 /**
@@ -379,15 +400,13 @@ async function updateRaces(models, year) {
     logOut("Main", "[FEATURE DISABLED] Races");
   }
 
-  await collectPastRaceDetails(
+  await collectRaceDetails(
     models.races,
     models.raceStages,
     models.raceRiders,
     models.riders,
     models.teams,
   );
-
-  logOut("Main", `[TODO] Collecting future races details.`);
 }
 
 /**
@@ -608,14 +627,22 @@ async function main() {
       try {
         await updateRaces(models, year);
       } catch (error) {
-        logError("Main", `Collecting race information - Failed for year ${year}`, error);
+        logError(
+          "Main",
+          `Collecting race information - Failed for year ${year}`,
+          error,
+        );
       }
 
       if (!parseBool(process.env.FEATURE_DISABLED_RESULTS, false)) {
         try {
           await updateStageResults(models, year);
         } catch (error) {
-          logError("Main", `Collect race stage results - Failed for year ${year}`, error);
+          logError(
+            "Main",
+            `Collect race stage results - Failed for year ${year}`,
+            error,
+          );
         }
       } else {
         logOut("Main", "[FEATURE DISABLED] Update results", "warn");

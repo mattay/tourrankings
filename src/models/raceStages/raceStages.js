@@ -1,4 +1,5 @@
 import { logError } from "@utils/logging";
+import { getDataDir } from "@utils/validation";
 import CSVdataModel from "@models/dataModel_csv";
 
 /** @typedef {import('../@types/races').RaceStageModel} RaceStageModel*/
@@ -22,7 +23,7 @@ export class RaceStages extends CSVdataModel {
       verticalMeters: "number",
     };
     super(
-      `${process.env.DATA_DIR}/raceStages.csv`,
+      `${getDataDir()}/raceStages.csv`,
       ["stageUID", "raceUID"],
       fieldTypes,
     );

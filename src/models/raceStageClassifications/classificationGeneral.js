@@ -1,4 +1,5 @@
 import { logError } from "@utils/logging";
+import { getDataDir } from "@utils/validation";
 import CSVdataModel from "@models/dataModel_csv";
 
 /**
@@ -27,7 +28,7 @@ export class ClassificationGeneral extends CSVdataModel {
       uCI: "number", // Matches toCamelCase("UCI") - see issue #341 for future standardization
     };
     super(
-      `${process.env.DATA_DIR}/raceStageClassificationGeneral.csv`,
+      `${getDataDir()}/raceStageClassificationGeneral.csv`,
       ["stageUID", "bib"],
       fieldTypes,
     );

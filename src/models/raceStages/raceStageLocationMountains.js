@@ -1,3 +1,4 @@
+import { getDataDir } from "@utils/validation";
 import CSVdataModel from "@models/dataModel_csv";
 
 /**
@@ -22,7 +23,7 @@ export class RaceStageLocationMountains extends CSVdataModel {
       distance: "number",
     };
     super(
-      `${process.env.DATA_DIR}/raceStageLocationMountains.csv`,
+      `${getDataDir()}/raceStageLocationMountains.csv`,
       ["locationUID"],
       fieldTypes,
     );

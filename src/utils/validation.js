@@ -3,7 +3,7 @@
  * @throws {Error} If DATA_DIR environment variable is not defined.
  */
 export function validateDataDir() {
-  if (!process.env.DATA_DIR) {
+  if (!process.env.DATA_DIR.trim()) {
     throw new Error(
       "DATA_DIR environment variable is not defined. " +
         "Please set it in your .env file or environment. " +
@@ -19,5 +19,5 @@ export function validateDataDir() {
  */
 export function getDataDir() {
   validateDataDir();
-  return process.env.DATA_DIR;
+  return process.env.DATA_DIR.trim();
 }

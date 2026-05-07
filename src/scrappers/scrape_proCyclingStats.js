@@ -300,24 +300,19 @@ function stagesWithoutResults(races, raceStages, raceStageResults, year) {
  * Helper function to collect race details for a batch of races with common options.
  *
  * @async
+ * @param {Object} models - Object containing data models.
+ * @param {RaceStages} models.raceStages - The race stages.
+ * @param {RaceRiders} models.raceRiders - The race riders.
+ * @param {Riders} models.riders - The riders.
+ * @param {Teams} models.teams - The teams.
  * @param {Array} racesList - Array of race objects to process.
- * @param {RaceStages} raceStages - The race stages.
- * @param {RaceRiders} raceRiders - The race riders.
- * @param {Riders} riders - The riders.
- * @param {Teams} teams - The teams.
  * @param {Object} options - Options for this batch.
  * @param {Function} options.shouldCollect - Function that returns true if race should be collected.
  * @param {boolean} options.quiet - Whether to suppress expected errors.
  * @param {string} options.logPrefix - Prefix for log messages.
  */
-async function collectRacesBatch(
-  racesList,
-  raceStages,
-  raceRiders,
-  riders,
-  teams,
-  options,
-) {
+async function collectRacesBatch(models, racesList, options) {
+  const { raceStages, raceRiders, riders, teams } = models;
   const { shouldCollect, quiet, logPrefix } = options;
   const racesWithStages = stagesInRaces(raceStages, racesList);
 
@@ -360,58 +355,39 @@ async function collectRacesBatch(
  * For past/in-progress races, only missing details are fetched.
  *
  * @async
- * @param {Races} races - The Races object.
- * @param {RaceStages} raceStages - The race stages.
- * @param {RaceRiders} raceRiders - The race riders.
- * @param {Riders} riders - The riders.
- * @param {Teams} teams - The teams.
+ * @param {Object} models - Object containing data models.
+ * @param {Races} models.races - The Races object.
+ * @param {RaceStages} models.raceStages - The race stages.
+ * @param {RaceRiders} models.raceRiders - The race riders.
+ * @param {Riders} models.riders - The riders.
+ * @param {Teams} models.teams - The teams.
  * @param {number} year - The season year to process.
  */
-async function collectRaceDetails(
-  races,
-  raceStages,
-  raceRiders,
-  riders,
-  teams,
-  year,
-) {
+async function collectRaceDetails(models, year) {
   const today = new Date();
   const raceSeason = year !== undefined ? year : getSeason();
+  const { races } = models;
 
   // 1. Past + In-Progress: Only collect if missing stages, quiet = false
   const pastAndInProgressRaces = [
     ...races.past(raceSeason),
     ...races.inProgress(today),
   ];
-  await collectRacesBatch(
-    pastAndInProgressRaces,
-    raceStages,
-    raceRiders,
-    riders,
-    teams,
-    {
-      shouldCollect: (race) => race.stages.length === 0,
-      quiet: false,
-      logPrefix: "Collecting race details",
-    },
-  );
+  await collectRacesBatch(models, pastAndInProgressRaces, {
+    shouldCollect: (race) => race.stages.length === 0,
+    quiet: false,
+    logPrefix: "Collecting race details",
+  });
 
   // 2. Upcoming: Always collect, quiet = true (suppress expected future race errors)
   const upcomingRaces = races
     .upcoming()
     .filter((race) => race.year === raceSeason);
-  await collectRacesBatch(
-    upcomingRaces,
-    raceStages,
-    raceRiders,
-    riders,
-    teams,
-    {
-      shouldCollect: () => true,
-      quiet: true,
-      logPrefix: "Updating upcoming race",
-    },
-  );
+  await collectRacesBatch(models, upcomingRaces, {
+    shouldCollect: () => true,
+    quiet: true,
+    logPrefix: "Updating upcoming race",
+  });
 
   logOut("Main", "Race information collection completed");
 }
@@ -495,14 +471,7 @@ async function updateRaces(models, year) {
     logOut("Main", "[FEATURE DISABLED] Races");
   }
 
-  await collectRaceDetails(
-    models.races,
-    models.raceStages,
-    models.raceRiders,
-    models.riders,
-    models.teams,
-    raceSeason,
-  );
+  await collectRaceDetails(models, raceSeason);
 }
 
 /**

@@ -1,6 +1,6 @@
 import { logError } from "@utils/logging";
 import { urlSections } from "@utils/url";
-import { fetchHtmlWithCache, htmlDOM } from "@scrappers/html";
+import { fetchHtmlWithCache, htmlDOM, getCacheTtl } from "@scrappers/html";
 import {
   parseName,
   parseTeamName,
@@ -274,12 +274,13 @@ export function extractStartlistFromHtml(htmlContent, year, baseUrl) {
  *
  * @see ScrapedRaceStartListTeam
  */
-export async function scrapeRaceStartList(race, year) {
+export async function scrapeRaceStartList(race, year, raceStartDate = null, raceEndDate = null) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/startlist`;
   const cachePattern = `${race}-${year}-startlist`;
+  const ttl = getCacheTtl(raceStartDate, raceEndDate);
 
   try {
-    const htmlContent = await fetchHtmlWithCache(url, { cachePattern });
+    const htmlContent = await fetchHtmlWithCache(url, { cachePattern, ttl });
     if (
       !htmlContent ||
       typeof htmlContent.html !== "string" ||

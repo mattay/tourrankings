@@ -62,7 +62,7 @@ import {
 // Utils
 import { generateId } from "@cycling/idGenerator";
 import { logError, logOut } from "@utils/logging";
-import { parseBool } from "@utils/sanity";
+import { parseBool, parseNumber } from "@utils/sanity";
 import { logMemoryUsage } from "@utils/memory";
 // Scrape
 import {
@@ -131,9 +131,16 @@ const DEBUG_MEMORY = parseBool(process.env.DEBUG_MEMORY, false);
  *
  * @param {string} racePcsID - ID of the race to scrape
  * @param {number} year - Year of the race to scrape
+ * @param {Date} [raceStartDate] - The race start date (for TTL calculation)
+ * @param {Date} [raceEndDate] - The race end date (for TTL calculation)
  * @returns {Promise<CollectedRaceData>} CollectedRaceData - Object containing stages, teams, and riders data
  */
-async function collectRace(racePcsID, year) {
+async function collectRace(
+  racePcsID,
+  year,
+  raceStartDate = null,
+  raceEndDate = null,
+) {
   /** @type {Array<ScrapedRaceStage>} */
   const stages = [];
   /** @type {Array<ScrapedRaceTeam>} */
@@ -145,7 +152,12 @@ async function collectRace(racePcsID, year) {
     try {
       logOut("Scrape PCS - Race Stages", `${year} ${racePcsID}`);
       // Race stages
-      const stagesInRace = await scrapeRaceStages(racePcsID, year);
+      const stagesInRace = await scrapeRaceStages(
+        racePcsID,
+        year,
+        raceStartDate,
+        raceEndDate,
+      );
 
       if (Array.isArray(stagesInRace) && stagesInRace.length > 0) {
         stages.push(...stagesInRace);
@@ -168,7 +180,12 @@ async function collectRace(racePcsID, year) {
     logOut("Scrape PCS - Race Startlist", `${year} ${racePcsID}`);
     let raceStartlist;
     try {
-      raceStartlist = await scrapeRaceStartList(racePcsID, year);
+      raceStartlist = await scrapeRaceStartList(
+        racePcsID,
+        year,
+        raceStartDate,
+        raceEndDate,
+      );
     } catch (exception) {
       logError(
         "Scrape PCS - Race Startlist",
@@ -244,23 +261,43 @@ function stagesInRaces(raceStages, races) {
 function stagesWithoutResults(races, raceStages, raceStageResults, year) {
   const today = new Date();
   const raceSeason = year !== undefined ? year : getSeason();
+  const pollOffsetDays = parseNumber(process.env.RESULTS_POLL_START_OFFSET, 1);
 
   const races_past = races.past(raceSeason);
   const races_inProgress = races.inProgress(today);
-  // const races_upcoming = races.upcoming();
   const seasonRaces = stagesInRaces(raceStages, [
     ...races_past,
     ...races_inProgress,
   ]);
 
+  // Normalize today to date only (ignore time/timezone)
+  const todayDateOnly = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate(),
+  );
+
   return seasonRaces
     .flatMap((race) => race.stages)
     .filter((stage) => {
       const stageDate = new Date(stage.date);
-      return (
-        stageDate <= today &&
-        raceStageResults.getStageRankings(stage.stageUID).length === 0
+      // Normalize stage date to date only
+      const stageDateOnly = new Date(
+        stageDate.getFullYear(),
+        stageDate.getMonth(),
+        stageDate.getDate(),
       );
+
+      // Start polling 1 day before stage date
+      const pollStartDate = new Date(stageDateOnly);
+      pollStartDate.setDate(pollStartDate.getDate() - pollOffsetDays);
+
+      // Check if we should poll: today >= poll start date AND results not yet found
+      const shouldPoll = todayDateOnly >= pollStartDate;
+      const hasResults =
+        raceStageResults.getStageRankings(stage.stageUID).length > 0;
+
+      return shouldPoll && !hasResults;
     })
     .map((stage) => stage.stageUID);
 }
@@ -315,7 +352,12 @@ async function collectRaceDetails(
     logOut("Main", `${logPrefix}: ${race.year} ${race.raceName}`);
 
     try {
-      const raceDetails = await collectRace(race.racePcsID, race.year);
+      const raceDetails = await collectRace(
+        race.racePcsID,
+        race.year,
+        race.startDate,
+        race.endDate,
+      );
       await updateRace(raceDetails, raceStages, raceRiders, riders, teams);
     } catch (error) {
       logError(

@@ -1,7 +1,7 @@
 import { generateId } from "@cycling/idGenerator";
 import { formatDate } from "@utils/string";
 import { logError } from "@utils/logging";
-import { fetchHtmlWithCache, htmlDOM } from "@scrappers/html";
+import { fetchHtmlWithCache, htmlDOM, getCacheTtl } from "@scrappers/html";
 
 /**
  * @typedef {import('./@types').ScrapedRaceStage} ScrapedRaceStage
@@ -192,12 +192,13 @@ export function extractStagesFromHtml(htmlContent, year, race) {
  * @param {number} year - The year of the race.
  * @returns {Promise<Array<ScrapedRaceStage>>} An array of stage data.
  */
-export async function scrapeRaceStages(race, year) {
+export async function scrapeRaceStages(race, year, raceStartDate = null, raceEndDate = null) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/route/stages`;
   const cachePattern = `${race}-${year}-stages`;
+  const ttl = getCacheTtl(raceStartDate, raceEndDate);
 
   try {
-    const htmlContent = await fetchHtmlWithCache(url, { cachePattern });
+    const htmlContent = await fetchHtmlWithCache(url, { cachePattern, ttl });
     if (
       !htmlContent ||
       typeof htmlContent.html !== "string" ||

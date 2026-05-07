@@ -270,30 +270,20 @@ function stagesWithoutResults(races, raceStages, raceStageResults, year) {
     ...races_inProgress,
   ]);
 
-  // Normalize today to date only (ignore time/timezone)
-  const todayDateOnly = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate(),
-  );
+  // Normalize today to midnight (ignore time)
+  today.setHours(0, 0, 0, 0);
 
   return seasonRaces
     .flatMap((race) => race.stages)
     .filter((stage) => {
       const stageDate = new Date(stage.date);
-      // Normalize stage date to date only
-      const stageDateOnly = new Date(
-        stageDate.getFullYear(),
-        stageDate.getMonth(),
-        stageDate.getDate(),
-      );
 
       // Start polling 1 day before stage date
-      const pollStartDate = new Date(stageDateOnly);
+      const pollStartDate = new Date(stageDate);
       pollStartDate.setDate(pollStartDate.getDate() - pollOffsetDays);
 
       // Check if we should poll: today >= poll start date AND results not yet found
-      const shouldPoll = todayDateOnly >= pollStartDate;
+      const shouldPoll = today >= pollStartDate;
       const hasResults =
         raceStageResults.getStageRankings(stage.stageUID).length > 0;
 

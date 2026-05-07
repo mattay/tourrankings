@@ -197,11 +197,15 @@ export function extractStartlistFromHtml(htmlContent, year, baseUrl) {
         teamElement.querySelector(DOM_SELECTORS.team),
       ) || { pcsId: null, name: null, classification: null, pcsUrl: null };
       if (!team.name) {
-        logError("Scrape PCS - Start List", "Missing team name", null, {
-          team: team.name,
-          url: team.pcsUrl,
-          year,
-        });
+        logError(
+          "Scrape PCS - Start List",
+          "Missing team name",
+          //   null, {
+          //   team: team.name,
+          //   url: team.pcsUrl,
+          //   year,
+          // }
+        );
       }
 
       // Jersey Image
@@ -210,11 +214,15 @@ export function extractStartlistFromHtml(htmlContent, year, baseUrl) {
       );
       const jerseyImageUrl = jerseyImageElement?.src || null;
       if (!jerseyImageUrl) {
-        logError("Scrape PCS - Start List", "Missing jersey image URL", null, {
-          team: team.name,
-          url: team.pcsUrl,
-          year,
-        });
+        logError(
+          "Scrape PCS - Start List",
+          `Missing jersey image URL for ${team.name}`,
+          //   null, {
+          //   team: team.name,
+          //   url: team.pcsUrl,
+          //   year,
+          // }
+        );
       }
 
       // Riders
@@ -225,11 +233,15 @@ export function extractStartlistFromHtml(htmlContent, year, baseUrl) {
         .filter(Boolean)
         .map((rider) => ({ year, ...rider }));
       if (riders.length === 0) {
-        logError("Scrape PCS - Start List", "No riders found", null, {
-          team: team.name,
-          url: team.pcsUrl,
-          year,
-        });
+        logError(
+          "Scrape PCS - Start List",
+          `No riders found for ${team.name}`,
+          //   null, {
+          //   team: team.name,
+          //   url: team.pcsUrl,
+          //   year,
+          // }
+        );
       }
 
       // Directeur Sportif
@@ -242,13 +254,13 @@ export function extractStartlistFromHtml(htmlContent, year, baseUrl) {
       if (directeurSportifs.length === 0) {
         logError(
           "Scrape PCS - Start List",
-          "No directeur sportif found",
-          null,
-          {
-            team: team.name,
-            url: team.pcsUrl,
-            year,
-          },
+          `No directeur sportif found for ${team.name}`,
+          // null,
+          // {
+          //   team: team.name,
+          //   url: team.pcsUrl,
+          //   year,
+          // },
         );
       }
 
@@ -274,7 +286,12 @@ export function extractStartlistFromHtml(htmlContent, year, baseUrl) {
  *
  * @see ScrapedRaceStartListTeam
  */
-export async function scrapeRaceStartList(race, year, raceStartDate = null, raceEndDate = null) {
+export async function scrapeRaceStartList(
+  race,
+  year,
+  raceStartDate = null,
+  raceEndDate = null,
+) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/startlist`;
   const cachePattern = `${race}-${year}-startlist`;
   const ttl = getCacheTtl(raceStartDate, raceEndDate);

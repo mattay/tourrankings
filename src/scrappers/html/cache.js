@@ -39,33 +39,29 @@ const BEAUTIFY_OPTIONS = {
  * - Before race starts: use ttlLive (changes possible)
  * - After race ends + grace period: use ttlFixed (data is finalized)
  *
- * @param {Date|null} raceStartDate - The race start date
- * @param {Date|null} raceEndDate - The race end date
- * @returns {number|null} TTL in milliseconds, or null for no TTL check
+ * @param {string|null} raceStartDate - The race start date (ISO format: "YYYY-MM-DD")
+ * @param {string|null} raceEndDate - The race end date (ISO format: "YYYY-MM-DD")
+ * @returns {number} TTL in milliseconds
  */
 export function getCacheTtl(raceStartDate, raceEndDate) {
   const today = new Date();
-  const gracePeriodDays = parseNumber(process.env.STAGE_GRACE_PERIOD, 1);
+  today.setHours(0, 0, 0, 0); // Normalize to midnight
 
-  // Normalize to date only (ignore time/timezone)
-  const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const gracePeriodDays = parseNumber(process.env.STAGE_GRACE_PERIOD, 1);
 
   if (raceEndDate) {
     const endDate = new Date(raceEndDate);
-    const endDateOnly = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
-    const graceEnd = new Date(endDateOnly);
-    graceEnd.setDate(graceEnd.getDate() + gracePeriodDays);
+    endDate.setDate(endDate.getDate() + gracePeriodDays);
 
     // Race has ended + grace period passed -> use long TTL
-    if (todayDateOnly > graceEnd) {
+    if (today > endDate) {
       return CACHE_CONFIG.ttlFixed;
     }
   } else if (raceStartDate) {
     const startDate = new Date(raceStartDate);
-    const startDateOnly = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
 
     // Race has started -> use long TTL (start list is fixed)
-    if (todayDateOnly >= startDateOnly) {
+    if (today >= startDate) {
       return CACHE_CONFIG.ttlFixed;
     }
   }

@@ -21,3 +21,6 @@ node_modules/
 # Keys
 *service-account-key.json
 temp/
+
+# Test error logs
+test/Errors/

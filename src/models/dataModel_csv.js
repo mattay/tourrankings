@@ -285,9 +285,10 @@ class CSVdataModel {
    * Updates the data model with new or modified records.
    * @async
    * @param {Array<Object>} updates - The list of records to update.
+   * @param {boolean} [quiet=false] - Suppress console.table output for failed entries.
    * @returns {Promise<void>} A promise that resolves when the data is updated.
    */
-  async update(updates) {
+  async update(updates, quiet = false) {
     await this.read(); // Refresh
 
     const validated = [];
@@ -317,7 +318,9 @@ class CSVdataModel {
         this.constructor.name,
         "Expected Keys: " + this.indexOn.join(", "),
       );
-      console.table(failed);
+      if (!quiet) {
+        console.table(failed);
+      }
     }
 
     await writePromise;

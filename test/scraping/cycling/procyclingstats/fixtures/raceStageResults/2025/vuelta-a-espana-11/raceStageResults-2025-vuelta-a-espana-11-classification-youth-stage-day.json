@@ -1,0 +1,483 @@
+[
+  {
+    "rank": 1,
+    "rider": "Pellizzari Giulio",
+    "time": "3:40:38",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 2,
+    "rider": "Riccitello Matthew",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 3,
+    "rider": "López Harold Martín",
+    "time": "0:22",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 4,
+    "rider": "Koerdt Bjorn",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 5,
+    "rider": "Lecerf Junior",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 6,
+    "rider": "Rolland Brieuc",
+    "time": "0:35",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 7,
+    "rider": "Aparicio Mario",
+    "time": "0:54",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 8,
+    "rider": "Guardeño Jaume",
+    "time": "1:02",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 9,
+    "rider": "Tulett Ben",
+    "time": "2:14",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 10,
+    "rider": "Frigo Marco",
+    "time": "3:25",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 11,
+    "rider": "Pickering Finlay",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 12,
+    "rider": "van der Lee Jardi Christiaan",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 13,
+    "rider": "Balderstone Abel",
+    "time": "4:18",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 14,
+    "rider": "Garofoli Gianmarco",
+    "time": "4:56",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 15,
+    "rider": "Hessmann Michel",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 16,
+    "rider": "Bisiaux Léo",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 17,
+    "rider": "Canal Carlos",
+    "time": "5:20",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 18,
+    "rider": "Vermaerke Kevin",
+    "time": "6:37",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 19,
+    "rider": "de la Calle Hugo",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 20,
+    "rider": "Van Boven Luca",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 21,
+    "rider": "Staune-Mittet Johannes",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 22,
+    "rider": "Fisher-Black Finn",
+    "time": "8:20",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 23,
+    "rider": "Thierry Pierre",
+    "time": "8:40",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 24,
+    "rider": "Silva Guillermo Thomas",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 25,
+    "rider": "Sheffield Magnus",
+    "time": "10:43",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 26,
+    "rider": "Tiberi Antonio",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 27,
+    "rider": "Vinokurov Nicolas",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 28,
+    "rider": "Lozouet Léandre",
+    "time": "11:51",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 29,
+    "rider": "Ermakov Roman",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 30,
+    "rider": "De Pooter Dries",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 31,
+    "rider": "Martinez Juan Guillermo",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 32,
+    "rider": "Beloki Markel",
+    "time": "13:33",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 33,
+    "rider": "Nerurkar Lukas",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 34,
+    "rider": "Artz Huub",
+    "time": "15:31",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 35,
+    "rider": "Rouland Louis",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 36,
+    "rider": "Ayuso Juan",
+    "time": "16:19",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 37,
+    "rider": "Mihkels Madis",
+    "time": "17:50",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 38,
+    "rider": "Glivar Gal",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 39,
+    "rider": "van Dijke Tim",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 40,
+    "rider": "Foldager Anders",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 41,
+    "rider": "Slock Liam",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 42,
+    "rider": "Guernalec Victor",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 43,
+    "rider": "Labrosse Jordan",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 44,
+    "rider": "Gruel Thibaud",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 45,
+    "rider": "Buratti Nicolò",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 46,
+    "rider": "Chumil Sergio Geovani",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 47,
+    "rider": "Vernon Ethan",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 48,
+    "rider": "Raisberg Nadav",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 49,
+    "rider": "Segaert Alec",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 50,
+    "rider": "Verre Alessandro",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 51,
+    "rider": "Faura José Luis",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 52,
+    "rider": "Eddy Patrick",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 53,
+    "rider": "Craps Lars",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 54,
+    "rider": "Quinn Sean",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 55,
+    "rider": "Christen Fabio",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 56,
+    "rider": "Camprubí Marcel",
+    "time": "18:41",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 57,
+    "rider": "Fernández Sinuhé",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 58,
+    "rider": "Castrillo Pablo",
+    "time": "19:21",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 59,
+    "rider": "Ryan Archie",
+    "time": "0:00",
+    "timeWonlost": "",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": "",
+    "rider": "Debruyne Ramses",
+    "time": "",
+    "timeWonlost": "",
+    "status": "DNS",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  }
+]

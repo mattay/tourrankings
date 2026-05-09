@@ -3,9 +3,11 @@ import { htmlDOM } from "@scrappers/html/domParser";
 import { generateId } from "@cycling/idGenerator";
 import {
   dropColumns,
+  EXPECTED_COLUMN_SCHEMAS,
   extractNotice,
   formatRow,
   sortByRanking,
+  validateTableSchema,
 } from "@scrappers/source/proCyclingStats/helpers/helperRaceStageResults";
 import { renameKeys } from "@utils/object";
 import { toCamelCase } from "@utils/string";
@@ -820,8 +822,13 @@ function extractTableCellContent(cell) {
  * @param {StageDetails} stageDetails - The details of the stage.
  * @returns {Array} An array of classification table data.
  */
-function extractClassificationTable(htmlDOM, stageDetails) {
+function extractClassificationTable(htmlDOM, stageDetails, schema) {
   const columns = columnHeader(htmlDOM, DOM_SELECTORS.table.headers);
+
+  // Validate table schema if provided
+  if (schema) {
+    validateTableSchema(columns, schema);
+  }
 
   const rows = [];
   const notices = [];
@@ -963,7 +970,11 @@ export function classificationResults(
         stageDetails.stageType === "prologue"
       ) {
         classificationStageResults[classification]["general"] =
-          extractClassificationTable(generalTable, stageDetails);
+          extractClassificationTable(
+            generalTable,
+            stageDetails,
+            EXPECTED_COLUMN_SCHEMAS[classification]?.general,
+          );
       } else {
         logOut(
           "PCS Stage Results",
@@ -1034,7 +1045,11 @@ export function classificationResults(
             };
           }
 
-          const tableData = extractClassificationTable(table, stageDetails);
+          const tableData = extractClassificationTable(
+            table,
+            stageDetails,
+            EXPECTED_COLUMN_SCHEMAS[classification]?.today,
+          );
 
           for (let i = 0; i < tableData.length; i++) {
             const contestent = tableData[i];

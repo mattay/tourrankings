@@ -17,7 +17,7 @@
     "bib": 227,
     "rider": "Vernon Ethan",
     "points": 111,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -28,7 +28,7 @@
     "bib": 11,
     "rider": "Vingegaard Jonas",
     "points": 105,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -39,7 +39,7 @@
     "bib": 71,
     "rider": "Philipsen Jasper",
     "points": 105,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -50,7 +50,7 @@
     "bib": 23,
     "rider": "Ciccone Giulio",
     "points": 98,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -61,7 +61,7 @@
     "bib": 133,
     "rider": "Gaudu David",
     "points": 62,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -72,7 +72,7 @@
     "bib": 34,
     "rider": "Castrillo Pablo",
     "points": 58,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -83,7 +83,7 @@
     "bib": 111,
     "rider": "Pidcock Tom",
     "points": 57,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -94,7 +94,7 @@
     "bib": 86,
     "rider": "Ryan Archie",
     "points": 56,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -105,7 +105,7 @@
     "bib": 1,
     "rider": "Almeida João",
     "points": 51,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -116,7 +116,7 @@
     "bib": 68,
     "rider": "Turner Ben",
     "points": 46,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -127,7 +127,7 @@
     "bib": 32,
     "rider": "Aular Orluis",
     "points": 46,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -138,7 +138,7 @@
     "bib": 123,
     "rider": "Fortunato Lorenzo",
     "points": 42,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -149,7 +149,7 @@
     "bib": 91,
     "rider": "Gall Felix",
     "points": 42,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -160,7 +160,7 @@
     "bib": 41,
     "rider": "Hindley Jai",
     "points": 41,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -171,7 +171,7 @@
     "bib": 8,
     "rider": "Vine Jay",
     "points": 40,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -182,7 +182,7 @@
     "bib": 206,
     "rider": "Slock Liam",
     "points": 40,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -193,7 +193,7 @@
     "bib": 198,
     "rider": "Vermaerke Kevin",
     "points": 35,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -204,7 +204,7 @@
     "bib": 62,
     "rider": "Bernal Egan",
     "points": 34,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -215,7 +215,7 @@
     "bib": 114,
     "rider": "Christen Fabio",
     "points": 32,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -226,7 +226,7 @@
     "bib": 2,
     "rider": "Ayuso Juan",
     "points": 31,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -237,7 +237,7 @@
     "bib": 85,
     "rider": "Quinn Sean",
     "points": 31,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -248,7 +248,7 @@
     "bib": 121,
     "rider": "Tejada Harold",
     "points": 31,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -259,7 +259,7 @@
     "bib": 75,
     "rider": "Planckaert Edward",
     "points": 31,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -281,7 +281,7 @@
     "bib": 223,
     "rider": "Frigo Marco",
     "points": 30,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -292,7 +292,7 @@
     "bib": 83,
     "rider": "Mihkels Madis",
     "points": 30,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -303,7 +303,7 @@
     "bib": 205,
     "rider": "Sepúlveda Eduardo",
     "points": 26,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -314,7 +314,7 @@
     "bib": 117,
     "rider": "González David",
     "points": 25,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -325,7 +325,7 @@
     "bib": 57,
     "rider": "Vervaeke Louis",
     "points": 24,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -336,7 +336,7 @@
     "bib": 141,
     "rider": "Silva Guillermo Thomas",
     "points": 23,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -347,7 +347,7 @@
     "bib": 14,
     "rider": "Jorgenson Matteo",
     "points": 22,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -358,7 +358,7 @@
     "bib": 7,
     "rider": "Soler Marc",
     "points": 22,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -369,7 +369,7 @@
     "bib": 184,
     "rider": "Marit Arne",
     "points": 22,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -391,7 +391,7 @@
     "bib": 172,
     "rider": "Samitier Sergio",
     "points": 20,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -402,7 +402,7 @@
     "bib": 22,
     "rider": "Bernard Julien",
     "points": 20,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -413,7 +413,7 @@
     "bib": 154,
     "rider": "Foldager Anders",
     "points": 19,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -424,7 +424,7 @@
     "bib": 137,
     "rider": "Rolland Brieuc",
     "points": 18,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -435,7 +435,7 @@
     "bib": 108,
     "rider": "Træen Torstein",
     "points": 17,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -446,7 +446,7 @@
     "bib": 37,
     "rider": "Hessmann Michel",
     "points": 17,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -457,7 +457,7 @@
     "bib": 95,
     "rider": "Labrosse Jordan",
     "points": 17,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -468,7 +468,7 @@
     "bib": 148,
     "rider": "Otruba Jakub",
     "points": 17,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -479,7 +479,7 @@
     "bib": 144,
     "rider": "Bou Joan",
     "points": 17,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -490,7 +490,7 @@
     "bib": 128,
     "rider": "Vinokurov Nicolas",
     "points": 17,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -501,7 +501,7 @@
     "bib": 167,
     "rider": "Verre Alessandro",
     "points": 17,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -512,7 +512,7 @@
     "bib": 162,
     "rider": "Biermans Jenthe",
     "points": 17,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -523,7 +523,7 @@
     "bib": 36,
     "rider": "García Cortina Iván",
     "points": 16,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -534,7 +534,7 @@
     "bib": 38,
     "rider": "Romo Javier",
     "points": 15,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -545,7 +545,7 @@
     "bib": 65,
     "rider": "Kwiatkowski Michał",
     "points": 15,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -556,7 +556,7 @@
     "bib": 214,
     "rider": "Faura José Luis",
     "points": 15,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -567,7 +567,7 @@
     "bib": 134,
     "rider": "Gruel Thibaud",
     "points": 15,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -578,7 +578,7 @@
     "bib": 217,
     "rider": "Fernández Sinuhé",
     "points": 15,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -589,7 +589,7 @@
     "bib": 226,
     "rider": "Stewart Jake",
     "points": 15,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -600,7 +600,7 @@
     "bib": 92,
     "rider": "Armirail Bruno",
     "points": 13,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -611,7 +611,7 @@
     "bib": 215,
     "rider": "de la Calle Hugo",
     "points": 13,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -633,7 +633,7 @@
     "bib": 74,
     "rider": "Glivar Gal",
     "points": 13,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -644,7 +644,7 @@
     "bib": 125,
     "rider": "López Harold Martín",
     "points": 12,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -655,7 +655,7 @@
     "bib": 82,
     "rider": "Beloki Markel",
     "points": 11,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -666,7 +666,7 @@
     "bib": 147,
     "rider": "Nicolau Joel",
     "points": 11,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -677,7 +677,7 @@
     "bib": 47,
     "rider": "van Dijke Tim",
     "points": 11,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -688,7 +688,7 @@
     "bib": 87,
     "rider": "Shaw James",
     "points": 10,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -710,7 +710,7 @@
     "bib": 113,
     "rider": "Azparren Xabier Mikel",
     "points": 10,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -721,7 +721,7 @@
     "bib": 207,
     "rider": "Viviani Elia",
     "points": 10,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -732,7 +732,7 @@
     "bib": 193,
     "rider": "Koerdt Bjorn",
     "points": 9,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -743,7 +743,7 @@
     "bib": 228,
     "rider": "Riccitello Matthew",
     "points": 8,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -754,7 +754,7 @@
     "bib": 175,
     "rider": "Coquard Bryan",
     "points": 8,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -765,7 +765,7 @@
     "bib": 52,
     "rider": "Lecerf Junior",
     "points": 7,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -776,7 +776,7 @@
     "bib": 151,
     "rider": "O'Connor Ben",
     "points": 7,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -787,7 +787,7 @@
     "bib": 103,
     "rider": "Buratti Nicolò",
     "points": 7,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -798,7 +798,7 @@
     "bib": 16,
     "rider": "Kuss Sepp",
     "points": 6,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -809,7 +809,7 @@
     "bib": 6,
     "rider": "Oliveira Ivo",
     "points": 6,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -820,7 +820,7 @@
     "bib": 58,
     "rider": "Garofoli Gianmarco",
     "points": 5,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -831,7 +831,7 @@
     "bib": 44,
     "rider": "Fisher-Black Finn",
     "points": 5,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -842,7 +842,7 @@
     "bib": 173,
     "rider": "Aniołkowski Stanisław",
     "points": 5,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -853,7 +853,7 @@
     "bib": 45,
     "rider": "Pellizzari Giulio",
     "points": 4,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -864,7 +864,7 @@
     "bib": 118,
     "rider": "Camprubí Marcel",
     "points": 3,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -875,7 +875,7 @@
     "bib": 66,
     "rider": "Langellotti Victor",
     "points": 2,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -886,7 +886,7 @@
     "bib": 33,
     "rider": "Canal Carlos",
     "points": 2,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -897,7 +897,7 @@
     "bib": 101,
     "rider": "Tiberi Antonio",
     "points": 1,
-    "delta": ,
+    "delta": null,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   }

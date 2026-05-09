@@ -28,7 +28,7 @@
     "bib": 167,
     "rider": "van Uden Casper",
     "points": 50,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -39,7 +39,7 @@
     "bib": 122,
     "rider": "Aular Orluis",
     "points": 42,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -50,7 +50,7 @@
     "bib": 38,
     "rider": "Zambanini Edoardo",
     "points": 41,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -61,7 +61,7 @@
     "bib": 178,
     "rider": "Tonelli Alessandro",
     "points": 35,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -72,7 +72,7 @@
     "bib": 131,
     "rider": "Pidcock Tom",
     "points": 31,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -94,7 +94,7 @@
     "bib": 198,
     "rider": "Zijlaard Maikel",
     "points": 25,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -116,7 +116,7 @@
     "bib": 22,
     "rider": "Epis Giosuè",
     "points": 24,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -127,7 +127,7 @@
     "bib": 109,
     "rider": "Strong Corbin",
     "points": 22,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -138,7 +138,7 @@
     "bib": 11,
     "rider": "Groves Kaden",
     "points": 19,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -149,7 +149,7 @@
     "bib": 87,
     "rider": "Tarling Joshua",
     "points": 18,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -160,7 +160,7 @@
     "bib": 181,
     "rider": "van Aert Wout",
     "points": 18,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -171,7 +171,7 @@
     "bib": 217,
     "rider": "Tarozzi Manuele",
     "points": 17,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -182,7 +182,7 @@
     "bib": 211,
     "rider": "Fiorelli Filippo",
     "points": 17,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -204,7 +204,7 @@
     "bib": 1,
     "rider": "Roglič Primož",
     "points": 16,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -215,7 +215,7 @@
     "bib": 86,
     "rider": "Rivera Brandon Smith",
     "points": 16,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -226,7 +226,7 @@
     "bib": 172,
     "rider": "Bais Davide",
     "points": 16,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -237,7 +237,7 @@
     "bib": 163,
     "rider": "Hamilton Chris",
     "points": 13,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -248,7 +248,7 @@
     "bib": 176,
     "rider": "Muñoz Francisco",
     "points": 12,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -259,7 +259,7 @@
     "bib": 191,
     "rider": "Storer Michael",
     "points": 12,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -270,7 +270,7 @@
     "bib": 51,
     "rider": "Bennett Sam",
     "points": 12,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -281,7 +281,7 @@
     "bib": 45,
     "rider": "Moniquet Sylvain",
     "points": 11,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -292,7 +292,7 @@
     "bib": 76,
     "rider": "Pacher Quentin",
     "points": 10,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -303,7 +303,7 @@
     "bib": 126,
     "rider": "Milesi Lorenzo",
     "points": 10,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -314,7 +314,7 @@
     "bib": 148,
     "rider": "Magnier Paul",
     "points": 10,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -325,7 +325,7 @@
     "bib": 61,
     "rider": "Carapaz Richard",
     "points": 9,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -336,7 +336,7 @@
     "bib": 207,
     "rider": "Vine Jay",
     "points": 9,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -347,7 +347,7 @@
     "bib": 133,
     "rider": "Donovan Mark",
     "points": 9,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -358,7 +358,7 @@
     "bib": 75,
     "rider": "Germani Lorenzo",
     "points": 8,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -369,7 +369,7 @@
     "bib": 92,
     "rider": "Busatto Francesco",
     "points": 8,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -380,7 +380,7 @@
     "bib": 88,
     "rider": "Turner Ben",
     "points": 8,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -391,7 +391,7 @@
     "bib": 33,
     "rider": "Caruso Damiano",
     "points": 7,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -402,7 +402,7 @@
     "bib": 182,
     "rider": "Affini Edoardo",
     "points": 7,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -413,7 +413,7 @@
     "bib": 117,
     "rider": "Vacek Mathias",
     "points": 6,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -424,7 +424,7 @@
     "bib": 204,
     "rider": "del Toro Isaac",
     "points": 6,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -435,7 +435,7 @@
     "bib": 221,
     "rider": "Ulissi Diego",
     "points": 6,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -446,7 +446,7 @@
     "bib": 21,
     "rider": "Verre Alessandro",
     "points": 6,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -457,7 +457,7 @@
     "bib": 218,
     "rider": "Zanoncello Enrico",
     "points": 6,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -468,7 +468,7 @@
     "bib": 222,
     "rider": "Conci Nicola",
     "points": 5,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -490,7 +490,7 @@
     "bib": 46,
     "rider": "Oldani Stefano",
     "points": 5,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -501,7 +501,7 @@
     "bib": 112,
     "rider": "Hoole Daan",
     "points": 5,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -512,7 +512,7 @@
     "bib": 53,
     "rider": "De Bondt Dries",
     "points": 5,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -523,7 +523,7 @@
     "bib": 41,
     "rider": "Fretin Milan",
     "points": 5,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -534,7 +534,7 @@
     "bib": 58,
     "rider": "Vendrame Andrea",
     "points": 4,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -545,7 +545,7 @@
     "bib": 174,
     "rider": "Lonardi Giovanni",
     "points": 4,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -556,7 +556,7 @@
     "bib": 206,
     "rider": "McNulty Brandon",
     "points": 3,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -567,7 +567,7 @@
     "bib": 166,
     "rider": "Poole Max",
     "points": 3,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -589,7 +589,7 @@
     "bib": 74,
     "rider": "Geniets Kevin",
     "points": 2,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -600,7 +600,7 @@
     "bib": 228,
     "rider": "Scaroni Christian",
     "points": 2,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -611,7 +611,7 @@
     "bib": 145,
     "rider": "Hayter Ethan",
     "points": 2,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -622,7 +622,7 @@
     "bib": 201,
     "rider": "Ayuso Juan",
     "points": 1,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -633,7 +633,7 @@
     "bib": 171,
     "rider": "Piganzoli Davide",
     "points": 1,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -644,7 +644,7 @@
     "bib": 153,
     "rider": "De Pretto Davide",
     "points": 1,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -655,7 +655,7 @@
     "bib": 16,
     "rider": "Planckaert Edward",
     "points": 1,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },
@@ -666,7 +666,7 @@
     "bib": 35,
     "rider": "Govekar Matevž",
     "points": 1,
-    "delta": ,
+    "delta": null,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
   },

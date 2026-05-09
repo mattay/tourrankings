@@ -237,8 +237,12 @@ describe.each([
     const jsonPointsCsv = Bun.file(data.csv.pointsClassification);
     const jsonTeamsCsv = Bun.file(data.csv.teamClassification);
     const jsonYouthCsv = Bun.file(data.csv.youngClassification);
-    const jsonPointsLocationContestCsv = Bun.file(data.csv.pointsLocationContest);
-    const jsonMountainsLocationContestCsv = Bun.file(data.csv.mountainsLocationContest);
+    const jsonPointsLocationContestCsv = Bun.file(
+      data.csv.pointsLocationContest,
+    );
+    const jsonMountainsLocationContestCsv = Bun.file(
+      data.csv.mountainsLocationContest,
+    );
 
     expectedStageResultsCsv = await jsonStageCsv.text();
     expectedGeneralCsv = await jsonGeneralCsv.text();
@@ -246,8 +250,10 @@ describe.each([
     expectedPointsCsv = await jsonPointsCsv.text();
     expectedTeamsCsv = await jsonTeamsCsv.text();
     expectedYouthCsv = await jsonYouthCsv.text();
-    expectedPointsLocationContestCsv = await jsonPointsLocationContestCsv.text();
-    expectedMountainsLocationContestCsv = await jsonMountainsLocationContestCsv.text();
+    expectedPointsLocationContestCsv =
+      await jsonPointsLocationContestCsv.text();
+    expectedMountainsLocationContestCsv =
+      await jsonMountainsLocationContestCsv.text();
 
     stageClassificationResults = extractStageClassificationResultsFromHTML(
       htmlCotnent,
@@ -292,7 +298,8 @@ describe.each([
     pointsLocationContestModel.filePath = `${TEST_DATA_DIR}/pointsLocationContest.csv`;
     await pointsLocationContestModel.write();
 
-    const mountainsLocationContestModel = new RaceStageLocationMountainsResults();
+    const mountainsLocationContestModel =
+      new RaceStageLocationMountainsResults();
     mountainsLocationContestModel.rows =
       stageClassificationResults.mountainsLocationContest;
     mountainsLocationContestModel.filePath = `${TEST_DATA_DIR}/mountainsLocationContest.csv`;

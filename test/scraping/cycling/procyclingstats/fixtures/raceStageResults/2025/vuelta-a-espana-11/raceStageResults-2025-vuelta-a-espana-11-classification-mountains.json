@@ -1,0 +1,352 @@
+[
+  {
+    "rank": 1,
+    "previousStageRanking": 1,
+    "bib": 8,
+    "rider": "Vine Jay",
+    "points": 46,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 2,
+    "previousStageRanking": 2,
+    "bib": 57,
+    "rider": "Vervaeke Louis",
+    "points": 25,
+    "deltaPoints": 2,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 3,
+    "previousStageRanking": 3,
+    "bib": 2,
+    "rider": "Ayuso Juan",
+    "points": 20,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 4,
+    "previousStageRanking": 5,
+    "bib": 147,
+    "rider": "Nicolau Joel",
+    "points": 20,
+    "deltaPoints": 4,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 5,
+    "previousStageRanking": 6,
+    "bib": 11,
+    "rider": "Vingegaard Jonas",
+    "points": 18,
+    "deltaPoints": 3,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 6,
+    "previousStageRanking": 4,
+    "bib": 85,
+    "rider": "Quinn Sean",
+    "points": 18,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 7,
+    "previousStageRanking": 13,
+    "bib": 27,
+    "rider": "Pedersen Mads",
+    "points": 13,
+    "deltaPoints": 6,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 8,
+    "previousStageRanking": 11,
+    "bib": 111,
+    "rider": "Pidcock Tom",
+    "points": 10,
+    "deltaPoints": 3,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 9,
+    "previousStageRanking": 7,
+    "bib": 123,
+    "rider": "Fortunato Lorenzo",
+    "points": 10,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 10,
+    "previousStageRanking": 8,
+    "bib": 167,
+    "rider": "Verre Alessandro",
+    "points": 8,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 11,
+    "previousStageRanking": null,
+    "bib": 7,
+    "rider": "Soler Marc",
+    "points": 8,
+    "deltaPoints": 8,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 12,
+    "previousStageRanking": 9,
+    "bib": 34,
+    "rider": "Castrillo Pablo",
+    "points": 8,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 13,
+    "previousStageRanking": 10,
+    "bib": 38,
+    "rider": "Romo Javier",
+    "points": 7,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 14,
+    "previousStageRanking": 12,
+    "bib": 223,
+    "rider": "Frigo Marco",
+    "points": 7,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 15,
+    "previousStageRanking": 14,
+    "bib": 108,
+    "rider": "Træen Torstein",
+    "points": 6,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 16,
+    "previousStageRanking": null,
+    "bib": 16,
+    "rider": "Kuss Sepp",
+    "points": 5,
+    "deltaPoints": 5,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 17,
+    "previousStageRanking": null,
+    "bib": 51,
+    "rider": "Landa Mikel",
+    "points": 5,
+    "deltaPoints": 5,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 18,
+    "previousStageRanking": 15,
+    "bib": 1,
+    "rider": "Almeida João",
+    "points": 5,
+    "deltaPoints": 1,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 19,
+    "previousStageRanking": 16,
+    "bib": 133,
+    "rider": "Gaudu David",
+    "points": 3,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 20,
+    "previousStageRanking": 17,
+    "bib": 23,
+    "rider": "Ciccone Giulio",
+    "points": 3,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 21,
+    "previousStageRanking": null,
+    "bib": 102,
+    "rider": "Buitrago Santiago",
+    "points": 3,
+    "deltaPoints": 3,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 22,
+    "previousStageRanking": null,
+    "bib": 13,
+    "rider": "Campenaerts Victor",
+    "points": 3,
+    "deltaPoints": 3,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 23,
+    "previousStageRanking": null,
+    "bib": 32,
+    "rider": "Aular Orluis",
+    "points": 3,
+    "deltaPoints": 3,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 24,
+    "previousStageRanking": 18,
+    "bib": 91,
+    "rider": "Gall Felix",
+    "points": 2,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 25,
+    "previousStageRanking": 19,
+    "bib": 92,
+    "rider": "Armirail Bruno",
+    "points": 2,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 26,
+    "previousStageRanking": 20,
+    "bib": 121,
+    "rider": "Tejada Harold",
+    "points": 2,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 27,
+    "previousStageRanking": 21,
+    "bib": 58,
+    "rider": "Garofoli Gianmarco",
+    "points": 2,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 28,
+    "previousStageRanking": 22,
+    "bib": 86,
+    "rider": "Ryan Archie",
+    "points": 2,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 29,
+    "previousStageRanking": null,
+    "bib": 153,
+    "rider": "Dunbar Eddie",
+    "points": 1,
+    "deltaPoints": 1,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 30,
+    "previousStageRanking": null,
+    "bib": 141,
+    "rider": "Silva Guillermo Thomas",
+    "points": 1,
+    "deltaPoints": 1,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 31,
+    "previousStageRanking": 23,
+    "bib": 87,
+    "rider": "Shaw James",
+    "points": 1,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 32,
+    "previousStageRanking": 24,
+    "bib": 205,
+    "rider": "Sepúlveda Eduardo",
+    "points": 1,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 33,
+    "previousStageRanking": 25,
+    "bib": 155,
+    "rider": "Gamper Patrick",
+    "points": 1,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 34,
+    "previousStageRanking": 26,
+    "bib": 128,
+    "rider": "Vinokurov Nicolas",
+    "points": 1,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 35,
+    "previousStageRanking": 27,
+    "bib": 211,
+    "rider": "Aparicio Mario",
+    "points": 1,
+    "deltaPoints": null,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  }
+]

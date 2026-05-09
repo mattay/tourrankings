@@ -1,0 +1,92 @@
+[
+  {
+    "rank": 1,
+    "bib": 77,
+    "points": 12,
+    "locationUID": "giro-d-italia:2025:6:points:1",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 2,
+    "bib": 97,
+    "points": 8,
+    "locationUID": "giro-d-italia:2025:6:points:1",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 3,
+    "bib": 223,
+    "points": 5,
+    "locationUID": "giro-d-italia:2025:6:points:1",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 4,
+    "bib": 84,
+    "points": 3,
+    "locationUID": "giro-d-italia:2025:6:points:1",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 5,
+    "bib": 116,
+    "points": 1,
+    "locationUID": "giro-d-italia:2025:6:points:1",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 1,
+    "bib": 77,
+    "points": 12,
+    "locationUID": "giro-d-italia:2025:6:points:2",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 2,
+    "bib": 97,
+    "points": 8,
+    "locationUID": "giro-d-italia:2025:6:points:2",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 3,
+    "bib": 18,
+    "points": 5,
+    "locationUID": "giro-d-italia:2025:6:points:2",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 4,
+    "bib": 184,
+    "points": 3,
+    "locationUID": "giro-d-italia:2025:6:points:2",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 5,
+    "bib": 116,
+    "points": 1,
+    "locationUID": "giro-d-italia:2025:6:points:2",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  }
+]

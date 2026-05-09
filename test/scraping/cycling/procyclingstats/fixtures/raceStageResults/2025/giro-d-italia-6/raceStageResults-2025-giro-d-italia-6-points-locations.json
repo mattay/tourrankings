@@ -1,0 +1,96 @@
+[
+  {
+    "locationUID": "giro-d-italia:2025:6:points:1",
+    "locationIndex": 1,
+    "locationType": "points",
+    "allocatedPoints": [
+      12,
+      8,
+      5,
+      3,
+      1
+    ],
+    "allocatedBoni": [],
+    "location": "Muro Lucano",
+    "distance": "42.5",
+    "sprintType": "intermediate",
+    "title": "Sprint",
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "locationUID": "giro-d-italia:2025:6:points:2",
+    "locationIndex": 2,
+    "locationType": "points",
+    "allocatedPoints": [
+      12,
+      8,
+      5,
+      3,
+      1
+    ],
+    "allocatedBoni": [],
+    "location": "Lioni",
+    "distance": "88.4",
+    "sprintType": "intermediate",
+    "title": "Sprint",
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "locationUID": "giro-d-italia:2025:6:points:3",
+    "locationIndex": 3,
+    "locationType": "points",
+    "allocatedPoints": [
+      15,
+      8,
+      5,
+      3,
+      1
+    ],
+    "allocatedBoni": [
+      "6″",
+      "4″",
+      "2″"
+    ],
+    "location": "Brusciano",
+    "distance": "174.6",
+    "sprintType": "intermediate",
+    "title": "Red Bull KM Sprint",
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "locationUID": "giro-d-italia:2025:6:points:4",
+    "locationIndex": 4,
+    "locationType": "points",
+    "allocatedPoints": [
+      50,
+      35,
+      25,
+      18,
+      14,
+      12,
+      10,
+      8,
+      7,
+      6,
+      5,
+      4,
+      3,
+      2,
+      1
+    ],
+    "allocatedBoni": [
+      "10″",
+      "6″",
+      "4″"
+    ],
+    "location": "Points at finish",
+    "distance": "",
+    "sprintType": "finish",
+    "title": "",
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  }
+]

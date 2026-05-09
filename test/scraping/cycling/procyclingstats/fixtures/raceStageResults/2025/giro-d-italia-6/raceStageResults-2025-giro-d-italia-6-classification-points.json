@@ -1,0 +1,645 @@
+[
+  {
+    "rank": 1,
+    "previousStageRanking": 1,
+    "bib": 116,
+    "rider": "Pedersen Mads",
+    "points": 141,
+    "deltaPoints": 2,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 2,
+    "previousStageRanking": 2,
+    "bib": 184,
+    "rider": "Kooij Olav",
+    "points": 55,
+    "deltaPoints": 3,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 3,
+    "previousStageRanking": 3,
+    "bib": 167,
+    "rider": "van Uden Casper",
+    "points": 50,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 4,
+    "previousStageRanking": 4,
+    "bib": 122,
+    "rider": "Aular Orluis",
+    "points": 42,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 5,
+    "previousStageRanking": 5,
+    "bib": 38,
+    "rider": "Zambanini Edoardo",
+    "points": 41,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 6,
+    "previousStageRanking": 6,
+    "bib": 178,
+    "rider": "Tonelli Alessandro",
+    "points": 35,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 7,
+    "previousStageRanking": 7,
+    "bib": 131,
+    "rider": "Pidcock Tom",
+    "points": 31,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 8,
+    "previousStageRanking": 31,
+    "bib": 97,
+    "rider": "van der Hoorn Taco",
+    "points": 25,
+    "deltaPoints": 16,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 9,
+    "previousStageRanking": 8,
+    "bib": 198,
+    "rider": "Zijlaard Maikel",
+    "points": 25,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 10,
+    "previousStageRanking": null,
+    "bib": 77,
+    "rider": "Paleni Enzo",
+    "points": 24,
+    "deltaPoints": 24,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 11,
+    "previousStageRanking": 9,
+    "bib": 22,
+    "rider": "Epis Giosuè",
+    "points": 24,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 12,
+    "previousStageRanking": 10,
+    "bib": 109,
+    "rider": "Strong Corbin",
+    "points": 22,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 13,
+    "previousStageRanking": 11,
+    "bib": 11,
+    "rider": "Groves Kaden",
+    "points": 19,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 14,
+    "previousStageRanking": 12,
+    "bib": 87,
+    "rider": "Tarling Joshua",
+    "points": 18,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 15,
+    "previousStageRanking": 13,
+    "bib": 181,
+    "rider": "van Aert Wout",
+    "points": 18,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 16,
+    "previousStageRanking": 14,
+    "bib": 217,
+    "rider": "Tarozzi Manuele",
+    "points": 17,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 17,
+    "previousStageRanking": 15,
+    "bib": 211,
+    "rider": "Fiorelli Filippo",
+    "points": 17,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 18,
+    "previousStageRanking": 23,
+    "bib": 18,
+    "rider": "Plowright Jensen",
+    "points": 17,
+    "deltaPoints": 5,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 19,
+    "previousStageRanking": 16,
+    "bib": 1,
+    "rider": "Roglič Primož",
+    "points": 16,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 20,
+    "previousStageRanking": 17,
+    "bib": 86,
+    "rider": "Rivera Brandon Smith",
+    "points": 16,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 21,
+    "previousStageRanking": 18,
+    "bib": 172,
+    "rider": "Bais Davide",
+    "points": 16,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 22,
+    "previousStageRanking": 19,
+    "bib": 163,
+    "rider": "Hamilton Chris",
+    "points": 13,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 23,
+    "previousStageRanking": 20,
+    "bib": 176,
+    "rider": "Muñoz Francisco",
+    "points": 12,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 24,
+    "previousStageRanking": 21,
+    "bib": 191,
+    "rider": "Storer Michael",
+    "points": 12,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 25,
+    "previousStageRanking": 22,
+    "bib": 51,
+    "rider": "Bennett Sam",
+    "points": 12,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 26,
+    "previousStageRanking": 24,
+    "bib": 45,
+    "rider": "Moniquet Sylvain",
+    "points": 11,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 27,
+    "previousStageRanking": 25,
+    "bib": 76,
+    "rider": "Pacher Quentin",
+    "points": 10,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 28,
+    "previousStageRanking": 26,
+    "bib": 126,
+    "rider": "Milesi Lorenzo",
+    "points": 10,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 29,
+    "previousStageRanking": 27,
+    "bib": 148,
+    "rider": "Magnier Paul",
+    "points": 10,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 30,
+    "previousStageRanking": 28,
+    "bib": 61,
+    "rider": "Carapaz Richard",
+    "points": 9,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 31,
+    "previousStageRanking": 29,
+    "bib": 207,
+    "rider": "Vine Jay",
+    "points": 9,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 32,
+    "previousStageRanking": 30,
+    "bib": 133,
+    "rider": "Donovan Mark",
+    "points": 9,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 33,
+    "previousStageRanking": 32,
+    "bib": 75,
+    "rider": "Germani Lorenzo",
+    "points": 8,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 34,
+    "previousStageRanking": 33,
+    "bib": 92,
+    "rider": "Busatto Francesco",
+    "points": 8,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 35,
+    "previousStageRanking": 34,
+    "bib": 88,
+    "rider": "Turner Ben",
+    "points": 8,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 36,
+    "previousStageRanking": 35,
+    "bib": 33,
+    "rider": "Caruso Damiano",
+    "points": 7,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 37,
+    "previousStageRanking": 36,
+    "bib": 182,
+    "rider": "Affini Edoardo",
+    "points": 7,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 38,
+    "previousStageRanking": 38,
+    "bib": 117,
+    "rider": "Vacek Mathias",
+    "points": 6,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 39,
+    "previousStageRanking": 39,
+    "bib": 204,
+    "rider": "del Toro Isaac",
+    "points": 6,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 40,
+    "previousStageRanking": 40,
+    "bib": 221,
+    "rider": "Ulissi Diego",
+    "points": 6,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 41,
+    "previousStageRanking": 41,
+    "bib": 21,
+    "rider": "Verre Alessandro",
+    "points": 6,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 42,
+    "previousStageRanking": 42,
+    "bib": 218,
+    "rider": "Zanoncello Enrico",
+    "points": 6,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 43,
+    "previousStageRanking": 43,
+    "bib": 222,
+    "rider": "Conci Nicola",
+    "points": 5,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 44,
+    "previousStageRanking": null,
+    "bib": 223,
+    "rider": "Fortunato Lorenzo",
+    "points": 5,
+    "deltaPoints": 5,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 45,
+    "previousStageRanking": 44,
+    "bib": 46,
+    "rider": "Oldani Stefano",
+    "points": 5,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 46,
+    "previousStageRanking": 45,
+    "bib": 112,
+    "rider": "Hoole Daan",
+    "points": 5,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 47,
+    "previousStageRanking": 46,
+    "bib": 53,
+    "rider": "De Bondt Dries",
+    "points": 5,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 48,
+    "previousStageRanking": 47,
+    "bib": 41,
+    "rider": "Fretin Milan",
+    "points": 5,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 49,
+    "previousStageRanking": 48,
+    "bib": 58,
+    "rider": "Vendrame Andrea",
+    "points": 4,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 50,
+    "previousStageRanking": 49,
+    "bib": 174,
+    "rider": "Lonardi Giovanni",
+    "points": 4,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 51,
+    "previousStageRanking": 50,
+    "bib": 206,
+    "rider": "McNulty Brandon",
+    "points": 3,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 52,
+    "previousStageRanking": 51,
+    "bib": 166,
+    "rider": "Poole Max",
+    "points": 3,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 53,
+    "previousStageRanking": null,
+    "bib": 84,
+    "rider": "Hamilton Lucas",
+    "points": 3,
+    "deltaPoints": 3,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 54,
+    "previousStageRanking": 52,
+    "bib": 74,
+    "rider": "Geniets Kevin",
+    "points": 2,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 55,
+    "previousStageRanking": 53,
+    "bib": 228,
+    "rider": "Scaroni Christian",
+    "points": 2,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 56,
+    "previousStageRanking": 54,
+    "bib": 145,
+    "rider": "Hayter Ethan",
+    "points": 2,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 57,
+    "previousStageRanking": 55,
+    "bib": 201,
+    "rider": "Ayuso Juan",
+    "points": 1,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 58,
+    "previousStageRanking": 56,
+    "bib": 171,
+    "rider": "Piganzoli Davide",
+    "points": 1,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 59,
+    "previousStageRanking": 57,
+    "bib": 153,
+    "rider": "De Pretto Davide",
+    "points": 1,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 60,
+    "previousStageRanking": 58,
+    "bib": 16,
+    "rider": "Planckaert Edward",
+    "points": 1,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 61,
+    "previousStageRanking": 59,
+    "bib": 35,
+    "rider": "Govekar Matevž",
+    "points": 1,
+    "deltaPoints": null,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": "",
+    "previousStageRanking": 37,
+    "bib": 136,
+    "rider": "Moschetti Matteo",
+    "points": -6,
+    "deltaPoints": -13,
+    "status": "NR",
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": "",
+    "previousStageRanking": null,
+    "bib": 214,
+    "rider": "Marcellusi Martin",
+    "points": -7,
+    "deltaPoints": -7,
+    "status": "NR",
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": "",
+    "previousStageRanking": null,
+    "bib": 224,
+    "rider": "Kanter Max",
+    "points": -13,
+    "deltaPoints": -13,
+    "status": "NR",
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  }
+]

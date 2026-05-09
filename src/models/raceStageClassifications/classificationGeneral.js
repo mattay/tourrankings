@@ -24,7 +24,6 @@ export class ClassificationGeneral extends CSVdataModel {
       previousStageRanking: "number",
       change: "number",
       bib: "number",
-      age: "number",
       uCI: "number", // Matches toCamelCase("UCI") - see issue #341 for future standardization
     };
     super(
@@ -39,10 +38,6 @@ export class ClassificationGeneral extends CSVdataModel {
       "Previous Stage Ranking",
       "Change",
       "Bib",
-      "Specialty",
-      "Rider",
-      "Age",
-      "Team",
       "UCI",
       "Bonis",
       "Time",

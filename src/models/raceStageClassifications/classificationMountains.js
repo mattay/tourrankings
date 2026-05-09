@@ -24,7 +24,6 @@ export class ClassificationMountains extends CSVdataModel {
       previousStageRanking: "number",
       change: "number",
       bib: "number",
-      age: "number",
       points: "number",
       today: "number",
     };
@@ -40,10 +39,6 @@ export class ClassificationMountains extends CSVdataModel {
       "Previous Stage Ranking",
       "Change",
       "Bib",
-      "Specialty",
-      "Rider",
-      "Age",
-      "Team",
       "Points",
       "Today",
     ];

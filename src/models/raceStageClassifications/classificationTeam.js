@@ -23,7 +23,6 @@ export class ClassificationTeam extends CSVdataModel {
       rank: "number",
       previousStageRanking: "number",
       change: "number",
-      // bib: "number",
     };
     super(
       `${getDataDir()}/raceStageClassificationTeams.csv`,
@@ -37,7 +36,6 @@ export class ClassificationTeam extends CSVdataModel {
       "Previous Stage Ranking",
       "Change",
       "Team",
-      "Class",
       "Time",
       "Delta",
     ];

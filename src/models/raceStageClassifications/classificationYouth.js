@@ -24,7 +24,6 @@ export class ClassificationYouth extends CSVdataModel {
       previousStageRanking: "number",
       change: "number",
       bib: "number",
-      age: "number",
     };
     super(
       `${getDataDir()}/raceStageClassificationYouth.csv`,
@@ -38,10 +37,6 @@ export class ClassificationYouth extends CSVdataModel {
       "Previous Stage Ranking",
       "Change",
       "Bib",
-      "Specialty",
-      "Rider",
-      "Age",
-      "Team",
     ];
     this.sortOrder = [
       ["stageUID", "asc"],

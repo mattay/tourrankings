@@ -22,7 +22,7 @@ export class ClassificationYouth extends CSVdataModel {
       stage: "number",
       rank: "number",
       previousStageRanking: "number",
-      change: "number",
+      delta: "number",
       bib: "number",
     };
     super(
@@ -35,8 +35,9 @@ export class ClassificationYouth extends CSVdataModel {
       "Stage",
       "Rank",
       "Previous Stage Ranking",
-      "Change",
+      "Delta",
       "Bib",
+      "Time Wonlost",
     ];
     this.sortOrder = [
       ["stageUID", "asc"],

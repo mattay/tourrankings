@@ -22,7 +22,7 @@ export class ClassificationGeneral extends CSVdataModel {
       stage: "number",
       rank: "number",
       previousStageRanking: "number",
-      change: "number",
+      delta: "number",
       bib: "number",
       uCI: "number", // Matches toCamelCase("UCI") - see issue #341 for future standardization
     };
@@ -36,12 +36,12 @@ export class ClassificationGeneral extends CSVdataModel {
       "Stage",
       "Rank",
       "Previous Stage Ranking",
-      "Change",
+      "Delta",
       "Bib",
       "UCI",
       "Bonis",
       "Time",
-      "Delta",
+      "Time Wonlost",
     ];
     this.sortOrder = [
       ["stageUID", "asc"],

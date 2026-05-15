@@ -83,8 +83,6 @@ function tableHeaders(column) {
     rnk: "rank",
     pnt: "points",
     uci_pnt: "uci",
-    "▼▲": "change",
-    "": "bonis",
     prev: "previous stage ranking",
     bib: "bib",
     teamnamelink: "team",
@@ -826,8 +824,13 @@ function extractClassificationTable(htmlDOM, stageDetails, schema) {
   const columns = columnHeader(htmlDOM, DOM_SELECTORS.table.headers);
 
   // Validate table schema if provided
-  if (schema) {
-    validateTableSchema(columns, schema);
+  if (schema && !validateTableSchema(columns, schema)) {
+    logOut(
+      "PCS Stage Results",
+      "Schema validation failed; skipping table extraction for this section.",
+      "warn",
+    );
+    return [];
   }
 
   const rows = [];

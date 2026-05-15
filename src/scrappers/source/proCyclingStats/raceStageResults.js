@@ -603,6 +603,11 @@ export function sprintLocation(label) {
     return sprint;
   }
 
+  // Handle bare sprint labels with no location/distance (e.g. "Sprint", "Sprint 1", "Sprint 2")
+  if (/^Sprint( \d+)?$/i.test(label)) {
+    return sprint;
+  }
+
   // Try each pattern until one matches
   for (const regex of sprintPatterns) {
     const match = label.match(regex);

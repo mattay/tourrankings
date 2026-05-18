@@ -177,8 +177,8 @@ describe.each([
     expectedPoints,
     expectedTeams,
     expectedYouth,
-    expectedTeamsLocationContest,
-    expectedYouthLocationContest,
+    expectedTeamsContest,
+    expectedYouthContest,
     expectedPointsLocations,
     expectedPointsLocationContest,
     expectedMountainsLocations,
@@ -201,8 +201,8 @@ describe.each([
     const jsonPoints = Bun.file(data.json.pointsClassification);
     const jsonTeams = Bun.file(data.json.teamClassification);
     const jsonYouth = Bun.file(data.json.youngClassification);
-    const jsonTeamsLocationContest = Bun.file(data.json.teamsLocationContest);
-    const jsonYouthLocationContest = Bun.file(data.json.youthLocationContest);
+    const jsonTeamsContest = Bun.file(data.json.teamsLocationContest);
+    const jsonYouthContest = Bun.file(data.json.youthLocationContest);
     const jsonPointsLocations = Bun.file(data.json.pointsLocations);
     const jsonPointsLocationContest = Bun.file(data.json.pointsLocationContest);
     const jsonMountainsLocations = Bun.file(data.json.mountainsLocations);
@@ -223,8 +223,8 @@ describe.each([
     expectedPoints = await jsonPoints.json();
     expectedTeams = await jsonTeams.json();
     expectedYouth = await jsonYouth.json();
-    expectedTeamsLocationContest = await jsonTeamsLocationContest.json();
-    expectedYouthLocationContest = await jsonYouthLocationContest.json();
+    expectedTeamsContest = await jsonTeamsContest.json();
+    expectedYouthContest = await jsonYouthContest.json();
     expectedPointsLocations = await jsonPointsLocations.json();
     expectedMountainsLocations = await jsonMountainsLocations.json();
     expectedPointsLocationContest = await jsonPointsLocationContest.json();
@@ -334,15 +334,15 @@ describe.each([
     expect(stageClassificationResults.youth).toEqual(expectedYouth);
   });
 
-  test("Should match expected teams location contest", async () => {
-    expect(stageClassificationResults.teamsLocationContest).toEqual(
-      expectedTeamsLocationContest,
+  test("Should match expected teams contest", async () => {
+    expect(stageClassificationResults.teamsContest).toEqual(
+      expectedTeamsContest,
     );
   });
 
-  test("Should match expected youth location contest", async () => {
-    expect(stageClassificationResults.youthLocationContest).toEqual(
-      expectedYouthLocationContest,
+  test("Should match expected youth contest", async () => {
+    expect(stageClassificationResults.youthContest).toEqual(
+      expectedYouthContest,
     );
   });
 

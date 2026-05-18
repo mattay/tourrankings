@@ -233,7 +233,7 @@ function cleanUpLocationsTable(table, additionalValues) {
  * @param {Object} additionalValues - Additional values to add to each row.
  * @returns {Array<Object>} The cleaned up table.
  */
-function cleanUpYouthLocationContestTable(table, additionalValues) {
+function cleanUpYouthContestTable(table, additionalValues) {
   // Keep: rank, time, rider (links to RaceRider)
   // Drop: specialty, age, team, bib, timeWonLost
   const columnsToDrop = [
@@ -298,7 +298,7 @@ function cleanUpYouthLocationContestTable(table, additionalValues) {
  * @param {Object} additionalValues - Additional values to add to each row.
  * @returns {Array<Object>} The cleaned up table.
  */
-function cleanUpTeamsLocationContestTable(table, additionalValues) {
+function cleanUpTeamsContestTable(table, additionalValues) {
   // Keep: rank, team, classification, time
   // Drop: timeWonlost (not needed)
   const columnsToDrop = ["h2h", "timeWonlost"];
@@ -714,13 +714,13 @@ export function cleanUpStages(tables, stageDetails) {
           );
       } else if (classification === "youth") {
         stageRankings[`${classification}LocationContest`] =
-          cleanUpYouthLocationContestTable(
+          cleanUpYouthContestTable(
             rankings["today"]["results"],
             additionalValues,
           );
       } else if (classification === "teams") {
         stageRankings[`${classification}LocationContest`] =
-          cleanUpTeamsLocationContestTable(
+          cleanUpTeamsContestTable(
             rankings["today"]["results"],
             additionalValues,
           );

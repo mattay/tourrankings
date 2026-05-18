@@ -217,7 +217,6 @@ function cleanUpLocationsTable(table, additionalValues) {
   const sorted = table.sort((a, b) => a["locationIndex"] - b["locationIndex"]);
 
   const cleaned = sorted.map((row) => {
-    row = renameKeys(row, tableHeaders);
     return renameKeys({ ...row, ...additionalValues }, toCamelCase);
   });
 
@@ -599,6 +598,11 @@ export function sprintLocation(label) {
     title: "",
   };
 
+  // Handle finish-only labels that carry no additional info
+  if (/^(Points at finish|Finish)$/i.test(label)) {
+    return sprint;
+  }
+
   // Try each pattern until one matches
   for (const regex of sprintPatterns) {
     const match = label.match(regex);
@@ -695,7 +699,7 @@ export function cleanUpStages(tables, stageDetails) {
       ) {
         stageRankings[`${classification}Locations`] = cleanUpLocationsTable(
           rankings["today"]["locations"],
-          additionalValues,
+          { ...additionalValues, year: stageDetails.year },
         );
       }
 
@@ -1033,7 +1037,7 @@ export function classificationResults(
           let locationInfo = {
             locationUID,
             locationIndex,
-            locationType,
+            type: locationType,
             allocatedPoints: [],
             allocatedBoni: [],
           };

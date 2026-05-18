@@ -2,7 +2,7 @@
   {
     "locationUID": "vuelta-a-espana:2025:11:mountains:1",
     "locationIndex": 1,
-    "locationType": "mountains",
+    "type": "mountains",
     "allocatedPoints": [
       3,
       2,
@@ -14,12 +14,13 @@
     "distance": "5",
     "sprintType": "Intermediate",
     "stageUID": "vuelta-a-espana:2025:11",
+    "year": 2025,
     "stage": 11
   },
   {
     "locationUID": "vuelta-a-espana:2025:11:mountains:2",
     "locationIndex": 2,
-    "locationType": "mountains",
+    "type": "mountains",
     "allocatedPoints": [
       3,
       2,
@@ -31,12 +32,13 @@
     "distance": "26.2",
     "sprintType": "Intermediate",
     "stageUID": "vuelta-a-espana:2025:11",
+    "year": 2025,
     "stage": 11
   },
   {
     "locationUID": "vuelta-a-espana:2025:11:mountains:3",
     "locationIndex": 3,
-    "locationType": "mountains",
+    "type": "mountains",
     "allocatedPoints": [
       3,
       2,
@@ -48,12 +50,13 @@
     "distance": "63.2",
     "sprintType": "Intermediate",
     "stageUID": "vuelta-a-espana:2025:11",
+    "year": 2025,
     "stage": 11
   },
   {
     "locationUID": "vuelta-a-espana:2025:11:mountains:4",
     "locationIndex": 4,
-    "locationType": "mountains",
+    "type": "mountains",
     "allocatedPoints": [
       3,
       2,
@@ -65,12 +68,13 @@
     "distance": "86.1",
     "sprintType": "Intermediate",
     "stageUID": "vuelta-a-espana:2025:11",
+    "year": 2025,
     "stage": 11
   },
   {
     "locationUID": "vuelta-a-espana:2025:11:mountains:5",
     "locationIndex": 5,
-    "locationType": "mountains",
+    "type": "mountains",
     "allocatedPoints": [
       5,
       3,
@@ -82,12 +86,13 @@
     "distance": "104.4",
     "sprintType": "Intermediate",
     "stageUID": "vuelta-a-espana:2025:11",
+    "year": 2025,
     "stage": 11
   },
   {
     "locationUID": "vuelta-a-espana:2025:11:mountains:6",
     "locationIndex": 6,
-    "locationType": "mountains",
+    "type": "mountains",
     "allocatedPoints": [
       5,
       3,
@@ -99,12 +104,13 @@
     "distance": "133.3",
     "sprintType": "Intermediate",
     "stageUID": "vuelta-a-espana:2025:11",
+    "year": 2025,
     "stage": 11
   },
   {
     "locationUID": "vuelta-a-espana:2025:11:mountains:7",
     "locationIndex": 7,
-    "locationType": "mountains",
+    "type": "mountains",
     "allocatedPoints": [
       3,
       2,
@@ -120,6 +126,7 @@
     "distance": "149.6",
     "sprintType": "Intermediate",
     "stageUID": "vuelta-a-espana:2025:11",
+    "year": 2025,
     "stage": 11
   }
 ]

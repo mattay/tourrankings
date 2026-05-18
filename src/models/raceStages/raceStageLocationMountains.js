@@ -33,7 +33,7 @@ export class RaceStageLocationMountains extends CSVdataModel {
       "Year",
       "Stage",
       "Type",
-      "Location Name",
+      "Location",
       "Distance",
     ];
     this.sortOrder = [

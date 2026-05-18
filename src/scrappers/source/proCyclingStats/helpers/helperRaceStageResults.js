@@ -1,10 +1,219 @@
+import { logError } from "@utils/logging";
 import { formatSeconds } from "@utils/time";
 
 /**
- * Matches a relegation notice
- * @param {string} notice - the notice text
- * @returns {object} - the match groups
+ * @typedef {Object} ColumnSchema
+ * @property {string[]} [expected] - Column data-code values expected in the HTML table.
+ *   If these are missing, the schema check will log an error to notify of a source change.
+ * @property {string} [context] - Human-readable description for log messages.
  */
+
+/**
+ * Expected column schemas for different classification/table types.
+ * Each entry maps a classification name to general and/or today table expected columns.
+ * The required data-code values are the column identifiers the parser depends on.
+ * If ProCyclingStats changes their HTML structure, missing required columns will
+ * trigger error logs to alert the developer immediately.
+ */
+export const EXPECTED_COLUMN_SCHEMAS = {
+  stage: {
+    general: {
+      expected: [
+        "rnk",
+        "gc",
+        "gc_timelag",
+        "bib",
+        "h2h",
+        "specialty",
+        "age",
+        "ridername",
+        "teamnamelink",
+        "uci_pnt",
+        "time",
+        "pnt",
+        "bonis",
+        "time",
+      ],
+      context: "Stage result - general table",
+    },
+  },
+  gc: {
+    general: {
+      expected: [
+        "rnk",
+        "prev",
+        "delta",
+        "bib",
+        "h2h",
+        "specialty",
+        "age",
+        "ridername",
+        "teamnamelink",
+        "uci_pnt",
+        "gc_bonis",
+        "time",
+        "time_wonlost",
+      ],
+      context: "GC result - general table",
+    },
+  },
+  points: {
+    general: {
+      expected: [
+        "rnk",
+        "prev",
+        "delta",
+        "bib",
+        "h2h",
+        "specialty",
+        "age",
+        "ridername",
+        "teamnamelink",
+        "pnt2",
+        "delta_pnt",
+      ],
+      context: "Points classification - general table",
+    },
+    today: {
+      expected: [
+        "rnk",
+        "bib",
+        "h2h",
+        "specialty",
+        "age",
+        "ridername",
+        "teamnamelink",
+        "pnt",
+        "result_boni",
+        "delta_pnt",
+      ],
+      context: "Points classification - today table",
+    },
+  },
+  mountains: {
+    general: {
+      expected: [
+        "rnk",
+        "prev",
+        "delta",
+        "bib",
+        "h2h",
+        "specialty",
+        "age",
+        "ridername",
+        "teamnamelink",
+        "pnt2",
+        "delta_pnt",
+      ],
+      context: "Mountains classification - general table",
+    },
+    today: {
+      expected: [
+        "rnk",
+        "bib",
+        "h2h",
+        "specialty",
+        "age",
+        "ridername",
+        "teamnamelink",
+        "pnt",
+        "delta_pnt",
+      ],
+      context: "Mountains classification - today table",
+    },
+  },
+  youth: {
+    general: {
+      expected: [
+        "rnk",
+        "prev",
+        "delta",
+        "bib",
+        "h2h",
+        "specialty",
+        "age",
+        "ridername",
+        "teamnamelink",
+        "time",
+        "time_wonlost",
+      ],
+      context: "Youth classification - general table",
+    },
+    today: {
+      expected: [
+        "rnk",
+        "bib",
+        "h2h",
+        "specialty",
+        "age",
+        "ridername",
+        "teamnamelink",
+        "time",
+        "time_wonlost",
+      ],
+      context: "Youth classification - today table",
+    },
+  },
+  teams: {
+    general: {
+      expected: [
+        "rnk",
+        "prev",
+        "delta",
+        "teamline",
+        "classification",
+        "time",
+        "time_wonlost",
+      ],
+      context: "Teams classification - general table",
+    },
+    today: {
+      expected: ["rnk", "teamline", "classification", "time", "time_wonlost"],
+      context: "Teams classification - today table",
+    },
+  },
+};
+
+/**
+ * Validates that extracted column headers contain no unexpected data-code values.
+ * Logs an error for each column whose key is not in the expected set, alerting
+ * the developer when ProCyclingStats adds or renames columns.
+ *
+ * Does NOT flag missing expected keys — tables legitimately vary between
+ * stages and race types (e.g. stage 1 has no prev/delta column).
+ *
+ * @param {string[]} columns - Extracted column names (from data-code or textContent)
+ * @param {ColumnSchema} schema - Schema with the list of known data-code values
+ * @returns {boolean} True if all columns are recognised
+ */
+export function validateTableSchema(columns, schema) {
+  if (!schema.expected || schema.expected.length === 0) return true;
+
+  const expectedSet = new Set(schema.expected);
+  const unexpected = columns.filter((key) => !expectedSet.has(key));
+
+  if (unexpected.length > 0) {
+    logError(
+      "PCS Stage Results",
+      `[Schema Mismatch] ${schema.context || "Table"}: ` +
+        `Unexpected data-code column(s): [${unexpected.join(", ")}].`,
+    );
+    logError(
+      "PCS Stage Results",
+      `These are not in the known set for this table type and may indicate ` +
+        `ProCyclingStats added or renamed columns.`,
+    );
+    logError(
+      "PCS Stage Results",
+      `Update EXPECTED_COLUMN_SCHEMAS and/or tableHeaders() to match. ` +
+        `Known columns: [${schema.expected.join(", ")}]. `,
+    );
+    return false;
+  }
+
+  return true;
+}
+
 const patternRelegation =
   /^(?<rider>.*) relegated from (?<from>\d+)\w{2} to (?<to>\d+)\w{2}(?:\s+for (?<reason>.*)$)?/;
 

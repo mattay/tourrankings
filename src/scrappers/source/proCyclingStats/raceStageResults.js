@@ -3,9 +3,11 @@ import { htmlDOM } from "@scrappers/html/domParser";
 import { generateId } from "@cycling/idGenerator";
 import {
   dropColumns,
+  EXPECTED_COLUMN_SCHEMAS,
   extractNotice,
   formatRow,
   sortByRanking,
+  validateTableSchema,
 } from "@scrappers/source/proCyclingStats/helpers/helperRaceStageResults";
 import { renameKeys } from "@utils/object";
 import { toCamelCase } from "@utils/string";
@@ -820,10 +822,22 @@ function extractTableCellContent(cell) {
  * Extracts the classification table from the HTML DOM.
  * @param {Element} htmlDOM - The HTML DOM element containing the classification table.
  * @param {StageDetails} stageDetails - The details of the stage.
+ * @param {ColumnSchema} [schema] - Schema defining expected column data-code values for validation.
+ *   If provided, the table is validated against the schema before extraction; mismatches cause early return.
  * @returns {Array} An array of classification table data.
  */
-function extractClassificationTable(htmlDOM, stageDetails) {
+function extractClassificationTable(htmlDOM, stageDetails, schema) {
   const columns = columnHeader(htmlDOM, DOM_SELECTORS.table.headers);
+
+  // Validate table schema if provided
+  if (schema && !validateTableSchema(columns, schema)) {
+    logOut(
+      "PCS Stage Results",
+      "Schema validation failed; skipping table extraction for this section.",
+      "warn",
+    );
+    return [];
+  }
 
   const rows = [];
   const notices = [];
@@ -965,7 +979,11 @@ export function classificationResults(
         stageDetails.stageType === "prologue"
       ) {
         classificationStageResults[classification]["general"] =
-          extractClassificationTable(generalTable, stageDetails);
+          extractClassificationTable(
+            generalTable,
+            stageDetails,
+            EXPECTED_COLUMN_SCHEMAS[classification]?.general,
+          );
       } else {
         logOut(
           "PCS Stage Results",
@@ -1036,7 +1054,11 @@ export function classificationResults(
             };
           }
 
-          const tableData = extractClassificationTable(table, stageDetails);
+          const tableData = extractClassificationTable(
+            table,
+            stageDetails,
+            EXPECTED_COLUMN_SCHEMAS[classification]?.today,
+          );
 
           for (let i = 0; i < tableData.length; i++) {
             const contestent = tableData[i];
@@ -1055,7 +1077,9 @@ export function classificationResults(
           }
           // Wait for all allocated points and bonis at location
           if (classification === "points" || classification === "mountains") {
-            todayTabLocations.push(locationInfo);
+            if (tableData.length > 0) {
+              todayTabLocations.push(locationInfo);
+            }
           }
         });
       });

@@ -1,7 +1,8 @@
 import { generateId } from "@cycling/idGenerator";
 import { formatDate } from "@utils/string";
 import { logError } from "@utils/logging";
-import { fetchHtmlWithCache, htmlDOM } from "@scrappers/html";
+import { fetchHtmlWithCache, htmlDOM, getCacheTtl } from "@scrappers/html";
+import { parseBool } from "@utils/sanity";
 
 /**
  * @typedef {import('./@types').ScrapedRaceStage} ScrapedRaceStage
@@ -73,9 +74,10 @@ function columnHeader(stagesTable) {
  * @param {string} htmlContent - The HTML element representing the stages table.
  * @param {number} year - The year of the race.
  * @param {string} race - The race URL ID (slug format).
+ * @param {boolean} [quiet=false] - Suppress expected errors for future races.
  * @returns {Object[]} An array of stage details with computed raceUID, stageUID, and year.
  */
-export function extractStagesFromHtml(htmlContent, year, race) {
+export function extractStagesFromHtml(htmlContent, year, race, quiet = false) {
   const pageDOM = htmlDOM(htmlContent);
 
   const htmlTableStages = Array.from(
@@ -83,7 +85,9 @@ export function extractStagesFromHtml(htmlContent, year, race) {
   )[0]; // We want the first table
 
   if (!htmlTableStages) {
-    logError("Scrape PCS - Stages", "No stages table found in HTML");
+    if (!quiet) {
+      logError("Scrape PCS - Stages", "No stages table found in HTML");
+    }
     return [];
   }
 
@@ -121,7 +125,9 @@ export function extractStagesFromHtml(htmlContent, year, race) {
         case "parcoursType": {
           const span = td.querySelector("span");
           value = span
-            ? Array.from(span.classList.values()).find((cls) => /^p\d+$/.test(cls))
+            ? Array.from(span.classList.values()).find((cls) =>
+                /^p\d+$/.test(cls),
+              )
             : null;
           details[key] = value;
           break;
@@ -130,7 +136,9 @@ export function extractStagesFromHtml(htmlContent, year, race) {
         case "stage": {
           const anchor = td.querySelector("a");
           if (!anchor) {
-            logError("Scrape PCS - Stages", `No anchor found in stage cell`);
+            if (!quiet) {
+              logError("Scrape PCS - Stages", `No anchor found in stage cell`);
+            }
             details["stage"] = null;
             details["stageType"] = null;
             details["stagePcsUrl"] = null;
@@ -143,10 +151,12 @@ export function extractStagesFromHtml(htmlContent, year, race) {
           } else {
             matchStage = value.match(PATTERN_STAGE);
             if (!matchStage) {
-              logError(
-                "Scrape PCS - Stages",
-                `Invalid stage format: ${value} -> ${PATTERN_STAGE}`,
-              );
+              if (!quiet) {
+                logError(
+                  "Scrape PCS - Stages",
+                  `Invalid stage format: ${value} -> ${PATTERN_STAGE}`,
+                );
+              }
               stageNumber = null;
               stageType = null;
             } else {
@@ -163,10 +173,12 @@ export function extractStagesFromHtml(htmlContent, year, race) {
         }
 
         default:
-          logError(
-            "Scrape PCS - Stages",
-            `Unhandled column [${index}]: ${key}`,
-          );
+          if (!quiet) {
+            logError(
+              "Scrape PCS - Stages",
+              `Unhandled column [${index}]: ${key}`,
+            );
+          }
           break;
       }
       return details;
@@ -192,12 +204,21 @@ export function extractStagesFromHtml(htmlContent, year, race) {
  * @param {number} year - The year of the race.
  * @returns {Promise<Array<ScrapedRaceStage>>} An array of stage data.
  */
-export async function scrapeRaceStages(race, year) {
+export async function scrapeRaceStages(
+  race,
+  year,
+  raceStartDate = null,
+  raceEndDate = null,
+  quiet = false,
+) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/route/stages`;
   const cachePattern = `${race}-${year}-stages`;
+  const ttl = getCacheTtl(raceStartDate, raceEndDate);
+  const shouldBeQuiet =
+    quiet || parseBool(process.env.SUPPRESS_FUTURE_RACE_ERRORS, false);
 
   try {
-    const htmlContent = await fetchHtmlWithCache(url, { cachePattern });
+    const htmlContent = await fetchHtmlWithCache(url, { cachePattern, ttl });
     if (
       !htmlContent ||
       typeof htmlContent.html !== "string" ||
@@ -208,7 +229,7 @@ export async function scrapeRaceStages(race, year) {
       });
       return [];
     }
-    return extractStagesFromHtml(htmlContent.html, year, race);
+    return extractStagesFromHtml(htmlContent.html, year, race, shouldBeQuiet);
   } catch (exception) {
     logError("Scrape PCS - Stages", url, exception);
     throw exception;

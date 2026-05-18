@@ -20,3 +20,23 @@ export function parseBool(value, defaultValue) {
 
   return defaultValue;
 }
+
+/**
+ * Parses number from string
+ *
+ * @param {string} value - The value to parse
+ * @param {number} defaultValue - Default value if parsing fails
+ * @returns {number} Parsed number value
+ */
+export function parseNumber(value, defaultValue) {
+  if (value === undefined || value === null || value === "") {
+    return defaultValue;
+  }
+
+  const parsed = Number(value);
+  if (isNaN(parsed)) {
+    return defaultValue;
+  }
+
+  return parsed;
+}

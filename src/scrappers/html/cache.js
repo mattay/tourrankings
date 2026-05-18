@@ -1,5 +1,5 @@
 import { logError } from "@utils/logging";
-import { parseBool } from "@utils/sanity";
+import { parseBool, parseNumber } from "@utils/sanity";
 import { createHash } from "crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { html_beautify } from "js-beautify";
@@ -12,6 +12,9 @@ const CACHE_CONFIG = {
   removeScripts: parseBool(process.env.HTML_CACHE_REMOVE_SCRIPTS, true),
   removeStyles: parseBool(process.env.HTML_CACHE_REMOVE_STYLES, false),
   removeComments: parseBool(process.env.HTML_CACHE_REMOVE_COMMENTS, false),
+  // TTL in milliseconds (convert from minutes set in env)
+  ttlLive: parseNumber(process.env.HTML_CACHE_TTL_LIVE, 30) * 60 * 1000, // Default: 30 min
+  ttlFixed: parseNumber(process.env.HTML_CACHE_TTL_FIXED, 43200) * 60 * 1000, // Default: 30 days
 };
 
 /**
@@ -30,6 +33,42 @@ const BEAUTIFY_OPTIONS = {
   content_unformatted: ["pre", "textarea"],
   indent_scripts: "keep",
 };
+
+/**
+ * Calculates appropriate TTL based on race dates
+ * - Before race starts: use ttlLive (changes possible)
+ * - After race ends + grace period: use ttlFixed (data is finalized)
+ *
+ * @param {string|null} raceStartDate - The race start date (ISO format: "YYYY-MM-DD")
+ * @param {string|null} raceEndDate - The race end date (ISO format: "YYYY-MM-DD")
+ * @returns {number} TTL in milliseconds
+ */
+export function getCacheTtl(raceStartDate, raceEndDate) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Normalize to midnight
+
+  const gracePeriodDays = parseNumber(process.env.STAGE_GRACE_PERIOD, 1);
+
+  if (raceEndDate) {
+    const endDate = new Date(raceEndDate);
+    endDate.setDate(endDate.getDate() + gracePeriodDays);
+
+    // Race has ended + grace period passed -> use long TTL
+    if (today > endDate) {
+      return CACHE_CONFIG.ttlFixed;
+    }
+  } else if (raceStartDate) {
+    const startDate = new Date(raceStartDate);
+
+    // Race has started -> use long TTL (start list is fixed)
+    if (today >= startDate) {
+      return CACHE_CONFIG.ttlFixed;
+    }
+  }
+
+  // Race hasn't started yet or still in grace period -> use short TTL
+  return CACHE_CONFIG.ttlLive;
+}
 
 /**
  * Generates a cache key from a URL
@@ -61,9 +100,10 @@ function getCacheFilePath(cacheKey) {
  * Reads HTML content from cache
  *
  * @param {string} cacheKey - The cache key
- * @returns {string|null} The cached HTML content, or null if not found
+ * @param {number} [ttl] - TTL in milliseconds. If provided, checks age and returns null if expired
+ * @returns {string|null} The cached HTML content, or null if not found or expired
  */
-export function readFromCache(cacheKey) {
+export function readFromCache(cacheKey, ttl = null) {
   if (!CACHE_CONFIG.enabled) return null;
   const filePath = getCacheFilePath(cacheKey);
 
@@ -72,7 +112,22 @@ export function readFromCache(cacheKey) {
   }
 
   try {
-    return readFileSync(filePath, "utf-8");
+    const content = readFileSync(filePath, "utf-8");
+
+    // Check TTL if provided
+    if (ttl !== null) {
+      const match = content.match(/<!-- cache:(\d+) -->/);
+      if (match) {
+        const cacheTime = parseInt(match[1], 10);
+        const age = Date.now() - cacheTime;
+        if (age > ttl) {
+          return null; // Cache expired
+        }
+      }
+    }
+
+    // Remove timestamp comment before returning
+    return content.replace(/<!-- cache:\d+ -->\n?/, "");
   } catch (error) {
     logError("HTML Cache", `Failed to read cache file ${filePath}`, error);
     return null;
@@ -142,7 +197,9 @@ export function writeToCache(cacheKey, html) {
 
   try {
     const cleanedHtml = cleanHtml(html);
-    writeFileSync(filePath, cleanedHtml, "utf-8");
+    // Add timestamp as HTML comment for TTL checking
+    const htmlWithTimestamp = `<!-- cache:${Date.now()} -->\n${cleanedHtml}`;
+    writeFileSync(filePath, htmlWithTimestamp, "utf-8");
     return true;
   } catch (error) {
     logError("HTML Cache", `Failed to write cache file ${filePath}`, error);

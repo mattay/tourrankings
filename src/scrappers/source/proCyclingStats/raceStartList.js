@@ -1,6 +1,6 @@
 import { logError } from "@utils/logging";
 import { urlSections } from "@utils/url";
-import { fetchHtmlWithCache, htmlDOM } from "@scrappers/html";
+import { fetchHtmlWithCache, htmlDOM, getCacheTtl } from "@scrappers/html";
 import {
   parseName,
   parseTeamName,
@@ -185,9 +185,16 @@ function parseDirecteurSportif(htmlElement) {
  * Parses the startlist of a race from ProcyclingStats.
  * @param {string} htmlContent - The HTML content of the race startlist page.
  * @param {number} year - The year of the race.
+ * @param {string} baseUrl - The base URL for the race.
+ * @param {boolean} [quiet=false] - Suppress expected errors for future races.
  * @returns {Array<ScrapedRaceStartListTeam>} An array of teams, each with their riders.
  */
-export function extractStartlistFromHtml(htmlContent, year, baseUrl) {
+export function extractStartlistFromHtml(
+  htmlContent,
+  year,
+  baseUrl,
+  quiet = false,
+) {
   const pageDOM = htmlDOM(htmlContent, { url: baseUrl });
 
   return Array.from(pageDOM.querySelectorAll(DOM_SELECTORS.contentTeamList))
@@ -197,11 +204,12 @@ export function extractStartlistFromHtml(htmlContent, year, baseUrl) {
         teamElement.querySelector(DOM_SELECTORS.team),
       ) || { pcsId: null, name: null, classification: null, pcsUrl: null };
       if (!team.name) {
-        logError("Scrape PCS - Start List", "Missing team name", null, {
-          team: team.name,
-          url: team.pcsUrl,
-          year,
-        });
+        if (!quiet) {
+          logError(
+            "Scrape PCS - Start List",
+            `Missing team name ${teamElement.querySelector(DOM_SELECTORS.team)?.textContent ?? "[unknown]"}`,
+          );
+        }
       }
 
       // Jersey Image
@@ -210,11 +218,12 @@ export function extractStartlistFromHtml(htmlContent, year, baseUrl) {
       );
       const jerseyImageUrl = jerseyImageElement?.src || null;
       if (!jerseyImageUrl) {
-        logError("Scrape PCS - Start List", "Missing jersey image URL", null, {
-          team: team.name,
-          url: team.pcsUrl,
-          year,
-        });
+        if (!quiet) {
+          logError(
+            "Scrape PCS - Start List",
+            `Missing jersey image URL for ${team.name}`,
+          );
+        }
       }
 
       // Riders
@@ -225,11 +234,12 @@ export function extractStartlistFromHtml(htmlContent, year, baseUrl) {
         .filter(Boolean)
         .map((rider) => ({ year, ...rider }));
       if (riders.length === 0) {
-        logError("Scrape PCS - Start List", "No riders found", null, {
-          team: team.name,
-          url: team.pcsUrl,
-          year,
-        });
+        if (!quiet) {
+          logError(
+            "Scrape PCS - Start List",
+            `No riders found for ${team.name}`,
+          );
+        }
       }
 
       // Directeur Sportif
@@ -240,16 +250,12 @@ export function extractStartlistFromHtml(htmlContent, year, baseUrl) {
         .filter(Boolean)
         .map((ds) => ({ year, ...ds }));
       if (directeurSportifs.length === 0) {
-        logError(
-          "Scrape PCS - Start List",
-          "No directeur sportif found",
-          null,
-          {
-            team: team.name,
-            url: team.pcsUrl,
-            year,
-          },
-        );
+        if (!quiet) {
+          logError(
+            "Scrape PCS - Start List",
+            `No directeur sportif found for ${team.name}`,
+          );
+        }
       }
 
       // Return Team data
@@ -269,17 +275,27 @@ export function extractStartlistFromHtml(htmlContent, year, baseUrl) {
  * @async
  * @param {string} race - The race identifier (e.g., 'tour-de-france').
  * @param {number} year - The year of the race (e.g., 2024).
+ * @param {string|null} [raceStartDate=null] - Race start date used to compute cache TTL.
+ * @param {string|null} [raceEndDate=null] - Race end date used to compute cache TTL.
+ * @param {boolean} [quiet=false] - Suppress expected errors for future races.
  * @returns {Promise<Array<ScrapedRaceStartListTeam>>} Resolves to an array of teams, each with their riders.
  * @throws {Error} Throws if navigation or scraping fails.
  *
  * @see ScrapedRaceStartListTeam
  */
-export async function scrapeRaceStartList(race, year) {
+export async function scrapeRaceStartList(
+  race,
+  year,
+  raceStartDate = null,
+  raceEndDate = null,
+  quiet = false,
+) {
   const url = `https://www.procyclingstats.com/race/${race}/${year}/startlist`;
   const cachePattern = `${race}-${year}-startlist`;
+  const ttl = getCacheTtl(raceStartDate, raceEndDate);
 
   try {
-    const htmlContent = await fetchHtmlWithCache(url, { cachePattern });
+    const htmlContent = await fetchHtmlWithCache(url, { cachePattern, ttl });
     if (
       !htmlContent ||
       typeof htmlContent.html !== "string" ||
@@ -293,7 +309,12 @@ export async function scrapeRaceStartList(race, year) {
       );
       return [];
     }
-    const startlist = extractStartlistFromHtml(htmlContent.html, year, url);
+    const startlist = extractStartlistFromHtml(
+      htmlContent.html,
+      year,
+      url,
+      quiet,
+    );
     return startlist;
   } catch (exception) {
     logError("Scrape PCS - Start List", `Failed to scrape ${url}`, exception);

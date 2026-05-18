@@ -10,6 +10,7 @@ import { CONFIG } from "./config";
 /**
  * @typedef {Object} CacheOptions
  * @property {String} [cachePattern] - URL pattern for cache key generation
+ * @property {number} [ttl] - TTL in milliseconds. Passed to readFromCache() for expiration check
  */
 
 /**
@@ -66,15 +67,16 @@ export async function fetchHtml(url, options = {}) {
  *   'https://www.procyclingstats.com/race/tour-de-france/2024',
  *   {
  *     cachePattern: 'pcs-race-tour-de-france-2024',
+ *     ttl: 30 * 60 * 1000, // 30 minutes
  *     timeout: 10000
  *   }
  * );
  */
 export async function fetchHtmlWithCache(url, options = {}) {
-  const { cachePattern, ...fetchOptions } = options;
+  const { cachePattern, ttl, ...fetchOptions } = options;
 
   const cacheKey = generateCacheKey(cachePattern || url);
-  const cachedHtml = readFromCache(cacheKey);
+  const cachedHtml = readFromCache(cacheKey, ttl);
 
   if (cachedHtml) {
     return { html: cachedHtml, fromCache: true, cacheKey };

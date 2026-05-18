@@ -62,7 +62,7 @@ import {
 // Utils
 import { generateId } from "@cycling/idGenerator";
 import { logError, logOut } from "@utils/logging";
-import { parseBool } from "@utils/sanity";
+import { parseBool, parseNumber } from "@utils/sanity";
 import { logMemoryUsage } from "@utils/memory";
 // Scrape
 import {
@@ -131,9 +131,18 @@ const DEBUG_MEMORY = parseBool(process.env.DEBUG_MEMORY, false);
  *
  * @param {string} racePcsID - ID of the race to scrape
  * @param {number} year - Year of the race to scrape
+ * @param {string} [raceStartDate] - The race start date (ISO format: "YYYY-MM-DD") for TTL calculation.
+ * @param {string} [raceEndDate] - The race end date (ISO format: "YYYY-MM-DD") for TTL calculation.
+ * @param {boolean} [quiet=false] - Suppress expected errors for future races.
  * @returns {Promise<CollectedRaceData>} CollectedRaceData - Object containing stages, teams, and riders data
  */
-async function collectRace(racePcsID, year) {
+async function collectRace(
+  racePcsID,
+  year,
+  raceStartDate = null,
+  raceEndDate = null,
+  quiet = false,
+) {
   /** @type {Array<ScrapedRaceStage>} */
   const stages = [];
   /** @type {Array<ScrapedRaceTeam>} */
@@ -145,7 +154,13 @@ async function collectRace(racePcsID, year) {
     try {
       logOut("Scrape PCS - Race Stages", `${year} ${racePcsID}`);
       // Race stages
-      const stagesInRace = await scrapeRaceStages(racePcsID, year);
+      const stagesInRace = await scrapeRaceStages(
+        racePcsID,
+        year,
+        raceStartDate,
+        raceEndDate,
+        quiet,
+      );
 
       if (Array.isArray(stagesInRace) && stagesInRace.length > 0) {
         stages.push(...stagesInRace);
@@ -168,7 +183,13 @@ async function collectRace(racePcsID, year) {
     logOut("Scrape PCS - Race Startlist", `${year} ${racePcsID}`);
     let raceStartlist;
     try {
-      raceStartlist = await scrapeRaceStartList(racePcsID, year);
+      raceStartlist = await scrapeRaceStartList(
+        racePcsID,
+        year,
+        raceStartDate,
+        raceEndDate,
+        quiet,
+      );
     } catch (exception) {
       logError(
         "Scrape PCS - Race Startlist",
@@ -194,7 +215,7 @@ async function collectRace(racePcsID, year) {
             pcsId: rider.pcsId,
             teamPcsId: team.pcsId,
             bib: rider.bib,
-            rider: `${rider.surname} ${rider.firstNames}`,
+            // rider: `${rider.surname} ${rider.firstNames}`,
             flag: rider.flag,
             surname: rider.surname,
             firstNames: rider.firstNames,
@@ -244,59 +265,80 @@ function stagesInRaces(raceStages, races) {
 function stagesWithoutResults(races, raceStages, raceStageResults, year) {
   const today = new Date();
   const raceSeason = year !== undefined ? year : getSeason();
+  const pollOffsetDays = parseNumber(process.env.RESULTS_POLL_START_OFFSET, 1);
 
   const races_past = races.past(raceSeason);
   const races_inProgress = races.inProgress(today);
-  // const races_upcoming = races.upcoming();
   const seasonRaces = stagesInRaces(raceStages, [
     ...races_past,
     ...races_inProgress,
   ]);
 
+  // Normalize today to midnight (ignore time)
+  today.setHours(0, 0, 0, 0);
+
   return seasonRaces
     .flatMap((race) => race.stages)
     .filter((stage) => {
       const stageDate = new Date(stage.date);
-      return (
-        stageDate <= today &&
-        raceStageResults.getStageRankings(stage.stageUID).length === 0
-      );
+
+      // Start polling 1 day before stage date
+      const pollStartDate = new Date(stageDate);
+      pollStartDate.setDate(pollStartDate.getDate() - pollOffsetDays);
+
+      // Check if we should poll: today >= poll start date AND results not yet found
+      const shouldPoll = today >= pollStartDate;
+      const hasResults =
+        raceStageResults.getStageRankings(stage.stageUID).length > 0;
+
+      return shouldPoll && !hasResults;
     })
     .map((stage) => stage.stageUID);
 }
 
 /**
- * Collects past races.
+ * Helper function to collect race details for a batch of races with common options.
  *
  * @async
- * @param {Races} races - The Races object.
- * @param {RaceStages} raceStages - The race stages.
- * @param {RaceRiders} raceRiders - The race riders.
- * @param {Riders} riders - The riders.
- * @param {Teams} teams - The teams.
+ * @param {Object} models - Object containing data models.
+ * @param {RaceStages} models.raceStages - The race stages.
+ * @param {RaceRiders} models.raceRiders - The race riders.
+ * @param {Riders} models.riders - The riders.
+ * @param {Teams} models.teams - The teams.
+ * @param {Array} racesList - Array of race objects to process.
+ * @param {Object} options - Options for this batch.
+ * @param {Function} options.shouldCollect - Function that returns true if race should be collected.
+ * @param {boolean} options.quiet - Whether to suppress expected errors.
+ * @param {string} options.logPrefix - Prefix for log messages.
  */
-async function collectPastRaceDetails(
-  races,
-  raceStages,
-  raceRiders,
-  riders,
-  teams,
-) {
-  logOut("Main", `Collecting past races details.`);
-  const today = new Date();
-  const pastRacesWithoutStages = stagesInRaces(raceStages, [
-    ...races.past(),
-    ...races.inProgress(today),
-  ]).filter((race) => race.stages.length === 0);
+async function collectRacesBatch(models, racesList, options) {
+  const { raceStages, raceRiders, riders, teams } = models;
+  const { shouldCollect, quiet, logPrefix } = options;
+  const racesWithStages = stagesInRaces(raceStages, racesList);
 
-  // TODO: -> We need all race data, not just past events
-  // console.table(races.list())
+  for (const race of racesWithStages) {
+    if (!shouldCollect(race)) {
+      continue;
+    }
 
-  for (const race of pastRacesWithoutStages) {
-    logOut("Main", `Collect past race: ${race.year} ${race.raceName}`);
+    logOut("Main", `${logPrefix}: ${race.year} ${race.raceName}`);
+
     try {
-      const raceDetails = await collectRace(race.racePcsID, race.year);
-      await updateRace(raceDetails, raceStages, raceRiders, riders, teams);
+      const raceDetails = await collectRace(
+        race.racePcsID,
+        race.year,
+        race.startDate,
+        race.endDate,
+        quiet,
+      );
+      await updateRace(
+        raceDetails,
+        raceStages,
+        raceRiders,
+        riders,
+        teams,
+        quiet,
+      );
     } catch (error) {
       logError(
         "Scrape PCS",
@@ -304,8 +346,50 @@ async function collectPastRaceDetails(
         error,
       );
     }
-    logOut("Main", "Race information collection completed");
   }
+}
+
+/**
+ * Collects race details for all season races (past, in-progress, upcoming).
+ * For upcoming races, details are always re-fetched to handle pre-race changes.
+ * For past/in-progress races, only missing details are fetched.
+ *
+ * @async
+ * @param {Object} models - Object containing data models.
+ * @param {Races} models.races - The Races object.
+ * @param {RaceStages} models.raceStages - The race stages.
+ * @param {RaceRiders} models.raceRiders - The race riders.
+ * @param {Riders} models.riders - The riders.
+ * @param {Teams} models.teams - The teams.
+ * @param {number} year - The season year to process.
+ */
+async function collectRaceDetails(models, year) {
+  const today = new Date();
+  const raceSeason = year !== undefined ? year : getSeason();
+  const { races } = models;
+
+  // 1. Past + In-Progress: Only collect if missing stages, quiet = false
+  const pastAndInProgressRaces = [
+    ...races.past(raceSeason),
+    ...races.inProgress(today),
+  ];
+  await collectRacesBatch(models, pastAndInProgressRaces, {
+    shouldCollect: (race) => race.stages.length === 0,
+    quiet: false,
+    logPrefix: "Collecting race details",
+  });
+
+  // 2. Upcoming: Always collect, quiet = true (suppress expected future race errors)
+  const upcomingRaces = races
+    .upcoming()
+    .filter((race) => race.year === raceSeason);
+  await collectRacesBatch(models, upcomingRaces, {
+    shouldCollect: () => true,
+    quiet: true,
+    logPrefix: "Updating upcoming race",
+  });
+
+  logOut("Main", "Race information collection completed");
 }
 
 /**
@@ -317,8 +401,16 @@ async function collectPastRaceDetails(
  * @param {RaceRiders} raceRiders - The race riders.
  * @param {Riders} riders - The Riders object.
  * @param {Teams} teams - The Teams object.
+ * @param {boolean} [quiet=false] - Suppress expected errors for future races.
  */
-async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
+async function updateRace(
+  raceDetails,
+  raceStages,
+  raceRiders,
+  riders,
+  teams,
+  quiet = false,
+) {
   // Record stages in race
   await raceStages.update(raceDetails.stages);
   // Record teams in race
@@ -332,8 +424,8 @@ async function updateRace(raceDetails, raceStages, raceRiders, riders, teams) {
       classification: team.classification,
     })),
   );
-  // Record riders in race
-  await raceRiders.update(raceDetails.riders);
+  // Record riders in race (quiet mode suppresses console.table for validation errors)
+  await raceRiders.update(raceDetails.riders, quiet);
   // Record riders
   await riders.update(
     raceDetails.riders.map((raceRider) => {
@@ -379,15 +471,7 @@ async function updateRaces(models, year) {
     logOut("Main", "[FEATURE DISABLED] Races");
   }
 
-  await collectPastRaceDetails(
-    models.races,
-    models.raceStages,
-    models.raceRiders,
-    models.riders,
-    models.teams,
-  );
-
-  logOut("Main", `[TODO] Collecting future races details.`);
+  await collectRaceDetails(models, raceSeason);
 }
 
 /**
@@ -608,14 +692,22 @@ async function main() {
       try {
         await updateRaces(models, year);
       } catch (error) {
-        logError("Main", `Collecting race information - Failed for year ${year}`, error);
+        logError(
+          "Main",
+          `Collecting race information - Failed for year ${year}`,
+          error,
+        );
       }
 
       if (!parseBool(process.env.FEATURE_DISABLED_RESULTS, false)) {
         try {
           await updateStageResults(models, year);
         } catch (error) {
-          logError("Main", `Collect race stage results - Failed for year ${year}`, error);
+          logError(
+            "Main",
+            `Collect race stage results - Failed for year ${year}`,
+            error,
+          );
         }
       } else {
         logOut("Main", "[FEATURE DISABLED] Update results", "warn");

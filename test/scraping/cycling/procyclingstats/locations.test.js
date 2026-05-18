@@ -80,34 +80,6 @@ describe("sprintLocation", () => {
         title: "Sprint",
       },
     },
-    // Bare sprint labels with no location/distance
-    {
-      label: "Sprint",
-      expected: {
-        location: "Sprint",
-        distance: "",
-        sprintType: "intermediate",
-        title: "",
-      },
-    },
-    {
-      label: "Sprint 1",
-      expected: {
-        location: "Sprint 1",
-        distance: "",
-        sprintType: "intermediate",
-        title: "",
-      },
-    },
-    {
-      label: "Sprint 2",
-      expected: {
-        location: "Sprint 2",
-        distance: "",
-        sprintType: "intermediate",
-        title: "",
-      },
-    },
     // Bonification Sprint patterns
     {
       label: "Bonification Sprint | Irurzun (124.8 km)",

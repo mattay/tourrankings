@@ -5,7 +5,6 @@ import {
   parseName,
   parseTeamName,
 } from "@scrappers/source/proCyclingStats/helpers";
-import { parseBool } from "@utils/sanity";
 
 /**
  * @typedef {import('./@types/index').ScrapedRaceStartListTeam} ScrapedRaceStartListTeam
@@ -292,7 +291,6 @@ export async function scrapeRaceStartList(
   const url = `https://www.procyclingstats.com/race/${race}/${year}/startlist`;
   const cachePattern = `${race}-${year}-startlist`;
   const ttl = getCacheTtl(raceStartDate, raceEndDate);
-  const shouldBeQuiet = quiet;
 
   try {
     const htmlContent = await fetchHtmlWithCache(url, { cachePattern, ttl });
@@ -313,7 +311,7 @@ export async function scrapeRaceStartList(
       htmlContent.html,
       year,
       url,
-      shouldBeQuiet,
+      quiet,
     );
     return startlist;
   } catch (exception) {

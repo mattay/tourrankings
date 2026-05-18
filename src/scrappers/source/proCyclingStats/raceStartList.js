@@ -207,7 +207,7 @@ export function extractStartlistFromHtml(
         if (!quiet) {
           logError(
             "Scrape PCS - Start List",
-            `Missing team name ${teamElement.querySelector(DOM_SELECTORS.team).textContent}`,
+            `Missing team name ${teamElement.querySelector(DOM_SELECTORS.team)?.textContent ?? "[unknown]"}`,
           );
         }
       }
@@ -275,6 +275,8 @@ export function extractStartlistFromHtml(
  * @async
  * @param {string} race - The race identifier (e.g., 'tour-de-france').
  * @param {number} year - The year of the race (e.g., 2024).
+ * @param {string|null} [raceStartDate=null] - Race start date used to compute cache TTL.
+ * @param {string|null} [raceEndDate=null] - Race end date used to compute cache TTL.
  * @param {boolean} [quiet=false] - Suppress expected errors for future races.
  * @returns {Promise<Array<ScrapedRaceStartListTeam>>} Resolves to an array of teams, each with their riders.
  * @throws {Error} Throws if navigation or scraping fails.

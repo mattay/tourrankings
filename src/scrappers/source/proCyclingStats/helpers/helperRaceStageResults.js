@@ -117,6 +117,7 @@ export const EXPECTED_COLUMN_SCHEMAS = {
         "ridername",
         "teamnamelink",
         "pnt",
+        "result_boni",
         "delta_pnt",
       ],
       context: "Mountains classification - today table",

@@ -2,12 +2,8 @@
   {
     "locationUID": "vuelta-a-espana:2025:11:mountains:1",
     "locationIndex": 1,
-    "type": "mountains",
-    "allocatedPoints": [
-      3,
-      2,
-      1
-    ],
+    "locationType": "mountains",
+    "allocatedPoints": [3, 2, 1],
     "allocatedBoni": [],
     "category": "3",
     "location": "Alto de Laukiz",
@@ -20,12 +16,8 @@
   {
     "locationUID": "vuelta-a-espana:2025:11:mountains:2",
     "locationIndex": 2,
-    "type": "mountains",
-    "allocatedPoints": [
-      3,
-      2,
-      1
-    ],
+    "locationType": "mountains",
+    "allocatedPoints": [3, 2, 1],
     "allocatedBoni": [],
     "category": "3",
     "location": "Alto de Sollube",
@@ -38,12 +30,8 @@
   {
     "locationUID": "vuelta-a-espana:2025:11:mountains:3",
     "locationIndex": 3,
-    "type": "mountains",
-    "allocatedPoints": [
-      3,
-      2,
-      1
-    ],
+    "locationType": "mountains",
+    "allocatedPoints": [3, 2, 1],
     "allocatedBoni": [],
     "category": "3",
     "location": "Balcón de Bizkaia",
@@ -56,12 +44,8 @@
   {
     "locationUID": "vuelta-a-espana:2025:11:mountains:4",
     "locationIndex": 4,
-    "type": "mountains",
-    "allocatedPoints": [
-      3,
-      2,
-      1
-    ],
+    "locationType": "mountains",
+    "allocatedPoints": [3, 2, 1],
     "allocatedBoni": [],
     "category": "3",
     "location": "Alto de Morga",
@@ -74,12 +58,8 @@
   {
     "locationUID": "vuelta-a-espana:2025:11:mountains:5",
     "locationIndex": 5,
-    "type": "mountains",
-    "allocatedPoints": [
-      5,
-      3,
-      1
-    ],
+    "locationType": "mountains",
+    "allocatedPoints": [5, 3, 1],
     "allocatedBoni": [],
     "category": "2",
     "location": "Alto del Vivero",
@@ -92,12 +72,8 @@
   {
     "locationUID": "vuelta-a-espana:2025:11:mountains:6",
     "locationIndex": 6,
-    "type": "mountains",
-    "allocatedPoints": [
-      5,
-      3,
-      1
-    ],
+    "locationType": "mountains",
+    "allocatedPoints": [5, 3, 1],
     "allocatedBoni": [],
     "category": "2",
     "location": "Alto del Vivero",
@@ -110,17 +86,9 @@
   {
     "locationUID": "vuelta-a-espana:2025:11:mountains:7",
     "locationIndex": 7,
-    "type": "mountains",
-    "allocatedPoints": [
-      3,
-      2,
-      1
-    ],
-    "allocatedBoni": [
-      "6″",
-      "4″",
-      "2″"
-    ],
+    "locationType": "mountains",
+    "allocatedPoints": [3, 2, 1],
+    "allocatedBoni": ["6″", "4″", "2″"],
     "category": "3",
     "location": "Alto de Pike",
     "distance": "149.6",

@@ -2,15 +2,8 @@
   {
     "locationUID": "giro-d-italia:2025:6:mountains:1",
     "locationIndex": 1,
-    "type": "mountains",
-    "allocatedPoints": [
-      18,
-      8,
-      6,
-      4,
-      2,
-      1
-    ],
+    "locationType": "mountains",
+    "allocatedPoints": [18, 8, 6, 4, 2, 1],
     "allocatedBoni": [],
     "category": "2",
     "location": "Valico di Monte Carruozzo",
@@ -23,13 +16,8 @@
   {
     "locationUID": "giro-d-italia:2025:6:mountains:2",
     "locationIndex": 2,
-    "type": "mountains",
-    "allocatedPoints": [
-      9,
-      4,
-      2,
-      1
-    ],
+    "locationType": "mountains",
+    "allocatedPoints": [9, 4, 2, 1],
     "allocatedBoni": [],
     "category": "3",
     "location": "Monteforte Irpino",

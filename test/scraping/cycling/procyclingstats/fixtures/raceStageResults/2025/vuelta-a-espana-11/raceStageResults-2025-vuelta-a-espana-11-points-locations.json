@@ -2,14 +2,8 @@
   {
     "locationUID": "vuelta-a-espana:2025:11:points:1",
     "locationIndex": 1,
-    "type": "points",
-    "allocatedPoints": [
-      20,
-      17,
-      15,
-      13,
-      10
-    ],
+    "locationType": "points",
+    "allocatedPoints": [20, 17, 15, 13, 10],
     "allocatedBoni": [],
     "location": "Bilbao",
     "distance": "119.6",

@@ -1042,7 +1042,7 @@ export function classificationResults(
           let locationInfo = {
             locationUID,
             locationIndex,
-            type: locationType,
+            locationType,
             allocatedPoints: [],
             allocatedBoni: [],
           };

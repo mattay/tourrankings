@@ -368,6 +368,11 @@ function cleanUpPointsLocationContestTable(table, additionalValues) {
   const cleaned = table.reduce((cleaned, row) => {
     row = renameKeys(row, tableHeaders);
 
+    // Skip entries with empty bib (neutralized race - no bonuses awarded)
+    if (!row["bib"] || row["bib"] === "") {
+      return cleaned;
+    }
+
     // Additional column renaming specific to points stage day tables
     // Check for original column names (before camelCase conversion)
     if (Object.hasOwn(row, "pnt")) {
@@ -488,6 +493,11 @@ function cleanUpMountainLocationContestTable(table, additionalValues) {
   // Don't sort - keep data grouped by location as extracted from HTML
   const cleaned = table.reduce((cleaned, row) => {
     row = renameKeys(row, tableHeaders);
+
+    // Skip entries with empty bib (neutralized race - no bonuses awarded)
+    if (!row["bib"] || row["bib"] === "") {
+      return cleaned;
+    }
 
     // Additional column renaming specific to KOM stage day tables
     // Check for original column names (before camelCase conversion)

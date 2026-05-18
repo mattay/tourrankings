@@ -713,17 +713,15 @@ export function cleanUpStages(tables, stageDetails) {
             additionalValues,
           );
       } else if (classification === "youth") {
-        stageRankings[`${classification}LocationContest`] =
-          cleanUpYouthContestTable(
-            rankings["today"]["results"],
-            additionalValues,
-          );
+        stageRankings[`${classification}Contest`] = cleanUpYouthContestTable(
+          rankings["today"]["results"],
+          additionalValues,
+        );
       } else if (classification === "teams") {
-        stageRankings[`${classification}LocationContest`] =
-          cleanUpTeamsContestTable(
-            rankings["today"]["results"],
-            additionalValues,
-          );
+        stageRankings[`${classification}Contest`] = cleanUpTeamsContestTable(
+          rankings["today"]["results"],
+          additionalValues,
+        );
       }
     }
   }

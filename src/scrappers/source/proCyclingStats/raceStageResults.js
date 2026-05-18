@@ -818,6 +818,8 @@ function extractTableCellContent(cell) {
  * Extracts the classification table from the HTML DOM.
  * @param {Element} htmlDOM - The HTML DOM element containing the classification table.
  * @param {StageDetails} stageDetails - The details of the stage.
+ * @param {ColumnSchema} [schema] - Schema defining expected column data-code values for validation.
+ *   If provided, the table is validated against the schema before extraction; mismatches cause early return.
  * @returns {Array} An array of classification table data.
  */
 function extractClassificationTable(htmlDOM, stageDetails, schema) {
@@ -1071,7 +1073,9 @@ export function classificationResults(
           }
           // Wait for all allocated points and bonis at location
           if (classification === "points" || classification === "mountains") {
-            todayTabLocations.push(locationInfo);
+            if (tableData.length > 0) {
+              todayTabLocations.push(locationInfo);
+            }
           }
         });
       });

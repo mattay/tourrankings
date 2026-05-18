@@ -22,9 +22,8 @@ export class ClassificationMountains extends CSVdataModel {
       stage: "number",
       rank: "number",
       previousStageRanking: "number",
-      change: "number",
+      points: "number",
       bib: "number",
-      age: "number",
       points: "number",
       today: "number",
     };
@@ -38,13 +37,10 @@ export class ClassificationMountains extends CSVdataModel {
       "Stage",
       "Rank",
       "Previous Stage Ranking",
-      "Change",
+      "Delta",
       "Bib",
-      "Specialty",
-      "Rider",
-      "Age",
-      "Team",
       "Points",
+      "Delta Points",
       "Today",
     ];
     this.sortOrder = [

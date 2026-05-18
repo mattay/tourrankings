@@ -32,9 +32,9 @@ describe.each([
       youngClassification:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-youth.json",
       teamsLocationContest:
-        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-teams-stage-day.json",
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-teams-contest.json",
       youthLocationContest:
-        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-youth-stage-day.json",
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-youth-contest.json",
       pointsLocations:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-points-locations.json",
       pointsLocationContest:
@@ -84,9 +84,9 @@ describe.each([
       youngClassification:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-classification-youth.json",
       teamsLocationContest:
-        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-classification-teams-stage-day.json",
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-classification-teams-contest.json",
       youthLocationContest:
-        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-classification-youth-stage-day.json",
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-classification-youth-contest.json",
       pointsLocations:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-points-locations.json",
       pointsLocationContest:
@@ -136,9 +136,9 @@ describe.each([
       youngClassification:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/giro-d-italia-6/raceStageResults-2025-giro-d-italia-6-classification-youth.json",
       teamsLocationContest:
-        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/giro-d-italia-6/raceStageResults-2025-giro-d-italia-6-classification-teams-stage-day.json",
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/giro-d-italia-6/raceStageResults-2025-giro-d-italia-6-classification-teams-contest.json",
       youthLocationContest:
-        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/giro-d-italia-6/raceStageResults-2025-giro-d-italia-6-classification-youth-stage-day.json",
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/giro-d-italia-6/raceStageResults-2025-giro-d-italia-6-classification-youth-contest.json",
       pointsLocations:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/giro-d-italia-6/raceStageResults-2025-giro-d-italia-6-points-locations.json",
       pointsLocationContest:
@@ -237,8 +237,12 @@ describe.each([
     const jsonPointsCsv = Bun.file(data.csv.pointsClassification);
     const jsonTeamsCsv = Bun.file(data.csv.teamClassification);
     const jsonYouthCsv = Bun.file(data.csv.youngClassification);
-    const jsonPointsLocationContestCsv = Bun.file(data.csv.pointsLocationContest);
-    const jsonMountainsLocationContestCsv = Bun.file(data.csv.mountainsLocationContest);
+    const jsonPointsLocationContestCsv = Bun.file(
+      data.csv.pointsLocationContest,
+    );
+    const jsonMountainsLocationContestCsv = Bun.file(
+      data.csv.mountainsLocationContest,
+    );
 
     expectedStageResultsCsv = await jsonStageCsv.text();
     expectedGeneralCsv = await jsonGeneralCsv.text();
@@ -246,8 +250,10 @@ describe.each([
     expectedPointsCsv = await jsonPointsCsv.text();
     expectedTeamsCsv = await jsonTeamsCsv.text();
     expectedYouthCsv = await jsonYouthCsv.text();
-    expectedPointsLocationContestCsv = await jsonPointsLocationContestCsv.text();
-    expectedMountainsLocationContestCsv = await jsonMountainsLocationContestCsv.text();
+    expectedPointsLocationContestCsv =
+      await jsonPointsLocationContestCsv.text();
+    expectedMountainsLocationContestCsv =
+      await jsonMountainsLocationContestCsv.text();
 
     stageClassificationResults = extractStageClassificationResultsFromHTML(
       htmlCotnent,
@@ -292,7 +298,8 @@ describe.each([
     pointsLocationContestModel.filePath = `${TEST_DATA_DIR}/pointsLocationContest.csv`;
     await pointsLocationContestModel.write();
 
-    const mountainsLocationContestModel = new RaceStageLocationMountainsResults();
+    const mountainsLocationContestModel =
+      new RaceStageLocationMountainsResults();
     mountainsLocationContestModel.rows =
       stageClassificationResults.mountainsLocationContest;
     mountainsLocationContestModel.filePath = `${TEST_DATA_DIR}/mountainsLocationContest.csv`;

@@ -4,7 +4,7 @@
     "bib": 81,
     "rider": "Welsford Sam",
     "points": 30,
-    "deltaPoints": 30,
+    "deltaPnt": "30",
     "stageUID": "tour-down-under:2025:1",
     "stage": 1
   },
@@ -13,7 +13,7 @@
     "bib": 133,
     "rider": "Brennan Matthew",
     "points": 25,
-    "deltaPoints": 25,
+    "deltaPnt": "25",
     "stageUID": "tour-down-under:2025:1",
     "stage": 1
   },
@@ -22,7 +22,7 @@
     "bib": 187,
     "rider": "Walls Matthew",
     "points": 22,
-    "deltaPoints": 22,
+    "deltaPnt": "22",
     "stageUID": "tour-down-under:2025:1",
     "stage": 1
   },
@@ -31,7 +31,7 @@
     "bib": 171,
     "rider": "Teutenberg Tim Torn",
     "points": 19,
-    "deltaPoints": 19,
+    "deltaPnt": "19",
     "stageUID": "tour-down-under:2025:1",
     "stage": 1
   },
@@ -40,7 +40,7 @@
     "bib": 74,
     "rider": "Swift Ben",
     "points": 17,
-    "deltaPoints": 17,
+    "deltaPnt": "17",
     "stageUID": "tour-down-under:2025:1",
     "stage": 1
   },
@@ -49,7 +49,7 @@
     "bib": 154,
     "rider": "Dehairs Simon",
     "points": 15,
-    "deltaPoints": 15,
+    "deltaPnt": "15",
     "stageUID": "tour-down-under:2025:1",
     "stage": 1
   },
@@ -58,7 +58,7 @@
     "bib": 6,
     "rider": "Strong Corbin",
     "points": 13,
-    "deltaPoints": 13,
+    "deltaPnt": "13",
     "stageUID": "tour-down-under:2025:1",
     "stage": 1
   },
@@ -67,7 +67,7 @@
     "bib": 35,
     "rider": "Oliveira Rui",
     "points": 11,
-    "deltaPoints": 11,
+    "deltaPnt": "11",
     "stageUID": "tour-down-under:2025:1",
     "stage": 1
   },
@@ -76,7 +76,7 @@
     "bib": 21,
     "rider": "Bauhaus Phil",
     "points": 9,
-    "deltaPoints": 9,
+    "deltaPnt": "9",
     "stageUID": "tour-down-under:2025:1",
     "stage": 1
   },
@@ -85,7 +85,7 @@
     "bib": 174,
     "rider": "Mosca Jacopo",
     "points": 7,
-    "deltaPoints": 7,
+    "deltaPnt": "7",
     "stageUID": "tour-down-under:2025:1",
     "stage": 1
   },
@@ -94,7 +94,7 @@
     "bib": 193,
     "rider": "Marriage Zac",
     "points": 5,
-    "deltaPoints": 5,
+    "deltaPnt": "5",
     "stageUID": "tour-down-under:2025:1",
     "stage": 1
   },
@@ -103,7 +103,7 @@
     "bib": 91,
     "rider": "Andresen Tobias Lund",
     "points": 5,
-    "deltaPoints": 5,
+    "deltaPnt": "5",
     "stageUID": "tour-down-under:2025:1",
     "stage": 1
   },
@@ -112,7 +112,7 @@
     "bib": 156,
     "rider": "Uhlig Henri",
     "points": 4,
-    "deltaPoints": 4,
+    "deltaPnt": "4",
     "stageUID": "tour-down-under:2025:1",
     "stage": 1
   },
@@ -121,7 +121,7 @@
     "bib": 56,
     "rider": "Tronchon Bastien",
     "points": 3,
-    "deltaPoints": 3,
+    "deltaPnt": "3",
     "stageUID": "tour-down-under:2025:1",
     "stage": 1
   },
@@ -130,7 +130,7 @@
     "bib": 194,
     "rider": "Browning Fergus",
     "points": 3,
-    "deltaPoints": 3,
+    "deltaPnt": "3",
     "stageUID": "tour-down-under:2025:1",
     "stage": 1
   },
@@ -139,7 +139,7 @@
     "bib": 163,
     "rider": "Gate Aaron",
     "points": 3,
-    "deltaPoints": 3,
+    "deltaPnt": "3",
     "stageUID": "tour-down-under:2025:1",
     "stage": 1
   },
@@ -148,7 +148,7 @@
     "bib": 192,
     "rider": "Scott Cameron",
     "points": 2,
-    "deltaPoints": 2,
+    "deltaPnt": "2",
     "stageUID": "tour-down-under:2025:1",
     "stage": 1
   },
@@ -157,7 +157,7 @@
     "bib": 34,
     "rider": "Narváez Jhonatan",
     "points": 1,
-    "deltaPoints": 1,
+    "deltaPnt": "1",
     "stageUID": "tour-down-under:2025:1",
     "stage": 1
   },
@@ -166,7 +166,7 @@
     "bib": 63,
     "rider": "Marit Arne",
     "points": 1,
-    "deltaPoints": 1,
+    "deltaPnt": "1",
     "stageUID": "tour-down-under:2025:1",
     "stage": 1
   }

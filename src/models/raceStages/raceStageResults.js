@@ -39,15 +39,10 @@ export class RaceStageResults extends CSVdataModel {
       "GC",
       "Timelag",
       "Bib",
-      "Specialty",
-      "Rider",
-      "Age",
-      "Team",
       "UCI",
       "Points",
       "Bonis",
       "Time",
-      "Delta",
     ];
     this.sortOrder = [
       ["stageUID", "asc"],

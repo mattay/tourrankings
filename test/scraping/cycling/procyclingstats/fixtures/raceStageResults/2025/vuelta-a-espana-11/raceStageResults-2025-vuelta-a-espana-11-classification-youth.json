@@ -51,6 +51,7 @@
     "rider": "Guardeño Jaume",
     "time": "41:29:58",
     "timeWonlost": "..",
+    "change": 2,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -73,6 +74,7 @@
     "rider": "Tulett Ben",
     "time": "41:36:40",
     "timeWonlost": "..",
+    "change": 1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -84,6 +86,7 @@
     "rider": "Frigo Marco",
     "time": "41:38:37",
     "timeWonlost": "..",
+    "change": 1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -95,6 +98,7 @@
     "rider": "Chumil Sergio Geovani",
     "time": "41:42:00",
     "timeWonlost": "..",
+    "change": -4,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -106,6 +110,7 @@
     "rider": "Rolland Brieuc",
     "time": "41:44:16",
     "timeWonlost": "..",
+    "change": 2,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -117,6 +122,7 @@
     "rider": "Vermaerke Kevin",
     "time": "41:45:45",
     "timeWonlost": "..",
+    "change": -1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -128,6 +134,7 @@
     "rider": "Garofoli Gianmarco",
     "time": "41:51:02",
     "timeWonlost": "..",
+    "change": 1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -139,6 +146,7 @@
     "rider": "Beloki Markel",
     "time": "41:56:26",
     "timeWonlost": "..",
+    "change": -2,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -161,6 +169,7 @@
     "rider": "Pickering Finlay",
     "time": "42:06:33",
     "timeWonlost": "..",
+    "change": 4,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -172,6 +181,7 @@
     "rider": "Staune-Mittet Johannes",
     "time": "42:09:46",
     "timeWonlost": "..",
+    "change": 4,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -183,6 +193,7 @@
     "rider": "Sheffield Magnus",
     "time": "42:09:50",
     "timeWonlost": "..",
+    "change": -1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -194,6 +205,7 @@
     "rider": "Ryan Archie",
     "time": "42:11:00",
     "timeWonlost": "..",
+    "change": -3,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -205,6 +217,7 @@
     "rider": "Silva Guillermo Thomas",
     "time": "42:11:03",
     "timeWonlost": "..",
+    "change": -1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -216,6 +229,7 @@
     "rider": "Canal Carlos",
     "time": "42:11:16",
     "timeWonlost": "..",
+    "change": 3,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -227,6 +241,7 @@
     "rider": "Ayuso Juan",
     "time": "42:15:52",
     "timeWonlost": "..",
+    "change": -4,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -238,6 +253,7 @@
     "rider": "Martinez Juan Guillermo",
     "time": "42:21:55",
     "timeWonlost": "..",
+    "change": 3,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -249,6 +265,7 @@
     "rider": "Craps Lars",
     "time": "42:22:13",
     "timeWonlost": "..",
+    "change": -2,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -260,6 +277,7 @@
     "rider": "Faura José Luis",
     "time": "42:22:16",
     "timeWonlost": "..",
+    "change": -2,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -271,6 +289,7 @@
     "rider": "Thierry Pierre",
     "time": "42:23:24",
     "timeWonlost": "..",
+    "change": 3,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -293,6 +312,7 @@
     "rider": "Castrillo Pablo",
     "time": "42:25:52",
     "timeWonlost": "..",
+    "change": -3,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -304,6 +324,7 @@
     "rider": "Koerdt Bjorn",
     "time": "42:28:05",
     "timeWonlost": "..",
+    "change": 8,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -315,6 +336,7 @@
     "rider": "Hessmann Michel",
     "time": "42:29:53",
     "timeWonlost": "..",
+    "change": 3,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -326,6 +348,7 @@
     "rider": "Quinn Sean",
     "time": "42:30:44",
     "timeWonlost": "..",
+    "change": -3,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -337,6 +360,7 @@
     "rider": "Bisiaux Léo",
     "time": "42:30:54",
     "timeWonlost": "..",
+    "change": 2,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -348,6 +372,7 @@
     "rider": "Fisher-Black Finn",
     "time": "42:31:44",
     "timeWonlost": "..",
+    "change": -1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -359,6 +384,7 @@
     "rider": "de la Calle Hugo",
     "time": "42:35:27",
     "timeWonlost": "..",
+    "change": 5,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -370,6 +396,7 @@
     "rider": "Labrosse Jordan",
     "time": "42:35:42",
     "timeWonlost": "..",
+    "change": -5,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -381,6 +408,7 @@
     "rider": "Gruel Thibaud",
     "time": "42:36:19",
     "timeWonlost": "..",
+    "change": -5,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -392,6 +420,7 @@
     "rider": "Rouland Louis",
     "time": "42:42:41",
     "timeWonlost": "..",
+    "change": -1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -403,6 +432,7 @@
     "rider": "Nerurkar Lukas",
     "time": "42:43:12",
     "timeWonlost": "..",
+    "change": 3,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -414,6 +444,7 @@
     "rider": "Segaert Alec",
     "time": "42:44:44",
     "timeWonlost": "..",
+    "change": -4,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -425,6 +456,7 @@
     "rider": "Glivar Gal",
     "time": "42:46:36",
     "timeWonlost": "..",
+    "change": -2,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -436,6 +468,7 @@
     "rider": "Camprubí Marcel",
     "time": "42:49:16",
     "timeWonlost": "..",
+    "change": 1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -447,6 +480,7 @@
     "rider": "Buratti Nicolò",
     "time": "42:49:42",
     "timeWonlost": "..",
+    "change": 1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -458,6 +492,7 @@
     "rider": "Van Boven Luca",
     "time": "42:51:30",
     "timeWonlost": "..",
+    "change": 7,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -480,6 +515,7 @@
     "rider": "Vinokurov Nicolas",
     "time": "42:53:02",
     "timeWonlost": "..",
+    "change": 1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -491,6 +527,7 @@
     "rider": "van der Lee Jardi Christiaan",
     "time": "42:55:04",
     "timeWonlost": "..",
+    "change": 6,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -502,6 +539,7 @@
     "rider": "Lozouet Léandre",
     "time": "42:55:08",
     "timeWonlost": "..",
+    "change": 2,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -513,6 +551,7 @@
     "rider": "De Pooter Dries",
     "time": "42:57:06",
     "timeWonlost": "..",
+    "change": 3,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -524,6 +563,7 @@
     "rider": "Artz Huub",
     "time": "42:58:32",
     "timeWonlost": "..",
+    "change": -2,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -535,6 +575,7 @@
     "rider": "Christen Fabio",
     "time": "42:58:39",
     "timeWonlost": "..",
+    "change": -5,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -546,6 +587,7 @@
     "rider": "Fernández Sinuhé",
     "time": "43:01:44",
     "timeWonlost": "..",
+    "change": -3,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -557,6 +599,7 @@
     "rider": "Verre Alessandro",
     "time": "43:11:49",
     "timeWonlost": "..",
+    "change": 1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -568,6 +611,7 @@
     "rider": "Vernon Ethan",
     "time": "43:12:08",
     "timeWonlost": "..",
+    "change": 1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -579,6 +623,7 @@
     "rider": "Guernalec Victor",
     "time": "43:13:32",
     "timeWonlost": "..",
+    "change": 1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -590,6 +635,7 @@
     "rider": "Aparicio Mario",
     "time": "43:13:45",
     "timeWonlost": "..",
+    "change": 5,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -645,6 +691,7 @@
     "rider": "Eddy Patrick",
     "time": "43:34:51",
     "timeWonlost": "..",
+    "change": 1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   }

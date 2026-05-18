@@ -51,6 +51,7 @@
     "classification": "WT",
     "time": "00:47:15",
     "timeWonlost": "..",
+    "change": 1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -62,6 +63,7 @@
     "classification": "PRT",
     "time": "00:52:02",
     "timeWonlost": "..",
+    "change": 1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -73,6 +75,7 @@
     "classification": "WT",
     "time": "00:52:40",
     "timeWonlost": "..",
+    "change": -2,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -95,6 +98,7 @@
     "classification": "PRT",
     "time": "01:05:08",
     "timeWonlost": "..",
+    "change": 1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -106,6 +110,7 @@
     "classification": "WT",
     "time": "01:05:46",
     "timeWonlost": "..",
+    "change": -1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -117,6 +122,7 @@
     "classification": "WT",
     "time": "01:12:55",
     "timeWonlost": "..",
+    "change": 2,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -128,6 +134,7 @@
     "classification": "WT",
     "time": "01:13:48",
     "timeWonlost": "..",
+    "change": 3,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -139,6 +146,7 @@
     "classification": "WT",
     "time": "01:19:54",
     "timeWonlost": "..",
+    "change": -2,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -150,6 +158,7 @@
     "classification": "WT",
     "time": "01:29:59",
     "timeWonlost": "..",
+    "change": -2,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -161,6 +170,7 @@
     "classification": "PRT",
     "time": "01:34:38",
     "timeWonlost": "..",
+    "change": 1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -172,6 +182,7 @@
     "classification": "WT",
     "time": "01:40:08",
     "timeWonlost": "..",
+    "change": -2,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -183,6 +194,7 @@
     "classification": "WT",
     "time": "02:03:39",
     "timeWonlost": "..",
+    "change": 1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -194,6 +206,7 @@
     "classification": "WT",
     "time": "02:09:51",
     "timeWonlost": "..",
+    "change": 1,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },
@@ -205,6 +218,7 @@
     "classification": "PRT",
     "time": "02:14:58",
     "timeWonlost": "..",
+    "change": -2,
     "stageUID": "vuelta-a-espana:2025:11",
     "stage": 11
   },

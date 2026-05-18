@@ -301,14 +301,15 @@ export function formatRow(row) {
       case "bib":
       case "uci":
       case "points":
+      case "deltaPoints":
       case "today":
-      case "change":
+      // case "change":
       case "position":
         // String to Int
         if (value != "-" && value != "") {
           value = parseInt(value, 10);
-        } else if (value == "-") {
-          value = "";
+        } else if (value == "-" || value == "") {
+          value = null;
         }
         break;
       case "time":

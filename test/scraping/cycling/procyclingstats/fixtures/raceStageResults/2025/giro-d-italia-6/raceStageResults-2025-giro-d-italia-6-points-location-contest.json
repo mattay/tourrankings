@@ -88,5 +88,205 @@
     "today": 0,
     "stageUID": "giro-d-italia:2025:6",
     "stage": 6
+  },
+  {
+    "rank": 1,
+    "bib": "",
+    "points": 15,
+    "locationUID": "giro-d-italia:2025:6:points:3",
+    "bonis": "6″",
+    "today": 6,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 2,
+    "bib": "",
+    "points": 8,
+    "locationUID": "giro-d-italia:2025:6:points:3",
+    "bonis": "4″",
+    "today": 4,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 3,
+    "bib": "",
+    "points": 5,
+    "locationUID": "giro-d-italia:2025:6:points:3",
+    "bonis": "2″",
+    "today": 2,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 4,
+    "bib": "",
+    "points": 3,
+    "locationUID": "giro-d-italia:2025:6:points:3",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 5,
+    "bib": "",
+    "points": 1,
+    "locationUID": "giro-d-italia:2025:6:points:3",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 1,
+    "bib": "",
+    "points": 50,
+    "locationUID": "giro-d-italia:2025:6:points:4",
+    "bonis": "10″",
+    "today": 10,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 2,
+    "bib": "",
+    "points": 35,
+    "locationUID": "giro-d-italia:2025:6:points:4",
+    "bonis": "6″",
+    "today": 6,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 3,
+    "bib": "",
+    "points": 25,
+    "locationUID": "giro-d-italia:2025:6:points:4",
+    "bonis": "4″",
+    "today": 4,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 4,
+    "bib": "",
+    "points": 18,
+    "locationUID": "giro-d-italia:2025:6:points:4",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 5,
+    "bib": "",
+    "points": 14,
+    "locationUID": "giro-d-italia:2025:6:points:4",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 6,
+    "bib": "",
+    "points": 12,
+    "locationUID": "giro-d-italia:2025:6:points:4",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 7,
+    "bib": "",
+    "points": 10,
+    "locationUID": "giro-d-italia:2025:6:points:4",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 8,
+    "bib": "",
+    "points": 8,
+    "locationUID": "giro-d-italia:2025:6:points:4",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 9,
+    "bib": "",
+    "points": 7,
+    "locationUID": "giro-d-italia:2025:6:points:4",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 10,
+    "bib": "",
+    "points": 6,
+    "locationUID": "giro-d-italia:2025:6:points:4",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 11,
+    "bib": "",
+    "points": 5,
+    "locationUID": "giro-d-italia:2025:6:points:4",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 12,
+    "bib": "",
+    "points": 4,
+    "locationUID": "giro-d-italia:2025:6:points:4",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 13,
+    "bib": "",
+    "points": 3,
+    "locationUID": "giro-d-italia:2025:6:points:4",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 14,
+    "bib": "",
+    "points": 2,
+    "locationUID": "giro-d-italia:2025:6:points:4",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
+  },
+  {
+    "rank": 15,
+    "bib": "",
+    "points": 1,
+    "locationUID": "giro-d-italia:2025:6:points:4",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "giro-d-italia:2025:6",
+    "stage": 6
   }
 ]

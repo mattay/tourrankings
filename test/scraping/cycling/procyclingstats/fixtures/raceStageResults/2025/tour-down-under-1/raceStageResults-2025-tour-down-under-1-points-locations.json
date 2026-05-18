@@ -1,41 +1,77 @@
 [
   {
-    "allocatedBoni": ["3″", "2″", "1″"],
-    "allocatedPoints": [3, 2, 1],
-    "distance": "40.9",
-    "location": "Williamstown",
+    "locationUID": "tour-down-under:2025:1:points:1",
     "locationIndex": 1,
     "locationType": "points",
-    "locationUID": "tour-down-under:2025:1:points:1",
+    "allocatedPoints": [
+      3,
+      2,
+      1
+    ],
+    "allocatedBoni": [
+      "3″",
+      "2″",
+      "1″"
+    ],
+    "location": "Williamstown",
+    "distance": "40.9",
     "sprintType": "intermediate",
-    "stage": 1,
+    "title": "Sprint",
     "stageUID": "tour-down-under:2025:1",
-    "title": "Sprint"
+    "stage": 1
   },
   {
-    "allocatedBoni": ["3″", "2″", "1″"],
-    "allocatedPoints": [3, 2, 1],
-    "distance": "100.5",
-    "location": "Birdwood",
+    "locationUID": "tour-down-under:2025:1:points:2",
     "locationIndex": 2,
     "locationType": "points",
-    "locationUID": "tour-down-under:2025:1:points:2",
+    "allocatedPoints": [
+      3,
+      2,
+      1
+    ],
+    "allocatedBoni": [
+      "3″",
+      "2″",
+      "1″"
+    ],
+    "location": "Birdwood",
+    "distance": "100.5",
     "sprintType": "intermediate",
-    "stage": 1,
+    "title": "Sprint",
     "stageUID": "tour-down-under:2025:1",
-    "title": "Sprint"
+    "stage": 1
   },
   {
-    "allocatedBoni": ["10″", "6″", "4″"],
-    "allocatedPoints": [30, 25, 22, 19, 17, 15, 13, 11, 9, 7, 5, 4, 3, 2, 1],
-    "distance": "",
-    "location": "Points at finish",
+    "locationUID": "tour-down-under:2025:1:points:3",
     "locationIndex": 3,
     "locationType": "points",
-    "locationUID": "tour-down-under:2025:1:points:3",
+    "allocatedPoints": [
+      30,
+      25,
+      22,
+      19,
+      17,
+      15,
+      13,
+      11,
+      9,
+      7,
+      5,
+      4,
+      3,
+      2,
+      1
+    ],
+    "allocatedBoni": [
+      "10″",
+      "6″",
+      "4″"
+    ],
+    "location": "Points at finish",
+    "distance": "",
     "sprintType": "finish",
-    "stage": 1,
+    "title": "",
     "stageUID": "tour-down-under:2025:1",
-    "title": ""
+    "stage": 1
   }
 ]

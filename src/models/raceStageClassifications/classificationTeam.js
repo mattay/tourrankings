@@ -22,8 +22,7 @@ export class ClassificationTeam extends CSVdataModel {
       stage: "number",
       rank: "number",
       previousStageRanking: "number",
-      change: "number",
-      // bib: "number",
+      delta: "number",
     };
     super(
       `${getDataDir()}/raceStageClassificationTeams.csv`,
@@ -35,11 +34,10 @@ export class ClassificationTeam extends CSVdataModel {
       "Stage",
       "Rank",
       "Previous Stage Ranking",
-      "Change",
-      "Team",
-      "Class",
-      "Time",
       "Delta",
+      "Team",
+      "Time",
+      "Time Wonlost",
     ];
     this.sortOrder = [
       ["stageUID", "asc"],

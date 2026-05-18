@@ -32,9 +32,9 @@ describe.each([
       youngClassification:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-youth.json",
       teamsLocationContest:
-        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-teams-stage-day.json",
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-teams-contest.json",
       youthLocationContest:
-        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-youth-stage-day.json",
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-classification-youth-contest.json",
       pointsLocations:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/tour-down-under-1/raceStageResults-2025-tour-down-under-1-points-locations.json",
       pointsLocationContest:
@@ -84,9 +84,9 @@ describe.each([
       youngClassification:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-classification-youth.json",
       teamsLocationContest:
-        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-classification-teams-stage-day.json",
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-classification-teams-contest.json",
       youthLocationContest:
-        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-classification-youth-stage-day.json",
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-classification-youth-contest.json",
       pointsLocations:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/vuelta-a-espana-11/raceStageResults-2025-vuelta-a-espana-11-points-locations.json",
       pointsLocationContest:
@@ -136,9 +136,9 @@ describe.each([
       youngClassification:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/giro-d-italia-6/raceStageResults-2025-giro-d-italia-6-classification-youth.json",
       teamsLocationContest:
-        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/giro-d-italia-6/raceStageResults-2025-giro-d-italia-6-classification-teams-stage-day.json",
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/giro-d-italia-6/raceStageResults-2025-giro-d-italia-6-classification-teams-contest.json",
       youthLocationContest:
-        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/giro-d-italia-6/raceStageResults-2025-giro-d-italia-6-classification-youth-stage-day.json",
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/giro-d-italia-6/raceStageResults-2025-giro-d-italia-6-classification-youth-contest.json",
       pointsLocations:
         "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2025/giro-d-italia-6/raceStageResults-2025-giro-d-italia-6-points-locations.json",
       pointsLocationContest:

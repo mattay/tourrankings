@@ -21,7 +21,7 @@ import { logError, logOut } from "@utils/logging";
  * @property {number|string} rank - Ranking position
  * @property {number} bib - Rider bib number
  * @property {string} rider - Rider name
- * @property {number|string} [uci] - UCI points (gc only)
+ * @property {number} [uci] - UCI points (gc only)
  * @property {string} [gcBonis] - Bonus seconds (gc only)
  * @property {string} time - Finish time
  * @property {string} timeWonLost - Time gained/lost
@@ -82,7 +82,10 @@ function tableHeaders(column) {
   const rename = {
     rnk: "rank",
     pnt: "points",
+    pnt2: "points",
     uci_pnt: "uci",
+    "▼▲": "change", // delta
+    "": "bonis",
     prev: "previous stage ranking",
     bib: "bib",
     teamnamelink: "team",
@@ -90,6 +93,7 @@ function tableHeaders(column) {
     ridername: "rider",
     gc_timelag: "timelag",
     time_Wonlost: "timeWonLost",
+    deltaPnt: "deltaPoints",
   };
 
   return rename[column] || column;
@@ -125,8 +129,8 @@ function cleanUpStageTable(table, additionalValues) {
     }
 
     // ▼▲ - Convert to integers
-    if (Object.hasOwn(row, "change")) {
-      let value = row["change"];
+    if (Object.hasOwn(row, "delta")) {
+      let value = row["delta"];
       if (value.startsWith("▲")) {
         row["change"] = parseInt(value.slice(1), 10);
       } else if (value.startsWith("▼")) {

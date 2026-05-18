@@ -3,123 +3,98 @@
     "locationUID": "vuelta-a-espana:2025:11:mountains:1",
     "locationIndex": 1,
     "locationType": "mountains",
-    "allocatedPoints": [
-      3,
-      2,
-      1
-    ],
+    "allocatedPoints": [3, 2, 1],
     "allocatedBoni": [],
     "category": "3",
     "location": "Alto de Laukiz",
     "distance": "5",
     "sprintType": "Intermediate",
     "stageUID": "vuelta-a-espana:2025:11",
+    "year": 2025,
     "stage": 11
   },
   {
     "locationUID": "vuelta-a-espana:2025:11:mountains:2",
     "locationIndex": 2,
     "locationType": "mountains",
-    "allocatedPoints": [
-      3,
-      2,
-      1
-    ],
+    "allocatedPoints": [3, 2, 1],
     "allocatedBoni": [],
     "category": "3",
     "location": "Alto de Sollube",
     "distance": "26.2",
     "sprintType": "Intermediate",
     "stageUID": "vuelta-a-espana:2025:11",
+    "year": 2025,
     "stage": 11
   },
   {
     "locationUID": "vuelta-a-espana:2025:11:mountains:3",
     "locationIndex": 3,
     "locationType": "mountains",
-    "allocatedPoints": [
-      3,
-      2,
-      1
-    ],
+    "allocatedPoints": [3, 2, 1],
     "allocatedBoni": [],
     "category": "3",
     "location": "Balcón de Bizkaia",
     "distance": "63.2",
     "sprintType": "Intermediate",
     "stageUID": "vuelta-a-espana:2025:11",
+    "year": 2025,
     "stage": 11
   },
   {
     "locationUID": "vuelta-a-espana:2025:11:mountains:4",
     "locationIndex": 4,
     "locationType": "mountains",
-    "allocatedPoints": [
-      3,
-      2,
-      1
-    ],
+    "allocatedPoints": [3, 2, 1],
     "allocatedBoni": [],
     "category": "3",
     "location": "Alto de Morga",
     "distance": "86.1",
     "sprintType": "Intermediate",
     "stageUID": "vuelta-a-espana:2025:11",
+    "year": 2025,
     "stage": 11
   },
   {
     "locationUID": "vuelta-a-espana:2025:11:mountains:5",
     "locationIndex": 5,
     "locationType": "mountains",
-    "allocatedPoints": [
-      5,
-      3,
-      1
-    ],
+    "allocatedPoints": [5, 3, 1],
     "allocatedBoni": [],
     "category": "2",
     "location": "Alto del Vivero",
     "distance": "104.4",
     "sprintType": "Intermediate",
     "stageUID": "vuelta-a-espana:2025:11",
+    "year": 2025,
     "stage": 11
   },
   {
     "locationUID": "vuelta-a-espana:2025:11:mountains:6",
     "locationIndex": 6,
     "locationType": "mountains",
-    "allocatedPoints": [
-      5,
-      3,
-      1
-    ],
+    "allocatedPoints": [5, 3, 1],
     "allocatedBoni": [],
     "category": "2",
     "location": "Alto del Vivero",
     "distance": "133.3",
     "sprintType": "Intermediate",
     "stageUID": "vuelta-a-espana:2025:11",
+    "year": 2025,
     "stage": 11
   },
   {
     "locationUID": "vuelta-a-espana:2025:11:mountains:7",
     "locationIndex": 7,
     "locationType": "mountains",
-    "allocatedPoints": [
-      3,
-      2,
-      1
-    ],
-    "allocatedBoni": [
-      "6″",
-      "4″",
-      "2″"
-    ],
+    "allocatedPoints": [3, 2, 1],
+    "allocatedBoni": ["6″", "4″", "2″"],
     "category": "3",
     "location": "Alto de Pike",
     "distance": "149.6",
     "sprintType": "Intermediate",
     "stageUID": "vuelta-a-espana:2025:11",
+    "year": 2025,
     "stage": 11
   }
 ]

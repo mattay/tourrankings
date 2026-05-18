@@ -32,7 +32,7 @@
  * @property {number} year - The year of the race.
  * @property {number} stage - The stage number.
  * @property {string} type - The type of the stage.
- * @property {string} locationName - The name of the location.
+ * @property {string} location - The name of the location.
  * @property {number} distance - The distance of the stage.
  */
 
@@ -43,7 +43,7 @@
  * @property {string} year - Year of the race.
  * @property {string} stage - Name of the stage.
  * @property {string} type - Type of the stage.
- * @property {string} locationName - Name of the location.
+ * @property {string} location - Name of the location.
  * @property {string} distance
  */
 

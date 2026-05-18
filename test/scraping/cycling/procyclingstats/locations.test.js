@@ -34,6 +34,15 @@ describe("sprintLocation", () => {
         title: "",
       },
     },
+    {
+      label: "Points at finish",
+      expected: {
+        location: "Points at finish",
+        distance: "",
+        sprintType: "finish",
+        title: "",
+      },
+    },
     // Sprint with no pipe
     {
       label: "Sprint (91.9 km)",

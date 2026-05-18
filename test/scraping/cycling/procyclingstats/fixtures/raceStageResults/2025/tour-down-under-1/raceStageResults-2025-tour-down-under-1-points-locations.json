@@ -3,75 +3,42 @@
     "locationUID": "tour-down-under:2025:1:points:1",
     "locationIndex": 1,
     "locationType": "points",
-    "allocatedPoints": [
-      3,
-      2,
-      1
-    ],
-    "allocatedBoni": [
-      "3″",
-      "2″",
-      "1″"
-    ],
+    "allocatedPoints": [3, 2, 1],
+    "allocatedBoni": ["3″", "2″", "1″"],
     "location": "Williamstown",
     "distance": "40.9",
     "sprintType": "intermediate",
     "title": "Sprint",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1
+    "stage": 1,
+    "year": 2025
   },
   {
     "locationUID": "tour-down-under:2025:1:points:2",
     "locationIndex": 2,
     "locationType": "points",
-    "allocatedPoints": [
-      3,
-      2,
-      1
-    ],
-    "allocatedBoni": [
-      "3″",
-      "2″",
-      "1″"
-    ],
+    "allocatedPoints": [3, 2, 1],
+    "allocatedBoni": ["3″", "2″", "1″"],
     "location": "Birdwood",
     "distance": "100.5",
     "sprintType": "intermediate",
     "title": "Sprint",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1
+    "stage": 1,
+    "year": 2025
   },
   {
     "locationUID": "tour-down-under:2025:1:points:3",
     "locationIndex": 3,
     "locationType": "points",
-    "allocatedPoints": [
-      30,
-      25,
-      22,
-      19,
-      17,
-      15,
-      13,
-      11,
-      9,
-      7,
-      5,
-      4,
-      3,
-      2,
-      1
-    ],
-    "allocatedBoni": [
-      "10″",
-      "6″",
-      "4″"
-    ],
+    "allocatedPoints": [30, 25, 22, 19, 17, 15, 13, 11, 9, 7, 5, 4, 3, 2, 1],
+    "allocatedBoni": ["10″", "6″", "4″"],
     "location": "Points at finish",
     "distance": "",
     "sprintType": "finish",
     "title": "",
     "stageUID": "tour-down-under:2025:1",
-    "stage": 1
+    "stage": 1,
+    "year": 2025
   }
 ]

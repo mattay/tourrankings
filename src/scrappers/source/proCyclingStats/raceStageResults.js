@@ -255,7 +255,7 @@ function cleanUpYouthContestTable(table, additionalValues) {
 
       if (isNaN(value)) {
         row["status"] = value;
-        row["rank"] = "";
+        row["rank"] = null;
       } else {
         row["rank"] = parseInt(value, 10);
       }
@@ -313,7 +313,7 @@ function cleanUpTeamsContestTable(table, additionalValues) {
 
       if (isNaN(value)) {
         row["status"] = value;
-        row["rank"] = "";
+        row["rank"] = null;
       } else {
         row["rank"] = parseInt(value, 10);
       }

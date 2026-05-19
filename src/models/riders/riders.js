@@ -25,6 +25,7 @@ export class Riders extends CSVdataModel {
       "First Names",
       "Date Of Birth",
       "Nationality",
+      "Flag",
     ];
     this.sortOrder = [
       ["surname", "asc"],

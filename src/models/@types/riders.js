@@ -5,6 +5,7 @@
  * @property {string} firstNames - First names of the rider
  * @property {string} dateOfBirth - Date of birth of the rider
  * @property {string} nationality - Nationality of the rider
+ * @property {string} flag -
  */
 
 export {};

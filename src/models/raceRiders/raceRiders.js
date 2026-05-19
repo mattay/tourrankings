@@ -21,14 +21,7 @@ export class RaceRiders extends CSVdataModel {
       bib: "number",
     };
     super(`${getDataDir()}/raceRiders.csv`, ["raceUID", "bib"], fieldTypes);
-    this.csvHeaders = [
-      "Race UID",
-      "Bib",
-      "Rider Pcs Id",
-      "Team Pcs Id",
-      "Rider",
-      "Flag",
-    ];
+    this.csvHeaders = ["Race UID", "Bib", "Rider Pcs Id", "Team Pcs Id"];
     this.sortOrder = [
       ["raceUID", "asc"],
       ["bib", "asc"],

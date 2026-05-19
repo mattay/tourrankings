@@ -111,7 +111,19 @@ const DEBUG_MEMORY = parseBool(process.env.DEBUG_MEMORY, false);
  * Modified results of scrapeRaceStartList()
  *
  * @typedef {ScrapedRaceStartListTeam & { year: number }} ScrapedRaceTeam
- * @typedef {ScrapedRaceStartListRider & { raceUID: string, teamPcsId: string }} ScrapedRaceRider
+ *
+ * @typedef {Object} ScrapedRaceRider
+ * @property {String} raceUID - The ID of the race
+ * @property {Number} year - The year of the race.
+ * @property {String|null} riderPcsId - The ID of the rider on ProcyclingStats.
+ * @property {String|null} teamPcsId - The ID of the riders team on ProcyclingStats.
+ * @property {Number|null} bib - The bib Number of the rider.
+ * @property {String|null} surname - The surname of the rider.
+ * @property {String|null} firstNames - The first names of the rider.
+ * @property {String|null} flag - The flag of the rider's country.
+ * @property {String|null} dateOfBirth -
+ * @property {String|null} nationality -
+ * @property {String|null} pcsUrl - The URL of the rider on ProcyclingStats.
  */
 
 /**
@@ -212,15 +224,16 @@ async function collectRace(
         for (let rider of team.riders) {
           riders.push({
             raceUID,
-            pcsId: rider.pcsId,
+            riderPcsId: rider.pcsId,
             teamPcsId: team.pcsId,
+            pcsUrl: rider.pcsUrl,
             bib: rider.bib,
-            // rider: `${rider.surname} ${rider.firstNames}`,
             flag: rider.flag,
             surname: rider.surname,
             firstNames: rider.firstNames,
-            dateOfBirth: rider.dateOfBirth || "",
-            nationality: rider.nationality || "",
+            year,
+            dateOfBirth: "",
+            nationality: "",
           });
         }
       }
@@ -430,7 +443,7 @@ async function updateRace(
   await riders.update(
     raceDetails.riders.map((raceRider) => {
       return {
-        pcsId: raceRider.pcsId,
+        riderPcsId: raceRider.riderPcsId,
         surname: raceRider.surname,
         firstNames: raceRider.firstNames,
       };

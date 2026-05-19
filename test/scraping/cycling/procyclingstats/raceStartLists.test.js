@@ -48,7 +48,7 @@ const STARTLIST_TEST_CASES = [
 const flattenTeams = (startlistData) =>
   startlistData.map((team) => ({
     year: team.year,
-    pcsId: team.pcsId,
+    teamPcsId: team.pcsId,
     name: team.name,
     classification: team.classification,
     pcsUrl: team.pcsUrl,
@@ -62,7 +62,7 @@ const flattenRiders = (startlistData) =>
   startlistData.flatMap(
     (team) =>
       team.riders?.map((rider) => ({
-        pcsId: rider.pcsId,
+        riderPcsId: rider.pcsId,
         surname: rider.surname,
         firstNames: rider.firstNames,
         dateOfBirth: rider.dateOfBirth || "",
@@ -77,10 +77,8 @@ const flattenRaceRiders = (startlistData, raceUID) =>
       team.riders?.map((rider) => ({
         raceUID: raceUID,
         bib: rider.bib,
-        pcsId: rider.pcsId,
+        riderPcsId: rider.pcsId,
         teamPcsId: team.pcsId,
-        rider: `${rider.surname} ${rider.firstNames}`,
-        flag: rider.flag,
       })) || [],
   );
 
@@ -146,16 +144,6 @@ describe.each(STARTLIST_TEST_CASES)(
         await teams.update(flattenTeams(startlistData));
       });
 
-      test("Should write correct CSV headers", async () => {
-        const csvContent = await Bun.file(
-          `${namespacedTestDir}/teams.csv`,
-        ).text();
-        const headers = csvContent.split("\n")[0];
-        expect(headers).toBe(
-          "Year,Pcs Id,Name,Classification,Pcs Url,Jersey Image Pcs Url,Previous Pcs Id,Next Pcs Id",
-        );
-      });
-
       test("Should match expected CSV content", async () => {
         const actual = await Bun.file(`${namespacedTestDir}/teams.csv`).text();
         const expected = await Bun.file(data.teams.csv).text();
@@ -168,16 +156,6 @@ describe.each(STARTLIST_TEST_CASES)(
         const riders = new Riders();
         // Write to ${namespacedTestDir}/riders.csv
         await riders.update(flattenRiders(startlistData));
-      });
-
-      test("Should write correct CSV headers", async () => {
-        const csvContent = await Bun.file(
-          `${namespacedTestDir}/riders.csv`,
-        ).text();
-        const headers = csvContent.split("\n")[0];
-        expect(headers).toBe(
-          "Pcs Id,Surname,First Names,Date Of Birth,Nationality",
-        );
       });
 
       test("Should match expected CSV content", async () => {
@@ -193,16 +171,6 @@ describe.each(STARTLIST_TEST_CASES)(
         // Generate raceUID from race name and year (e.g., "tour-down-under:2025")
         const raceUID = `${slug(data.race)}:${data.year}`;
         await raceRiders.update(flattenRaceRiders(startlistData, raceUID));
-      });
-
-      test("Should write correct CSV headers", async () => {
-        const csvContent = await Bun.file(
-          `${namespacedTestDir}/raceRiders.csv`,
-        ).text();
-        const headers = csvContent.split("\n")[0];
-        expect(headers).toBe(
-          "Race UID,Bib,Pcs Id,Team Pcs Id,Rider,Flag",
-        );
       });
 
       test("Should match expected CSV content", async () => {

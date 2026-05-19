@@ -446,6 +446,8 @@ async function updateRace(
         riderPcsId: raceRider.riderPcsId,
         surname: raceRider.surname,
         firstNames: raceRider.firstNames,
+        flag: raceRider.flag,
+        nationality: raceRider.nationality,
       };
     }),
   );

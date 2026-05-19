@@ -21,10 +21,10 @@ export class Teams extends CSVdataModel {
     const fieldTypes = {
       year: "number",
     };
-    super(`${getDataDir()}/teams.csv`, ["Pcs Id"], fieldTypes);
+    super(`${getDataDir()}/teams.csv`, ["Team Pcs Id"], fieldTypes);
     this.csvHeaders = [
       "Year",
-      "Pcs Id",
+      "Team Pcs Id",
       "Name",
       "Classification",
       "Pcs Url",
@@ -46,7 +46,7 @@ export class Teams extends CSVdataModel {
    * @returns {TeamModel|null} The team object if found, otherwise null.
    */
   teamById(teamId) {
-    return this.rows.find((team) => team.pcsId === teamId);
+    return this.rows.find((team) => team.teamPcsId === teamId);
   }
 
   teamsInRace(raceUID) {

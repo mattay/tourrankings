@@ -130,7 +130,7 @@ export function raceContent(racePcsID, year = null) {
       const teamDets = dataService.raceTeam(rider.teamPcsId);
       team = {
         id: teamDets.teamPcsId,
-        name: teamDets.teamName,
+        name: teamDets.name,
         classification: teamDets.classification,
         jerseyImage: teamDets.jerseyImagePcsUrl,
         riders: [],
@@ -140,9 +140,11 @@ export function raceContent(racePcsID, year = null) {
     // Clean up data for client
     raceContent.riders[rider.bib] = {
       bib: Number(rider.bib),
-      rider: rider.rider,
+      riderId: rider.riderPcsId,
       teamId: rider.teamPcsId,
-      id: rider.riderPcsId,
+      firstNames: rider.firstNames,
+      surname: rider.surname,
+      rider: `${rider.firstNames} ${rider.surname}`,
       flag: rider.flag,
     };
   }

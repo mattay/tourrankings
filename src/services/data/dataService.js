@@ -439,25 +439,27 @@ class DataService {
     const ridersInRace = this.raceRiders
       .ridersInRace(raceUID)
       .reduce((ridersList, raceRider) => {
-        const pcsId = raceRider.riderPcsId;
-        if (!pcsId) {
+        if (!raceRider.riderPcsId) {
           logError("Data Service", "Rider without PCS Id");
           return ridersList;
         }
 
         const rider = this.riders.rows.find(
-          (rider) => rider.riderPcsId == pcsId,
+          (rider) => rider.riderPcsId == raceRider.riderPcsId,
         );
         if (!rider) {
-          logError("Data Service", `Rider not found with pcsID ${pcsId}`);
+          logError(
+            "Data Service",
+            `Rider not found with pcsID ${raceRider.riderPcsId}`,
+          );
+          ridersList.push(raceRider);
+        } else {
+          ridersList.push({
+            ...raceRider,
+            surname: rider.surname,
+            firstNames: rider.firstNames,
+          });
         }
-
-        ridersList.push({
-          ...raceRider,
-          surname: rider.surname,
-          firstNames: rider.firstNames,
-        });
-
         return ridersList;
       }, []);
 

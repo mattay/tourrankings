@@ -430,7 +430,7 @@ async function updateRace(
   await teams.update(
     raceDetails.teams.map((team) => ({
       year: team.year,
-      pcsId: team.pcsId,
+      teamPcsId: team.pcsId,
       pcsUrl: team.pcsUrl,
       jerseyImageUrl: team.jerseyImageUrl,
       name: team.name,

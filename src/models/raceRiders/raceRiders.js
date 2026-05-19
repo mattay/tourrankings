@@ -20,15 +20,11 @@ export class RaceRiders extends CSVdataModel {
     const fieldTypes = {
       bib: "number",
     };
-    super(
-      `${getDataDir()}/raceRiders.csv`,
-      ["raceUID", "bib"],
-      fieldTypes,
-    );
+    super(`${getDataDir()}/raceRiders.csv`, ["raceUID", "bib"], fieldTypes);
     this.csvHeaders = [
       "Race UID",
       "Bib",
-      "Pcs Id",
+      "Rider Pcs Id",
       "Team Pcs Id",
       "Rider",
       "Flag",

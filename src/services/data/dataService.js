@@ -435,7 +435,33 @@ class DataService {
     if (!this.isInitialized) {
       throw new Error(this.DATA_SERVICE_ERROR.NOT_INITIALIZED);
     }
-    return this.raceRiders.ridersInRace(raceUID);
+
+    const ridersInRace = this.raceRiders
+      .ridersInRace(raceUID)
+      .reduce((ridersList, raceRider) => {
+        const pcsId = raceRider.riderPcsId;
+        if (!pcsId) {
+          logError("Data Service", "Rider without PCS Id");
+          return ridersList;
+        }
+
+        const rider = this.riders.rows.find(
+          (rider) => rider.riderPcsId == pcsId,
+        );
+        if (!rider) {
+          logError("Data Service", `Rider not found with pcsID ${pcsId}`);
+        }
+
+        ridersList.push({
+          ...raceRider,
+          surname: rider.surname,
+          firstNames: rider.firstNames,
+        });
+
+        return ridersList;
+      }, []);
+
+    return ridersInRace;
   }
 
   /**

@@ -18,9 +18,9 @@ export class Riders extends CSVdataModel {
 
   constructor() {
     const fieldTypes = {};
-    super(`${getDataDir()}/riders.csv`, ["Pcs Id"], fieldTypes);
+    super(`${getDataDir()}/riders.csv`, ["Rider Pcs Id"], fieldTypes);
     this.csvHeaders = [
-      "Pcs Id",
+      "Rider Pcs Id",
       "Surname",
       "First Names",
       "Date Of Birth",

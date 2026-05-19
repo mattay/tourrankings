@@ -92,6 +92,8 @@
  * @property {string} riderPcsId - The unique identifier of the rider.
  * @property {string} teamPcsId - The unique identifier of the team.
  * @property {string} rider - The name of the rider.
+ * @property {string} firstNames - The riders first names.
+ * @property {string} surname - The riders surname.
  * @property {string} flag - The flag of the rider's country.
  */
 

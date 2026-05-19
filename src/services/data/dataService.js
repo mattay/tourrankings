@@ -216,48 +216,55 @@ class DataService {
     const dataDir = this.options.dataDir;
 
     try {
-      this._fileWatcher = watch(dataDir, { recursive: true }, (eventType, filename) => {
-        // Only watch CSV files
-        if (!filename || !filename.endsWith('.csv')) {
-          return;
-        }
-
-        // Clear existing debounce timer
-        if (this._debounceTimer) {
-          clearTimeout(this._debounceTimer);
-          this._debounceTimer = null;
-        }
-
-        const debounceSeconds = this.options.watchDebounceMs / 1000;
-        logOut(
-          this.constructor.name,
-          `File ${filename} changed, scheduling refresh in ${debounceSeconds}s`
-        );
-
-        // Start new debounce timer
-        this._debounceTimer = setTimeout(async () => {
-          try {
-            logOut(this.constructor.name, "Refresh triggered by file watcher");
-            await this._refreshAndResetPolling();
-          } catch (err) {
-            logError(
-              this.constructor.name,
-              "File-triggered refresh failed",
-              err?.message || String(err)
-            );
+      this._fileWatcher = watch(
+        dataDir,
+        { recursive: true },
+        (eventType, filename) => {
+          // Only watch CSV files
+          if (!filename || !filename.endsWith(".csv")) {
+            return;
           }
-        }, this.options.watchDebounceMs);
 
-        // Don't keep process alive for debounce timer
-        this._debounceTimer.unref?.();
-      });
+          // Clear existing debounce timer
+          if (this._debounceTimer) {
+            clearTimeout(this._debounceTimer);
+            this._debounceTimer = null;
+          }
+
+          const debounceSeconds = this.options.watchDebounceMs / 1000;
+          logOut(
+            this.constructor.name,
+            `File ${filename} changed, scheduling refresh in ${debounceSeconds}s`,
+          );
+
+          // Start new debounce timer
+          this._debounceTimer = setTimeout(async () => {
+            try {
+              logOut(
+                this.constructor.name,
+                "Refresh triggered by file watcher",
+              );
+              await this._refreshAndResetPolling();
+            } catch (err) {
+              logError(
+                this.constructor.name,
+                "File-triggered refresh failed",
+                err?.message || String(err),
+              );
+            }
+          }, this.options.watchDebounceMs);
+
+          // Don't keep process alive for debounce timer
+          this._debounceTimer.unref?.();
+        },
+      );
 
       logOut(this.constructor.name, `Watching ${dataDir} for changes`);
     } catch (err) {
       logError(
         this.constructor.name,
         `Failed to set up file watcher for ${dataDir}`,
-        err?.message || String(err)
+        err?.message || String(err),
       );
     }
   }
@@ -274,7 +281,10 @@ class DataService {
     if (this._refreshTimer) {
       clearTimeout(this._refreshTimer);
       this._refreshTimer = null;
-      logOut(this.constructor.name, "Polling timer reset after file-triggered refresh");
+      logOut(
+        this.constructor.name,
+        "Polling timer reset after file-triggered refresh",
+      );
     }
 
     await this.refreshData();

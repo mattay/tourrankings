@@ -1,0 +1,192 @@
+[
+  {
+    "rank": 1,
+    "bib": 47,
+    "rider": "Leonard Michael",
+    "time": "00:04:24",
+    "timeWonlost": "",
+    "delta": "",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 2,
+    "bib": 123,
+    "rider": "Raccagni Noviero Andrea",
+    "time": "00:04:24",
+    "timeWonlost": "",
+    "delta": "",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 3,
+    "bib": 35,
+    "rider": "L'Hote Antoine",
+    "time": "00:04:25",
+    "timeWonlost": "",
+    "delta": "00:00:01",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 4,
+    "bib": 32,
+    "rider": "Chamberlain Oscar",
+    "time": "00:04:26",
+    "timeWonlost": "",
+    "delta": "00:00:02",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 5,
+    "bib": 151,
+    "rider": "Brennan Matthew",
+    "time": "00:04:26",
+    "timeWonlost": "",
+    "delta": "00:00:02",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 6,
+    "bib": 116,
+    "rider": "Tuckwell Luke",
+    "time": "00:04:27",
+    "timeWonlost": "",
+    "delta": "00:00:03",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 7,
+    "bib": 14,
+    "rider": "Sentjens Sente",
+    "time": "00:04:28",
+    "timeWonlost": "",
+    "delta": "00:00:04",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 8,
+    "bib": 22,
+    "rider": "Eržen Žak",
+    "time": "00:04:29",
+    "timeWonlost": "",
+    "delta": "00:00:05",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 9,
+    "bib": 166,
+    "rider": "Ingebrigtsen Storm",
+    "time": "00:04:33",
+    "timeWonlost": "",
+    "delta": "00:00:09",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 10,
+    "bib": 197,
+    "rider": "Stevenson Lucas",
+    "time": "00:04:35",
+    "timeWonlost": "",
+    "delta": "00:00:11",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 11,
+    "bib": 93,
+    "rider": "Novák Pavel",
+    "time": "00:04:36",
+    "timeWonlost": "",
+    "delta": "00:00:12",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 12,
+    "bib": 26,
+    "rider": "van der Meulen Max",
+    "time": "00:04:36",
+    "timeWonlost": "",
+    "delta": "00:00:12",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 13,
+    "bib": 51,
+    "rider": "Bower Lewis",
+    "time": "00:04:37",
+    "timeWonlost": "",
+    "delta": "00:00:13",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 14,
+    "bib": 156,
+    "rider": "Mattio Pietro",
+    "time": "00:04:37",
+    "timeWonlost": "",
+    "delta": "00:00:13",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 15,
+    "bib": 134,
+    "rider": "McKenzie Hamish",
+    "time": "00:04:38",
+    "timeWonlost": "",
+    "delta": "00:00:14",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 16,
+    "bib": 54,
+    "rider": "Fontaine Titouan",
+    "time": "00:04:38",
+    "timeWonlost": "",
+    "delta": "00:00:14",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 17,
+    "bib": 157,
+    "rider": "Rex Tim",
+    "time": "00:04:40",
+    "timeWonlost": "",
+    "delta": "00:00:16",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 18,
+    "bib": 145,
+    "rider": "Peace Oliver",
+    "time": "00:04:44",
+    "timeWonlost": "",
+    "delta": "00:00:20",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 19,
+    "bib": 155,
+    "rider": "Huising Menno",
+    "time": "00:04:47",
+    "timeWonlost": "",
+    "delta": "00:00:23",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  }
+]

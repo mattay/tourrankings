@@ -29,6 +29,7 @@ export const EXPECTED_COLUMN_SCHEMAS = {
         "ridername",
         "teamnamelink",
         "uci_pnt",
+        "avg",
         "time",
         "pnt",
         "bonis",
@@ -53,6 +54,7 @@ export const EXPECTED_COLUMN_SCHEMAS = {
         "gc_bonis",
         "time",
         "time_wonlost",
+        "pnt",
       ],
       context: "GC result - general table",
     },
@@ -304,12 +306,11 @@ export function formatRow(row) {
       case "points":
       case "deltaPoints":
       case "today":
-      // case "change":
       case "position":
         // String to Int
-        if (value != "-" && value != "") {
+        if (value !== "-" && value !== "") {
           value = parseInt(value, 10);
-        } else if (value == "-" || value == "") {
+        } else if (value === "-" || value === "") {
           value = null;
         }
         break;

@@ -105,7 +105,7 @@ function tableHeaders(column) {
  * @returns {Array<Object>} The cleaned up table.
  */
 function cleanUpStageTable(table, additionalValues) {
-  const columnsToDrop = ["h2h", "specialty", "age"];
+  const columnsToDrop = ["h2h", "specialty", "age", "avg"];
 
   const sorted = table.sort(sortByRanking);
 
@@ -949,7 +949,7 @@ export function classificationResults(
   stageDetails,
   selector = DOM_SELECTORS.classificationResult,
 ) {
-  if (!["prologue", "ITT", "TTT", ""].includes(stageDetails.stageType)) {
+  if (!["Prologue", "ITT", "TTT", ""].includes(stageDetails.stageType)) {
     logOut(
       "PCS Stage Results",
       `Unexpected stage type [${stageDetails.stageType}]`,
@@ -993,7 +993,7 @@ export function classificationResults(
       } else if (
         stageDetails.stageType === "" ||
         stageDetails.stageType === "ITT" ||
-        stageDetails.stageType === "prologue"
+        stageDetails.stageType === "Prologue"
       ) {
         classificationStageResults[classification]["general"] =
           extractClassificationTable(

@@ -68,7 +68,7 @@ describe.each([
     year: 2026,
     stage: 0,
     stageUID: "tour-down-under:2026:0",
-    stageType: "prologue",
+    stageType: "Prologue",
     html: "test/scraping/cycling/procyclingstats/html/race-stages-2026/raceStageResults-2026-tour-down-under-0.html",
     json: {
       stageResults:

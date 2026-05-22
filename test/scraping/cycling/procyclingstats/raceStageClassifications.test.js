@@ -64,6 +64,58 @@ describe.each([
     },
   },
   {
+    race: "Tour Down Under",
+    year: 2026,
+    stage: 0,
+    stageUID: "tour-down-under:2026:0",
+    stageType: "Prologue",
+    html: "test/scraping/cycling/procyclingstats/html/race-stages-2026/raceStageResults-2026-tour-down-under-0.html",
+    json: {
+      stageResults:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2026/tour-down-under-0/raceStageResults-2026-tour-down-under-0.json",
+      generalClassification:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2026/tour-down-under-0/raceStageResults-2026-tour-down-under-0-classification-general.json",
+      mountainsClassification:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2026/tour-down-under-0/raceStageResults-2026-tour-down-under-0-classification-mountains.json",
+      pointsClassification:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2026/tour-down-under-0/raceStageResults-2026-tour-down-under-0-classification-points.json",
+      teamClassification:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2026/tour-down-under-0/raceStageResults-2026-tour-down-under-0-classification-teams.json",
+      youngClassification:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2026/tour-down-under-0/raceStageResults-2026-tour-down-under-0-classification-youth.json",
+      teamsLocationContest:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2026/tour-down-under-0/raceStageResults-2026-tour-down-under-0-classification-teams-contest.json",
+      youthLocationContest:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2026/tour-down-under-0/raceStageResults-2026-tour-down-under-0-classification-youth-contest.json",
+      pointsLocations:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2026/tour-down-under-0/raceStageResults-2026-tour-down-under-0-points-locations.json",
+      pointsLocationContest:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2026/tour-down-under-0/raceStageResults-2026-tour-down-under-0-points-location-contest.json",
+      mountainsLocations:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2026/tour-down-under-0/raceStageResults-2026-tour-down-under-0-mountains-locations.json",
+      mountainsLocationContest:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2026/tour-down-under-0/raceStageResults-2026-tour-down-under-0-mountains-location-contest.json",
+    },
+    csv: {
+      stageResults:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2026/tour-down-under-0/raceStageResults-2026-tour-down-under-0.csv",
+      generalClassification:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2026/tour-down-under-0/raceStageResults-2026-tour-down-under-0-classification-general.csv",
+      mountainsClassification:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2026/tour-down-under-0/raceStageResults-2026-tour-down-under-0-classification-mountains.csv",
+      pointsClassification:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2026/tour-down-under-0/raceStageResults-2026-tour-down-under-0-classification-points.csv",
+      teamClassification:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2026/tour-down-under-0/raceStageResults-2026-tour-down-under-0-classification-teams.csv",
+      youngClassification:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2026/tour-down-under-0/raceStageResults-2026-tour-down-under-0-classification-youth.csv",
+      pointsLocationContest:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2026/tour-down-under-0/raceStageResults-2026-tour-down-under-0-points-location-contest.csv",
+      mountainsLocationContest:
+        "test/scraping/cycling/procyclingstats/fixtures/raceStageResults/2026/tour-down-under-0/raceStageResults-2026-tour-down-under-0-mountains-location-contest.csv",
+    },
+  },
+  {
     race: "Vuelta a España",
     year: 2025,
     stage: 11,
@@ -273,12 +325,12 @@ describe.each([
     await generalModel.write();
 
     const mountainsModel = new ClassificationMountains();
-    mountainsModel.rows = stageClassificationResults.mountains;
+    mountainsModel.rows = stageClassificationResults.mountains ?? [];
     mountainsModel.filePath = `${TEST_DATA_DIR}/classificationMountains.csv`;
     await mountainsModel.write();
 
     const pointsModel = new ClassificationPoints();
-    pointsModel.rows = stageClassificationResults.points;
+    pointsModel.rows = stageClassificationResults.points ?? [];
     pointsModel.filePath = `${TEST_DATA_DIR}/classificationPoints.csv`;
     await pointsModel.write();
 
@@ -294,14 +346,14 @@ describe.each([
 
     const pointsLocationContestModel = new RaceStageLocationPointsResults();
     pointsLocationContestModel.rows =
-      stageClassificationResults.pointsLocationContest;
+      stageClassificationResults.pointsLocationContest ?? [];
     pointsLocationContestModel.filePath = `${TEST_DATA_DIR}/pointsLocationContest.csv`;
     await pointsLocationContestModel.write();
 
     const mountainsLocationContestModel =
       new RaceStageLocationMountainsResults();
     mountainsLocationContestModel.rows =
-      stageClassificationResults.mountainsLocationContest;
+      stageClassificationResults.mountainsLocationContest ?? [];
     mountainsLocationContestModel.filePath = `${TEST_DATA_DIR}/mountainsLocationContest.csv`;
     await mountainsLocationContestModel.write();
   });
@@ -319,11 +371,13 @@ describe.each([
   });
 
   test("Should match expected mountains classification", async () => {
-    expect(stageClassificationResults.mountains).toEqual(expectedMountains);
+    expect(stageClassificationResults.mountains ?? []).toEqual(
+      expectedMountains,
+    );
   });
 
   test("Should match expected points classification", async () => {
-    expect(stageClassificationResults.points).toEqual(expectedPoints);
+    expect(stageClassificationResults.points ?? []).toEqual(expectedPoints);
   });
 
   test("Should match expected teams classification", async () => {
@@ -347,25 +401,25 @@ describe.each([
   });
 
   test("Should match expected points locations", async () => {
-    expect(stageClassificationResults.pointsLocations).toEqual(
+    expect(stageClassificationResults.pointsLocations ?? []).toEqual(
       expectedPointsLocations,
     );
   });
 
   test("Should match expected points location contest", async () => {
-    expect(stageClassificationResults.pointsLocationContest).toEqual(
+    expect(stageClassificationResults.pointsLocationContest ?? []).toEqual(
       expectedPointsLocationContest,
     );
   });
 
   test("Should match expected mountains locations", async () => {
-    expect(stageClassificationResults.mountainsLocations).toEqual(
+    expect(stageClassificationResults.mountainsLocations ?? []).toEqual(
       expectedMountainsLocations,
     );
   });
 
   test("Should match expected mountains location contest", async () => {
-    expect(stageClassificationResults.mountainsLocationContest).toEqual(
+    expect(stageClassificationResults.mountainsLocationContest ?? []).toEqual(
       expectedMountainsLocationContest,
     );
   });

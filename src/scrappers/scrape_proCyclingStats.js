@@ -498,7 +498,7 @@ async function updateRaces(models, year) {
  * @param {RaceStageResults} models.raceStageResults - The RaceStageResults object
  * @param {ClassificationGeneral} models.raceStageGeneral - The ClassificationGeneral object
  * @param {ClassificationPoints} models.raceStagePoints - The ClassificationPoints object
- * @param {ClassificationMountain} models.raceStageMountain - The ClassificationMountain object
+ * @param {ClassificationMountains} models.raceStageMountain - The ClassificationMountain object
  * @param {ClassificationYouth} models.raceStageYouth - The ClassificationYouth object
  * @param {ClassificationTeam} models.raceStageTeam - The ClassificationTeam object
  * @param {RaceStageLocationPoints} models.raceStageLocationPoints - The RaceStageLocationPoints object

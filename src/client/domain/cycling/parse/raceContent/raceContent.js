@@ -22,6 +22,7 @@ export function parseRaceContent(rawData) {
   // Add relationships between riders and teams
   for (const rider of riders.values()) {
     const team = teams.get(rider.teamId);
+    if (!team) continue;
     team.riders.push(rider); // Add riders to team
     rider.team = team; // link team to rider
   }

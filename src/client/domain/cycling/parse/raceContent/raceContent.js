@@ -16,6 +16,7 @@ export function parseRaceContent(rawData) {
 
   const teams = toMap(rawData.teams, {
     filterNulls: true,
+    processValue: (team) => ({ ...team, riders: [] }), // Add riders list
   });
 
   // Add relationships between riders and teams

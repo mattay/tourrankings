@@ -14,14 +14,14 @@ export function renameKeys(obj, renameFn) {
 /**
  * Creates a new object with the specified keys removed.
  *
- * @param {Object} row - The source object to copy keys from.
+ * @param {Object} obj - The source object to copy keys from.
  * @param {string[]} dropKeyList - Array of key names to exclude from the result.
  * @returns {Object} A new object with all original properties except those in `dropKeyList`.
  */
-export function dropValues(row, dropKeyList) {
-  const result = { ...row };
-  for (const column of dropKeyList) {
-    delete result[column];
+export function dropValues(obj, dropKeyList) {
+  const result = { ...obj };
+  for (const key of dropKeyList) {
+    delete result[key];
   }
   return result;
 }

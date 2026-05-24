@@ -10,3 +10,18 @@ export function renameKeys(obj, renameFn) {
     Object.entries(obj).map(([key, value]) => [renameFn(key), value]),
   );
 }
+
+/**
+ * Creates a new object with the specified keys removed.
+ *
+ * @param {Object} row - The source object to copy keys from.
+ * @param {string[]} dropKeyList - Array of key names to exclude from the result.
+ * @returns {Object} A new object with all original properties except those in `dropKeyList`.
+ */
+export function dropValues(row, dropKeyList) {
+  const result = { ...row };
+  for (const column of dropKeyList) {
+    delete result[column];
+  }
+  return result;
+}

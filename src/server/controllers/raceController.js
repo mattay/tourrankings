@@ -1,7 +1,7 @@
 import dataService from "@services/dataServiceInstance";
 import { logError, logOut } from "@utils/logging";
 import { sortByDate } from "@server/utils/sorts.js";
-import { dropValues } from "src/utils/object.js";
+import { dropValues } from "@utils/object.js";
 
 /**
  * @typedef {import('./@types/raceController.js').TemporalSeasonRaces} TemporalSeasonRaces

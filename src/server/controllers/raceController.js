@@ -1,6 +1,7 @@
 import dataService from "@services/dataServiceInstance";
 import { logError, logOut } from "@utils/logging";
 import { sortByDate } from "@server/utils/sorts.js";
+import { dropValues } from "src/utils/object.js";
 
 /**
  * @typedef {import('./@types/raceController.js').TemporalSeasonRaces} TemporalSeasonRaces
@@ -65,6 +66,21 @@ export function seasonRaces(season = null) {
 }
 
 /**
+ * Removes specified keys from each stage entry across all rider rankings.
+ * @param {Array<Array<object|null>>} riderRanking - An array of rider stage result arrays, indexed by stage number
+ * @param {string[]} dropList - Array of property names to remove from each stage result object
+ * @returns {Array<Array<object|null>>} The rider ranking with specified properties removed from each stage entry
+ */
+function rankingsDropValues(riderRanking, dropList) {
+  return riderRanking.map((rider) => {
+    if (!rider) {
+      return rider;
+    }
+    return rider.map((stage) => dropValues(stage, dropList));
+  });
+}
+
+/**
  * Fetches race content for a given race ID and year.
  * @param {string} racePcsID - The race ID.
  * @param {number} year - The year of the race.
@@ -99,10 +115,11 @@ export function raceContent(racePcsID, year = null) {
   // Stages
   const raceUID = raceContent.race.raceUID;
   // map stage number to array index
+  const removeFromStage = ["raceUID", "stageUID", "year", "stagePcsUrl"];
   raceContent.stages = dataService
     .raceStages(raceUID)
     .reduce((results, stage) => {
-      results[stage.stage] = stage;
+      results[stage.stage] = dropValues(stage, removeFromStage);
       return results;
     }, []);
 
@@ -133,9 +150,9 @@ export function raceContent(racePcsID, year = null) {
         name: teamDets.name,
         classification: teamDets.classification,
         jerseyImage: teamDets.jerseyImagePcsUrl,
-        riders: [],
       };
     }
+
     raceContent.teams[rider.teamPcsId] = team;
     // Clean up data for client
     raceContent.riders[rider.bib] = {
@@ -153,24 +170,46 @@ export function raceContent(racePcsID, year = null) {
   // results: [rider : stageResult[]]
   // classification: {type: rider[ stageClasifications[] ]}
   // ---
+  const removeFromClassifications = ["stageUID"];
   // Results
-  const rr = dataService.raceResults(raceUID);
+  const rr = rankingsDropValues(
+    dataService.raceResults(raceUID),
+    removeFromClassifications,
+  );
   raceContent.results = groupStagesByRider(rr);
+
   // GC
-  const general = dataService.raceClassificationsGeneral(raceUID);
+  const general = rankingsDropValues(
+    dataService.raceClassificationsGeneral(raceUID),
+    removeFromClassifications,
+  );
   raceContent.classifications.general = groupStagesByRider(general);
   // Points
-  const points = dataService.raceClassificationsPoints(raceUID);
+  const points = rankingsDropValues(
+    dataService.raceClassificationsPoints(raceUID),
+    removeFromClassifications,
+  );
   raceContent.classifications.points = groupStagesByRider(points);
   // Mountain
-  const mountains = dataService.raceClassificationsMountain(raceUID);
+  const mountains = rankingsDropValues(
+    dataService.raceClassificationsMountain(raceUID),
+    removeFromClassifications,
+  );
   raceContent.classifications.mountains = groupStagesByRider(mountains);
   // Youth
-  const youth = dataService.raceClassificationsYouth(raceUID);
+  const youth = rankingsDropValues(
+    dataService.raceClassificationsYouth(raceUID),
+    removeFromClassifications,
+  );
   raceContent.classifications.youth = groupStagesByRider(youth);
   // Team
-  const team = dataService.raceClassificationsTeams(raceUID);
+  const team = rankingsDropValues(
+    dataService.raceClassificationsTeams(raceUID),
+    removeFromClassifications,
+  );
   raceContent.classifications.team = groupStagesByTeam(team);
+
+  raceContent.race = dropValues(raceContent.race, ["racePcsID", "racePcsUrl"]);
 
   return raceContent;
 }

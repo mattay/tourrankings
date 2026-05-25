@@ -118,6 +118,7 @@ function sanitizeFeedbackData(data) {
       sanitized.timestamp = date.toISOString();
     } catch (error) {
       sanitized.timestamp = new Date().toISOString();
+      logError("Controller Feedback", "Timestamp", error);
     }
   } else {
     sanitized.timestamp = new Date().toISOString();

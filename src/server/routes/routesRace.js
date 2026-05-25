@@ -1,6 +1,6 @@
 import express from "express";
 import { raceContent } from "@server/controllers/raceController";
-import { racePagePresenter } from "@server/presenters/racePresenter";
+import { racePagePresenter } from "src/server/presenters/race-presenterr";
 import { logError } from "@utils/logging";
 import { validateYear } from "@utils/date";
 import { validateStage } from "@cycling/stage/stage";
@@ -8,7 +8,7 @@ import { validateStage } from "@cycling/stage/stage";
 /** @type {import('express').Router} */
 const router = express.Router();
 
-// router.get("/:racePcsID/:year?/:stage?/:classification?", (req, res, next) => {
+// <host>/race/paris-nice/2026/5/general
 router.get(
   "/:racePcsID{/:year}{/:stage}{/:classification}",
   (req, res, next) => {

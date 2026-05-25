@@ -1,6 +1,6 @@
 import express from "express";
 import { raceContent } from "@server/controllers/raceController";
-import { racePagePresenter } from "src/server/presenters/race-presenterr";
+import { racePagePresenter } from "@server/presenters/race-presenter";
 import { logError } from "@utils/logging";
 import { validateYear } from "@utils/date";
 import { validateStage } from "@cycling/stage/stage";

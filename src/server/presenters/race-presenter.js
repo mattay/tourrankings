@@ -10,7 +10,11 @@ import {
  * @param {string} [classification]
  * @returns {Object}
  */
-export function racePagePresenter(content, stage = null, classification = null) {
+export function racePagePresenter(
+  content,
+  stage = null,
+  classification = null,
+) {
   const keywords = ["cycling", "tour", "ranking", content.race?.raceName];
 
   const classifications = CLASSIFICATION_UI_OPTIONS.reduce(
@@ -18,6 +22,7 @@ export function racePagePresenter(content, stage = null, classification = null) 
       const safeClassification = isValidClassificationType(classification)
         ? classification
         : null;
+
       const newOption = {
         ...option,
         active: Boolean(
@@ -26,7 +31,8 @@ export function racePagePresenter(content, stage = null, classification = null) 
       };
 
       if (option.type === CLASSIFICATION_TYPES.STAGE && content.results) {
-        newOption.active = !classification || option.type === classification;
+        newOption.active =
+          !safeClassification || option.type === safeClassification;
         results.push(newOption);
       } else if (option.type && content.classifications?.[option.type]) {
         results.push(newOption);

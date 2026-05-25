@@ -16,11 +16,13 @@ export function parseRaceContent(rawData) {
 
   const teams = toMap(rawData.teams, {
     filterNulls: true,
+    processValue: (team) => ({ ...team, riders: [] }), // Add riders list
   });
 
   // Add relationships between riders and teams
   for (const rider of riders.values()) {
     const team = teams.get(rider.teamId);
+    if (!team) continue;
     team.riders.push(rider); // Add riders to team
     rider.team = team; // link team to rider
   }

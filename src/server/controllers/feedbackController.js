@@ -85,21 +85,32 @@ function validateFeedbackData(data) {
   };
 }
 
+// Basic string sanitization (remove/escape potentially dangerous characters)
+function sanitizeString(str) {
+  if (typeof str !== "string") return str;
+  return str
+    .replace(/[<>]/g, "") // Remove < and > characters
+    .replace(/javascript:/gi, "") // Remove javascript: protocol
+    .trim();
+}
+
 /**
  * Sanitizes feedback data to prevent XSS and other security issues
  * @param {FeedbackData} data - Raw feedback data
  * @returns {FeedbackData} Sanitized feedback data
  */
 function sanitizeFeedbackData(data) {
-  const sanitized = {};
-
-  // Basic string sanitization (remove/escape potentially dangerous characters)
-  const sanitizeString = (str) => {
-    if (typeof str !== "string") return str;
-    return str
-      .replace(/[<>]/g, "") // Remove < and > characters
-      .replace(/javascript:/gi, "") // Remove javascript: protocol
-      .trim();
+  const sanitized = {
+    feedbackType: null,
+    message: null,
+    userEmail: null,
+    pageUrl: null,
+    userAgent: null,
+    timestamp: null,
+    raceID: null,
+    year: null,
+    stage: null,
+    classification: null,
   };
 
   // Sanitize all string fields

@@ -2,11 +2,13 @@
  * Health check controller for monitoring application status
  */
 
-import dataService from "@services/dataServiceInstance";
-import config from "@server/config";
 import { logError } from "@utils/logging";
 import { getAppVersion } from "@utils/version";
-import fs from "fs/promises";
+import {
+  statusOfDataService,
+  statusOfMemory,
+  statusOfFilesystem,
+} from "./health";
 
 /**
  * Health check endpoint that reports application and subsystem statuses.
@@ -29,51 +31,19 @@ export async function getHealth(req, res) {
       uptime: process.uptime(),
       environment: process.env.NODE_ENV || "development",
       version: getAppVersion(),
+      memoryUsage: {},
       checks: {
         dataService: "checking",
         filesystem: "checking",
         memory: "checking",
       },
     };
+    const { memoryCheck, memoryUsage } = statusOfMemory();
 
-    // Check data service
-    try {
-      const isInitialized = dataService.isInitialized ?? false;
-      healthStatus.checks.dataService = isInitialized ? "healthy" : "unhealthy";
-    } catch (error) {
-      healthStatus.checks.dataService = "unhealthy";
-      logError("Health", "Data service check failed", error);
-    }
-
-    // Check filesystem access
-    const dataDir = process.env.DATA_DIR;
-    if (!dataDir) {
-      healthStatus.checks.filesystem = "unhealthy";
-      logError("Health", "DATA_DIR environment variable is not set");
-    } else {
-      try {
-        await fs.access(dataDir);
-        healthStatus.checks.filesystem = "healthy";
-      } catch (error) {
-        healthStatus.checks.filesystem = "unhealthy";
-        logError("Health", "Filesystem check failed", error);
-      }
-    }
-
-    // Check memory usage
-    try {
-      const memUsage = process.memoryUsage();
-      const memoryMB = Math.round(memUsage.heapUsed / 1024 / 1024);
-      const threshold = config.healthCheck?.memoryWarningThresholdMB ?? 400;
-      healthStatus.checks.memory = memoryMB < threshold ? "healthy" : "warning";
-      healthStatus.memoryUsage = {
-        heapUsed: `${memoryMB}MB`,
-        heapTotal: `${Math.round(memUsage.heapTotal / 1024 / 1024)}MB`,
-      };
-    } catch (error) {
-      healthStatus.checks.memory = "unhealthy";
-      logError("Health", "Memory check failed", error);
-    }
+    healthStatus.memoryUsage = memoryUsage;
+    healthStatus.checks.dataService = statusOfDataService();
+    healthStatus.checks.filesystem = await statusOfFilesystem();
+    healthStatus.checks.memory = memoryCheck;
 
     // Overall status
     const anyUnhealthy = Object.values(healthStatus.checks).some(

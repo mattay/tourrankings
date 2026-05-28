@@ -8,7 +8,7 @@ import {
   statusOfDataService,
   statusOfMemory,
   statusOfFilesystem,
-} from "./health";
+} from "@server/controllers/health";
 
 /**
  * @typedef {"healthy" | "degraded" | "unhealthy"} OverallHealthStatus
@@ -21,11 +21,11 @@ import {
  * @property {number}              uptime        - Process uptime in seconds
  * @property {string}              environment   - Active `NODE_ENV`, defaults to `"development"`
  * @property {string}              version       - Application version from `getAppVersion()`
- * @property {import('./health').MemoryUsage} memoryUsage - Raw heap metrics from the memory check
+ * @property {import('@server/controllers/health').MemoryUsage} memoryUsage - Raw heap metrics from the memory check
  * @property {Object}              checks        - Individual subsystem statuses
- * @property {import('./health').DataServiceCheckStatus}  checks.dataService
- * @property {import('./health').FilesystemCheckStatus}   checks.filesystem
- * @property {import('./health').MemoryCheckStatus}       checks.memory
+ * @property {import('@server/controllers/health').DataServiceCheckStatus}  checks.dataService
+ * @property {import('@server/controllers/health').FilesystemCheckStatus}   checks.filesystem
+ * @property {import('@server/controllers/health').MemoryCheckStatus}       checks.memory
  * @property {string}              responseTime  - Total time taken to run all checks (e.g. `"12ms"`)
  */
 
@@ -56,7 +56,7 @@ function deriveOverallStatus(checkValues) {
  * @param {import('express').Response} res
  * @returns {Promise<void>}
  */
-export async function getHealth(req, res) {
+export async function getHealth(req, res, next) {
   const startTime = Date.now();
 
   try {
@@ -85,11 +85,7 @@ export async function getHealth(req, res) {
     res.status(statusCode).json(body);
   } catch (error) {
     logError("Health", "Health check failed", error);
-    res.status(503).json({
-      status: "error",
-      timestamp: new Date().toISOString(),
-      error: error?.message ?? String(error),
-      responseTime: `${Date.now() - startTime}ms`,
-    });
+    error.statusCode = 503;
+    next(error);
   }
 }

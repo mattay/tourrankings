@@ -1,5 +1,13 @@
 import { getErrorHTML } from "@server/utils/errorMessages";
 
+/**
+ * Prepares season races page data for rendering.
+ *
+ * @param {import('@server/controllers/@types/raceController').TemporalSeasonRaces} races - Race data grouped by temporal status (current, upcoming, previous, future)
+ * @param {Object} [options] - Optional parameters
+ * @param {number|null} [options.season=null] - The season year
+ * @returns {{ title: string, description: string, keywords: string, races: import('@server/controllers/@types/raceController').TemporalSeasonRaces|null, season: number|null, hasError: boolean, errorMessage?: string }}
+ */
 export function seasonRacesPresenter(races, { season = null } = {}) {
   const hasRaceData =
     races &&

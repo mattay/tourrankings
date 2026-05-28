@@ -1,6 +1,6 @@
 import express from "express";
 import { seasonRaces } from "@server/controllers/raceController";
-import { getErrorHTML, getErrorText } from "@server/utils/errorMessages";
+import { getErrorText } from "@server/utils/errorMessages";
 import { validateYear } from "@utils/date";
 import { logError } from "@utils/logging";
 import { seasonRacesPresenter } from "@server/presenters/season-races-presenter";
@@ -46,16 +46,8 @@ function renderSeasonPage(res, next, page) {
     res.render("pages/season-races", page);
   } catch (error) {
     logError("Routes Root", getErrorText("RENDER_ERROR"), error);
-    try {
-      res.status(500).render("pages/season-races", {
-        ...page,
-        hasError: true,
-        errorMessage: getErrorHTML("RENDER_ERROR"),
-      });
-    } catch (renderError) {
-      logError("Routes Root", getErrorText("CATASTROPHIC"), renderError);
-      next(error);
-    }
+    error.statusCode = 500;
+    next(error);
   }
 }
 

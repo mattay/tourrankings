@@ -1,8 +1,9 @@
 import express from "express";
 import { seasonRaces } from "@server/controllers/raceController";
-import { logError } from "@utils/logging";
-import { getErrorHTML, getErrorText } from "@server/utils/errorMessages";
+import { getErrorText } from "@server/utils/errorMessages";
 import { validateYear } from "@utils/date";
+import { logError } from "@utils/logging";
+import { seasonRacesPresenter } from "@server/presenters/season-races-presenter";
 
 const router = express.Router();
 
@@ -34,40 +35,19 @@ const router = express.Router();
  */
 function renderSeasonPage(res, next, page) {
   try {
-    const races = seasonRaces(page.season);
-    const hasRaceData =
-      races &&
-      (races.current?.length > 0 ||
-        races.upcoming?.length > 0 ||
-        races.previous?.length > 0 ||
-        races.future?.length > 0);
-
-    if (!hasRaceData) {
+    if (page.hasError) {
       logError(
         "Routes Root",
         getErrorText("NO_DATA"),
         new Error(`seasonRaces(${page.season}) returned empty data`),
       );
-      page.hasError = true;
-      page.errorMessage = getErrorHTML("NO_DATA");
       res.status(503);
-    } else {
-      page.races = races;
     }
-
-    res.render("pages/home", page);
+    res.render("pages/season-races", page);
   } catch (error) {
     logError("Routes Root", getErrorText("RENDER_ERROR"), error);
-    try {
-      res.status(500).render("pages/home", {
-        ...page,
-        hasError: true,
-        errorMessage: getErrorHTML("RENDER_ERROR"),
-      });
-    } catch (renderError) {
-      logError("Routes Root", getErrorText("CATASTROPHIC"), renderError);
-      next(error);
-    }
+    error.statusCode = 500;
+    next(error);
   }
 }
 
@@ -81,15 +61,8 @@ function renderSeasonPage(res, next, page) {
  * @returns {void}
  */
 router.get("/", (req, res, next) => {
-  /** @type {HomePageContent} */
-  const page = {
-    title: "Tour Rankings",
-    description: "A web application for tracking and ranking tours.",
-    keywords: "tour, ranking, web application",
-    races: null,
-    season: null,
-    hasError: false,
-  };
+  const races = seasonRaces();
+  const page = seasonRacesPresenter(races);
 
   renderSeasonPage(res, next, page);
 });
@@ -101,19 +74,11 @@ router.get("/", (req, res, next) => {
  * @param {Function} next - Express next middleware function.
  */
 router.get("/season/{:year}", (req, res, next) => {
-  const year = validateYear(req.params.year);
-
-  /** @type {HomePageContent} */
-  const page = {
-    title: "Tour Rankings",
-    description: `Season ${year}`,
-    keywords: "tour, ranking, web application",
-    season: year,
-    races: null,
-    hasError: false,
-  };
+  const season = validateYear(req.params.year);
+  const races = seasonRaces(season);
+  const page = seasonRacesPresenter(races, { season });
 
   renderSeasonPage(res, next, page);
 });
 
-export { router as routesRoot };
+export { router as routesSeasonRaces };

@@ -2,100 +2,90 @@
  * Health check controller for monitoring application status
  */
 
-import dataService from "@services/dataServiceInstance";
-import config from "@server/config";
 import { logError } from "@utils/logging";
 import { getAppVersion } from "@utils/version";
-import fs from "fs/promises";
+import {
+  statusOfDataService,
+  statusOfMemory,
+  statusOfFilesystem,
+} from "@server/controllers/health";
+
+/**
+ * @typedef {"healthy" | "degraded" | "unhealthy"} OverallHealthStatus
+ */
+
+/**
+ * @typedef {Object} HealthCheckResponse
+ * @property {OverallHealthStatus} status        - Aggregate status across all subsystems
+ * @property {string}              timestamp     - ISO 8601 timestamp of when the check ran
+ * @property {number}              uptime        - Process uptime in seconds
+ * @property {string}              environment   - Active `NODE_ENV`, defaults to `"development"`
+ * @property {string}              version       - Application version from `getAppVersion()`
+ * @property {import('@server/controllers/health').MemoryUsage} memoryUsage - Raw heap metrics from the memory check
+ * @property {Object}              checks        - Individual subsystem statuses
+ * @property {import('@server/controllers/health').DataServiceCheckStatus}  checks.dataService
+ * @property {import('@server/controllers/health').FilesystemCheckStatus}   checks.filesystem
+ * @property {import('@server/controllers/health').MemoryCheckStatus}       checks.memory
+ * @property {string}              responseTime  - Total time taken to run all checks (e.g. `"12ms"`)
+ */
+
+/**
+ * Derives an overall {@link OverallHealthStatus} from individual check statuses.
+ *
+ * - `"unhealthy"` — any check returned `"error"`
+ * - `"degraded"`  — any check returned `"unhealthy"` or `"warning"`
+ * - `"healthy"`   — all checks returned `"healthy"`
+ *
+ * @param {string[]} checkValues
+ * @returns {OverallHealthStatus}
+ */
+function deriveOverallStatus(checkValues) {
+  if (checkValues.some((s) => s === "error")) return "unhealthy";
+  if (checkValues.some((s) => s === "unhealthy" || s === "warning"))
+    return "degraded";
+  return "healthy";
+}
 
 /**
  * Health check endpoint that reports application and subsystem statuses.
  *
- * Sends a JSON object containing: overall `status`, `timestamp`, `uptime`, `environment`,
- * `version`, a `checks` map for `dataService`, `filesystem` and `memory`, optional
- * `memoryUsage` metrics, and `responseTime`. Responds with HTTP 200 when the overall
- * status is `healthy`, otherwise responds with HTTP 503.
+ * Runs all subsystem checks in parallel and derives an overall status.
+ * Responds with HTTP 200 for `"healthy"` and `"degraded"`, HTTP 503 for `"unhealthy"`.
  *
- * @param {import('express').Request} req - Express request object.
- * @param {import('express').Response} res - Express response object.
+ * @param {import('express').Request}  req
+ * @param {import('express').Response} res
+ * @returns {Promise<void>}
  */
-export async function getHealth(req, res) {
+export async function getHealth(req, res, next) {
   const startTime = Date.now();
 
   try {
-    const healthStatus = {
-      status: "healthy",
+    const [dataService, filesystem, { memoryCheck: memory, memoryUsage }] =
+      await Promise.all([
+        statusOfDataService(),
+        statusOfFilesystem(),
+        statusOfMemory(),
+      ]);
+    const checks = { dataService, filesystem, memory };
+    const status = deriveOverallStatus(Object.values(checks));
+
+    /** @type {HealthCheckResponse} */
+    const body = {
+      status,
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
-      environment: process.env.NODE_ENV || "development",
+      environment: process.env.NODE_ENV ?? "development",
       version: getAppVersion(),
-      checks: {
-        dataService: "checking",
-        filesystem: "checking",
-        memory: "checking",
-      },
+      memoryUsage,
+      checks,
+      responseTime: `${Date.now() - startTime}ms`,
     };
 
-    // Check data service
-    try {
-      const isInitialized = dataService.isInitialized ?? false;
-      healthStatus.checks.dataService = isInitialized ? "healthy" : "unhealthy";
-    } catch (error) {
-      healthStatus.checks.dataService = "unhealthy";
-      logError("Health", "Data service check failed", error);
-    }
-
-    // Check filesystem access
-    const dataDir = process.env.DATA_DIR;
-    if (!dataDir) {
-      healthStatus.checks.filesystem = "unhealthy";
-      logError("Health", "DATA_DIR environment variable is not set");
-    } else {
-      try {
-        await fs.access(dataDir);
-        healthStatus.checks.filesystem = "healthy";
-      } catch (error) {
-        healthStatus.checks.filesystem = "unhealthy";
-        logError("Health", "Filesystem check failed", error);
-      }
-    }
-
-    // Check memory usage
-    try {
-      const memUsage = process.memoryUsage();
-      const memoryMB = Math.round(memUsage.heapUsed / 1024 / 1024);
-      const threshold = config.healthCheck?.memoryWarningThresholdMB ?? 400;
-      healthStatus.checks.memory = memoryMB < threshold ? "healthy" : "warning";
-      healthStatus.memoryUsage = {
-        heapUsed: `${memoryMB}MB`,
-        heapTotal: `${Math.round(memUsage.heapTotal / 1024 / 1024)}MB`,
-      };
-    } catch (error) {
-      healthStatus.checks.memory = "unhealthy";
-      logError("Health", "Memory check failed", error);
-    }
-
-    // Overall status
-    const anyUnhealthy = Object.values(healthStatus.checks).some(
-      (check) => check === "unhealthy",
-    );
-    if (anyUnhealthy) {
-      healthStatus.status = "degraded";
-    }
-
-    // Add response time
-    healthStatus.responseTime = `${Date.now() - startTime}ms`;
-
-    const statusCode = healthStatus.status === "healthy" ? 200 : 503;
-    res.status(statusCode).json(healthStatus);
+    const statusCode = status === "unhealthy" ? 503 : 200;
+    res.status(statusCode).json(body);
   } catch (error) {
-    const safeErrorMessage = error?.message ?? String(error);
     logError("Health", "Health check failed", error);
-    res.status(503).json({
-      status: "unhealthy",
-      timestamp: new Date().toISOString(),
-      error: safeErrorMessage,
-      responseTime: `${Date.now() - startTime}ms`,
-    });
+    error.statusCode = 503;
+    next(error);
   }
 }

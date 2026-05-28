@@ -76,7 +76,7 @@ function rankingsDropValues(riderRanking, dropList) {
     if (!rider) {
       return rider;
     }
-    return rider.map((stage) => dropValues(stage, dropList));
+    return rider.map((stage) => (stage ? dropValues(stage, dropList) : stage));
   });
 }
 

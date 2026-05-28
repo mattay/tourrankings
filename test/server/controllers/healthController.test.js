@@ -34,6 +34,7 @@ describe("Health Controller", () => {
   let res;
   let jsonMock;
   let statusMock;
+  let nextMock;
   let originalIsInitialized;
   let originalDataDir;
   let dataService;
@@ -48,6 +49,7 @@ describe("Health Controller", () => {
     // Reset mocks before each test
     jsonMock = jest.fn();
     statusMock = jest.fn(() => ({ json: jsonMock }));
+    nextMock = jest.fn();
 
     req = {};
     res = {
@@ -221,7 +223,7 @@ describe("Health Controller", () => {
       expect(response.checks).toHaveProperty("dataService");
     });
 
-    it("should handle errors and return 503 status with unhealthy status", async () => {
+    it("should forward errors to next with 503 status", async () => {
       // Mock process.uptime to throw an error
       const originalUptime = process.uptime;
       process.uptime = () => {
@@ -229,43 +231,30 @@ describe("Health Controller", () => {
       };
 
       try {
-        await getHealth(req, res);
+        await getHealth(req, res, nextMock);
 
-        // Should catch the error and return 503
-        expect(statusMock).toHaveBeenCalledWith(503);
-        const response = jsonMock.mock.calls[0][0];
-        expect(response.status).toBe("unhealthy");
-        expect(response.error).toBe("Uptime check failed");
+        expect(nextMock).toHaveBeenCalledWith(
+          expect.objectContaining({ statusCode: 503, message: "Uptime check failed" }),
+        );
       } finally {
         // Restore
         process.uptime = originalUptime;
       }
     });
 
-    it("should return error details when health check fails", async () => {
-      // Create a mock that fails on json call but succeeds on status
-      const errorJsonMock = jest.fn();
-      const errorRes = {
-        status: jest.fn(() => ({ json: errorJsonMock })),
-        json: jest.fn(),
-      };
-
-      // Mock process.uptime to throw an error
+    it("should forward errors to next with error message", async () => {
       const originalUptime = process.uptime;
       process.uptime = () => {
         throw new Error("Uptime failed");
       };
 
       try {
-        await getHealth(req, errorRes);
+        await getHealth(req, res, nextMock);
 
-        expect(errorRes.status).toHaveBeenCalledWith(503);
-        const response = errorJsonMock.mock.calls[0][0];
-        expect(response.status).toBe("unhealthy");
-        expect(response.error).toBe("Uptime failed");
-        expect(response.timestamp).toBeDefined();
+        expect(nextMock).toHaveBeenCalledWith(
+          expect.objectContaining({ statusCode: 503, message: "Uptime failed" }),
+        );
       } finally {
-        // Restore original function
         process.uptime = originalUptime;
       }
     });
@@ -356,7 +345,7 @@ describe("Health Controller", () => {
       const response = jsonMock.mock.calls[0][0];
       expect(response.checks.dataService).toBe("unhealthy");
       expect(response.status).toBe("degraded");
-      expect(statusMock).toHaveBeenCalledWith(503);
+      expect(statusMock).toHaveBeenCalledWith(200);
     });
   });
 });

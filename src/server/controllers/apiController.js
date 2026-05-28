@@ -13,12 +13,10 @@ export function getRaceData(req, res) {
     const year = req.params.year
       ? parseInt(req.params.year)
       : new Date().getFullYear();
-    // const stage = req.params.stage ? parseInt(req.params.stage) : null;
 
-    logOut("API", `Fetching race data for ${racePcsID} ${year}`);
+    logOut("Controller API", `Fetching race data for ${racePcsID} ${year}`);
 
     const content = raceContent(racePcsID, year);
-    // TODO Remove references to PCS
 
     res.json(content);
   } catch (error) {

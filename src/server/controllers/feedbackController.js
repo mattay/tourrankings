@@ -24,6 +24,19 @@ import { googleSheetsService } from "@services/google/googleSheetsService";
 /**
  * Configuration for feedback handling
  */
+const ALLOWED_FIELDS = [
+  "feedbackType",
+  "message",
+  "userEmail",
+  "pageUrl",
+  "userAgent",
+  "timestamp",
+  "raceId",
+  "year",
+  "stage",
+  "classification",
+];
+
 const FEEDBACK_CONFIG = {
   requiredFields: ["feedbackType", "message", "pageUrl"],
   maxMessageLength: 2000,
@@ -86,28 +99,32 @@ function validateFeedbackData(data) {
 }
 
 /**
+ * Basic string sanitization removing `<`, `>` and `javascript:`
+ * @param {string} str - The string to sanitize
+ * @returns {string} The sanitized string, or the original value if not a string
+ */
+function sanitizeString(str) {
+  if (typeof str !== "string") return str;
+  return str
+    .replace(/[<>]/g, "") // Remove < and > characters
+    .replace(/javascript:/gi, "") // Remove javascript: protocol
+    .trim();
+}
+
+/**
  * Sanitizes feedback data to prevent XSS and other security issues
  * @param {FeedbackData} data - Raw feedback data
  * @returns {FeedbackData} Sanitized feedback data
  */
 function sanitizeFeedbackData(data) {
+  /** @type {Object<string, any>} */
   const sanitized = {};
 
-  // Basic string sanitization (remove/escape potentially dangerous characters)
-  const sanitizeString = (str) => {
-    if (typeof str !== "string") return str;
-    return str
-      .replace(/[<>]/g, "") // Remove < and > characters
-      .replace(/javascript:/gi, "") // Remove javascript: protocol
-      .trim();
-  };
-
-  // Sanitize all string fields
-  Object.keys(data).forEach((key) => {
-    if (typeof data[key] === "string") {
-      sanitized[key] = sanitizeString(data[key]);
-    } else {
-      sanitized[key] = data[key];
+  ALLOWED_FIELDS.forEach((field) => {
+    if (Object.prototype.hasOwnProperty.call(data, field)) {
+      const value = data[field];
+      sanitized[field] =
+        typeof value === "string" ? sanitizeString(value) : value;
     }
   });
 
@@ -118,6 +135,7 @@ function sanitizeFeedbackData(data) {
       sanitized.timestamp = date.toISOString();
     } catch (error) {
       sanitized.timestamp = new Date().toISOString();
+      logError("Controller Feedback", "Timestamp", error);
     }
   } else {
     sanitized.timestamp = new Date().toISOString();

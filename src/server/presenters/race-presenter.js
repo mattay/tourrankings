@@ -48,7 +48,7 @@ export function racePagePresenter(
     description: "A web application for tracking and ranking tours.",
     keywords,
     race: content.race,
-    stage: content.stages[stage || content.stagesCompleted],
+    stage: content.stages[stage ?? content.stagesCompleted],
     classifications,
   };
 }

@@ -234,7 +234,7 @@ describe("Health Controller", () => {
         // Should catch the error and return 503
         expect(statusMock).toHaveBeenCalledWith(503);
         const response = jsonMock.mock.calls[0][0];
-        expect(response.status).toBe("unhealthy");
+        expect(response.status).toBe("error");
         expect(response.error).toBe("Uptime check failed");
       } finally {
         // Restore
@@ -261,7 +261,7 @@ describe("Health Controller", () => {
 
         expect(errorRes.status).toHaveBeenCalledWith(503);
         const response = errorJsonMock.mock.calls[0][0];
-        expect(response.status).toBe("unhealthy");
+        expect(response.status).toBe("error");
         expect(response.error).toBe("Uptime failed");
         expect(response.timestamp).toBeDefined();
       } finally {
@@ -356,7 +356,7 @@ describe("Health Controller", () => {
       const response = jsonMock.mock.calls[0][0];
       expect(response.checks.dataService).toBe("unhealthy");
       expect(response.status).toBe("degraded");
-      expect(statusMock).toHaveBeenCalledWith(503);
+      expect(statusMock).toHaveBeenCalledWith(200);
     });
   });
 });

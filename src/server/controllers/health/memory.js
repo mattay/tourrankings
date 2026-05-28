@@ -1,7 +1,7 @@
 import config from "@server/config";
 import { logError } from "@utils/logging";
 
-/** @typedef {import('./types').MemoryCheckStatus} MemoryCheckStatus */
+/** @typedef {import('@server/controllers/health/types').MemoryCheckStatus} MemoryCheckStatus */
 
 /**
  * @typedef {Object} MemoryUsage

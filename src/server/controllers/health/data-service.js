@@ -2,7 +2,7 @@ import dataService from "@services/dataServiceInstance";
 import { logError } from "@utils/logging";
 
 /**
- * @typedef {import('./types').DataServiceCheckStatus} DataServiceCheckStatus
+ * @typedef {import('@server/controllers/health/types').DataServiceCheckStatus} DataServiceCheckStatus
  */
 
 /**

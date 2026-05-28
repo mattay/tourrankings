@@ -1,7 +1,7 @@
 export { routesAPI } from "./routes-api";
 export { routesSeasonRaces } from "./routes-season-races";
 export { routesRace } from "./routes-race";
-export { routesHealth } from "src/server/routes/routes-health";
+export { routesHealth } from "@server/routes/routes-health";
 // export { routesViews } from "./routesViews";
 
 // If you need a default export as well:

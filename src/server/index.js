@@ -2,7 +2,12 @@ import express from "express";
 import config from "./config";
 import setupMiddleware from "@server/middleware";
 import { htmlProcessorMiddleware } from "@server/middleware/htmlProcessor";
-import { routesAPI, routesRace, routesRoot, routesHealth } from "@server/routes";
+import {
+  routesAPI,
+  routesRace,
+  routesSeasonRaces,
+  routesHealth,
+} from "@server/routes";
 import dataService from "@services/dataServiceInstance";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
@@ -78,7 +83,7 @@ async function setupRoutes(app) {
     app.use("/race", routesRace); // This will match /:racePcsID
 
     // Mount view routes at the application level
-    app.use("/", routesRoot);
+    app.use("/", routesSeasonRaces);
 
     // Add 404 handler for undefined routes
     app.use((req, res) => {

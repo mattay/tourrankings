@@ -1,8 +1,8 @@
 import express from "express";
 import { seasonRaces } from "@server/controllers/raceController";
-import { logError } from "@utils/logging";
 import { getErrorHTML, getErrorText } from "@server/utils/errorMessages";
 import { validateYear } from "@utils/date";
+import { logError } from "@utils/logging";
 
 const router = express.Router();
 
@@ -55,7 +55,7 @@ function renderSeasonPage(res, next, page) {
       page.races = races;
     }
 
-    res.render("pages/home", page);
+    res.render("pages/season-races", page);
   } catch (error) {
     logError("Routes Root", getErrorText("RENDER_ERROR"), error);
     try {
@@ -116,4 +116,4 @@ router.get("/season/{:year}", (req, res, next) => {
   renderSeasonPage(res, next, page);
 });
 
-export { router as routesRoot };
+export { router as routesSeasonRaces };

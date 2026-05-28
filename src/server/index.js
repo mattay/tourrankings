@@ -1,4 +1,6 @@
 import express from "express";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 import config from "./config";
 import setupMiddleware from "@server/middleware";
 import { htmlProcessorMiddleware } from "@server/middleware/htmlProcessor";
@@ -9,8 +11,6 @@ import {
   routesHealth,
 } from "@server/routes";
 import dataService from "@services/dataServiceInstance";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
 import { logError, logOut } from "@utils/logging";
 import { getAppVersion } from "@utils/version";
 

@@ -2,19 +2,22 @@ import dataService from "@services/dataServiceInstance";
 import { logError } from "@utils/logging";
 
 /**
- * Checks whether the data service has been initialized.
+ * @typedef {import('./types').DataServiceCheckStatus} DataServiceCheckStatus
+ */
+
+/**
+ * Checks whether the data service has been initialised.
  *
- * @returns {"healthy" | "unhealthy" | "check failed"}
+ * @returns {DataServiceCheckStatus}
+ *   - `"healthy"`   — `dataService.isInitialized` is `true`
+ *   - `"unhealthy"` — the service is reachable but not yet initialised
+ *   - `"error"`     — accessing the service threw an unexpected error
  */
 export function statusOfDataService() {
-  let status = "check failed";
   try {
-    const isInitialized = dataService.isInitialized ?? false;
-    status = isInitialized ? "healthy" : "unhealthy";
+    return (dataService.isInitialized ?? false) ? "healthy" : "unhealthy";
   } catch (error) {
-    status = "unhealthy";
     logError("Health", "Data service check failed", error);
+    return "error";
   }
-
-  return status;
 }

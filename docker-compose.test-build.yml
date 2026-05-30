@@ -23,7 +23,6 @@ services:
       - ./data:/tourRanking/data
     environment:
       NODE_ENV: production
-      NODE_OPTIONS: "--max-old-space-size=512"
       PORT: 8080
       DATA_DIR: /tourRanking/data/csv
       LOG_LEVEL: info
@@ -54,7 +53,6 @@ services:
       - ./data:/tourRanking/data
     environment:
       NODE_ENV: production
-      NODE_OPTIONS: "--max-old-space-size=512"
       DATA_DIR: /tourRanking/data/csv
       LOG_LEVEL: info
     command: ["supercronic", "-passthrough-logs", "/tourRanking/crontab"]

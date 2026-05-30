@@ -153,8 +153,6 @@ docker compose -f docker-compose.test.yml build --no-cache
 ```
 
 ### Memory Issues
-- Production Dockerfile sets `NODE_OPTIONS="--max-old-space-size=512"`
-- Matches 768MB VM allocation (512MB for Node, ~256MB for JSDOM/parser)
 - If seeing OOM errors, check memory usage: `fly ssh console --config fly.prod.toml -C "free -m"`
 
 ### Data Persistence

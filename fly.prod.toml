@@ -10,7 +10,7 @@ dockerfile = "Dockerfile"
 ignorefile = ".dockerignore"
 
 [[vm]]
-memory = '768mb'
+memory = '512mb'
 cpu_kind = 'shared'
 cpus = 1
 

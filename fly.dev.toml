@@ -22,6 +22,18 @@ DATA_AUTO_REFRESH_INTERVAL = "900000"  # 15 min - faster feedback in dev
 APP_VERSION = ""  # Injected by CI/CD during deployment
 CORS_ORIGIN = "https://tourrankings-dev.fly.dev"
 
+# File logging
+LOG_DIR = "/tourRanking/data/logs"
+FILE_LOGGING_ENABLED = "true"
+LOG_ACCESS_ROTATION_DAYS = "90"
+LOG_ACCESS_ROTATION_SIZE_MB = "50"
+LOG_API_ROTATION_DAYS = "90"
+LOG_API_ROTATION_SIZE_MB = "50"
+LOG_HEALTH_ROTATION_DAYS = "7"
+LOG_HEALTH_ROTATION_SIZE_MB = "10"
+LOG_STATIC_ROTATION_DAYS = "30"
+LOG_STATIC_ROTATION_SIZE_MB = "50"
+
 [mounts]
 source = "dev_data_volume"
 destination = "/tourRanking/data"

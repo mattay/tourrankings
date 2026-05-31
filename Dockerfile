@@ -56,8 +56,7 @@ COPY --from=builder /tourRanking /tourRanking
 # ============================================
 ENV NODE_ENV=production \
     PORT=8080 \
-    DATA_DIR=/tourRanking/data/csv \
-    DATA_AUTO_REFRESH=TRUE
+    DATA_DIR=/tourRanking/data/csv
 
 # ============================================
 # Security

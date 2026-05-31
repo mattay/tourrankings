@@ -85,6 +85,13 @@ async function setupRoutes(app) {
     // Mount view routes at the application level
     app.use("/", routesSeasonRaces);
 
+    // Privacy notice
+    app.get("/privacy", (req, res) => {
+      res.render("pages/privacy", {
+        title: "Privacy Notice",
+      });
+    });
+
     // Add 404 handler for undefined routes
     app.use((req, res) => {
       res.status(404).render("pages/error", {

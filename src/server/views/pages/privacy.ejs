@@ -1,0 +1,126 @@
+<!-- server/views/pages/privacy.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %> | TourRankings</title>
+  <link rel="stylesheet" href="/css/base.css">
+</head>
+<body>
+  <%- include('../organisms/header') %>
+  <main>
+    <h1>Privacy Notice</h1>
+    <p><em>Last updated: May 2026</em></p>
+
+    <section>
+      <h2>What data we collect and why</h2>
+
+      <h3>Rider and team data</h3>
+      <p>
+        TourRankings displays classification rankings for professional cycling races.
+        Rider names, nationalities, team affiliations, and race results are collected
+        from <a href="https://www.procyclingstats.com/">ProCyclingStats</a>, a publicly
+        available source. This data is processed under the legal basis of
+        <strong>legitimate interest</strong> — providing accurate sports statistics to
+        fans and analysts.
+      </p>
+
+      <h3>Feedback form</h3>
+      <p>
+        If you choose to submit feedback, we collect:
+      </p>
+      <ul>
+        <li>The message you write</li>
+        <li>The feedback category you select</li>
+        <li>The page URL and browser user agent (for debugging)</li>
+        <li>Your email address <strong>only if you voluntarily provide it</strong> (it is clearly marked as optional)</li>
+      </ul>
+      <p>
+        Feedback data is processed under the legal basis of <strong>consent</strong>.
+        You actively submit the form knowing what data is included.
+      </p>
+    </section>
+
+    <section>
+      <h2>How we store your data</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Storage</th>
+            <th>Retention</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Rider and race data</td>
+            <td>CSV files (server-side)</td>
+            <td>Indefinitely — refreshed each season from public sources</td>
+          </tr>
+          <tr>
+            <td>Feedback submissions</td>
+            <td>Google Sheets (private, accessed via service account)</td>
+            <td>Indefinitely until a deletion mechanism is implemented. To request deletion, contact us (see below).</td>
+          </tr>
+          <tr>
+            <td>Server logs</td>
+            <td>Ephemeral (container stdout, not persisted)</td>
+            <td>Not retained</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Third-party processors</h2>
+      <ul>
+        <li>
+          <strong>Google Sheets API</strong> — stores feedback submissions.
+          Data is transmitted via authenticated service account requests.
+        </li>
+        <li>
+          <strong>jsdelivr CDN</strong> — serves the D3.js visualisation library.
+          No personal data is shared.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>No tracking</h2>
+      <p>
+        TourRankings sets <strong>no cookies</strong> for tracking, analytics, or
+        advertising. We do not use Google Analytics, Facebook pixels, or any
+        third-party tracking services. The site does not collect browsing behaviour
+        or personalise content based on user profiles.
+      </p>
+    </section>
+
+    <section>
+      <h2>Your rights</h2>
+      <p>Under data protection law, you have the right to:</p>
+      <ul>
+        <li><strong>Access</strong> — request a copy of the personal data we hold about you</li>
+        <li><strong>Rectification</strong> — ask us to correct inaccurate data</li>
+        <li><strong>Erasure</strong> — request deletion of your feedback data</li>
+        <li><strong>Objection</strong> — object to our processing of your data</li>
+      </ul>
+      <p>
+        To exercise any of these rights, please open a
+        <a href="https://github.com/mattay/tourrankings/issues">GitHub issue</a>
+        on the project repository. We will respond within 30 days.
+      </p>
+    </section>
+
+    <section>
+      <h2>Contact</h2>
+      <p>
+        For privacy-related inquiries, open a
+        <a href="https://github.com/mattay/tourrankings/issues">GitHub issue</a>
+        on the project repository.
+      </p>
+    </section>
+  </main>
+  <%- include('../organisms/footer') %>
+</body>
+</html>

@@ -413,7 +413,7 @@ The project processes the following categories of data:
 |---|---|---|---|
 | **Rider personal data** (name, surname, date of birth, nationality) | Scraped from ProCyclingStats (public site) | CSV files in `data/` and `public/data/csv/` | Legitimate interest / public interest — professional sports figures, publicly available |
 | **Team data** (team name, classification) | Scraped from ProCyclingStats | CSV files | No personal data involved |
-| **Race results** (rankings, times, points, UCI points) | Scraped from ProCyclingStats | CSV files | No personal data involved, but rider names/ages appear as incidental context in stage result rows |
+| **Race results** (rankings, times, points, UCI points) | Scraped from ProCyclingStats | CSV files | No personal data involved, but rider names appear as incidental context in stage result rows. (The `age` column from PCS HTML is explicitly dropped before CSV persistence.) |
 | **Feedback form data** (email, message, user agent, page URL) | User-submitted via client-side form | Google Sheets (third-party processor) | Consent — user explicitly submits with optional email |
 | **Server logs** | Application logging (stdout/stderr) | ephemeral (container stdout, not persisted) | Legitimate interest — operational necessity, no PII logged |
 
@@ -455,7 +455,7 @@ The project processes the following categories of data:
 #### 4. Logging — No PII in Logs
 
 - Server logs **must never contain** email addresses, IP addresses, full names, or any other personal data.
-- The logger (`src/server/utils/logger.js`) outputs operational messages only (e.g., "Scraping race X", "Server running on port Y").
+- The logging helper (`src/utils/logging.js` — `logOut`/`logError`) outputs operational messages only (e.g., "Scraping race X", "Server running on port Y"). The error handler middleware also uses `src/server/utils/logger.js`, but the helpers in `src/utils/logging.js` are the primary tools used across the codebase.
 - **Error messages** logged via `logError` should describe the operation that failed, not the user who triggered it or the data they submitted.
 - The feedback controller logs `"Failed to process feedback"` — it does **not** log the submitted email or message body. Maintain this.
 - **Never log request headers, query strings, or request bodies** that could contain PII.

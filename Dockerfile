@@ -55,7 +55,6 @@ COPY --from=builder /tourRanking /tourRanking
 # Environment
 # ============================================
 ENV NODE_ENV=production \
-    NODE_OPTIONS="--max-old-space-size=512" \
     PORT=8080 \
     DATA_DIR=/tourRanking/data/csv \
     DATA_AUTO_REFRESH=TRUE

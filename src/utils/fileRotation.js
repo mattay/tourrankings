@@ -57,12 +57,8 @@ export async function rotateFile(filePath) {
   const base = filePath.slice(0, -ext.length);
   const rotatedPath = `${base}.${timestamp}${ext}`;
 
-  try {
-    await fs.promises.rename(filePath, rotatedPath);
-    return rotatedPath;
-  } catch {
-    return rotatedPath;
-  }
+  await fs.promises.rename(filePath, rotatedPath);
+  return rotatedPath;
 }
 
 /**
@@ -126,7 +122,12 @@ export async function checkAndRotate(target) {
     ageDays >= target.config.rotationDays;
 
   if (needsRotation) {
-    await rotateFile(target.filePath);
+    try {
+      await rotateFile(target.filePath);
+    } catch {
+      // Rotation failed — don't reset state, try again next write
+      return;
+    }
 
     if (target.config.retentionDays != null) {
       await enforceRetention(

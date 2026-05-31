@@ -51,7 +51,9 @@ const config = {
   // Security settings
   security: {
     cors: {
-      origin: process.env.CORS_ORIGIN || "*",
+      origin: process.env.CORS_ORIGIN
+        ? process.env.CORS_ORIGIN.split(",").map((o) => o.trim()).filter(Boolean)
+        : ["*"],
       methods: ["GET", "POST"],
     },
     rateLimit: {

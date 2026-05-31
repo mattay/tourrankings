@@ -10,114 +10,109 @@
 <body>
   <%- include('../organisms/header') %>
   <main>
-    <h1>Privacy Notice</h1>
-    <p><em>Last updated: May 2026</em></p>
+    <h1>Privacy</h1>
 
     <section>
-      <h2>What data we collect and why</h2>
-
-      <h3>Rider and team data</h3>
+      <h2>The short version</h2>
       <p>
-        TourRankings displays classification rankings for professional cycling races.
-        Rider names, nationalities, team affiliations, and race results are collected
-        from <a href="https://www.procyclingstats.com/">ProCyclingStats</a>, a publicly
-        available source. This data is processed under the legal basis of
-        <strong>legitimate interest</strong> — providing accurate sports statistics to
-        fans and analysts.
-      </p>
-
-      <h3>Feedback form</h3>
-      <p>
-        If you choose to submit feedback, we collect:
-      </p>
-      <ul>
-        <li>The message you write</li>
-        <li>The feedback category you select</li>
-        <li>The page URL and browser user agent (for debugging)</li>
-        <li>Your email address <strong>only if you voluntarily provide it</strong> (it is clearly marked as optional)</li>
-      </ul>
-      <p>
-        Feedback data is processed under the legal basis of <strong>consent</strong>.
-        You actively submit the form knowing what data is included.
+        This site shows race results for professional cycling tours.
+        We display rider names, nationalities, teams, and race data — the same
+        stuff you'd see on any race broadcast. We don't track you, we don't run
+        ads, and we don't sell anything. If you send us feedback, we'll keep
+        your message and, if you leave it, your email so we can reply. That's it.
       </p>
     </section>
 
     <section>
-      <h2>How we store your data</h2>
+      <h2>What data is on this site</h2>
+      <p>
+        All the race data — rider names, teams, results, classifications — is
+        public information about professional sports events. These riders are
+        public figures competing in public races. We display the same information
+        you'd find on any race result page or broadcast graphic.
+      </p>
+    </section>
+
+    <section>
+      <h2>What we collect from you</h2>
+      <p>
+        If you choose to use the feedback form on the site, we collect:
+      </p>
+      <ul>
+        <li>Your message and the feedback category you pick</li>
+        <li>The page you were on (so we know context)</li>
+        <li>Your email <em>only if you want to leave one</em> — it's optional and clearly marked as such</li>
+      </ul>
+      <p>
+        We don't require an account, we don't set tracking cookies, and we
+        don't monitor your browsing.
+      </p>
+    </section>
+
+    <section>
+      <h2>Where the data lives</h2>
       <table>
         <thead>
           <tr>
-            <th>Data</th>
-            <th>Storage</th>
-            <th>Retention</th>
+            <th>What</th>
+            <th>Where</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Rider and race data</td>
-            <td>CSV files (server-side)</td>
-            <td>Indefinitely — refreshed each season from public sources</td>
+            <td>Race and rider data</td>
+            <td>CSV files on our server</td>
           </tr>
           <tr>
-            <td>Feedback submissions</td>
-            <td>Google Sheets (private, accessed via service account)</td>
-            <td>Indefinitely until a deletion mechanism is implemented. To request deletion, contact us (see below).</td>
+            <td>Feedback messages</td>
+            <td>Private cloud storage (Google Sheets), accessed only by us</td>
           </tr>
           <tr>
             <td>Server logs</td>
-            <td>Ephemeral (container stdout, not persisted)</td>
-            <td>Not retained</td>
+            <td>Ephemeral — not stored or kept</td>
           </tr>
         </tbody>
       </table>
     </section>
 
     <section>
-      <h2>Third-party processors</h2>
+      <h2>Third-party services</h2>
+      <p>
+        A couple of external services help this site run:
+      </p>
       <ul>
         <li>
-          <strong>Google Sheets API</strong> — stores feedback submissions.
-          Data is transmitted via authenticated service account requests.
+          <strong>Google Sheets</strong> — stores feedback submissions
+          so we can read and respond to them. This is behind service
+          account authentication and not publicly accessible.
         </li>
         <li>
-          <strong>jsdelivr CDN</strong> — serves the D3.js visualisation library.
-          No personal data is shared.
+          <strong>jsdelivr</strong> — serves the D3.js visualisation library.
+          It's a CDN, nothing more. No personal data is sent.
         </li>
       </ul>
     </section>
 
     <section>
-      <h2>No tracking</h2>
+      <h2>No tracking, no ads</h2>
       <p>
-        TourRankings sets <strong>no cookies</strong> for tracking, analytics, or
-        advertising. We do not use Google Analytics, Facebook pixels, or any
-        third-party tracking services. The site does not collect browsing behaviour
-        or personalise content based on user profiles.
+        There are no analytics scripts, no tracking pixels, no advertising
+        cookies, and no profiling. We don't know who you are or what pages
+        you've visited. We just want to show you some good cycling rankings.
       </p>
     </section>
 
     <section>
       <h2>Your rights</h2>
-      <p>Under data protection law, you have the right to:</p>
-      <ul>
-        <li><strong>Access</strong> — request a copy of the personal data we hold about you</li>
-        <li><strong>Rectification</strong> — ask us to correct inaccurate data</li>
-        <li><strong>Erasure</strong> — request deletion of your feedback data</li>
-        <li><strong>Objection</strong> — object to our processing of your data</li>
-      </ul>
       <p>
-        To exercise any of these rights, please open a
-        <a href="https://github.com/mattay/tourrankings/issues">GitHub issue</a>
-        on the project repository. We will respond within 30 days.
+        You can ask us what data we hold about you, request corrections,
+        or ask us to delete your feedback. If you left an email with your
+        feedback, we can find it and remove it.
       </p>
-    </section>
-
-    <section>
-      <h2>Contact</h2>
       <p>
-        For privacy-related inquiries, open a
+        Just open a
         <a href="https://github.com/mattay/tourrankings/issues">GitHub issue</a>
-        on the project repository.
+        on the project repo and we'll sort it out.
       </p>
     </section>
   </main>

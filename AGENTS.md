@@ -400,3 +400,112 @@ Note: With git worktrees, hooks in the main `.git/hooks/` directory apply to all
 
 - **pre-commit**: Runs lint before every commit (fast feedback)
 - **pre-push**: Runs lint + test before every push (comprehensive check)
+
+## GDPR-Safe Development
+
+This project handles personal data and must comply with the General Data Protection Regulation (GDPR). Every agent working on this codebase must follow these rules to ensure all work is GDPR-safe.
+
+### Data Inventory
+
+The project processes the following categories of data:
+
+| Data Category | Source | Storage | GDPR Basis |
+|---|---|---|---|
+| **Rider personal data** (name, surname, date of birth, nationality) | Scraped from ProCyclingStats (public site) | CSV files in `data/` and `public/data/csv/` | Legitimate interest / public interest — professional sports figures, publicly available |
+| **Team data** (team name, classification) | Scraped from ProCyclingStats | CSV files | No personal data involved |
+| **Race results** (rankings, times, points, UCI points) | Scraped from ProCyclingStats | CSV files | No personal data involved, but rider names/ages appear as incidental context in stage result rows |
+| **Feedback form data** (email, message, user agent, page URL) | User-submitted via client-side form | Google Sheets (third-party processor) | Consent — user explicitly submits with optional email |
+| **Server logs** | Application logging (stdout/stderr) | ephemeral (container stdout, not persisted) | Legitimate interest — operational necessity, no PII logged |
+
+### Guiding Principles
+
+1. **Data Minimisation** — Only collect, store, and transmit the minimum data required for the feature to function. If you can achieve the goal without storing a data point, do so.
+2. **Purpose Limitation** — Data collected for one purpose (e.g., showing race rankings) must not be repurposed (e.g., profiling users) without explicit consent.
+3. **Transparency** — Any collection of personal data must be visible and understandable to the data subject.
+4. **Security** — Personal data must be protected against unauthorised access, alteration, or loss.
+5. **Accountability** — Every change that touches personal data must be reviewable. Document your GDPR reasoning in PR descriptions.
+
+### Rules for Agents
+
+#### 1. Scraper — Rider Data Handling
+
+- **Only collect publicly available professional sports data.** Rider names, nationalities, dates of birth, and flags are scraped from publicly published start lists and results on ProCyclingStats. This falls under legitimate interest for a sports statistics website.
+- **Never scrape personal contact information** (email, phone, address, social media handles) about riders, staff, or anyone else.
+- **Never scrape data about non-public individuals** (fans, commenters, etc.).
+- **Date of birth** is collected only where it appears on public start lists for identification. It must not be displayed prominently in the UI — it is a supporting identifier only.
+- **Do not add new rider fields** without GDPR review. Every new rider data point must be justifiable as necessary for race result context.
+- **Staff data** (DS, soigneurs, mechanics) appears in the start list scrape (`ScrapedRaceStartListStaff`). If this data is unused, it must not be persisted. The current code does not write staff data to CSV — maintain this.
+
+#### 2. Feedback Form — PII Handling
+
+- The **email field is explicitly optional** with clear labelling ("Only if you'd like a response"). Maintain this opt-in pattern. Never make email mandatory.
+- The form collects `userAgent` and `pageUrl` for debugging context. These are transmitted to the server but are **not displayed publicly**.
+- All feedback data is sent to **Google Sheets** (a third-party data processor). Any change to how feedback data is stored or transmitted must consider the processor agreement.
+- Feedback data must be **sanitised** on the server before storage (`sanitizeString()` strips `<`, `>`, `javascript:`). Maintain this sanitisation.
+- **Validation** (`validateFeedbackData()`) enforces that message length is capped (2000 chars) and email format is checked. Never remove or relax these limits without GDPR review.
+- Feedback data is stored indefinitely in Google Sheets. If adding a data retention/deletion mechanism, ensure users can request deletion of their feedback.
+
+#### 3. No Tracking or Analytics
+
+- **Never add analytics scripts** (Google Analytics, Mixpanel, Hotjar, etc.) without explicit GDPR-compliant cookie consent and a privacy policy update.
+- **Never add third-party tracking pixels, fingerprinting, or session recording.**
+- The project uses **jsdelivr CDN** for D3 and other libraries — this is a content delivery function, not tracking. If adding new CDN dependencies, verify they do not inject tracking.
+- **No cookies** are set for tracking or analytics. The CSP `formAction: ['self']` directive prevents form data from being exfiltrated to third parties.
+
+#### 4. Logging — No PII in Logs
+
+- Server logs **must never contain** email addresses, IP addresses, full names, or any other personal data.
+- The logger (`src/server/utils/logger.js`) outputs operational messages only (e.g., "Scraping race X", "Server running on port Y").
+- **Error messages** logged via `logError` should describe the operation that failed, not the user who triggered it or the data they submitted.
+- The feedback controller logs `"Failed to process feedback"` — it does **not** log the submitted email or message body. Maintain this.
+- **Never log request headers, query strings, or request bodies** that could contain PII.
+- `console.warn` and `console.error` are allowed by ESLint. `console.log` triggers a warning — treat this as a GDPR signal that the log line may not have been reviewed for PII.
+
+#### 5. Third-Party Processors
+
+| Processor | Purpose | Data Shared | Safeguards |
+|---|---|---|---|
+| Google Sheets API (`sheets.googleapis.com`) | Feedback storage | Email (optional), message, user agent, page URL, timestamp | Service account auth (no user impersonation); data is in a private spreadsheet, not publicly accessible |
+| jsdelivr CDN (`cdn.jsdelivr.net`) | Serving D3 and other libraries | None (static asset delivery) | No cookies set by CSP; browser cached assets only |
+| ProCyclingStats (procyclingstats.com) | Data source for scraping | Public HTTP requests (no user data sent) | Scraper sends no cookies, no authentication, no PII in requests |
+
+- **When adding a new third-party service**, verify:
+  1. Is personal data sent to them? If yes, a Data Processing Agreement (DPA) may be needed.
+  2. Is the service privacy policy acceptable?
+  3. Can the integration be configured to minimise data sharing?
+
+#### 6. User Rights Considerations
+
+- **Access**: If a user requests what data we hold about them, we must be able to respond. Feedback data in Google Sheets is queryable by email. Rider data is purely public sports statistics.
+- **Deletion**: If a user requests deletion of their feedback, we must be able to remove their row from Google Sheets. A deletion endpoint or manual process should be documented.
+- **Objection**: Users can object to processing. Ensure the feedback form is the only point of personal data collection so this is straightforward.
+
+#### 7. Privacy Notice
+
+- The application **must include a privacy notice** (link in footer or on an accessible page) that explains:
+  - What personal data is collected (rider data from public sources, optional feedback email)
+  - For what purpose
+  - The legal basis (legitimate interest for sports data, consent for feedback email)
+  - Third-party processors (Google Sheets, jsdelivr)
+  - User rights (access, rectification, deletion, objection)
+  - Contact for privacy inquiries
+- Any agent adding a new data collection feature must ensure the privacy notice is updated or flagged for update.
+
+#### 8. Auditing Changes for GDPR Impact
+
+When making any change, ask yourself:
+
+| Question | If Yes |
+|---|---|
+| Does this collect **new personal data**? | Add to data inventory, update privacy notice, confirm legal basis |
+| Does this **send personal data** to a new third party? | Verify DPA, update privacy notice |
+| Does this **store personal data** in a new location? | Ensure security controls (access control, encryption at rest if sensitive) |
+| Does this **display personal data** in the UI? | Ensure it's limited to what's necessary for race context |
+| Does this **log personal data**? | Remove the log or redact the PII |
+| Does this **add a cookie or tracker**? | Requires GDPR-compliant consent mechanism |
+
+### When in Doubt
+
+- **Default to not collecting.** If you can't justify why a data point is necessary for the feature, don't collect it.
+- **Default to not logging.** If you can't guarantee a log line contains zero PII, don't write it.
+- **Flag for review.** Add a comment or open a GitHub Discussion if you're unsure about a data handling decision. Privacy is better handled with a second pair of eyes.

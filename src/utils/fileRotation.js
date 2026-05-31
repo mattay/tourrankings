@@ -86,7 +86,11 @@ export async function enforceRetention(logDir, baseName, retentionDays) {
     const base = path.basename(baseName, ext);
 
     for (const file of files) {
-      if (file.startsWith(`${base}.`) && file.endsWith(ext)) {
+      // Only match rotated files: base.YYYY-MM-DDTHH-MM-SS-MSZ.ext
+      const rotatedPattern = new RegExp(
+        `^${base}\\.\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}-\\d{3}Z${ext.replace(".", "\\.")}$`,
+      );
+      if (rotatedPattern.test(file)) {
         const filePath = path.join(logDir, file);
         const stat = await fs.promises.stat(filePath);
         if (stat.mtime < cutoff) {

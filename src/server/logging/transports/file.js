@@ -87,6 +87,7 @@ class FileTransport {
         },
         currentSizeBytes: 0,
         createdAt: new Date(),
+        writeQueue: Promise.resolve(),
       });
     }
   }

@@ -45,10 +45,14 @@ export default function setupMiddleware(app) {
     }
 
     const startTime = Date.now();
+    const startBytes = res.socket?.bytesWritten ?? 0;
 
     res.on("finish", () => {
       const responseTimeMs = Date.now() - startTime;
-      const responseSizeBytes = res.socket?.bytesWritten ?? 0;
+      const responseSizeBytes = Math.max(
+        0,
+        (res.socket?.bytesWritten ?? 0) - startBytes,
+      );
       logRequest(req, res, responseTimeMs, responseSizeBytes);
     });
 

@@ -61,3 +61,16 @@ a:hover {
 .is-hidden {
   display: none;
 }
+
+/* Prose content wrapper — constrains line length for readability.
+ * Optimal body text is 50–75 characters; 65ch is the midpoint.
+ * Use on any content-heavy page (about, privacy, legal, blog, etc.). */
+.content-prose {
+  width: 100%;
+  max-width: 65ch;
+}
+
+.content-prose table {
+  table-layout: fixed;
+  width: 100%;
+}

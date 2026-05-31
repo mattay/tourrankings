@@ -214,13 +214,14 @@ describe("Request Logging Classification", () => {
       expect(entry.responseSizeBytes).toBe(100);
       expect(entry.requestId).toBe("test-request-id");
       expect(entry.hashedIp).toBeDefined();
+      expect(entry.ip).toBeUndefined();
       expect(entry.userAgent).toBe("test-agent");
     });
 
     it("should extract hostname from referrer", async () => {
       const { logRequest } = await import("@server/logging/request");
 
-      const req = createMockReqWithReferrer(
+      const req = createMockReq(
         "/",
         "/",
         200,
@@ -239,7 +240,7 @@ describe("Request Logging Classification", () => {
     it("should extract hostname from social referrer", async () => {
       const { logRequest } = await import("@server/logging/request");
 
-      const req = createMockReqWithReferrer(
+      const req = createMockReq(
         "/",
         "/",
         200,
@@ -258,7 +259,7 @@ describe("Request Logging Classification", () => {
     it("should return undefined for invalid referrer", async () => {
       const { logRequest } = await import("@server/logging/request");
 
-      const req = createMockReqWithReferrer("/", "/", 200, "not-a-valid-url");
+      const req = createMockReq("/", "/", 200, "not-a-valid-url");
       const res = createMockRes(200);
 
       logRequest(req, res, 10, 100);
@@ -271,7 +272,7 @@ describe("Request Logging Classification", () => {
   });
 });
 
-function createMockReqWithReferrer(originalUrl, url, statusCode, referrer) {
+function createMockReq(originalUrl, url, statusCode, referrer) {
   return {
     method: "GET",
     url,
@@ -282,22 +283,6 @@ function createMockReqWithReferrer(originalUrl, url, statusCode, referrer) {
     get: (header) => {
       if (header === "user-agent") return "test-agent";
       if (header === "referrer") return referrer;
-      return undefined;
-    },
-  };
-}
-
-function createMockReq(originalUrl, url, statusCode) {
-  return {
-    method: "GET",
-    url,
-    originalUrl,
-    path: url,
-    id: "test-request-id",
-    ip: "127.0.0.1",
-    get: (header) => {
-      if (header === "user-agent") return "test-agent";
-      if (header === "referrer") return undefined;
       return undefined;
     },
   };

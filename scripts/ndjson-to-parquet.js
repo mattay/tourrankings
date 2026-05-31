@@ -58,16 +58,19 @@ async function main() {
 
   const db = new Database(":memory:");
 
-  for (const logFile of LOG_FILES) {
-    const ndjsonPath = path.join(LOGS_DIR, logFile);
-    const parquetName = logFile.replace(".log", ".parquet");
-    const parquetPath = path.join(LOGS_DIR, parquetName);
+  try {
+    for (const logFile of LOG_FILES) {
+      const ndjsonPath = path.join(LOGS_DIR, logFile);
+      const parquetName = logFile.replace(".log", ".parquet");
+      const parquetPath = path.join(LOGS_DIR, parquetName);
 
-    await convertToParquet(db, ndjsonPath, parquetPath);
+      await convertToParquet(db, ndjsonPath, parquetPath);
+    }
+
+    console.log("\nDone. Upload the .parquet files to ObservableHQ for analysis.");
+  } finally {
+    db.close();
   }
-
-  db.close();
-  console.log("\nDone. Upload the .parquet files to ObservableHQ for analysis.");
 }
 
 main().catch((err) => {

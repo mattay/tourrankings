@@ -192,7 +192,6 @@ jobs:
           echo "$(cat git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz.sha512 | cut -d' ' -f1)  git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz" | sha512sum -c -
           sudo tar -xzf git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz --strip-components=1 -C /usr/local/bin
           rm -f git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz.sha512
-          || cargo install git-cliff@2.6.0
 
       - name: Generate changelog
         run: git-cliff --config .cligrc --output CHANGELOG.md

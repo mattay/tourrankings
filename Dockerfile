@@ -57,7 +57,15 @@ COPY --from=builder /tourRanking /tourRanking
 ENV NODE_ENV=production \
     PORT=8080 \
     DATA_DIR=/tourRanking/data/csv \
-    DATA_AUTO_REFRESH=TRUE
+    LOG_DIR=/tourRanking/data/logs \
+    FILE_LOGGING_ENABLED=true
+
+# ============================================
+# Setup
+# ============================================
+RUN mkdir -p /tourRanking/data/csv /tourRanking/data/logs && \
+    chown -R bun:bun /tourRanking/data && \
+    chmod -R 755 /tourRanking/data
 
 # ============================================
 # Security

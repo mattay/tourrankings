@@ -13,6 +13,7 @@ import {
 import dataService from "@services/dataServiceInstance";
 import { logError, logOut } from "@utils/logging";
 import { getAppVersion } from "@utils/version";
+import { initializeFileTransport } from "@server/logging";
 
 // Absolute path to the current file (ESM equivalent of __filename).
 const __filename = fileURLToPath(import.meta.url);
@@ -154,6 +155,7 @@ async function initializeServer() {
     validateEnvironment();
     await setupServer(app);
     await setupRoutes(app);
+    await initializeFileTransport();
     await initializeDataService();
     await startServer(app);
 

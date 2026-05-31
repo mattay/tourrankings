@@ -9,8 +9,18 @@
 </head>
 <body>
   <%- include('../organisms/header') %>
+  <style>
+    .content-prose {
+      max-width: 65ch;
+    }
+    .content-prose table {
+      table-layout: fixed;
+      width: 100%;
+    }
+  </style>
   <main>
     <h1>Privacy</h1>
+    <div class="content-prose">
 
     <section>
       <h2>The short version</h2>
@@ -155,6 +165,7 @@
         on the project repo and we'll sort it out.
       </p>
     </section>
+    </div>
   </main>
   <%- include('../organisms/footer') %>
 </body>

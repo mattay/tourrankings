@@ -29,6 +29,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -60,6 +62,8 @@ jobs:
     if: ${{ !cancelled() }}
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -88,6 +92,8 @@ jobs:
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Test Docker Build
         run: |
@@ -114,6 +120,8 @@ jobs:
     environment: development
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - uses: superfly/flyctl-actions/setup-flyctl@master
         with:
           version: 0.0.462
@@ -148,6 +156,8 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - uses: superfly/flyctl-actions/setup-flyctl@master
         with:
           version: 0.0.462
@@ -205,6 +215,8 @@ jobs:
     if: needs.deploy-development.result == 'success' || needs.deploy-production.result == 'success'
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Get app version
         run: echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV

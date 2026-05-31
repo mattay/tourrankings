@@ -432,7 +432,7 @@ The project processes the following categories of data:
 - **Only collect publicly available professional sports data.** Rider names, nationalities, dates of birth, and flags are scraped from publicly published start lists and results on ProCyclingStats. This falls under legitimate interest for a sports statistics website.
 - **Never scrape personal contact information** (email, phone, address, social media handles) about riders, staff, or anyone else.
 - **Never scrape data about non-public individuals** (fans, commenters, etc.).
-- **Date of birth** is collected only where it appears on public start lists for identification. It must not be displayed prominently in the UI — it is a supporting identifier only.
+- **Date of birth** is currently stored in `riders.csv` but is **never read, displayed, or sent to the client** by the application. It should be removed from the CSV schema and the `Riders` model. See the audit in AGENTS.md below for rationale.
 - **Do not add new rider fields** without GDPR review. Every new rider data point must be justifiable as necessary for race result context.
 - **Staff data** (DS, soigneurs, mechanics) appears in the start list scrape (`ScrapedRaceStartListStaff`). If this data is unused, it must not be persisted. The current code does not write staff data to CSV — maintain this.
 
@@ -440,10 +440,10 @@ The project processes the following categories of data:
 
 - The **email field is explicitly optional** with clear labelling ("Only if you'd like a response"). Maintain this opt-in pattern. Never make email mandatory.
 - The form collects `userAgent` and `pageUrl` for debugging context. These are transmitted to the server but are **not displayed publicly**.
-- All feedback data is sent to **Google Sheets** (a third-party data processor). Any change to how feedback data is stored or transmitted must consider the processor agreement.
+- All feedback data is currently sent to **Google Sheets** (a third-party data processor). There is a planned migration to replace Google Sheets with local NDJSON storage, co-located with the new request logging feature. This will eliminate the third-party processor dependency and enable straightforward deletion.
 - Feedback data must be **sanitised** on the server before storage (`sanitizeString()` strips `<`, `>`, `javascript:`). Maintain this sanitisation.
 - **Validation** (`validateFeedbackData()`) enforces that message length is capped (2000 chars) and email format is checked. Never remove or relax these limits without GDPR review.
-- Feedback data is stored indefinitely in Google Sheets. If adding a data retention/deletion mechanism, ensure users can request deletion of their feedback.
+- Feedback data is stored indefinitely in both Google Sheets and (eventually) NDJSON. Until the migration is complete, there is **no deletion mechanism** — see GitHub issue for this work.
 
 #### 3. No Tracking or Analytics
 
@@ -465,7 +465,7 @@ The project processes the following categories of data:
 
 | Processor | Purpose | Data Shared | Safeguards |
 |---|---|---|---|
-| Google Sheets API (`sheets.googleapis.com`) | Feedback storage | Email (optional), message, user agent, page URL, timestamp | Service account auth (no user impersonation); data is in a private spreadsheet, not publicly accessible |
+| Google Sheets API (`sheets.googleapis.com`) | Feedback storage (⚠️ planned migration to local NDJSON) | Email (optional), message, user agent, page URL, timestamp | Service account auth (no user impersonation); data is in a private spreadsheet, not publicly accessible |
 | jsdelivr CDN (`cdn.jsdelivr.net`) | Serving D3 and other libraries | None (static asset delivery) | No cookies set by CSP; browser cached assets only |
 | ProCyclingStats (procyclingstats.com) | Data source for scraping | Public HTTP requests (no user data sent) | Scraper sends no cookies, no authentication, no PII in requests |
 

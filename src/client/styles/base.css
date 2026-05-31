@@ -68,9 +68,27 @@ a:hover {
 .content-prose {
   width: 100%;
   max-width: 65ch;
+  margin-top: 1.5rem;
 }
 
+/* Gap between sections */
+.content-prose > section + section {
+  margin-top: 2.5rem;
+}
+
+/* Gap between elements within sections */
+.content-prose section > * + * {
+  margin-top: 1.25rem;
+}
+
+/* Sub-headings need a touch more breathing room */
+.content-prose section > h3 {
+  margin-top: 1.75rem;
+}
+
+/* Tables */
 .content-prose table {
   table-layout: fixed;
   width: 100%;
+  margin-top: 1.5rem;
 }

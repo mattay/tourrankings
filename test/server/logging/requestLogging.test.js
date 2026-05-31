@@ -127,7 +127,7 @@ describe("Request Logging Classification", () => {
 
       logRequest(req, res, 10, 100);
 
-      const lastTarget = mockGetTarget.mock.calls.at(-1)[0];
+      const lastTarget = mockWrite.mock.calls.at(-1)[0];
       expect(lastTarget).toBe("health");
     });
 
@@ -139,7 +139,7 @@ describe("Request Logging Classification", () => {
 
       logRequest(req, res, 15, 200);
 
-      const lastTarget = mockGetTarget.mock.calls.at(-1)[0];
+      const lastTarget = mockWrite.mock.calls.at(-1)[0];
       expect(lastTarget).toBe("api");
     });
 
@@ -151,8 +151,8 @@ describe("Request Logging Classification", () => {
 
       logRequest(req, res, 50, 5000);
 
-      const lastTarget = mockGetTarget.mock.calls.at(-1)[0];
-      expect(lastTarget).toBe("page");
+      const lastTarget = mockWrite.mock.calls.at(-1)[0];
+      expect(lastTarget).toBe("access");
     });
 
     it("should route static asset requests to static target", async () => {
@@ -163,8 +163,8 @@ describe("Request Logging Classification", () => {
 
       logRequest(req, res, 5, 10000);
 
-      const lastTarget = mockGetTarget.mock.calls.at(-1)[0];
-      expect(lastTarget).toBe("static-asset");
+      const lastTarget = mockWrite.mock.calls.at(-1)[0];
+      expect(lastTarget).toBe("static");
     });
 
     it("should route 404 requests to access target", async () => {
@@ -175,8 +175,8 @@ describe("Request Logging Classification", () => {
 
       logRequest(req, res, 2, 100);
 
-      const lastTarget = mockGetTarget.mock.calls.at(-1)[0];
-      expect(lastTarget).toBe("unknown");
+      const lastTarget = mockWrite.mock.calls.at(-1)[0];
+      expect(lastTarget).toBe("access");
     });
 
     it("should include process metadata in the entry", async () => {

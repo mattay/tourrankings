@@ -17,6 +17,10 @@ import { dropValues } from "@utils/object.js";
 export function seasonRaces(season = null) {
   const today = new Date();
   const currentSeason = today.getFullYear();
+  // Normalise to UTC midnight so date comparisons are consistent regardless of
+  // server timezone. Without this, a server in Sydney (UTC+10) would consider
+  // the day "over" at 2 PM Italy time — before the race has finished.
+  today.setUTCHours(0, 0, 0, 0);
 
   if (!season || isNaN(season)) {
     season = currentSeason;

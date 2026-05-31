@@ -20,7 +20,7 @@ LOG_LEVEL = "debug"
 DATA_AUTO_REFRESH = "true"
 DATA_AUTO_REFRESH_INTERVAL = "900000"  # 15 min - faster feedback in dev
 APP_VERSION = ""  # Injected by CI/CD during deployment
-CORS_ORIGIN = "*"  # Wildcard for local/dev flexibility
+CORS_ORIGIN = "https://tourrankings-dev.fly.dev"
 
 [mounts]
 source = "dev_data_volume"

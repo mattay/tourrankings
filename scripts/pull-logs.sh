@@ -13,7 +13,13 @@ if [ ! -f "$CONFIG" ]; then
   exit 1
 fi
 
-APP_NAME=$(grep "^app = " "$CONFIG" | cut -d"'" -f2)
+APP_NAME=$(grep "^app = " "$CONFIG" | sed -E "s/^app = [\"'](.*)[\"']/\1/")
+
+if [ -z "$APP_NAME" ]; then
+  echo "Error: Could not parse app name from $CONFIG"
+  exit 1
+fi
+
 LOCAL_DIR="./logs"
 
 echo "Pulling logs from $APP_NAME ($ENV)..."
@@ -21,7 +27,10 @@ echo "Pulling logs from $APP_NAME ($ENV)..."
 mkdir -p "$LOCAL_DIR"
 
 # List all files on remote
-FILES=$(fly ssh console -a "$APP_NAME" --config "$CONFIG" -C "ls /tourRanking/data/logs/" 2>/dev/null)
+if ! FILES=$(fly ssh console -a "$APP_NAME" --config "$CONFIG" -C "ls /tourRanking/data/logs/"); then
+  echo "Error: Failed to list log files on remote" >&2
+  exit 1
+fi
 
 if [ -z "$FILES" ]; then
   echo "No log files found on remote"

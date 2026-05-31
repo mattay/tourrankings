@@ -49,6 +49,11 @@ ENV NODE_ENV=development \
     LOG_STATIC_ROTATION_DAYS=30 \
     LOG_STATIC_ROTATION_SIZE_MB=50
 
+# ============================================
+# Setup
+# ============================================
+RUN mkdir -p /tourRanking/data/csv /tourRanking/data/logs
+
 EXPOSE 8080
 
 # ============================================

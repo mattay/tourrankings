@@ -114,22 +114,22 @@ const config = {
     access: {
       rotationDays: parseNumber(process.env.LOG_ACCESS_ROTATION_DAYS, 90),
       rotationSizeMB: parseNumber(process.env.LOG_ACCESS_ROTATION_SIZE_MB, 50),
-      retentionDays: null,
+      retentionDays: parseNumber(process.env.LOG_ACCESS_RETENTION_DAYS, null),
     },
     api: {
       rotationDays: parseNumber(process.env.LOG_API_ROTATION_DAYS, 90),
       rotationSizeMB: parseNumber(process.env.LOG_API_ROTATION_SIZE_MB, 50),
-      retentionDays: null,
+      retentionDays: parseNumber(process.env.LOG_API_RETENTION_DAYS, null),
     },
     health: {
       rotationDays: parseNumber(process.env.LOG_HEALTH_ROTATION_DAYS, 7),
       rotationSizeMB: parseNumber(process.env.LOG_HEALTH_ROTATION_SIZE_MB, 10),
-      retentionDays: null,
+      retentionDays: parseNumber(process.env.LOG_HEALTH_RETENTION_DAYS, null),
     },
     static: {
       rotationDays: parseNumber(process.env.LOG_STATIC_ROTATION_DAYS, 30),
       rotationSizeMB: parseNumber(process.env.LOG_STATIC_ROTATION_SIZE_MB, 50),
-      retentionDays: null,
+      retentionDays: parseNumber(process.env.LOG_STATIC_RETENTION_DAYS, null),
     },
   },
 };

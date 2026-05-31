@@ -1,0 +1,91 @@
+/**
+ * Utilities for generating stable IDs for races, stages.
+ * @namespace generateId
+ */
+
+/**
+ * Allowed location types for intermediate locations.
+ * @type {Set<string>}
+ */
+const ALLOWED_LOCATION_TYPES = new Set(["mountains", "points"]);
+
+export const generateId = {
+  /**
+   * Generate a race ID.
+   * @param {string} raceCode - Short code for the race.
+   * @param {number|string} year - Race year.
+   * @returns {string} Composite race ID.
+   */
+  race: (raceCode, year) => {
+    if (
+      !raceCode ||
+      !String(raceCode).trim() ||
+      !year ||
+      (typeof year === "string" && !year.trim())
+    )
+      throw new Error(
+        `generateId.race: invalid args (raceCode=${raceCode}, year=${year})`,
+      );
+
+    return `${raceCode}:${year}`;
+  },
+
+  /**
+   * Generate a stage ID.
+   * @param {string} raceUID - Composite race UID (as returned by generateId.race).
+   * @param {number|string} stageNumber - Stage number.
+   * @returns {string} Composite stage ID.
+   */
+  stage: (raceUID, stageNumber) => {
+    if (
+      !raceUID ||
+      !String(raceUID).trim() ||
+      stageNumber == null ||
+      stageNumber === ""
+    )
+      throw new Error(
+        `generateId.stage: invalid args (raceUID=${raceUID}, stageNumber=${stageNumber})`,
+      );
+
+    return `${raceUID}:${stageNumber}`;
+  },
+
+  /**
+   * Generate a location ID for intermediate locations (sprints, climbs).
+   * @param {string} stageUID - Composite stage UID.
+   * @param {number|string} index - Location index ( 1, 2, ...).
+   * @param {string} locationType - Location type: "mountains" | "points".
+   * @returns {string} Composite location ID.
+   */
+  location: (stageUID, index, locationType) => {
+    // Validate stageUID
+    if (!stageUID || !String(stageUID).trim()) {
+      throw new Error(`generateId.location: invalid stageUID (${stageUID})`);
+    }
+
+    // Validate index is a positive integer
+    const numIndex = Number(index);
+    if (
+      index == null ||
+      index === "" ||
+      isNaN(numIndex) ||
+      !Number.isInteger(numIndex) ||
+      numIndex < 1
+    ) {
+      throw new Error(
+        `generateId.location: invalid index (${index}) - must be a positive integer`,
+      );
+    }
+
+    // Validate locationType is allowed
+    const normalizedType = String(locationType).trim().toLowerCase();
+    if (!normalizedType || !ALLOWED_LOCATION_TYPES.has(normalizedType)) {
+      throw new Error(
+        `generateId.location: invalid locationType (${locationType}) - must be one of: ${Array.from(ALLOWED_LOCATION_TYPES).join(", ")}`,
+      );
+    }
+
+    // Use normalized numeric index for consistent ID formatting
+    return `${stageUID}:${normalizedType}:${numIndex}`;
+  },
+};

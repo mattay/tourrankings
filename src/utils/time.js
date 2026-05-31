@@ -1,21 +1,44 @@
+/** Regex pattern for cycling time formats: Road (HH:MM:SS.cs) and Time Trial (MM.SS,cs) */
+const patternCyclingTime =
+  /^(?:(?:(?<hours>\d{1,2}):)?(?<minutes>\d{1,2}):(?<seconds>\d{2})(?:\.(?<milliseconds>\d{2}))?|(?<ttMinutes>\d{1,3})\.(?<ttSeconds>\d{2}),(?<ttMilliseconds>\d{1,2}))$/;
+
 /**
  * Converts a time string formatted as HH:MM:SS into total seconds.
  *
- * @param {string} time - The time string to convert.
+ * @param {string} timeStr - The time string to convert.
  * @returns {number} - The total number of seconds.
  */
-export function stringToSeconds(time) {
-  return time
-    .split(":")
-    .map(Number)
-    .reverse()
-    .reduce((seconds, section, position) => {
-      if (position == 0) {
-        return section;
-      } else {
-        return section * 60 ** position + seconds;
-      }
-    }, 0);
+export function stringToSeconds(timeStr) {
+  if (typeof timeStr !== "string") return 0;
+
+  const match = timeStr.match(patternCyclingTime);
+
+  if (!match) return 0;
+
+  let h, m, s, ms;
+
+  if (match.groups?.minutes !== undefined) {
+    // Road Stage: HH:MM:SS
+    [h, m, s, ms] = [
+      match.groups?.hours || 0,
+      match.groups?.minutes || 0,
+      match.groups?.seconds || 0,
+      match.groups?.milliseconds || 0,
+    ];
+  } else {
+    // Time Trial: MM.SS,MS
+    [h, m, s, ms] = [
+      0,
+      match.groups?.ttMinutes || 0,
+      match.groups?.ttSeconds || 0,
+      match.groups?.ttMilliseconds || 0,
+    ];
+  }
+
+  // Use padEnd(2, '0') to ensure ",5" becomes 50 centiseconds (.5s)
+  const subSeconds = ms ? parseFloat("0." + ms.toString().padEnd(2, "0")) : 0;
+
+  return parseInt(h) * 3600 + parseInt(m) * 60 + parseInt(s) + subSeconds;
 }
 
 /**
@@ -29,11 +52,15 @@ export function formatSeconds(number) {
 
   const hours = Math.floor(number / 3600);
   const minutes = Math.floor((number % 3600) / 60);
-  const seconds = number % 60;
+  const seconds = Math.floor(number % 60); // Use floor to remove decimals
+  const ms = Math.round((number % 1) * 100); // Get centiseconds
 
-  return [hours, minutes, seconds]
-    .map((section) => section.toString().padStart(2, "0"))
-    .join(":");
+  const pad = (num) => num.toString().padStart(2, "0");
+
+  const baseTime = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+
+  // Only append .MS if there are actually centiseconds
+  return ms > 0 ? `${baseTime}.${pad(ms)}` : baseTime;
 }
 
 /**

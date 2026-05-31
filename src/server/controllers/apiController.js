@@ -1,0 +1,29 @@
+import { raceContent } from "./raceController";
+import { logOut } from "@utils/logging";
+
+/**
+ * Get race data as JSON
+ *
+ * @param {import('express').Request} req - Express request object
+ * @param {import('express').Response} res - Express response object
+ */
+export function getRaceData(req, res) {
+  try {
+    const { racePcsID } = req.params;
+    const year = req.params.year
+      ? parseInt(req.params.year)
+      : new Date().getFullYear();
+
+    logOut("Controller API", `Fetching race data for ${racePcsID} ${year}`);
+
+    const content = raceContent(racePcsID, year);
+
+    res.json(content);
+  } catch (error) {
+    logOut("API", "fetching race data", error);
+    res.status(500).json({
+      error: "Failed to fetch race data",
+      message: error.message,
+    });
+  }
+}

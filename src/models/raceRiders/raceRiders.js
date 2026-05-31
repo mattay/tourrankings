@@ -1,4 +1,5 @@
-import CSVdataModel from "../dataModel_csv";
+import { getDataDir } from "@utils/validation";
+import CSVdataModel from "@models/dataModel_csv";
 
 /**
  * @typedef {import('../@types/races').RaceRiderModel} RaceRiderModel
@@ -19,23 +20,13 @@ export class RaceRiders extends CSVdataModel {
     const fieldTypes = {
       bib: "number",
     };
-    super(
-      `${process.env.DATA_DIR}/raceRiders.csv`,
-      ["Race UID", "Bib"],
-      fieldTypes,
-    );
-    this.csvHeaders = [
-      "Race UID",
-      "Bib",
-      "Rider Pcs Id",
-      "Team Pcs Id",
-      "Rider",
-      "Flag",
-    ];
+    super(`${getDataDir()}/raceRiders.csv`, ["raceUID", "bib"], fieldTypes);
+    this.csvHeaders = ["Race UID", "Bib", "Rider Pcs Id", "Team Pcs Id"];
     this.sortOrder = [
-      ["Race Id", "asc"],
-      ["Bib", "asc"],
+      ["raceUID", "asc"],
+      ["bib", "asc"],
     ];
+    this.validateConfig();
   }
 
   /**

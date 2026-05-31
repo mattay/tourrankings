@@ -1,8 +1,8 @@
 import path from "path";
 import fs from "fs";
 import csv from "csv-parser";
-import { toCamelCase } from "../utils/string";
-import { logError, logOut } from "../utils/logging";
+import { toCamelCase } from "@utils/string";
+import { logError, logOut } from "@utils/logging";
 import { dirname } from "path";
 
 /**
@@ -96,6 +96,74 @@ class CSVdataModel {
     }
 
     return result;
+  }
+
+  /**
+   * Validates model configuration after initialization.
+   * Checks that indexOn, sortOrder, and fieldTypes fields have corresponding csvHeaders.
+   * Logs warnings for mismatches but allows operation to continue (lenient).
+   */
+  validateConfig() {
+    // Only validate if csvHeaders are configured
+    if (!this.csvHeaders?.length) {
+      return;
+    }
+
+    const availableCamelHeaders = this.csvHeaders.map((h) => toCamelCase(h));
+
+    // Check indexOn fields
+    if (this.indexOn?.length > 0) {
+      const missingIndexFields = this.indexOn.filter((camelKey) => {
+        const hasMatchingHeader = availableCamelHeaders.includes(camelKey);
+        return !hasMatchingHeader;
+      });
+
+      if (missingIndexFields.length > 0) {
+        logError(
+          this.constructor.name,
+          `Configuration warning: indexOn fields [${missingIndexFields.join(", ")}] ` +
+            `have no matching csvHeaders. Available: [${this.csvHeaders.join(", ")}]. ` +
+            `These fields will fail validation when loading data.`,
+        );
+      }
+    }
+
+    // Check sortOrder fields
+    if (this.sortOrder?.length > 0) {
+      const sortFields = this.sortOrder.map(([field]) => field);
+      const availableFields = [
+        ...(this.indexOn || []),
+        ...availableCamelHeaders,
+      ];
+
+      const missingSortFields = sortFields.filter(
+        (field) => !availableFields.includes(field),
+      );
+
+      if (missingSortFields.length > 0) {
+        logError(
+          this.constructor.name,
+          `Configuration warning: sortOrder fields [${missingSortFields.join(", ")}] ` +
+            `not found in indexOn or csvHeaders. Sorting may not work correctly.`,
+        );
+      }
+    }
+
+    // Check fieldTypes keys
+    if (this.fieldTypes && Object.keys(this.fieldTypes).length > 0) {
+      const fieldTypeKeys = Object.keys(this.fieldTypes);
+      const missingFieldTypes = fieldTypeKeys.filter(
+        (key) => !availableCamelHeaders.includes(key),
+      );
+
+      if (missingFieldTypes.length > 0) {
+        logError(
+          this.constructor.name,
+          `Configuration warning: fieldTypes keys [${missingFieldTypes.join(", ")}] ` +
+            `have no matching csvHeaders. Type conversion may not work correctly.`,
+        );
+      }
+    }
   }
 
   /**
@@ -217,9 +285,10 @@ class CSVdataModel {
    * Updates the data model with new or modified records.
    * @async
    * @param {Array<Object>} updates - The list of records to update.
+   * @param {boolean} [quiet=false] - Suppress console.table output for failed entries.
    * @returns {Promise<void>} A promise that resolves when the data is updated.
    */
-  async update(updates) {
+  async update(updates, quiet = false) {
     await this.read(); // Refresh
 
     const validated = [];
@@ -249,7 +318,9 @@ class CSVdataModel {
         this.constructor.name,
         "Expected Keys: " + this.indexOn.join(", "),
       );
-      console.table(failed);
+      if (!quiet) {
+        console.table(failed);
+      }
     }
 
     await writePromise;

@@ -1,0 +1,47 @@
+[
+  {
+    "rank": 1,
+    "bib": 51,
+    "points": 20,
+    "locationUID": "vuelta-a-espana:2025:11:points:1",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 2,
+    "bib": 102,
+    "points": 17,
+    "locationUID": "vuelta-a-espana:2025:11:points:1",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 3,
+    "bib": 27,
+    "points": 15,
+    "locationUID": "vuelta-a-espana:2025:11:points:1",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 4,
+    "bib": 166,
+    "points": 13,
+    "locationUID": "vuelta-a-espana:2025:11:points:1",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 5,
+    "bib": 195,
+    "points": 10,
+    "locationUID": "vuelta-a-espana:2025:11:points:1",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  }
+]

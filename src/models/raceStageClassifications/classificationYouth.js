@@ -1,5 +1,6 @@
-import { logError } from "../../utils/logging";
-import CSVdataModel from "../dataModel_csv";
+import { logError } from "@utils/logging";
+import { getDataDir } from "@utils/validation";
+import CSVdataModel from "@models/dataModel_csv";
 
 /**
  * @typedef {import('../@types/classifications').ClassificationYouthModel} ClassificationYouthModel
@@ -21,13 +22,12 @@ export class ClassificationYouth extends CSVdataModel {
       stage: "number",
       rank: "number",
       previousStageRanking: "number",
-      change: "number",
+      delta: "number",
       bib: "number",
-      age: "number",
     };
     super(
-      `${process.env.DATA_DIR}/raceStageClassificationYouth.csv`,
-      ["Stage UID", "Bib"],
+      `${getDataDir()}/raceStageClassificationYouth.csv`,
+      ["stageUID", "bib"],
       fieldTypes,
     );
     this.csvHeaders = [
@@ -35,17 +35,15 @@ export class ClassificationYouth extends CSVdataModel {
       "Stage",
       "Rank",
       "Previous Stage Ranking",
-      "Change",
+      "Delta",
       "Bib",
-      "Specialty",
-      "Rider",
-      "Age",
-      "Team",
+      "Time Wonlost",
     ];
     this.sortOrder = [
-      ["Stage UID", "asc"],
-      ["Rank", "asc"],
+      ["stageUID", "asc"],
+      ["rank", "asc"],
     ];
+    this.validateConfig();
   }
 
   /**

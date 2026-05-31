@@ -1,5 +1,6 @@
-import { logError } from "../../utils/logging";
-import CSVdataModel from "../dataModel_csv";
+import { logError } from "@utils/logging";
+import { getDataDir } from "@utils/validation";
+import CSVdataModel from "@models/dataModel_csv";
 
 /**
  * @typedef {import('../@types/teams').TeamModel} TeamModel
@@ -20,21 +21,22 @@ export class Teams extends CSVdataModel {
     const fieldTypes = {
       year: "number",
     };
-    super(`${process.env.DATA_DIR}/teams.csv`, ["Team Pcs Id"], fieldTypes);
+    super(`${getDataDir()}/teams.csv`, ["Team Pcs Id"], fieldTypes);
     this.csvHeaders = [
       "Year",
       "Team Pcs Id",
-      "Team Name",
+      "Name",
       "Classification",
-      "Team Pcs Url",
+      "Pcs Url",
       "Jersey Image Pcs Url",
-      "Previous Team Pcs Id",
-      "Next Team Pcs Id",
+      "Previous Pcs Id",
+      "Next Pcs Id",
     ];
     this.sortOrder = [
-      ["Year", "asc"],
-      ["Team Name", "asc"],
+      ["year", "asc"],
+      ["name", "asc"],
     ];
+    this.validateConfig();
   }
 
   /**

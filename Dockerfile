@@ -2,21 +2,9 @@
 # Used by: docker-compose.local-build.yml, fly.dev.toml, fly.prod.toml
 # Purpose: Optimized, secure production deployment
 
-FROM oven/bun:1 as builder
+FROM oven/bun:1 AS builder
 
 WORKDIR /tourRanking
-
-# ============================================
-# Chrome Headless Shell
-# ============================================
-ARG CHROME_VERSION=142
-RUN bunx @puppeteer/browsers install chrome-headless-shell@${CHROME_VERSION}
-
-RUN CHROME_PATH=$(find /tourRanking -type f -name "chrome-headless-shell" 2>/dev/null | head -n 1) \
-    && if [ -z "$CHROME_PATH" ]; then echo "ERROR: Chrome not found"; exit 1; fi \
-    && echo "export PUPPETEER_EXECUTABLE_PATH=$CHROME_PATH" > /tourRanking/chrome-path.sh \
-    && chmod +x /tourRanking/chrome-path.sh \
-    && echo "Chrome installed at: $CHROME_PATH"
 
 # ============================================
 # Supercronic (cron for containers)
@@ -53,16 +41,7 @@ WORKDIR /tourRanking
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     ca-certificates \
-    libasound2 \
-    libatk1.0-0 \
-    libcairo-gobject2 \
-    libgbm1 \
-    libglib2.0-0 \
-    libgtk-3-0 \
-    libnss3 \
-    libpangocairo-1.0-0 \
-    libxrandr2 \
-    libxss1 \
+    procps \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
@@ -70,18 +49,15 @@ RUN apt-get update \
 # Copy from Builder
 # ============================================
 COPY --from=builder /tourRanking/supercronic-linux-amd64 /usr/local/bin/supercronic
-COPY --from=builder /tourRanking/chrome-path.sh /chrome-path.sh
 COPY --from=builder /tourRanking /tourRanking
 
 # ============================================
 # Environment
 # ============================================
 ENV NODE_ENV=production \
-    NODE_OPTIONS="--max-old-space-size=512" \
     PORT=8080 \
     DATA_DIR=/tourRanking/data/csv \
-    DATA_AUTO_REFRESH=TRUE \
-    PUPPETEER_HEADLESS=TRUE
+    DATA_AUTO_REFRESH=TRUE
 
 # ============================================
 # Security
@@ -100,5 +76,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
 # ============================================
 # Startup
 # ============================================
-ENTRYPOINT ["/bin/sh", "-c", ". /chrome-path.sh && exec \"$@\"", "--"]
 CMD ["bun", "start"]

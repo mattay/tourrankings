@@ -1,0 +1,37 @@
+<!-- server/views/pages/race.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="<%= description %>" />
+  <title><%= race.raceName %> <%= race.year  %> | TourRankings</title>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/cycling.css">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script type="module" src="/js/index.js" defer></script>
+ </head>
+<body>
+  <%- include('../organisms/header')%>
+  <main>
+    <h1>
+      <span id="race-name"> <%=  race.raceName %></span>
+      <span id="race-year"><%=  race.year %></span>
+    </h1>
+      <h2 id="stage-title">
+        <span id="stage-label" class="smooth-text"> <% if (stage?.stageType?.toLowerCase() == "prologue") { %>Prologue<% } else { %>Stage<% } %></span>
+          <span id="stage-number" class="smooth-text"> <% if (stage?.stage !== 0) { %><%= stage?.stage %><% } %></span>
+          <span id="stage-type" class="smooth-text"> <% if (stage?.stageType && stage?.stageType?.toLowerCase() != "prologue") { %>(<%= stage?.stageType %>)<% } %>
+          </span>
+          <span id="stage-name">
+            <span id="stage-departure" class="smooth-text"><%= stage?.departure %></span> to <span id="stage-arrival" class="smooth-text"><%= stage?.arrival %></span>
+          </span>
+      </h2>
+      <%- include('../controls/classifications-tab-group') %>
+    <section id="race-rankings">
+    </section>
+  </main>
+  <%- include('../organisms/footer') %>
+  <%- include('../molecules/feedback-form') %>
+</body>
+</html>

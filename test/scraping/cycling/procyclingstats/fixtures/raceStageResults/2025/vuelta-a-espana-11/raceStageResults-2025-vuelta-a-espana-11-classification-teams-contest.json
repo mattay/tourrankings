@@ -1,0 +1,186 @@
+[
+  {
+    "rank": 1,
+    "team": "Team Visma | Lease a Bike",
+    "classification": "WT",
+    "time": "11:01:38",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 2,
+    "team": "UAE Team Emirates - XRG",
+    "classification": "WT",
+    "time": "0:59",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 3,
+    "team": "Groupama - FDJ",
+    "classification": "WT",
+    "time": "3:40",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 4,
+    "team": "Decathlon AG2R La Mondiale Team",
+    "classification": "WT",
+    "time": "5:43",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 5,
+    "team": "Bahrain - Victorious",
+    "classification": "WT",
+    "time": "6:07",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 6,
+    "team": "Israel - Premier Tech",
+    "classification": "PRT",
+    "time": "7:06",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 7,
+    "team": "XDS Astana Team",
+    "classification": "WT",
+    "time": "7:37",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 8,
+    "team": "Red Bull - BORA - hansgrohe",
+    "classification": "WT",
+    "time": "8:22",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 9,
+    "team": "Lidl - Trek",
+    "classification": "WT",
+    "time": "8:44",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 10,
+    "team": "Caja Rural - Seguros RGA",
+    "classification": "PRT",
+    "time": "9:54",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 11,
+    "team": "INEOS Grenadiers",
+    "classification": "WT",
+    "time": "13:52",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 12,
+    "team": "Team Picnic PostNL",
+    "classification": "WT",
+    "time": "0:00",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 13,
+    "team": "Soudal Quick-Step",
+    "classification": "WT",
+    "time": "16:17",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 14,
+    "team": "Intermarché - Wanty",
+    "classification": "WT",
+    "time": "19:06",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 15,
+    "team": "Movistar Team",
+    "classification": "WT",
+    "time": "19:12",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 16,
+    "team": "Q36.5 Pro Cycling Team",
+    "classification": "PRT",
+    "time": "22:00",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 17,
+    "team": "Burgos Burpellet BH",
+    "classification": "PRT",
+    "time": "25:37",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 18,
+    "team": "Team Jayco AlUla",
+    "classification": "WT",
+    "time": "26:16",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 19,
+    "team": "EF Education - EasyPost",
+    "classification": "WT",
+    "time": "30:47",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 20,
+    "team": "Arkéa - B&B Hotels",
+    "classification": "WT",
+    "time": "36:18",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 21,
+    "team": "Cofidis",
+    "classification": "WT",
+    "time": "38:01",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 22,
+    "team": "Lotto",
+    "classification": "PRT",
+    "time": "53:46",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 23,
+    "team": "Alpecin - Deceuninck",
+    "classification": "WT",
+    "time": "0:00",
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  }
+]

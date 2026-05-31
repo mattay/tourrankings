@@ -1,0 +1,194 @@
+[
+  {
+    "rank": 1,
+    "bib": 147,
+    "points": 3,
+    "locationUID": "vuelta-a-espana:2025:11:mountains:1",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 2,
+    "bib": 27,
+    "points": 2,
+    "locationUID": "vuelta-a-espana:2025:11:mountains:1",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 3,
+    "bib": 141,
+    "points": 1,
+    "locationUID": "vuelta-a-espana:2025:11:mountains:1",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 1,
+    "bib": 27,
+    "points": 3,
+    "locationUID": "vuelta-a-espana:2025:11:mountains:2",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 2,
+    "bib": 7,
+    "points": 2,
+    "locationUID": "vuelta-a-espana:2025:11:mountains:2",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 3,
+    "bib": 32,
+    "points": 1,
+    "locationUID": "vuelta-a-espana:2025:11:mountains:2",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 1,
+    "bib": 7,
+    "points": 3,
+    "locationUID": "vuelta-a-espana:2025:11:mountains:3",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 2,
+    "bib": 32,
+    "points": 2,
+    "locationUID": "vuelta-a-espana:2025:11:mountains:3",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 3,
+    "bib": 27,
+    "points": 1,
+    "locationUID": "vuelta-a-espana:2025:11:mountains:3",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 1,
+    "bib": 7,
+    "points": 3,
+    "locationUID": "vuelta-a-espana:2025:11:mountains:4",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 2,
+    "bib": 57,
+    "points": 2,
+    "locationUID": "vuelta-a-espana:2025:11:mountains:4",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 3,
+    "bib": 147,
+    "points": 1,
+    "locationUID": "vuelta-a-espana:2025:11:mountains:4",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 1,
+    "bib": 51,
+    "points": 5,
+    "locationUID": "vuelta-a-espana:2025:11:mountains:5",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 2,
+    "bib": 102,
+    "points": 3,
+    "locationUID": "vuelta-a-espana:2025:11:mountains:5",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 3,
+    "bib": 153,
+    "points": 1,
+    "locationUID": "vuelta-a-espana:2025:11:mountains:5",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 1,
+    "bib": 16,
+    "points": 5,
+    "locationUID": "vuelta-a-espana:2025:11:mountains:6",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 2,
+    "bib": 13,
+    "points": 3,
+    "locationUID": "vuelta-a-espana:2025:11:mountains:6",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 3,
+    "bib": 11,
+    "points": 1,
+    "locationUID": "vuelta-a-espana:2025:11:mountains:6",
+    "today": 0,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 1,
+    "bib": 111,
+    "points": 3,
+    "resultBoni": "6″",
+    "locationUID": "vuelta-a-espana:2025:11:mountains:7",
+    "today": 6,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 2,
+    "bib": 11,
+    "points": 2,
+    "resultBoni": "4″",
+    "locationUID": "vuelta-a-espana:2025:11:mountains:7",
+    "today": 4,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  },
+  {
+    "rank": 3,
+    "bib": 1,
+    "points": 1,
+    "resultBoni": "2″",
+    "locationUID": "vuelta-a-espana:2025:11:mountains:7",
+    "today": 2,
+    "stageUID": "vuelta-a-espana:2025:11",
+    "stage": 11
+  }
+]

@@ -1,5 +1,6 @@
-import { logError } from "../../utils/logging";
-import CSVdataModel from "../dataModel_csv";
+import { logError } from "@utils/logging";
+import { getDataDir } from "@utils/validation";
+import CSVdataModel from "@models/dataModel_csv";
 
 /** @typedef {import('../@types/races').RaceStageModel} RaceStageModel*/
 
@@ -22,8 +23,8 @@ export class RaceStages extends CSVdataModel {
       verticalMeters: "number",
     };
     super(
-      `${process.env.DATA_DIR}/raceStages.csv`,
-      ["Stage UID", "Race UID"],
+      `${getDataDir()}/raceStages.csv`,
+      ["stageUID", "raceUID"],
       fieldTypes,
     );
     this.csvHeaders = [
@@ -41,11 +42,24 @@ export class RaceStages extends CSVdataModel {
       "Stage Pcs Url",
     ];
     this.sortOrder = [
-      ["Year", "asc"],
-      ["Date", "asc"],
-      ["Race UID", "asc"],
-      ["Stage UID", "asc"],
+      ["year", "asc"],
+      ["date", "asc"],
+      ["raceUID", "asc"],
+      ["stageUID", "asc"],
     ];
+    this.validateConfig();
+  }
+
+  /**
+   * @param {string} stageUID - The unique identifier for the stage.
+   * @returns {RaceStageModel|null} - The stage with the specified UID.
+   */
+  getStage(stageUID) {
+    if (!stageUID) {
+      logError(this.constructor.name, "getStage expects stageUID");
+      return null;
+    }
+    return this.rows.find((row) => row.stageUID === stageUID) ?? null;
   }
 
   /**

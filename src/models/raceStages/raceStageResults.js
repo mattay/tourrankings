@@ -1,5 +1,6 @@
-import { logError } from "../../utils/logging";
-import CSVdataModel from "../dataModel_csv";
+import { logError } from "@utils/logging";
+import { getDataDir } from "@utils/validation";
+import CSVdataModel from "@models/dataModel_csv";
 
 /**
  * @typedef {import('../@types/races').RaceStageResultModel} RaceStageResultModel
@@ -27,8 +28,8 @@ export class RaceStageResults extends CSVdataModel {
       points: "number",
     };
     super(
-      `${process.env.DATA_DIR}/raceStageResults.csv`,
-      ["Stage UID", "Bib"],
+      `${getDataDir()}/raceStageResults.csv`,
+      ["stageUID", "bib"],
       fieldTypes,
     );
     this.csvHeaders = [
@@ -38,20 +39,16 @@ export class RaceStageResults extends CSVdataModel {
       "GC",
       "Timelag",
       "Bib",
-      "Specialty",
-      "Rider",
-      "Age",
-      "Team",
       "UCI",
       "Points",
       "Bonis",
       "Time",
-      "Delta",
     ];
     this.sortOrder = [
-      ["Stage UID", "asc"],
-      ["Rank", "asc"],
+      ["stageUID", "asc"],
+      ["rank", "asc"],
     ];
+    this.validateConfig();
   }
 
   /**

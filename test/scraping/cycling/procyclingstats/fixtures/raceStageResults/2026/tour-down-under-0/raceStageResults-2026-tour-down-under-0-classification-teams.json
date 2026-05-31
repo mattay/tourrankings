@@ -1,0 +1,202 @@
+[
+  {
+    "rank": 1,
+    "team": "Red Bull - BORA - hansgrohe",
+    "classification": "WT",
+    "time": "00:13:09",
+    "timeWonlost": "",
+    "delta": "",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 2,
+    "team": "INEOS Grenadiers",
+    "classification": "WT",
+    "time": "00:13:09",
+    "timeWonlost": "",
+    "delta": "",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 3,
+    "team": "UAE Team Emirates - XRG",
+    "classification": "WT",
+    "time": "00:13:10",
+    "timeWonlost": "",
+    "delta": "00:00:01",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 4,
+    "team": "Team Jayco AlUla",
+    "classification": "WT",
+    "time": "00:13:10",
+    "timeWonlost": "",
+    "delta": "00:00:01",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 5,
+    "team": "Decathlon CMA CGM Team",
+    "classification": "WT",
+    "time": "00:13:11",
+    "timeWonlost": "",
+    "delta": "00:00:02",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 6,
+    "team": "Tudor Pro Cycling Team",
+    "classification": "PRT",
+    "time": "00:13:12",
+    "timeWonlost": "",
+    "delta": "00:00:03",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 7,
+    "team": "EF Education - EasyPost",
+    "classification": "WT",
+    "time": "00:13:13",
+    "timeWonlost": "",
+    "delta": "00:00:04",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 8,
+    "team": "Uno-X Mobility",
+    "classification": "WT",
+    "time": "00:13:16",
+    "timeWonlost": "",
+    "delta": "00:00:07",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 9,
+    "team": "Australia",
+    "classification": "NAT",
+    "time": "00:13:16",
+    "timeWonlost": "",
+    "delta": "00:00:07",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 10,
+    "team": "Soudal Quick-Step",
+    "classification": "WT",
+    "time": "00:13:19",
+    "timeWonlost": "",
+    "delta": "00:00:10",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 11,
+    "team": "Alpecin - Premier Tech",
+    "classification": "WT",
+    "time": "00:13:21",
+    "timeWonlost": "",
+    "delta": "00:00:12",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 12,
+    "team": "NSN Cycling Team",
+    "classification": "WT",
+    "time": "00:13:22",
+    "timeWonlost": "",
+    "delta": "00:00:13",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 13,
+    "team": "Bahrain - Victorious",
+    "classification": "WT",
+    "time": "00:13:24",
+    "timeWonlost": "",
+    "delta": "00:00:15",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 14,
+    "team": "Team Visma | Lease a Bike",
+    "classification": "WT",
+    "time": "00:13:27",
+    "timeWonlost": "",
+    "delta": "00:00:18",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 15,
+    "team": "XDS Astana Team",
+    "classification": "WT",
+    "time": "00:13:29",
+    "timeWonlost": "",
+    "delta": "00:00:20",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 16,
+    "team": "Lidl - Trek",
+    "classification": "WT",
+    "time": "00:13:31",
+    "timeWonlost": "",
+    "delta": "00:00:22",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 17,
+    "team": "Lotto Intermarché",
+    "classification": "WT",
+    "time": "00:13:34",
+    "timeWonlost": "",
+    "delta": "00:00:25",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 18,
+    "team": "Movistar Team",
+    "classification": "WT",
+    "time": "00:13:35",
+    "timeWonlost": "",
+    "delta": "00:00:26",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 19,
+    "team": "Team Picnic PostNL",
+    "classification": "WT",
+    "time": "00:13:46",
+    "timeWonlost": "",
+    "delta": "00:00:37",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  },
+  {
+    "rank": 20,
+    "team": "Groupama - FDJ United",
+    "classification": "WT",
+    "time": "00:13:49",
+    "timeWonlost": "",
+    "delta": "00:00:40",
+    "stageUID": "tour-down-under:2026:0",
+    "stage": 0
+  }
+]

@@ -1,13 +1,14 @@
-import CSVdataModel from "../dataModel_csv";
+import { getDataDir } from "@utils/validation";
+import CSVdataModel from "@models/dataModel_csv";
 
 /**
- * @typedef {import('../@types/races').RaceStageLocationMountainModel} RaceStageLocationMountainModel
+ * @typedef {import('@models/@types/races').RaceStageLocationMountainModel} RaceStageLocationMountainModel
  */
 
 /**
- * Class for managing mountain location data within race stages, loaded from a CSV file.
+ * Class for managing mountains location data within race stages, loaded from a CSV file.
  *
- * Extends {@link CSVdataModel} to provide specialized handling for mountain location records in race stages.
+ * Extends {@link CSVdataModel} to provide specialized handling for mountains location records in race stages.
  *
  * @extends CSVdataModel
  */
@@ -22,22 +23,23 @@ export class RaceStageLocationMountains extends CSVdataModel {
       distance: "number",
     };
     super(
-      `${process.env.DATA_DIR}/raceStagesLocationMountains.csv`,
-      ["Location Id", "Stage UID"],
+      `${getDataDir()}/raceStageLocationMountains.csv`,
+      ["locationUID"],
       fieldTypes,
     );
     this.csvHeaders = [
-      "Location ID",
+      "Location UID",
       "Stage UID",
       "Year",
       "Stage",
       "Type",
-      "Location Name",
+      "Location",
       "Distance",
     ];
     this.sortOrder = [
-      ["Race Id", "asc"],
-      ["Stage", "asc"],
+      ["locationUID", "asc"],
+      // ["stage", "asc"],
     ];
+    this.validateConfig();
   }
 }

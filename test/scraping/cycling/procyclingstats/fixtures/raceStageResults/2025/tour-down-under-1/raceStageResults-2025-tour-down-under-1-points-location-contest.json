@@ -1,0 +1,212 @@
+[
+  {
+    "rank": 1,
+    "bib": 56,
+    "points": 3,
+    "locationUID": "tour-down-under:2025:1:points:1",
+    "bonis": "3″",
+    "today": 3,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 2,
+    "bib": 193,
+    "points": 2,
+    "locationUID": "tour-down-under:2025:1:points:1",
+    "bonis": "2″",
+    "today": 2,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 3,
+    "bib": 194,
+    "points": 1,
+    "locationUID": "tour-down-under:2025:1:points:1",
+    "bonis": "1″",
+    "today": 1,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 1,
+    "bib": 193,
+    "points": 3,
+    "locationUID": "tour-down-under:2025:1:points:2",
+    "bonis": "3″",
+    "today": 3,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 2,
+    "bib": 194,
+    "points": 2,
+    "locationUID": "tour-down-under:2025:1:points:2",
+    "bonis": "2″",
+    "today": 2,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 3,
+    "bib": 34,
+    "points": 1,
+    "locationUID": "tour-down-under:2025:1:points:2",
+    "bonis": "1″",
+    "today": 1,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 1,
+    "bib": 81,
+    "points": 30,
+    "locationUID": "tour-down-under:2025:1:points:3",
+    "bonis": "10″",
+    "today": 10,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 2,
+    "bib": 133,
+    "points": 25,
+    "locationUID": "tour-down-under:2025:1:points:3",
+    "bonis": "6″",
+    "today": 6,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 3,
+    "bib": 187,
+    "points": 22,
+    "locationUID": "tour-down-under:2025:1:points:3",
+    "bonis": "4″",
+    "today": 4,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 4,
+    "bib": 171,
+    "points": 19,
+    "locationUID": "tour-down-under:2025:1:points:3",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 5,
+    "bib": 74,
+    "points": 17,
+    "locationUID": "tour-down-under:2025:1:points:3",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 6,
+    "bib": 154,
+    "points": 15,
+    "locationUID": "tour-down-under:2025:1:points:3",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 7,
+    "bib": 6,
+    "points": 13,
+    "locationUID": "tour-down-under:2025:1:points:3",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 8,
+    "bib": 35,
+    "points": 11,
+    "locationUID": "tour-down-under:2025:1:points:3",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 9,
+    "bib": 21,
+    "points": 9,
+    "locationUID": "tour-down-under:2025:1:points:3",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 10,
+    "bib": 174,
+    "points": 7,
+    "locationUID": "tour-down-under:2025:1:points:3",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 11,
+    "bib": 91,
+    "points": 5,
+    "locationUID": "tour-down-under:2025:1:points:3",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 12,
+    "bib": 156,
+    "points": 4,
+    "locationUID": "tour-down-under:2025:1:points:3",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 13,
+    "bib": 163,
+    "points": 3,
+    "locationUID": "tour-down-under:2025:1:points:3",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 14,
+    "bib": 192,
+    "points": 2,
+    "locationUID": "tour-down-under:2025:1:points:3",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  },
+  {
+    "rank": 15,
+    "bib": 63,
+    "points": 1,
+    "locationUID": "tour-down-under:2025:1:points:3",
+    "bonis": "",
+    "today": 0,
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1
+  }
+]

@@ -1,4 +1,4 @@
-import store from "../storeInstance";
+import store from "@client/state/storeInstance";
 import { rankings } from "./filters/rankings";
 import { rankingLabels } from "./filters/rankingLabels";
 import { raceStages } from "./filters/stages";

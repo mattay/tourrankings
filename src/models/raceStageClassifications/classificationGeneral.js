@@ -1,5 +1,6 @@
-import { logError } from "../../utils/logging";
-import CSVdataModel from "../dataModel_csv";
+import { logError } from "@utils/logging";
+import { getDataDir } from "@utils/validation";
+import CSVdataModel from "@models/dataModel_csv";
 
 /**
  * @typedef {import('../@types/classifications').ClassificationGeneralModel} ClassificationGeneralModel
@@ -21,14 +22,13 @@ export class ClassificationGeneral extends CSVdataModel {
       stage: "number",
       rank: "number",
       previousStageRanking: "number",
-      change: "number",
+      delta: "number",
       bib: "number",
-      age: "number",
-      uci: "number",
+      uCI: "number", // Matches toCamelCase("UCI") - see issue #341 for future standardization
     };
     super(
-      `${process.env.DATA_DIR}/raceStageClassificationGeneral.csv`,
-      ["Stage UID", "Bib"],
+      `${getDataDir()}/raceStageClassificationGeneral.csv`,
+      ["stageUID", "bib"],
       fieldTypes,
     );
     this.csvHeaders = [
@@ -36,21 +36,18 @@ export class ClassificationGeneral extends CSVdataModel {
       "Stage",
       "Rank",
       "Previous Stage Ranking",
-      "Change",
+      "Delta",
       "Bib",
-      "Specialty",
-      "Rider",
-      "Age",
-      "Team",
       "UCI",
       "Bonis",
       "Time",
-      "Delta",
+      "Time Wonlost",
     ];
     this.sortOrder = [
-      ["Stage UID", "asc"],
-      ["Rank", "asc"],
+      ["stageUID", "asc"],
+      ["rank", "asc"],
     ];
+    this.validateConfig();
   }
 
   /**

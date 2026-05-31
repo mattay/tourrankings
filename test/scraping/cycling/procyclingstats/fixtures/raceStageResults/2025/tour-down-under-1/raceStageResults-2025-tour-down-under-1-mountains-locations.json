@@ -1,0 +1,44 @@
+[
+  {
+    "locationUID": "tour-down-under:2025:1:mountains:1",
+    "locationIndex": 1,
+    "locationType": "mountains",
+    "allocatedPoints": [7, 5, 3, 1],
+    "allocatedBoni": [],
+    "category": "2",
+    "location": "Kangaroo Creek Reservoir",
+    "distance": "11.3",
+    "sprintType": "Intermediate",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1,
+    "year": 2025
+  },
+  {
+    "locationUID": "tour-down-under:2025:1:mountains:2",
+    "locationIndex": 2,
+    "locationType": "mountains",
+    "allocatedPoints": [7, 5, 3, 1],
+    "allocatedBoni": [],
+    "category": "2",
+    "location": "Berry Hill Climb",
+    "distance": "77.9",
+    "sprintType": "Intermediate",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1,
+    "year": 2025
+  },
+  {
+    "locationUID": "tour-down-under:2025:1:mountains:3",
+    "locationIndex": 3,
+    "locationType": "mountains",
+    "allocatedPoints": [7, 5, 3, 1],
+    "allocatedBoni": [],
+    "category": "2",
+    "location": "Berry Hill Climb",
+    "distance": "121.1",
+    "sprintType": "Intermediate",
+    "stageUID": "tour-down-under:2025:1",
+    "stage": 1,
+    "year": 2025
+  }
+]

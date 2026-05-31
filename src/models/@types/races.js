@@ -32,7 +32,7 @@
  * @property {number} year - The year of the race.
  * @property {number} stage - The stage number.
  * @property {string} type - The type of the stage.
- * @property {string} locationName - The name of the location.
+ * @property {string} location - The name of the location.
  * @property {number} distance - The distance of the stage.
  */
 
@@ -43,8 +43,28 @@
  * @property {string} year - Year of the race.
  * @property {string} stage - Name of the stage.
  * @property {string} type - Type of the stage.
- * @property {string} locationName - Name of the location.
+ * @property {string} location - Name of the location.
  * @property {string} distance
+ */
+
+/**
+ * @typedef {Object} RaceStageLocationPointResultModel
+ * @property {string} locationUID - Unique identifier for the location.
+ * @property {number} rank - Position at this location.
+ * @property {number} bib - Rider's bib number.
+ * @property {string} rider - Rider's name.
+ * @property {number} points - Points earned at this location.
+ * @property {string} bonis - Bonus seconds earned.
+ */
+
+/**
+ * @typedef {Object} RaceStageLocationMountainResultModel
+ * @property {string} locationUID - Unique identifier for the location.
+ * @property {number} rank - Position at this climb.
+ * @property {number} bib - Rider's bib number.
+ * @property {string} rider - Rider's name.
+ * @property {number} points - KOM points earned at this climb.
+ * @property {string} bonis - Bonus seconds earned.
  */
 
 /**
@@ -72,6 +92,8 @@
  * @property {string} riderPcsId - The unique identifier of the rider.
  * @property {string} teamPcsId - The unique identifier of the team.
  * @property {string} rider - The name of the rider.
+ * @property {string} [firstNames] - The riders first names.
+ * @property {string} [surname] - The riders surname.
  * @property {string} flag - The flag of the rider's country.
  */
 

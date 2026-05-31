@@ -1,10 +1,10 @@
-import { isValidClassificationType } from "../../../core/cycling/classification/classification";
+import { isValidClassificationType } from "@cycling/classification/classification";
 import {
   StateNotInitializedError,
   StatePropertyNotDefinedError,
   StatePropertyNotSetError,
   StatePropertyValueNotValidError,
-} from "../errors/state";
+} from "@client/state/errors/state";
 
 /**
  * @typedef {import('./@types/store').State} State

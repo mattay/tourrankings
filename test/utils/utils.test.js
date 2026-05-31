@@ -1,6 +1,6 @@
 import { describe, it, expect } from "bun:test";
-import { toCamelCase, toTitleCase } from "../../src/utils/string.js";
-import { stringToSeconds } from "../../src/utils/time.js";
+import { toCamelCase, toTitleCase } from "@utils/string";
+import { stringToSeconds } from "@utils/time";
 
 describe("String utilities", () => {
   it("should convert string to camelCase", () => {
@@ -25,5 +25,8 @@ describe("Time utilities", () => {
     expect(stringToSeconds("00:05:30")).toBe(330);
     expect(stringToSeconds("00:00:01")).toBe(1);
     expect(stringToSeconds("10:00:00")).toBe(36000);
+    // Time Trials
+    expect(stringToSeconds("4.33,3")).toBe(273.3);
+    expect(stringToSeconds("0.03,01")).toBe(3.01);
   });
 });

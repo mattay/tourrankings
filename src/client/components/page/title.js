@@ -20,7 +20,7 @@ function updateTextSmooth(element, newText) {
 
 /**
  * Updates breadcrumb navigation
- * @param {import('../../state/store/@types/store').State} state
+ * @param {import('@client/state/store/@types/store').State} state
  * @returns {void}
  */
 export function updatePageHeadings(state) {
@@ -54,7 +54,7 @@ export function updatePageHeadings(state) {
     const stage = state.sportData.stages[state.selected.stage];
     if (!stage) return;
 
-    if (stage.stageType === "prologue") {
+    if (stage.stageType?.toLowerCase() === "prologue") {
       // Prologue
       updateTextSmooth(stageLabel, "Prologue");
       updateTextSmooth(stageType, "");

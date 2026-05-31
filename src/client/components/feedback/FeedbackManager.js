@@ -13,7 +13,7 @@
  * @property {string} [stage] - Stage number if applicable
  */
 
-import { getRaceInfoFromUrlPath } from "src/client/state/browser/location";
+import { getRaceInfoFromUrlPath } from "@client/state/browser/location";
 
 export class FeedbackManager {
   /** @type {Record<string, HTMLElement|null>} */

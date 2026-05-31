@@ -20,7 +20,6 @@ services:
     volumes:
       # Source code - changes reflect immediately
       - ./src:/tourRanking/src
-      - ./server:/tourRanking/server
       - ./public:/tourRanking/public
       - ./scripts:/tourRanking/scripts
       - ./data:/tourRanking/data
@@ -36,7 +35,6 @@ services:
       PORT: 8080
       DATA_DIR: /tourRanking/data/csv
       LOG_LEVEL: debug
-      PUPPETEER_HEADLESS: "true"
     healthcheck:
       test:
         [
@@ -62,7 +60,7 @@ services:
       - cron
     volumes:
       - ./src:/tourRanking/src
-      - ./server:/tourRanking/server
+      - ./server:/tourRanking/src/server
       - ./data:/tourRanking/data
       # Config files
       - ./crontab:/tourRanking/crontab
@@ -73,7 +71,6 @@ services:
       NODE_ENV: development
       DATA_DIR: /tourRanking/data/csv
       LOG_LEVEL: debug
-      PUPPETEER_HEADLESS: "true"
     command: ["supercronic", "-passthrough-logs", "/tourRanking/crontab"]
     depends_on:
       - app

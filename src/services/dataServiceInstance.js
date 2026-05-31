@@ -1,5 +1,5 @@
-import config from "server/config.js";
-import DataService from "./data/dataService.js";
+import config from "@server/config";
+import DataService from "./data/dataService";
 
 /**
  * Classes

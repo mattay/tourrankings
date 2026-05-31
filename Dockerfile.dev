@@ -6,21 +6,10 @@ WORKDIR /tourRanking
 # ============================================
 # Runtime Dependencies
 # ============================================
-# Minimal libs for Chrome headless shell (fewer dependencies = less memory)
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
-    libasound2 \
-    libatk1.0-0 \
-    libcairo-gobject2 \
-    libgbm1 \
-    libglib2.0-0 \
-    libgtk-3-0 \
-    libnss3 \
-    libpangocairo-1.0-0 \
-    libxrandr2 \
-    libxss1 \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
@@ -46,23 +35,6 @@ COPY package.json bun.lock ./
 RUN bun install
 
 # ============================================
-# Chrome Headless Shell
-# ============================================
-# https://developer.chrome.com/blog/chrome-for-testing
-# Install Chrome for Testing with headless shell (lighter than full Chrome)
-# Use chrome-headless-shell for lower memory usage
-
-ARG CHROME_VERSION=142
-RUN bunx @puppeteer/browsers install chrome-headless-shell@${CHROME_VERSION}
-
-# Create chrome path script (same pattern as production)
-RUN CHROME_PATH=$(find /tourRanking -type f -name "chrome-headless-shell" 2>/dev/null | head -n 1) \
-    && if [ -z "$CHROME_PATH" ]; then echo "ERROR: Chrome not found"; exit 1; fi \
-    && echo "export PUPPETEER_EXECUTABLE_PATH=$CHROME_PATH" > /chrome-path.sh \
-    && chmod +x /chrome-path.sh \
-    && echo "Chrome installed at: $CHROME_PATH"
-
-# ============================================
 # Application Code
 # ============================================
 COPY . .
@@ -71,10 +43,8 @@ COPY . .
 # Environment
 # ============================================
 ENV NODE_ENV=development \
-    NODE_OPTIONS="--max-old-space-size=256" \
     PORT=8080 \
-    DATA_DIR=/tourRanking/data/csv \
-    PUPPETEER_HEADLESS="true"
+    DATA_DIR=/tourRanking/data/csv
 
 # ============================================
 # Setup
@@ -96,5 +66,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
 # ============================================
 # Startup (same pattern as production)
 # ============================================
-ENTRYPOINT ["/bin/sh", "-c", ". /chrome-path.sh && exec \"$@\"", "--"]
-CMD ["bun", "--hot", "server/index.js"]
+CMD ["bun", "--hot", "src/server/index.js"]

@@ -1,7 +1,8 @@
 # Build
 node_modules/
-/public/js/dist/
 /public/css/
+/public/js/*.js
+/public/js/*.js.map
 
 # OS files
 .DS_Store
@@ -19,3 +20,7 @@ node_modules/
 
 # Keys
 *service-account-key.json
+temp/
+
+# Test error logs
+test/Errors/

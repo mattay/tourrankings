@@ -1,6 +1,6 @@
 /**
  * Updates the URL to reflect the current classification selection
- * @param {import('../../state/store/@types/store').State} state
+ * @param {import('@client/state/store/@types/store').State} state
  * @returns {void}
  */
 

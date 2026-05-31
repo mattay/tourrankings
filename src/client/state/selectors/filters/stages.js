@@ -1,9 +1,9 @@
 /**
- * @typedef {import('../../store/@types/store').State} State
+ * @typedef {import('@client/state/store/@types/store').State} State
  * @typedef {import('../@types/stage').FilteredStage } FilteredStage
  */
 
-import { validateStage } from "src/core/cycling/stage/stage";
+import { validateStage } from "@cycling/stage/stage";
 
 /**
  *

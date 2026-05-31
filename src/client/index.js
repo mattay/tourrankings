@@ -1,12 +1,12 @@
 // State Management
-import store from "./state/storeInstance";
+import store from "@client/state/storeInstance";
 import { setupSelectors } from "./state/selectors";
-import { fetchRaceData } from "./api/index.js";
+import { fetchRaceData } from "./api/index";
 // Utils
 import { getRaceInfoFromUrlPath } from "./state/browser/location";
 import { parseRaceContent } from "./domain/cycling/parse";
 // Components
-import { Race } from "./components/race/race.js";
+import { Race } from "./components/race/race";
 import { updatePageHeadings } from "./components/page/title";
 import {
   setupClassificationTabs,
@@ -14,9 +14,9 @@ import {
 } from "./components/page/classification-tabs";
 //
 import { updateUrl } from "./state/browser/history";
-import { validateClassification } from "src/core/cycling/classification/classification";
-import { validateStage } from "src/core/cycling/stage/stage";
-import { validateYear } from "src/utils/date";
+import { validateClassification } from "@cycling/classification/classification";
+import { validateStage } from "@cycling/stage/stage";
+import { validateYear } from "@utils/date";
 
 /**
  * Main application class for the Tour Ranking app.

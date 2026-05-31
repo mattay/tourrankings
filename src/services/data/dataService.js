@@ -6,26 +6,28 @@ import {
   Riders,
   RaceRiders,
   ClassificationGeneral,
-  ClassificationMountain,
+  ClassificationMountains,
   ClassificationPoints,
   ClassificationTeam,
   ClassificationYouth,
 } from "../../models";
-import { logError, logOut } from "../../utils/logging";
+import { logError, logOut } from "@utils/logging";
+import { watch } from "fs";
+import { join, dirname } from "path";
 
 /**
  * Classes
  * @typedef {import('../../models/@types/races').RaceModel} RaceData
  * @typedef {import('../../models/@types/races').RaceStageModel} RaceStageData
- * @typedef {import('../../models/@types/races').RaceStageResultModel} RaceStageResultData
- * @typedef {import('../../models/@types/races').RaceRiderModel} RaceRiderData
- * @typedef {import('../../models/@types/teams').TeamModel} TeamData
- * @typedef {import('../../models/@types/riders').RiderModel} RiderData
- * @typedef {import('../../models/@types/classifications').ClassificationPointModel} ClassificationPointsData
- * @typedef {import('../../models/@types/classifications').ClassificationMountainModel} ClassificationMountainData
- * @typedef {import('../../models/@types/classifications').ClassificationGeneralModel} ClassificationGeneralData
- * @typedef {import('../../models/@types/classifications').ClassificationYouthModel} ClassificationYouthData
- * @typedef {import('../../models/@types/classifications').ClassificationTeamModel} ClassificationTeamData
+ * @typedef {import('@models/@types/races').RaceStageResultModel} RaceStageResultData
+ * @typedef {import('@models/@types/races').RaceRiderModel} RaceRiderData
+ * @typedef {import('@models/@types/teams').TeamModel} TeamData
+ * @typedef {import('@models/@types/riders').RiderModel} RiderData
+ * @typedef {import('@models/@types/classifications').ClassificationPointModel} ClassificationPointsData
+ * @typedef {import('@models/@types/classifications').ClassificationMountainsModel} ClassificationMountainData
+ * @typedef {import('@models/@types/classifications').ClassificationGeneralModel} ClassificationGeneralData
+ * @typedef {import('@models/@types/classifications').ClassificationYouthModel} ClassificationYouthData
+ * @typedef {import('@models/@types/classifications').ClassificationTeamModel} ClassificationTeamData
  */
 
 /**
@@ -51,6 +53,9 @@ class DataService {
     this.options = {
       autoRefresh: false,
       refreshInterval: 3600000, // 1 hour in ms
+      watchFiles: false,
+      watchDebounceMs: 60000, // 1 minute default
+      dataDir: "./data/csv/",
       ...options,
     };
 
@@ -58,7 +63,10 @@ class DataService {
     this._failureCount = 0;
     this._baseInterval = options.refreshInterval || 3600000;
     this._initializing = false;
+    this._disposed = false;
     this._refreshTimer = null;
+    this._fileWatcher = null;
+    this._debounceTimer = null;
     this.lastRefreshTime = null;
     this.isInitialized = false;
 
@@ -70,7 +78,7 @@ class DataService {
     this.riders = new Riders();
     this.raceRiders = new RaceRiders();
     this.classificationGeneral = new ClassificationGeneral();
-    this.classificationMountain = new ClassificationMountain();
+    this.classificationMountain = new ClassificationMountains();
     this.classificationPoints = new ClassificationPoints();
     this.classificationTeam = new ClassificationTeam();
     this.classificationYouth = new ClassificationYouth();
@@ -121,26 +129,16 @@ class DataService {
         !this._refreshTimer &&
         typeof window === "undefined"
       ) {
-        const scheduleNextRefresh = (delay = this._baseInterval) => {
-          this._refreshTimer = setTimeout(async () => {
-            try {
-              await this.refreshData();
-              scheduleNextRefresh(this._baseInterval);
-            } catch (err) {
-              const backoffDelay = Math.min(
-                this._baseInterval * Math.pow(2, this._failureCount - 1),
-                this._baseInterval * 8,
-              );
-              logError(this.constructor.name, err?.message || String(err), err);
-              scheduleNextRefresh(backoffDelay);
-            }
-          }, delay);
-          this._refreshTimer.unref?.();
-        };
-        scheduleNextRefresh();
+        this._scheduleNextRefresh(this._baseInterval);
+      }
 
-        // Do not keep process alive solely for the timer (Node.js)
-        this._refreshTimer.unref?.();
+      // Set up file watching if enabled (only in Node.js, not browser)
+      if (
+        this.options.watchFiles &&
+        !this._fileWatcher &&
+        typeof window === "undefined"
+      ) {
+        this._setupFileWatcher();
       }
 
       // Determine success and log all failures
@@ -171,6 +169,7 @@ class DataService {
 
       this.isInitialized = true;
       this.lastRefreshTime = new Date();
+      this._disposed = false;
     } finally {
       this._initializing = false;
     }
@@ -182,15 +181,144 @@ class DataService {
    * @returns {void}
    */
   dispose() {
+    if (this._disposed) return;
+    this._disposed = true;
+
     logOut(this.constructor.name, "Disposing");
 
     if (this._refreshTimer) {
-      clearInterval(this._refreshTimer);
+      clearTimeout(this._refreshTimer);
       this._refreshTimer = null;
+    }
+
+    if (this._debounceTimer) {
+      clearTimeout(this._debounceTimer);
+      this._debounceTimer = null;
+    }
+
+    if (this._fileWatcher) {
+      this._fileWatcher.close();
+      this._fileWatcher = null;
     }
 
     this.isInitialized = false;
     this.lastRefreshTime = null;
+  }
+
+  /**
+   * Sets up file watching for CSV data directory.
+   * Triggers debounced refresh when files change.
+   *
+   * @private
+   * @returns {void}
+   */
+  _setupFileWatcher() {
+    const dataDir = this.options.dataDir;
+
+    try {
+      this._fileWatcher = watch(
+        dataDir,
+        { recursive: true },
+        (eventType, filename) => {
+          // Only watch CSV files
+          if (!filename || !filename.endsWith(".csv")) {
+            return;
+          }
+
+          // Clear existing debounce timer
+          if (this._debounceTimer) {
+            clearTimeout(this._debounceTimer);
+            this._debounceTimer = null;
+          }
+
+          const debounceSeconds = this.options.watchDebounceMs / 1000;
+          logOut(
+            this.constructor.name,
+            `File ${filename} changed, scheduling refresh in ${debounceSeconds}s`,
+          );
+
+          // Start new debounce timer
+          this._debounceTimer = setTimeout(async () => {
+            try {
+              logOut(
+                this.constructor.name,
+                "Refresh triggered by file watcher",
+              );
+              await this._refreshAndResetPolling();
+            } catch (err) {
+              logError(
+                this.constructor.name,
+                "File-triggered refresh failed",
+                err?.message || String(err),
+              );
+            }
+          }, this.options.watchDebounceMs);
+
+          // Don't keep process alive for debounce timer
+          this._debounceTimer.unref?.();
+        },
+      );
+
+      logOut(this.constructor.name, `Watching ${dataDir} for changes`);
+    } catch (err) {
+      logError(
+        this.constructor.name,
+        `Failed to set up file watcher for ${dataDir}`,
+        err?.message || String(err),
+      );
+    }
+  }
+
+  /**
+   * Refreshes data and resets the polling timer to prevent
+   * double refresh (watcher + polling close together).
+   *
+   * @private
+   * @returns {Promise<void>}
+   */
+  async _refreshAndResetPolling() {
+    // Clear polling timer to prevent immediate double refresh
+    if (this._refreshTimer) {
+      clearTimeout(this._refreshTimer);
+      this._refreshTimer = null;
+      logOut(
+        this.constructor.name,
+        "Polling timer reset after file-triggered refresh",
+      );
+    }
+
+    await this.refreshData();
+
+    // Reschedule polling timer if auto-refresh is enabled
+    if (this.options.autoRefresh && typeof window === "undefined") {
+      this._scheduleNextRefresh(this._baseInterval);
+    }
+  }
+
+  /**
+   * Schedules the next polling refresh.
+   *
+   * @private
+   * @param {number} delay - Delay in milliseconds
+   * @returns {void}
+   */
+  _scheduleNextRefresh(delay) {
+    this._refreshTimer = setTimeout(async () => {
+      try {
+        await this.refreshData();
+        this._scheduleNextRefresh(this._baseInterval);
+      } catch (err) {
+        this._failureCount++;
+        const backoffDelay = Math.min(
+          this._baseInterval * Math.pow(2, this._failureCount - 1),
+          this._baseInterval * 8,
+        );
+        logError(this.constructor.name, err?.message || String(err), err);
+        this._scheduleNextRefresh(backoffDelay);
+      }
+    }, delay);
+
+    this._refreshTimer.unref?.();
   }
 
   /**
@@ -317,7 +445,35 @@ class DataService {
     if (!this.isInitialized) {
       throw new Error(this.DATA_SERVICE_ERROR.NOT_INITIALIZED);
     }
-    return this.raceRiders.ridersInRace(raceUID);
+
+    const ridersInRace = this.raceRiders
+      .ridersInRace(raceUID)
+      .reduce((ridersList, raceRider) => {
+        if (!raceRider.riderPcsId) {
+          logError("Data Service", "Rider without PCS Id");
+          return ridersList;
+        }
+
+        const rider = this.riders.rows.find(
+          (rider) => rider.riderPcsId == raceRider.riderPcsId,
+        );
+        if (!rider) {
+          logError(
+            "Data Service",
+            `Rider not found with pcsID ${raceRider.riderPcsId}`,
+          );
+          ridersList.push(raceRider);
+        } else {
+          ridersList.push({
+            ...raceRider,
+            surname: rider.surname,
+            firstNames: rider.firstNames,
+          });
+        }
+        return ridersList;
+      }, []);
+
+    return ridersInRace;
   }
 
   /**
@@ -412,25 +568,25 @@ class DataService {
   }
 
   /**
-   * Retrieves mountain classification results for all stages in a specific race.
+   * Retrieves mountains classification results for all stages in a specific race.
    *
    * @param {string} raceUID - The unique identifier of the race.
-   * @returns {Array<ClassificationMountainData[]>} Array of mountain classification results, indexed by stage number.
+   * @returns {Array<ClassificationMountainData[]>} Array of mountains classification results, indexed by stage number.
    * @throws {Error} If the service is not initialized.
    */
   raceClassificationsMountain(raceUID) {
     return this._getStageClassifications(
       raceUID,
       this.classificationMountain,
-      "mountain classification",
+      "mountains classification",
     );
   }
 
   /**
-   * Retrieves mountain classification results for all stages in a specific race.
+   * Retrieves team classification results for all stages in a specific race.
    *
    * @param {string} raceUID - The unique identifier of the race.
-   * @returns {Array<ClassificationTeamData[]>} Array of mountain classification results, indexed by stage number.
+   * @returns {Array<ClassificationTeamData[]>} Array of team classification results, indexed by stage number.
    * @throws {Error} If the service is not initialized.
    */
   raceClassificationsTeams(raceUID) {

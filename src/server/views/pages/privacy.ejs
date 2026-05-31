@@ -17,9 +17,12 @@
       <p>
         This site shows race results for professional cycling tours.
         We display rider names, nationalities, teams, and race data — the same
-        stuff you'd see on any race broadcast. We don't track you, we don't run
-        ads, and we don't sell anything. If you send us feedback, we'll keep
-        your message and, if you leave it, your email so we can reply. That's it.
+        stuff you'd see on any race broadcast. We set one cookie during your
+        visit so we can understand how people navigate the site, and we log
+        page requests anonymously so we can debug issues and see what features
+        actually get used. No ads, no selling, no third-party tracking.
+        If you send us feedback, we'll keep your message and, if you leave it,
+        your email so we can reply. That's it.
       </p>
     </section>
 
@@ -35,8 +38,38 @@
 
     <section>
       <h2>What we collect from you</h2>
+
+      <h3>Session cookie</h3>
       <p>
-        If you choose to use the feedback form on the site, we collect:
+        When you visit, we set a single cookie called <code>sid</code> with a
+        random identifier. It links your page views together within one visit
+        so we can see how people move through the site — for instance, whether
+        people check stage results before switching to the general
+        classification, or if they land on a race page and bounce.
+        The cookie has no personal data in it, it expires when you close your
+        browser, and we never share it with anyone.
+      </p>
+
+      <h3>Request logs</h3>
+      <p>
+        Every page request is logged to files on our server in NDJSON format.
+        Each entry records:
+      </p>
+      <ul>
+        <li>The page or API endpoint you visited</li>
+        <li>How long the response took</li>
+        <li>Your browser type (user agent string)</li>
+        <li>A <strong>hashed</strong> version of your IP address — it's one-way
+          (SHA-256), so we can't work out your IP from it</li>
+      </ul>
+      <p>
+        These logs help us debug problems and understand which features people
+        actually use. They're rotated regularly and not kept forever.
+      </p>
+
+      <h3>Feedback form</h3>
+      <p>
+        If you choose to use the feedback form, we collect:
       </p>
       <ul>
         <li>Your message and the feedback category you pick</li>
@@ -44,8 +77,8 @@
         <li>Your email <em>only if you want to leave one</em> — it's optional and clearly marked as such</li>
       </ul>
       <p>
-        We don't require an account, we don't set tracking cookies, and we
-        don't monitor your browsing.
+        We don't require an account and we don't share anything with third parties
+        for tracking or advertising.
       </p>
     </section>
 
@@ -68,8 +101,12 @@
             <td>Private cloud storage (Google Sheets), accessed only by us</td>
           </tr>
           <tr>
-            <td>Server logs</td>
-            <td>Ephemeral — not stored or kept</td>
+            <td>Request logs</td>
+            <td>NDJSON files on our server, rotated regularly and not kept indefinitely</td>
+          </tr>
+          <tr>
+            <td>Session cookie</td>
+            <td>Only in your browser — disappears when you close it</td>
           </tr>
         </tbody>
       </table>
@@ -94,11 +131,14 @@
     </section>
 
     <section>
-      <h2>No tracking, no ads</h2>
+      <h2>No ads, no third-party tracking</h2>
       <p>
-        There are no analytics scripts, no tracking pixels, no advertising
-        cookies, and no profiling. We don't know who you are or what pages
-        you've visited. We just want to show you some good cycling rankings.
+        There are no analytics scripts (no Google Analytics, no Facebook pixels),
+        no advertising cookies, and no profiling. The session cookie only links
+        page views within a single visit — it doesn't identify you and it doesn't
+        follow you across sessions or other sites. We don't know who you are,
+        we just want to understand whether the features we build are actually
+        useful. And we just want to show you some good cycling rankings.
       </p>
     </section>
 

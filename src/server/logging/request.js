@@ -89,7 +89,15 @@ export function logRequest(req, res, responseTimeMs, responseSizeBytes) {
     status: res.statusCode,
     responseTimeMs,
     responseSizeBytes,
-    referrer: req.get("referrer") || undefined,
+    referrer: (() => {
+      const ref = req.get("referrer");
+      if (!ref) return undefined;
+      try {
+        return new URL(ref).hostname;
+      } catch {
+        return undefined;
+      }
+    })(),
     userAgent: req.get("user-agent") || "",
     hashedIp: hashIP(req.ip || req.socket?.remoteAddress || "unknown"),
     ...processMeta,

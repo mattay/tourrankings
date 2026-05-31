@@ -216,8 +216,76 @@ describe("Request Logging Classification", () => {
       expect(entry.hashedIp).toBeDefined();
       expect(entry.userAgent).toBe("test-agent");
     });
+
+    it("should extract hostname from referrer", async () => {
+      const { logRequest } = await import("@server/logging/request");
+
+      const req = createMockReqWithReferrer(
+        "/",
+        "/",
+        200,
+        "https://www.google.com/search?q=private+stuff",
+      );
+      const res = createMockRes(200);
+
+      logRequest(req, res, 10, 100);
+
+      const lastWrite = mockWrite.mock.calls.at(-1);
+      const entry = lastWrite[1];
+
+      expect(entry.referrer).toBe("www.google.com");
+    });
+
+    it("should extract hostname from social referrer", async () => {
+      const { logRequest } = await import("@server/logging/request");
+
+      const req = createMockReqWithReferrer(
+        "/",
+        "/",
+        200,
+        "https://twitter.com/user/status/12345?utm_source=twitter",
+      );
+      const res = createMockRes(200);
+
+      logRequest(req, res, 10, 100);
+
+      const lastWrite = mockWrite.mock.calls.at(-1);
+      const entry = lastWrite[1];
+
+      expect(entry.referrer).toBe("twitter.com");
+    });
+
+    it("should return undefined for invalid referrer", async () => {
+      const { logRequest } = await import("@server/logging/request");
+
+      const req = createMockReqWithReferrer("/", "/", 200, "not-a-valid-url");
+      const res = createMockRes(200);
+
+      logRequest(req, res, 10, 100);
+
+      const lastWrite = mockWrite.mock.calls.at(-1);
+      const entry = lastWrite[1];
+
+      expect(entry.referrer).toBeUndefined();
+    });
   });
 });
+
+function createMockReqWithReferrer(originalUrl, url, statusCode, referrer) {
+  return {
+    method: "GET",
+    url,
+    originalUrl,
+    path: url,
+    id: "test-request-id",
+    ip: "127.0.0.1",
+    get: (header) => {
+      if (header === "user-agent") return "test-agent";
+      if (header === "referrer") return referrer;
+      return undefined;
+    },
+  };
+}
 
 function createMockReq(originalUrl, url, statusCode) {
   return {

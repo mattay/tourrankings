@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import config from "@server/config";
+import { logError } from "@utils/logging";
 import {
   ensureDir,
   getFileSize,
@@ -150,8 +151,10 @@ class FileTransport {
     const line = JSON.stringify(entry) + "\n";
     const bytes = Buffer.byteLength(line);
 
-    this.#writeAsync(target, line, bytes).catch(() => {
-      // Silently fail — logging should never crash the app
+    this.#writeAsync(target, line, bytes).catch((error) => {
+      logError("FileTransport", "Failed to write log entry", error, {
+        targetName,
+      });
     });
   }
 

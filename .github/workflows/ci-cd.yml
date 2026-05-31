@@ -122,9 +122,9 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           persist-credentials: false
-      - uses: superfly/flyctl-actions/setup-flyctl@ed8efb33836e8b2096c7fd3ba1c8afe303ebbff1
+      - uses: superfly/flyctl-actions/setup-flyctl@master
         with:
-          version: 0.0.462
+          version: latest
 
       - name: Set deployment metadata
         run: |
@@ -158,9 +158,9 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           persist-credentials: false
-      - uses: superfly/flyctl-actions/setup-flyctl@ed8efb33836e8b2096c7fd3ba1c8afe303ebbff1
+      - uses: superfly/flyctl-actions/setup-flyctl@master
         with:
-          version: 0.0.462
+          version: latest
 
       - name: Set APP_VERSION
         run: |

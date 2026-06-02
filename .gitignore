@@ -22,5 +22,8 @@ node_modules/
 *service-account-key.json
 temp/
 
+# Log analysis output
+scripts/logs-analysis/
+
 # Test error logs
 test/Errors/

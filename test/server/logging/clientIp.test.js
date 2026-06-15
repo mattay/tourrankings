@@ -1,6 +1,5 @@
 import { describe, it, expect, jest, mock } from "bun:test";
 import crypto from "crypto";
-import { getClientIp } from "@server/logging/request";
 
 // Mock the file transport to capture log entries without writing files
 const mockWrite = jest.fn();
@@ -14,6 +13,9 @@ mock.module("@server/logging/transports/file", () => ({
   })),
   initializeFileTransport: jest.fn(),
 }));
+
+// Import after mocks are registered so the request module sees the mocked transport.
+import { getClientIp } from "@server/logging/request";
 
 describe("getClientIp", () => {
   it("prefers fly-client-ip header", () => {

@@ -222,13 +222,18 @@ subdirectories:
 
 ```bash
 tourrankings/                       # Bare repository (.git lives here)
-├── _cooldown/                      # Worktree for cooldown branch
-├── _cycle/                         # Worktree for cycle branch
-├── _main/                          # Worktree for main
-├── _client/                        # Worktree for a bet
-├── _server/                        # Worktree for another bet
+├── _cooldown/                      # (anchor) cooldown branch
+├── _cycle/                         # (anchor) cycle branch
+├── _main/                          # (anchor) main branch
+├── _client/                        # (anchor) a bet
+├── _server/                        # (anchor) another bet
+├── my-fix/                         # (agent-created) bugfix branch
+├── new-feature/                    # (agent-created) bet branch
 └── .../
 ```
+
+**Naming convention:** Anchor worktrees (set up manually) use a `_` prefix.
+Agent-created worktrees for issues use plain names without `_`.
 
 To add a new worktree for an issue, create it as a sibling of the current
 worktree directory, branching from the current release branch. The

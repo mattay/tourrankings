@@ -196,6 +196,89 @@ If SSH authentication fails:
 2. Credentials may not have been approved. SSH key may be in a password manager.
 
 
+### Worktree Workflow for Issue Addressing
+
+Git worktrees let you check out multiple branches simultaneously in separate
+directories. This is the recommended workflow when addressing GitHub issues,
+especially for agentic coding agents.
+
+#### Benefits
+
+- **Isolation** — Each issue has its own working directory. No risk of leftover
+  changes, staged files, or build artifacts leaking between tasks.
+- **Parallel work** — You (or the agent) can work on an issue in one worktree
+  while the app runs or tests execute in another.
+- **No stashing** — Switch between issues without committing WIP or stashing
+  changes. Each worktree is a clean checkout.
+- **Independent state** — Each worktree has its own `node_modules`, index, and
+  HEAD. Running `bun install` or `bun test` in one worktree doesn't affect others.
+- **Shared hooks** — Git hooks in the main repository `.git/hooks/` apply to
+  all worktrees automatically (pre-commit, pre-push).
+
+#### Setup Convention
+
+This repository uses a bare repo at the project root with worktrees as
+subdirectories:
+
+```bash
+tourrankings/                       # Bare repository (.git lives here)
+├── cooldown/                       # Worktree for cooldown branch
+├── cycle/                          # Worktree for cycle branch
+├── main/                           # Worktree for main
+├── client/                         # Worktree for a bet
+├── server/                         # Worktree for another bet
+└── .../
+```
+
+To add a new worktree for an issue, create it as a sibling of the current
+worktree directory, branching from the current cycle/cooldown branch:
+
+```bash
+# From any existing worktree (e.g., ../cooldown/)
+git worktree add -b bugfix/my-fix ../my-fix cooldown-3
+```
+
+This creates `../my-fix/` as a new worktree on a `bugfix/my-fix` branch
+based on `cooldown-3`.
+
+#### Agent Workflow
+
+1. **Identify an issue** to address (e.g., a `bug` or `pitch` labelled issue).
+2. **Create a worktree** from the current cycle/cooldown branch:
+   ```bash
+   # From any existing worktree (e.g., ../cooldown/)
+   git worktree add -b bugfix/{description} ../{description} cooldown-3
+   ```
+3. **Change to the worktree directory** and do all work there:
+   ```bash
+   cd ../{description}
+   bun install  # if needed
+   ```
+4. **Develop, commit, push, create PR** from the worktree.
+5. **After merge**, clean up:
+   ```bash
+   cd ../cooldown  # or any other worktree
+   git worktree remove ../{description}
+   git branch -d bugfix/{description}
+   ```
+
+#### Lifecycle
+
+```text
+Issue → worktree add → develop → commit → push → PR → merge → worktree remove
+```
+
+#### Tips
+
+- Run `bun install` once per worktree (each has its own `node_modules`).
+- Use `git worktree list` to see all active worktrees.
+- Hooks in the main `.git/hooks/` directory apply to all worktrees — no
+  duplicate setup needed.
+- Always create worktrees from the current cycle/cooldown branch so the base
+  is up to date.
+- After the PR merges, remove the worktree to keep things tidy.
+
+
 ## Project Structure
 
 ```

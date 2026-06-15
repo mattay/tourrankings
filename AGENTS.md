@@ -222,11 +222,11 @@ subdirectories:
 
 ```bash
 tourrankings/                       # Bare repository (.git lives here)
-├── cooldown/                       # Worktree for cooldown branch
-├── cycle/                          # Worktree for cycle branch
-├── main/                           # Worktree for main
-├── client/                         # Worktree for a bet
-├── server/                         # Worktree for another bet
+├── _cooldown/                      # Worktree for cooldown branch
+├── _cycle/                         # Worktree for cycle branch
+├── _main/                          # Worktree for main
+├── _client/                        # Worktree for a bet
+├── _server/                        # Worktree for another bet
 └── .../
 ```
 

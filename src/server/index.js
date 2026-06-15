@@ -26,6 +26,10 @@ const __dirname = dirname(__filename);
  */
 const app = express();
 
+// Trust Fly.io's edge proxy so req.ip reflects the real client IP
+// from X-Forwarded-For instead of the proxy connection address.
+app.set("trust proxy", true);
+
 /**
  * Sets up server middleware, view engine, and other configurations.
  * @param {import('express').Application} app - Express application instance.

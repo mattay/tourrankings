@@ -95,12 +95,34 @@ class FileTransport {
   /**
    * Initializes the transport by ensuring directories exist and loading current file sizes.
    * Also runs initial retention cleanup.
+   *
+   * If the log directory cannot be created (e.g., permission issues on the volume),
+   * file logging is gracefully disabled with a warning. The server continues to
+   * operate normally without file-based request logging.
+   *
    * @returns {Promise<void>}
    */
   async initialize() {
     if (!this.#enabled) return;
 
-    await ensureDir(LOG_DIR);
+    try {
+      await ensureDir(LOG_DIR);
+    } catch (error) {
+      logError(
+        "FileTransport",
+        "Cannot create log directory — file logging disabled",
+        error,
+        { logDir: LOG_DIR },
+      );
+      console.warn(
+        `[FileTransport] WARNING: File logging is disabled. The log directory "${LOG_DIR}" could not be created.`,
+      );
+      console.warn(
+        `[FileTransport] The app will continue without file-based request logging.`,
+      );
+      this.#enabled = false;
+      return;
+    }
 
     for (const [, target] of this.#targets) {
       target.currentSizeBytes = await getFileSize(target.filePath);

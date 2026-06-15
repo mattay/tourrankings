@@ -3,16 +3,14 @@ import path from "path";
 
 /**
  * Ensures the directory exists, creating it recursively if needed.
+ * Throws if the directory cannot be created.
  *
  * @param {string} dir - Directory path
  * @returns {Promise<void>}
+ * @throws {Error} If the directory cannot be created
  */
 export async function ensureDir(dir) {
-  try {
-    await fs.promises.mkdir(dir, { recursive: true });
-  } catch {
-    // Directory already exists or cannot be created
-  }
+  await fs.promises.mkdir(dir, { recursive: true });
 }
 
 /**

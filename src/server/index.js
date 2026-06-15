@@ -160,7 +160,6 @@ async function initializeServer() {
     await startServer(app);
 
     // Handle unhandled promise rejections globally
-    // TODO: Implement proper error handling and logging
     process.on("unhandledRejection", (reason, promise) => {
       const message =
         reason instanceof Error ? reason : new Error(String(reason));

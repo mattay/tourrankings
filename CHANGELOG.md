@@ -36,8 +36,8 @@ Cooldown 3 release — incremental improvements, new features, and bugfixes accu
 
 ### Refactoring
 - **CI/CD** — harden security and optimise deployment config
-- **Server** — centralize error handling, use path aliases, add presenters
-- **Scraper** — normalize CSV output by removing redundant rider metadata
+- **Server** — centralise error handling, use path aliases, add presenters
+- **Scraper** — normalise CSV output by removing redundant rider metadata
 - **Models** — refactor model fields and remove full rider name
 - **HTML scraping** — refactor with caching support and centralised config
 - **Server directory** — relocate `/server` under `/src/`
@@ -52,7 +52,7 @@ Cooldown 3 release — incremental improvements, new features, and bugfixes accu
 - Add tests for scraping race stages, stage results, and startlists
 - Add tests for race scraping validation
 - Add CSV content validation tests
-- Standardize test naming conventions
+- Standardise test naming conventions
 - Improve type safety in health routes tests
 
 ### Infrastructure

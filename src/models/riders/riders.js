@@ -23,7 +23,6 @@ export class Riders extends CSVdataModel {
       "Rider Pcs Id",
       "Surname",
       "First Names",
-      "Date Of Birth",
       "Nationality",
       "Flag",
     ];

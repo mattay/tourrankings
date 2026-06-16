@@ -7,6 +7,7 @@ set -e
 
 ENV=${1:-prod}
 CONFIG="fly.${ENV}.toml"
+LOCAL_DIR="./temp/production/logs"
 
 if [ ! -f "$CONFIG" ]; then
   echo "Error: $CONFIG not found"
@@ -19,8 +20,6 @@ if [ -z "$APP_NAME" ]; then
   echo "Error: Could not parse app name from $CONFIG"
   exit 1
 fi
-
-LOCAL_DIR="./logs"
 
 echo "Pulling logs from $APP_NAME ($ENV)..."
 

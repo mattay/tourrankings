@@ -4,7 +4,7 @@
  * for analysis in ObservableHQ via DuckDB.
  *
  * Usage: bun run scripts/ndjson-to-parquet.js [logs-dir]
- * Default logs-dir: ./logs
+ * Default logs-dir: ./temp/production/logs
  *
  * Output: access.parquet, api.parquet, health.parquet, static.parquet
  *

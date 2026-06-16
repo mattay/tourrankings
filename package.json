@@ -61,7 +61,7 @@
     "globals": "^17.6.0"
   },
   "trustedDependencies": [
-    "duckdb"
+    "@duckdb/node-bindings"
   ],
   "engines": {
     "bun": ">=1.3.0"

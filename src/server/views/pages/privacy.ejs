@@ -60,6 +60,7 @@
         <li>The page or API endpoint you visited</li>
         <li>How long the response took</li>
         <li>Your browser type (user agent string)</li>
+        <li>The random session cookie ID, so we can link your page views within one visit</li>
         <li>A <strong>hashed</strong> version of your IP address — it's
           pseudonymised with SHA-256 so your IP isn't stored in plain text,
           but it may be re-identifiable in some circumstances</li>
@@ -139,10 +140,11 @@
       <p>
         There are no analytics scripts (no Google Analytics, no Facebook pixels),
         no advertising cookies, and no profiling. The session cookie only links
-        page views within a single visit — it doesn't identify you and it doesn't
-        follow you across sessions or other sites. We don't know who you are,
-        we just want to understand whether the features we build are actually
-        useful. And we just want to show you some good cycling rankings.
+        page views within a single visit and expires when you close your browser —
+        it doesn't identify you and it doesn't follow you across sessions or other
+        sites. We don't know who you are, we just want to understand whether the
+        features we build are actually useful. And we just want to show you some
+        good cycling rankings.
       </p>
     </section>
 

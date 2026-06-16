@@ -269,10 +269,50 @@ describe("Request Logging Classification", () => {
 
       expect(entry.referrer).toBeUndefined();
     });
+
+    it("should include sessionId when a session cookie is present", async () => {
+      const { logRequest } = await import("@server/logging/request");
+
+      const req = createMockReq("/", "/", 200, undefined, {
+        sid: "test-session-id",
+      });
+      const res = createMockRes(200);
+
+      logRequest(req, res, 10, 100);
+
+      const lastWrite = mockWrite.mock.calls.at(-1);
+      const entry = lastWrite[1];
+
+      expect(entry.sessionId).toBe("test-session-id");
+    });
+
+    it("should omit sessionId when no session cookie is present", async () => {
+      const { logRequest } = await import("@server/logging/request");
+
+      const req = createMockReq("/", "/", 200);
+      const res = createMockRes(200);
+
+      logRequest(req, res, 10, 100);
+
+      const lastWrite = mockWrite.mock.calls.at(-1);
+      const entry = lastWrite[1];
+
+      expect(entry.sessionId).toBeUndefined();
+    });
   });
 });
 
-function createMockReq(originalUrl, url, statusCode, referrer) {
+/**
+ * Creates a mock Express request object for request logging tests.
+ *
+ * @param {string} originalUrl - The original URL of the request.
+ * @param {string} url - The URL path used for routing.
+ * @param {number} statusCode - The expected response status code.
+ * @param {string} [referrer] - Optional referrer header value.
+ * @param {Object} [cookies={}] - Optional cookies already present on the request.
+ * @returns {Object} A mock request object with method, URL, IP, cookies, and a get helper.
+ */
+function createMockReq(originalUrl, url, statusCode, referrer, cookies = {}) {
   return {
     method: "GET",
     url,
@@ -280,6 +320,7 @@ function createMockReq(originalUrl, url, statusCode, referrer) {
     path: url,
     id: "test-request-id",
     ip: "127.0.0.1",
+    cookies,
     get: (header) => {
       if (header === "user-agent") return "test-agent";
       if (header === "referrer") return referrer;
@@ -288,6 +329,12 @@ function createMockReq(originalUrl, url, statusCode, referrer) {
   };
 }
 
+/**
+ * Creates a mock Express response object for request logging tests.
+ *
+ * @param {number} statusCode - The response status code.
+ * @returns {Object} A mock response object with status, JSON, send, and finish-event helpers.
+ */
 function createMockRes(statusCode) {
   return {
     statusCode,

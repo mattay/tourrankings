@@ -1,2 +1,2 @@
 # Scrape for data every 45 minutes
-*/45 * * * * cd /tourRanking && bun scrape >> /dev/stdout 2>> /dev/stderr
+*/45 * * * * cd /tourRanking && /usr/local/bin/bun scrape

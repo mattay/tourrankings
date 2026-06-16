@@ -1,8 +1,10 @@
 import express from "express";
 import compression from "compression";
+import cookieParser from "cookie-parser";
 import crypto from "crypto";
-import setupSecurityMiddleware from "./security";
-import errorHandler from "./errorHandler";
+import setupSecurityMiddleware from "@server/middleware/security";
+import errorHandler from "@server/middleware/errorHandler";
+import sessionCookieMiddleware from "@server/middleware/sessionCookie";
 import { logOut } from "@utils/logging";
 import { logRequest } from "@server/logging";
 import config from "@server/config";
@@ -11,6 +13,7 @@ import config from "@server/config";
  * Configures and applies all middleware to the provided Express app.
  *
  * - Logs all incoming requests with timestamp, method, and URL (dev only, excludes health).
+ * - Sets a session-only anonymous cookie for request log correlation when enabled.
  * - Writes structured NDJSON request logs to files.
  * - Parses JSON and URL-encoded request bodies.
  * - (Optionally) compresses responses using gzip (Brotli not supported in Bun as of 2025-03-17).
@@ -30,6 +33,12 @@ export default function setupMiddleware(app) {
       next();
     });
   }
+
+  // Parse cookies so req.cookies is available
+  app.use(cookieParser());
+
+  // Set a session-only anonymous cookie for request log correlation
+  app.use(sessionCookieMiddleware);
 
   /**
    * Request logging middleware for file-based NDJSON logging.

@@ -21,6 +21,7 @@ DATA_AUTO_REFRESH = "true"
 DATA_AUTO_REFRESH_INTERVAL = "900000"  # 15 min - faster feedback in dev
 APP_VERSION = ""  # Injected by CI/CD during deployment
 CORS_ORIGIN = "https://tourrankings-dev.fly.dev"
+SESSION_TRACKING_ENABLED = "false"
 
 # File logging
 LOG_DIR = "/tourRanking/data/logs"

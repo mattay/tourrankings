@@ -115,6 +115,7 @@ export function logRequest(req, res, responseTimeMs, responseSizeBytes) {
     })(),
     userAgent: req.get("user-agent") || "",
     hashedIp: hashIP(getClientIp(req)),
+    sessionId: req.cookies?.sid,
     ...processMeta,
   };
 

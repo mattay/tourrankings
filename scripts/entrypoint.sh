@@ -21,9 +21,15 @@ exec gosu bun bash -c '
   cron_pid=$!
   bun start &
   server_pid=$!
+
+  cleanup() {
+    kill "$cron_pid" "$server_pid" 2>/dev/null || true
+    wait
+  }
+  trap cleanup TERM INT
+
   wait -n
   exit_code=$?
-  kill "$cron_pid" "$server_pid" 2>/dev/null || true
-  wait
+  cleanup
   exit $exit_code
 '

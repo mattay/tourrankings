@@ -42,6 +42,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     ca-certificates \
     procps \
+    gosu \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
@@ -71,7 +72,11 @@ RUN mkdir -p /tourRanking/data/csv /tourRanking/data/logs && \
 # Security
 # ============================================
 RUN chown -R bun:bun /tourRanking
-USER bun
+
+# Root-owned entrypoint so it can fix mounted volume permissions before
+# dropping privileges for the application processes.
+COPY --chown=root:root scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 EXPOSE 8080
 
@@ -84,4 +89,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
 # ============================================
 # Startup
 # ============================================
-CMD ["bun", "start"]
+# Container starts as root; entrypoint fixes data volume ownership then drops to bun.
+CMD ["/usr/local/bin/entrypoint.sh"]

@@ -2,7 +2,8 @@
 # Used by: docker-compose.local-build.yml, fly.dev.toml, fly.prod.toml
 # Purpose: Optimized, secure production deployment
 
-FROM oven/bun:1 AS builder
+# Pinned 2026-06-17. Update only after building and testing locally.
+FROM oven/bun:1@sha256:e10577f0db68676a7024391c6e5cb4b879ebd17188ab750cf10024a6d700e5c4 AS builder
 
 WORKDIR /tourRanking
 
@@ -31,7 +32,7 @@ RUN bun run build
 # ============================================
 # Production Stage
 # ============================================
-FROM oven/bun:1-slim
+FROM oven/bun:1-slim@sha256:d56a2534ffd262e92c12fd3249d3924d296d97086da773f821d7d0477435ea04
 
 WORKDIR /tourRanking
 

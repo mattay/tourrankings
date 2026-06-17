@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.1] - 2026-06-17
+
+Cooldown 3 patch release — hardening, observability, and version alignment since v3.1.0.
+
+### Features
+- **Health freshness** — report last scraper heartbeat in `/health` for cron monitoring
+- **Data backup** — add Fly.io data volume backup script
+
+### Fixes
+- **Docker** — pin Bun base images to immutable digests
+- **Entrypoint** — avoid recursive `chown` on every startup
+- **Entrypoint** — forward `SIGTERM`/`SIGINT` to child processes
+- **Secrets** — prevent service account key from being committed or baked into images
+- **Versioning** — align package version with cycle-based semver (`v1.{cycle}.{patch}`)
+- **Lint** — keep `console.table` for invalid CSV entries behind eslint-disable
+
 ## [3.1.0] - 2026-06-01
 
 Cooldown 3 release — incremental improvements, new features, and bugfixes accumulated since v3.0.0.
@@ -36,8 +52,8 @@ Cooldown 3 release — incremental improvements, new features, and bugfixes accu
 
 ### Refactoring
 - **CI/CD** — harden security and optimise deployment config
-- **Server** — centralize error handling, use path aliases, add presenters
-- **Scraper** — normalize CSV output by removing redundant rider metadata
+- **Server** — centralise error handling, use path aliases, add presenters
+- **Scraper** — normalise CSV output by removing redundant rider metadata
 - **Models** — refactor model fields and remove full rider name
 - **HTML scraping** — refactor with caching support and centralised config
 - **Server directory** — relocate `/server` under `/src/`
@@ -52,7 +68,7 @@ Cooldown 3 release — incremental improvements, new features, and bugfixes accu
 - Add tests for scraping race stages, stage results, and startlists
 - Add tests for race scraping validation
 - Add CSV content validation tests
-- Standardize test naming conventions
+- Standardise test naming conventions
 - Improve type safety in health routes tests
 
 ### Infrastructure

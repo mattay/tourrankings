@@ -14,6 +14,12 @@ const __dirname = dirname(__fileName);
  */
 
 /**
+ * Session tracking configuration.
+ * @typedef {Object} SessionTrackingConfig
+ * @property {boolean} enabled - Whether session cookie tracking is enabled.
+ */
+
+/**
  * Application configuration object.
  *
  * @typedef {Object} Config
@@ -42,6 +48,7 @@ const __dirname = dirname(__fileName);
  * @property {Object} dataService - Data service configuration.
  * @property {boolean} dataService.autoRefresh - Enable auto-refresh.
  * @property {number} dataService.refreshInterval - Interval in milliseconds for auto-refresh.
+ * @property {SessionTrackingConfig} sessionTracking - Session tracking configuration.
  * @property {Object} logging - File logging configuration.
  * @property {boolean} logging.enabled - Whether file logging is enabled.
  * @property {LogTargetConfig} logging.access - Access log (pages, unknowns) config.
@@ -51,8 +58,10 @@ const __dirname = dirname(__fileName);
  */
 
 /** @type {Config} */
+const env = process.env.NODE_ENV || "development";
+
 const config = {
-  env: process.env.NODE_ENV || "development",
+  env,
   port: parseInt(process.env.PORT, 10) || 8080,
 
   // Path configuration
@@ -68,7 +77,9 @@ const config = {
   security: {
     cors: {
       origin: process.env.CORS_ORIGIN
-        ? process.env.CORS_ORIGIN.split(",").map((o) => o.trim()).filter(Boolean)
+        ? process.env.CORS_ORIGIN.split(",")
+            .map((o) => o.trim())
+            .filter(Boolean)
         : ["*"],
       methods: ["GET", "POST"],
     },
@@ -105,6 +116,14 @@ const config = {
     memoryWarningThresholdMB: parseNumber(
       process.env.HEALTH_MEMORY_WARNING_THRESHOLD_MB,
       400,
+    ),
+  },
+
+  // Session tracking configuration
+  sessionTracking: {
+    enabled: parseBool(
+      process.env.SESSION_TRACKING_ENABLED,
+      env === "production",
     ),
   },
 

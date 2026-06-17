@@ -70,6 +70,21 @@ function hashIP(ip) {
 }
 
 /**
+ * Resolves the original client IP address from Fly.io / proxy headers.
+ *
+ * Prefers Fly.io's `fly-client-ip` header, then falls back to Express's
+ * `req.ip` (requires `trust proxy`), then the socket address, then "unknown".
+ *
+ * @param {import('express').Request} req - Express request object
+ * @returns {string}
+ */
+export function getClientIp(req) {
+  return (
+    req.get("fly-client-ip") || req.ip || req.socket?.remoteAddress || "unknown"
+  );
+}
+
+/**
  * Logs an HTTP request by building a complete entry and writing to transports.
  * Fires after the response is sent — never blocks the client.
  *
@@ -99,7 +114,8 @@ export function logRequest(req, res, responseTimeMs, responseSizeBytes) {
       }
     })(),
     userAgent: req.get("user-agent") || "",
-    hashedIp: hashIP(req.ip || req.socket?.remoteAddress || "unknown"),
+    hashedIp: hashIP(getClientIp(req)),
+    sessionId: req.cookies?.sid,
     ...processMeta,
   };
 

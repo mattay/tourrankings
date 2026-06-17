@@ -184,7 +184,7 @@ Returns empty array instead of 500 error when no data exists.
 ### Merge Strategy
 
 - **Bet → Cycle**: Merge commit with descriptive message
-- **Cycle → Main**: Always merge commit, tag with `v{cycle}.0`
+- **Cycle → Main**: Always merge commit, tag with `v1.{cycle}.0`
 - **Hotfixes**: Create bugfix/ branch, merge to main, then merge to current cycle
 
 ### Git Best Practices
@@ -194,6 +194,99 @@ Returns empty array instead of 500 error when no data exists.
 If SSH authentication fails:
 1. Do NOT change the remote to HTTPS
 2. Credentials may not have been approved. SSH key may be in a password manager.
+
+
+### Worktree Workflow for Issue Addressing
+
+Git worktrees let you check out multiple branches simultaneously in separate
+directories. This is the recommended workflow when addressing GitHub issues,
+especially for agentic coding agents.
+
+#### Benefits
+
+- **Isolation** — Each issue has its own working directory. No risk of leftover
+  changes, staged files, or build artifacts leaking between tasks.
+- **Parallel work** — You (or the agent) can work on an issue in one worktree
+  while the app runs or tests execute in another.
+- **No stashing** — Switch between issues without committing WIP or stashing
+  changes. Each worktree is a clean checkout.
+- **Independent state** — Each worktree has its own `node_modules`, index, and
+  HEAD. Running `bun install` or `bun test` in one worktree doesn't affect others.
+- **Shared hooks** — Git hooks in the main repository `.git/hooks/` apply to
+  all worktrees automatically (pre-commit, pre-push).
+
+#### Setup Convention
+
+This repository uses a bare repo at the project root with worktrees as
+subdirectories:
+
+```bash
+tourrankings/                       # Bare repository (.git lives here)
+├── _cooldown/                      # (anchor) cooldown branch
+├── _cycle/                         # (anchor) cycle branch
+├── _main/                          # (anchor) main branch
+├── _client/                        # (anchor) a bet
+├── _server/                        # (anchor) another bet
+├── my-fix/                         # (agent-created) bugfix branch
+├── new-feature/                    # (agent-created) bet branch
+└── .../
+```
+
+**Naming convention:** Anchor worktrees (set up manually) use a `_` prefix.
+Agent-created worktrees for issues use plain names without `_`.
+
+To add a new worktree for an issue, create it as a sibling of the current
+worktree directory, branching from the current release branch. The
+default branch on GitHub (`origin/HEAD`) always points to the current
+cycle or cooldown branch, so agents can resolve it programmatically:
+
+```bash
+# From any existing worktree (e.g., ../_cooldown/)
+git worktree add -b bugfix/my-fix ../my-fix "$(git rev-parse --abbrev-ref origin/HEAD)"
+```
+
+This creates `../my-fix/` as a new worktree on a `bugfix/my-fix` branch
+based on the current release branch (e.g., `cooldown-3` or `cycle-4`).
+
+#### Agent Workflow
+
+1. **Identify an issue** to address (e.g., a `bug` or `pitch` labelled issue).
+2. **Create a worktree** from the current release branch. The default branch
+   on GitHub (`origin/HEAD`) always tracks the current cycle or cooldown:
+   ```bash
+   # From any existing worktree (e.g., ../_cooldown/)
+   git worktree add -b bugfix/{description} ../{description} "$(git rev-parse --abbrev-ref origin/HEAD)"
+   ```
+3. **Change to the worktree directory** and do all work there:
+   ```bash
+   cd ../{description}
+   bun install  # if needed
+   ```
+4. **Develop, commit, push, create PR** from the worktree.
+5. **After merge**, clean up:
+   ```bash
+   cd ../_cooldown  # or any other worktree
+   git worktree remove ../{description}
+   git branch -d bugfix/{description}
+   ```
+
+#### Lifecycle
+
+```text
+Issue → worktree add → develop → commit → push → PR → merge → worktree remove
+```
+
+#### Tips
+
+- Run `bun install` once per worktree (each has its own `node_modules`).
+- Use `git worktree list` to see all active worktrees.
+- Hooks in the main `.git/hooks/` directory apply to all worktrees — no
+  duplicate setup needed.
+- The default branch on GitHub (`origin/HEAD`) is always set to the current
+  cycle or cooldown branch. Use `git rev-parse --abbrev-ref origin/HEAD` to
+  resolve it programmatically — no need to guess which release is current.
+- Always create worktrees from this branch so the base is up to date.
+- After the PR merges, remove the worktree to keep things tidy.
 
 
 ## Project Structure

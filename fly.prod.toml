@@ -21,6 +21,7 @@ DATA_AUTO_REFRESH = "true"
 DATA_AUTO_REFRESH_INTERVAL = "1800000"  # 30 min
 APP_VERSION = ""  # Injected by CI/CD during deployment
 CORS_ORIGIN = "https://tour-rankings.com"
+SESSION_TRACKING_ENABLED = "true"
 
 # File logging
 LOG_DIR = "/tourRanking/data/logs"
@@ -39,7 +40,7 @@ source = "data_volume"
 destination = "/tourRanking/data"
 
 [processes]
-webserver = "sh -c 'supercronic -passthrough-logs /tourRanking/crontab & exec bun start'"
+webserver = "/usr/local/bin/entrypoint.sh"
 
 [http_service]
 processes = ["webserver"]

@@ -319,6 +319,7 @@ class CSVdataModel {
         "Expected Keys: " + this.indexOn.join(", "),
       );
       if (!quiet) {
+        // eslint-disable-next-line no-console
         console.table(failed);
       }
     }

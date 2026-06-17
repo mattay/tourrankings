@@ -160,6 +160,19 @@ docker compose -f docker-compose.test.yml build --no-cache
 - Fly.io: Data stored in volumes
 - Volumes must be created before first deploy
 
+### Backups
+Before major changes or releases, back up the Fly.io data volume:
+
+```bash
+# Production backup
+scripts/backup-data.sh
+
+# Development backup
+scripts/backup-data.sh dev
+```
+
+This produces a timestamped tarball (`tourrankings-<env>-backup-<timestamp>.tar.gz`) containing `/tourRanking/data`.
+
 ## Deployment Checklist
 
 ### Before Deploying to Fly.io Dev

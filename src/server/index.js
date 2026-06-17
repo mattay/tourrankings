@@ -165,7 +165,7 @@ async function initializeServer() {
     await startServer(app);
 
     // Handle unhandled promise rejections globally
-    process.on("unhandledRejection", (reason, promise) => {
+    process.on("unhandledRejection", (reason, _promise) => {
       const message =
         reason instanceof Error ? reason : new Error(String(reason));
       // In production environments, consider graceful shutdown

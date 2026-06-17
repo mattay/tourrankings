@@ -1,6 +1,5 @@
 import fs from "fs/promises";
 import path from "path";
-import config from "@server/config";
 import { logError } from "@utils/logging";
 
 /**
@@ -24,8 +23,8 @@ const DEFAULT_THRESHOLD_MS = 2 * 60 * 60 * 1000; // 2 hours
  *   - `"error"`     — heartbeat is missing or unreadable
  */
 export async function statusOfLastScrape() {
-  const dataDir = process.env.DATA_DIR || config.dataService.dataDir;
-  const heartbeatPath = path.join(dataDir, "..", "last-scrape.txt");
+  const logDir = process.env.LOG_DIR || "/tourRanking/data/logs";
+  const heartbeatPath = path.join(logDir, "last-scrape.txt");
 
   try {
     const content = await fs.readFile(heartbeatPath, "utf8");

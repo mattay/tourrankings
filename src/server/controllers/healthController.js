@@ -8,6 +8,7 @@ import {
   statusOfDataService,
   statusOfMemory,
   statusOfFilesystem,
+  statusOfLastScrape,
 } from "@server/controllers/health";
 
 /**
@@ -26,6 +27,8 @@ import {
  * @property {import('@server/controllers/health').DataServiceCheckStatus}  checks.dataService
  * @property {import('@server/controllers/health').FilesystemCheckStatus}   checks.filesystem
  * @property {import('@server/controllers/health').MemoryCheckStatus}       checks.memory
+ * @property {import('@server/controllers/health').LastScrapeCheckStatus}   checks.lastScrape
+ * @property {string|null}         lastScrapeAt  - ISO timestamp of the last scraper heartbeat, or null
  * @property {string}              responseTime  - Total time taken to run all checks (e.g. `"12ms"`)
  */
 
@@ -60,13 +63,18 @@ export async function getHealth(req, res, next) {
   const startTime = Date.now();
 
   try {
-    const [dataService, filesystem, { memoryCheck: memory, memoryUsage }] =
-      await Promise.all([
-        statusOfDataService(),
-        statusOfFilesystem(),
-        statusOfMemory(),
-      ]);
-    const checks = { dataService, filesystem, memory };
+    const [
+      dataService,
+      filesystem,
+      { memoryCheck: memory, memoryUsage },
+      lastScrape,
+    ] = await Promise.all([
+      statusOfDataService(),
+      statusOfFilesystem(),
+      statusOfMemory(),
+      statusOfLastScrape(),
+    ]);
+    const checks = { dataService, filesystem, memory, lastScrape: lastScrape.status };
     const status = deriveOverallStatus(Object.values(checks));
 
     /** @type {HealthCheckResponse} */
@@ -78,6 +86,7 @@ export async function getHealth(req, res, next) {
       version: getAppVersion(),
       memoryUsage,
       checks,
+      lastScrapeAt: lastScrape.lastRunAt,
       responseTime: `${Date.now() - startTime}ms`,
     };
 

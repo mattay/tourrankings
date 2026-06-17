@@ -76,8 +76,9 @@ import path from "path";
  */
 function writeHeartbeat(label) {
   try {
-    const dataDir = process.env.DATA_DIR || "./data/csv";
-    const heartbeatPath = path.join(dataDir, "..", "last-scrape.txt");
+    const logDir = process.env.LOG_DIR || "/tourRanking/data/logs";
+    const heartbeatPath = path.join(logDir, "last-scrape.txt");
+    fs.mkdirSync(logDir, { recursive: true });
     fs.writeFileSync(heartbeatPath, `${new Date().toISOString()} ${label}\n`);
   } catch (error) {
     logError("Scraper", "Failed to write heartbeat", error);

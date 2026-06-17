@@ -11,7 +11,15 @@ set -e
 DATA_DIR=/tourRanking/data
 
 mkdir -p "$DATA_DIR/csv" "$DATA_DIR/html" "$DATA_DIR/logs"
-chown -R bun:bun "$DATA_DIR"
+
+# Only chown when the volume is not already owned by bun. As the data set grows,
+# a recursive chown on every container start would slow startup and could exceed
+# Fly's health-check grace period.
+BUN_UID=$(id -u bun)
+CSV_OWNER=$(stat -c '%u' "$DATA_DIR/csv" 2>/dev/null || echo 0)
+if [ "$CSV_OWNER" != "$BUN_UID" ]; then
+    chown -R bun:bun "$DATA_DIR"
+fi
 
 # Start supercronic and the webserver as the bun user.
 # Wait for either process to exit; if one fails, kill the other and propagate

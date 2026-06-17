@@ -14,4 +14,16 @@ mkdir -p "$DATA_DIR/csv" "$DATA_DIR/html" "$DATA_DIR/logs"
 chown -R bun:bun "$DATA_DIR"
 
 # Start supercronic and the webserver as the bun user.
-exec gosu bun sh -c 'supercronic -passthrough-logs /tourRanking/crontab & exec bun start'
+# Wait for either process to exit; if one fails, kill the other and propagate
+# the exit status so the container is restarted.
+exec gosu bun bash -c '
+  supercronic -passthrough-logs /tourRanking/crontab &
+  cron_pid=$!
+  bun start &
+  server_pid=$!
+  wait -n
+  exit_code=$?
+  kill "$cron_pid" "$server_pid" 2>/dev/null || true
+  wait
+  exit $exit_code
+'

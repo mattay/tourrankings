@@ -72,6 +72,7 @@ import path from "path";
  * Contains only an ISO timestamp and a label — no PII.
  *
  * @param {string} label - "started" or "completed"
+ * @returns {void}
  */
 function writeHeartbeat(label) {
   try {
@@ -80,6 +81,7 @@ function writeHeartbeat(label) {
     fs.writeFileSync(heartbeatPath, `${new Date().toISOString()} ${label}\n`);
   } catch (error) {
     logError("Scraper", "Failed to write heartbeat", error);
+    throw error;
   }
 }
 // Scrape

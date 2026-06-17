@@ -20,6 +20,7 @@ node_modules/
 
 # Keys
 *service-account-key.json
+tourrankings-google-service-account-key.json
 temp/
 
 # Test error logs

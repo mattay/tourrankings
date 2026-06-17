@@ -19,8 +19,8 @@ mkdir -p "$DATA_ROOT/csv" "$DATA_ROOT/html" "$DATA_ROOT/logs"
 # a recursive chown on every container start would slow startup and could exceed
 # Fly's health-check grace period.
 BUN_UID=$(id -u bun)
-DATA_OWNER=$(stat -c '%u' "$DATA_ROOT" 2>/dev/null || echo 0)
-if [ "$DATA_OWNER" != "$BUN_UID" ]; then
+CSV_OWNER=$(stat -c '%u' "$DATA_ROOT/csv" 2>/dev/null || echo 0)
+if [ "$CSV_OWNER" != "$BUN_UID" ]; then
     chown -R bun:bun "$DATA_ROOT"
 fi
 

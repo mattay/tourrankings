@@ -181,6 +181,16 @@ fix(api): handle missing race data gracefully
 Returns empty array instead of 500 error when no data exists.
 ```
 
+### Branch Protection
+
+The following branches are protected on GitHub and **must be updated through pull requests** — direct pushes are rejected:
+
+- `main`
+- `cycle-*`
+- `cooldown-*`
+
+These branches also require status checks to pass before merging. For release work, open a PR from a release branch; do not attempt to push release commits or tags directly.
+
 ### Merge Strategy
 
 - **Bet → Cycle**: Merge commit with descriptive message

@@ -10,7 +10,6 @@ node_modules/
 **/.env
 **/.env*
 **/*service-account-key.json
-tourrankings-google-service-account-key.json
 
 # Git and VCS files
 **/.git

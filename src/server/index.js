@@ -13,6 +13,7 @@ import {
 import dataService from "@services/dataServiceInstance";
 import { logError, logOut } from "@utils/logging";
 import { getAppVersion } from "@utils/version";
+import { initializeFileTransport } from "@server/logging";
 
 // Absolute path to the current file (ESM equivalent of __filename).
 const __filename = fileURLToPath(import.meta.url);
@@ -24,6 +25,11 @@ const __dirname = dirname(__filename);
  * @type {import('express').Application}
  */
 const app = express();
+
+// Trust Fly.io's edge proxy so req.ip reflects the real client IP
+// from X-Forwarded-For instead of the proxy connection address.
+// A hop count of 1 limits trust to the immediate proxy layer.
+app.set("trust proxy", 1);
 
 /**
  * Sets up server middleware, view engine, and other configurations.
@@ -84,6 +90,13 @@ async function setupRoutes(app) {
 
     // Mount view routes at the application level
     app.use("/", routesSeasonRaces);
+
+    // Privacy notice
+    app.get("/privacy", (req, res) => {
+      res.render("pages/privacy", {
+        title: "Privacy Notice",
+      });
+    });
 
     // Add 404 handler for undefined routes
     app.use((req, res) => {
@@ -147,12 +160,12 @@ async function initializeServer() {
     validateEnvironment();
     await setupServer(app);
     await setupRoutes(app);
+    await initializeFileTransport();
     await initializeDataService();
     await startServer(app);
 
     // Handle unhandled promise rejections globally
-    // TODO: Implement proper error handling and logging
-    process.on("unhandledRejection", (reason, promise) => {
+    process.on("unhandledRejection", (reason, _promise) => {
       const message =
         reason instanceof Error ? reason : new Error(String(reason));
       // In production environments, consider graceful shutdown

@@ -1,4 +1,4 @@
-import { isoDateTime } from "./date";
+import { isoDateTime } from "@utils/date";
 
 const PADDINGDOMAIN = 32;
 

@@ -1,0 +1,168 @@
+[
+  {
+    "year": 2026,
+    "pcsId": "uae-team-emirates-xrg-2026",
+    "name": "UAE Team Emirates - XRG",
+    "classification": "WT",
+    "pcsUrl": "https://www.procyclingstats.com/team/uae-team-emirates-xrg-2026",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/uae-team-emirates-xrg-2026.png",
+    "riders": [
+      {
+        "year": 2026,
+        "pcsId": "isaac-del-toro",
+        "pcsUrl": "https://www.procyclingstats.com/rider/isaac-del-toro",
+        "surname": "DEL TORO",
+        "firstNames": "Isaac",
+        "bib": 181,
+        "flag": "mx"
+      },
+      {
+        "year": 2026,
+        "pcsId": "rune-herregodts",
+        "pcsUrl": "https://www.procyclingstats.com/rider/rune-herregodts",
+        "surname": "HERREGODTS",
+        "firstNames": "Rune",
+        "bib": 182,
+        "flag": "be"
+      },
+      {
+        "year": 2026,
+        "pcsId": "juan-sebastian-molano",
+        "pcsUrl": "https://www.procyclingstats.com/rider/juan-sebastian-molano",
+        "surname": "MOLANO",
+        "firstNames": "Juan Sebastián",
+        "bib": 183,
+        "flag": "co"
+      },
+      {
+        "year": 2026,
+        "pcsId": "nils-politt",
+        "pcsUrl": "https://www.procyclingstats.com/rider/nils-politt",
+        "surname": "POLITT",
+        "firstNames": "Nils",
+        "bib": 184,
+        "flag": "de"
+      },
+      {
+        "year": 2026,
+        "pcsId": "kevin-vermaerke",
+        "pcsUrl": "https://www.procyclingstats.com/rider/kevin-vermaerke",
+        "surname": "VERMAERKE",
+        "firstNames": "Kevin",
+        "bib": 185,
+        "flag": "us"
+      },
+      {
+        "year": 2026,
+        "pcsId": "florian-vermeersch",
+        "pcsUrl": "https://www.procyclingstats.com/rider/florian-vermeersch",
+        "surname": "VERMEERSCH",
+        "firstNames": "Florian",
+        "bib": 186,
+        "flag": "be"
+      },
+      {
+        "year": 2026,
+        "pcsId": "adam-yates",
+        "pcsUrl": "https://www.procyclingstats.com/rider/adam-yates",
+        "surname": "YATES",
+        "firstNames": "Adam",
+        "bib": 187,
+        "flag": "gb"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2026,
+        "pcsId": "andrej-hauptman",
+        "pcsUrl": "https://www.procyclingstats.com/staff/andrej-hauptman",
+        "surname": "HAUPTMAN",
+        "firstNames": "Andrej",
+        "role": "Directeur Sportif"
+      }
+    ]
+  },
+  {
+    "year": 2026,
+    "pcsId": "team-visma-lease-a-bike-2026",
+    "name": "Team Visma | Lease a Bike",
+    "classification": "WT",
+    "pcsUrl": "https://www.procyclingstats.com/team/team-visma-lease-a-bike-2026",
+    "jerseyImageUrl": "https://www.procyclingstats.com/images/shirts/bx/eb/team-visma-lease-a-bike-2026.png",
+    "riders": [
+      {
+        "year": 2026,
+        "pcsId": "wilco-kelderman",
+        "pcsUrl": "https://www.procyclingstats.com/rider/wilco-kelderman",
+        "surname": "KELDERMAN",
+        "firstNames": "Wilco",
+        "bib": 161,
+        "flag": "nl"
+      },
+      {
+        "year": 2026,
+        "pcsId": "owain-doull",
+        "pcsUrl": "https://www.procyclingstats.com/rider/owain-doull",
+        "surname": "DOULL",
+        "firstNames": "Owain",
+        "bib": 162,
+        "flag": "gb"
+      },
+      {
+        "year": 2026,
+        "pcsId": "tijmen-graat",
+        "pcsUrl": "https://www.procyclingstats.com/rider/tijmen-graat",
+        "surname": "GRAAT",
+        "firstNames": "Tijmen",
+        "bib": 163,
+        "flag": "nl"
+      },
+      {
+        "year": 2026,
+        "pcsId": "steven-kruijswijk",
+        "pcsUrl": "https://www.procyclingstats.com/rider/steven-kruijswijk",
+        "surname": "KRUIJSWIJK",
+        "firstNames": "Steven",
+        "bib": 164,
+        "flag": "nl"
+      },
+      {
+        "year": 2026,
+        "pcsId": "pietro-mattio",
+        "pcsUrl": "https://www.procyclingstats.com/rider/pietro-mattio",
+        "surname": "MATTIO",
+        "firstNames": "Pietro",
+        "bib": 165,
+        "flag": "it"
+      },
+      {
+        "year": 2026,
+        "pcsId": "jorgen-nordhagen",
+        "pcsUrl": "https://www.procyclingstats.com/rider/jorgen-nordhagen",
+        "surname": "NORDHAGEN",
+        "firstNames": "Jørgen",
+        "bib": 166,
+        "flag": "no"
+      },
+      {
+        "year": 2026,
+        "pcsId": "ben-tulett",
+        "pcsUrl": "https://www.procyclingstats.com/rider/ben-tulett",
+        "surname": "TULETT",
+        "firstNames": "Ben",
+        "bib": 167,
+        "flag": "gb"
+      }
+    ],
+    "staff": [
+      {
+        "year": 2026,
+        "pcsId": "gaetan-pons",
+        "pcsUrl": "https://www.procyclingstats.com/staff/gaetan-pons",
+        "surname": "PONS",
+        "firstNames": "Gaëtan",
+        "role": "Directeur Sportif"
+      }
+    ]
+  }
+]

@@ -183,3 +183,53 @@ describe.each(STARTLIST_TEST_CASES)(
     });
   },
 );
+
+describe("Startlist [2026 UAE Tour] PCS Easter Egg filtering", () => {
+  let html, expectedResults, url;
+
+  beforeAll(async () => {
+    html = await Bun.file(
+      "test/scraping/cycling/procyclingstats/html/race-startlist-easter-egg/raceStartList-2026-uae-tour-easter-egg.html",
+    ).text();
+    expectedResults = await Bun.file(
+      "test/scraping/cycling/procyclingstats/fixtures/raceStartlist/easter-egg/raceStartList-2026-uae-tour-easter-egg.json",
+    ).json();
+    url =
+      "https://www.procyclingstats.com/race/uae-tour/2026/startlist";
+  });
+
+  test("Should filter out the easter egg rider (POGAČAR at position 5, duplicate bib 184)", async () => {
+    const startLists = extractStartlistFromHtml(html, 2026, url);
+    const uaeTeam = startLists.find(
+      (t) => t.pcsId === "uae-team-emirates-xrg-2026",
+    );
+    expect(uaeTeam).toBeDefined();
+    expect(uaeTeam.riders).toHaveLength(7);
+    expect(
+      uaeTeam.riders.find((r) => r.pcsId === "tadej-pogacar"),
+    ).toBeUndefined();
+    // POLITT (the real bib 184) should still be present
+    expect(
+      uaeTeam.riders.find((r) => r.pcsId === "nils-politt" && r.bib === 184),
+    ).toBeDefined();
+  });
+
+  test("Should not affect teams without an easter egg", async () => {
+    const startLists = extractStartlistFromHtml(html, 2026, url);
+    const vismaTeam = startLists.find(
+      (t) => t.pcsId === "team-visma-lease-a-bike-2026",
+    );
+    expect(vismaTeam).toBeDefined();
+    expect(vismaTeam.riders).toHaveLength(7);
+    expect(
+      vismaTeam.riders.find(
+        (r) => r.pcsId === "pietro-mattio" && r.bib === 165,
+      ),
+    ).toBeDefined();
+  });
+
+  test("Should match full expected output", async () => {
+    const startLists = extractStartlistFromHtml(html, 2026, url);
+    expect(startLists).toEqual(expectedResults);
+  });
+});

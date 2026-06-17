@@ -24,6 +24,13 @@ mock.module("@services/dataServiceInstance", () => ({
   default: mockDataService,
 }));
 
+mock.module("@server/controllers/health/last-scrape", () => ({
+  statusOfLastScrape: jest.fn().mockResolvedValue({
+    status: "healthy",
+    lastRunAt: new Date().toISOString(),
+  }),
+}));
+
 describe("Health Routes", () => {
   let app;
   let originalIsInitialized;

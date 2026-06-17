@@ -61,6 +61,76 @@ const DOM_SELECTORS = {
 };
 
 /**
+ * Detects PCS Easter Egg riders by checking for inline hiding styles.
+ * PCS uses CSS to hide injected riders (e.g., .slxl_iv li:nth-child(5)
+ * { height: 0px; }) but DOMParser doesn't compute CSS so we check
+ * inline style attributes directly.
+ *
+ * @param {HTMLElement} liElement - The <li> element for a rider.
+ * @returns {boolean} True if this element is hidden via inline styles.
+ */
+function isHiddenByInlineStyle(liElement) {
+  // Check inline styles that hide the element
+  const style = liElement.getAttribute("style") || "";
+  if (
+    style.includes("height: 0") ||
+    style.includes("height:0") ||
+    style.includes("display: none") ||
+    style.includes("display:none")
+  ) {
+    return true;
+  }
+
+  // Check the .bib child for inline hiding styles
+  const bibElement = liElement.querySelector(".bib");
+  const bibStyle = bibElement?.getAttribute("style") || "";
+  if (
+    bibStyle.includes("height: 0") ||
+    bibStyle.includes("height:0")
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Removes PCS Easter Egg riders that share a bib number with a real rider.
+ * The easter egg is injected at every 5th position (indices 4, 9, 14, …)
+ * and duplicates the bib of the next real rider.
+ *
+ * @param {Array<{rider: ParsedRiderName, index: number}>} ridersWithIndex
+ *   Parsed riders with their original DOM index.
+ * @returns {Array<{rider: ParsedRiderName, index: number}>}
+ *   Riders with easter egg duplicates removed.
+ */
+function filterEasterEggDuplicates(ridersWithIndex) {
+  // Group riders by bib number
+  const bibGroups = new Map();
+  for (const entry of ridersWithIndex) {
+    if (entry.rider.bib == null) continue;
+    if (!bibGroups.has(entry.rider.bib)) {
+      bibGroups.set(entry.rider.bib, []);
+    }
+    bibGroups.get(entry.rider.bib).push(entry);
+  }
+
+  // Find duplicates to remove: the one at an easter egg position (5th, 10th…)
+  const indicesToRemove = new Set();
+  for (const [, group] of bibGroups) {
+    if (group.length <= 1) continue;
+    for (const entry of group) {
+      if ((entry.index + 1) % 5 === 0) {
+        indicesToRemove.add(entry.index);
+        break;
+      }
+    }
+  }
+
+  return ridersWithIndex.filter((e) => !indicesToRemove.has(e.index));
+}
+
+/**
  * Parses a team's title from a string.
  * @param {HTMLAnchorElement} htmlElement - The text containing the team's title.
  * @returns {ParsedTeamName} The parsed team title or an error message.
@@ -226,13 +296,28 @@ export function extractStartlistFromHtml(
         }
       }
 
-      // Riders
-      const riders = Array.from(
+      // Riders (filter out PCS easter egg riders hidden via CSS)
+      const riderElements = Array.from(
         teamElement.querySelectorAll(DOM_SELECTORS.teamRiders),
-      )
-        .map((rider) => parseTeamRider(rider))
-        .filter(Boolean)
-        .map((rider) => ({ year, ...rider }));
+      );
+
+      // Step 1: Remove elements hidden by inline styles
+      const visibleElements = riderElements.filter(
+        (li) => !isHiddenByInlineStyle(li),
+      );
+
+      // Step 2: Parse and track original DOM index
+      const ridersWithIndex = visibleElements
+        .map((li, index) => ({
+          rider: parseTeamRider(li),
+          // Map back to the original index within riderElements
+          index: riderElements.indexOf(li),
+        }))
+        .filter((e) => e.rider);
+
+      // Step 3: Remove easter egg duplicates (same bib at every-5th position)
+      const riders = filterEasterEggDuplicates(ridersWithIndex)
+        .map((e) => ({ year, ...e.rider }));
       if (riders.length === 0) {
         if (!quiet) {
           logError(

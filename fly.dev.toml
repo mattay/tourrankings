@@ -10,24 +10,37 @@ dockerfile = "Dockerfile"  # Uses production Dockerfile
 ignorefile = ".dockerignore"
 
 [[vm]]
-memory = '768mb'
+memory = '512mb'
 cpu_kind = 'shared'
 cpus = 1
 
 [env]
 NODE_ENV = "development"
-NODE_OPTIONS = "--max-old-space-size=512"
 LOG_LEVEL = "debug"
 DATA_AUTO_REFRESH = "true"
 DATA_AUTO_REFRESH_INTERVAL = "900000"  # 15 min - faster feedback in dev
 APP_VERSION = ""  # Injected by CI/CD during deployment
+CORS_ORIGIN = "https://tourrankings-dev.fly.dev"
+SESSION_TRACKING_ENABLED = "false"
+
+# File logging
+LOG_DIR = "/tourRanking/data/logs"
+FILE_LOGGING_ENABLED = "true"
+LOG_ACCESS_ROTATION_DAYS = "90"
+LOG_ACCESS_ROTATION_SIZE_MB = "50"
+LOG_API_ROTATION_DAYS = "90"
+LOG_API_ROTATION_SIZE_MB = "50"
+LOG_HEALTH_ROTATION_DAYS = "7"
+LOG_HEALTH_ROTATION_SIZE_MB = "10"
+LOG_STATIC_ROTATION_DAYS = "30"
+LOG_STATIC_ROTATION_SIZE_MB = "50"
 
 [mounts]
 source = "dev_data_volume"
 destination = "/tourRanking/data"
 
 [processes]
-webserver = "sh -c 'supercronic -passthrough-logs /tourRanking/crontab & exec bun start'"
+webserver = "/usr/local/bin/entrypoint.sh"
 
 [http_service]
 processes = ["webserver"]
@@ -37,3 +50,11 @@ auto_stop_machines = 'suspend'
 auto_start_machines = true
 min_machines_running = 0
 max_machines_running = 1
+
+[[http_service.checks]]
+  grace_period = "10s"
+  interval = "30s"
+  method = "GET"
+  path = "/health"
+  port = 8080
+  timeout = "5s"

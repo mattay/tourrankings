@@ -20,6 +20,13 @@ mock.module("@services/dataServiceInstance", () => ({
   default: { isInitialized: true },
 }));
 
+mock.module("@server/controllers/health/last-scrape", () => ({
+  statusOfLastScrape: jest.fn().mockResolvedValue({
+    status: "healthy",
+    lastRunAt: new Date().toISOString(),
+  }),
+}));
+
 // Dynamically import getHealth AFTER mocks are registered
 let getHealth;
 

@@ -22,4 +22,14 @@
  * @typedef {"healthy" | "unhealthy" | "error"} FilesystemCheckStatus
  */
 
+/**
+ * @typedef {"healthy" | "unhealthy" | "error"} LastScrapeCheckStatus
+ */
+
+/**
+ * @typedef {Object} LastScrapeCheckResult
+ * @property {LastScrapeCheckStatus} status
+ * @property {string|null} lastRunAt
+ */
+
 export {};

@@ -28,15 +28,17 @@ jobs:
     name: Lint & Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
 
       - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
         with:
           bun-version: latest
 
       - name: Cache Bun modules
-        uses: actions/cache@v5
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
         with:
           path: ~/.bun/install/cache
           key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
@@ -59,15 +61,17 @@ jobs:
     # Run security scan on all branches, but make it required for cooldown
     if: ${{ !cancelled() }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
 
       - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
         with:
           bun-version: latest
 
       - name: Cache Bun modules
-        uses: actions/cache@v5
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
         with:
           path: ~/.bun/install/cache
           key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
@@ -87,7 +91,9 @@ jobs:
     needs: [lint-and-test]
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
 
       - name: Test Docker Build
         run: |
@@ -113,8 +119,12 @@ jobs:
       cancel-in-progress: true
     environment: development
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: superfly/flyctl-actions/setup-flyctl@master
+        with:
+          version: latest
 
       - name: Set deployment metadata
         run: |
@@ -142,11 +152,15 @@ jobs:
       (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')
     concurrency:
       group: deploy-production
-      cancel-in-progress: true
+      cancel-in-progress: false
     environment: production
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: superfly/flyctl-actions/setup-flyctl@master
+        with:
+          version: latest
 
       - name: Set APP_VERSION
         run: |
@@ -155,6 +169,7 @@ jobs:
       - name: Deploy to production
         run: |
           flyctl deploy --config fly.prod.toml --remote-only \
+            --wait-timeout 300 \
             --env APP_VERSION=${{ env.APP_VERSION }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_DEPLOY_TOKEN }}
@@ -166,7 +181,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           fetch-depth: 0
 
@@ -199,13 +214,15 @@ jobs:
     needs: [deploy-development, deploy-production]
     if: needs.deploy-development.result == 'success' || needs.deploy-production.result == 'success'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
 
       - name: Get app version
         run: echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
       - name: Comment on PR after successful deployment
-        uses: actions/github-script@v8
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
         with:
           script: |
             const branchName = context.ref.replace('refs/heads/', '');
@@ -271,7 +288,7 @@ jobs:
     if: github.event_name == 'push' && github.ref_name == 'main'
     steps:
       - name: Archive completed cycle
-        uses: actions/github-script@v8
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
         with:
           script: |
             console.log('Cycle completed and deployed to production');

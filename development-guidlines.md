@@ -125,7 +125,7 @@ Security patch update, no breaking changes.
 2. Create pull request: `cycle-{number}` → `main`
 3. Perform final review and approval
 4. Merge to `main` with descriptive merge commit
-5. Tag the release: `git tag v{cycle}.0`
+5. Tag the release: `git tag v1.{cycle}.0`
 6. Deploy to production from `main`
 7. Create new `cycle-{number+1}` branch from `main`
 
@@ -135,7 +135,7 @@ Security patch update, no breaking changes.
 3. Create pull request to `main`
 4. Deploy to production after merge
 5. Merge `main` back to current cycle branch
-6. Tag with patch version: `v{cycle}.{patch}`
+6. Tag with patch version: `v1.{cycle}.{patch}`
 
 #### Dependency Updates
 - **During cooldown**: Deploy as part of cycle process

@@ -64,6 +64,26 @@ import { generateId } from "@cycling/idGenerator";
 import { logError, logOut } from "@utils/logging";
 import { parseBool, parseNumber } from "@utils/sanity";
 import { logMemoryUsage } from "@utils/memory";
+import fs from "fs";
+import path from "path";
+
+/**
+ * Write a small heartbeat file so we can verify the cron job fired.
+ * Contains only an ISO timestamp and a label — no PII.
+ *
+ * @param {string} label - "started" or "completed"
+ * @returns {void}
+ */
+function writeHeartbeat(label) {
+  try {
+    const dataDir = process.env.DATA_DIR || "./data/csv";
+    const heartbeatPath = path.join(dataDir, "..", "last-scrape.txt");
+    fs.writeFileSync(heartbeatPath, `${new Date().toISOString()} ${label}\n`);
+  } catch (error) {
+    logError("Scraper", "Failed to write heartbeat", error);
+    throw error;
+  }
+}
 // Scrape
 import {
   collectWorldTourRaces,
@@ -629,6 +649,8 @@ async function updateStageResults(models, year) {
  */
 async function main() {
   try {
+    writeHeartbeat("started");
+
     // Data Models
     // TODO -> utilse dataService
     const models = {
@@ -728,6 +750,8 @@ async function main() {
         logOut("Main", "[FEATURE DISABLED] Update results", "warn");
       }
     }
+
+    writeHeartbeat("completed");
   } catch (error) {
     // Catch-all for any errors not handled above
     logError("Main", "Fatal error", error);

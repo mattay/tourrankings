@@ -126,9 +126,9 @@ fly volumes create data_volume --size 1 --region syd --app tourrankings
 git checkout main
 fly deploy --config fly.prod.toml
 
-# Tag the release
-git tag v{cycle}.{patch}
-git push origin v{cycle}.{patch}
+# Tag the release (major stays 1; cycle is the minor version)
+git tag v1.{cycle}.{patch}
+git push origin v1.{cycle}.{patch}
 ```
 
 **Features**:
@@ -153,14 +153,25 @@ docker compose -f docker-compose.test.yml build --no-cache
 ```
 
 ### Memory Issues
-- Production Dockerfile sets `NODE_OPTIONS="--max-old-space-size=512"`
-- Matches 768MB VM allocation (512MB for Node, ~256MB for JSDOM/parser)
 - If seeing OOM errors, check memory usage: `fly ssh console --config fly.prod.toml -C "free -m"`
 
 ### Data Persistence
 - Local: Data stored in `./data` directory
 - Fly.io: Data stored in volumes
 - Volumes must be created before first deploy
+
+### Backups
+Before major changes or releases, back up the Fly.io data volume:
+
+```bash
+# Production backup
+scripts/backup-data.sh
+
+# Development backup
+scripts/backup-data.sh dev
+```
+
+This produces a timestamped tarball (`tourrankings-<env>-backup-<timestamp>.tar.gz`) containing `/tourRanking/data`.
 
 ## Deployment Checklist
 

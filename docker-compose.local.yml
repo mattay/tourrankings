@@ -35,6 +35,8 @@ services:
       PORT: 8080
       DATA_DIR: /tourRanking/data/csv
       LOG_LEVEL: debug
+      LOG_DIR: /tourRanking/data/logs
+      FILE_LOGGING_ENABLED: "true"
     healthcheck:
       test:
         [
@@ -71,6 +73,8 @@ services:
       NODE_ENV: development
       DATA_DIR: /tourRanking/data/csv
       LOG_LEVEL: debug
+      LOG_DIR: /tourRanking/data/logs
+      FILE_LOGGING_ENABLED: "true"
     command: ["supercronic", "-passthrough-logs", "/tourRanking/crontab"]
     depends_on:
       - app

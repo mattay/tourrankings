@@ -184,7 +184,7 @@ Returns empty array instead of 500 error when no data exists.
 ### Merge Strategy
 
 - **Bet → Cycle**: Merge commit with descriptive message
-- **Cycle → Main**: Always merge commit, tag with `v{cycle}.0`
+- **Cycle → Main**: Always merge commit, tag with `v1.{cycle}.0`
 - **Hotfixes**: Create bugfix/ branch, merge to main, then merge to current cycle
 
 ### Git Best Practices

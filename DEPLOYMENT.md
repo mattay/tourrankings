@@ -126,9 +126,9 @@ fly volumes create data_volume --size 1 --region syd --app tourrankings
 git checkout main
 fly deploy --config fly.prod.toml
 
-# Tag the release
-git tag v{cycle}.{patch}
-git push origin v{cycle}.{patch}
+# Tag the release (major stays 1; cycle is the minor version)
+git tag v1.{cycle}.{patch}
+git push origin v1.{cycle}.{patch}
 ```
 
 **Features**:

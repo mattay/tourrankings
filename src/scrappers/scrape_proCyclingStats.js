@@ -81,7 +81,6 @@ function writeHeartbeat(label) {
     fs.writeFileSync(heartbeatPath, `${new Date().toISOString()} ${label}\n`);
   } catch (error) {
     logError("Scraper", "Failed to write heartbeat", error);
-    throw error;
   }
 }
 // Scrape

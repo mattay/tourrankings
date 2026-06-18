@@ -638,8 +638,9 @@ worktrees.
    is finished; the next cycle is only created after its cooldown is finished.
 7. **Integration branches are protected.** Never push directly to
    `cycle-*`, `cooldown-*`, or `main`. Create a feature branch and open a PR.
-8. **Always set the branch upstream** to the integration branch so tooling
-   knows where it should be merged.
+8. **Set the normal Git upstream to `origin/<branch>`** so `git push` and
+   `git pull` work automatically. Record the integration target separately
+   in `branch.<branch>.shapeup-target` for tooling.
 9. **Do not branch off another feature branch** unless explicitly asked.
 
 ### Choosing the base branch
@@ -669,6 +670,8 @@ Use the format `<category>/<short-kebab-description>`:
 - `deps/` — dependency updates
 - `ops/` — CI / infra / deployment
 - `test/` — exploratory or test branches
+- `spike/` — technical exploration and research
+- `circuit-breaker/` — abandoned bet (keep for learning)
 
 ### Creating a worktree
 

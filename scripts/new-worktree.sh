@@ -45,9 +45,9 @@ if [[ "$branch" =~ ^(cycle|cooldown|main) ]]; then
   echo "Error: agents must not create '$branch' integration branches" >&2
   exit 1
 fi
-if [[ ! "$branch" =~ ^(bet|bugfix|feat|docs|deps|ops|test|hotfix)/[a-z0-9_-]+$ ]]; then
+if [[ ! "$branch" =~ ^(bet|bugfix|feat|docs|deps|ops|test|hotfix|spike|circuit-breaker)/[a-z0-9_-]+$ ]]; then
   echo "Error: branch name must match '<category>/<short-kebab-description>'" >&2
-  echo "Allowed categories: bet, bugfix, feat, docs, deps, ops, test, hotfix" >&2
+  echo "Allowed categories: bet, bugfix, feat, docs, deps, ops, test, hotfix, spike, circuit-breaker" >&2
   exit 1
 fi
 

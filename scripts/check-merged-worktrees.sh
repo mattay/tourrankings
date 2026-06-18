@@ -33,7 +33,7 @@ git -C "$BARE" worktree list --porcelain | awk '
     print path "\t" branch
   }
 ' | while IFS=$'\t' read -r path branch; do
-  rel="${path#$ROOT/}"
+  rel="${path#"$ROOT"/}"
   b="${branch#refs/heads/}"
 
   # Skip personal task-management worktrees (prefixed with _)

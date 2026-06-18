@@ -612,3 +612,119 @@ When making any change, ask yourself:
 - **Default to not collecting.** If you can't justify why a data point is necessary for the feature, don't collect it.
 - **Default to not logging.** If you can't guarantee a log line contains zero PII, don't write it.
 - **Flag for review.** Add a comment or open a GitHub Discussion if you're unsure about a data handling decision. Privacy is better handled with a second pair of eyes.
+
+## Worktree and branch conventions
+
+This project uses a **bare clone** at `.bare` with `git worktree` to manage
+multiple branches side-by-side. Follow these rules when creating branches and
+worktrees.
+
+### Quick rules
+
+1. **Never guess the base branch.** The source branch is automatic.
+2. **Agents must not create `_`-prefixed worktrees.** Directories starting
+   with `_` are reserved for personal task management.
+3. **Worktree directory paths mirror branch names exactly.** Branch
+   `bet/rider-search` lives in directory `bet/rider-search`.
+4. **Always branch from the latest `cycle-*` or `cooldown-*` branch.** The
+   highest-numbered integration branch is the source. Cooldown follows cycle,
+   so `cooldown-3` is later than `cycle-3`, `cycle-4` is later than
+   `cooldown-3`, and so on.
+5. **Agents must never create new `cycle-*`, `cooldown-*`, or `main`
+   branches.** Those integration branches are created and advanced by the
+   project lead only.
+6. **The sequence is strict:** `cycle-N` → `cooldown-N` → `cycle-(N+1)` →
+   `cooldown-(N+1)` → ... A cooldown branch is only created after its cycle
+   is finished; the next cycle is only created after its cooldown is finished.
+7. **Integration branches are protected.** Never push directly to
+   `cycle-*`, `cooldown-*`, or `main`. Create a feature branch and open a PR.
+8. **Set the normal Git upstream to `origin/<branch>`** so `git push` and
+   `git pull` work automatically. Record the integration target separately
+   in `branch.<branch>.shapeup-target` for tooling.
+9. **Do not branch off another feature branch** unless explicitly asked.
+
+### Choosing the base branch
+
+The base branch is **automatic**: the latest `cycle-*` or `cooldown-*` branch
+by number. Agents do not choose.
+
+| Source branch | When it is latest |
+|---|---|
+| `cycle-N` | A new cycle has started and its cooldown has not yet been created. |
+| `cooldown-N` | The matching `cycle-N` has finished and cooldown work is ongoing. |
+
+All agent-created branches target this branch. Only the project lead handles
+`main` directly.
+
+If the issue does not make the source clear, look at the `_cycle` /
+`_cooldown` worktrees or ask before creating anything.
+
+### Branch naming
+
+Use the format `<category>/<short-kebab-description>`:
+
+- `bet/` — Shape Up bet / pitched work
+- `bugfix/` — bug fix
+- `feat/` — standalone feature
+- `docs/` — documentation
+- `deps/` — dependency updates
+- `ops/` — CI / infra / deployment
+- `test/` — exploratory or test branches
+- `spike/` — technical exploration and research
+- `circuit-breaker/` — abandoned bet (keep for learning)
+
+### Creating a worktree
+
+Use the helper script instead of running `git worktree` directly:
+
+```bash
+./scripts/new-worktree.sh <new-branch>
+
+# Examples
+./scripts/new-worktree.sh bet/rider-search
+./scripts/new-worktree.sh bugfix/prod-crash
+./scripts/new-worktree.sh ops/update-actions
+```
+
+This will:
+
+1. Create `<new-branch>` from the latest `cycle-*` / `cooldown-*` branch.
+2. Set the normal Git upstream to `origin/<new-branch>` so `git push` and
+   `git pull` work automatically.
+3. Record the integration branch as `branch.<branch>.shapeup-target` for
+   tooling.
+4. Create a worktree directory that matches the branch path exactly.
+
+### Rebasing and pull requests
+
+- Rebase onto the same source branch the worktree was created from (the
+  latest `cycle-*` or `cooldown-*`).
+- Open pull requests against that same branch.
+- Only deviate if a human explicitly says so.
+
+Because `new-worktree.sh` records the integration branch in
+`branch.<branch>.shapeup-target`, the helper scripts know the correct rebase/PR
+target, while the normal Git upstream stays pointed at `origin/<branch>` for
+standard push/pull.
+
+### Finishing a worktree
+
+1. Merge the branch into its recorded integration branch (e.g. `cycle-3`).
+2. Confirm it shows as merged:
+   ```bash
+   ./scripts/check-merged-worktrees.sh
+   ```
+3. Remove the worktree and delete the branch:
+   ```bash
+   cd .bare
+   git worktree remove ../<directory>
+   git branch -D <branch>
+   git push origin --delete <branch>
+   ```
+
+### Existing `_` directories
+
+Directories starting with `_` (e.g. `_client`, `_scrape`, `_main`, `_cycle`)
+are part of your personal task-management setup and are intentionally outside
+this convention. Agents should leave them alone unless explicitly asked to
+work with one.

@@ -153,51 +153,6 @@ Branch from the current cycle or cooldown branch:
 2. Ensure all tests pass (`bun test`)
 3. Run lint (`bun run lint`)
 
-#### Determining the Correct Rebase Target
-
-The current integration branch is determined automatically by
-`scripts/new-worktree.sh`. It picks the latest `cycle-*` or `cooldown-*`
-branch, where `cooldown-N` is considered later than `cycle-N` for the same
-number. You can also resolve it manually:
-
-```bash
-git branch --list 'cycle*' 'cooldown*' --format='%(refname:short)' \
-  | grep -E '^(cycle|cooldown)(-[0-9]+)?$' \
-  | awk -F- '{
-      num = ($2 == "" ? 0 : $2)
-      phase = ($1 == "cooldown" ? 1 : 0)
-      print num " " phase " " $0
-    }' \
-  | sort -k1,1n -k2,2n \
-  | tail -1 \
-  | awk '{print $3}'
-```
-
-Always rebase onto this branch before creating a PR. If you used
-`scripts/new-worktree.sh`, the target is also stored in
-`branch.<name>.shapeup-target`:
-
-```bash
-git config --get branch.<your-branch>.shapeup-target
-```
-
-#### Working Directory
-
-Agents must do all work from inside the worktree directory for the branch
-they are currently working on. Do not switch branches or edit files from the
-repo root or from a different worktree. This keeps the active branch visible
-and prevents accidental changes leaking across branches.
-
-```bash
-# Good: work inside the branch's own directory
-cd docs/agent-rebase-conventions
-# edit, commit, push from here
-
-# Bad: editing from another worktree or the repo root
-cd ../_cooldown
-# changes here belong to cooldown-3, not your branch
-```
-
 ### Commit Format
 
 ```
@@ -710,7 +665,6 @@ Use the format `<category>/<short-kebab-description>`:
 
 - `bet/` — Shape Up bet / pitched work
 - `bugfix/` — bug fix
-- `hotfix/` — urgent production fix
 - `feat/` — standalone feature
 - `docs/` — documentation
 - `deps/` — dependency updates

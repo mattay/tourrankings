@@ -39,7 +39,7 @@ git -C "$BARE" worktree list --porcelain | awk '
   # Skip personal task-management worktrees (prefixed with _)
   [[ "$rel" == _* ]] && continue
 
-  target=$(git -C "$BARE" config --get branch."$b".shapeup-target 2>/dev/null)
+  target=$(git -C "$BARE" config --get branch."$b".shapeup-target 2>/dev/null || true)
 
   if [[ -z "$target" ]]; then
     printf "%-45s -> %-45s | no Shape Up target configured | UNKNOWN\n" "$rel" "$b"

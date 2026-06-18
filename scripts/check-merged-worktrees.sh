@@ -2,46 +2,54 @@
 set -euo pipefail
 
 # Check which non-prefixed worktrees have already been merged into their
-# configured Shape Up integration branch (e.g. cycle-3, cooldown-3, main).
+# recorded Shape Up integration branch (e.g. cycle-3, cooldown-3).
 #
 # Usage: ./scripts/check-merged-worktrees.sh
-# Run from the repository root (the directory containing .bare and worktrees).
+# Can be run from any worktree or the repository root.
 
-cd "${0%/*}/.." || exit 1
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd) || exit 1
 
-BARE=".bare"
+# Walk up to the repo root (the directory containing .bare)
+ROOT="$SCRIPT_DIR"
+while [[ ! -d "$ROOT/.bare" && "$ROOT" != "/" ]]; do
+  ROOT=$(dirname "$ROOT")
+done
 
-if [[ ! -d "$BARE" ]]; then
-  echo "Error: bare repo '$BARE' not found in $(pwd)" >&2
+if [[ ! -d "$ROOT/.bare" ]]; then
+  echo "Error: bare repo '.bare' not found" >&2
   exit 1
 fi
 
-echo "Checking non-prefixed worktrees against their configured merge target..."
+cd "$ROOT" || exit 1
+BARE=".bare"
+
+echo "Checking non-prefixed worktrees against their Shape Up target..."
 echo
 
 git -C "$BARE" worktree list --porcelain | awk '
   /^worktree / { path=substr($0,10); next }
   /^branch /  {
     branch=substr($0,8)
-    dir=path
-    sub(".*/","",dir)
-    if (dir !~ /^_/) print dir "\t" branch
+    print path "\t" branch
   }
-' | while IFS=$'\t' read -r dir branch; do
+' | while IFS=$'\t' read -r path branch; do
+  rel="${path#$ROOT/}"
   b="${branch#refs/heads/}"
-  target=$(git -C "$BARE" config --get branch."$b".merge 2>/dev/null | sed 's|^refs/heads/||')
+
+  # Skip personal task-management worktrees (prefixed with _)
+  [[ "$rel" == _* ]] && continue
+
+  target=$(git -C "$BARE" config --get branch."$b".shapeup-target 2>/dev/null)
 
   if [[ -z "$target" ]]; then
-    printf "%-35s -> %-45s | no target configured | UNKNOWN\n" "$dir" "$b"
-  elif [[ "$target" == "$b" ]]; then
-    printf "%-35s -> %-45s | self-target          | not merged into integration branch\n" "$dir" "$b"
+    printf "%-45s -> %-45s | no Shape Up target configured | UNKNOWN\n" "$rel" "$b"
   elif git -C "$BARE" show-ref --verify --quiet "refs/heads/$target"; then
     if git -C "$BARE" branch --merged "$target" --format='%(refname:short)' | grep -qx "$b"; then
-      printf "%-35s -> %-45s | -> %-17s | MERGED\n" "$dir" "$b" "$target"
+      printf "%-45s -> %-45s | -> %-17s | MERGED\n" "$rel" "$b" "$target"
     else
-      printf "%-35s -> %-45s | -> %-17s | NOT MERGED\n" "$dir" "$b" "$target"
+      printf "%-45s -> %-45s | -> %-17s | NOT MERGED\n" "$rel" "$b" "$target"
     fi
   else
-    printf "%-35s -> %-45s | -> %-17s | target branch missing locally\n" "$dir" "$b" "$target"
+    printf "%-45s -> %-45s | -> %-17s | target branch missing locally\n" "$rel" "$b" "$target"
   fi
 done

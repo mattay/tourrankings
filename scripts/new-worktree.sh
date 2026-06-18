@@ -6,6 +6,10 @@ set -euo pipefail
 # The source branch is always the latest cycle-* or cooldown-* branch.
 # Agents do not choose the base branch manually.
 #
+# The branch's upstream is set to origin/<branch> so push/pull work normally.
+# The Shape Up integration target is stored separately in
+# branch.<branch>.shapeup-target for tooling.
+#
 # Usage: ./scripts/new-worktree.sh <new-branch>
 #
 # Examples:
@@ -13,8 +17,20 @@ set -euo pipefail
 #   ./scripts/new-worktree.sh bugfix/prod-crash
 #   ./scripts/new-worktree.sh ops/update-actions
 
-cd "${0%/*}/.." || exit 1
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd) || exit 1
 
+# Walk up to the repo root (the directory containing .bare)
+ROOT="$SCRIPT_DIR"
+while [[ ! -d "$ROOT/.bare" && "$ROOT" != "/" ]]; do
+  ROOT=$(dirname "$ROOT")
+done
+
+if [[ ! -d "$ROOT/.bare" ]]; then
+  echo "Error: bare repo '.bare' not found" >&2
+  exit 1
+fi
+
+cd "$ROOT" || exit 1
 BARE=".bare"
 
 if [[ $# -ne 1 ]]; then
@@ -23,11 +39,6 @@ if [[ $# -ne 1 ]]; then
 fi
 
 branch="$1"
-
-if [[ ! -d "$BARE" ]]; then
-  echo "Error: bare repo '$BARE' not found in $(pwd)" >&2
-  exit 1
-fi
 
 # Enforce branch naming convention and prevent agents from creating integration branches
 if [[ "$branch" =~ ^(cycle|cooldown|main) ]]; then
@@ -40,8 +51,7 @@ if [[ ! "$branch" =~ ^(bet|bugfix|feat|docs|deps|ops|test|hotfix)/[a-z0-9_-]+$ ]
   exit 1
 fi
 
-# Find the latest cycle-* or cooldown-* branch.
-# Sort by numeric suffix first; for the same number cooldown is later than cycle.
+# Find the latest cycle-* or cooldown-* branch
 latest_integration() {
   git -C "$BARE" branch --list 'cycle*' 'cooldown*' --format='%(refname:short)' \
     | grep -E '^(cycle|cooldown)(-[0-9]+)?$' \
@@ -73,8 +83,8 @@ if [[ "$base" == "$branch" ]]; then
   exit 1
 fi
 
-# Worktree directory mirrors the branch name, with / replaced by -
-dir="${branch//\//-}"
+# Worktree directory path mirrors the branch name exactly
+dir="$branch"
 
 if [[ -e "$dir" ]]; then
   echo "Error: directory '$dir' already exists" >&2
@@ -86,12 +96,21 @@ if git -C "$BARE" show-ref --verify --quiet "refs/heads/$branch"; then
   exit 1
 fi
 
-# Create the branch from the integration branch and record the target
+# Create the branch from the integration branch
 git -C "$BARE" branch "$branch" "$base"
-git -C "$BARE" config "branch.$branch.remote" origin
-git -C "$BARE" config "branch.$branch.merge" "refs/heads/$base"
 
-# Add the worktree at the repo root
+# Set normal upstream to the branch itself (origin/<branch>) for push/pull
+git -C "$BARE" config "branch.$branch.remote" origin
+git -C "$BARE" config "branch.$branch.merge" "refs/heads/$branch"
+
+# Remember the Shape Up integration target separately
+git -C "$BARE" config "branch.$branch.shapeup-target" "$base"
+
+# Create the remote branch and confirm upstream
+git -C "$BARE" push -u origin "$branch"
+
+# Add the worktree at the repo root, creating parent directories if needed
+mkdir -p "$(dirname "$dir")"
 git -C "$BARE" worktree add "../$dir" "$branch"
 
 echo "Created worktree '$dir' on branch '$branch' from '$base'."

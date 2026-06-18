@@ -624,7 +624,8 @@ worktrees.
 1. **Never guess the base branch.** The source branch is automatic.
 2. **Agents must not create `_`-prefixed worktrees.** Directories starting
    with `_` are reserved for personal task management.
-3. **Worktree directory names mirror branch names**, with `/` replaced by `-`.
+3. **Worktree directory paths mirror branch names exactly.** Branch
+   `bet/rider-search` lives in directory `bet/rider-search`.
 4. **Always branch from the latest `cycle-*` or `cooldown-*` branch.** The
    highest-numbered integration branch is the source. Cooldown follows cycle,
    so `cooldown-3` is later than `cycle-3`, `cycle-4` is later than
@@ -685,8 +686,11 @@ Use the helper script instead of running `git worktree` directly:
 This will:
 
 1. Create `<new-branch>` from the latest `cycle-*` / `cooldown-*` branch.
-2. Record that integration branch as the merge target in the branch config.
-3. Create a worktree directory named after the branch (`/` → `-`).
+2. Set the normal Git upstream to `origin/<new-branch>` so `git push` and
+   `git pull` work automatically.
+3. Record the integration branch as `branch.<branch>.shapeup-target` for
+   tooling.
+4. Create a worktree directory that matches the branch path exactly.
 
 ### Rebasing and pull requests
 
@@ -695,8 +699,10 @@ This will:
 - Open pull requests against that same branch.
 - Only deviate if a human explicitly says so.
 
-Because `new-worktree.sh` records the integration branch as the branch
-upstream, most Git tooling will default to the correct rebase/PR target.
+Because `new-worktree.sh` records the integration branch in
+`branch.<branch>.shapeup-target`, the helper scripts know the correct rebase/PR
+target, while the normal Git upstream stays pointed at `origin/<branch>` for
+standard push/pull.
 
 ### Finishing a worktree
 

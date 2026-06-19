@@ -665,6 +665,7 @@ Use the format `<category>/<short-kebab-description>`:
 
 - `bet/` — Shape Up bet / pitched work
 - `bugfix/` — bug fix
+- `hotfix/` — urgent production fix
 - `feat/` — standalone feature
 - `docs/` — documentation
 - `deps/` — dependency updates

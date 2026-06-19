@@ -135,11 +135,18 @@ jobs:
 
       - name: Deploy to development
         run: |
-          flyctl deploy --config fly.dev.toml --remote-only \
-            --env BRANCH_NAME=${{ env.BRANCH_NAME }} \
-            --env DEPLOYMENT_TIME=${{ env.DEPLOYMENT_TIME }} \
-            --env COMMIT_SHA=${{ env.COMMIT_SHA }} \
-            --env APP_VERSION=${{ env.APP_VERSION }}
+          for i in 1 2 3; do
+            flyctl deploy --config fly.dev.toml --remote-only \
+              --env BRANCH_NAME=${{ env.BRANCH_NAME }} \
+              --env DEPLOYMENT_TIME=${{ env.DEPLOYMENT_TIME }} \
+              --env COMMIT_SHA=${{ env.COMMIT_SHA }} \
+              --env APP_VERSION=${{ env.APP_VERSION }} && exit 0
+            if [ "$i" -lt 3 ]; then
+              echo "Deploy attempt $i failed. Retrying in 30s..."
+              sleep 30
+            fi
+          done
+          exit 1
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_DEPLOY_TOKEN }}
 
@@ -168,9 +175,16 @@ jobs:
 
       - name: Deploy to production
         run: |
-          flyctl deploy --config fly.prod.toml --remote-only \
-            --wait-timeout 300 \
-            --env APP_VERSION=${{ env.APP_VERSION }}
+          for i in 1 2 3; do
+            flyctl deploy --config fly.prod.toml --remote-only \
+              --wait-timeout 300 \
+              --env APP_VERSION=${{ env.APP_VERSION }} && exit 0
+            if [ "$i" -lt 3 ]; then
+              echo "Deploy attempt $i failed. Retrying in 30s..."
+              sleep 30
+            fi
+          done
+          exit 1
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_DEPLOY_TOKEN }}
 
@@ -187,12 +201,13 @@ jobs:
 
       - name: Install git-cliff
         run: |
-          curl -sLO https://github.com/orhun/git-cliff/releases/download/v2.6.0/git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz
-          curl -sLO https://github.com/orhun/git-cliff/releases/download/v2.6.0/git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz.sha512
-          echo "$(cat git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz.sha512 | cut -d' ' -f1)  git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz" | sha512sum -c -
-          sudo tar -xzf git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz --strip-components=1 -C /usr/local/bin
-          rm -f git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz.sha512
-          || cargo install git-cliff@2.6.0
+          {
+            curl -sLO https://github.com/orhun/git-cliff/releases/download/v2.6.0/git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz
+            curl -sLO https://github.com/orhun/git-cliff/releases/download/v2.6.0/git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz.sha512
+            echo "$(cat git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz.sha512 | cut -d' ' -f1)  git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz" | sha512sum -c -
+            sudo tar -xzf git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz --strip-components=1 -C /usr/local/bin
+            rm -f git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz.sha512
+          } || cargo install git-cliff@2.6.0
 
       - name: Generate changelog
         run: git-cliff --config .cligrc --output CHANGELOG.md

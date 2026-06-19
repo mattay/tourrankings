@@ -1,6 +1,6 @@
 {
   "name": "tourrankings",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "main": "src/server/index.js",
   "scripts": {
     "scrape": "bun src/scrappers/scrape_proCyclingStats.js",

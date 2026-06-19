@@ -137,10 +137,10 @@ jobs:
         run: |
           for i in 1 2 3; do
             flyctl deploy --config fly.dev.toml --remote-only \
-              --env BRANCH_NAME=${{ env.BRANCH_NAME }} \
-              --env DEPLOYMENT_TIME=${{ env.DEPLOYMENT_TIME }} \
-              --env COMMIT_SHA=${{ env.COMMIT_SHA }} \
-              --env APP_VERSION=${{ env.APP_VERSION }} && exit 0
+              --env BRANCH_NAME="${BRANCH_NAME}" \
+              --env DEPLOYMENT_TIME="${DEPLOYMENT_TIME}" \
+              --env COMMIT_SHA="${COMMIT_SHA}" \
+              --env APP_VERSION="${APP_VERSION}" && exit 0
             if [ "$i" -lt 3 ]; then
               echo "Deploy attempt $i failed. Retrying in 30s..."
               sleep 30
@@ -178,7 +178,7 @@ jobs:
           for i in 1 2 3; do
             flyctl deploy --config fly.prod.toml --remote-only \
               --wait-timeout 300 \
-              --env APP_VERSION=${{ env.APP_VERSION }} && exit 0
+              --env APP_VERSION="${APP_VERSION}" && exit 0
             if [ "$i" -lt 3 ]; then
               echo "Deploy attempt $i failed. Retrying in 30s..."
               sleep 30
@@ -210,7 +210,7 @@ jobs:
           } || cargo install git-cliff@2.6.0
 
       - name: Generate changelog
-        run: git-cliff --config .cligrc --output CHANGELOG.md
+        run: git-cliff --config cliff.toml --output CHANGELOG.md
 
       - name: Commit and push changelog
         run: |

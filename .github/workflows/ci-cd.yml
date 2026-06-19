@@ -132,13 +132,22 @@ jobs:
           echo "BRANCH_NAME=${GITHUB_REF_NAME}" >> "$GITHUB_ENV"
           echo "DEPLOYMENT_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> "$GITHUB_ENV"
           echo "COMMIT_SHA=${GITHUB_SHA:0:7}" >> "$GITHUB_ENV"
+          echo "APP_VERSION=$(node -p "require('./package.json').version")" >> "$GITHUB_ENV"
 
       - name: Deploy to development
         run: |
-          flyctl deploy --config fly.dev.toml --remote-only \
-            --env BRANCH_NAME=${{ env.BRANCH_NAME }} \
-            --env DEPLOYMENT_TIME=${{ env.DEPLOYMENT_TIME }} \
-            --env COMMIT_SHA=${{ env.COMMIT_SHA }}
+          for i in 1 2 3; do
+            flyctl deploy --config fly.dev.toml --remote-only \
+              --env BRANCH_NAME="${BRANCH_NAME}" \
+              --env DEPLOYMENT_TIME="${DEPLOYMENT_TIME}" \
+              --env COMMIT_SHA="${COMMIT_SHA}" \
+              --env APP_VERSION="${APP_VERSION}" && exit 0
+            if [ "$i" -lt 3 ]; then
+              echo "Deploy attempt $i failed. Retrying in 30s..."
+              sleep 30
+            fi
+          done
+          exit 1
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_DEPLOY_TOKEN }}
 
@@ -157,10 +166,59 @@ jobs:
       - uses: actions/checkout@v7
       - uses: superfly/flyctl-actions/setup-flyctl@master
 
+      - name: Set APP_VERSION
+        run: |
+          echo "APP_VERSION=$(node -p "require('./package.json').version")" >> "$GITHUB_ENV"
+
       - name: Deploy to production
-        run: flyctl deploy --config fly.prod.toml --remote-only
+        run: |
+          for i in 1 2 3; do
+            flyctl deploy --config fly.prod.toml --remote-only \
+              --wait-timeout 300 \
+              --env APP_VERSION="${APP_VERSION}" && exit 0
+            if [ "$i" -lt 3 ]; then
+              echo "Deploy attempt $i failed. Retrying in 30s..."
+              sleep 30
+            fi
+          done
+          exit 1
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_DEPLOY_TOKEN }}
+
+  changelog:
+    name: Generate Changelog
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref_name == 'main'
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Install git-cliff
+        run: |
+          {
+            curl -sLO https://github.com/orhun/git-cliff/releases/download/v2.6.0/git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz
+            curl -sLO https://github.com/orhun/git-cliff/releases/download/v2.6.0/git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz.sha512
+            echo "$(cat git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz.sha512 | cut -d' ' -f1)  git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz" | sha512sum -c -
+            sudo tar -xzf git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz --strip-components=1 -C /usr/local/bin
+            rm -f git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz.sha512
+          } || cargo install git-cliff@2.6.0
+
+      - name: Generate changelog
+        run: git-cliff --config cliff.toml --output CHANGELOG.md
+
+      - name: Commit and push changelog
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add CHANGELOG.md
+          git diff --staged --quiet || git commit -m "docs: update changelog for v${VERSION} [skip changelog]"
+          git rev-parse --verify --quiet refs/tags/v${VERSION} || git tag v${VERSION}
+          git push origin main
+          git push origin v${VERSION}
 
   # POST-DEPLOYMENT NOTIFICATIONS
   notify-pr-deployments:

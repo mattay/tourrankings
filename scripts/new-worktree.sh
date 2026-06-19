@@ -51,6 +51,9 @@ if [[ ! "$branch" =~ ^(bet|bugfix|feat|docs|deps|ops|test|hotfix|spike|circuit-b
   exit 1
 fi
 
+# Make sure local cycle/cooldown refs are current before choosing a base.
+git -C "$BARE" fetch origin
+
 # Find the latest cycle-* or cooldown-* branch
 latest_integration() {
   git -C "$BARE" branch --list 'cycle*' 'cooldown*' --format='%(refname:short)' \

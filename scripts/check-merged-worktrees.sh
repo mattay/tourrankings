@@ -39,8 +39,8 @@ BARE=".bare"
 
 # Fetch from all remotes and prune deleted remote branches.
 # This makes sure Git knows which upstream branches are "[gone]".
-# `2>/dev/null` hides any errors, and `|| true` keeps going if fetch fails.
-git -C "$BARE" fetch --all -p 2>/dev/null || true
+# Fail loudly if the fetch fails so we don't report stale information.
+git -C "$BARE" fetch --all -p
 
 # Read the output of the command inside < <(...) line by line.
 # IFS=$'\t' splits each line on tabs into two variables: path and branch.
@@ -68,7 +68,12 @@ while IFS=$'\t' read -r path branch || [[ -n "$path" ]]; do
   # %(upstream:short) would be something like origin/bugfix/foo.
   # %(upstream:track) is either empty, [ahead N], [behind N], or [gone].
   # We only care about "[gone]", which means the remote branch was deleted.
-  track=$(git -C "$BARE" for-each-ref --format='%(upstream:track)' "refs/heads/$b" 2>/dev/null || true)
+  # A branch with no upstream returns empty output (exit 0); real errors
+  # should propagate so they don't silently skip worktrees.
+  if ! track=$(git -C "$BARE" for-each-ref --format='%(upstream:track)' "refs/heads/$b"); then
+    echo "Warning: failed to query upstream status for branch '$b'" >&2
+    continue
+  fi
 
   # If the upstream is gone, the branch was likely merged on GitHub/GitLab
   # and the remote branch was deleted. Print the worktree directory name.

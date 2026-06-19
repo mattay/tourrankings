@@ -88,7 +88,7 @@
 
 /** @typedef {Object} RaceRiderModel -
  * @property {string} raceUID - The unique identifier of the race.
- * @property {string} bib - The bib number of the rider.
+ * @property {string|null} bib - The bib number of the rider, or null if not yet assigned.
  * @property {string} riderPcsId - The unique identifier of the rider.
  * @property {string} teamPcsId - The unique identifier of the team.
  * @property {string} rider - The name of the rider.

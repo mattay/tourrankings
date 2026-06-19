@@ -159,8 +159,12 @@ export function raceContent(racePcsID, year = null) {
 
     raceContent.teams[rider.teamPcsId] = team;
     // Clean up data for client
-    raceContent.riders[rider.bib] = {
-      bib: Number(rider.bib),
+    // Use riderPcsId as the key when no bib has been assigned yet (e.g.
+    // future races with provisional startlists). This keeps the rider visible
+    // on the client without colliding on a shared null/0 key.
+    const riderKey = rider.bib != null ? rider.bib : rider.riderPcsId;
+    raceContent.riders[riderKey] = {
+      bib: rider.bib != null ? Number(rider.bib) : null,
       riderId: rider.riderPcsId,
       teamId: rider.teamPcsId,
       firstNames: rider.firstNames,

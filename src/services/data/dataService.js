@@ -12,7 +12,7 @@ import {
   ClassificationYouth,
 } from "../../models";
 import { logError, logOut } from "@utils/logging";
-import { watch, existsSync, mkdirSync } from "fs";
+import { watch, existsSync, mkdirSync, statSync } from "fs";
 import { join, dirname } from "path";
 
 /**
@@ -109,7 +109,13 @@ class DataService {
     try {
       // Ensure data directory exists before any async operations
       const dataDir = this.options.dataDir;
-      if (!existsSync(dataDir)) {
+      if (existsSync(dataDir)) {
+        // Verify it's actually a directory
+        const stat = statSync(dataDir);
+        if (!stat.isDirectory()) {
+          throw new Error(`DATA_DIR path exists but is not a directory: ${dataDir}`);
+        }
+      } else {
         mkdirSync(dataDir, { recursive: true });
       }
 

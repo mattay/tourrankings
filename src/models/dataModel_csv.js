@@ -184,7 +184,22 @@ class CSVdataModel {
           `Creating database ${this.filePath}`,
           "warn",
         );
-        fs.mkdirSync(dirname(this.filePath), { recursive: true });
+        
+        // Ensure parent directory exists (handles symlinks and real directories)
+        const dir = dirname(this.filePath);
+        try {
+          const stat = fs.statSync(dir);
+          if (!stat.isDirectory()) {
+            throw new Error(`${dir} exists but is not a directory`);
+          }
+        } catch (err) {
+          if (err.code === "ENOENT") {
+            fs.mkdirSync(dir, { recursive: true });
+          } else {
+            throw err;
+          }
+        }
+        
         this.#writeToCSV();
       }
 

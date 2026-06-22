@@ -22,11 +22,13 @@ services:
       - ./src:/tourRanking/src
       - ./public:/tourRanking/public
       - ./scripts:/tourRanking/scripts
-      - ./data:/tourRanking/data
+      - ./data/logs:/tourRanking/data/logs
+      - ../.local/data/csv:/tourRanking/data/csv
+      - ../.local/data/html:/tourRanking/data/html
       # Config files
       - ./crontab:/tourRanking/crontab
       - ./jsconfig.json:/tourRanking/jsconfig.json:ro
-      - ./tourrankings-google-service-account-key.json:/tourRanking/tourrankings-google-service-account-key.json:ro
+      - ../.local/#SECRET_google-service-account-key.json:/tourRanking/#SECRET_google-service-account-key.json:ro
       # Preserve container's node_modules
       - /tourRanking/node_modules
     environment:
@@ -63,10 +65,12 @@ services:
     volumes:
       - ./src:/tourRanking/src
       - ./server:/tourRanking/src/server
-      - ./data:/tourRanking/data
+      - ./data/logs:/tourRanking/data/logs
+      - ../.local/data/csv:/tourRanking/data/csv
+      - ../.local/data/html:/tourRanking/data/html
       # Config files
       - ./crontab:/tourRanking/crontab
-      - ./tourrankings-google-service-account-key.json:/tourRanking/tourrankings-google-service-account-key.json:ro
+      - ../.local/#SECRET_google-service-account-key.json:/tourRanking/#SECRET_google-service-account-key.json:ro
       # Preserve container's dependencies
       - /tourRanking/node_modules
     environment:

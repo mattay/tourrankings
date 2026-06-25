@@ -65,7 +65,7 @@ ENV NODE_ENV=production \
 # ============================================
 # Setup
 # ============================================
-RUN mkdir -p /tourRanking/data/csv /tourRanking/data/logs && \
+RUN mkdir -p /tourRanking/data/csv /tourRanking/data/html /tourRanking/data/logs && \
     chown -R bun:bun /tourRanking/data && \
     chmod -R 755 /tourRanking/data
 

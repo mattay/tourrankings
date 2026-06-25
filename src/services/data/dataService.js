@@ -12,7 +12,7 @@ import {
   ClassificationYouth,
 } from "../../models";
 import { logError, logOut } from "@utils/logging";
-import { watch } from "fs";
+import { watch, existsSync, mkdirSync, statSync } from "fs";
 import { join, dirname } from "path";
 
 /**
@@ -107,7 +107,18 @@ class DataService {
     this._initializing = true;
 
     try {
-      // ... existing initialization code ...
+      // Ensure data directory exists before any async operations
+      const dataDir = this.options.dataDir;
+      if (existsSync(dataDir)) {
+        // Verify it's actually a directory
+        const stat = statSync(dataDir);
+        if (!stat.isDirectory()) {
+          throw new Error(`DATA_DIR path exists but is not a directory: ${dataDir}`);
+        }
+      } else {
+        mkdirSync(dataDir, { recursive: true });
+      }
+
       // Load all data models concurrently
       const loaded = await Promise.allSettled([
         this.races.read(),

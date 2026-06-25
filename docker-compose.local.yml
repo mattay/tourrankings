@@ -29,7 +29,7 @@ services:
       # Config files
       - ./crontab:/tourRanking/crontab
       - ./jsconfig.json:/tourRanking/jsconfig.json:ro
-      - ./tourrankings-google-service-account-key.json:/tourRanking/tourrankings-google-service-account-key.json:ro
+      - ../.local/#SECRET_google-service-account-key.json:/tourRanking/#SECRET_google-service-account-key.json:ro
       # Preserve container's node_modules
       - /tourRanking/node_modules
     environment:
@@ -72,7 +72,7 @@ services:
       - ./data/logs:/tourRanking/data/logs
       # Config files
       - ./crontab:/tourRanking/crontab
-      - ./tourrankings-google-service-account-key.json:/tourRanking/tourrankings-google-service-account-key.json:ro
+      - ../.local/#SECRET_google-service-account-key.json:/tourRanking/#SECRET_google-service-account-key.json:ro
       # Preserve container's dependencies
       - /tourRanking/node_modules
     environment:

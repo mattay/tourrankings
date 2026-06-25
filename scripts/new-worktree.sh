@@ -117,3 +117,26 @@ mkdir -p "$(dirname "$dir")"
 git -C "$BARE" worktree add "../$dir" "$branch"
 
 echo "Created worktree '$dir' on branch '$branch' from '$base'."
+
+# Setup shared configs and resources in the new worktree
+LOCAL_DIR="$ROOT/.local"
+WORKTREE_DIR="$ROOT/$dir"
+
+if [ ! -d "$LOCAL_DIR" ]; then
+  echo "Warning: .local directory not found, skipping symlink setup" >&2
+else
+  cd "$WORKTREE_DIR"
+  
+  # Create data directory if it doesn't exist
+  mkdir -p data
+  
+  # Create symlinks to configs (use -sf to allow re-runs)
+  ln -sf "$LOCAL_DIR/.env.local" .
+  ln -sf "$LOCAL_DIR/#SECRET_google-service-account-key.json" .
+  
+  # Create symlinks to data
+  ln -sf "$LOCAL_DIR/data/csv" data/
+  ln -sf "$LOCAL_DIR/data/html" data/
+  
+  echo "✓ Worktree setup complete"
+fi

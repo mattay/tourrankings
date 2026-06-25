@@ -22,9 +22,10 @@ services:
       - ./src:/tourRanking/src
       - ./public:/tourRanking/public
       - ./scripts:/tourRanking/scripts
-      - ./data/logs:/tourRanking/data/logs
+      # Shared CSV/HTML data from the bare repo root; logs stay per-worktree
       - ../.local/data/csv:/tourRanking/data/csv
       - ../.local/data/html:/tourRanking/data/html
+      - ./data/logs:/tourRanking/data/logs
       # Config files
       - ./crontab:/tourRanking/crontab
       - ./jsconfig.json:/tourRanking/jsconfig.json:ro
@@ -65,9 +66,10 @@ services:
     volumes:
       - ./src:/tourRanking/src
       - ./server:/tourRanking/src/server
-      - ./data/logs:/tourRanking/data/logs
+      # Shared CSV/HTML data from the bare repo root; logs stay per-worktree
       - ../.local/data/csv:/tourRanking/data/csv
       - ../.local/data/html:/tourRanking/data/html
+      - ./data/logs:/tourRanking/data/logs
       # Config files
       - ./crontab:/tourRanking/crontab
       - ../.local/#SECRET_google-service-account-key.json:/tourRanking/#SECRET_google-service-account-key.json:ro

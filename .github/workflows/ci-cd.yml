@@ -28,17 +28,15 @@ jobs:
     name: Lint & Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-        with:
-          persist-credentials: false
+      - uses: actions/checkout@v7
 
       - name: Setup Bun
-        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+        uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
       - name: Cache Bun modules
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
+        uses: actions/cache@v5
         with:
           path: ~/.bun/install/cache
           key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
@@ -61,17 +59,15 @@ jobs:
     # Run security scan on all branches, but make it required for cooldown
     if: ${{ !cancelled() }}
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-        with:
-          persist-credentials: false
+      - uses: actions/checkout@v7
 
       - name: Setup Bun
-        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+        uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
       - name: Cache Bun modules
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
+        uses: actions/cache@v5
         with:
           path: ~/.bun/install/cache
           key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
@@ -84,16 +80,25 @@ jobs:
       - name: Security audit
         run: bun run audit
 
+      # Enhanced checks for cooldown branches
+      # - name: Enhanced quality checks for cooldown
+      #   if: startsWith(github.ref_name, 'cooldown-') || startsWith(github.head_ref, 'cooldown-')
+      #   run: |
+      #     echo "Running enhanced quality checks for cooldown branch..."
+      #     # Add any additional quality checks here
+      #     # bun run test:coverage
+      #     # bun run type-check
+      #     # bun run test:e2e
+
   # DOCKER BUILD TEST
   docker-build:
     name: Docker Build Test
     runs-on: ubuntu-latest
     needs: [lint-and-test]
+    # Only test Docker builds for branches that will be deployed
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-        with:
-          persist-credentials: false
+      - uses: actions/checkout@v7
 
       - name: Test Docker Build
         run: |
@@ -119,34 +124,21 @@ jobs:
       cancel-in-progress: true
     environment: development
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-        with:
-          persist-credentials: false
+      - uses: actions/checkout@v7
       - uses: superfly/flyctl-actions/setup-flyctl@master
-        with:
-          version: latest
 
       - name: Set deployment metadata
         run: |
           echo "BRANCH_NAME=${GITHUB_REF_NAME}" >> "$GITHUB_ENV"
           echo "DEPLOYMENT_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> "$GITHUB_ENV"
           echo "COMMIT_SHA=${GITHUB_SHA:0:7}" >> "$GITHUB_ENV"
-          echo "APP_VERSION=$(node -p "require('./package.json').version")" >> "$GITHUB_ENV"
 
       - name: Deploy to development
         run: |
-          for i in 1 2 3; do
-            flyctl deploy --config fly.dev.toml --remote-only \
-              --env BRANCH_NAME="${BRANCH_NAME}" \
-              --env DEPLOYMENT_TIME="${DEPLOYMENT_TIME}" \
-              --env COMMIT_SHA="${COMMIT_SHA}" \
-              --env APP_VERSION="${APP_VERSION}" && exit 0
-            if [ "$i" -lt 3 ]; then
-              echo "Deploy attempt $i failed. Retrying in 30s..."
-              sleep 30
-            fi
-          done
-          exit 1
+          flyctl deploy --config fly.dev.toml --remote-only \
+            --env BRANCH_NAME=${{ env.BRANCH_NAME }} \
+            --env DEPLOYMENT_TIME=${{ env.DEPLOYMENT_TIME }} \
+            --env COMMIT_SHA=${{ env.COMMIT_SHA }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_DEPLOY_TOKEN }}
 
@@ -159,89 +151,31 @@ jobs:
       (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')
     concurrency:
       group: deploy-production
-      cancel-in-progress: false
+      cancel-in-progress: true
     environment: production
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-        with:
-          persist-credentials: false
+      - uses: actions/checkout@v7
       - uses: superfly/flyctl-actions/setup-flyctl@master
-        with:
-          version: latest
-
-      - name: Set APP_VERSION
-        run: |
-          echo "APP_VERSION=$(node -p "require('./package.json').version")" >> "$GITHUB_ENV"
 
       - name: Deploy to production
-        run: |
-          for i in 1 2 3; do
-            flyctl deploy --config fly.prod.toml --remote-only \
-              --wait-timeout 300 \
-              --env APP_VERSION="${APP_VERSION}" && exit 0
-            if [ "$i" -lt 3 ]; then
-              echo "Deploy attempt $i failed. Retrying in 30s..."
-              sleep 30
-            fi
-          done
-          exit 1
+        run: flyctl deploy --config fly.prod.toml --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_DEPLOY_TOKEN }}
 
-  changelog:
-    name: Generate Changelog
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref_name == 'main'
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-        with:
-          fetch-depth: 0
-
-      - name: Install git-cliff
-        run: |
-          {
-            curl -sLO https://github.com/orhun/git-cliff/releases/download/v2.6.0/git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz
-            curl -sLO https://github.com/orhun/git-cliff/releases/download/v2.6.0/git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz.sha512
-            echo "$(cat git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz.sha512 | cut -d' ' -f1)  git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz" | sha512sum -c -
-            sudo tar -xzf git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz --strip-components=1 -C /usr/local/bin
-            rm -f git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz git-cliff-2.6.0-x86_64-unknown-linux-gnu.tar.gz.sha512
-          } || cargo install git-cliff@2.6.0
-
-      - name: Generate changelog
-        run: git-cliff --config cliff.toml --output CHANGELOG.md
-
-      - name: Commit and push changelog
-        run: |
-          VERSION=$(node -p "require('./package.json').version")
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git add CHANGELOG.md
-          git diff --staged --quiet || git commit -m "docs: update changelog for v${VERSION} [skip changelog]"
-          git rev-parse --verify --quiet refs/tags/v${VERSION} || git tag v${VERSION}
-          git push origin main
-          git push origin v${VERSION}
-
+  # POST-DEPLOYMENT NOTIFICATIONS
   notify-pr-deployments:
     name: Notify PR of Deployment
     runs-on: ubuntu-latest
     needs: [deploy-development, deploy-production]
     if: needs.deploy-development.result == 'success' || needs.deploy-production.result == 'success'
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-        with:
-          persist-credentials: false
-
-      - name: Get app version
-        run: echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
-
       - name: Comment on PR after successful deployment
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
+        uses: actions/github-script@v9
         with:
           script: |
             const branchName = context.ref.replace('refs/heads/', '');
 
+            // Find PRs with this branch as head
             const { data: allOpen } = await github.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -253,8 +187,6 @@ jobs:
               console.log('No open PRs found for this branch');
               return;
             }
-
-            const pr = prs[0];
 
             const prodOK = ${{ needs.deploy-production.result == 'success' }};
             const devOK  = ${{ needs.deploy-development.result == 'success' }};
@@ -268,12 +200,10 @@ jobs:
               environment   = 'development';
             }
 
-            const version = process.env.APP_VERSION || 'unknown';
             const comment = `**Deployment Successful**
             Your branch \`${branchName}\` has been deployed to ${environment}:
             - **URL**: ${deploymentUrl}
             - **Environment**: ${environment}
-            - **Version**: ${version}
             - **Commit**: ${context.sha.substring(0, 7)}
             - **Deployed**: ${new Date().toISOString()}
 
@@ -287,26 +217,27 @@ jobs:
               per_page: 100
             });
 
-            const prev = existing.data.find(c => c.body?.includes('**Deployment Successful**'));
+            const prev = existing.data.find(c => c.body.includes('**Deployment Successful**'));
             if (prev) {
-              await github.rest.issues.updateComment({ owner: context.repo.owner, repo: context.repo.repo, comment_id: prev.id, body: comment });
+              await github.rest.issues.updateComment({ ...prev, body: comment });
             } else {
-              await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: pr.number, body: comment });
+              await github.rest.issues.createComment({ owner: ..., repo: ..., issue_number: pr.number, body: comment });
             }
             console.log(`Commented on PR #${pr.number}: ${pr.title}`);
-        env:
-          APP_VERSION: ${{ env.APP_VERSION }}
 
+  # SHAPE UP AUTOMATION
   shape-up-automation:
     name: Shape Up Workflow
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref_name == 'main'
     steps:
       - name: Archive completed cycle
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
+        uses: actions/github-script@v9
         with:
           script: |
+            // Create a completion comment or issue
             console.log('Cycle completed and deployed to production');
+            // Add any Shape Up specific automation here
 
       - name: Cycle completion notification
         run: |

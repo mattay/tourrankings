@@ -94,6 +94,22 @@ export function createRankingComponent({
       .attr("cy", (d) =>
         d.length > 0 && d[0]?.rank != null ? yScale(d[0].rank) : 0,
       );
+
+    const label = rankingEnter
+      .append("g")
+      .attr("class", "label")
+      .style("opacity", 0);
+
+    label.append("text").attr("class", "ranking");
+    label.append("text").attr("class", "name");
+
+    label
+      .filter((d) => {
+        return Object.hasOwn(d[0], "bib");
+      })
+      .append("text")
+      .attr("class", "bib")
+      .text((d) => d[0].bib);
   };
 
   /**

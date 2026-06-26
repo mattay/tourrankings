@@ -139,14 +139,14 @@ export class Race {
     stageProgress.append("line").attr("class", "background");
     stageProgress.append("line").attr("class", "viewing");
 
-    // Riders
-    this.containerRiders = this.svg
-      .append("g")
-      .attr("id", "rider-container")
-      .attr(
-        "transform",
-        `translate(${this.coordinates.rankings.left}, ${this.containerHeight(this.coordinates.stages)})`,
-      );
+    // Riders -> Moving to Rankings
+    // this.containerRiders = this.svg
+    //   .append("g")
+    //   .attr("id", "rider-container")
+    //   .attr(
+    //     "transform",
+    //     `translate(${this.coordinates.rankings.left}, ${this.containerHeight(this.coordinates.stages)})`,
+    //   );
 
     // Rankings
     this.containerRankings = this.svg

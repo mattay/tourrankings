@@ -45,7 +45,7 @@ if [[ "$branch" =~ ^(cycle|cooldown|main) ]]; then
   echo "Error: agents must not create '$branch' integration branches" >&2
   exit 1
 fi
-if [[ ! "$branch" =~ ^(bet|bugfix|feat|docs|deps|ops|test|hotfix|spike|circuit-breaker)/[a-z0-9_-]+$ ]]; then
+if [[ ! "$branch" =~ ^(bet|bugfix|feat|docs|deps|ops|test|hotfix|spike|circuit-breaker)/[a-z0-9-]+$ ]]; then
   echo "Error: branch name must match '<category>/<short-kebab-description>'" >&2
   echo "Allowed categories: bet, bugfix, feat, docs, deps, ops, test, hotfix, spike, circuit-breaker" >&2
   exit 1
@@ -54,9 +54,10 @@ fi
 # Make sure local cycle/cooldown refs are current before choosing a base.
 git -C "$BARE" fetch origin
 
-# Find the latest cycle-* or cooldown-* branch
+# Find the latest cycle-* or cooldown-* branch from remote-tracking refs
 latest_integration() {
-  git -C "$BARE" branch --list 'cycle*' 'cooldown*' --format='%(refname:short)' \
+  git -C "$BARE" branch -r --list 'origin/cycle*' 'origin/cooldown*' --format='%(refname:short)' \
+    | sed 's|^origin/||' \
     | grep -E '^(cycle|cooldown)(-[0-9]+)?$' \
     | awk -F- '{
         num = ($2 == "" ? 0 : $2)
@@ -76,8 +77,8 @@ if [[ -z "$base" ]]; then
   exit 1
 fi
 
-if ! git -C "$BARE" show-ref --verify --quiet "refs/heads/$base"; then
-  echo "Error: base branch '$base' not found locally" >&2
+if ! git -C "$BARE" show-ref --verify --quiet "refs/remotes/origin/$base"; then
+  echo "Error: base branch '$base' not found on origin" >&2
   exit 1
 fi
 
@@ -99,8 +100,8 @@ if git -C "$BARE" show-ref --verify --quiet "refs/heads/$branch"; then
   exit 1
 fi
 
-# Create the branch from the integration branch
-git -C "$BARE" branch "$branch" "$base"
+# Create the branch from the latest remote integration branch
+git -C "$BARE" branch "$branch" "origin/$base"
 
 # Set normal upstream to the branch itself (origin/<branch>) for push/pull
 git -C "$BARE" config "branch.$branch.remote" origin
@@ -117,26 +118,3 @@ mkdir -p "$(dirname "$dir")"
 git -C "$BARE" worktree add "../$dir" "$branch"
 
 echo "Created worktree '$dir' on branch '$branch' from '$base'."
-
-# Setup shared configs and resources in the new worktree
-LOCAL_DIR="$ROOT/.local"
-WORKTREE_DIR="$ROOT/$dir"
-
-if [ ! -d "$LOCAL_DIR" ]; then
-  echo "Warning: .local directory not found, skipping symlink setup" >&2
-else
-  cd "$WORKTREE_DIR"
-  
-  # Create data directory if it doesn't exist
-  mkdir -p data
-  
-  # Create symlinks to configs (use -sf to allow re-runs)
-  ln -sf "$LOCAL_DIR/.env.local" .
-  ln -sf "$LOCAL_DIR/#SECRET_google-service-account-key.json" .
-  
-  # Create symlinks to data
-  ln -sf "$LOCAL_DIR/data/csv" data/
-  ln -sf "$LOCAL_DIR/data/html" data/
-  
-  echo "✓ Worktree setup complete"
-fi

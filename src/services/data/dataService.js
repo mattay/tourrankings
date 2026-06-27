@@ -12,9 +12,13 @@ import {
   ClassificationYouth,
 } from "../../models";
 import { logError, logOut } from "@utils/logging";
-import { watch, existsSync, mkdirSync, statSync } from "fs";
-import { join, dirname } from "path";
-
+import {
+  watch,
+  existsSync,
+  mkdirSync,
+  statSync,
+  lstatSync,
+} from "fs";
 /**
  * Classes
  * @typedef {import('../../models/@types/races').RaceModel} RaceData
@@ -107,16 +111,37 @@ class DataService {
     this._initializing = true;
 
     try {
-      // Ensure data directory exists before any async operations
+      // Ensure data directory exists before any async operations.
+      // In production this is a normal directory. Symlinks are only expected
+      // in local development; a broken symlink is treated as a configuration
+      // error and reported clearly.
       const dataDir = this.options.dataDir;
-      if (existsSync(dataDir)) {
-        // Verify it's actually a directory
-        const stat = statSync(dataDir);
-        if (!stat.isDirectory()) {
-          throw new Error(`DATA_DIR path exists but is not a directory: ${dataDir}`);
+
+      if (!existsSync(dataDir)) {
+        let isBrokenSymlink = false;
+        try {
+          const linkStats = lstatSync(dataDir);
+          isBrokenSymlink = linkStats.isSymbolicLink();
+        } catch (err) {
+          if (err.code !== "ENOENT") {
+            throw err;
+          }
         }
-      } else {
+
+        if (isBrokenSymlink) {
+          throw new Error(
+            `${dataDir} is a symlink pointing to a missing target. ` +
+              `Fix the symlink or create its target before starting the service.`,
+          );
+        }
+
+        logError(this.constructor.name, `Directory does not exist ${dataDir}`);
         mkdirSync(dataDir, { recursive: true });
+      } else {
+        const dataDirStats = statSync(dataDir);
+        if (!dataDirStats.isDirectory()) {
+          throw new Error(`${dataDir} exists but is not a directory`);
+        }
       }
 
       // Load all data models concurrently

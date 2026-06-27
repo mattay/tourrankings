@@ -28,15 +28,17 @@ jobs:
     name: Lint & Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
 
       - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
         with:
           bun-version: latest
 
       - name: Cache Bun modules
-        uses: actions/cache@v5
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25
         with:
           path: ~/.bun/install/cache
           key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
@@ -59,15 +61,17 @@ jobs:
     # Run security scan on all branches, but make it required for cooldown
     if: ${{ !cancelled() }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
 
       - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
         with:
           bun-version: latest
 
       - name: Cache Bun modules
-        uses: actions/cache@v5
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25
         with:
           path: ~/.bun/install/cache
           key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
@@ -98,7 +102,9 @@ jobs:
     # Only test Docker builds for branches that will be deployed
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
 
       - name: Test Docker Build
         run: |
@@ -124,8 +130,10 @@ jobs:
       cancel-in-progress: true
     environment: development
     steps:
-      - uses: actions/checkout@v7
-      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - uses: superfly/flyctl-actions/setup-flyctl@ed8efb33836e8b2096c7fd3ba1c8afe303ebbff1
 
       - name: Set deployment metadata
         run: |
@@ -160,11 +168,13 @@ jobs:
       (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')
     concurrency:
       group: deploy-production
-      cancel-in-progress: true
+      cancel-in-progress: false
     environment: production
     steps:
-      - uses: actions/checkout@v7
-      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - uses: superfly/flyctl-actions/setup-flyctl@ed8efb33836e8b2096c7fd3ba1c8afe303ebbff1
 
       - name: Set APP_VERSION
         run: |
@@ -192,7 +202,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           fetch-depth: 0
 
@@ -228,7 +238,7 @@ jobs:
     if: needs.deploy-development.result == 'success' || needs.deploy-production.result == 'success'
     steps:
       - name: Comment on PR after successful deployment
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
         with:
           script: |
             const branchName = context.ref.replace('refs/heads/', '');
@@ -245,6 +255,10 @@ jobs:
               console.log('No open PRs found for this branch');
               return;
             }
+
+            const pr = prs[0];
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
 
             const prodOK = ${{ needs.deploy-production.result == 'success' }};
             const devOK  = ${{ needs.deploy-development.result == 'success' }};
@@ -269,17 +283,17 @@ jobs:
             `.trim();
 
             const existing = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+              owner,
+              repo,
               issue_number: pr.number,
               per_page: 100
             });
 
             const prev = existing.data.find(c => c.body.includes('**Deployment Successful**'));
             if (prev) {
-              await github.rest.issues.updateComment({ ...prev, body: comment });
+              await github.rest.issues.updateComment({ owner, repo, comment_id: prev.id, body: comment });
             } else {
-              await github.rest.issues.createComment({ owner: ..., repo: ..., issue_number: pr.number, body: comment });
+              await github.rest.issues.createComment({ owner, repo, issue_number: pr.number, body: comment });
             }
             console.log(`Commented on PR #${pr.number}: ${pr.title}`);
 
@@ -290,7 +304,7 @@ jobs:
     if: github.event_name == 'push' && github.ref_name == 'main'
     steps:
       - name: Archive completed cycle
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
         with:
           script: |
             // Create a completion comment or issue

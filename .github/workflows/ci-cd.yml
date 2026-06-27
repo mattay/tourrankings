@@ -28,7 +28,7 @@ jobs:
     name: Lint & Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           persist-credentials: false
 
@@ -38,7 +38,7 @@ jobs:
           bun-version: latest
 
       - name: Cache Bun modules
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25
         with:
           path: ~/.bun/install/cache
           key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
@@ -61,7 +61,7 @@ jobs:
     # Run security scan on all branches, but make it required for cooldown
     if: ${{ !cancelled() }}
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           persist-credentials: false
 
@@ -71,7 +71,7 @@ jobs:
           bun-version: latest
 
       - name: Cache Bun modules
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25
         with:
           path: ~/.bun/install/cache
           key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
@@ -84,14 +84,25 @@ jobs:
       - name: Security audit
         run: bun run audit
 
+      # Enhanced checks for cooldown branches
+      # - name: Enhanced quality checks for cooldown
+      #   if: startsWith(github.ref_name, 'cooldown-') || startsWith(github.head_ref, 'cooldown-')
+      #   run: |
+      #     echo "Running enhanced quality checks for cooldown branch..."
+      #     # Add any additional quality checks here
+      #     # bun run test:coverage
+      #     # bun run type-check
+      #     # bun run test:e2e
+
   # DOCKER BUILD TEST
   docker-build:
     name: Docker Build Test
     runs-on: ubuntu-latest
     needs: [lint-and-test]
+    # Only test Docker builds for branches that will be deployed
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           persist-credentials: false
 
@@ -119,12 +130,10 @@ jobs:
       cancel-in-progress: true
     environment: development
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           persist-credentials: false
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-        with:
-          version: latest
+      - uses: superfly/flyctl-actions/setup-flyctl@ed8efb33836e8b2096c7fd3ba1c8afe303ebbff1
 
       - name: Set deployment metadata
         run: |
@@ -162,12 +171,10 @@ jobs:
       cancel-in-progress: false
     environment: production
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           persist-credentials: false
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-        with:
-          version: latest
+      - uses: superfly/flyctl-actions/setup-flyctl@ed8efb33836e8b2096c7fd3ba1c8afe303ebbff1
 
       - name: Set APP_VERSION
         run: |
@@ -195,7 +202,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           fetch-depth: 0
 
@@ -223,25 +230,20 @@ jobs:
           git push origin main
           git push origin v${VERSION}
 
+  # POST-DEPLOYMENT NOTIFICATIONS
   notify-pr-deployments:
     name: Notify PR of Deployment
     runs-on: ubuntu-latest
     needs: [deploy-development, deploy-production]
     if: needs.deploy-development.result == 'success' || needs.deploy-production.result == 'success'
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-        with:
-          persist-credentials: false
-
-      - name: Get app version
-        run: echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
-
       - name: Comment on PR after successful deployment
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
         with:
           script: |
             const branchName = context.ref.replace('refs/heads/', '');
 
+            // Find PRs with this branch as head
             const { data: allOpen } = await github.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -255,6 +257,8 @@ jobs:
             }
 
             const pr = prs[0];
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
 
             const prodOK = ${{ needs.deploy-production.result == 'success' }};
             const devOK  = ${{ needs.deploy-development.result == 'success' }};
@@ -268,12 +272,10 @@ jobs:
               environment   = 'development';
             }
 
-            const version = process.env.APP_VERSION || 'unknown';
             const comment = `**Deployment Successful**
             Your branch \`${branchName}\` has been deployed to ${environment}:
             - **URL**: ${deploymentUrl}
             - **Environment**: ${environment}
-            - **Version**: ${version}
             - **Commit**: ${context.sha.substring(0, 7)}
             - **Deployed**: ${new Date().toISOString()}
 
@@ -281,22 +283,21 @@ jobs:
             `.trim();
 
             const existing = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+              owner,
+              repo,
               issue_number: pr.number,
               per_page: 100
             });
 
-            const prev = existing.data.find(c => c.body?.includes('**Deployment Successful**'));
+            const prev = existing.data.find(c => c.body.includes('**Deployment Successful**'));
             if (prev) {
-              await github.rest.issues.updateComment({ owner: context.repo.owner, repo: context.repo.repo, comment_id: prev.id, body: comment });
+              await github.rest.issues.updateComment({ owner, repo, comment_id: prev.id, body: comment });
             } else {
-              await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: pr.number, body: comment });
+              await github.rest.issues.createComment({ owner, repo, issue_number: pr.number, body: comment });
             }
             console.log(`Commented on PR #${pr.number}: ${pr.title}`);
-        env:
-          APP_VERSION: ${{ env.APP_VERSION }}
 
+  # SHAPE UP AUTOMATION
   shape-up-automation:
     name: Shape Up Workflow
     runs-on: ubuntu-latest
@@ -306,7 +307,9 @@ jobs:
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
         with:
           script: |
+            // Create a completion comment or issue
             console.log('Cycle completed and deployed to production');
+            // Add any Shape Up specific automation here
 
       - name: Cycle completion notification
         run: |

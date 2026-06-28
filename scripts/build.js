@@ -1,5 +1,6 @@
 // scripts/build.js
 import { build } from "bun";
+import { watch } from "fs";
 
 /**
  * Build configuration for different app bundles
@@ -10,6 +11,19 @@ import { build } from "bun";
  * @property {boolean} [splitting] - Enable code splitting
  * @property {string} [format] - Output format (esm, cjs, iife)
  */
+
+/**
+ * Directories that contain client source code.
+ * Changes to these trigger a rebuild in watch mode.
+ * @type {string[]}
+ */
+const WATCH_PATHS = ["./src/client", "./src/core/cycling", "./src/utils"];
+
+/**
+ * Debounce window for filesystem events in milliseconds.
+ * @type {number}
+ */
+const WATCH_DEBOUNCE_MS = 200;
 
 /**
  * Builds multiple JavaScript bundles with shared configuration
@@ -125,10 +139,78 @@ async function buildCSS(isProduction) {
 }
 
 /**
- * Main build function
+ * Creates a debounced function that waits for the specified delay
+ * before invoking the wrapped function.
+ * @template {(...args: any[]) => void} T
+ * @param {T} fn - Function to debounce.
+ * @param {number} delay - Delay in milliseconds.
+ * @returns {(...args: Parameters<T>) => void}
+ */
+function debounce(fn, delay) {
+  /** @type {ReturnType<typeof setTimeout> | undefined} */
+  let timeoutId;
+
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => fn(...args), delay);
+  };
+}
+
+/**
+ * Determines if the build was invoked with the --watch flag.
+ * @returns {boolean}
+ */
+function isWatchMode() {
+  return process.argv.includes("--watch");
+}
+
+/**
+ * Starts watching client source directories and rebuilds when files change.
  * @returns {Promise<void>}
  */
-async function buildAll() {
+async function watchBuild() {
+  console.log(
+    `Watching for changes: ${WATCH_PATHS.join(", ")} (press Ctrl+C to stop)`,
+  );
+
+  const rebuild = debounce(async () => {
+    console.log("\nChange detected, rebuilding client assets...");
+    try {
+      await buildAll({ exitOnError: false });
+      console.log("✓ Rebuild completed");
+    } catch {
+      console.error("✗ Rebuild failed, waiting for next change...");
+    }
+  }, WATCH_DEBOUNCE_MS);
+
+  /** @type {import("fs").FSWatcher[]} */
+  const watchers = WATCH_PATHS.map((watchPath) => {
+    return watch(watchPath, { recursive: true }, (_eventType, filename) => {
+      // Ignore hidden files and common noise (e.g. .DS_Store, editor swap files).
+      if (!filename || filename.startsWith(".") || filename.includes("/.")) {
+        return;
+      }
+      rebuild();
+    });
+  });
+
+  // Keep the process alive until interrupted.
+  await new Promise((resolve) => {
+    process.once("SIGINT", () => {
+      console.log("\nStopping watcher...");
+      watchers.forEach((watcher) => watcher.close());
+      resolve(undefined);
+    });
+  });
+}
+
+/**
+ * Main build function
+ * @param {Object} [options]
+ * @param {boolean} [options.exitOnError=true] - Exit the process on build error.
+ * @returns {Promise<void>}
+ */
+async function buildAll({ exitOnError = true } = {}) {
   try {
     const isProduction = process.env.NODE_ENV === "production";
     console.log(
@@ -141,9 +223,23 @@ async function buildAll() {
     console.log("✓ All builds completed successfully!");
   } catch (error) {
     console.error("✗ Build process failed:", error);
-    process.exit(1);
+    if (exitOnError) {
+      process.exit(1);
+    }
+    throw error;
   }
 }
 
-// Execute the build process
-buildAll();
+/**
+ * Entry point for the build script.
+ * Runs a one-shot build unless --watch is provided.
+ * @returns {Promise<void>}
+ */
+async function main() {
+  await buildAll({ exitOnError: !isWatchMode() });
+  if (isWatchMode()) {
+    await watchBuild();
+  }
+}
+
+main();

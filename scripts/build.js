@@ -169,18 +169,43 @@ function isWatchMode() {
  * @returns {Promise<void>}
  */
 async function watchBuild() {
-  console.log(
+  console.warn(
     `Watching for changes: ${WATCH_PATHS.join(", ")} (press Ctrl+C to stop)`,
   );
 
-  const rebuild = debounce(async () => {
-    console.log("\nChange detected, rebuilding client assets...");
+  /** @type {boolean} */
+  let isRebuilding = false;
+  /** @type {boolean} */
+  let pendingRebuild = false;
+
+  /**
+   * Runs a single rebuild and queues another if a change arrived while busy.
+   * @returns {Promise<void>}
+   */
+  async function runRebuild() {
+    if (isRebuilding) {
+      pendingRebuild = true;
+      return;
+    }
+
+    isRebuilding = true;
     try {
+      console.warn("\nChange detected, rebuilding client assets...");
       await buildAll({ exitOnError: false });
-      console.log("✓ Rebuild completed");
+      console.warn("✓ Rebuild completed");
     } catch {
       console.error("✗ Rebuild failed, waiting for next change...");
+    } finally {
+      isRebuilding = false;
+      if (pendingRebuild) {
+        pendingRebuild = false;
+        runRebuild();
+      }
     }
+  }
+
+  const rebuild = debounce(() => {
+    runRebuild();
   }, WATCH_DEBOUNCE_MS);
 
   /** @type {import("fs").FSWatcher[]} */
@@ -197,7 +222,7 @@ async function watchBuild() {
   // Keep the process alive until interrupted.
   await new Promise((resolve) => {
     process.once("SIGINT", () => {
-      console.log("\nStopping watcher...");
+      console.warn("\nStopping watcher...");
       watchers.forEach((watcher) => watcher.close());
       resolve(undefined);
     });
@@ -236,10 +261,17 @@ async function buildAll({ exitOnError = true } = {}) {
  * @returns {Promise<void>}
  */
 async function main() {
-  await buildAll({ exitOnError: !isWatchMode() });
   if (isWatchMode()) {
+    try {
+      await buildAll({ exitOnError: false });
+    } catch {
+      console.error("✗ Initial build failed, starting watcher anyway...");
+    }
     await watchBuild();
+    return;
   }
+
+  await buildAll({ exitOnError: true });
 }
 
 main();

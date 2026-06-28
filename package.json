@@ -1,11 +1,12 @@
 {
   "name": "tourrankings",
-  "version": "1.3.3",
+  "version": "1.3.0",
   "main": "src/server/index.js",
   "scripts": {
     "scrape": "bun src/scrappers/scrape_proCyclingStats.js",
     "start": "bun src/server/index.js",
     "build": "bun scripts/build.js",
+    "build:watch": "bun scripts/build.js --watch",
     "local": "docker compose -f docker-compose.local.yml up",
     "local:down": "docker compose -f docker-compose.local.yml down",
     "local:build": "docker compose -f docker-compose.local.yml up --build",

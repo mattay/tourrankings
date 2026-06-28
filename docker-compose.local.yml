@@ -53,6 +53,27 @@ services:
       retries: 3
       start_period: 10s
 
+  # Watches client source files and rebuilds public/js and public/css on change.
+  # This service shares the public/ volume so the app serves updated assets.
+  build-watch:
+    env_file:
+      - .env.local
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    volumes:
+      # Source code - changes reflect immediately
+      - ./src:/tourRanking/src
+      - ./public:/tourRanking/public
+      - ./scripts:/tourRanking/scripts
+      # Config files
+      - ./jsconfig.json:/tourRanking/jsconfig.json:ro
+      # Preserve container's node_modules
+      - /tourRanking/node_modules
+    environment:
+      NODE_ENV: development
+    command: ["bun", "run", "build:watch"]
+
   # Optional: Run cron scheduler alongside app
   # Activate with: docker compose -f docker-compose.local.yml --profile cron up
   cron:

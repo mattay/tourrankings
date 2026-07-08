@@ -135,7 +135,7 @@ class DataService {
           );
         }
 
-        logError(this.constructor.name, `Directory does not exist ${dataDir}`);
+        logOut(this.constructor.name, `Creating missing data directory ${dataDir}`);
         mkdirSync(dataDir, { recursive: true });
       } else {
         const dataDirStats = statSync(dataDir);

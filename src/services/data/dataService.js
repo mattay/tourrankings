@@ -12,13 +12,7 @@ import {
   ClassificationYouth,
 } from "../../models";
 import { logError, logOut } from "@utils/logging";
-import {
-  watch,
-  existsSync,
-  mkdirSync,
-  statSync,
-  lstatSync,
-} from "fs";
+import { watch, existsSync, mkdirSync, statSync, lstatSync } from "fs";
 /**
  * Classes
  * @typedef {import('../../models/@types/races').RaceModel} RaceData
@@ -129,18 +123,27 @@ class DataService {
         }
 
         if (isBrokenSymlink) {
-          throw new Error(
-            `${dataDir} is a symlink pointing to a missing target. ` +
-              `Fix the symlink or create its target before starting the service.`,
+          throw Object.assign(
+            new Error(
+              `${dataDir} is a symlink pointing to a missing target. ` +
+                `Fix the symlink or create its target before starting the service.`,
+            ),
+            { statusCode: 500 },
           );
         }
 
-        logOut(this.constructor.name, `Creating missing data directory ${dataDir}`);
+        logOut(
+          this.constructor.name,
+          `Creating missing data directory ${dataDir}`,
+        );
         mkdirSync(dataDir, { recursive: true });
       } else {
         const dataDirStats = statSync(dataDir);
         if (!dataDirStats.isDirectory()) {
-          throw new Error(`${dataDir} exists but is not a directory`);
+          throw Object.assign(
+            new Error(`${dataDir} exists but is not a directory`),
+            { statusCode: 500 },
+          );
         }
       }
 

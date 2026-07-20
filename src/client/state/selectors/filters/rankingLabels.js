@@ -33,7 +33,7 @@ function getDataConfig(classification, sportData) {
     source: isTeam ? sportData.teams : sportData.riders,
     idKey: isTeam ? "id" : "bib",
     labelKey: isTeam ? "name" : "rider",
-    sourceKey: isTeam ? "name" : "bib",
+    sourceKey: isTeam ? "id" : "bib",
   };
 }
 

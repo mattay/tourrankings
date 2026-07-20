@@ -37,6 +37,7 @@ export class ClassificationYouth extends CSVdataModel {
       "Previous Stage Ranking",
       "Delta",
       "Bib",
+      "Time",
       "Time Wonlost",
     ];
     this.sortOrder = [

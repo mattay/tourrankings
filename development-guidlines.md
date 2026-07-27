@@ -2,6 +2,8 @@
 
 This document outlines the development workflow for this project, based on Shape Up methodology combined with git best practices.
 
+> **Human quick reference:** For the concise branching and phase-branch creation guide, see [`docs/branching-workflow.md`](docs/branching-workflow.md). This file covers the full conventions in more detail.
+
 ## Branch Naming Conventions
 
 ### Production & Integration Branches

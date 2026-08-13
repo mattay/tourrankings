@@ -2,7 +2,9 @@ import { generateId } from "@cycling/idGenerator";
 import { formatDate } from "@utils/string";
 import { logError } from "@utils/logging";
 import { fetchHtmlWithCache, htmlDOM, getCacheTtl } from "@scrappers/html";
+import { CONFIG } from "@scrappers/html/config";
 import { parseBool } from "@utils/sanity";
+import { sleep } from "@utils/utils";
 
 /**
  * @typedef {import('./@types').ScrapedRaceStage} ScrapedRaceStage
@@ -219,6 +221,10 @@ export async function scrapeRaceStages(
 
   try {
     const htmlContent = await fetchHtmlWithCache(url, { cachePattern, ttl });
+    if (!htmlContent.fromCache) {
+      await sleep(CONFIG.wait);
+    }
+
     if (
       !htmlContent ||
       typeof htmlContent.html !== "string" ||

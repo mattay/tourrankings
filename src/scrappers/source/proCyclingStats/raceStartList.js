@@ -1,6 +1,8 @@
 import { logError } from "@utils/logging";
 import { urlSections } from "@utils/url";
 import { fetchHtmlWithCache, htmlDOM, getCacheTtl } from "@scrappers/html";
+import { CONFIG } from "@scrappers/html/config";
+import { sleep } from "@utils/utils";
 import {
   parseName,
   parseTeamName,
@@ -381,6 +383,10 @@ export async function scrapeRaceStartList(
 
   try {
     const htmlContent = await fetchHtmlWithCache(url, { cachePattern, ttl });
+    if (!htmlContent.fromCache) {
+      await sleep(CONFIG.wait);
+    }
+
     if (
       !htmlContent ||
       typeof htmlContent.html !== "string" ||

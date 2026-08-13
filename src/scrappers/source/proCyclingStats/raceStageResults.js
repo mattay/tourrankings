@@ -1,5 +1,7 @@
 import { fetchHtmlWithCache } from "@scrappers/html/fetch";
+import { CONFIG } from "@scrappers/html/config";
 import { htmlDOM } from "@scrappers/html/domParser";
+import { sleep } from "@utils/utils";
 import { generateId } from "@cycling/idGenerator";
 import {
   dropColumns,
@@ -1191,6 +1193,10 @@ export async function scrapeRaceStageResults(race, stageDetails) {
 
   try {
     const htmlContent = await fetchHtmlWithCache(url, { cachePattern });
+    if (!htmlContent.fromCache) {
+      await sleep(CONFIG.wait);
+    }
+
     if (!htmlContent?.html || htmlContent.html === "") {
       logError(
         "Scrape PCS - Stage Results",

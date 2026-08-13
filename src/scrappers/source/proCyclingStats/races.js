@@ -4,6 +4,8 @@ import { formatDate } from "@utils/string";
 import { buildUrl, urlSections } from "@utils/url";
 import { htmlDOM } from "@scrappers/html/domParser";
 import { fetchHtmlWithCache } from "@scrappers/html/fetch";
+import { CONFIG } from "@scrappers/html/config";
+import { sleep } from "@utils/utils";
 
 /**
  * @typedef {import('@models/races/races').Races} Races
@@ -212,6 +214,10 @@ function processRaceRecords(
 export async function scrapeRaces(url, cachePattern, year) {
   try {
     const htmlContent = await fetchHtmlWithCache(url, { cachePattern });
+    if (!htmlContent.fromCache) {
+      await sleep(CONFIG.wait);
+    }
+
     if (
       !htmlContent ||
       typeof htmlContent.html !== "string" ||

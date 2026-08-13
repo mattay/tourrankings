@@ -74,7 +74,7 @@ export function createRiderComponent({
       .duration(transitionDuration)
       .attr("transform", (d, i) => {
         if (isNaN(d.ranking)) {
-          console.log(d);
+          console.error("Ranking is not a number!", d);
         }
         return `translate(${xScale(d.lastStage) + offsets.text}, ${yScale(d.ranking)})`;
       })

@@ -34,6 +34,14 @@ class Store {
       stage: null,
       classification: null,
     },
+    labels: {
+      name: { maxChars: 24 },
+      rank: { maxValue: 100 },
+      bib: { maxValue: 100 },
+      time: { maxValue: 36000 }, // seconds
+      points: { maxValue: 10 },
+    },
+    // maxValues: {},
     isLoading: false,
     error: null,
   };

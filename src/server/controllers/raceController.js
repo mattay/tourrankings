@@ -183,35 +183,38 @@ export function raceContent(racePcsID, year = null) {
   raceContent.results = groupStagesByRider(rr);
 
   // GC
-  const general = rankingsDropValues(
+  const rankingsGeneral = rankingsDropValues(
     dataService.raceClassificationsGeneral(raceUID),
     removeFromClassifications,
   );
-  raceContent.classifications.general = groupStagesByRider(general);
+  raceContent.classifications.general = groupStagesByRider(rankingsGeneral);
   // Points
-  const points = rankingsDropValues(
+  const rankingsPoints = rankingsDropValues(
     dataService.raceClassificationsPoints(raceUID),
     removeFromClassifications,
   );
-  raceContent.classifications.points = groupStagesByRider(points);
+  raceContent.classifications.points = groupStagesByRider(rankingsPoints);
   // Mountain
-  const mountains = rankingsDropValues(
+  const rankingsMountains = rankingsDropValues(
     dataService.raceClassificationsMountain(raceUID),
     removeFromClassifications,
   );
-  raceContent.classifications.mountains = groupStagesByRider(mountains);
+  raceContent.classifications.mountains = groupStagesByRider(rankingsMountains);
   // Youth
-  const youth = rankingsDropValues(
+  const rankingsYouth = rankingsDropValues(
     dataService.raceClassificationsYouth(raceUID),
     removeFromClassifications,
   );
-  raceContent.classifications.youth = groupStagesByRider(youth);
+  raceContent.classifications.youth = groupStagesByRider(rankingsYouth);
   // Team
-  const team = rankingsDropValues(
+  const rankingsTeam = rankingsDropValues(
     dataService.raceClassificationsTeams(raceUID),
     removeFromClassifications,
   );
-  raceContent.classifications.team = groupStagesByTeam(team);
+  raceContent.classifications.team = groupStagesByTeam(
+    rankingsTeam,
+    raceContent.teams,
+  );
 
   raceContent.race = dropValues(raceContent.race, ["racePcsID", "racePcsUrl"]);
 
@@ -279,8 +282,32 @@ function groupStagesByRider(raceResults) {
 /**
  * Regroups stage: team results -> team: stage results
  * @param {Iterable<Array<Object>>} raceResults - Iterable of arrays of team stage results
+ * @param {RaceContent["teams"]} teams - Object mapping team IDs to team details.
  * @returns {Object<string, Array<Object>>} - Object mapping team names to arrays of stage results
  */
-function groupStagesByTeam(raceResults) {
-  return groupStagesByEntity(raceResults, "team", "teams");
+function groupStagesByTeam(raceResults, teams) {
+  // Remap team name to team ID
+  const nameToID = {};
+  for (const [teamID, teamDets] of Object.entries(teams)) {
+    nameToID[teamDets.name] = teamID;
+  }
+
+  const remappedResults = [...raceResults].map((stages) => {
+    if (!stages) {
+      return stages;
+    }
+
+    return stages.map((ranking) => {
+      const teamID = nameToID[ranking.team];
+      if (!teamID) {
+        console.warn(ranking.team, "not found");
+      }
+
+      return { ...ranking, team: teamID };
+    });
+  });
+
+  const grouped = groupStagesByEntity(remappedResults, "team", "teams");
+
+  return grouped;
 }

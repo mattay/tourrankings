@@ -17,6 +17,7 @@ import { updateUrl } from "./state/browser/history";
 import { validateClassification } from "@cycling/classification/classification";
 import { validateStage } from "@cycling/stage/stage";
 import { validateYear } from "@utils/date";
+import { getMax } from "./domain/cycling/getMax";
 
 /**
  * Main application class for the Tour Ranking app.
@@ -79,12 +80,20 @@ class tourRankingApp {
       // Fetch data
       const rawData = await fetchRaceData(raceId, year);
       const processedData = parseRaceContent(rawData);
+      const maxInDataset = getMax(processedData);
 
       // Update state and notify components
       const previouslySelected = store.getState().selected;
       store.setState({
         sportData: processedData,
         previouslySelected,
+        labels: {
+          name: { maxChars: maxInDataset.maxSize.label },
+          bib: { maxValue: maxInDataset.maxValue.bib },
+          rank: { maxValue: maxInDataset.maxValue.rank },
+          time: { maxValue: maxInDataset.maxValue.time },
+          points: { maxValue: maxInDataset.maxValue.points },
+        },
         selected: {
           ...previouslySelected,
           stage: validateStage(stage, processedData.stagesCompleted),

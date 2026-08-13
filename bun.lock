@@ -34,6 +34,9 @@
       },
     },
   },
+  "trustedDependencies": [
+    "@duckdb/node-bindings",
+  ],
   "packages": {
     "@duckdb/node-api": ["@duckdb/node-api@1.5.3-r.3", "", { "dependencies": { "@duckdb/node-bindings": "1.5.3-r.3" } }, "sha512-FzuL6sevuFfEFwkgiUMRMUAj4TaVqV//L0oo2FVZ9s9oYpLpALF9qZyQv2ucclTNQZwDCkm8+e6yLMc6t8IjlA=="],
 
